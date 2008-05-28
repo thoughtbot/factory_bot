@@ -1,9 +1,11 @@
 $: << File.join(File.dirname(__FILE__), '..', 'lib')
 
 require 'rubygems'
+require 'test/unit'
 require 'activerecord'
 require 'factory_girl'
 require 'shoulda'
+require 'mocha'
 
 ActiveRecord::Base.establish_connection(
   :adapter  => 'sqlite3',
