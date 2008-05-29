@@ -1,0 +1,33 @@
+= factory_girl
+
+== Defining factories
+
+  # This will guess the User class
+  Factory.define :user do |u|
+    u.first_name 'John'
+    u.last_name  'Doe'
+    u.admin false
+  end
+
+  # This will use the User class (Admin would have been guessed)
+  Factory.define :admin, :class => User do |u|
+    u.first_name 'Admin'
+    u.last_name  'User'
+    u.admin true
+  end
+
+It is recommended that you create a test/factories.rb file and define your
+factories there. This file can be included from test_helper or directly from
+your test files. Don't forget:
+  require 'factory_girl'
+
+== Using factories
+
+  # Build and save a User instance
+  Factory(:user)
+
+  # Build a User instance and override the first_name property
+  Factory.build(:user, :first_name => 'Joe')
+
+  # Return an attributes Hash that can be used to build a User instance
+  attrs = Factory.attributes_for(:user)
