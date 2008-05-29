@@ -209,7 +209,7 @@ class FactoryTest < Test::Unit::TestCase
 
   end
 
-  context "Factory class method" do
+  context "Factory class" do
 
     setup do
       @name       = :user
@@ -238,6 +238,11 @@ class FactoryTest < Test::Unit::TestCase
         assert_raise(ArgumentError) { Factory.send(method, :bogus) }
       end
 
+    end
+
+    should "call the create method from the top-level Factory() method" do
+      @factory.expects(:create).with(@attrs)
+      Factory(@name, @attrs)
     end
 
   end
