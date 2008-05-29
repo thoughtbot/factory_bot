@@ -2,7 +2,7 @@ class Factory
 
   # The list of Factory instances created using define
   cattr_accessor :factories
-  self.factories = []
+  self.factories = {}
 
   attr_reader :name
 
@@ -21,7 +21,7 @@ class Factory
   def self.define (name, options = {})
     instance = Factory.new(name, options)
     yield(instance)
-    self.factories << instance
+    self.factories[name] = instance
   end
 
   # Calculates the class that should be instantiated by generation methods.
@@ -143,6 +143,28 @@ class Factory
     instance = build(attrs)
     instance.save!
     instance
+  end
+
+  class << self
+
+    def attributes (name, attrs = {})
+      factory_by_name(name).attributes(attrs)
+    end
+
+    def build (name, attrs = {})
+      factory_by_name(name).build(attrs)
+    end
+
+    def create (name, attrs = {})
+      factory_by_name(name).create(attrs)
+    end
+
+    private
+
+    def factory_by_name (name)
+      factories[name] or raise ArgumentError.new("No such factory: #{name.inspect}")
+    end
+
   end
 
 end

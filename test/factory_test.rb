@@ -45,8 +45,9 @@ class FactoryTest < Test::Unit::TestCase
 
     should "add the factory to the list of factories" do
       Factory.define(@name) {|f| }
-      assert Factory.factories.include?(@factory),
-             "Factories: #{Factory.factories.inspect}"
+      assert_equal Factory.factories[@name], 
+                   @factory,
+                   "Factories: #{Factory.factories.inspect}"
     end
 
   end
@@ -178,19 +179,22 @@ class FactoryTest < Test::Unit::TestCase
 
         should_instantiate_class
 
+        should "not save the instance" do
+          assert @instance.new_record?
+        end
+
       end
       
       context "when creating an instance" do
 
         setup do
-          User.delete_all
           @instance = @factory.create
         end
 
         should_instantiate_class
 
         should "save the instance" do
-          assert_equal 1, @class.count
+          assert !@instance.new_record?
         end
 
       end
@@ -199,6 +203,39 @@ class FactoryTest < Test::Unit::TestCase
         assert_raise(ActiveRecord::RecordInvalid) do
           @factory.create(:first_name => nil)
         end
+      end
+
+    end
+
+  end
+
+  context "Factory class method" do
+
+    setup do
+      @name       = :user
+      @attrs      = { :last_name => 'Override' }
+      @first_name = 'Johnny'
+      @last_name  = 'Winter'
+      @class      = User
+
+      Factory.define(@name) do |u|
+        u.first_name @first_name
+        u.last_name  { @last_name }
+        u.email      'jwinter@guitar.org'
+      end
+
+      @factory = Factory.factories[@name]
+    end
+
+    [:build, :create, :attributes].each do |method|
+
+      should "delegate the #{method} method to the factory instance" do
+        @factory.expects(method).with(@attrs)
+        Factory.send(method, @name, @attrs)
+      end
+
+      should "raise an ArgumentError when #{method} is called with a nonexistant factory" do
+        assert_raise(ArgumentError) { Factory.send(method, :bogus) }
       end
 
     end
