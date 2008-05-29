@@ -98,7 +98,7 @@ class Factory
   # Returns:
   #   A set of attributes that can be used to build an instance of the class
   #   this factory generates. (Hash)
-  def attributes (attrs = {})
+  def attributes_for (attrs = {})
     result = {}
     @lazy_attributes.each do |name, block|
       result[name] = block.call unless attrs.key?(name)
@@ -112,14 +112,14 @@ class Factory
   #
   # Arguments:
   #   attrs: (Hash)
-  #     See attributes
+  #     See attributes_for
   #
   # Returns:
   #   An instance of the class this factory generates, with generated
   #   attributes assigned.
   def build (attrs = {})
     instance = build_class.new
-    attributes(attrs).each do |attr, value|
+    attributes_for(attrs).each do |attr, value|
       instance.send(:"#{attr}=", value)
     end
     instance
@@ -134,7 +134,7 @@ class Factory
   #
   # Arguments:
   #   attrs: (Hash)
-  #     See attributes
+  #     See attributes_for
   #
   # Returns:
   #   A saved instance of the class this factory generates, with generated
@@ -147,8 +147,8 @@ class Factory
 
   class << self
 
-    def attributes (name, attrs = {})
-      factory_by_name(name).attributes(attrs)
+    def attributes_for (name, attrs = {})
+      factory_by_name(name).attributes_for(attrs)
     end
 
     def build (name, attrs = {})

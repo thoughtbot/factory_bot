@@ -77,7 +77,7 @@ class FactoryTest < Test::Unit::TestCase
       end
 
       should "include that value in the generated attributes hash" do
-        assert_equal @value, @factory.attributes[@attr]
+        assert_equal @value, @factory.attributes_for[@attr]
       end
 
     end
@@ -97,14 +97,14 @@ class FactoryTest < Test::Unit::TestCase
         @factory.add_attribute(@attr) do
           called = true
         end
-        @factory.attributes
+        @factory.attributes_for
         assert called
       end
 
       should "use the result of the block as the value of the attribute" do
         value = "Watch out for snakes!"
         @factory.add_attribute(@attr) { value }
-        assert_equal value, @factory.attributes[@attr]
+        assert_equal value, @factory.attributes_for[@attr]
       end
 
     end
@@ -113,7 +113,7 @@ class FactoryTest < Test::Unit::TestCase
       @attr  = :first_name
       @value = 'Sugar'
       @factory.send(@attr, @value)
-      assert_equal @value, @factory.attributes[@attr]
+      assert_equal @value, @factory.attributes_for[@attr]
     end
 
     should "not allow attributes to be added with both a value parameter and a block" do
@@ -132,12 +132,12 @@ class FactoryTest < Test::Unit::TestCase
 
       should "return the overridden value in the generated attributes" do
         @factory.add_attribute(@attr, 'The price is wrong, Bob!')
-        assert_equal @value, @factory.attributes(@hash)[@attr]
+        assert_equal @value, @factory.attributes_for(@hash)[@attr]
       end
 
       should "not call a lazy attribute block for an overridden attribute" do
         @factory.add_attribute(@attr) { flunk }
-        @factory.attributes(@hash)
+        @factory.attributes_for(@hash)
       end
 
     end
@@ -227,7 +227,7 @@ class FactoryTest < Test::Unit::TestCase
       @factory = Factory.factories[@name]
     end
 
-    [:build, :create, :attributes].each do |method|
+    [:build, :create, :attributes_for].each do |method|
 
       should "delegate the #{method} method to the factory instance" do
         @factory.expects(method).with(@attrs)
