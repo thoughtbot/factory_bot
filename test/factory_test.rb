@@ -108,6 +108,13 @@ class FactoryTest < Test::Unit::TestCase
 
     end
 
+    should "add an attribute using the method name when passed an undefined method" do
+      @attr  = :first_name
+      @value = 'Sugar'
+      @factory.send(@attr, @value)
+      assert_equal @value, @factory.attributes[@attr]
+    end
+
     should "not allow attributes to be added with both a value parameter and a block" do
       assert_raise(ArgumentError) do
         @factory.add_attribute(:name, 'value') {}

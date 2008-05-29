@@ -69,6 +69,24 @@ class Factory
     end
   end
 
+  # Calls add_attribute using the missing method name as the name of the
+  # attribute, so that:
+  #
+  #   Factory.define :user do |f|
+  #     f.name 'Billy Idol'
+  #   end
+  #
+  # and:
+  #
+  #   Factory.define :user do |f|
+  #     f.add_attribute :user, 'Billy Idol'
+  #   end
+  #
+  # are equivilent. 
+  def method_missing (name, *args, &block)
+    add_attribute(name, *args, &block)
+  end
+
   # Generates and returns a Hash of attributes from this factory. Attributes
   # can be individually overridden by passing in a Hash of attribute => value
   # pairs.
