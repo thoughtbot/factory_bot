@@ -12,19 +12,36 @@ class Factory
   # Arguments:
   #   name: (Symbol)
   #     A unique name used to identify this factory.
+  #   options: (Hash)
+  #     class: the class that will be used when generating instances for this
+  #            factory.
   #
   # Yields:
   #    The newly created factory (Factory)
-  def self.define (name)
-    instance = Factory.new(name)
+  def self.define (name, options = {})
+    instance = Factory.new(name, options)
     yield(instance)
     self.factories << instance
   end
 
-  def initialize (name) #:nodoc:
-    @name = name
+  # Calculates the class that should be instantiated by generation methods.
+  #
+  # If a class was passed when defining this factory, that class will be
+  # returned. Otherwise, the class will be guessed from the factory name.
+  #
+  # Returns:
+  #   The class that will be instantiated by generation methods.
+  def build_class
+    @build_class ||= @options[:class] || name.to_s.classify.constantize
+  end
+
+  def initialize (name, options = {}) #:nodoc:
+    options.assert_valid_keys(:class)
+    @name    = name
+    @options = options
+
     @static_attributes = {}
-    @lazy_attributes = {}
+    @lazy_attributes   = {}
   end
 
   # Adds an attribute that should be assigned or stubbed on generated instances for this factory.
@@ -70,6 +87,44 @@ class Factory
     end
     result.update(@static_attributes)
     result.update(attrs)
+  end
+
+  # Generates and returns an instance from this factory. Attributes can be
+  # individually overridden by passing in a Hash of attribute => value pairs.
+  #
+  # Arguments:
+  #   attrs: (Hash)
+  #     See attributes
+  #
+  # Returns:
+  #   An instance of the class this factory generates, with generated
+  #   attributes assigned.
+  def build (attrs = {})
+    instance = build_class.new
+    attributes(attrs).each do |attr, value|
+      instance.send(:"#{attr}=", value)
+    end
+    instance
+  end
+
+  # Generates, saves, and returns an instance from this factory. Attributes can
+  # be individually overridden by passing in a Hash of attribute => value
+  # pairs.
+  #
+  # If the instance is not valid, an ActiveRecord::Invalid exception will be
+  # raised.
+  #
+  # Arguments:
+  #   attrs: (Hash)
+  #     See attributes
+  #
+  # Returns:
+  #   A saved instance of the class this factory generates, with generated
+  #   attributes assigned.
+  def create (attrs = {})
+    instance = build(attrs)
+    instance.save!
+    instance
   end
 
 end
