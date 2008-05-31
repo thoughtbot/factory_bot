@@ -85,7 +85,9 @@ class FactoryTest < Test::Unit::TestCase
     context "when adding an attribute with a block" do
 
       setup do
-        @attr = :name
+        @attr  = :name
+        @proxy = mock('attr-proxy')
+        Factory::AttributeProxy.stubs(:new).returns(@proxy)
       end
 
       should "not evaluate the block when the attribute is added" do
@@ -105,6 +107,19 @@ class FactoryTest < Test::Unit::TestCase
         value = "Watch out for snakes!"
         @factory.add_attribute(@attr) { value }
         assert_equal value, @factory.attributes_for[@attr]
+      end
+
+      should "build an attribute proxy" do
+        Factory::AttributeProxy.expects(:new).with(@factory, @attr, :attributes_for)
+        @factory.add_attribute(@attr) {}
+        @factory.attributes_for
+      end
+
+      should "yield an attribute proxy to the block" do
+        yielded = nil
+        @factory.add_attribute(@attr) {|y| yielded = y }
+        @factory.attributes_for
+        assert_equal @proxy, yielded
       end
 
     end

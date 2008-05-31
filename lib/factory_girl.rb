@@ -1,5 +1,6 @@
 require 'activesupport'
 require 'factory_girl/factory'
+require 'factory_girl/attribute_proxy'
 
 # Shortcut for Factory.create.
 #

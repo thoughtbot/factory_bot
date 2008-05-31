@@ -5,8 +5,8 @@ class Factory
 
   attr_reader :name
 
-  # Defines a new factory that can be used by the generation methods (create
-  # and build) to build new objects.
+  # Defines a new factory that can be used by the build strategies (create and
+  # build) to build new objects.
   #
   # Arguments:
   #   name: (Symbol)
@@ -37,12 +37,17 @@ class Factory
     @lazy_attributes   = {}
   end
 
-  # Adds an attribute that should be assigned on generated instances for this factory.
+  # Adds an attribute that should be assigned on generated instances for this
+  # factory.
   #
   # This method should be called with either a value or block, but not both. If
   # called with a block, the attribute will be generated "lazily," whenever an
   # instance is generated. Lazy attribute blocks will not be called if that
   # attribute is overriden for a specific instance.
+  #
+  # When defining lazy attributes, an instance of Factory::AttributeProxy will
+  # be yielded, allowing associations to be built using the correct build
+  # strategy.
   #
   # Arguments:
   #   name: (Symbol)
@@ -80,24 +85,15 @@ class Factory
   end
 
   def attributes_for (attrs = {}) #:nodoc:
-    result = {}
-    @lazy_attributes.each do |name, block|
-      result[name] = block.call unless attrs.key?(name)
-    end
-    result.update(@static_attributes)
-    result.update(attrs)
+    build_attributes_hash(attrs, :attributes_for)
   end
 
   def build (attrs = {}) #:nodoc:
-    instance = build_class.new
-    attributes_for(attrs).each do |attr, value|
-      instance.send(:"#{attr}=", value)
-    end
-    instance
+    build_instance(attrs, :build)
   end
 
   def create (attrs = {}) #:nodoc:
-    instance = build(attrs)
+    instance = build_instance(attrs, :create)
     instance.save!
     instance
   end
@@ -157,6 +153,27 @@ class Factory
       factories[name] or raise ArgumentError.new("No such factory: #{name.inspect}")
     end
 
+  end
+
+  private
+
+  def build_attributes_hash (override, strategy)
+    result = {}
+    @lazy_attributes.each do |name, block|
+      proxy = AttributeProxy.new(self, name, strategy)
+      result[name] = block.call(proxy) unless override.key?(name)
+    end
+    result.update(@static_attributes)
+    result.update(override)
+  end
+
+  def build_instance (override, strategy)
+    instance = build_class.new
+    attrs = build_attributes_hash(override, strategy)
+    attrs.each do |attr, value|
+      instance.send(:"#{attr}=", value)
+    end
+    instance
   end
 
 end
