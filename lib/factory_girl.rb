@@ -1,3 +1,4 @@
+require 'activesupport'
 require 'factory_girl/factory'
 
 # Shortcut for Factory.create.
