@@ -46,6 +46,10 @@ class IntegrationTest < Test::Unit::TestCase
       assert_equal 'Bill', @attrs[:first_name]
     end
 
+    should "not assign associations" do
+      assert_nil Factory.attributes_for(:post)[:author]
+    end
+
   end
 
   context "a built instance" do
@@ -68,7 +72,7 @@ class IntegrationTest < Test::Unit::TestCase
 
   end
 
-  context "a built instance" do
+  context "a created instance" do
 
     setup do
       @instance = Factory.create(:post)

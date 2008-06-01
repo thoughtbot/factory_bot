@@ -49,6 +49,25 @@ class AttributeProxyTest < Test::Unit::TestCase
 
     end
 
+    context "building an association using the attributes_for strategy" do
+
+      setup do
+        @strategy = :attributes_for
+        @proxy  = Factory::AttributeProxy.new(@factory, @attr, @strategy, @attrs)
+      end
+
+      should "not build the association" do
+        Factory.expects(@strategy).never
+        @proxy.association(:user)
+      end
+
+      should "return nil for the association" do
+        Factory.stubs(@strategy).returns(:user)
+        assert_nil @proxy.association(:user)
+      end
+
+    end
+
     context "fetching the value of an attribute" do
 
       setup do

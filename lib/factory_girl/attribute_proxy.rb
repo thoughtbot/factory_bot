@@ -13,6 +13,18 @@ class Factory
 
     # Generates an association using the current build strategy.
     #
+    # Arguments:
+    #   name: (Symbol)
+    #     The name of the factory that should be used to generate this
+    #     association.
+    #   attributes: (Hash)
+    #     A hash of attributes that should be overridden for this association.
+    #
+    # Returns:
+    #   The generated association for the current build strategy. Note that
+    #   assocaitions are not generated for the attributes_for strategy. Returns
+    #   nil in this case.
+    #
     # Example:
     #
     #   Factory.define :user do |f|
@@ -32,7 +44,11 @@ class Factory
     #   Factory.create(:post)
     #
     def association (name, attributes = {})
-      Factory.send(strategy, name, attributes)
+      if strategy == :attributes_for
+        nil
+      else
+        Factory.send(strategy, name, attributes)
+      end
     end
 
     # Returns the value for specified attribute. A value will only be available
