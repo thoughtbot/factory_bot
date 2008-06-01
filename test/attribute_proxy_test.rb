@@ -7,8 +7,9 @@ class AttributeProxyTest < Test::Unit::TestCase
     setup do
       @factory  = mock('factory')
       @attr     = :user
+      @attrs    = { :first_name => 'John' }
       @strategy = :create
-      @proxy  = Factory::AttributeProxy.new(@factory, @attr, @strategy)
+      @proxy  = Factory::AttributeProxy.new(@factory, @attr, @strategy, @attrs)
     end
 
     should "have a factory" do
@@ -21,6 +22,10 @@ class AttributeProxyTest < Test::Unit::TestCase
 
     should "have a build strategy" do
       assert_equal @strategy, @proxy.strategy
+    end
+
+    should "have attributes" do
+      assert_equal @attrs, @proxy.current_values
     end
 
     context "building an association" do
@@ -40,6 +45,34 @@ class AttributeProxyTest < Test::Unit::TestCase
 
       should "return the built association" do
         assert_equal @association, @proxy.association(@name)
+      end
+
+    end
+
+    context "fetching the value of an attribute" do
+
+      setup do
+        @attr = :first_name
+      end
+
+      should "return the correct value" do
+        assert_equal @attrs[@attr], @proxy.value_for(@attr)
+      end
+
+      should "call value_for for undefined methods" do
+        assert_equal @attrs[@attr], @proxy.send(@attr)
+      end
+
+    end
+
+    context "fetching the value of an undefined attribute" do
+
+      setup do
+        @attr = :beachball
+      end
+
+      should "raise an ArgumentError" do
+        assert_raise(ArgumentError) { @proxy.value_for(@attr) }
       end
 
     end

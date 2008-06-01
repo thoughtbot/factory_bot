@@ -2,12 +2,13 @@ class Factory
 
   class AttributeProxy
 
-    attr_accessor :factory, :attribute_name, :strategy #:nodoc:
+    attr_accessor :factory, :attribute_name, :strategy, :current_values #:nodoc:
 
-    def initialize (factory, attr, strategy) #:nodoc:
+    def initialize (factory, attr, strategy, values) #:nodoc:
       @factory        = factory
       @attribute_name = attr
       @strategy       = strategy
+      @current_values = values
     end
 
     # Generates an association using the current build strategy.
@@ -32,6 +33,42 @@ class Factory
     #
     def association (name, attributes = {})
       Factory.send(strategy, name, attributes)
+    end
+
+    # Returns the value for specified attribute. A value will only be available
+    # if it was overridden when calling the factory, or if a value is added
+    # earlier in the definition of the factory.
+    #
+    # Arguments:
+    #   attribute: (Symbol)
+    #     The attribute whose value should be returned.
+    #
+    # Returns:
+    #   The value of the requested attribute. (Object)
+    def value_for (attribute)
+      unless current_values.key?(attribute)
+        raise ArgumentError, "No such attribute: #{attribute.inspect}"
+      end
+      current_values[attribute]
+    end
+
+    # Undefined methods are delegated to value_for, which means that:
+    #
+    #   Factory.define :user do |f|
+    #     f.first_name 'Ben'
+    #     f.last_name {|a| a.value_for(:first_name) }
+    #   end
+    #
+    # and:
+    #
+    #   Factory.define :user do |f|
+    #     f.first_name 'Ben'
+    #     f.last_name {|a| a.first_name }
+    #   end
+    #
+    # are equivilent.
+    def method_missing (name, *args, &block)
+      current_values[name]
     end
 
   end

@@ -34,16 +34,20 @@ a block instead of a parameter:
     u.activation_code { User.generate_activation_code }
   end
 
-== Using factories
+== Dependent Attributes
 
-  # Build and save a User instance
-  Factory(:user)
+Some attributes may need to be generated based on the values of other
+attributes. This can be done by calling the attribute name on
+Factory::AttributeProxy, which is yielded to lazy attribute blocks:
 
-  # Build a User instance and override the first_name property
-  Factory.build(:user, :first_name => 'Joe')
+  Factory.define :user do |u|
+    u.first_name 'Joe'
+    u.last_name  'Blow'
+    u.email {|a| "#{a.first_name}.#{a.last_name}@example.com".downcase }
+  end
 
-  # Return an attributes Hash that can be used to build a User instance
-  attrs = Factory.attributes_for(:user)
+  Factory(:user, :last_name => 'Doe').email
+  # => "joe.doe@example.com"
 
 == Associations
 
@@ -66,3 +70,15 @@ When using the association method, the same build strategy (build, create, or at
   Factory.build(:post)
   post.new_record?       # => true
   post.author.new_record # => true
+
+== Using factories
+
+  # Build and save a User instance
+  Factory(:user)
+
+  # Build a User instance and override the first_name property
+  Factory.build(:user, :first_name => 'Joe')
+
+  # Return an attributes Hash that can be used to build a User instance
+  attrs = Factory.attributes_for(:user)
+

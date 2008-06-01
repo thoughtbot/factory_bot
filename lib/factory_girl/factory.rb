@@ -33,8 +33,9 @@ class Factory
     @name    = name
     @options = options
 
-    @static_attributes = {}
-    @lazy_attributes   = {}
+    @static_attributes     = {}
+    @lazy_attribute_blocks = {}
+    @lazy_attribute_names  = []
   end
 
   # Adds an attribute that should be assigned on generated instances for this
@@ -60,7 +61,8 @@ class Factory
       unless value.nil?
         raise ArgumentError, "Both value and block given"
       end
-      @lazy_attributes[name] = block
+      @lazy_attribute_blocks[name] = block
+      @lazy_attribute_names << name
     else
       @static_attributes[name] = value
     end
@@ -158,13 +160,12 @@ class Factory
   private
 
   def build_attributes_hash (override, strategy)
-    result = {}
-    @lazy_attributes.each do |name, block|
-      proxy = AttributeProxy.new(self, name, strategy)
-      result[name] = block.call(proxy) unless override.key?(name)
+    result = @static_attributes.merge(override)
+    @lazy_attribute_names.each do |name|
+      proxy = AttributeProxy.new(self, name, strategy, result)
+      result[name] = @lazy_attribute_blocks[name].call(proxy) unless override.key?(name)
     end
-    result.update(@static_attributes)
-    result.update(override)
+    result
   end
 
   def build_instance (override, strategy)

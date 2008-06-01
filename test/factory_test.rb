@@ -86,6 +86,7 @@ class FactoryTest < Test::Unit::TestCase
 
       setup do
         @attr  = :name
+        @attrs = {}
         @proxy = mock('attr-proxy')
         Factory::AttributeProxy.stubs(:new).returns(@proxy)
       end
@@ -110,7 +111,7 @@ class FactoryTest < Test::Unit::TestCase
       end
 
       should "build an attribute proxy" do
-        Factory::AttributeProxy.expects(:new).with(@factory, @attr, :attributes_for)
+        Factory::AttributeProxy.expects(:new).with(@factory, @attr, :attributes_for, @attrs)
         @factory.add_attribute(@attr) {}
         @factory.attributes_for
       end
@@ -120,6 +121,26 @@ class FactoryTest < Test::Unit::TestCase
         @factory.add_attribute(@attr) {|y| yielded = y }
         @factory.attributes_for
         assert_equal @proxy, yielded
+      end
+
+      context "when other attributes have previously been defined" do
+        
+        setup do
+          @attr  = :unimportant
+          @attrs = {
+            :one     => 'whatever',
+            :another => 'soup'
+          }
+          @factory.add_attribute(:one, 'whatever')
+          @factory.add_attribute(:another) { 'soup' }
+          @factory.add_attribute(@attr) {}
+        end
+
+        should "provide previously set attributes" do
+          Factory::AttributeProxy.expects(:new).with(@factory, @attr, :attributes_for, @attrs)
+          @factory.attributes_for
+        end
+
       end
 
     end
