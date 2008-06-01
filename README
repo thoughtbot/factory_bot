@@ -1,5 +1,9 @@
 = factory_girl
 
+  written by Joe Ferris <jferris@thoughtbot.com>
+  thanks to Tammer Saleh, Dan Croak, and Jon Yurek of thoughtbot, inc.
+  Copyright 2008 Joe Ferris and thoughtbot, inc.
+
 == Defining factories
 
   # This will guess the User class
