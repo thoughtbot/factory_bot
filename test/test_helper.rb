@@ -15,9 +15,10 @@ ActiveRecord::Base.establish_connection(
 class CreateSchema < ActiveRecord::Migration
   def self.up
     create_table :users, :force => true do |t|
-      t.string :first_name
-      t.string :last_name
-      t.string :email
+      t.string  :first_name
+      t.string  :last_name
+      t.string  :email
+      t.boolean :admin, :default => false
     end
 
     create_table :posts, :force => true do |t|
