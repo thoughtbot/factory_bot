@@ -19,9 +19,14 @@ desc 'Generate documentation for the factory_girl plugin.'
 Rake::RDocTask.new(:rdoc) do |rdoc|
   rdoc.rdoc_dir = 'rdoc'
   rdoc.title    = 'Factory Girl'
-  rdoc.options << '--line-numbers' << '--inline-source'
-  rdoc.rdoc_files.include('README')
+  rdoc.options << '--line-numbers' << '--inline-source' << "--main" << "README.textile"
+  rdoc.rdoc_files.include('README.textile')
   rdoc.rdoc_files.include('lib/**/*.rb')
+end
+
+desc 'Update documentation on website'
+task :sync_docs => 'rdoc' do
+  `rsync -ave ssh rdoc/ dev@dev.thoughtbot.com:/home/dev/www/dev.thoughtbot.com/factory_girl`
 end
 
 spec = Gem::Specification.new do |s|
@@ -38,7 +43,8 @@ spec = Gem::Specification.new do |s|
   s.test_files   = Dir[*['test/**/*_test.rb']]
 
   s.has_rdoc         = true
-  s.extra_rdoc_files = ["README"]
+  s.extra_rdoc_files = ["README.textile"]
+  s.rdoc_options = ['--line-numbers', '--inline-source', "--main", "README.textile"]
 
   s.authors = ["Joe Ferris"]
   s.email   = %q{jferris@thoughtbot.com}
