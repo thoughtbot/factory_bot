@@ -114,7 +114,7 @@ class Factory
   # and:
   #
   #   Factory.define :user do |f|
-  #     f.add_attribute :user, 'Billy Idol'
+  #     f.add_attribute :name, 'Billy Idol'
   #   end
   #
   # are equivilent. 
