@@ -4,7 +4,7 @@ class Factory
   self.factories = {}
   self.sequences = {}
 
-  attr_reader :name
+  attr_reader :factory_name
 
   # Defines a new factory that can be used by the build strategies (create and
   # build) to build new objects.
@@ -61,13 +61,13 @@ class Factory
   end
 
   def build_class #:nodoc:
-    @build_class ||= @options[:class] || name.to_s.classify.constantize
+    @build_class ||= @options[:class] || factory_name.to_s.classify.constantize
   end
 
   def initialize (name, options = {}) #:nodoc:
     options.assert_valid_keys(:class)
-    @name    = name
-    @options = options
+    @factory_name = name
+    @options      = options
 
     @static_attributes     = {}
     @lazy_attribute_blocks = {}

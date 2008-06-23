@@ -82,8 +82,8 @@ class FactoryTest < Test::Unit::TestCase
       @factory = Factory.new(@name)
     end
 
-    should "have a name" do
-      assert_equal @name, @factory.name
+    should "have a factory name" do
+      assert_equal @name, @factory.factory_name
     end
 
     should "have a build class" do
