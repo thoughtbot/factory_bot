@@ -1,0 +1,10 @@
+1.1.1 (June 23, 2008)
+  The attribute "name" no longer requires using #add_attribute
+
+1.1.0 (June 3, 2008)
+	Added support for dependent attributes
+	Fixed the attributes_for build strategy to not build associations
+  Added support for sequences
+
+1.0.0 (May 31, 208)
+  First version
