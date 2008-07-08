@@ -13,7 +13,7 @@ class CreateSchema < ActiveRecord::Migration
     end
 
     create_table :posts, :force => true do |t|
-      t.string  :title
+      t.string  :name  
       t.integer :author_id
     end
   end
@@ -27,6 +27,6 @@ class User < ActiveRecord::Base
 end
 
 class Post < ActiveRecord::Base
-  validates_presence_of :title, :author_id
+  validates_presence_of :name, :author_id
   belongs_to :author, :class_name => 'User'
 end

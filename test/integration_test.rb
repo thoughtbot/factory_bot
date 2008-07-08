@@ -11,7 +11,7 @@ class IntegrationTest < Test::Unit::TestCase
     end
 
     Factory.define :post do |f|
-      f.title 'Test Post'
+      f.name   'Test Post'
       f.author {|a| a.association(:user) }
     end
 
