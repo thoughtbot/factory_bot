@@ -1,4 +1,5 @@
 Gem::Specification.new do |s|
+  # poke
   s.name = %q{factory_girl}
   s.version = "1.1.1"
 
