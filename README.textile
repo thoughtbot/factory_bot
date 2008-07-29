@@ -88,6 +88,21 @@ Factory.build(:post)
 post.new_record?       # => true
 post.author.new_record # => true</code></pre>
 
+Because this pattern is so common, a prettier syntax is available for defining
+associations:
+
+<pre><code># The following definitions are equivilent:
+Factory.define :post do |p|
+  p.author {|a| a.association(:user) }
+end
+
+Factory.define :post do |p|
+  p.association :author, :factory => :user
+end</code></pre>
+
+If the factory name is the same as the association name, the factory name can
+be left out.
+
 
 h2. Sequences
 
