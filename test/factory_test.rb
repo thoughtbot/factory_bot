@@ -26,12 +26,13 @@ class FactoryTest < Test::Unit::TestCase
     setup do
       @name    = :user
       @factory = mock('factory')
+      @factory.stubs(:factory_name).returns(@name)
       @options = { :class => 'magic' }
       Factory.stubs(:new).returns(@factory)
     end
 
     should "create a new factory using the specified name and options" do
-      Factory.expects(:new).with(@name, @options)
+      Factory.expects(:new).with(@name, @options).returns(@factory)
       Factory.define(@name, @options) {|f| }
     end
 
@@ -267,6 +268,33 @@ class FactoryTest < Test::Unit::TestCase
 
   end
 
+  context "a factory with a string for a name" do
+
+    setup do
+      @name    = :user
+      @factory = Factory.new(@name.to_s) {}
+    end
+
+    should "convert the string to a symbol" do
+      assert_equal @name, @factory.factory_name
+    end
+
+  end
+
+  context "a factory defined with a string name" do
+
+    setup do
+      Factory.factories = {}
+      @name    = :user
+      @factory = Factory.define(@name.to_s) {}
+    end
+
+    should "store the factory using a symbol" do
+      assert_equal @factory, Factory.factories[@name]
+    end
+
+  end
+
   context "Factory class" do
 
     setup do
@@ -294,6 +322,11 @@ class FactoryTest < Test::Unit::TestCase
 
       should "raise an ArgumentError when #{method} is called with a nonexistant factory" do
         assert_raise(ArgumentError) { Factory.send(method, :bogus) }
+      end
+
+      should "recognize either 'name' or :name for Factory.#{method}" do
+        assert_nothing_raised { Factory.send(method, @name.to_s) }
+        assert_nothing_raised { Factory.send(method, @name.to_sym) }
       end
 
     end

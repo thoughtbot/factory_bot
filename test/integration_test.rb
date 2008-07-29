@@ -10,7 +10,7 @@ class IntegrationTest < Test::Unit::TestCase
       f.email {|a| "#{a.first_name}.#{a.last_name}@example.com".downcase }
     end
 
-    Factory.define :post do |f|
+    Factory.define 'post' do |f|
       f.name   'Test Post'
       f.author {|a| a.association(:user) }
     end
@@ -79,7 +79,7 @@ class IntegrationTest < Test::Unit::TestCase
   context "a created instance" do
 
     setup do
-      @instance = Factory.create(:post)
+      @instance = Factory.create('post')
     end
 
     should "be saved" do

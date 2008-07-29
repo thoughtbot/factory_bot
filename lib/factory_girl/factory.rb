@@ -22,7 +22,7 @@ class Factory
   def self.define (name, options = {})
     instance = Factory.new(name, options)
     yield(instance)
-    self.factories[name] = instance
+    self.factories[instance.factory_name] = instance
   end
 
   # Defines a new sequence that can be used to generate unique values in a specific format.
@@ -66,7 +66,7 @@ class Factory
 
   def initialize (name, options = {}) #:nodoc:
     options.assert_valid_keys(:class)
-    @factory_name = name
+    @factory_name = name.to_sym
     @options      = options
 
     @static_attributes     = {}
@@ -188,7 +188,7 @@ class Factory
     private
 
     def factory_by_name (name)
-      factories[name] or raise ArgumentError.new("No such factory: #{name.inspect}")
+      factories[name.to_sym] or raise ArgumentError.new("No such factory: #{name.to_s}")
     end
 
   end
