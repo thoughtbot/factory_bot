@@ -269,6 +269,36 @@ class FactoryTest < Test::Unit::TestCase
 
     end
 
+    context "when defined with a class instead of a name" do
+
+      setup do
+        @class   = ArgumentError
+        @name    = :argument_error
+        @factory = Factory.new(@class)
+      end
+
+      should "guess the name from the class" do
+        assert_equal @name, @factory.factory_name
+      end
+
+      should "use the class as the build class" do
+        assert_equal @class, @factory.build_class
+      end
+
+    end
+    context "when defined with a custom class name" do
+
+      setup do
+        @class   = ArgumentError
+        @factory = Factory.new(:author, :class => :argument_error)
+      end
+
+      should "use the specified class as the build class" do
+        assert_equal @class, @factory.build_class
+      end
+
+    end
+
     context "with some attributes added" do
 
       setup do

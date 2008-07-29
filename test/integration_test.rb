@@ -3,14 +3,14 @@ require(File.join(File.dirname(__FILE__), 'test_helper'))
 class IntegrationTest < Test::Unit::TestCase
 
   def setup
-    Factory.define :user do |f|
+    Factory.define :user, :class => 'user' do |f|
       f.first_name 'Jimi'
       f.last_name  'Hendrix'
       f.admin       false
       f.email {|a| "#{a.first_name}.#{a.last_name}@example.com".downcase }
     end
 
-    Factory.define 'post' do |f|
+    Factory.define Post do |f|
       f.name   'Test Post'
       f.association :author, :factory => :user
     end

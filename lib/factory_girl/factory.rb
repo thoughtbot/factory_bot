@@ -61,12 +61,12 @@ class Factory
   end
 
   def build_class #:nodoc:
-    @build_class ||= @options[:class] || factory_name.to_s.classify.constantize
+    @build_class ||= class_for(@options[:class] || factory_name)
   end
 
   def initialize (name, options = {}) #:nodoc:
     options.assert_valid_keys(:class)
-    @factory_name = name.to_sym
+    @factory_name = factory_name_for(name)
     @options      = options
 
     @static_attributes     = {}
@@ -242,6 +242,22 @@ class Factory
       instance.send(:"#{attr}=", value)
     end
     instance
+  end
+
+  def class_for (class_or_to_s)
+    if class_or_to_s.respond_to?(:to_sym)
+      class_or_to_s.to_s.classify.constantize
+    else
+      class_or_to_s
+    end
+  end
+
+  def factory_name_for (class_or_to_s)
+    if class_or_to_s.respond_to?(:to_sym)
+      class_or_to_s.to_sym
+    else
+      class_or_to_s.to_s.underscore.to_sym
+    end
   end
 
 end
