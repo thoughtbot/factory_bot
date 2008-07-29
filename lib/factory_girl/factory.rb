@@ -93,6 +93,7 @@ class Factory
   #   value: (Object)
   #     If no block is given, this value will be used for this attribute.
   def add_attribute (name, value = nil, &block)
+    name = name.to_sym
     if block_given?
       unless value.nil?
         raise ArgumentError, "Both value and block given"
@@ -196,6 +197,7 @@ class Factory
   private
 
   def build_attributes_hash (override, strategy)
+    override = override.symbolize_keys
     result = @static_attributes.merge(override)
     @lazy_attribute_names.each do |name|
       proxy = AttributeProxy.new(self, name, strategy, result)

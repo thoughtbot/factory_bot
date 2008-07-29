@@ -181,6 +181,11 @@ class FactoryTest < Test::Unit::TestCase
       end
     end
 
+    should "allow attributes to be added with strings as names" do
+      @factory.add_attribute('name', 'value')
+      assert_equal 'value', @factory.attributes_for[:name]
+    end
+
     context "when overriding generated attributes with a hash" do
 
       setup do
@@ -197,6 +202,12 @@ class FactoryTest < Test::Unit::TestCase
       should "not call a lazy attribute block for an overridden attribute" do
         @factory.add_attribute(@attr) { flunk }
         @factory.attributes_for(@hash)
+      end
+
+      should "override a symbol parameter with a string parameter" do
+        @factory.add_attribute(@attr, 'The price is wrong, Bob!')
+        @hash = { @attr.to_s => @value }
+        assert_equal @value, @factory.attributes_for(@hash)[@attr]
       end
 
     end
