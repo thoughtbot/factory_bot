@@ -168,6 +168,46 @@ class FactoryTest < Test::Unit::TestCase
 
     end
 
+    context "when adding an association without a factory name" do
+
+      setup do
+        @factory = Factory.new(:post)
+        @name    = :user
+        @factory.association(@name)
+        Post.any_instance.stubs(:user=)
+      end
+
+      should "add an attribute with the name of the association" do
+        assert @factory.attributes_for.key?(@name)
+      end
+
+      should "create a block that builds the association" do
+        Factory.expects(:build).with(@name, {})
+        @factory.build
+      end
+
+    end
+
+    context "when adding an association with a factory name" do
+
+      setup do
+        @factory      = Factory.new(:post)
+        @name         = :author
+        @factory_name = :user
+        @factory.association(@name, :factory => @factory_name)
+      end
+
+      should "add an attribute with the name of the association" do
+        assert @factory.attributes_for.key?(@name)
+      end
+
+      should "create a block that builds the association" do
+        Factory.expects(:build).with(@factory_name, {})
+        @factory.build
+      end
+
+    end
+
     should "add an attribute using the method name when passed an undefined method" do
       @attr  = :first_name
       @value = 'Sugar'

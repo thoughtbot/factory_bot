@@ -123,6 +123,35 @@ class Factory
     add_attribute(name, *args, &block)
   end
 
+  # Adds an attribute that builds an association. The associated instance will
+  # be built using the same build strategy as the parent instance.
+  #
+  # Example:
+  #   Factory.define :user do |f|
+  #     f.name 'Joey'
+  #   end
+  #
+  #   Factory.define :post do |f|
+  #     f.association :author, :factory => :user
+  #   end
+  #
+  # Arguments:
+  #   name: (Symbol)
+  #     The name of this attribute.
+  #   options: (Hash)
+  #     factory: (Symbol)
+  #       The name of the factory to use when building the associated instance.
+  #       If no name is given, the name of the attribute is assumed to be the
+  #       name of the factory. For example, a "user" association will by
+  #       default use the "user" factory.
+  def association (name, options = {})
+    name    = name.to_sym
+    options = options.symbolize_keys
+    association_factory = options[:factory] || name
+
+    add_attribute(name) {|a| a.association(association_factory) }
+  end
+
   def attributes_for (attrs = {}) #:nodoc:
     build_attributes_hash(attrs, :attributes_for)
   end
