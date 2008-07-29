@@ -52,6 +52,14 @@ class FactoryTest < Test::Unit::TestCase
     end
 
   end
+  
+  should "raise an error when defining a factory when using attribute setters" do
+    assert_raise Factory::AttributeDefinitionError do
+      Factory.define(:user) do |f|
+        f.name = 'test'
+      end
+    end
+  end
 
   context "defining a sequence" do
 
