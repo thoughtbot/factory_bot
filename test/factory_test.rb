@@ -91,6 +91,12 @@ class FactoryTest < Test::Unit::TestCase
       assert_equal @class, @factory.build_class
     end
 
+    should "not allow the same attribute to be added twice" do
+      assert_raise(Factory::AttributeDefinitionError) do
+        2.times { @factory.add_attribute @name }
+      end
+    end
+
     context "when adding an attribute with a value parameter" do
 
       setup do

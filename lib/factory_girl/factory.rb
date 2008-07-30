@@ -91,6 +91,11 @@ class Factory
   #     If no block is given, this value will be used for this attribute.
   def add_attribute (name, value = nil, &block)
     attribute = Attribute.new(name, value, block)
+
+    if attribute_defined?(attribute.name)
+      raise AttributeDefinitionError, "Attribute already defined: #{name}"
+    end
+
     @attributes << attribute
   end
 
@@ -248,6 +253,10 @@ class Factory
     else
       class_or_to_s.to_s.underscore.to_sym
     end
+  end
+
+  def attribute_defined? (name)
+    !@attributes.detect {|attr| attr.name == name }.nil?
   end
 
 end
