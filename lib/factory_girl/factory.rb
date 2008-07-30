@@ -1,8 +1,7 @@
 class Factory
   
-  cattr_accessor :factories, :sequences #:nodoc:
+  cattr_accessor :factories #:nodoc:
   self.factories = {}
-  self.sequences = {}
 
   attr_reader :factory_name
 
@@ -23,41 +22,6 @@ class Factory
     instance = Factory.new(name, options)
     yield(instance)
     self.factories[instance.factory_name] = instance
-  end
-
-  # Defines a new sequence that can be used to generate unique values in a specific format.
-  #
-  # Arguments:
-  #   name: (Symbol)
-  #     A unique name for this sequence. This name will be referenced when
-  #     calling next to generate new values from this sequence.
-  #   block: (Proc)
-  #     The code to generate each value in the sequence. This block will be
-  #     called with a unique number each time a value in the sequence is to be
-  #     generated. The block should return the generated value for the
-  #     sequence.
-  #
-  # Example:
-  #   
-  #   Factory.sequence(:email) {|n| "somebody_#{n}@example.com" }
-  def self.sequence (name, &block)
-    self.sequences[name] = Sequence.new(&block)
-  end
-
-  # Generates and returns the next value in a sequence.
-  #
-  # Arguments:
-  #   name: (Symbol)
-  #     The name of the sequence that a value should be generated for.
-  #
-  # Returns:
-  #   The next value in the sequence. (Object)
-  def self.next (sequence)
-    unless self.sequences.key?(sequence)
-      raise "No such sequence: #{sequence}"
-    end
-
-    self.sequences[sequence].next
   end
 
   def build_class #:nodoc:
@@ -221,8 +185,9 @@ class Factory
 
   def build_attributes_hash (values, strategy)
     values = values.symbolize_keys
+    passed_keys = values.keys.collect {|key| Factory.aliases_for(key) }.flatten
     @attributes.each do |attribute|
-      unless values.key?(attribute.name)
+      unless passed_keys.include?(attribute.name)
         proxy = AttributeProxy.new(self, attribute.name, strategy, values)
         values[attribute.name] = attribute.value(proxy)
       end

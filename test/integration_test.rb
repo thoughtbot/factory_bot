@@ -74,6 +74,10 @@ class IntegrationTest < Test::Unit::TestCase
       assert @instance.author.new_record?
     end
 
+    should "not assign both an association and its foreign key" do
+      assert_equal 1, Factory.build(:post, :author_id => 1).author_id
+    end
+
   end
 
   context "a created instance" do
