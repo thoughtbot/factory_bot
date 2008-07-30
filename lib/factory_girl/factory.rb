@@ -1,8 +1,5 @@
 class Factory
   
-  class AttributeDefinitionError < RuntimeError
-  end
-  
   cattr_accessor :factories, :sequences #:nodoc:
   self.factories = {}
   self.sequences = {}
@@ -93,25 +90,8 @@ class Factory
   #   value: (Object)
   #     If no block is given, this value will be used for this attribute.
   def add_attribute (name, value = nil, &block)
-    name = name.to_sym
-
-    if name.to_s =~ /=$/
-      raise AttributeDefinitionError, 
-        "factory_girl uses 'f.#{name.to_s.chop} #{value}' syntax " +
-        "rather than 'f.#{name} #{value}'" 
-    end
-
-    attribute = Attribute.new(name)
+    attribute = Attribute.new(name, value, block)
     @attributes << attribute
-    
-    if block_given?
-      unless value.nil?
-        raise ArgumentError, "Both value and block given"
-      end
-      attribute.lazy_block = block
-    else
-      attribute.static_value = value
-    end
   end
 
   # Calls add_attribute using the missing method name as the name of the

@@ -53,14 +53,6 @@ class FactoryTest < Test::Unit::TestCase
 
   end
   
-  should "raise an error when defining a factory when using attribute setters" do
-    assert_raise Factory::AttributeDefinitionError do
-      Factory.define(:user) do |f|
-        f.name = 'test'
-      end
-    end
-  end
-
   context "defining a sequence" do
 
     setup do
@@ -221,12 +213,6 @@ class FactoryTest < Test::Unit::TestCase
       @value = 'Sugar'
       @factory.send(@attr, @value)
       assert_equal @value, @factory.attributes_for[@attr]
-    end
-
-    should "not allow attributes to be added with both a value parameter and a block" do
-      assert_raise(ArgumentError) do
-        @factory.add_attribute(:name, 'value') {}
-      end
     end
 
     should "allow attributes to be added with strings as names" do
