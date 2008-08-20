@@ -1,3 +1,4 @@
 *.swp
 test.db
 factory_girl-*.gem
+rdoc
