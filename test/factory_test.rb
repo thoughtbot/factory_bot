@@ -415,4 +415,20 @@ class FactoryTest < Test::Unit::TestCase
 
   end
 
+  Factory.definition_file_paths.each do |file|
+    should "automatically load definitions from #{file}.rb" do
+      Factory.stubs(:require).raises(LoadError)
+      Factory.expects(:require).with(file)
+      Factory.find_definitions
+    end
+  end
+
+  should "only load the first set of factories detected" do
+    first, second, third = Factory.definition_file_paths
+    Factory.expects(:require).with(first).raises(LoadError)
+    Factory.expects(:require).with(second)
+    Factory.expects(:require).with(third).never
+    Factory.find_definitions
+  end
+
 end

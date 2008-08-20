@@ -3,6 +3,13 @@ class Factory
   cattr_accessor :factories #:nodoc:
   self.factories = {}
 
+  # An Array of strings specifying locations that should be searched for
+  # factory definitions. By default, factory_girl will attempt to require
+  # "factories," "test/factories," and "spec/factories." Only the first
+  # existing file will be loaded.
+  cattr_accessor :definition_file_paths
+  self.definition_file_paths = %w(factories test/factories spec/factories)
+
   attr_reader :factory_name
 
   # Defines a new factory that can be used by the build strategies (create and
@@ -171,6 +178,16 @@ class Factory
     #   attributes assigned.
     def create (name, attrs = {})
       factory_by_name(name).create(attrs)
+    end
+
+    def find_definitions #:nodoc:
+      definition_file_paths.each do |path|
+        begin
+          require(path)
+          break
+        rescue LoadError
+        end
+      end
     end
 
     private

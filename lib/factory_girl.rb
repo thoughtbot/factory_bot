@@ -12,3 +12,5 @@ require 'factory_girl/aliases'
 def Factory (name, attrs = {})
   Factory.create(name, attrs)
 end
+
+Factory.find_definitions
