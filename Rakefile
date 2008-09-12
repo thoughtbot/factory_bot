@@ -31,7 +31,7 @@ end
 
 spec = Gem::Specification.new do |s|
   s.name        = %q{factory_girl}
-  s.version     = "1.1.2"
+  s.version     = "1.1.3"
   s.summary     = %q{factory_girl provides a framework and DSL for defining and
                      using model instance factories.}
   s.description = %q{factory_girl provides a framework and DSL for defining and
