@@ -223,7 +223,7 @@ class Factory
 
   def class_for (class_or_to_s)
     if class_or_to_s.respond_to?(:to_sym)
-      class_or_to_s.to_s.classify.constantize
+      class_or_to_s.to_s.pluralize.classify.constantize
     else
       class_or_to_s
     end
