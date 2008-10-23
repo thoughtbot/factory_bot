@@ -3,6 +3,7 @@ require 'rake'
 require 'rake/testtask'
 require 'rake/rdoctask'
 require 'rake/gempackagetask'
+require 'rcov/rcovtask'
 require 'date'
 
 desc 'Default: run unit tests.'
@@ -12,6 +13,13 @@ desc 'Test the factory_girl plugin.'
 Rake::TestTask.new(:test) do |t|
   t.libs << 'lib'
   t.pattern = 'test/**/*_test.rb'
+  t.verbose = true
+end
+
+desc 'Performs code coverage on the factory_girl plugin.'
+Rcov::RcovTask.new do |t|
+  t.libs << "test"
+  t.test_files = FileList['test/*_test.rb']
   t.verbose = true
 end
 
