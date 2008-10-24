@@ -182,10 +182,12 @@ class Factory
 
     def find_definitions #:nodoc:
       definition_file_paths.each do |path|
-        begin
-          require(path)
-          break
-        rescue LoadError
+        require("#{path}.rb") if File.exists?("#{path}.rb")
+
+        if File.directory? path
+          Dir[File.join(path, '*.rb')].each do |file|
+            require file
+          end
         end
       end
     end

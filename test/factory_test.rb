@@ -432,21 +432,61 @@ class FactoryTest < Test::Unit::TestCase
     end
 
   end
+  
+  def self.context_in_directory_with_files(*files)
+    context "in a directory with #{files.to_sentence}" do
+      setup do
+        @pwd = Dir.pwd
+        @tmp_dir = File.join(File.dirname(__FILE__), 'tmp')
+        FileUtils.mkdir_p @tmp_dir
+        Dir.chdir(@tmp_dir)
+        
+        files.each do |file|
+          FileUtils.mkdir_p File.dirname(file)
+          FileUtils.touch file
+          Factory.stubs(:require).with(file)
+        end
+      end
+      
+      teardown do
+        Dir.chdir(@pwd)
+        FileUtils.rm_rf(@tmp_dir)
+      end
 
-  Factory.definition_file_paths.each do |file|
-    should "automatically load definitions from #{file}.rb" do
-      Factory.stubs(:require).raises(LoadError)
-      Factory.expects(:require).with(file)
-      Factory.find_definitions
+      yield
     end
   end
+  
+  def self.should_require_definitions_from(file)
+    should "load definitions from #{file}" do
+      Factory.expects(:require).with(file)
+      Factory.find_definitions
+    end    
+  end
+  
+  context_in_directory_with_files 'factories.rb' do
+    should_require_definitions_from 'factories.rb'
+  end
+  
+  %w(spec test).each do |dir|
+    context_in_directory_with_files File.join(dir, 'factories.rb') do
+      should_require_definitions_from "#{dir}/factories.rb"
+    end
 
-  should "only load the first set of factories detected" do
-    first, second, third = Factory.definition_file_paths
-    Factory.expects(:require).with(first).raises(LoadError)
-    Factory.expects(:require).with(second)
-    Factory.expects(:require).with(third).never
-    Factory.find_definitions
+    context_in_directory_with_files File.join(dir, 'factories', 'post_factory.rb') do
+      should_require_definitions_from "#{dir}/factories/post_factory.rb"
+    end
+
+    context_in_directory_with_files File.join(dir, 'factories', 'post_factory.rb'), File.join(dir, 'factories', 'person_factory.rb') do
+      should_require_definitions_from "#{dir}/factories/post_factory.rb"
+      should_require_definitions_from "#{dir}/factories/person_factory.rb"
+    end
+
+    context_in_directory_with_files File.join(dir, 'factories.rb'), File.join(dir, 'factories', 'post_factory.rb'), File.join(dir, 'factories', 'person_factory.rb') do
+      should_require_definitions_from "#{dir}/factories.rb"
+      should_require_definitions_from "#{dir}/factories/post_factory.rb"
+      should_require_definitions_from "#{dir}/factories/person_factory.rb"
+    end
   end
 
 end
