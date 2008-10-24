@@ -12,3 +12,14 @@ require 'factory_girl/aliases'
 def Factory (name, attrs = {})
   Factory.create(name, attrs)
 end
+
+if defined? Rails
+  Rails.configuration.after_initialize do
+    Factory.definition_file_paths = [
+      File.join(RAILS_ROOT, 'test', 'factories'),
+      File.join(RAILS_ROOT, 'spec', 'factories')
+    ]
+  end
+end
+
+Factory.find_definitions
