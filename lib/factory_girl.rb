@@ -19,7 +19,9 @@ if defined? Rails
       File.join(RAILS_ROOT, 'test', 'factories'),
       File.join(RAILS_ROOT, 'spec', 'factories')
     ]
+    Factory.find_definitions
   end
+else
+  Factory.find_definitions
 end
 
-Factory.find_definitions
