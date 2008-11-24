@@ -344,6 +344,24 @@ class FactoryTest < Test::Unit::TestCase
     end
 
   end
+  
+  context "a factory with a name ending in s" do
+    
+    setup do
+      @name    = :business
+      @class   = Business
+      @factory = Factory.new(@name)
+    end
+    
+    should "have a factory name" do
+      assert_equal @name, @factory.factory_name
+    end
+
+    should "have a build class" do
+      assert_equal @class, @factory.build_class
+    end
+    
+  end
 
   context "a factory with a string for a name" do
 
