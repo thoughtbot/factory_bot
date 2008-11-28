@@ -70,8 +70,8 @@ class IntegrationTest < Test::Unit::TestCase
       assert_kind_of User, @instance.author
     end
 
-    should "not save associations" do
-      assert @instance.author.new_record?
+    should "save associations" do
+      assert !@instance.author.new_record?
     end
 
     should "not assign both an association and its foreign key" do

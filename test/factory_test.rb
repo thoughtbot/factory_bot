@@ -159,6 +159,7 @@ class FactoryTest < Test::Unit::TestCase
         @name    = :user
         @factory.association(@name)
         Post.any_instance.stubs(:user=)
+        Factory.stubs(:create)
       end
 
       should "add an attribute with the name of the association" do
@@ -166,7 +167,7 @@ class FactoryTest < Test::Unit::TestCase
       end
 
       should "create a block that builds the association" do
-        Factory.expects(:build).with(@name, {})
+        Factory.expects(:create).with(@name, {})
         @factory.build
       end
 
@@ -179,6 +180,7 @@ class FactoryTest < Test::Unit::TestCase
         @name         = :author
         @factory_name = :user
         @factory.association(@name, :factory => @factory_name)
+        Factory.stubs(:create)
       end
 
       should "add an attribute with the name of the association" do
@@ -186,7 +188,7 @@ class FactoryTest < Test::Unit::TestCase
       end
 
       should "create a block that builds the association" do
-        Factory.expects(:build).with(@factory_name, {})
+        Factory.expects(:create).with(@factory_name, {})
         @factory.build
       end
 
