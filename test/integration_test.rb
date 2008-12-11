@@ -28,7 +28,7 @@ class IntegrationTest < Test::Unit::TestCase
   end
 
   def teardown
-    Factory.send(:class_variable_get, "@@factories").clear
+    Factory.factories.clear
   end
 
   context "a generated attributes hash" do

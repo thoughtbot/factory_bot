@@ -337,7 +337,7 @@ class FactoryTest < Test::Unit::TestCase
 
       end
 
-      should "raise an ActiveRecord::RecordInvalid error for invalid instances" do
+      should "raise an error for invalid instances" do
         assert_raise(ActiveRecord::RecordInvalid) do
           @factory.create(:first_name => nil)
         end

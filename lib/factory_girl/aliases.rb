@@ -1,6 +1,8 @@
 class Factory
 
-  cattr_accessor :aliases #:nodoc:
+  class << self
+    attr_accessor :aliases #:nodoc:
+  end
   self.aliases = [
     [/(.*)_id/, '\1'],
     [/(.*)/, '\1_id']

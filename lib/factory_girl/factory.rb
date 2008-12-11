@@ -1,13 +1,16 @@
 class Factory
   
-  cattr_accessor :factories #:nodoc:
-  self.factories = {}
+  class << self
+    attr_accessor :factories #:nodoc:
 
-  # An Array of strings specifying locations that should be searched for
-  # factory definitions. By default, factory_girl will attempt to require
-  # "factories," "test/factories," and "spec/factories." Only the first
-  # existing file will be loaded.
-  cattr_accessor :definition_file_paths
+    # An Array of strings specifying locations that should be searched for
+    # factory definitions. By default, factory_girl will attempt to require
+    # "factories," "test/factories," and "spec/factories." Only the first
+    # existing file will be loaded.
+    attr_accessor :definition_file_paths
+  end
+
+  self.factories = {}
   self.definition_file_paths = %w(factories test/factories spec/factories)
 
   attr_reader :factory_name
@@ -36,7 +39,7 @@ class Factory
   end
 
   def initialize (name, options = {}) #:nodoc:
-    options.assert_valid_keys(:class)
+    assert_valid_options(options)
     @factory_name = factory_name_for(name)
     @options      = options
     @attributes   = []
@@ -111,7 +114,7 @@ class Factory
   #       default use the "user" factory.
   def association (name, options = {})
     name    = name.to_sym
-    options = options.symbolize_keys
+    options = symbolize_keys(options)
     association_factory = options[:factory] || name
 
     add_attribute(name) {|a| a.association(association_factory) }
@@ -203,7 +206,7 @@ class Factory
   private
 
   def build_attributes_hash (values, strategy)
-    values = values.symbolize_keys
+    values = symbolize_keys(values)
     passed_keys = values.keys.collect {|key| Factory.aliases_for(key) }.flatten
     @attributes.each do |attribute|
       unless passed_keys.include?(attribute.name)
@@ -225,7 +228,7 @@ class Factory
 
   def class_for (class_or_to_s)
     if class_or_to_s.respond_to?(:to_sym)
-      class_or_to_s.to_s.pluralize.classify.constantize
+      Object.const_get(variable_name_to_class_name(class_or_to_s))
     else
       class_or_to_s
     end
@@ -235,12 +238,43 @@ class Factory
     if class_or_to_s.respond_to?(:to_sym)
       class_or_to_s.to_sym
     else
-      class_or_to_s.to_s.underscore.to_sym
+      class_name_to_variable_name(class_or_to_s).to_sym
     end
   end
 
   def attribute_defined? (name)
     !@attributes.detect {|attr| attr.name == name }.nil?
+  end
+
+  def assert_valid_options(options)
+    invalid_keys = options.keys - [:class] 
+    unless invalid_keys == []
+      raise ArgumentError, "Unknown arguments: #{invalid_keys.inspect}"
+    end
+  end
+
+  # Based on ActiveSupport's underscore inflector
+  def class_name_to_variable_name(name)
+    name.to_s.gsub(/::/, '/').
+      gsub(/([A-Z]+)([A-Z][a-z])/,'\1_\2').
+      gsub(/([a-z\d])([A-Z])/,'\1_\2').
+      tr("-", "_").
+      downcase
+  end
+
+  # Based on ActiveSupport's camelize inflector
+  def variable_name_to_class_name(name)
+    name.to_s.
+      gsub(/\/(.?)/) { "::#{$1.upcase}" }.
+      gsub(/(?:^|_)(.)/) { $1.upcase }
+  end
+
+  # From ActiveSupport
+  def symbolize_keys(hash)
+    hash.inject({}) do |options, (key, value)|
+      options[(key.to_sym rescue key) || key] = value
+      options
+    end
   end
 
 end

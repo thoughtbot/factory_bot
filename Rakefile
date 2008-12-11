@@ -39,7 +39,7 @@ end
 
 spec = Gem::Specification.new do |s|
   s.name        = %q{factory_girl}
-  s.version     = "1.1.4"
+  s.version     = "1.1.5"
   s.summary     = %q{factory_girl provides a framework and DSL for defining and
                      using model instance factories.}
   s.description = %q{factory_girl provides a framework and DSL for defining and
@@ -58,7 +58,6 @@ spec = Gem::Specification.new do |s|
   s.email   = %q{jferris@thoughtbot.com}
 
   s.platform = Gem::Platform::RUBY
-  s.add_dependency(%q<activesupport>, [">= 1.0"])
 end
 
 Rake::GemPackageTask.new spec do |pkg|

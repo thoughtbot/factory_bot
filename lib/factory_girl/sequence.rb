@@ -15,7 +15,9 @@ class Factory
 
   end
 
-  cattr_accessor :sequences #:nodoc:
+  class << self
+    attr_accessor :sequences #:nodoc:
+  end
   self.sequences = {}
 
   # Defines a new sequence that can be used to generate unique values in a specific format.
