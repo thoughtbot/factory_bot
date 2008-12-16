@@ -19,6 +19,14 @@ config.gem "thoughtbot-factory_girl",
            :lib    => "factory_girl",
            :source => "http://gems.github.com"
 
+h2. More Information
+
+"Our blog":http://giantrobots.thoughtbot.com
+
+"factory_girl rdoc":http://dev.thoughtbot.com/factory_girl
+
+"Mailing list":http://groups.google.com/group/factory_girl
+
 h2. Contributing
 
 Please read the contribution guidelines before submitting patches or pull requests.
@@ -144,8 +152,3 @@ Factory.build(:user, :first_name => 'Joe')
 # Return an attributes Hash that can be used to build a User instance
 attrs = Factory.attributes_for(:user)</code></pre>
 
-h2. More Information
-
-"Our blog":http://giantrobots.thoughtbot.com
-
-"factory_girl rdoc":http://dev.thoughtbot.com/factory_girl
