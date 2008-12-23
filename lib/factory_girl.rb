@@ -1,4 +1,8 @@
 require 'active_support'
+require 'factory_girl/strategy'
+require 'factory_girl/strategy/build'
+require 'factory_girl/strategy/create'
+require 'factory_girl/strategy/attributes_for'
 require 'factory_girl/factory'
 require 'factory_girl/attribute_proxy'
 require 'factory_girl/attribute'
