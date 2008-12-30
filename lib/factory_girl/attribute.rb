@@ -25,11 +25,11 @@ class Factory
       @lazy_block   = lazy_block
     end
 
-    def value (proxy)
+    def value (strategy)
       if @lazy_block.nil?
         @static_value
       else
-        @lazy_block.call(proxy)
+        @lazy_block.call(AttributeProxy.new(strategy))
       end
     end
 

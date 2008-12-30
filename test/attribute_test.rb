@@ -3,11 +3,10 @@ require(File.join(File.dirname(__FILE__), 'test_helper'))
 class AttributeTest < Test::Unit::TestCase
 
   def setup
-    @proxy = mock('attribute-proxy')
+    @strategy = mock('strategy')
   end
 
   context "an attribute" do
-
     setup do
       @name  = :user
       @attr  = Factory::Attribute.new(@name, 'test', nil)
@@ -16,39 +15,37 @@ class AttributeTest < Test::Unit::TestCase
     should "have a name" do
       assert_equal @name, @attr.name
     end
-
   end
 
   context "an attribute with a static value" do
-
     setup do
       @value = 'test'
       @attr  = Factory::Attribute.new(:user, @value, nil)
     end
 
-    should "return the value" do
-      assert_equal @value, @attr.value(@proxy)
+    should "return the value without building a proxy" do
+      Factory::AttributeProxy.expects(:new).never
+      assert_equal @value, @attr.value(@strategy)
     end
-
   end
 
   context "an attribute with a lazy value" do
-
     setup do
       @block = lambda { 'value' }
       @attr  = Factory::Attribute.new(:user, nil, @block)
     end
 
     should "call the block to return a value" do
-      assert_equal 'value', @attr.value(@proxy)
+      assert_equal 'value', @attr.value(@strategy)
     end
 
-    should "yield the attribute proxy to the block" do
+    should "yield an attribute proxy with the passed strategy to the block" do
       @block = lambda {|a| a }
       @attr  = Factory::Attribute.new(:user, nil, @block)
-      assert_equal @proxy, @attr.value(@proxy)
+      proxy  = mock('attribute-proxy')
+      Factory::AttributeProxy.stubs(:new).with(@strategy).returns(proxy)
+      assert_equal proxy, @attr.value(@strategy)
     end
-
   end
 
   should "raise an error when defining an attribute writer" do
@@ -57,7 +54,7 @@ class AttributeTest < Test::Unit::TestCase
     end
   end
 
-  should "not allow attributes to be added with both a value parameter and a block" do
+  should "not accept both a value parameter and a block" do
     assert_raise(Factory::AttributeDefinitionError) do
       Factory::Attribute.new(:name, 'value', lambda {})
     end
