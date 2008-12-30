@@ -118,7 +118,7 @@ class FactoryTest < Test::Unit::TestCase
       end
 
       should "build an attribute proxy" do
-        Factory::AttributeProxy.expects(:new).with(@factory, @attr, :attributes_for, @attrs)
+        Factory::AttributeProxy.expects(:new).with(:attributes_for, @attrs)
         @factory.add_attribute(@attr) {}
         @factory.attributes_for
       end
@@ -144,7 +144,7 @@ class FactoryTest < Test::Unit::TestCase
         end
 
         should "provide previously set attributes" do
-          Factory::AttributeProxy.expects(:new).with(@factory, @attr, :attributes_for, @attrs)
+          Factory::AttributeProxy.expects(:new).with(:attributes_for, @attrs)
           @factory.attributes_for
         end
 

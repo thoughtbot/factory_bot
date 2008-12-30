@@ -1,12 +1,9 @@
 class Factory
-
   class AttributeProxy
 
-    attr_accessor :factory, :attribute_name, :strategy, :current_values #:nodoc:
+    attr_accessor :strategy, :current_values #:nodoc:
 
-    def initialize (factory, attr, strategy, values) #:nodoc:
-      @factory        = factory
-      @attribute_name = attr
+    def initialize (strategy, values) #:nodoc:
       @strategy       = strategy
       @current_values = values
     end
@@ -62,9 +59,6 @@ class Factory
     # Returns:
     #   The value of the requested attribute. (Object)
     def value_for (attribute)
-      unless current_values.key?(attribute)
-        raise ArgumentError, "No such attribute: #{attribute.inspect}"
-      end
       current_values[attribute]
     end
 
@@ -84,9 +78,7 @@ class Factory
     #
     # are equivilent.
     def method_missing (name, *args, &block)
-      current_values[name]
+      value_for(name)
     end
-
   end
-
 end
