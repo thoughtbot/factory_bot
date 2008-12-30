@@ -132,76 +132,70 @@ class Factory
     run_strategy(Strategy::Create, overrides)
   end
 
-  class << self
+  # Generates and returns a Hash of attributes from this factory. Attributes
+  # can be individually overridden by passing in a Hash of attribute => value
+  # pairs.
+  #
+  # Arguments:
+  #   attrs: (Hash)
+  #     Attributes to overwrite for this set.
+  #
+  # Returns:
+  #   A set of attributes that can be used to build an instance of the class
+  #   this factory generates. (Hash)
+  def self.attributes_for (name, attrs = {})
+    factory_by_name(name).attributes_for(attrs)
+  end
 
-    # Generates and returns a Hash of attributes from this factory. Attributes
-    # can be individually overridden by passing in a Hash of attribute => value
-    # pairs.
-    #
-    # Arguments:
-    #   attrs: (Hash)
-    #     Attributes to overwrite for this set.
-    #
-    # Returns:
-    #   A set of attributes that can be used to build an instance of the class
-    #   this factory generates. (Hash)
-    def attributes_for (name, attrs = {})
-      factory_by_name(name).attributes_for(attrs)
-    end
+  # Generates and returns an instance from this factory. Attributes can be
+  # individually overridden by passing in a Hash of attribute => value pairs.
+  #
+  # Arguments:
+  #   attrs: (Hash)
+  #     See attributes_for
+  #
+  # Returns:
+  #   An instance of the class this factory generates, with generated
+  #   attributes assigned.
+  def self.build (name, attrs = {})
+    factory_by_name(name).build(attrs)
+  end
 
-    # Generates and returns an instance from this factory. Attributes can be
-    # individually overridden by passing in a Hash of attribute => value pairs.
-    #
-    # Arguments:
-    #   attrs: (Hash)
-    #     See attributes_for
-    #
-    # Returns:
-    #   An instance of the class this factory generates, with generated
-    #   attributes assigned.
-    def build (name, attrs = {})
-      factory_by_name(name).build(attrs)
-    end
+  # Generates, saves, and returns an instance from this factory. Attributes can
+  # be individually overridden by passing in a Hash of attribute => value
+  # pairs.
+  #
+  # If the instance is not valid, an ActiveRecord::Invalid exception will be
+  # raised.
+  #
+  # Arguments:
+  #   attrs: (Hash)
+  #     See attributes_for
+  #
+  # Returns:
+  #   A saved instance of the class this factory generates, with generated
+  #   attributes assigned.
+  def self.create (name, attrs = {})
+    factory_by_name(name).create(attrs)
+  end
 
-    # Generates, saves, and returns an instance from this factory. Attributes can
-    # be individually overridden by passing in a Hash of attribute => value
-    # pairs.
-    #
-    # If the instance is not valid, an ActiveRecord::Invalid exception will be
-    # raised.
-    #
-    # Arguments:
-    #   attrs: (Hash)
-    #     See attributes_for
-    #
-    # Returns:
-    #   A saved instance of the class this factory generates, with generated
-    #   attributes assigned.
-    def create (name, attrs = {})
-      factory_by_name(name).create(attrs)
-    end
+  def self.find_definitions #:nodoc:
+    definition_file_paths.each do |path|
+      require("#{path}.rb") if File.exists?("#{path}.rb")
 
-    def find_definitions #:nodoc:
-      definition_file_paths.each do |path|
-        require("#{path}.rb") if File.exists?("#{path}.rb")
-
-        if File.directory? path
-          Dir[File.join(path, '*.rb')].each do |file|
-            require file
-          end
+      if File.directory? path
+        Dir[File.join(path, '*.rb')].each do |file|
+          require file
         end
       end
     end
-
-    private
-
-    def factory_by_name (name)
-      factories[name.to_sym] or raise ArgumentError.new("No such factory: #{name.to_s}")
-    end
-
   end
 
   private
+
+  def self.factory_by_name (name)
+    factories[name.to_sym] or raise ArgumentError.new("No such factory: #{name.to_s}")
+  end
 
   def run_strategy (strategy_class, overrides)
     strategy = strategy_class.new(build_class)
