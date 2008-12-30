@@ -4,36 +4,32 @@ class AttributeProxyTest < Test::Unit::TestCase
 
   context "an association proxy" do
     setup do
-      @attrs    = { :first_name => 'John' }
-      @strategy = :create
-      @proxy  = Factory::AttributeProxy.new(@strategy, @attrs)
+      @strategy = mock('strategy')
+      @proxy  = Factory::AttributeProxy.new(@strategy)
     end
 
-    should "have a build strategy" do
+    should "have a strategy" do
       assert_equal @strategy, @proxy.strategy
     end
 
-    should "have attributes" do
-      assert_equal @attrs, @proxy.current_values
+    should "return a value from the strategy for an attribute's value" do
+      @strategy.expects(:get).with(:name).returns("it's a name")
+      assert_equal "it's a name", @proxy.value_for(:name)
     end
 
-    should "return the correct value for an attribute" do
-      assert_equal @attrs[:first_name], @proxy.value_for(:first_name)
-    end
-
-    should "call value_for for undefined methods" do
-      assert_equal @attrs[:first_name], @proxy.send(:first_name)
+    should "return a value from the strategy for an undefined method" do
+      @strategy.expects(:get).with(:name).returns("it's a name")
+      assert_equal "it's a name", @proxy.name
     end
   end
 
   context "an association proxy using the AttributesFor strategy" do
     setup do
-      @attrs    = { :first_name => 'John' }
-      @strategy = :attributes_for
-      @proxy  = Factory::AttributeProxy.new(@strategy, @attrs)
+      @strategy = Factory::Strategy::AttributesFor.new(Object)
+      @proxy    = Factory::AttributeProxy.new(@strategy)
     end
 
-    should "call Factory.create when building an association" do
+    should "not call Factory.create when building an association" do
       Factory.expects(:create).never
       @proxy.association(:user)
     end
@@ -43,12 +39,11 @@ class AttributeProxyTest < Test::Unit::TestCase
     end
   end
 
-  %w(build create).each do |strategy|
-    context "an association proxy using the #{strategy} strategy" do
+  [Factory::Strategy::Build, Factory::Strategy::Create].each do |strategy_class|
+    context "an association proxy using the #{strategy_class.name} strategy" do
       setup do
-        @attrs    = { :first_name => 'John' }
-        @strategy = :"#{strategy}"
-        @proxy  = Factory::AttributeProxy.new(@strategy, @attrs)
+        @strategy = strategy_class.new(Object)
+        @proxy  = Factory::AttributeProxy.new(@strategy)
       end
 
       should "call Factory.create when building an association" do

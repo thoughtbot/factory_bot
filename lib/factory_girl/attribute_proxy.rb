@@ -1,11 +1,10 @@
 class Factory
   class AttributeProxy
 
-    attr_accessor :strategy, :current_values #:nodoc:
+    attr_accessor :strategy #:nodoc:
 
-    def initialize (strategy, values) #:nodoc:
-      @strategy       = strategy
-      @current_values = values
+    def initialize (strategy) #:nodoc:
+      @strategy = strategy
     end
 
     # Generates an association using the current build strategy.
@@ -41,7 +40,8 @@ class Factory
     #   Factory.create(:post)
     #
     def association (name, attributes = {})
-      if strategy == :attributes_for
+      case strategy
+      when Strategy::AttributesFor
         nil
       else
         Factory.create(name, attributes)
@@ -59,7 +59,7 @@ class Factory
     # Returns:
     #   The value of the requested attribute. (Object)
     def value_for (attribute)
-      current_values[attribute]
+      strategy.get(attribute)
     end
 
     # Undefined methods are delegated to value_for, which means that:
