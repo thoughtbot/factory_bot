@@ -3,7 +3,6 @@ require(File.join(File.dirname(__FILE__), 'test_helper'))
 class FactoryTest < Test::Unit::TestCase
 
   def self.should_instantiate_class
-
     should "instantiate the build class" do
       assert_kind_of @class, @instance
     end
@@ -18,11 +17,9 @@ class FactoryTest < Test::Unit::TestCase
       @instance = @factory.build(:first_name => @value)
       assert_equal @value, @instance.first_name
     end
-
   end
 
   context "defining a factory" do
-
     setup do
       @name    = :user
       @factory = mock('factory')
@@ -50,11 +47,9 @@ class FactoryTest < Test::Unit::TestCase
                    @factory,
                    "Factories: #{Factory.factories.inspect}"
     end
-
   end
   
   context "a factory" do
-
     setup do
       @name    = :user
       @class   = User
@@ -76,7 +71,6 @@ class FactoryTest < Test::Unit::TestCase
     end
 
     context "when adding an attribute with a value parameter" do
-
       setup do
         @attr  = :name
         @value = 'Elvis lives!'
@@ -86,11 +80,9 @@ class FactoryTest < Test::Unit::TestCase
       should "include that value in the generated attributes hash" do
         assert_equal @value, @factory.attributes_for[@attr]
       end
-
     end
 
     context "when adding an attribute with a block" do
-
       setup do
         @attr  = :name
         @attrs = {}
@@ -118,7 +110,10 @@ class FactoryTest < Test::Unit::TestCase
       end
 
       should "build an attribute proxy" do
-        Factory::AttributeProxy.expects(:new).with(:attributes_for, @attrs)
+        Factory::AttributeProxy.
+          expects(:new).
+          with(is_a(Factory::Strategy)).
+          returns(@proxy)
         @factory.add_attribute(@attr) {}
         @factory.attributes_for
       end
@@ -131,7 +126,6 @@ class FactoryTest < Test::Unit::TestCase
       end
 
       context "when other attributes have previously been defined" do
-        
         setup do
           @attr  = :unimportant
           @attrs = {
@@ -144,16 +138,16 @@ class FactoryTest < Test::Unit::TestCase
         end
 
         should "provide previously set attributes" do
-          Factory::AttributeProxy.expects(:new).with(:attributes_for, @attrs)
+          Factory::AttributeProxy.
+            expects(:new).
+            with(is_a(Factory::Strategy)).
+            returns(@proxy)
           @factory.attributes_for
         end
-
       end
-
     end
 
     context "when adding an association without a factory name" do
-
       setup do
         @factory = Factory.new(:post)
         @name    = :user
@@ -170,11 +164,9 @@ class FactoryTest < Test::Unit::TestCase
         Factory.expects(:create).with(@name, {})
         @factory.build
       end
-
     end
 
     context "when adding an association with a factory name" do
-
       setup do
         @factory      = Factory.new(:post)
         @name         = :author
@@ -191,7 +183,6 @@ class FactoryTest < Test::Unit::TestCase
         Factory.expects(:create).with(@factory_name, {})
         @factory.build
       end
-
     end
 
     should "add an attribute using the method name when passed an undefined method" do
@@ -207,7 +198,6 @@ class FactoryTest < Test::Unit::TestCase
     end
 
     context "when overriding generated attributes with a hash" do
-
       setup do
         @attr  = :name
         @value = 'The price is right!'
@@ -229,11 +219,9 @@ class FactoryTest < Test::Unit::TestCase
         @hash = { @attr.to_s => @value }
         assert_equal @value, @factory.attributes_for(@hash)[@attr]
       end
-
     end
 
     context "overriding an attribute with an alias" do
-
       setup do
         @factory.add_attribute(:test, 'original')
         Factory.alias(/(.*)_alias/, '\1')
@@ -247,7 +235,6 @@ class FactoryTest < Test::Unit::TestCase
       should "discard the predefined value for the attribute" do
         assert_nil @result[:test]
       end
-
     end
 
     should "guess the build class from the factory name" do
@@ -255,7 +242,6 @@ class FactoryTest < Test::Unit::TestCase
     end
 
     context "when defined with a custom class" do
-
       setup do
         @class   = User
         @factory = Factory.new(:author, :class => @class)
@@ -264,11 +250,9 @@ class FactoryTest < Test::Unit::TestCase
       should "use the specified class as the build class" do
         assert_equal @class, @factory.build_class
       end
-
     end
 
     context "when defined with a class instead of a name" do
-
       setup do
         @class   = ArgumentError
         @name    = :argument_error
@@ -282,10 +266,9 @@ class FactoryTest < Test::Unit::TestCase
       should "use the class as the build class" do
         assert_equal @class, @factory.build_class
       end
-
     end
-    context "when defined with a custom class name" do
 
+    context "when defined with a custom class name" do
       setup do
         @class   = ArgumentError
         @factory = Factory.new(:author, :class => :argument_error)
@@ -294,11 +277,9 @@ class FactoryTest < Test::Unit::TestCase
       should "use the specified class as the build class" do
         assert_equal @class, @factory.build_class
       end
-
     end
 
     context "with some attributes added" do
-
       setup do
         @first_name = 'Billy'
         @last_name  = 'Idol'
@@ -310,7 +291,6 @@ class FactoryTest < Test::Unit::TestCase
       end
 
       context "when building an instance" do
-
         setup do
           @instance = @factory.build
         end
@@ -320,11 +300,9 @@ class FactoryTest < Test::Unit::TestCase
         should "not save the instance" do
           assert @instance.new_record?
         end
-
       end
       
       context "when creating an instance" do
-
         setup do
           @instance = @factory.create
         end
@@ -334,7 +312,6 @@ class FactoryTest < Test::Unit::TestCase
         should "save the instance" do
           assert !@instance.new_record?
         end
-
       end
 
       should "raise an error for invalid instances" do
@@ -342,13 +319,10 @@ class FactoryTest < Test::Unit::TestCase
           @factory.create(:first_name => nil)
         end
       end
-
     end
-
   end
   
   context "a factory with a name ending in s" do
-    
     setup do
       @name    = :business
       @class   = Business
@@ -362,11 +336,9 @@ class FactoryTest < Test::Unit::TestCase
     should "have a build class" do
       assert_equal @class, @factory.build_class
     end
-    
   end
 
   context "a factory with a string for a name" do
-
     setup do
       @name    = :user
       @factory = Factory.new(@name.to_s) {}
@@ -375,11 +347,9 @@ class FactoryTest < Test::Unit::TestCase
     should "convert the string to a symbol" do
       assert_equal @name, @factory.factory_name
     end
-
   end
 
   context "a factory defined with a string name" do
-
     setup do
       Factory.factories = {}
       @name    = :user
@@ -389,11 +359,9 @@ class FactoryTest < Test::Unit::TestCase
     should "store the factory using a symbol" do
       assert_equal @factory, Factory.factories[@name]
     end
-
   end
 
   context "Factory class" do
-
     setup do
       @name       = :user
       @attrs      = { :last_name => 'Override' }
@@ -432,7 +400,6 @@ class FactoryTest < Test::Unit::TestCase
       @factory.expects(:create).with(@attrs)
       Factory(@name, @attrs)
     end
-
   end
   
   def self.context_in_directory_with_files(*files)

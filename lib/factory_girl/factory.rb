@@ -120,18 +120,16 @@ class Factory
     add_attribute(name) {|a| a.association(association_factory) }
   end
 
-  def attributes_for (attrs = {}) #:nodoc:
-    build_attributes_hash(attrs, :attributes_for)
+  def attributes_for (overrides = {}) #:nodoc:
+    run_strategy(Strategy::AttributesFor, overrides)
   end
 
-  def build (attrs = {}) #:nodoc:
-    build_instance(attrs, :build)
+  def build (overrides = {}) #:nodoc:
+    run_strategy(Strategy::Build, overrides)
   end
 
-  def create (attrs = {}) #:nodoc:
-    instance = build_instance(attrs, :create)
-    instance.save!
-    instance
+  def create (overrides = {}) #:nodoc:
+    run_strategy(Strategy::Create, overrides)
   end
 
   class << self
@@ -205,25 +203,17 @@ class Factory
 
   private
 
-  def build_attributes_hash (values, strategy)
-    values = symbolize_keys(values)
-    passed_keys = values.keys.collect {|key| Factory.aliases_for(key) }.flatten
+  def run_strategy (strategy_class, overrides)
+    strategy = strategy_class.new(build_class)
+    overrides = symbolize_keys(overrides)
+    overrides.each {|attr, val| strategy.set(attr, val) }
+    passed_keys = overrides.keys.collect {|k| Factory.aliases_for(k) }.flatten
     @attributes.each do |attribute|
       unless passed_keys.include?(attribute.name)
-        proxy = AttributeProxy.new(strategy, values)
-        values[attribute.name] = attribute.value(proxy)
+        strategy.set(attribute.name, attribute.value(strategy))
       end
     end
-    values
-  end
-
-  def build_instance (override, strategy)
-    instance = build_class.new
-    attrs = build_attributes_hash(override, strategy)
-    attrs.each do |attr, value|
-      instance.send(:"#{attr}=", value)
-    end
-    instance
+    strategy.result
   end
 
   def class_for (class_or_to_s)
