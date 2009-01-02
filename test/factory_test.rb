@@ -120,33 +120,17 @@ class FactoryTest < Test::Unit::TestCase
       end
     end
 
-    context "when adding an attribute with a block" do
+    context "after adding an attribute with a block" do
       setup do
-        @attr  = :name
-        @attrs = {}
-        @proxy = mock('attr-proxy')
-        Factory::AttributeProxy.stubs(:new).returns(@proxy)
+        @factory.add_attribute(:attr) { 'value' }
       end
 
-      context "when other attributes have previously been defined" do
-        setup do
-          @attr  = :unimportant
-          @attrs = {
-            :one     => 'whatever',
-            :another => 'soup'
-          }
-          @factory.add_attribute(:one, 'whatever')
-          @factory.add_attribute(:another) { 'soup' }
-          @factory.add_attribute(@attr) {}
-        end
-
-        should "provide previously set attributes" do
-          Factory::AttributeProxy.
-            expects(:new).
-            with(is_a(Factory::Strategy)).
-            returns(@proxy)
-          @factory.attributes_for
-        end
+      should "create an attribute proxy" do
+        Factory::AttributeProxy.
+          expects(:new).
+          with(is_a(Factory::Strategy)).
+          returns(@proxy)
+        @factory.run_strategy(Factory::Strategy::AttributesFor, {})
       end
     end
 
@@ -160,7 +144,8 @@ class FactoryTest < Test::Unit::TestCase
       end
 
       should "add an attribute with the name of the association" do
-        assert @factory.attributes_for.key?(@name)
+        result = @factory.run_strategy(Factory::Strategy::AttributesFor, {})
+        assert result.key?(@name)
       end
 
       should "create a block that builds the association" do
@@ -179,7 +164,8 @@ class FactoryTest < Test::Unit::TestCase
       end
 
       should "add an attribute with the name of the association" do
-        assert @factory.attributes_for.key?(@name)
+        result = @factory.run_strategy(Factory::Strategy::AttributesFor, {})
+        assert result.key?(@name)
       end
 
       should "create a block that builds the association" do
@@ -189,15 +175,11 @@ class FactoryTest < Test::Unit::TestCase
     end
 
     should "add an attribute using the method name when passed an undefined method" do
-      @attr  = :first_name
-      @value = 'Sugar'
-      @factory.send(@attr, @value)
-      assert_equal @value, @factory.attributes_for[@attr]
-    end
-
-    should "allow attributes to be added with strings as names" do
-      @factory.add_attribute('name', 'value')
-      assert_equal 'value', @factory.attributes_for[:name]
+      attr  = mock('attribute', :name => :name)
+      block = lambda {}
+      Factory::Attribute.expects(:new).with(:name, 'value', block).returns(attr)
+      @factory.send(:name, 'value', &block)
+      assert @factory.attributes.include?(attr)
     end
 
     context "when overriding generated attributes with a hash" do
@@ -209,18 +191,20 @@ class FactoryTest < Test::Unit::TestCase
 
       should "return the overridden value in the generated attributes" do
         @factory.add_attribute(@attr, 'The price is wrong, Bob!')
-        assert_equal @value, @factory.attributes_for(@hash)[@attr]
+        result = @factory.run_strategy(Factory::Strategy::AttributesFor, @hash)
+        assert_equal @value, result[@attr]
       end
 
       should "not call a lazy attribute block for an overridden attribute" do
         @factory.add_attribute(@attr) { flunk }
-        @factory.attributes_for(@hash)
+        result = @factory.run_strategy(Factory::Strategy::AttributesFor, @hash)
       end
 
       should "override a symbol parameter with a string parameter" do
         @factory.add_attribute(@attr, 'The price is wrong, Bob!')
         @hash = { @attr.to_s => @value }
-        assert_equal @value, @factory.attributes_for(@hash)[@attr]
+        result = @factory.run_strategy(Factory::Strategy::AttributesFor, @hash)
+        assert_equal @value, result[@attr]
       end
     end
 
@@ -228,7 +212,8 @@ class FactoryTest < Test::Unit::TestCase
       setup do
         @factory.add_attribute(:test, 'original')
         Factory.alias(/(.*)_alias/, '\1')
-        @result = @factory.attributes_for(:test_alias => 'new')
+        @result = @factory.run_strategy(Factory::Strategy::AttributesFor, 
+                                        :test_alias => 'new')
       end
 
       should "use the passed in value for the alias" do

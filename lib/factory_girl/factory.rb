@@ -14,6 +14,7 @@ class Factory
   self.definition_file_paths = %w(factories test/factories spec/factories)
 
   attr_reader :factory_name
+  attr_reader :attributes #:nodoc:
 
   # Defines a new factory that can be used by the build strategies (create and
   # build) to build new objects.
@@ -120,10 +121,6 @@ class Factory
     add_attribute(name) {|a| a.association(association_factory) }
   end
 
-  def attributes_for (overrides = {}) #:nodoc:
-    run_strategy(Strategy::AttributesFor, overrides)
-  end
-
   def build (overrides = {}) #:nodoc:
     run_strategy(Strategy::Build, overrides)
   end
@@ -137,28 +134,28 @@ class Factory
   # pairs.
   #
   # Arguments:
-  #   attrs: (Hash)
+  #   overrides: (Hash)
   #     Attributes to overwrite for this set.
   #
   # Returns:
   #   A set of attributes that can be used to build an instance of the class
   #   this factory generates. (Hash)
-  def self.attributes_for (name, attrs = {})
-    factory_by_name(name).attributes_for(attrs)
+  def self.attributes_for (name, overrides = {})
+    factory_by_name(name).run_strategy(Strategy::AttributesFor, overrides)
   end
 
   # Generates and returns an instance from this factory. Attributes can be
   # individually overridden by passing in a Hash of attribute => value pairs.
   #
   # Arguments:
-  #   attrs: (Hash)
+  #   overrides: (Hash)
   #     See attributes_for
   #
   # Returns:
   #   An instance of the class this factory generates, with generated
   #   attributes assigned.
-  def self.build (name, attrs = {})
-    factory_by_name(name).build(attrs)
+  def self.build (name, overrides = {})
+    factory_by_name(name).run_strategy(Strategy::Build, overrides)
   end
 
   # Generates, saves, and returns an instance from this factory. Attributes can
@@ -169,14 +166,14 @@ class Factory
   # raised.
   #
   # Arguments:
-  #   attrs: (Hash)
+  #   overrides: (Hash)
   #     See attributes_for
   #
   # Returns:
   #   A saved instance of the class this factory generates, with generated
   #   attributes assigned.
-  def self.create (name, attrs = {})
-    factory_by_name(name).create(attrs)
+  def self.create (name, overrides = {})
+    factory_by_name(name).run_strategy(Strategy::Create, overrides)
   end
 
   def self.find_definitions #:nodoc:
@@ -191,7 +188,7 @@ class Factory
     end
   end
 
-  def run_strategy (strategy_class, overrides)
+  def run_strategy (strategy_class, overrides) #:nodoc:
     strategy = strategy_class.new(build_class)
     overrides = symbolize_keys(overrides)
     overrides.each {|attr, val| strategy.set(attr, val) }
