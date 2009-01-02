@@ -3,7 +3,7 @@ require(File.join(File.dirname(__FILE__), 'test_helper'))
 class AttributeTest < Test::Unit::TestCase
 
   def setup
-    @strategy = mock('strategy')
+    @proxy = mock('proxy')
   end
 
   context "an attribute" do
@@ -24,7 +24,7 @@ class AttributeTest < Test::Unit::TestCase
     end
 
     should "return the static value when asked for its value" do
-      assert_equal @value, @attr.value(@strategy)
+      assert_equal @value, @attr.value(@proxy)
     end
   end
 
@@ -35,13 +35,13 @@ class AttributeTest < Test::Unit::TestCase
     end
 
     should "call the block to return a value" do
-      assert_equal 'value', @attr.value(@strategy)
+      assert_equal 'value', @attr.value(@proxy)
     end
 
-    should "yield the passed strategy to the block" do
+    should "yield the passed proxy to the block" do
       @block = lambda {|a| a }
       @attr  = Factory::Attribute.new(:user, nil, @block)
-      assert_equal @strategy, @attr.value(@strategy)
+      assert_equal @proxy, @attr.value(@proxy)
     end
   end
 

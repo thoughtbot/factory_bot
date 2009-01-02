@@ -14,8 +14,8 @@ class FactoryTest < Test::Unit::TestCase
 
     should "override attributes using the passed hash" do
       @value = 'Davis'
-      @instance = @factory.run_strategy(Factory::Strategy::Build,
-                                        :first_name => @value)
+      @instance = @factory.run(Factory::Proxy::Build,
+                               :first_name => @value)
       assert_equal @value, @instance.first_name
     end
   end
@@ -84,40 +84,40 @@ class FactoryTest < Test::Unit::TestCase
     context "after adding an attribute" do
       setup do
         @attribute = mock('attribute')
-        @strategy  = mock('strategy')
+        @proxy     = mock('proxy')
 
-        @attribute.              stubs(:name).  returns(:name)
-        @attribute.              stubs(:value). returns('value')
-        @strategy.               stubs(:set)
-        @strategy.               stubs(:result).returns('result')
-        Factory::Attribute.      stubs(:new).   returns(@attribute)
-        Factory::Strategy::Build.stubs(:new).   returns(@strategy)
+        @attribute.           stubs(:name).  returns(:name)
+        @attribute.           stubs(:value). returns('value')
+        @proxy.               stubs(:set)
+        @proxy.               stubs(:result).returns('result')
+        Factory::Attribute.   stubs(:new).   returns(@attribute)
+        Factory::Proxy::Build.stubs(:new).   returns(@proxy)
 
         @factory.add_attribute(:name, 'value')
       end
 
-      should "create the right strategy using the build class when running" do
-        Factory::Strategy::Build.
+      should "create the right proxy using the build class when running" do
+        Factory::Proxy::Build.
           expects(:new).
           with(@factory.build_class).
-          returns(@strategy)
-        @factory.run_strategy(Factory::Strategy::Build, {})
+          returns(@proxy)
+        @factory.run(Factory::Proxy::Build, {})
       end
 
       should "get the value from the attribute when running" do
-        @attribute.expects(:value).with(@strategy).returns('value')
-        @factory.run_strategy(Factory::Strategy::Build, {})
+        @attribute.expects(:value).with(@proxy).returns('value')
+        @factory.run(Factory::Proxy::Build, {})
       end
 
-      should "set the value on the strategy when running" do
-        @strategy.expects(:set).with(:name, 'value')
-        @factory.run_strategy(Factory::Strategy::Build, {})
+      should "set the value on the proxy when running" do
+        @proxy.expects(:set).with(:name, 'value')
+        @factory.run(Factory::Proxy::Build, {})
       end
 
-      should "return the result from the strategy when running" do
-        @strategy.expects(:result).with().returns('result')
+      should "return the result from the proxy when running" do
+        @proxy.expects(:result).with().returns('result')
         assert_equal 'result',
-                     @factory.run_strategy(Factory::Strategy::Build, {})
+                     @factory.run(Factory::Proxy::Build, {})
       end
     end
 
@@ -131,13 +131,13 @@ class FactoryTest < Test::Unit::TestCase
       end
 
       should "add an attribute with the name of the association" do
-        result = @factory.run_strategy(Factory::Strategy::AttributesFor, {})
+        result = @factory.run(Factory::Proxy::AttributesFor, {})
         assert result.key?(@name)
       end
 
       should "create a block that builds the association" do
         Factory.expects(:create).with(@name, {})
-        @factory.run_strategy(Factory::Strategy::Build, {})
+        @factory.run(Factory::Proxy::Build, {})
       end
     end
 
@@ -151,13 +151,13 @@ class FactoryTest < Test::Unit::TestCase
       end
 
       should "add an attribute with the name of the association" do
-        result = @factory.run_strategy(Factory::Strategy::AttributesFor, {})
+        result = @factory.run(Factory::Proxy::AttributesFor, {})
         assert result.key?(@name)
       end
 
       should "create a block that builds the association" do
         Factory.expects(:create).with(@factory_name, {})
-        @factory.run_strategy(Factory::Strategy::Build, {})
+        @factory.run(Factory::Proxy::Build, {})
       end
     end
 
@@ -178,19 +178,19 @@ class FactoryTest < Test::Unit::TestCase
 
       should "return the overridden value in the generated attributes" do
         @factory.add_attribute(@attr, 'The price is wrong, Bob!')
-        result = @factory.run_strategy(Factory::Strategy::AttributesFor, @hash)
+        result = @factory.run(Factory::Proxy::AttributesFor, @hash)
         assert_equal @value, result[@attr]
       end
 
       should "not call a lazy attribute block for an overridden attribute" do
         @factory.add_attribute(@attr) { flunk }
-        result = @factory.run_strategy(Factory::Strategy::AttributesFor, @hash)
+        result = @factory.run(Factory::Proxy::AttributesFor, @hash)
       end
 
       should "override a symbol parameter with a string parameter" do
         @factory.add_attribute(@attr, 'The price is wrong, Bob!')
         @hash = { @attr.to_s => @value }
-        result = @factory.run_strategy(Factory::Strategy::AttributesFor, @hash)
+        result = @factory.run(Factory::Proxy::AttributesFor, @hash)
         assert_equal @value, result[@attr]
       end
     end
@@ -199,8 +199,8 @@ class FactoryTest < Test::Unit::TestCase
       setup do
         @factory.add_attribute(:test, 'original')
         Factory.alias(/(.*)_alias/, '\1')
-        @result = @factory.run_strategy(Factory::Strategy::AttributesFor, 
-                                        :test_alias => 'new')
+        @result = @factory.run(Factory::Proxy::AttributesFor, 
+                               :test_alias => 'new')
       end
 
       should "use the passed in value for the alias" do
@@ -307,34 +307,34 @@ class FactoryTest < Test::Unit::TestCase
 
     teardown { Factory.factories.clear }
 
-    should "use Strategy::AttributesFor for Factory.attributes_for" do
+    should "use Proxy::AttributesFor for Factory.attributes_for" do
       @factory.
-        expects(:run_strategy).
-        with(Factory::Strategy::AttributesFor, :attr => 'value').
+        expects(:run).
+        with(Factory::Proxy::AttributesFor, :attr => 'value').
         returns('result')
       assert_equal 'result', Factory.attributes_for(@name, :attr => 'value')
     end
 
-    should "use Strategy::Build for Factory.build" do
+    should "use Proxy::Build for Factory.build" do
       @factory.
-        expects(:run_strategy).
-        with(Factory::Strategy::Build, :attr => 'value').
+        expects(:run).
+        with(Factory::Proxy::Build, :attr => 'value').
         returns('result')
       assert_equal 'result', Factory.build(@name, :attr => 'value')
     end
 
-    should "use Strategy::Create for Factory.create" do
+    should "use Proxy::Create for Factory.create" do
       @factory.
-        expects(:run_strategy).
-        with(Factory::Strategy::Create, :attr => 'value').
+        expects(:run).
+        with(Factory::Proxy::Create, :attr => 'value').
         returns('result')
       assert_equal 'result', Factory.create(@name, :attr => 'value')
     end
 
-    should "use Strategy::Create for the global Factory method" do
+    should "use Proxy::Create for the global Factory method" do
       @factory.
-        expects(:run_strategy).
-        with(Factory::Strategy::Create, :attr => 'value').
+        expects(:run).
+        with(Factory::Proxy::Create, :attr => 'value').
         returns('result')
       assert_equal 'result', Factory(@name, :attr => 'value')
     end

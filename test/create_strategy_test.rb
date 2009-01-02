@@ -1,6 +1,6 @@
 require(File.join(File.dirname(__FILE__), 'test_helper'))
 
-class CreateStrategyTest < Test::Unit::TestCase
+class CreateProxyTest < Test::Unit::TestCase
 
   context "with a class to build" do
     setup do
@@ -16,9 +16,9 @@ class CreateStrategyTest < Test::Unit::TestCase
       @instance.stubs(:save!)
     end
 
-    context "the build strategy" do
+    context "the create proxy" do
       setup do
-        @strategy = Factory::Strategy::Create.new(@class)
+        @proxy = Factory::Proxy::Create.new(@class)
       end
 
       before_should "instantiate the class" do
@@ -27,7 +27,7 @@ class CreateStrategyTest < Test::Unit::TestCase
 
       context "when asked to associate with another factory" do
         setup do
-          @strategy.associate(:owner, :user, {})
+          @proxy.associate(:owner, :user, {})
         end
 
         before_should "create the associated instance" do
@@ -43,12 +43,12 @@ class CreateStrategyTest < Test::Unit::TestCase
         association = 'association'
         attribs     = { :first_name => 'Billy' }
         Factory.expects(:create).with(:user, attribs).returns(association)
-        assert_equal association, @strategy.association(:user, attribs)
+        assert_equal association, @proxy.association(:user, attribs)
       end
 
       context "when asked for the result" do
         setup do
-          @result = @strategy.result
+          @result = @proxy.result
         end
 
         before_should "save the instance" do
@@ -62,7 +62,7 @@ class CreateStrategyTest < Test::Unit::TestCase
 
       context "when setting an attribute" do
         setup do
-          @strategy.set(:attribute, 'value')
+          @proxy.set(:attribute, 'value')
         end
 
         before_should "set that value" do
@@ -72,7 +72,7 @@ class CreateStrategyTest < Test::Unit::TestCase
 
       context "when getting an attribute" do
         setup do
-          @result = @strategy.get(:attribute)
+          @result = @proxy.get(:attribute)
         end
 
         before_should "ask the built class for the value" do

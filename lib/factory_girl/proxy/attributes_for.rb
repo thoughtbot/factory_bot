@@ -1,6 +1,6 @@
 class Factory
-  class Strategy #:nodoc:
-    class AttributesFor < Strategy
+  class Proxy #:nodoc:
+    class AttributesFor < Proxy
       def initialize(klass)
         @hash = {}
       end

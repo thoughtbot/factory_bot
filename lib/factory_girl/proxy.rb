@@ -1,6 +1,6 @@
 class Factory
 
-  class Strategy #:nodoc:
+  class Proxy #:nodoc:
     def initialize(klass)
     end
 

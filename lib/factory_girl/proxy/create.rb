@@ -1,5 +1,5 @@
 class Factory
-  class Strategy #:nodoc:
+  class Proxy #:nodoc:
     class Create < Build
       def result
         @instance.save!

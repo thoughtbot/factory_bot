@@ -54,7 +54,7 @@ class Factory
   # instance is generated. Lazy attribute blocks will not be called if that
   # attribute is overriden for a specific instance.
   #
-  # When defining lazy attributes, an instance of Factory::Strategy will
+  # When defining lazy attributes, an instance of Factory::Proxy will
   # be yielded, allowing associations to be built using the correct build
   # strategy.
   #
@@ -133,7 +133,7 @@ class Factory
   #   A set of attributes that can be used to build an instance of the class
   #   this factory generates. (Hash)
   def self.attributes_for (name, overrides = {})
-    factory_by_name(name).run_strategy(Strategy::AttributesFor, overrides)
+    factory_by_name(name).run(Proxy::AttributesFor, overrides)
   end
 
   # Generates and returns an instance from this factory. Attributes can be
@@ -147,7 +147,7 @@ class Factory
   #   An instance of the class this factory generates, with generated
   #   attributes assigned.
   def self.build (name, overrides = {})
-    factory_by_name(name).run_strategy(Strategy::Build, overrides)
+    factory_by_name(name).run(Proxy::Build, overrides)
   end
 
   # Generates, saves, and returns an instance from this factory. Attributes can
@@ -165,7 +165,7 @@ class Factory
   #   A saved instance of the class this factory generates, with generated
   #   attributes assigned.
   def self.create (name, overrides = {})
-    factory_by_name(name).run_strategy(Strategy::Create, overrides)
+    factory_by_name(name).run(Proxy::Create, overrides)
   end
 
   def self.find_definitions #:nodoc:
@@ -180,17 +180,17 @@ class Factory
     end
   end
 
-  def run_strategy (strategy_class, overrides) #:nodoc:
-    strategy = strategy_class.new(build_class)
+  def run (proxy_class, overrides) #:nodoc:
+    proxy = proxy_class.new(build_class)
     overrides = symbolize_keys(overrides)
-    overrides.each {|attr, val| strategy.set(attr, val) }
+    overrides.each {|attr, val| proxy.set(attr, val) }
     passed_keys = overrides.keys.collect {|k| Factory.aliases_for(k) }.flatten
     @attributes.each do |attribute|
       unless passed_keys.include?(attribute.name)
-        strategy.set(attribute.name, attribute.value(strategy))
+        proxy.set(attribute.name, attribute.value(proxy))
       end
     end
-    strategy.result
+    proxy.result
   end
 
   private
