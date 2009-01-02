@@ -17,6 +17,10 @@ class Factory
         set(name, Factory.create(factory, attributes))
       end
 
+      def association(factory, overrides = {})
+        Factory.create(factory, overrides)
+      end
+
       def result
         @instance
       end

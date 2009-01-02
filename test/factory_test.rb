@@ -121,20 +121,6 @@ class FactoryTest < Test::Unit::TestCase
       end
     end
 
-    context "after adding an attribute with a block" do
-      setup do
-        @factory.add_attribute(:attr) { 'value' }
-      end
-
-      should "create an attribute proxy" do
-        Factory::AttributeProxy.
-          expects(:new).
-          with(is_a(Factory::Strategy)).
-          returns(@proxy)
-        @factory.run_strategy(Factory::Strategy::AttributesFor, {})
-      end
-    end
-
     context "when adding an association without a factory name" do
       setup do
         @factory = Factory.new(:post)

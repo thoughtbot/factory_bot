@@ -39,6 +39,13 @@ class CreateStrategyTest < Test::Unit::TestCase
         end
       end
 
+      should "call Factory.create when building an association" do
+        association = 'association'
+        attribs     = { :first_name => 'Billy' }
+        Factory.expects(:create).with(:user, attribs).returns(association)
+        assert_equal association, @strategy.association(:user, attribs)
+      end
+
       context "when asked for the result" do
         setup do
           @result = @strategy.result

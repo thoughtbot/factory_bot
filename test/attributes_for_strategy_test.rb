@@ -18,6 +18,20 @@ class AttributesForStrategyTest < Test::Unit::TestCase
       end
     end
 
+    should "return nil when building an association" do
+      assert_nil @strategy.association(:user)
+    end
+
+    should "not call Factory.create when building an association" do
+      Factory.expects(:create).never
+      assert_nil @strategy.association(:user)
+    end
+
+    should "always return nil when building an association" do
+      @strategy.set(:association, 'x')
+      assert_nil @strategy.association(:user)
+    end
+
     should "return a hash when asked for the result" do
       assert_kind_of Hash, @strategy.result
     end

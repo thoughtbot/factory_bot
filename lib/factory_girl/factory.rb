@@ -54,7 +54,7 @@ class Factory
   # instance is generated. Lazy attribute blocks will not be called if that
   # attribute is overriden for a specific instance.
   #
-  # When defining lazy attributes, an instance of Factory::AttributeProxy will
+  # When defining lazy attributes, an instance of Factory::Strategy will
   # be yielded, allowing associations to be built using the correct build
   # strategy.
   #

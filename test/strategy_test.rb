@@ -15,6 +15,11 @@ class StrategyTest < Test::Unit::TestCase
       assert_nil @strategy.get(:name)
     end
 
+    should "call get for a missing method" do
+      @strategy.expects(:get).with(:name).returns("it's a name")
+      assert_equal "it's a name", @strategy.name
+    end
+
     should "do nothing when asked to associate with another factory" do
       assert_nothing_raised { @strategy.associate(:owner, :user, {}) }
     end

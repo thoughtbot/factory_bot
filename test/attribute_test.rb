@@ -23,8 +23,7 @@ class AttributeTest < Test::Unit::TestCase
       @attr  = Factory::Attribute.new(:user, @value, nil)
     end
 
-    should "return the value without building a proxy" do
-      Factory::AttributeProxy.expects(:new).never
+    should "return the static value when asked for its value" do
       assert_equal @value, @attr.value(@strategy)
     end
   end
@@ -39,12 +38,10 @@ class AttributeTest < Test::Unit::TestCase
       assert_equal 'value', @attr.value(@strategy)
     end
 
-    should "yield an attribute proxy with the passed strategy to the block" do
+    should "yield the passed strategy to the block" do
       @block = lambda {|a| a }
       @attr  = Factory::Attribute.new(:user, nil, @block)
-      proxy  = mock('attribute-proxy')
-      Factory::AttributeProxy.stubs(:new).with(@strategy).returns(proxy)
-      assert_equal proxy, @attr.value(@strategy)
+      assert_equal @strategy, @attr.value(@strategy)
     end
   end
 

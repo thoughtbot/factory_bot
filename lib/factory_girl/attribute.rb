@@ -29,7 +29,7 @@ class Factory
       if @lazy_block.nil?
         @static_value
       else
-        @lazy_block.call(AttributeProxy.new(strategy))
+        @lazy_block.call(strategy)
       end
     end
 
