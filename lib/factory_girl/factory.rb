@@ -191,12 +191,6 @@ class Factory
     end
   end
 
-  private
-
-  def self.factory_by_name (name)
-    factories[name.to_sym] or raise ArgumentError.new("No such factory: #{name.to_s}")
-  end
-
   def run_strategy (strategy_class, overrides)
     strategy = strategy_class.new(build_class)
     overrides = symbolize_keys(overrides)
@@ -208,6 +202,12 @@ class Factory
       end
     end
     strategy.result
+  end
+
+  private
+
+  def self.factory_by_name (name)
+    factories[name.to_sym] or raise ArgumentError.new("No such factory: #{name.to_s}")
   end
 
   def class_for (class_or_to_s)

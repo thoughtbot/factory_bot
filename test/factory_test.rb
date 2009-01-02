@@ -70,15 +70,53 @@ class FactoryTest < Test::Unit::TestCase
       end
     end
 
-    context "when adding an attribute with a value parameter" do
+    should "create a new attribute when an attribute is defined" do
+      block = lambda {}
+      attribute = mock('attribute', :name => :name)
+      Factory::Attribute.
+        expects(:new).
+        with(:name, 'value', block).
+        returns(attribute)
+      @factory.add_attribute(:name, 'value', &block)
+    end
+
+    context "after adding an attribute" do
       setup do
-        @attr  = :name
-        @value = 'Elvis lives!'
-        @factory.add_attribute(@attr, @value)
+        @attribute = mock('attribute')
+        @strategy  = mock('strategy')
+
+        @attribute.              stubs(:name).  returns(:name)
+        @attribute.              stubs(:value). returns('value')
+        @strategy.               stubs(:set)
+        @strategy.               stubs(:result).returns('result')
+        Factory::Attribute.      stubs(:new).   returns(@attribute)
+        Factory::Strategy::Build.stubs(:new).   returns(@strategy)
+
+        @factory.add_attribute(:name, 'value')
       end
 
-      should "include that value in the generated attributes hash" do
-        assert_equal @value, @factory.attributes_for[@attr]
+      should "create the right strategy using the build class when running" do
+        Factory::Strategy::Build.
+          expects(:new).
+          with(@factory.build_class).
+          returns(@strategy)
+        @factory.run_strategy(Factory::Strategy::Build, {})
+      end
+
+      should "get the value from the attribute when running" do
+        @attribute.expects(:value).with(@strategy).returns('value')
+        @factory.run_strategy(Factory::Strategy::Build, {})
+      end
+
+      should "set the value on the strategy when running" do
+        @strategy.expects(:set).with(:name, 'value')
+        @factory.run_strategy(Factory::Strategy::Build, {})
+      end
+
+      should "return the result from the strategy when running" do
+        @strategy.expects(:result).with().returns('result')
+        assert_equal 'result',
+                     @factory.run_strategy(Factory::Strategy::Build, {})
       end
     end
 
@@ -88,41 +126,6 @@ class FactoryTest < Test::Unit::TestCase
         @attrs = {}
         @proxy = mock('attr-proxy')
         Factory::AttributeProxy.stubs(:new).returns(@proxy)
-      end
-
-      should "not evaluate the block when the attribute is added" do
-        @factory.add_attribute(@attr) { flunk }
-      end
-
-      should "evaluate the block when attributes are generated" do
-        called = false
-        @factory.add_attribute(@attr) do
-          called = true
-        end
-        @factory.attributes_for
-        assert called
-      end
-
-      should "use the result of the block as the value of the attribute" do
-        value = "Watch out for snakes!"
-        @factory.add_attribute(@attr) { value }
-        assert_equal value, @factory.attributes_for[@attr]
-      end
-
-      should "build an attribute proxy" do
-        Factory::AttributeProxy.
-          expects(:new).
-          with(is_a(Factory::Strategy)).
-          returns(@proxy)
-        @factory.add_attribute(@attr) {}
-        @factory.attributes_for
-      end
-
-      should "yield an attribute proxy to the block" do
-        yielded = nil
-        @factory.add_attribute(@attr) {|y| yielded = y }
-        @factory.attributes_for
-        assert_equal @proxy, yielded
       end
 
       context "when other attributes have previously been defined" do
@@ -361,31 +364,53 @@ class FactoryTest < Test::Unit::TestCase
     end
   end
 
-  context "Factory class" do
+  context "after defining a factory" do
     setup do
-      @name       = :user
-      @attrs      = { :last_name => 'Override' }
-      @first_name = 'Johnny'
-      @last_name  = 'Winter'
-      @class      = User
-
-      Factory.define(@name) do |u|
-        u.first_name @first_name
-        u.last_name  { @last_name }
-        u.email      'jwinter@guitar.org'
+      @name = :user
+      Factory.define(@name) do |f|
+        f.first_name 'First'
+        f.last_name  'Last'
+        f.email      'name@example.com'
       end
-
       @factory = Factory.factories[@name]
     end
 
+    teardown { Factory.factories.clear }
+
+    should "use Strategy::AttributesFor for Factory.attributes_for" do
+      @factory.
+        expects(:run_strategy).
+        with(Factory::Strategy::AttributesFor, :attr => 'value').
+        returns('result')
+      assert_equal 'result', Factory.attributes_for(@name, :attr => 'value')
+    end
+
+    should "use Strategy::Build for Factory.build" do
+      @factory.
+        expects(:run_strategy).
+        with(Factory::Strategy::Build, :attr => 'value').
+        returns('result')
+      assert_equal 'result', Factory.build(@name, :attr => 'value')
+    end
+
+    should "use Strategy::Create for Factory.create" do
+      @factory.
+        expects(:run_strategy).
+        with(Factory::Strategy::Create, :attr => 'value').
+        returns('result')
+      assert_equal 'result', Factory.create(@name, :attr => 'value')
+    end
+
+    should "use Strategy::Create for the global Factory method" do
+      @factory.
+        expects(:run_strategy).
+        with(Factory::Strategy::Create, :attr => 'value').
+        returns('result')
+      assert_equal 'result', Factory(@name, :attr => 'value')
+    end
+
     [:build, :create, :attributes_for].each do |method|
-
-      should "delegate the #{method} method to the factory instance" do
-        @factory.expects(method).with(@attrs)
-        Factory.send(method, @name, @attrs)
-      end
-
-      should "raise an ArgumentError when #{method} is called with a nonexistant factory" do
+      should "raise an ArgumentError on #{method} with a nonexistant factory" do
         assert_raise(ArgumentError) { Factory.send(method, :bogus) }
       end
 
@@ -393,12 +418,6 @@ class FactoryTest < Test::Unit::TestCase
         assert_nothing_raised { Factory.send(method, @name.to_s) }
         assert_nothing_raised { Factory.send(method, @name.to_sym) }
       end
-
-    end
-
-    should "call the create method from the top-level Factory() method" do
-      @factory.expects(:create).with(@attrs)
-      Factory(@name, @attrs)
     end
   end
   
