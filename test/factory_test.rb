@@ -14,7 +14,8 @@ class FactoryTest < Test::Unit::TestCase
 
     should "override attributes using the passed hash" do
       @value = 'Davis'
-      @instance = @factory.build(:first_name => @value)
+      @instance = @factory.run_strategy(Factory::Strategy::Build,
+                                        :first_name => @value)
       assert_equal @value, @instance.first_name
     end
   end
@@ -150,7 +151,7 @@ class FactoryTest < Test::Unit::TestCase
 
       should "create a block that builds the association" do
         Factory.expects(:create).with(@name, {})
-        @factory.build
+        @factory.run_strategy(Factory::Strategy::Build, {})
       end
     end
 
@@ -170,7 +171,7 @@ class FactoryTest < Test::Unit::TestCase
 
       should "create a block that builds the association" do
         Factory.expects(:create).with(@factory_name, {})
-        @factory.build
+        @factory.run_strategy(Factory::Strategy::Build, {})
       end
     end
 
@@ -264,48 +265,6 @@ class FactoryTest < Test::Unit::TestCase
 
       should "use the specified class as the build class" do
         assert_equal @class, @factory.build_class
-      end
-    end
-
-    context "with some attributes added" do
-      setup do
-        @first_name = 'Billy'
-        @last_name  = 'Idol'
-        @email      = 'test@something.com'
-
-        @factory.add_attribute(:first_name, @first_name)
-        @factory.add_attribute(:last_name,  @last_name)
-        @factory.add_attribute(:email,      @email)
-      end
-
-      context "when building an instance" do
-        setup do
-          @instance = @factory.build
-        end
-
-        should_instantiate_class
-
-        should "not save the instance" do
-          assert @instance.new_record?
-        end
-      end
-      
-      context "when creating an instance" do
-        setup do
-          @instance = @factory.create
-        end
-
-        should_instantiate_class
-
-        should "save the instance" do
-          assert !@instance.new_record?
-        end
-      end
-
-      should "raise an error for invalid instances" do
-        assert_raise(ActiveRecord::RecordInvalid) do
-          @factory.create(:first_name => nil)
-        end
       end
     end
   end

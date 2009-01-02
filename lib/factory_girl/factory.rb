@@ -121,10 +121,6 @@ class Factory
     add_attribute(name) {|a| a.association(association_factory) }
   end
 
-  def build (overrides = {}) #:nodoc:
-    run_strategy(Strategy::Build, overrides)
-  end
-
   def create (overrides = {}) #:nodoc:
     run_strategy(Strategy::Create, overrides)
   end
