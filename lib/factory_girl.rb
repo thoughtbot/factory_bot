@@ -5,6 +5,8 @@ require 'factory_girl/proxy/create'
 require 'factory_girl/proxy/attributes_for'
 require 'factory_girl/factory'
 require 'factory_girl/attribute'
+require 'factory_girl/attribute/static'
+require 'factory_girl/attribute/dynamic'
 require 'factory_girl/sequence'
 require 'factory_girl/aliases'
 

@@ -67,18 +67,33 @@ class FactoryTest < Test::Unit::TestCase
 
     should "not allow the same attribute to be added twice" do
       assert_raise(Factory::AttributeDefinitionError) do
-        2.times { @factory.add_attribute @name }
+        2.times { @factory.add_attribute :first_name }
       end
     end
 
-    should "create a new attribute when an attribute is defined" do
-      block = lambda {}
+    should "add a static attribute when an attribute is defined with a value" do
       attribute = mock('attribute', :name => :name)
-      Factory::Attribute.
+      Factory::Attribute::Static.
         expects(:new).
-        with(:name, 'value', block).
+        with(:name, 'value').
         returns(attribute)
-      @factory.add_attribute(:name, 'value', &block)
+      @factory.add_attribute(:name, 'value')
+    end
+
+    should "add a dynamic attribute when an attribute is defined with a block" do
+      attribute = mock('attribute', :name => :name)
+      block     = lambda {}
+      Factory::Attribute::Dynamic.
+        expects(:new).
+        with(:name, block).
+        returns(attribute)
+      @factory.add_attribute(:name, &block)
+    end
+
+    should "raise for an attribute with a value and a block" do
+      assert_raise(Factory::AttributeDefinitionError) do
+        @factory.add_attribute(:name, 'value') {}
+      end
     end
 
     context "after adding an attribute" do
@@ -86,12 +101,12 @@ class FactoryTest < Test::Unit::TestCase
         @attribute = mock('attribute')
         @proxy     = mock('proxy')
 
-        @attribute.           stubs(:name).  returns(:name)
-        @attribute.           stubs(:value). returns('value')
-        @proxy.               stubs(:set)
-        @proxy.               stubs(:result).returns('result')
-        Factory::Attribute.   stubs(:new).   returns(@attribute)
-        Factory::Proxy::Build.stubs(:new).   returns(@proxy)
+        @attribute.                stubs(:name).  returns(:name)
+        @attribute.                stubs(:add_to)
+        @proxy.                    stubs(:set)
+        @proxy.                    stubs(:result).returns('result')
+        Factory::Attribute::Static.stubs(:new).   returns(@attribute)
+        Factory::Proxy::Build.     stubs(:new).   returns(@proxy)
 
         @factory.add_attribute(:name, 'value')
       end
@@ -104,13 +119,8 @@ class FactoryTest < Test::Unit::TestCase
         @factory.run(Factory::Proxy::Build, {})
       end
 
-      should "get the value from the attribute when running" do
-        @attribute.expects(:value).with(@proxy).returns('value')
-        @factory.run(Factory::Proxy::Build, {})
-      end
-
-      should "set the value on the proxy when running" do
-        @proxy.expects(:set).with(:name, 'value')
+      should "add the attribute to the proxy when running" do
+        @attribute.expects(:add_to).with(@proxy)
         @factory.run(Factory::Proxy::Build, {})
       end
 
@@ -164,8 +174,11 @@ class FactoryTest < Test::Unit::TestCase
     should "add an attribute using the method name when passed an undefined method" do
       attr  = mock('attribute', :name => :name)
       block = lambda {}
-      Factory::Attribute.expects(:new).with(:name, 'value', block).returns(attr)
-      @factory.send(:name, 'value', &block)
+      Factory::Attribute::Static.
+        expects(:new).
+        with(:name, 'value').
+        returns(attr)
+      @factory.send(:name, 'value')
       assert @factory.attributes.include?(attr)
     end
 
@@ -296,13 +309,10 @@ class FactoryTest < Test::Unit::TestCase
 
   context "after defining a factory" do
     setup do
-      @name = :user
-      Factory.define(@name) do |f|
-        f.first_name 'First'
-        f.last_name  'Last'
-        f.email      'name@example.com'
-      end
-      @factory = Factory.factories[@name]
+      @name    = :user
+      @factory = mock('factory')
+
+      Factory.factories[@name] = @factory
     end
 
     teardown { Factory.factories.clear }
@@ -345,6 +355,7 @@ class FactoryTest < Test::Unit::TestCase
       end
 
       should "recognize either 'name' or :name for Factory.#{method}" do
+        @factory.stubs(:run)
         assert_nothing_raised { Factory.send(method, @name.to_s) }
         assert_nothing_raised { Factory.send(method, @name.to_sym) }
       end
