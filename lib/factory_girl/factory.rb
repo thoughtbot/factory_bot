@@ -121,10 +121,6 @@ class Factory
     add_attribute(name) {|a| a.association(association_factory) }
   end
 
-  def create (overrides = {}) #:nodoc:
-    run_strategy(Strategy::Create, overrides)
-  end
-
   # Generates and returns a Hash of attributes from this factory. Attributes
   # can be individually overridden by passing in a Hash of attribute => value
   # pairs.
