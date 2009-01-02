@@ -7,6 +7,7 @@ require 'factory_girl/factory'
 require 'factory_girl/attribute'
 require 'factory_girl/attribute/static'
 require 'factory_girl/attribute/dynamic'
+require 'factory_girl/attribute/association'
 require 'factory_girl/sequence'
 require 'factory_girl/aliases'
 

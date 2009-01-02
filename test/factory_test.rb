@@ -2,24 +2,6 @@ require(File.join(File.dirname(__FILE__), 'test_helper'))
 
 class FactoryTest < Test::Unit::TestCase
 
-  def self.should_instantiate_class
-    should "instantiate the build class" do
-      assert_kind_of @class, @instance
-    end
-
-    should "assign attributes on the instance" do
-      assert_equal @first_name, @instance.first_name
-      assert_equal @last_name,  @instance.last_name
-    end
-
-    should "override attributes using the passed hash" do
-      @value = 'Davis'
-      @instance = @factory.run(Factory::Proxy::Build,
-                               :first_name => @value)
-      assert_equal @value, @instance.first_name
-    end
-  end
-
   context "defining a factory" do
     setup do
       @name    = :user
@@ -131,44 +113,51 @@ class FactoryTest < Test::Unit::TestCase
       end
     end
 
-    context "when adding an association without a factory name" do
-      setup do
-        @factory = Factory.new(:post)
-        @name    = :user
-        @factory.association(@name)
-        Post.any_instance.stubs(:user=)
-        Factory.stubs(:create)
-      end
-
-      should "add an attribute with the name of the association" do
-        result = @factory.run(Factory::Proxy::AttributesFor, {})
-        assert result.key?(@name)
-      end
-
-      should "create a block that builds the association" do
-        Factory.expects(:create).with(@name, {})
-        @factory.run(Factory::Proxy::Build, {})
-      end
+    should "add an association without a factory name or overrides" do
+      factory = Factory.new(:post)
+      name    = :user
+      attr    = 'attribute'
+      Factory::Attribute::Association.
+        expects(:new).
+        with(name, name, {}).
+        returns(attr)
+      factory.association(name)
+      assert factory.attributes.include?(attr)
     end
 
-    context "when adding an association with a factory name" do
-      setup do
-        @factory      = Factory.new(:post)
-        @name         = :author
-        @factory_name = :user
-        @factory.association(@name, :factory => @factory_name)
-        Factory.stubs(:create)
-      end
+    should "add an association with overrides" do
+      factory   = Factory.new(:post)
+      name      = :user
+      attr      = 'attribute'
+      overrides = { :first_name => 'Ben' }
+      Factory::Attribute::Association.
+        expects(:new).
+        with(name, name, overrides).
+        returns(attr)
+      factory.association(name, overrides)
+      assert factory.attributes.include?(attr)
+    end
 
-      should "add an attribute with the name of the association" do
-        result = @factory.run(Factory::Proxy::AttributesFor, {})
-        assert result.key?(@name)
-      end
+    should "add an association with a factory name" do
+      factory = Factory.new(:post)
+      attr = 'attribute'
+      Factory::Attribute::Association.
+        expects(:new).
+        with(:author, :user, {}).
+        returns(attr)
+      factory.association(:author, :factory => :user)
+      assert factory.attributes.include?(attr)
+    end
 
-      should "create a block that builds the association" do
-        Factory.expects(:create).with(@factory_name, {})
-        @factory.run(Factory::Proxy::Build, {})
-      end
+    should "add an association with a factory name and overrides" do
+      factory = Factory.new(:post)
+      attr = 'attribute'
+      Factory::Attribute::Association.
+        expects(:new).
+        with(:author, :user, :first_name => 'Ben').
+        returns(attr)
+      factory.association(:author, :factory => :user, :first_name => 'Ben')
+      assert factory.attributes.include?(attr)
     end
 
     should "add an attribute using the method name when passed an undefined method" do

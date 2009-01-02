@@ -122,11 +122,8 @@ class Factory
   #       name of the factory. For example, a "user" association will by
   #       default use the "user" factory.
   def association (name, options = {})
-    name    = name.to_sym
-    options = symbolize_keys(options)
-    association_factory = options[:factory] || name
-
-    add_attribute(name) {|a| a.association(association_factory) }
+    factory_name = options.delete(:factory) || name
+    @attributes << Attribute::Association.new(name, factory_name, options)
   end
 
   # Generates and returns a Hash of attributes from this factory. Attributes
