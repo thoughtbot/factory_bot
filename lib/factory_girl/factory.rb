@@ -173,7 +173,7 @@ class Factory
     factory_by_name(name).run(Proxy::Create, overrides)
   end
   
-  # Generates and returns a Mocha::Mock with all attributes from this factory stubbed out. 
+  # Generates and returns a mock object with all attributes from this factory stubbed out. 
   # Attributes can be individually overridden by passing in a Hash of attribute => value
   # pairs.
   #
@@ -182,7 +182,7 @@ class Factory
   #     Attributes to overwrite for this set.
   #
   # Returns:
-  #   A mock object with generated attributes stubbed out (Mocha::Mock)
+  #   A mock object with generated attributes stubbed out (Object)
   def self.stub (name, overrides = {})
     factory_by_name(name).run(Proxy::Stub, overrides)
   end  
