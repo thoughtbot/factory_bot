@@ -77,6 +77,24 @@ factory = Factory.new(:post)
         @factory.add_attribute(:name, 'value') {}
       end
     end
+    
+    context "adding an attribute using a in-line sequence" do
+      should 'create the sequence' do
+        Factory::Sequence.
+          expects(:new)
+        @factory.sequence(:name) {}
+      end    
+      
+      should 'add a dynamic attribute' do
+        attr = mock('attribute', :name => :name)      
+        Factory::Attribute::Dynamic.
+          expects(:new).
+          with(:name, instance_of(Proc)).
+          returns(attr)        
+        @factory.sequence(:name) {}
+        assert @factory.attributes.include?(attr)
+      end
+    end    
 
     context "after adding an attribute" do
       setup do
@@ -177,7 +195,7 @@ factory = Factory.new(:post)
       @factory.send(:name, 'value')
       assert @factory.attributes.include?(attr)
     end
-
+    
     context "when overriding generated attributes with a hash" do
       setup do
         @attr  = :name

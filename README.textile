@@ -140,6 +140,19 @@ Factory.next :email
 Factory.next :email
 # => "person2@example.com"</code></pre>
 
+Sequences can be used as lazy attributes:
+
+Factory.define :user do |f|
+  f.email { Factory.next(:email) }
+end
+
+And it's also possible to define an in-line sequence that is only used in
+a particular factory:
+
+Factory.define :user do |f|
+  f.sequence(:username) { |n| "person#{n}" }
+end
+
 
 h2. Using factories
 
