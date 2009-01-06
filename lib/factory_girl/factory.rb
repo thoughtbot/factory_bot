@@ -174,7 +174,7 @@ class Factory
     s = Sequence.new(&block)
     add_attribute(name) { s.next }
   end
-  
+
   # Generates and returns a Hash of attributes from this factory. Attributes
   # can be individually overridden by passing in a Hash of attribute => value
   # pairs.
