@@ -1,4 +1,7 @@
 class Factory
+
+  class AssociationDefinitionError < RuntimeError
+  end
   
   class << self
     attr_accessor :factories #:nodoc:
@@ -123,6 +126,9 @@ class Factory
   #       default use the "user" factory.
   def association (name, options = {})
     factory_name = options.delete(:factory) || name
+    if factory_name_for(factory_name) == self.factory_name
+      raise AssociationDefinitionError, "Self-referencing association '#{name}' in factory '#{self.factory_name}'"
+    end
     @attributes << Attribute::Association.new(name, factory_name, options)
   end
 
