@@ -329,6 +329,14 @@ class FactoryTest < Test::Unit::TestCase
         returns('result')
       assert_equal 'result', Factory.create(@name, :attr => 'value')
     end
+    
+    should "use Proxy::Stub for Factory.stub" do
+      @factory.
+        expects(:run).
+        with(Factory::Proxy::Stub, :attr => 'value').
+        returns('result')
+      assert_equal 'result', Factory.stub(@name, :attr => 'value')
+    end    
 
     should "use Proxy::Create for the global Factory method" do
       @factory.
@@ -338,7 +346,7 @@ class FactoryTest < Test::Unit::TestCase
       assert_equal 'result', Factory(@name, :attr => 'value')
     end
 
-    [:build, :create, :attributes_for].each do |method|
+    [:build, :create, :attributes_for, :stub].each do |method|
       should "raise an ArgumentError on #{method} with a nonexistant factory" do
         assert_raise(ArgumentError) { Factory.send(method, :bogus) }
       end
