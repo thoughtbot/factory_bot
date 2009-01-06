@@ -172,6 +172,20 @@ class Factory
   def self.create (name, overrides = {})
     factory_by_name(name).run(Proxy::Create, overrides)
   end
+  
+  # Generates and returns a Mocha::Mock with all attributes from this factory stubbed out. 
+  # Attributes can be individually overridden by passing in a Hash of attribute => value
+  # pairs.
+  #
+  # Arguments:
+  #   overrides: (Hash)
+  #     Attributes to overwrite for this set.
+  #
+  # Returns:
+  #   A mock object with generated attributes stubbed out (Mocha::Mock)
+  def self.stub (name, overrides = {})
+    factory_by_name(name).run(Proxy::Stub, overrides)
+  end  
 
   def self.find_definitions #:nodoc:
     definition_file_paths.each do |path|
