@@ -35,18 +35,34 @@ class Factory
   def self.define (name, options = {})
     instance = Factory.new(name, options)
     yield(instance)
+    if parent = options.delete(:parent)
+      instance.inherit_from(Factory.factory_by_name(parent))
+    end    
     self.factories[instance.factory_name] = instance
+  end
+  
+  def class_name #:nodoc
+    @options[:class] || factory_name
   end
 
   def build_class #:nodoc:
-    @build_class ||= class_for(@options[:class] || factory_name)
+    @build_class ||= class_for(class_name)
   end
 
   def initialize (name, options = {}) #:nodoc:
     assert_valid_options(options)
     @factory_name = factory_name_for(name)
-    @options      = options
+    @options      = options      
     @attributes   = []
+  end
+  
+  def inherit_from(parent)
+    @options[:class] = parent.class_name
+    parent.attributes.each do |attribute|
+      unless attribute_defined?(attribute.name)
+        @attributes << attribute.clone
+      end
+    end
   end
 
   # Adds an attribute that should be assigned on generated instances for this
@@ -246,7 +262,7 @@ class Factory
   def self.factory_by_name (name)
     factories[name.to_sym] or raise ArgumentError.new("No such factory: #{name.to_s}")
   end
-
+  
   def class_for (class_or_to_s)
     if class_or_to_s.respond_to?(:to_sym)
       Object.const_get(variable_name_to_class_name(class_or_to_s))
@@ -268,7 +284,7 @@ class Factory
   end
 
   def assert_valid_options(options)
-    invalid_keys = options.keys - [:class] 
+    invalid_keys = options.keys - [:class, :parent] 
     unless invalid_keys == []
       raise ArgumentError, "Unknown arguments: #{invalid_keys.inspect}"
     end

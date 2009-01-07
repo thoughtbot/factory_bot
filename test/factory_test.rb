@@ -384,6 +384,44 @@ factory = Factory.new(:post)
     end
   end
   
+  context 'defining a factory using a parent attribute' do
+    setup do
+      @parent = Factory.define :object do |f|
+        f.name  'Name'
+      end
+    end
+    
+    should 'raise an ArgumentError when trying to use a non-existent factory as parent' do
+      assert_raise(ArgumentError) { Factory.define(:child, :parent => :nonexsitent) {} }
+    end
+    
+    should 'create a new factory using the class of the parent' do
+      child = Factory.define(:child, :parent => :object) {}
+      assert_equal @parent.build_class, child.build_class
+    end
+    
+    should 'create a new factory with attributes of the parent' do
+      child = Factory.define(:child, :parent => :object) {}
+      assert_equal 1, child.attributes.size
+      assert_equal :name, child.attributes.first.name
+    end
+    
+    should 'allow to define additional attributes' do
+      child = Factory.define(:child, :parent => :object) do |f|
+        f.email 'person@somebody.com'
+      end
+      assert_equal 2, child.attributes.size
+    end
+    
+    should 'allow to override parent attributes' do
+      child = Factory.define(:child, :parent => :object) do |f|
+        f.name { 'Child Name' }
+      end
+      assert_equal 1, child.attributes.size
+      assert_kind_of Factory::Attribute::Dynamic, child.attributes.first
+    end
+  end
+  
   def self.context_in_directory_with_files(*files)
     context "in a directory with #{files.to_sentence}" do
       setup do
