@@ -366,6 +366,15 @@ factory = Factory.new(:post)
         returns('result')
       assert_equal 'result', Factory.stub(@name, :attr => 'value')
     end    
+    
+    should "use default strategy option as Factory.default_strategy" do
+      @factory.stubs(:default_strategy).returns(:create)
+      @factory.
+        expects(:run).
+        with(Factory::Proxy::Create, :attr => 'value').
+        returns('result')
+      assert_equal 'result', Factory.default_strategy(@name, :attr => 'value')
+    end    
 
     should "use the default strategy for the global Factory method" do
       @factory.stubs(:default_strategy).returns(:create)    
