@@ -48,6 +48,10 @@ class Factory
   def build_class #:nodoc:
     @build_class ||= class_for(class_name)
   end
+  
+  def default_strategy #:nodoc:
+    @options[:default_strategy] || :create
+  end
 
   def initialize (name, options = {}) #:nodoc:
     assert_valid_options(options)
@@ -170,7 +174,7 @@ class Factory
     s = Sequence.new(&block)
     add_attribute(name) { s.next }
   end
-
+  
   # Generates and returns a Hash of attributes from this factory. Attributes
   # can be individually overridden by passing in a Hash of attribute => value
   # pairs.
@@ -230,7 +234,11 @@ class Factory
   #   A mock object with generated attributes stubbed out (Object)
   def self.stub (name, overrides = {})
     factory_by_name(name).run(Proxy::Stub, overrides)
-  end  
+  end
+  
+  def self.default_strategy (name, overrides = {})  
+    self.send(factory_by_name(name).default_strategy, name, overrides)
+  end
 
   def self.find_definitions #:nodoc:
     definition_file_paths.each do |path|
@@ -284,9 +292,16 @@ class Factory
   end
 
   def assert_valid_options(options)
-    invalid_keys = options.keys - [:class, :parent] 
+    invalid_keys = options.keys - [:class, :parent, :default_strategy] 
     unless invalid_keys == []
       raise ArgumentError, "Unknown arguments: #{invalid_keys.inspect}"
+    end
+    assert_valid_strategy(options[:default_strategy]) if options[:default_strategy]
+  end
+  
+  def assert_valid_strategy(strategy)
+    unless Factory::Proxy.const_defined? variable_name_to_class_name(strategy)
+      raise ArgumentError, "Unknown strategy: #{strategy}"
     end
   end
 

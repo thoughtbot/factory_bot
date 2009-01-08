@@ -46,13 +46,17 @@ factory = Factory.new(:post)
     should "have a build class" do
       assert_equal @class, @factory.build_class
     end
+    
+    should "have a default strategy" do
+      assert_equal :create, @factory.default_strategy
+    end
 
     should "not allow the same attribute to be added twice" do
       assert_raise(Factory::AttributeDefinitionError) do
         2.times { @factory.add_attribute :first_name }
       end
     end
-
+    
     should "add a static attribute when an attribute is defined with a value" do
       attribute = mock('attribute', :name => :name)
       Factory::Attribute::Static.
@@ -238,7 +242,7 @@ factory = Factory.new(:post)
         assert_nil @result[:test]
       end
     end
-
+    
     should "guess the build class from the factory name" do
       assert_equal User, @factory.build_class
     end
@@ -362,8 +366,18 @@ factory = Factory.new(:post)
         returns('result')
       assert_equal 'result', Factory.stub(@name, :attr => 'value')
     end    
+    
+    should "use default strategy option as Factory.default_strategy" do
+      @factory.stubs(:default_strategy).returns(:create)
+      @factory.
+        expects(:run).
+        with(Factory::Proxy::Create, :attr => 'value').
+        returns('result')
+      assert_equal 'result', Factory.default_strategy(@name, :attr => 'value')
+    end    
 
-    should "use Proxy::Create for the global Factory method" do
+    should "use the default strategy for the global Factory method" do
+      @factory.stubs(:default_strategy).returns(:create)    
       @factory.
         expects(:run).
         with(Factory::Proxy::Create, :attr => 'value').
@@ -384,7 +398,7 @@ factory = Factory.new(:post)
     end
   end
   
-  context 'defining a factory using a parent attribute' do
+  context 'defining a factory with a parent parameter' do
     setup do
       @parent = Factory.define :object do |f|
         f.name  'Name'
@@ -421,6 +435,17 @@ factory = Factory.new(:post)
       assert_kind_of Factory::Attribute::Dynamic, child.attributes.first
     end
   end
+  
+  context 'defining a factory with a default strategy parameter' do
+    should 'raise an ArgumentError when trying to use a non-existent factory' do
+      assert_raise(ArgumentError) { Factory.define(:object, :default_strategy => :nonexistent) {} }
+    end
+    
+    should 'create a new factory with a specified default strategy' do
+      factory = Factory.define(:object, :default_strategy => :stub) {}
+      assert_equal :stub, factory.default_strategy
+    end
+  end 
   
   def self.context_in_directory_with_files(*files)
     context "in a directory with #{files.to_sentence}" do

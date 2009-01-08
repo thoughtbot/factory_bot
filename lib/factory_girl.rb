@@ -17,7 +17,7 @@ require 'factory_girl/aliases'
 # Example:
 #   Factory(:user, :name => 'Joe')
 def Factory (name, attrs = {})
-  Factory.create(name, attrs)
+  Factory.default_strategy(name, attrs)
 end
 
 if defined? Rails
