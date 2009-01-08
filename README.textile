@@ -45,8 +45,13 @@ Factory.define :admin, :class => User do |u|
   u.first_name 'Admin'
   u.last_name  'User'
   u.admin true
-end</code></pre>
+end
 
+# This will define a new factory using the attributes from :user
+# and override last_name
+Factory.define :guest, :parent => :user do |u|
+  u.last_name  'Anonymous'
+end</code></pre>
 
 It is recommended that you create a test/factories.rb file and define your
 factories there. This file can be included from test_helper or directly from
@@ -156,12 +161,21 @@ end
 
 h2. Using factories
 
-<pre><code># Build and save a User instance
-Factory(:user)
+<pre><code># Generate a User instance using the default factory strategy,
+# that can be speciied with :default_strategy parameter
+# (If not specified :create is used)
+Factory :user
+
+# Build and save a User instance
+Factory.create(:user)
 
 # Build a User instance and override the first_name property
 Factory.build(:user, :first_name => 'Joe')
 
 # Return an attributes Hash that can be used to build a User instance
-attrs = Factory.attributes_for(:user)</code></pre>
+attrs = Factory.attributes_for(:user)
+
+# Rerurn a mock object with all specified attributes stubbed out
+mock = Factory.stub(:user)
+</code></pre>
 

@@ -12,7 +12,7 @@ require 'factory_girl/attribute/association'
 require 'factory_girl/sequence'
 require 'factory_girl/aliases'
 
-# Shortcut for Factory.create.
+# Shortcut for Factory.default_strategy.
 #
 # Example:
 #   Factory(:user, :name => 'Joe')

@@ -26,9 +26,14 @@ class Factory
   #   name: (Symbol)
   #     A unique name used to identify this factory.
   #   options: (Hash)
-  #     class: the class that will be used when generating instances for this
-  #            factory. If not specified, the class will be guessed from the 
-  #            factory name.
+  #                class: the class that will be used when generating instances for this
+  #                       factory. If not specified, the class will be guessed from the 
+  #                       factory name.
+  #               parent: the parent factory. If specified, the attributes from the parent
+  #                       factory will be copied to the current one with an ability to 
+  #                       override them
+  #     default_strategy: the strategy that will be used by the Factory shortcut method. 
+  #                       Default is :create
   #
   # Yields:
   #    The newly created factory (Factory)
@@ -60,7 +65,7 @@ class Factory
     @attributes   = []
   end
   
-  def inherit_from(parent)
+  def inherit_from(parent) #:nodoc:
     @options[:class] = parent.class_name
     parent.attributes.each do |attribute|
       unless attribute_defined?(attribute.name)
