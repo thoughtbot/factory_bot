@@ -1,5 +1,7 @@
 h1. factory_girl
 
+Factory Girl is a fixtures replacement with a straightforward definition syntax, support for multiple build strategies (saved instances, unsaved instances, attribute hashes, and mock objects), and support for multiple factories for the same class (user, admin_user, and so on).
+
 Written by "Joe Ferris":mailto:jferris@thoughtbot.com.
 
 Thanks to Tammer Saleh, Dan Croak, and Jon Yurek of thoughtbot, inc.
@@ -13,7 +15,7 @@ Github: "Page":http://github.com/thoughtbot/factory_girl/tree/master "Clone":git
 Gem: <pre>gem install thoughtbot-factory_girl --source http://gems.github.com</pre>
 
 Note: if you install factory_girl using the gem from Github, you'll need this
-in your environment.rb if you want to use Rails 2.1's dependency manager:
+in your environment.rb if you want to use Rails 2.1+'s dependency manager:
 
 config.gem "thoughtbot-factory_girl",
            :lib    => "factory_girl",
@@ -33,6 +35,8 @@ Please read the contribution guidelines before submitting patches or pull reques
 
 h2. Defining factories
 
+Factory name is used to guess the class of the object by default, but it's possible to excplicitly specify it:
+
 <pre><code># This will guess the User class
 Factory.define :user do |u|
   u.first_name 'John'
@@ -47,17 +51,35 @@ Factory.define :admin, :class => User do |u|
   u.admin true
 end
 
-# This will define a new factory using the attributes from :user
-# and override last_name
+# The same, but using a string instead of class constant
+Factory.define :admin, :class => 'user' do |u|
+  u.first_name 'Admin'
+  u.last_name  'User'
+  u.admin true
+end
+</code></pre>
+
+Factories can either be defined in test/factories.rb file or in separate files 
+under test/factories or test/spec
+
+h2. Inheritance
+
+In case there are several factories for the same class that share common attributes, you can define them in a parent factory and inherit other ones from it. Attributes in a child factory can override the ones from the parent:
+
+<pre><code>
+Factory.define :user do |u|
+  u.first_name 'John'
+  u.last_name  'Doe'
+  u.admin false
+end
+
 Factory.define :guest, :parent => :user do |u|
   u.last_name  'Anonymous'
 end</code></pre>
 
-It is recommended that you create a test/factories.rb file and define your
-factories there. This file can be included from test_helper or directly from
-your test files. Don't forget:
-<pre><code>require 'factory_girl'</code></pre>
-
+Factory.define :admin, :parent => :user do |u|
+  u.admin true
+end</code></pre>
 
 h2. Lazy Attributes
 
@@ -71,7 +93,6 @@ a block instead of a parameter:
   # ...
   u.activation_code { User.generate_activation_code }
 end</code></pre>
-
 
 h2. Dependent Attributes
 
@@ -100,7 +121,7 @@ defining a lazy attribute:
 end</code></pre>
 
 
-When using the association method, the same build strategy (build, create, or attributes_for) will be used for all generated instances:
+When using the association method, the same build strategy (more on strategies later) will be used for all generated instances:
 
 <pre><code># Builds and saves a User and a Post
 post = Factory(:post)
@@ -158,7 +179,6 @@ Factory.define :user do |f|
   f.sequence(:username) { |n| "person#{n}" }
 end
 
-
 h2. Using factories
 
 <pre><code># Generate a User instance using the default factory strategy,
@@ -178,4 +198,3 @@ attrs = Factory.attributes_for(:user)
 # Rerurn a mock object with all specified attributes stubbed out
 mock = Factory.stub(:user)
 </code></pre>
-
