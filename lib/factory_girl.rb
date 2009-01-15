@@ -20,7 +20,7 @@ def Factory (name, attrs = {})
   Factory.default_strategy(name, attrs)
 end
 
-if defined? Rails
+if defined? Rails.configuration
   Rails.configuration.after_initialize do
     Factory.definition_file_paths = [
       File.join(RAILS_ROOT, 'test', 'factories'),
