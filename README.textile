@@ -21,21 +21,9 @@ config.gem "thoughtbot-factory_girl",
            :lib    => "factory_girl",
            :source => "http://gems.github.com"
 
-h2. More Information
-
-"Our blog":http://giantrobots.thoughtbot.com
-
-"factory_girl rdoc":http://dev.thoughtbot.com/factory_girl
-
-"Mailing list":http://groups.google.com/group/factory_girl
-
-h2. Contributing
-
-Please read the contribution guidelines before submitting patches or pull requests.
-
 h2. Defining factories
 
-Factory name is used to guess the class of the object by default, but it's possible to excplicitly specify it:
+Each factory has a name and a bunch of attributes. The name is used to guess the class of the object by default, but it's possible to excplicitly specify it:
 
 <pre><code># This will guess the User class
 Factory.define :user do |u|
@@ -62,32 +50,50 @@ end
 Factories can either be defined in test/factories.rb file or in separate files 
 under test/factories or test/spec
 
-h2. Inheritance
+h2. Using factories
 
-In case there are several factories for the same class that share common attributes, you can define them in a parent factory and inherit other ones from it. Attributes in a child factory can override the ones from the parent:
+Factroy girl supports several different build strategies: build, create, attribtues_for and stub:
 
-<pre><code>
-Factory.define :user do |u|
-  u.first_name 'John'
-  u.last_name  'Doe'
-  u.admin false
+<pre><code># Returns a User instance that's not saved
+user = Factory.build :user
+
+#Returns a saved User instance
+user = Factory.create :user
+
+#Returns a hash of attributes that can be used to build a User instance:
+attrs = Factory.attributes_for(:user)
+
+#Returns a mock object with all defined attributes stubbed out:
+mock = Factory.stub(:user)
+</pre></code>
+
+The default is "create" and it's used by the Factory shortcut method:
+
+<pre><code># Same as Factory.create :user:
+user = Factory :user
+</pre></code>
+
+The default strategy can be overriden with the :default_strategy_parameter though:
+
+<pre><code># Now same as Factory.build :user
+Factory.define :user, :default_strategy => :build do |u|
+  ....
 end
 
-Factory.define :guest, :parent => :user do |u|
-  u.last_name  'Anonymous'
-end</code></pre>
+user = Factory :user
+</pre></code>
 
-Factory.define :admin, :parent => :user do |u|
-  u.admin true
-end</code></pre>
+No matter which startegy is used, it's possible to override the attributes by passing a hash:
+
+<pre><code># Build a User instance and override the first_name property
+user = Factory.build(:user, :first_name => 'Joe')
+user.first_name
+# => "Joe"
+</code></pre>
 
 h2. Lazy Attributes
 
-Most attributes can be added using static values that are evaluated when the
-factory is defined, but some attributes (such as associations and other
-attributes that must be dynamically generated) will need values assigned each
-time an instance is generated. These "lazy" attributes can be added by passing
-a block instead of a parameter:
+Most factory attributes can be added using static values that are evaluated when the factory is defined, but some attributes (such as associations and other attributes that must be dynamically generated) will need values assigned each time an instance is generated. These "lazy" attributes can be added by passing a block instead of a parameter:
 
 <pre><code>Factory.define :user do |u|
   # ...
@@ -96,9 +102,7 @@ end</code></pre>
 
 h2. Dependent Attributes
 
-Some attributes may need to be generated based on the values of other
-attributes. This can be done by calling the attribute name on
-Factory::AttributeProxy, which is yielded to lazy attribute blocks:
+Some attributes may need to be generated based on the values of other attributes. This can be done by calling the attribute name on Factory::AttributeProxy, which is yielded to lazy attribute blocks:
 
 <pre><code>Factory.define :user do |u|
   u.first_name 'Joe'
@@ -108,7 +112,6 @@ end
 
 Factory(:user, :last_name => 'Doe').email
 # => "joe.doe@example.com"</code></pre>
-
 
 h2. Associations
 
@@ -120,8 +123,7 @@ defining a lazy attribute:
   p.author {|author| author.association(:user, :last_name => 'Writely') }
 end</code></pre>
 
-
-When using the association method, the same build strategy (more on strategies later) will be used for all generated instances:
+When using the association method, the same build strategy will be used for all generated instances:
 
 <pre><code># Builds and saves a User and a Post
 post = Factory(:post)
@@ -148,6 +150,25 @@ end</code></pre>
 If the factory name is the same as the association name, the factory name can
 be left out.
 
+h2. Inheritance
+
+In case there are several factories for the same class that share common attributes, you can define them in a parent factory and inherit other ones from it. A child factory can override parent attributes and define new ones:
+
+<pre><code>
+Factory.define :user do |u|
+  u.first_name 'John'
+  u.last_name  'Doe'
+  u.admin false
+end
+
+Factory.define :admin, :parent => :user do |u|
+  u.admin true
+end</code></pre>
+
+Factory.define :guest, :parent => :user do |u|
+  u.last_name  'Anonymous'
+  u.guest       true
+end</code></pre>
 
 h2. Sequences
 
@@ -179,22 +200,14 @@ Factory.define :user do |f|
   f.sequence(:username) { |n| "person#{n}" }
 end
 
-h2. Using factories
+h2. More Information
 
-<pre><code># Generate a User instance using the default factory strategy,
-# that can be speciied with :default_strategy parameter
-# (If not specified :create is used)
-Factory :user
+"Our blog":http://giantrobots.thoughtbot.com
 
-# Build and save a User instance
-Factory.create(:user)
+"factory_girl rdoc":http://dev.thoughtbot.com/factory_girl
 
-# Build a User instance and override the first_name property
-Factory.build(:user, :first_name => 'Joe')
+"Mailing list":http://groups.google.com/group/factory_girl
 
-# Return an attributes Hash that can be used to build a User instance
-attrs = Factory.attributes_for(:user)
+h2. Contributing
 
-# Rerurn a mock object with all specified attributes stubbed out
-mock = Factory.stub(:user)
-</code></pre>
+Please read the contribution guidelines before submitting patches or pull requests.
