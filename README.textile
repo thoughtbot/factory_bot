@@ -206,6 +206,8 @@ h2. More Information
 
 "Mailing list":http://groups.google.com/group/factory_girl
 
+"factory_girl tickets":http://thoughtbot.lighthouseapp.com/projects/14354-factory_girl
+
 h2. Contributing
 
 Please read the contribution guidelines before submitting patches or pull requests.
