@@ -1,6 +1,6 @@
 h1. factory_girl
 
-Factory Girl is a fixtures replacement with a straightforward definition syntax, support for multiple build strategies (saved instances, unsaved instances, attribute hashes, and mock objects), and support for multiple factories for the same class (user, admin_user, and so on).
+factory_girl is a fixtures replacement with a straightforward definition syntax, support for multiple build strategies (saved instances, unsaved instances, attribute hashes, and mock objects), and support for multiple factories for the same class (user, admin_user, and so on).
 
 Written by "Joe Ferris":mailto:jferris@thoughtbot.com.
 
@@ -52,7 +52,9 @@ under test/factories or test/spec
 
 h2. Using factories
 
-Factroy girl supports several different build strategies: build, create, attribtues_for and stub:
+factory_girl will automatically load factory definitions if you place your them in 'test/factories.rb', 'spec/factories.rb', or in individual files underneath the 'test/factories' and 'spec/factories' directories.
+
+factory_girl supports several different build strategies: build, create, attribtues_for and stub:
 
 <pre><code># Returns a User instance that's not saved
 user = Factory.build :user
@@ -195,10 +197,6 @@ end
 
 And it's also possible to define an in-line sequence that is only used in
 a particular factory:
-
-Factory.define :user do |f|
-  f.sequence(:username) { |n| "person#{n}" }
-end
 
 h2. More Information
 
