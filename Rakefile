@@ -30,6 +30,7 @@ Rake::RDocTask.new(:rdoc) do |rdoc|
   rdoc.title    = 'Factory Girl'
   rdoc.options << '--line-numbers' << '--inline-source' << "--main" << "README.rdoc"
   rdoc.rdoc_files.include('README.rdoc')
+  rdoc.rdoc_files.include('CONTRIBUTION_GUIDELINES.rdoc')
   rdoc.rdoc_files.include('lib/**/*.rb')
 end
 
@@ -40,7 +41,7 @@ end
 
 spec = Gem::Specification.new do |s|
   s.name        = %q{factory_girl}
-  s.version     = "1.1.5"
+  s.version     = "1.2.0"
   s.summary     = %q{factory_girl provides a framework and DSL for defining and
                      using model instance factories.}
   s.description = %q{factory_girl provides a framework and DSL for defining and
