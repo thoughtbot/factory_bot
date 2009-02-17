@@ -1,5 +1,5 @@
 class Factory
-  module Syntax #:nodoc:
+  module Syntax
 
     # Adds a Sham module, which provides an alternate interface to
     # Factory::Sequence.

@@ -1,5 +1,5 @@
 class Factory
-  module Syntax #:nodoc:
+  module Syntax
 
     # Extends ActiveRecord::Base to provide a make class method, which is a
     # shortcut for Factory.create.
