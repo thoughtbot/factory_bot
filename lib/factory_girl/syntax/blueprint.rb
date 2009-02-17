@@ -14,6 +14,8 @@ class Factory
     #   end
     #
     #   Factory(:user, :name => 'Johnny')
+    #
+    # This syntax was derived from Pete Yandell's machinist.
     module Blueprint
       module ActiveRecord #:nodoc:
 

@@ -212,12 +212,16 @@ Please read the contribution guidelines before submitting patches or pull reques
 == Author
 
 factory_girl was written by Joe Ferris with contributions from several authors, including:
-
 * Alex Sharp
 * Eugene Bolshakov
 * Jon Yurek
 * Josh Nichols
 * Josh Owens
+
+The syntax layers are derived from software written by the following authors:
+* Pete Yandell
+* Rick Bradley
+* Yossef Mendelssohn
 
 Thanks to all members of thoughtbot for inspiration, ideas, and funding.
 

@@ -14,6 +14,8 @@ class Factory
     #   end
     #
     #   User.make(:name => 'Johnny')
+    #
+    # This syntax was derived from Pete Yandell's machinist.
     module Make
       module ActiveRecord #:nodoc:
 

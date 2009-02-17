@@ -18,6 +18,8 @@ class Factory
     # use a sequence as in the above example, as factory_girl does not provide
     # protection against duplication in randomized sequences, and a randomized
     # value does not provide any tangible benefits over an ascending sequence.
+    #
+    # This syntax was derived from Pete Yandell's machinist.
     module Sham
       module Sham #:nodoc:
         def self.method_missing(name, &block)
