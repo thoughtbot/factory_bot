@@ -1,5 +1,9 @@
 class Factory
 
+  # Raised when defining an invalid attribute:
+  # * Defining an attribute which has a name ending in "="
+  # * Defining an attribute with both a static and lazy value
+  # * Defining an attribute twice in the same factory
   class AttributeDefinitionError < RuntimeError
   end
   

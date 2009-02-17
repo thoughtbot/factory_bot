@@ -1,6 +1,6 @@
 class Factory
   class Proxy #:nodoc:
-    class Create < Build
+    class Create < Build #:nodoc:
       def result
         @instance.save!
         @instance

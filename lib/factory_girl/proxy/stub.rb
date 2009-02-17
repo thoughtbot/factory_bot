@@ -1,6 +1,6 @@
 class Factory 
   class Proxy
-    class Stub < Proxy
+    class Stub < Proxy #:nodoc:
       def initialize(klass)
         @mock = Object.new
       end

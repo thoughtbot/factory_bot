@@ -1,5 +1,7 @@
 class Factory
 
+  # Sequences are defined using Factory.sequence. Sequence values are generated
+  # using next.
   class Sequence
 
     def initialize (&proc) #:nodoc:
