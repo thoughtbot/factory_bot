@@ -188,7 +188,7 @@ And it's also possible to define an in-line sequence that is only used in
 a particular factory:
 
   Factory.define :user do |f|
-    f.sequence :email {|n| "person#{n}@example.com" }
+    f.sequence(:email) {|n| "person#{n}@example.com" }
   end
 
 == Alternate Syntaxes
