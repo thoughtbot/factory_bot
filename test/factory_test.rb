@@ -413,6 +413,13 @@ factory = Factory.new(:post)
       child = Factory.define(:child, :parent => :object) {}
       assert_equal @parent.build_class, child.build_class
     end
+
+    should 'create a new factory while overriding the parent class' do
+      class Other; end
+
+      child = Factory.define(:child, :parent => :object, :class => Other) {}
+      assert_equal Other, child.build_class
+    end
     
     should 'create a new factory with attributes of the parent' do
       child = Factory.define(:child, :parent => :object) {}
