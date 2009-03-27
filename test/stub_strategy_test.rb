@@ -35,6 +35,15 @@ class StubProxyTest < Test::Unit::TestCase
       assert_kind_of Object, @proxy.result
     end
 
+    context "setting an attribute" do
+      should "define attributes even if attribute= is defined" do
+        @proxy.set('attribute', nil)
+        assert_nothing_raised do
+          @proxy.set('age', 18)
+        end
+      end
+    end
+
     context "after setting an attribute" do
       setup do
         @proxy.set(:attribute, 'value')
