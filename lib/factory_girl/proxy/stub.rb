@@ -10,7 +10,7 @@ class Factory
       end
       
       def set(attribute, value)
-        unless @mock.respond_to?("attribute=")
+        unless @mock.respond_to?("#{attribute}=")
           class << @mock; self end.send(:attr_accessor, attribute)
         end
         @mock.send("#{attribute}=", value)
