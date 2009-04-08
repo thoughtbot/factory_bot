@@ -14,8 +14,8 @@ class StaticAttributeTest < Test::Unit::TestCase
     end
 
     should "set its static value on a proxy" do
-      @proxy = mock('proxy')
-      @proxy.expects(:set).with(@name, @value)
+      @proxy = "proxy"
+      mock(@proxy).set(@name, @value)
       @attr.add_to(@proxy)
     end
   end

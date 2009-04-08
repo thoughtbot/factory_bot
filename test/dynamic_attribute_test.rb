@@ -14,17 +14,19 @@ class DynamicAttributeTest < Test::Unit::TestCase
     end
 
     should "call the block to set a value" do
-      @proxy = mock('proxy')
-      @proxy.expects(:set).with(@name, 'value')
+      @proxy = "proxy"
+      stub(@proxy).set
       @attr.add_to(@proxy)
+      assert_received(@proxy) {|p| p.set(@name, 'value') }
     end
 
     should "yield the proxy to the block when adding its value to a proxy" do
       @block = lambda {|a| a }
       @attr  = Factory::Attribute::Dynamic.new(:user, @block)
-      @proxy = mock('proxy')
-      @proxy.expects(:set).with(:user, @proxy)
+      @proxy = "proxy"
+      stub(@proxy).set
       @attr.add_to(@proxy)
+      assert_received(@proxy) {|p| p.set(:user, @proxy) }
     end
   end
 

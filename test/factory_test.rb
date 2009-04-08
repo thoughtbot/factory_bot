@@ -5,14 +5,14 @@ factory = Factory.new(:post)
   context "defining a factory" do
     setup do
       @name    = :user
-      @factory = mock('factory')
-      @factory.stubs(:factory_name).returns(@name)
+      @factory = "factory"
+      stub(@factory).factory_name { @name }
       @options = { :class => 'magic' }
-      Factory.stubs(:new).returns(@factory)
+      stub(Factory).new { @factory }
     end
 
     should "create a new factory using the specified name and options" do
-      Factory.expects(:new).with(@name, @options).returns(@factory)
+      mock(Factory).new(@name, @options) { @factory }
       Factory.define(@name, @options) {|f| }
     end
 
@@ -58,21 +58,17 @@ factory = Factory.new(:post)
     end
     
     should "add a static attribute when an attribute is defined with a value" do
-      attribute = mock('attribute', :name => :name)
-      Factory::Attribute::Static.
-        expects(:new).
-        with(:name, 'value').
-        returns(attribute)
+      attribute = 'attribute'
+      stub(attribute).name { :name }
+      mock(Factory::Attribute::Static).new(:name, 'value') { attribute }
       @factory.add_attribute(:name, 'value')
     end
 
     should "add a dynamic attribute when an attribute is defined with a block" do
-      attribute = mock('attribute', :name => :name)
+      attribute = 'attribute'
+      stub(attribute).name { :name }
       block     = lambda {}
-      Factory::Attribute::Dynamic.
-        expects(:new).
-        with(:name, block).
-        returns(attribute)
+      mock(Factory::Attribute::Dynamic).new(:name, block) { attribute }
       @factory.add_attribute(:name, &block)
     end
 
@@ -84,52 +80,46 @@ factory = Factory.new(:post)
     
     context "adding an attribute using a in-line sequence" do
       should 'create the sequence' do
-        Factory::Sequence.
-          expects(:new)
+        mock(Factory::Sequence).new
         @factory.sequence(:name) {}
       end    
       
       should 'add a dynamic attribute' do
-        attr = mock('attribute', :name => :name)      
-        Factory::Attribute::Dynamic.
-          expects(:new).
-          with(:name, instance_of(Proc)).
-          returns(attr)        
+        attribute = 'attribute'
+        stub(attribute).name { :name }
+        mock(Factory::Attribute::Dynamic).new(:name, is_a(Proc)) { attribute }
         @factory.sequence(:name) {}
-        assert @factory.attributes.include?(attr)
+        assert @factory.attributes.include?(attribute)
       end
     end    
 
     context "after adding an attribute" do
       setup do
-        @attribute = mock('attribute')
-        @proxy     = mock('proxy')
+        @attribute = "attribute"
+        @proxy     = "proxy"
 
-        @attribute.                stubs(:name).  returns(:name)
-        @attribute.                stubs(:add_to)
-        @proxy.                    stubs(:set)
-        @proxy.                    stubs(:result).returns('result')
-        Factory::Attribute::Static.stubs(:new).   returns(@attribute)
-        Factory::Proxy::Build.     stubs(:new).   returns(@proxy)
+        stub(@attribute).name { :name }
+        stub(@attribute).add_to
+        stub(@proxy).set
+        stub(@proxy).result { 'result' }
+        stub(Factory::Attribute::Static).new { @attribute }
+        stub(Factory::Proxy::Build).new { @proxy }
 
         @factory.add_attribute(:name, 'value')
       end
 
       should "create the right proxy using the build class when running" do
-        Factory::Proxy::Build.
-          expects(:new).
-          with(@factory.build_class).
-          returns(@proxy)
+        mock(Factory::Proxy::Build).new(@factory.build_class) { @proxy }
         @factory.run(Factory::Proxy::Build, {})
       end
 
       should "add the attribute to the proxy when running" do
-        @attribute.expects(:add_to).with(@proxy)
+        mock(@attribute).add_to(@proxy)
         @factory.run(Factory::Proxy::Build, {})
       end
 
       should "return the result from the proxy when running" do
-        @proxy.expects(:result).with().returns('result')
+        mock(@proxy).result() { 'result' }
         assert_equal 'result',
                      @factory.run(Factory::Proxy::Build, {})
       end
@@ -139,10 +129,7 @@ factory = Factory.new(:post)
       factory = Factory.new(:post)
       name    = :user
       attr    = 'attribute'
-      Factory::Attribute::Association.
-        expects(:new).
-        with(name, name, {}).
-        returns(attr)
+      mock(Factory::Attribute::Association).new(name, name, {}) { attr }
       factory.association(name)
       assert factory.attributes.include?(attr)
     end
@@ -152,10 +139,7 @@ factory = Factory.new(:post)
       name      = :user
       attr      = 'attribute'
       overrides = { :first_name => 'Ben' }
-      Factory::Attribute::Association.
-        expects(:new).
-        with(name, name, overrides).
-        returns(attr)
+      mock(Factory::Attribute::Association).new(name, name, overrides) { attr }
       factory.association(name, overrides)
       assert factory.attributes.include?(attr)
     end
@@ -163,10 +147,7 @@ factory = Factory.new(:post)
     should "add an association with a factory name" do
       factory = Factory.new(:post)
       attr = 'attribute'
-      Factory::Attribute::Association.
-        expects(:new).
-        with(:author, :user, {}).
-        returns(attr)
+      mock(Factory::Attribute::Association).new(:author, :user, {}) { attr }
       factory.association(:author, :factory => :user)
       assert factory.attributes.include?(attr)
     end
@@ -174,10 +155,7 @@ factory = Factory.new(:post)
     should "add an association with a factory name and overrides" do
       factory = Factory.new(:post)
       attr = 'attribute'
-      Factory::Attribute::Association.
-        expects(:new).
-        with(:author, :user, :first_name => 'Ben').
-        returns(attr)
+      mock(Factory::Attribute::Association).new(:author, :user, :first_name => 'Ben') { attr }
       factory.association(:author, :factory => :user, :first_name => 'Ben')
       assert factory.attributes.include?(attr)
     end
@@ -190,14 +168,12 @@ factory = Factory.new(:post)
     end    
 
     should "add an attribute using the method name when passed an undefined method" do
-      attr  = mock('attribute', :name => :name)
+      attribute = 'attribute'
+      stub(attribute).name { :name }
       block = lambda {}
-      Factory::Attribute::Static.
-        expects(:new).
-        with(:name, 'value').
-        returns(attr)
+      mock(Factory::Attribute::Static).new(:name, 'value') { attribute }
       @factory.send(:name, 'value')
-      assert @factory.attributes.include?(attr)
+      assert @factory.attributes.include?(attribute)
     end
     
     context "when overriding generated attributes with a hash" do
@@ -328,7 +304,7 @@ factory = Factory.new(:post)
   context "after defining a factory" do
     setup do
       @name    = :user
-      @factory = mock('factory')
+      @factory = "factory"
 
       Factory.factories[@name] = @factory
     end
@@ -336,52 +312,34 @@ factory = Factory.new(:post)
     teardown { Factory.factories.clear }
 
     should "use Proxy::AttributesFor for Factory.attributes_for" do
-      @factory.
-        expects(:run).
-        with(Factory::Proxy::AttributesFor, :attr => 'value').
-        returns('result')
+      mock(@factory).run(Factory::Proxy::AttributesFor, :attr => 'value') { 'result' }
       assert_equal 'result', Factory.attributes_for(@name, :attr => 'value')
     end
 
     should "use Proxy::Build for Factory.build" do
-      @factory.
-        expects(:run).
-        with(Factory::Proxy::Build, :attr => 'value').
-        returns('result')
+      mock(@factory).run(Factory::Proxy::Build, :attr => 'value') { 'result' }
       assert_equal 'result', Factory.build(@name, :attr => 'value')
     end
 
     should "use Proxy::Create for Factory.create" do
-      @factory.
-        expects(:run).
-        with(Factory::Proxy::Create, :attr => 'value').
-        returns('result')
+      mock(@factory).run(Factory::Proxy::Create, :attr => 'value') { 'result' }
       assert_equal 'result', Factory.create(@name, :attr => 'value')
     end
     
     should "use Proxy::Stub for Factory.stub" do
-      @factory.
-        expects(:run).
-        with(Factory::Proxy::Stub, :attr => 'value').
-        returns('result')
+      mock(@factory).run(Factory::Proxy::Stub, :attr => 'value') { 'result' }
       assert_equal 'result', Factory.stub(@name, :attr => 'value')
     end    
     
     should "use default strategy option as Factory.default_strategy" do
-      @factory.stubs(:default_strategy).returns(:create)
-      @factory.
-        expects(:run).
-        with(Factory::Proxy::Create, :attr => 'value').
-        returns('result')
+      stub(@factory).default_strategy { :create }
+      mock(@factory).run(Factory::Proxy::Create, :attr => 'value') { 'result' }
       assert_equal 'result', Factory.default_strategy(@name, :attr => 'value')
     end    
 
     should "use the default strategy for the global Factory method" do
-      @factory.stubs(:default_strategy).returns(:create)    
-      @factory.
-        expects(:run).
-        with(Factory::Proxy::Create, :attr => 'value').
-        returns('result')
+      stub(@factory).default_strategy { :create }
+      mock(@factory).run(Factory::Proxy::Create, :attr => 'value') { 'result' }
       assert_equal 'result', Factory(@name, :attr => 'value')
     end
 
@@ -391,7 +349,7 @@ factory = Factory.new(:post)
       end
 
       should "recognize either 'name' or :name for Factory.#{method}" do
-        @factory.stubs(:run)
+        stub(@factory).run
         assert_nothing_raised { Factory.send(method, @name.to_s) }
         assert_nothing_raised { Factory.send(method, @name.to_sym) }
       end
@@ -465,7 +423,7 @@ factory = Factory.new(:post)
         files.each do |file|
           FileUtils.mkdir_p File.dirname(file)
           FileUtils.touch file
-          Factory.stubs(:require).with(file)
+          stub(Factory).require(file)
         end
       end
       
@@ -480,7 +438,7 @@ factory = Factory.new(:post)
   
   def self.should_require_definitions_from(file)
     should "load definitions from #{file}" do
-      Factory.expects(:require).with(file)
+      mock(Factory).require(file)
       Factory.find_definitions
     end    
   end

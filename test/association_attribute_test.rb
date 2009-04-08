@@ -17,9 +17,10 @@ class AssociationAttributeTest < Test::Unit::TestCase
     end
 
     should "tell the proxy to associate when being added to a proxy" do
-      proxy = mock('proxy')
-      proxy.expects(:associate).with(@name, @factory, @overrides)
+      proxy = "proxy"
+      stub(proxy).associate
       @attr.add_to(proxy)
+      assert_received(proxy) {|p| p.associate(@name, @factory, @overrides) }
     end
   end
 

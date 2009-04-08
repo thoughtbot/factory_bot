@@ -9,7 +9,7 @@ class AttributesForProxyTest < Test::Unit::TestCase
 
     context "when asked to associate with another factory" do
       setup do
-        Factory.stubs(:create)
+        stub(Factory).create
         @proxy.associate(:owner, :user, {})
       end
 
@@ -23,8 +23,9 @@ class AttributesForProxyTest < Test::Unit::TestCase
     end
 
     should "not call Factory.create when building an association" do
-      Factory.expects(:create).never
+      stub(Factory).create
       assert_nil @proxy.association(:user)
+      assert_received(Factory) {|p| p.create.never }
     end
 
     should "always return nil when building an association" do

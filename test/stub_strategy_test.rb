@@ -8,7 +8,7 @@ class StubProxyTest < Test::Unit::TestCase
     
     context "when asked to associate with another factory" do
       setup do
-        Factory.stubs(:create)
+        stub(Factory).create
         @proxy.associate(:owner, :user, {})
       end
 
@@ -22,7 +22,7 @@ class StubProxyTest < Test::Unit::TestCase
     end
 
     should "not call Factory.create when building an association" do
-      Factory.expects(:create).never
+      mock(Factory).create.never
       assert_nil @proxy.association(:user)
     end
 

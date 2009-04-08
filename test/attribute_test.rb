@@ -13,9 +13,10 @@ class AttributeTest < Test::Unit::TestCase
     end
 
     should "do nothing when being added to a proxy" do
-      @proxy = mock('proxy')
-      @proxy.expects(:set).never
+      @proxy = "proxy"
+      stub(@proxy).set
       @attr.add_to(@proxy)
+      assert_received(@proxy) {|p| p.set.never }
     end
   end
 

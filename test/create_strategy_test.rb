@@ -5,15 +5,15 @@ class CreateProxyTest < Test::Unit::TestCase
   context "with a class to build" do
     setup do
       @class       = Class.new
-      @instance    = mock('built-instance')
-      @association = mock('associated-instance')
+      @instance    = "built-instance"
+      @association = "associated-instance"
 
-      @class.   stubs(:new).      returns(@instance)
-      Factory.  stubs(:create).   returns(@association)
-      @instance.stubs(:attribute).returns('value')
-      @instance.stubs(:attribute=)
-      @instance.stubs(:owner=)
-      @instance.stubs(:save!)
+      stub(@class).new { @instance }
+      stub(Factory).create { @association }
+      stub(@instance).attribute { 'value' }
+      stub(@instance, :attribute=)
+      stub(@instance, :owner=)
+      stub(@instance).save!
     end
 
     context "the create proxy" do
@@ -21,8 +21,8 @@ class CreateProxyTest < Test::Unit::TestCase
         @proxy = Factory::Proxy::Create.new(@class)
       end
 
-      before_should "instantiate the class" do
-        @class.expects(:new).with().returns(@instance)
+      should "instantiate the class" do
+        assert_received(@class) {|p| p.new }
       end
 
       context "when asked to associate with another factory" do
@@ -30,20 +30,21 @@ class CreateProxyTest < Test::Unit::TestCase
           @proxy.associate(:owner, :user, {})
         end
 
-        before_should "create the associated instance" do
-          Factory.expects(:create).with(:user, {}).returns(@association)
+        should "create the associated instance" do
+          assert_received(Factory) {|p| p.create(:user, {}) }
         end
 
-        before_should "set the associated instance" do
-          @instance.expects(:owner=).with(@association)
+        should "set the associated instance" do
+          assert_received(@instance) {|p| p.method_missing(:owner=, @association) }
         end
       end
 
       should "call Factory.create when building an association" do
         association = 'association'
         attribs     = { :first_name => 'Billy' }
-        Factory.expects(:create).with(:user, attribs).returns(association)
+        stub(Factory).create { association }
         assert_equal association, @proxy.association(:user, attribs)
+        assert_received(Factory) {|p| p.create(:user, attribs) }
       end
 
       context "when asked for the result" do
@@ -51,8 +52,8 @@ class CreateProxyTest < Test::Unit::TestCase
           @result = @proxy.result
         end
 
-        before_should "save the instance" do
-          @instance.expects(:save!).with()
+        should "save the instance" do
+          assert_received(@instance) {|p| p.save! }
         end
 
         should "return the built instance" do
@@ -65,8 +66,8 @@ class CreateProxyTest < Test::Unit::TestCase
           @proxy.set(:attribute, 'value')
         end
 
-        before_should "set that value" do
-          @instance.expects(:attribute=).with('value')
+        should "set that value" do
+          assert_received(@instance) {|p| p.method_missing(:attribute=, 'value') }
         end
       end
 
@@ -75,8 +76,8 @@ class CreateProxyTest < Test::Unit::TestCase
           @result = @proxy.get(:attribute)
         end
 
-        before_should "ask the built class for the value" do
-          @instance.expects(:attribute).with().returns('value')
+        should "ask the built class for the value" do
+          assert_received(@instance) {|p| p.attribute }
         end
 
         should "return the value for that attribute" do

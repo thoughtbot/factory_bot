@@ -29,18 +29,18 @@ class SequenceTest < Test::Unit::TestCase
   context "defining a sequence" do
 
     setup do
-      @sequence = mock('sequence')
+      @sequence = "sequence"
       @name     = :count
-      Factory::Sequence.stubs(:new).returns(@sequence)
+      stub(Factory::Sequence).new { @sequence }
     end
 
     should "create a new sequence" do
-      Factory::Sequence.expects(:new).with().returns(@sequence)
+      mock(Factory::Sequence).new() { @sequence }
       Factory.sequence(@name)
     end
 
     should "use the supplied block as the sequence generator" do
-      Factory::Sequence.stubs(:new).yields(1)
+      stub(Factory::Sequence).new.yields(1)
       yielded = false
       Factory.sequence(@name) {|n| yielded = true }
       assert yielded
@@ -51,18 +51,18 @@ class SequenceTest < Test::Unit::TestCase
   context "after defining a sequence" do
 
     setup do
-      @sequence = mock('sequence')
+      @sequence = "sequence"
       @name     = :test
       @value    = '1 2 5'
 
-      @sequence.        stubs(:next).returns(@value)
-      Factory::Sequence.stubs(:new). returns(@sequence)
+      stub(@sequence).next { @value }
+      stub(Factory::Sequence).new { @sequence }
 
       Factory.sequence(@name) {}
     end
 
     should "call next on the sequence when sent next" do
-      @sequence.expects(:next)
+      mock(@sequence).next
 
       Factory.next(@name)
     end

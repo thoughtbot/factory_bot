@@ -7,5 +7,9 @@ require 'activerecord'
 require 'factory_girl'
 gem 'thoughtbot-shoulda', ">= 2.0.0"
 require 'shoulda'
-require 'mocha'
+require 'rr'
 require 'models'
+
+class Test::Unit::TestCase
+  include RR::Adapters::TestUnit
+end

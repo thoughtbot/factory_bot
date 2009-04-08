@@ -16,7 +16,7 @@ class Proxy < Test::Unit::TestCase
     end
 
     should "call get for a missing method" do
-      @proxy.expects(:get).with(:name).returns("it's a name")
+      mock(@proxy).get(:name) { "it's a name" }
       assert_equal "it's a name", @proxy.name
     end
 
