@@ -2,11 +2,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{factory_girl}
-  s.version = "1.2.0"
+  s.version = "1.2.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Joe Ferris"]
-  s.date = %q{2009-02-17}
+  s.date = %q{2009-04-09}
   s.description = %q{factory_girl provides a framework and DSL for defining and using factories - less error-prone, more explicit, and  all-around easier to work with than fixtures.}
   s.email = %q{jferris@thoughtbot.com}
   s.extra_rdoc_files = ["README.rdoc"]
