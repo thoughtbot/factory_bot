@@ -1,26 +1,22 @@
 require 'rubygems'
 require 'rake'
-require 'rake/testtask'
 require 'rake/rdoctask'
 require 'rake/gempackagetask'
 require 'rcov/rcovtask'
 require 'date'
 
-desc 'Default: run unit tests.'
-task :default => :test
+require 'spec/rake/spectask'
 
-desc 'Test the factory_girl plugin.'
-Rake::TestTask.new(:test) do |t|
-  t.libs << 'lib'
-  t.libs << 'test'
-  t.pattern = 'test/**/*_test.rb'
-  t.verbose = true
+desc 'Default: run the specs.'
+task :default => :spec
+
+Spec::Rake::SpecTask.new do |t|
+  t.spec_opts = ['--options', "spec/spec.opts"]
 end
 
 desc 'Performs code coverage on the factory_girl plugin.'
 Rcov::RcovTask.new do |t|
-  t.libs << "test"
-  t.test_files = FileList['test/*_test.rb']
+  t.test_files = FileList['spec/*_spec.rb']
   t.verbose = true
 end
 
@@ -48,9 +44,9 @@ spec = Gem::Specification.new do |s|
                      using factories - less error-prone, more explicit, and
                      all-around easier to work with than fixtures.}
 
-  s.files        = FileList['[A-Z]*', 'lib/**/*.rb', 'test/**/*.rb']
+  s.files        = FileList['[A-Z]*', 'lib/**/*.rb', 'spec/**/*.rb']
   s.require_path = 'lib'
-  s.test_files   = Dir[*['test/**/*_test.rb']]
+  s.test_files   = Dir[*['spec/**/*_spec.rb']]
 
   s.has_rdoc         = true
   s.extra_rdoc_files = ["README.rdoc"]
