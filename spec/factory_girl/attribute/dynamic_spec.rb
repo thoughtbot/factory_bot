@@ -33,6 +33,16 @@ describe Factory::Attribute::Dynamic do
     }.should raise_error(Factory::AttributeDefinitionError)
   end
 
+  it "should raise an error when returning a sequence" do
+    stub(Factory).sequence { Factory::Sequence.new }
+    block = lambda { Factory.sequence(:email) }
+    attr = Factory::Attribute::Dynamic.new(:email, block)
+    proxy = stub!.set.subject
+    lambda {
+      attr.add_to(proxy)
+    }.should raise_error(Factory::SequenceAbuseError)
+  end
+
   it "should convert names to symbols" do
     Factory::Attribute::Dynamic.new('name', nil).name.should == :name
   end

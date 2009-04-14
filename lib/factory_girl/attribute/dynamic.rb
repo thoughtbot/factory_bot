@@ -2,14 +2,17 @@ class Factory
   class Attribute #:nodoc:
 
     class Dynamic < Attribute  #:nodoc:
-
       def initialize(name, block)
         super(name)
         @block = block
       end
 
       def add_to(proxy)
-        proxy.set(name, @block.call(proxy))
+        value = @block.call(proxy)
+        if Factory::Sequence === value
+          raise SequenceAbuseError
+        end
+        proxy.set(name, value)
       end
     end
 

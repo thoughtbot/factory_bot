@@ -1,5 +1,8 @@
 class Factory
 
+  # Raised when calling Factory.sequence from a dynamic attribute block
+  class SequenceAbuseError < StandardError; end
+
   # Sequences are defined using Factory.sequence. Sequence values are generated
   # using next.
   class Sequence

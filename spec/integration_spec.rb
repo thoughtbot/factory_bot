@@ -1,7 +1,6 @@
 require File.expand_path(File.join(File.dirname(__FILE__), 'spec_helper'))
 
 describe "integration" do
-
   before do
     Factory.define :user, :class => 'user' do |f|
       f.first_name 'Jimi'
@@ -21,6 +20,10 @@ describe "integration" do
       f.admin       true
       f.sequence(:username) { |n| "username#{n}" }
       f.email { Factory.next(:email) }
+    end
+
+    Factory.define :sequence_abuser, :class => User do |f|
+      f.first_name { Factory.sequence(:email) }
     end
 
     Factory.define :guest, :parent => :user do |f|
@@ -233,4 +236,9 @@ describe "integration" do
     end
   end
 
+  it "should raise Factory::SequenceAbuseError" do
+    lambda {
+      Factory(:sequence_abuser)
+    }.should raise_error(Factory::SequenceAbuseError)
+  end
 end
