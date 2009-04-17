@@ -15,9 +15,10 @@ class Factory
       @name = name.to_sym
 
       if @name.to_s =~ /=$/
+        attribute_name = $`
         raise AttributeDefinitionError, 
-          "factory_girl uses 'f.#{@name.to_s.chop} value' syntax " +
-          "rather than 'f.#{@name} = value'" 
+          "factory_girl uses 'f.#{attribute_name} value' syntax " +
+          "rather than 'f.#{attribute_name} = value'"
       end
     end
 

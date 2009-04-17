@@ -18,9 +18,10 @@ describe Factory::Attribute do
   end
 
   it "should raise an error when defining an attribute writer" do
+    error_message = %{factory_girl uses 'f.test value' syntax rather than 'f.test = value'}
     lambda {
       Factory::Attribute.new('test=')
-    }.should raise_error(Factory::AttributeDefinitionError)
+    }.should raise_error(Factory::AttributeDefinitionError, error_message)
   end
 
   it "should convert names to symbols" do
