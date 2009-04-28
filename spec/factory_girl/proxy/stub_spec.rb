@@ -2,54 +2,68 @@ require File.expand_path(File.join(File.dirname(__FILE__), '..', '..', 'spec_hel
 
 describe Factory::Proxy::Stub do
   before do
-    @proxy = Factory::Proxy::Stub.new(@class)
+    @class = "class"
+    @instance = "instance"
+    stub(@class).new { @instance }
+    stub(@instance, :id=)
+    stub(@instance).id { 42 }
+    stub(@instance).reload { @instance.connection.reload }
+
+    @stub = Factory::Proxy::Stub.new(@class)
   end
 
-  describe "when asked to associate with another factory" do
+  it "should not be a new record" do
+    @stub.result.should_not be_new_record
+  end
+
+  it "should not be able to connect to the database" do
+    lambda { @stub.result.reload }.should raise_error(RuntimeError)
+  end
+
+  describe "when a user factory exists" do
     before do
-      stub(Factory).create
-      @proxy.associate(:owner, :user, {})
+      @user = "user"
+      stub(Factory).stub(:user, {}) { @user }
     end
 
-    it "should not set a value for the association" do
-      @proxy.result.owner.should be_nil
+    describe "when asked to associate with another factory" do
+      before do
+        stub(@instance).owner { @user }
+        mock(Factory).stub(:user, {}) { @user }
+        mock(@stub).set(:owner, @user)
+
+        @stub.associate(:owner, :user, {})
+      end
+
+      it "should set a value for the association" do
+        @stub.result.owner.should == @user
+      end
+    end
+
+    it "should return the association when building one" do
+      mock(Factory).create.never
+      @stub.association(:user).should == @user
+    end
+
+    it "should return the actual instance when asked for the result" do
+      @stub.result.should == @instance
     end
   end
 
-  it "should return nil when building an association" do
-    @proxy.association(:user).should be_nil
-  end
-
-  it "should not call Factory.create when building an association" do
-    mock(Factory).create.never
-    @proxy.association(:user).should be_nil
-  end
-
-  it "should always return nil when building an association" do
-    @proxy.set(:association, 'x')
-    @proxy.association(:user).should be_nil
-  end
-
-  it "should return a mock object when asked for the result" do
-    @proxy.result.should be_kind_of(Object)
-  end
-
-  describe "after setting an attribute" do
+  describe "with an existing attribute" do
     before do
-      @proxy.set(:attribute, 'value')
+      @value = "value"
+      mock(@instance).send(:attribute) { @value }
+      mock(@instance).send(:attribute=, @value)
+      @stub.set(:attribute, @value)
     end
 
-    it "should add a stub to the resulting object" do
-      @proxy.attribute.should == 'value'
+    it "should to the resulting object" do
+      @stub.attribute.should == 'value'
     end
 
     it "should return that value when asked for that attribute" do
-      @proxy.get(:attribute).should == 'value'
+      @stub.get(:attribute).should == @value
     end
-  end
-
-  it "should define a setter even if attribute= is defined" do
-    @proxy.set('attribute', nil)
-    lambda { @proxy.set('age', 18) }.should_not raise_error
   end
 end
