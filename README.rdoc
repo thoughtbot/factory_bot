@@ -199,7 +199,7 @@ Users' tastes for syntax vary dramatically, but most users are looking for a com
 
 Our blog: http://giantrobots.thoughtbot.com
 
-factory_girl rdoc: http://dev.thoughtbot.com/factory_girl
+factory_girl rdoc: http://rdoc.info/projects/thoughtbot/factory_girl
 
 Mailing list: http://groups.google.com/group/factory_girl
 
