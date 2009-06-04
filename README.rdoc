@@ -1,6 +1,6 @@
 = factory_girl
 
-factory_girl is a fixtures replacement with a straightforward definition syntax, support for multiple build strategies (saved instances, unsaved instances, attribute hashes, and stubbed objects), and support for multiple factories for the same class (user, admin_user, and so on), including factory inheritence.
+factory_girl is a fixtures replacement with a straightforward definition syntax, support for multiple build strategies (saved instances, unsaved instances, attribute hashes, and stubbed objects), and support for multiple factories for the same class (user, admin_user, and so on), including factory inheritance.
 
 == Download
 
@@ -18,7 +18,7 @@ in your environment.rb if you want to use Rails 2.1+'s dependency manager:
 
 == Defining factories
 
-Each factory has a name and a set of attributes. The name is used to guess the class of the object by default, but it's possible to excplicitly specify it:
+Each factory has a name and a set of attributes. The name is used to guess the class of the object by default, but it's possible to explicitly specify it:
 
   # This will guess the User class
   Factory.define :user do |u|
@@ -41,7 +41,7 @@ Each factory has a name and a set of attributes. The name is used to guess the c
     u.admin true
   end
 
-It is highly recommended that you have one factory for each class that provides the simplest set of attributes necessary to create an instance of that class. If you're creating ActiveRecord objects, that means that you should only provide attributes that are required through validations and that do not have defaults. Other factories can be created through inheritence to cover common scenarios for each class.
+It is highly recommended that you have one factory for each class that provides the simplest set of attributes necessary to create an instance of that class. If you're creating ActiveRecord objects, that means that you should only provide attributes that are required through validations and that do not have defaults. Other factories can be created through inheritance to cover common scenarios for each class.
 
 Factories can either be defined anywhere, but will automatically be loaded if they are defined in files at the following locations:
 
@@ -148,7 +148,7 @@ be left out.
 
 == Inheritance
 
-You can easily create multiple factories for the same class without repeating common attributes by using inheritence:
+You can easily create multiple factories for the same class without repeating common attributes by using inheritance:
 
   Factory.define :post do |p|
     # the 'title' attribute is required for all posts
