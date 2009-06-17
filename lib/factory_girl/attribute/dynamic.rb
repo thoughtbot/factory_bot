@@ -8,7 +8,7 @@ class Factory
       end
 
       def add_to(proxy)
-        value = @block.call(proxy)
+        value = @block.arity.zero? ? @block.call : @block.call(proxy)
         if Factory::Sequence === value
           raise SequenceAbuseError
         end
