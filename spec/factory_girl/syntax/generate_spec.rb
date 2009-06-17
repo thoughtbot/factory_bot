@@ -25,9 +25,9 @@ describe "a factory using generate syntax" do
 
   %w(generate generate! spawn).each do |method|
     it "should yield a generated instance when using #{method} with a block" do
-      instance = nil
-      User.send(method) {|instance| }
-      instance.should be_kind_of(User)
+      saved_instance = nil
+      User.send(method) {|instance| saved_instance = instance }
+      saved_instance.should be_kind_of(User)
     end
 
     describe "after generating an instance using #{method}" do
