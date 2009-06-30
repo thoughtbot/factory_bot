@@ -1,4 +1,5 @@
 class Factory
+  undef :id
   undef :type
 
   # Raised when a factory is defined that attempts to instantiate itself.
