@@ -37,7 +37,7 @@ end
 
 spec = Gem::Specification.new do |s|
   s.name        = %q{factory_girl}
-  s.version     = "1.2.1"
+  s.version     = "1.2.2"
   s.summary     = %q{factory_girl provides a framework and DSL for defining and
                      using model instance factories.}
   s.description = %q{factory_girl provides a framework and DSL for defining and
@@ -54,6 +54,7 @@ spec = Gem::Specification.new do |s|
 
   s.authors = ["Joe Ferris"]
   s.email   = %q{jferris@thoughtbot.com}
+  s.homepage = "http://thoughtbot.com/projects/factory_girl"
 
   s.platform = Gem::Platform::RUBY
 end
