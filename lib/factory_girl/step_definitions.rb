@@ -1,10 +1,4 @@
 module FactoryGirlStepHelpers
-  def convert_vertical_table_to_hash(table)
-    table.raw.inject({}) do |result, (key, value)|
-      result.merge(key => value)
-    end
-  end
-
   def convert_association_string_to_instance(factory_name, assignment)
     attribute, value = assignment.split(':', 2)
     attributes = convert_human_hash_to_attribute_hash(attribute => value.strip)
@@ -28,14 +22,8 @@ end
 World(FactoryGirlStepHelpers)
 
 Factory.factories.values.each do |factory|
-  Given "the following #{factory.human_name} exists:" do |table|
-    human_hash = convert_vertical_table_to_hash(table)
-    attributes = convert_human_hash_to_attribute_hash(human_hash, factory.associations)
-    Factory.create(factory.factory_name, attributes)
-  end
-
   # TODO: support irregular pluralizations
-  Given "the following #{factory.human_name}s exist:" do |table|
+  Given /^the following #{factory.human_name}s? exists?:$/ do |table|
     table.hashes.each do |human_hash|
       attributes = convert_human_hash_to_attribute_hash(human_hash, factory.associations)
       Factory.create(factory.factory_name, attributes)

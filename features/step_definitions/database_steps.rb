@@ -1,8 +1,7 @@
 Then /^I should find the following for the last (.*):$/ do |model, table|
   model_class = model.camelize.constantize
   last_instance = model_class.last or raise "No #{model.pluralize} exist"
-  attributes = table.raw.inject({}) {|res, (key, value)| res.merge(key => value) }
-  attributes.each do |key, value|
+  table.hashes.first.each do |key, value|
     last_instance.attributes[key].to_s.should == value
   end
 end
