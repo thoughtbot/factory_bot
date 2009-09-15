@@ -6,9 +6,10 @@ require 'rcov/rcovtask'
 require 'date'
 
 require 'spec/rake/spectask'
+require 'cucumber/rake/task'
 
-desc 'Default: run the specs.'
-task :default => :spec
+desc 'Default: run the specs and features.'
+task :default => [:spec, :features]
 
 Spec::Rake::SpecTask.new do |t|
   t.spec_opts = ['--options', "spec/spec.opts"]
@@ -72,4 +73,9 @@ task :gemspec do
   File.open("#{spec.name}.gemspec", 'w') do |f|
     f.write spec.to_ruby
   end
+end
+
+Cucumber::Rake::Task.new(:features) do |t|
+  t.fork = true
+  t.cucumber_opts = ['--format', (ENV['CUCUMBER_FORMAT'] || 'progress')]
 end

@@ -22,6 +22,7 @@ Factory.factories.values.each do |factory|
     Factory.create(factory.factory_name, attributes)
   end
 
+  # TODO: support irregular pluralizations
   Given "the following #{factory.human_name}s exist:" do |table|
     table.hashes.each do |human_hash|
       attributes = convert_human_hash_to_attribute_hash(human_hash)
