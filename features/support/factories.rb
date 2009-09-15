@@ -26,11 +26,18 @@ class Post < ActiveRecord::Base
   belongs_to :author, :class_name => 'User'
 end
 
+class NonActiveRecord
+end
+
 Factory.define :user do |f|
 end
 
 Factory.define :post do |f|
   f.association :author, :factory => :user
+end
+
+# This is here to ensure that factory step definitions don't raise for a non-AR factory
+Factory.define :non_active_record do |f|
 end
 
 require 'factory_girl/step_definitions'

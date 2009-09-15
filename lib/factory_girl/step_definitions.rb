@@ -29,5 +29,14 @@ Factory.factories.values.each do |factory|
       Factory.create(factory.factory_name, attributes)
     end
   end
+
+  if factory.build_class.respond_to?(:columns)
+    factory.build_class.columns.each do |column|
+      human_column_name = column.name.downcase.gsub('_', ' ')
+      Given /^an? #{factory.human_name} exists with an? #{human_column_name} of "([^"]*)"$/i do |value|
+        Factory(factory.human_name, column.name => value)
+      end
+    end
+  end
 end
 
