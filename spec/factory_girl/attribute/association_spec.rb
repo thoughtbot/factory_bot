@@ -12,6 +12,10 @@ describe Factory::Attribute::Association do
     @attr.name.should == @name
   end
 
+  it "should have a factory" do
+    @attr.factory.should == @factory
+  end
+
   it "should tell the proxy to associate when being added to a proxy" do
     proxy = "proxy"
     stub(proxy).associate

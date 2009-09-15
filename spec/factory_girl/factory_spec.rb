@@ -134,6 +134,16 @@ describe Factory do
       factory.attributes.should include(attr)
     end
 
+    it "should return associations" do
+      factory = Factory.new(:post)
+      factory.association(:author)
+      factory.association(:editor)
+      factory.associations.each do |association|
+        association.should be_a(Factory::Attribute::Association)
+      end
+      factory.associations.size.should == 2
+    end
+
     it "should add an association with overrides" do
       factory   = Factory.new(:post)
       name      = :user

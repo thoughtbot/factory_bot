@@ -1,14 +1,25 @@
 module FactoryGirlStepHelpers
-  def convert_ast_table_to_attribute_hash(table)
-    table.rows.inject({}) do |result, (human_key, value)|
-      key = human_key.downcase.gsub(' ', '_').to_sym
+  def convert_vertical_table_to_hash(table)
+    table.raw.inject({}) do |result, (key, value)|
       result.merge(key => value)
     end
   end
 
-  def convert_human_hash_to_attribute_hash(human_hash)
+  def convert_association_string_to_instance(factory_name, assignment)
+    attribute, value = assignment.split(':', 2)
+    attributes = convert_human_hash_to_attribute_hash(attribute => value.strip)
+    factory = Factory.factory_by_name(factory_name)
+    model_class = factory.build_class
+    model_class.find(:first, :conditions => attributes) or
+      Factory(factory_name, attributes)
+  end
+
+  def convert_human_hash_to_attribute_hash(human_hash, associations = [])
     human_hash.inject({}) do |attribute_hash, (human_key, value)|
       key = human_key.downcase.gsub(' ', '_').to_sym
+      if association = associations.detect {|association| association.name == key }
+        value = convert_association_string_to_instance(association.factory, value)
+      end
       attribute_hash.merge(key => value)
     end
   end
@@ -18,14 +29,15 @@ World(FactoryGirlStepHelpers)
 
 Factory.factories.values.each do |factory|
   Given "the following #{factory.human_name} exists:" do |table|
-    attributes = convert_ast_table_to_attribute_hash(table)
+    human_hash = convert_vertical_table_to_hash(table)
+    attributes = convert_human_hash_to_attribute_hash(human_hash, factory.associations)
     Factory.create(factory.factory_name, attributes)
   end
 
   # TODO: support irregular pluralizations
   Given "the following #{factory.human_name}s exist:" do |table|
     table.hashes.each do |human_hash|
-      attributes = convert_human_hash_to_attribute_hash(human_hash)
+      attributes = convert_human_hash_to_attribute_hash(human_hash, factory.associations)
       Factory.create(factory.factory_name, attributes)
     end
   end

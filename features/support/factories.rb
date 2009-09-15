@@ -6,18 +6,31 @@ ActiveRecord::Base.establish_connection(
 class CreateSchema < ActiveRecord::Migration
   def self.up
     create_table :posts, :force => true do |t|
+      t.integer :author_id
       t.string  :title
       t.string  :body
+    end
+
+    create_table :users, :force => true do |t|
+      t.string  :name
     end
   end
 end
 
 CreateSchema.suppress_messages { CreateSchema.migrate(:up) }
 
+class User < ActiveRecord::Base
+end
+
 class Post < ActiveRecord::Base
+  belongs_to :author, :class_name => 'User'
+end
+
+Factory.define :user do |f|
 end
 
 Factory.define :post do |f|
+  f.association :author, :factory => :user
 end
 
 require 'factory_girl/step_definitions'

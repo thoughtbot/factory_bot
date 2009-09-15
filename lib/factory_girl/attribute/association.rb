@@ -3,6 +3,8 @@ class Factory
 
     class Association < Attribute  #:nodoc:
 
+      attr_reader :factory
+
       def initialize(name, factory, overrides)
         super(name)
         @factory   = factory
