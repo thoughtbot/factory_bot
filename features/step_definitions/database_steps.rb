@@ -6,3 +6,10 @@ Then /^I should find the following for the last post:$/ do |table|
   end
 end
 
+Then /^there should be (\d+) posts$/ do |count|
+  Post.count.should == count.to_i
+end
+
+Before do
+  Post.delete_all
+end
