@@ -30,11 +30,23 @@ Factory.factories.values.each do |factory|
     end
   end
 
+  Given /^an? #{factory.human_name} exists$/ do
+    Factory(factory.factory_name)
+  end
+
+  Given /^(\d+) #{factory.human_name}s exist$/ do |count|
+    count.to_i.times { Factory(factory.human_name) }
+  end
+
   if factory.build_class.respond_to?(:columns)
     factory.build_class.columns.each do |column|
       human_column_name = column.name.downcase.gsub('_', ' ')
       Given /^an? #{factory.human_name} exists with an? #{human_column_name} of "([^"]*)"$/i do |value|
         Factory(factory.human_name, column.name => value)
+      end
+
+      Given /^(\d+) #{factory.human_name}s exist with an? #{human_column_name} of "([^"]*)"$/i do |count, value|
+        count.to_i.times { Factory(factory.human_name, column.name => value) }
       end
     end
   end
