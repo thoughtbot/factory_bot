@@ -13,6 +13,7 @@ class CreateSchema < ActiveRecord::Migration
 
     create_table :users, :force => true do |t|
       t.string  :name
+      t.boolean :admin, :default => false, :null => false
     end
   end
 end
@@ -30,6 +31,10 @@ class NonActiveRecord
 end
 
 Factory.define :user do |f|
+end
+
+Factory.define :admin_user, :parent => :user do |f|
+  f.admin true
 end
 
 Factory.define :post do |f|
