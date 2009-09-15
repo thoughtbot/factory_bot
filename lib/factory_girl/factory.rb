@@ -293,12 +293,20 @@ class Factory
     proxy.result
   end
 
-  private
-
   def self.factory_by_name (name)
     factories[name.to_sym] or raise ArgumentError.new("No such factory: #{name.to_s}")
   end
-  
+
+  def human_name(*args, &block)
+    if args.size == 0 && block.nil?
+      factory_name.to_s.gsub('_', ' ')
+    else
+      add_attribute(:human_name, *args, &block)
+    end
+  end
+
+  private
+
   def class_for (class_or_to_s)
     if class_or_to_s.respond_to?(:to_sym)
       Object.const_get(variable_name_to_class_name(class_or_to_s))

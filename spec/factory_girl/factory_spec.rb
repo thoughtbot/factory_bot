@@ -27,6 +27,10 @@ describe Factory do
       Factory.define(@name) {|f| }
       @factory.should == Factory.factories[@name]
     end
+
+    it "should allow that factory to be found by name" do
+      Factory.factory_by_name(@name).should == @factory
+    end
   end
 
   describe "a factory" do
@@ -170,6 +174,21 @@ describe Factory do
       mock(Factory::Attribute::Static).new(:name, 'value') { attribute }
       @factory.send(:name, 'value')
       @factory.attributes.should include(attribute)
+    end
+
+    it "should allow human_name as a static attribute name" do
+      attribute = 'attribute'
+      stub(attribute).name { :name }
+      mock(Factory::Attribute::Static).new(:human_name, 'value') { attribute}
+      @factory.human_name 'value'
+    end
+
+    it "should allow human_name as a dynamic attribute name" do
+      attribute = 'attribute'
+      stub(attribute).name { :name }
+      block     = lambda {}
+      mock(Factory::Attribute::Dynamic).new(:human_name, block) { attribute }
+      @factory.human_name(&block)
     end
 
     describe "when overriding generated attributes with a hash" do
@@ -487,4 +506,10 @@ describe Factory do
       it { should require_definitions_from("#{dir}/factories/person_factory.rb") }
     end
   end
+
+  it "should return the factory name without underscores for the human name" do
+    factory = Factory.new(:name_with_underscores)
+    factory.human_name.should == 'name with underscores'
+  end
+
 end
