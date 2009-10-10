@@ -45,6 +45,14 @@ describe Factory::Proxy::Build do
     @proxy.result.should == @instance
   end
 
+  it "should run the :after_build callback when retrieving the result" do
+    spy = Object.new
+    stub(spy).foo
+    @proxy.add_callback(:after_build, proc{ spy.foo })
+    @proxy.result
+    spy.should have_received.foo
+  end
+
   describe "when setting an attribute" do
     before do
       stub(@instance).attribute = 'value'

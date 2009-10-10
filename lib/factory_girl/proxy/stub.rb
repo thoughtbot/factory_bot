@@ -4,9 +4,9 @@ class Factory
       @@next_id = 1000
 
       def initialize(klass)
-        @stub = klass.new
-        @stub.id = next_id
-        @stub.instance_eval do
+        @instance = klass.new
+        @instance.id = next_id
+        @instance.instance_eval do
           def new_record?
             id.nil?
           end
@@ -26,11 +26,11 @@ class Factory
       end
 
       def get(attribute)
-        @stub.send(attribute)
+        @instance.send(attribute)
       end
 
       def set(attribute, value)
-        @stub.send(:"#{attribute}=", value)
+        @instance.send(:"#{attribute}=", value)
       end
 
       def associate(name, factory, attributes)
@@ -42,7 +42,8 @@ class Factory
       end
 
       def result
-        @stub
+        run_callbacks(:after_stub)
+        @instance
       end
     end
   end

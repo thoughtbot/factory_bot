@@ -31,6 +31,17 @@ describe "integration" do
       f.username  'GuestUser'
     end
 
+    Factory.define :user_with_callbacks, :parent => :user do |f|
+      f.after_stub   {|u| u.first_name = 'Stubby' }
+      f.after_build  {|u| u.first_name = 'Buildy' }
+      f.after_create {|u| u.last_name  = 'Createy' }
+    end
+
+    Factory.define :business do |f|
+      f.name 'Supplier of Awesome'
+      f.association :owner, :factory => :user
+    end
+
     Factory.sequence :email do |n|
       "somebody#{n}@example.com"
     end
@@ -261,5 +272,23 @@ describe "integration" do
     lambda {
       Factory(:sequence_abuser)
     }.should raise_error(Factory::SequenceAbuseError)
+  end
+
+  describe "an instance with callbacks" do
+    it "should run the after_stub callback when stubbing" do
+      @user = Factory.stub(:user_with_callbacks)
+      @user.first_name.should == 'Stubby'
+    end
+
+    it "should run the after_build callback when building" do
+      @user = Factory.build(:user_with_callbacks)
+      @user.first_name.should == 'Buildy'
+    end
+
+    it "should run both the after_build and after_create callbacks when creating" do
+      @user = Factory(:user_with_callbacks)
+      @user.first_name.should == 'Buildy'
+      @user.last_name.should == 'Createy'
+    end
   end
 end
