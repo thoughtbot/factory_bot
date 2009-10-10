@@ -458,6 +458,20 @@ describe Factory do
       child.attributes.size.should == 1
       child.attributes.first.should be_kind_of(Factory::Attribute::Dynamic)
     end
+
+    it "inherit all callbacks" do
+      Factory.define(:child, :parent => :object) do |f|
+        f.after_stub {|o| o.name = 'Stubby' }
+      end
+
+      grandchild = Factory.define(:grandchild, :parent => :child) do |f|
+        f.after_stub {|o| o.name = "#{o.name} McStubby" }
+      end
+
+      grandchild.attributes.size.should == 3
+      grandchild.attributes.first.should be_kind_of(Factory::Attribute::Callback)
+      grandchild.attributes[1].should be_kind_of(Factory::Attribute::Callback)
+    end
   end
 
   describe 'defining a factory with a default strategy parameter' do
