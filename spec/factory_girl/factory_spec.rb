@@ -10,6 +10,8 @@ describe Factory do
       stub(Factory).new { @factory }
     end
 
+    after { Factory.factories.clear }
+
     it "should create a new factory using the specified name and options" do
       mock(Factory).new(@name, @options) { @factory }
       Factory.define(@name, @options) {|f| }
@@ -28,9 +30,17 @@ describe Factory do
       @factory.should == Factory.factories[@name]
     end
 
-    it "should allow that factory to be found by name" do
+    it "should allow a factory to be found by name" do
+      Factory.define(@name) {|f| }
       Factory.factory_by_name(@name).should == @factory
     end
+
+    it "should not allow a duplicate factory definition" do
+      lambda { 
+        2.times { Factory.define(@name) {|f| } }
+      }.should raise_error(Factory::DuplicateDefinitionError)
+    end
+
   end
 
   describe "a factory" do
@@ -419,6 +429,8 @@ describe Factory do
         f.name  'Name'
       end
     end
+
+    after { Factory.factories.clear }
 
     it "should raise an ArgumentError when trying to use a non-existent factory as parent" do
       lambda {

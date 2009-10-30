@@ -7,6 +7,10 @@ class Factory
   # Raised when a callback is defined that has an invalid name
   class InvalidCallbackNameError < RuntimeError
   end
+
+  # Raised when a factory is defined with the same name as a previously-defined factory.
+  class DuplicateDefinitionError < RuntimeError
+  end
   
   class << self
     attr_accessor :factories #:nodoc:
@@ -51,6 +55,9 @@ class Factory
     if parent = options.delete(:parent)
       instance.inherit_from(Factory.factory_by_name(parent))
     end    
+    if self.factories[instance.factory_name] 
+      raise DuplicateDefinitionError, "Factory already defined: #{name}"
+    end
     self.factories[instance.factory_name] = instance
   end
   
