@@ -7,7 +7,7 @@ factory_girl is a fixtures replacement with a straightforward definition syntax,
 Github: http://github.com/thoughtbot/factory_girl/tree/master
 
 Gem:
-  gem install thoughtbot-factory_girl --source http://gems.github.com
+  gem install factory_girl --source http://gemcutter.org
 
 Note: if you install factory_girl using the gem from Github, you'll need this
 in your environment.rb if you want to use Rails 2.1+'s dependency manager:
