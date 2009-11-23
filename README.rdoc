@@ -193,6 +193,41 @@ a particular factory:
     f.sequence(:email) {|n| "person#{n}@example.com" }
   end
 
+== Callbacks
+
+Factory_girl makes available three callbacks for injecting some code:
+
+* after_build  - called after a factory is built   (via Factory.build)
+* after_create - called after a factory is saved   (via Factory.create)
+* after_stub   - called after a factory is stubbed (via Factory.stub)  
+
+Examples:
+
+  # Define a factory that calls the generate_hashed_password method after it is built 
+  Factory.define :user do |u|
+    u.after_build { |user| do_something_to(user) } 
+  end
+
+Note that you'll have an instance of the user in the block.  This can be useful.
+
+You can also define multiple types of callbacks on the same factory:
+
+  Factory.define :user do |u|
+    u.after_build  { |user| do_something_to(user) } 
+    u.after_create { |user| do_something_else_to(user) }
+  end
+
+Factories can also define any number of the same kind of callback.  These callbacks will be executed in the order they are specified:
+
+  Factory.define :user do |u|
+    u.after_create { this_runs_first } 
+    u.after_create { then_this } 
+  end
+
+Calling Factory.create will invoke both after_build and after_create callbacks.  
+
+Also, like standard attributes, child factories will inherit (and can define additional) callbacks from their parent factory.
+
 == Alternate Syntaxes
 
 Users' tastes for syntax vary dramatically, but most users are looking for a common feature set. Because of this, factory_girl supports "syntax layers" which provide alternate interfaces. See Factory::Syntax for information about the various layers available.
