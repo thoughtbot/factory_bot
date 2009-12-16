@@ -9,12 +9,11 @@ Github: http://github.com/thoughtbot/factory_girl/tree/master
 Gem:
   gem install factory_girl --source http://gemcutter.org
 
-Note: if you install factory_girl using the gem from Github, you'll need this
+Note: if you install factory_girl using the gem from Gemcutter, you'll need this
 in your environment.rb if you want to use Rails 2.1+'s dependency manager:
 
-  config.gem "thoughtbot-factory_girl",
-             :lib    => "factory_girl",
-             :source => "http://gems.github.com"
+  config.gem "factory_girl", 
+			 :source => "http://gemcutter.org"
 
 == Defining factories
 
@@ -82,7 +81,7 @@ The default strategy can be overriden:
 
   user = Factory(:user)
 
-No matter which startegy is used, it's possible to override the defined attributes by passing a hash:
+No matter which strategy is used, it's possible to override the defined attributes by passing a hash:
 
   # Build a User instance and override the first_name property
   user = Factory.build(:user, :first_name => 'Joe')
