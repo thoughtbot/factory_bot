@@ -2,7 +2,7 @@ class Factory
   class Proxy
     class Stub < Proxy #:nodoc:
       @@next_id = 1000
-
+      
       def initialize(klass)
         @instance = klass.new
         @instance.id = next_id
@@ -14,7 +14,17 @@ class Factory
           def connection
             raise "stubbed models are not allowed to access the database"
           end
-
+          
+          def class
+            klass = super.dup
+            klass.instance_eval do
+              def active_relation
+                raise "stubbed models are not allowed to access the database"
+              end
+            end
+            klass
+          end
+          
           def reload
             raise "stubbed models are not allowed to access the database"
           end
