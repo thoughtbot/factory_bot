@@ -55,9 +55,15 @@ spec = Gem::Specification.new do |s|
 
   s.authors = ["Joe Ferris"]
   s.email   = %q{jferris@thoughtbot.com}
-  s.homepage = "http://thoughtbot.com/projects/factory_girl"
+  s.homepage = "http://thoughtbot.com/community"
 
   s.platform = Gem::Platform::RUBY
+
+  s.add_runtime_dependency "activesupport"
+  s.add_development_dependency "activerecord"
+  s.add_development_dependency "cucumber"
+  s.add_development_dependency "rspec"
+  s.add_development_dependency "rr"
 end
 
 Rake::GemPackageTask.new spec do |pkg|
