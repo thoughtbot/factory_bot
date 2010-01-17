@@ -23,9 +23,10 @@ end
 
 if defined?(Rails.application) && Rails.application
   Rails.configuration.after_initialize do
+    root = (defined?(Rails.root) && Rails.root) || RAILS_ROOT
     Factory.definition_file_paths = [
-      File.join(RAILS_ROOT, 'test', 'factories'),
-      File.join(RAILS_ROOT, 'spec', 'factories')
+      File.join(root, 'test', 'factories'),
+      File.join(root, 'spec', 'factories')
     ]
     Factory.find_definitions
   end
