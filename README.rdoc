@@ -51,6 +51,13 @@ Factories can either be defined anywhere, but will automatically be loaded if th
   test/factories/*.rb
   spec/factories/*.rb
 
+Note that you must require factory_girl prior to loading your rails app in order to autoload your factories at these locations.
+
+  ENV["RAILS_ENV"] = "test"
+  require 'factory_girl'
+  require File.expand_path(File.dirname(__FILE__) + "/../config/environment")
+  require 'rails/test_help'
+  
 == Using factories
 
 factory_girl supports several different build strategies: build, create, attributes_for and stub:
