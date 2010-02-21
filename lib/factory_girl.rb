@@ -21,16 +21,7 @@ def Factory (name, attrs = {})
   Factory.default_strategy(name, attrs)
 end
 
-if defined?(Rails.application) && Rails.application
-  Rails.configuration.after_initialize do
-    root = (defined?(Rails.root) && Rails.root) || RAILS_ROOT
-    Factory.definition_file_paths = [
-      File.join(root, 'test', 'factories'),
-      File.join(root, 'spec', 'factories')
-    ]
-    Factory.find_definitions
-  end
-else
-  Factory.find_definitions
-end
+# removed for rails 3 (cyclic dependency when using cucumber)
+#Factory.find_definitions
+
 
