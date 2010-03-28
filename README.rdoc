@@ -12,8 +12,7 @@ Gem:
 Note: if you install factory_girl using the gem from Gemcutter, you'll need this
 in your environment.rb if you want to use Rails 2.1+'s dependency manager:
 
-  config.gem "factory_girl", 
-			 :source => "http://gemcutter.org"
+  config.gem "factory_girl", :source => "http://gemcutter.org"
 
 == Defining factories
 
@@ -198,13 +197,13 @@ Factory_girl makes available three callbacks for injecting some code:
 
 * after_build  - called after a factory is built   (via Factory.build)
 * after_create - called after a factory is saved   (via Factory.create)
-* after_stub   - called after a factory is stubbed (via Factory.stub)  
+* after_stub   - called after a factory is stubbed (via Factory.stub)
 
 Examples:
 
   # Define a factory that calls the generate_hashed_password method after it is built 
   Factory.define :user do |u|
-    u.after_build { |user| do_something_to(user) } 
+    u.after_build { |user| do_something_to(user) }
   end
 
 Note that you'll have an instance of the user in the block.  This can be useful.
@@ -212,34 +211,44 @@ Note that you'll have an instance of the user in the block.  This can be useful.
 You can also define multiple types of callbacks on the same factory:
 
   Factory.define :user do |u|
-    u.after_build  { |user| do_something_to(user) } 
+    u.after_build  { |user| do_something_to(user) }
     u.after_create { |user| do_something_else_to(user) }
   end
 
 Factories can also define any number of the same kind of callback.  These callbacks will be executed in the order they are specified:
 
   Factory.define :user do |u|
-    u.after_create { this_runs_first } 
-    u.after_create { then_this } 
+    u.after_create { this_runs_first }
+    u.after_create { then_this }
   end
 
-Calling Factory.create will invoke both after_build and after_create callbacks.  
+Calling Factory.create will invoke both after_build and after_create callbacks.
 
 Also, like standard attributes, child factories will inherit (and can define additional) callbacks from their parent factory.
 
 == Alternate Syntaxes
 
-Users' tastes for syntax vary dramatically, but most users are looking for a common feature set. Because of this, factory_girl supports "syntax layers" which provide alternate interfaces. See Factory::Syntax for information about the various layers available.
+Users' tastes for syntax vary dramatically, but most users are looking for a common feature set. Because of this, factory_girl supports "syntax layers" which provide alternate interfaces. See Factory::Syntax for information about the various layers available. For example, the Machinist-style syntax is popular:
+
+  require 'factory_girl/syntax/blueprint'
+  require 'factory_girl/syntax/make'
+  require 'factory_girl/syntax/sham'
+
+  Sham.email {|n| "#{n}@example.com" }
+
+  User.blueprint do
+    name  { 'Billy Bob' }
+    email { Sham.email }
+  end
+
+  User.make(:name => 'Johnny')
 
 == More Information
 
-Our blog: http://giantrobots.thoughtbot.com
-
-factory_girl rdoc: http://rdoc.info/projects/thoughtbot/factory_girl
-
-Mailing list: http://groups.google.com/group/factory_girl
-
-factory_girl issues: http://github.com/thoughtbot/factory_girl/issues
+* RDoc[http://rdoc.info/projects/thoughtbot/factory_girl]
+* Mailing list[http://groups.google.com/group/factory_girl]
+* Issues[http://github.com/thoughtbot/factory_girl/issues]
+* GIANT ROBOTS SMASHING INTO OTHER GIANT ROBOTS[http://giantrobots.thoughtbot.com]
 
 == Contributing
 
@@ -262,4 +271,4 @@ The syntax layers are derived from software written by the following authors:
 
 Thanks to all members of thoughtbot for inspiration, ideas, and funding.
 
-Copyright 2008-2009 Joe Ferris and thoughtbot[http://www.thoughtbot.com], inc.
+Copyright 2008-2010 Joe Ferris and thoughtbot[http://www.thoughtbot.com], inc.
