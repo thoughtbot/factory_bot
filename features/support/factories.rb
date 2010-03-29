@@ -7,8 +7,13 @@ class CreateSchema < ActiveRecord::Migration
   def self.up
     create_table :posts, :force => true do |t|
       t.integer :author_id
+      t.integer :category_id
       t.string  :title
       t.string  :body
+    end
+
+    create_table :categories, :force => true do |t|
+      t.string :name
     end
 
     create_table :users, :force => true do |t|
@@ -23,8 +28,12 @@ CreateSchema.suppress_messages { CreateSchema.migrate(:up) }
 class User < ActiveRecord::Base
 end
 
+class Category < ActiveRecord::Base
+end
+
 class Post < ActiveRecord::Base
   belongs_to :author, :class_name => 'User'
+  belongs_to :category
 end
 
 class NonActiveRecord
@@ -37,8 +46,13 @@ Factory.define :admin_user, :parent => :user do |f|
   f.admin true
 end
 
+Factory.define :category do |f|
+  f.name "programming"
+end
+
 Factory.define :post do |f|
   f.association :author, :factory => :user
+  f.association :category
 end
 
 # This is here to ensure that factory step definitions don't raise for a non-AR factory
