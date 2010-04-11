@@ -36,7 +36,7 @@ Factory.factories.values.each do |factory|
   end
 
   Given /^(\d+) #{factory.human_name}s exist$/ do |count|
-    count.to_i.times { Factory(factory.human_name) }
+    count.to_i.times { Factory(factory.factory_name) }
   end
 
   if factory.build_class.respond_to?(:columns)
