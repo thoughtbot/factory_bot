@@ -8,7 +8,13 @@ require 'spec/rake/spectask'
 require 'cucumber/rake/task'
 
 desc 'Default: run the specs and features.'
-task :default => [:spec, :features]
+task :default do
+  %w(2.3.5 3.0.0.beta3).each do |version|
+    puts "Running tests with Rails #{version}"
+
+    system("CUSTOM_RAILS=#{version} rake -s spec features;")
+  end
+end
 
 Spec::Rake::SpecTask.new do |t|
   t.spec_opts = ['--options', "spec/spec.opts"]
@@ -60,7 +66,8 @@ begin
     s.add_development_dependency('rcov')
     s.add_development_dependency('rspec')
     s.add_development_dependency('cucumber')
-    s.add_development_dependency('activerecord')
+    s.add_development_dependency('activerecord', '2.3.5')
+    s.add_development_dependency('activerecord', '3.0.0.beta3')
     s.add_development_dependency('rr')
     s.add_development_dependency('sqlite3')
 

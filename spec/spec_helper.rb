@@ -3,6 +3,10 @@ $: << File.join(File.dirname(__FILE__))
 
 require 'rubygems'
 
+if ENV['CUSTOM_RAILS']
+  gem 'activerecord', ENV['CUSTOM_RAILS']
+end
+
 require 'active_record'
 
 require 'spec'

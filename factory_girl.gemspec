@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Joe Ferris"]
-  s.date = %q{2010-03-30}
+  s.date = %q{2010-04-22}
   s.description = %q{factory_girl provides a framework and DSL for defining and
                        using factories - less error-prone, more explicit, and
                        all-around easier to work with than fixtures.}
@@ -99,14 +99,16 @@ Gem::Specification.new do |s|
       s.add_development_dependency(%q<rcov>, [">= 0"])
       s.add_development_dependency(%q<rspec>, [">= 0"])
       s.add_development_dependency(%q<cucumber>, [">= 0"])
-      s.add_development_dependency(%q<activerecord>, [">= 0"])
+      s.add_development_dependency(%q<activerecord>, ["= 2.3.5"])
+      s.add_development_dependency(%q<activerecord>, ["= 3.0.0.beta3"])
       s.add_development_dependency(%q<rr>, [">= 0"])
       s.add_development_dependency(%q<sqlite3>, [">= 0"])
     else
       s.add_dependency(%q<rcov>, [">= 0"])
       s.add_dependency(%q<rspec>, [">= 0"])
       s.add_dependency(%q<cucumber>, [">= 0"])
-      s.add_dependency(%q<activerecord>, [">= 0"])
+      s.add_dependency(%q<activerecord>, ["= 2.3.5"])
+      s.add_dependency(%q<activerecord>, ["= 3.0.0.beta3"])
       s.add_dependency(%q<rr>, [">= 0"])
       s.add_dependency(%q<sqlite3>, [">= 0"])
     end
@@ -114,7 +116,8 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<rcov>, [">= 0"])
     s.add_dependency(%q<rspec>, [">= 0"])
     s.add_dependency(%q<cucumber>, [">= 0"])
-    s.add_dependency(%q<activerecord>, [">= 0"])
+    s.add_dependency(%q<activerecord>, ["= 2.3.5"])
+    s.add_dependency(%q<activerecord>, ["= 3.0.0.beta3"])
     s.add_dependency(%q<rr>, [">= 0"])
     s.add_dependency(%q<sqlite3>, [">= 0"])
   end

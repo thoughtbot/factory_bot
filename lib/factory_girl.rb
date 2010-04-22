@@ -1,4 +1,3 @@
-require 'active_support'
 require 'factory_girl/proxy'
 require 'factory_girl/proxy/build'
 require 'factory_girl/proxy/create'
