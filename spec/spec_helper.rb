@@ -3,7 +3,7 @@ $: << File.join(File.dirname(__FILE__))
 
 require 'rubygems'
 
-require 'activerecord'
+require 'active_record'
 
 require 'spec'
 require 'spec/autorun'

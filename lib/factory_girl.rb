@@ -24,8 +24,8 @@ end
 if defined? Rails.configuration
   Rails.configuration.after_initialize do
     Factory.definition_file_paths = [
-      File.join(RAILS_ROOT, 'test', 'factories'),
-      File.join(RAILS_ROOT, 'spec', 'factories')
+      File.join(Rails.root, 'test', 'factories'),
+      File.join(Rails.root, 'spec', 'factories')
     ]
     Factory.find_definitions
   end

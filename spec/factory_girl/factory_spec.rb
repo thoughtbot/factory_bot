@@ -521,7 +521,7 @@ describe Factory do
 
   def require_definitions_from(file)
     simple_matcher do |given, matcher|
-      has_received = have_received.require(file)
+      has_received = have_received.method_missing(:require, file)
       result = has_received.matches?(given)
       matcher.description = "require definitions from #{file}"
       matcher.failure_message = has_received.failure_message
