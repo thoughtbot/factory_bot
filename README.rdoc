@@ -127,7 +127,7 @@ The behavior of the association method varies depending on the build strategy us
   post.author.new_record # => false
 
   # Builds and saves a User, and then builds but does not save a Post
-  Factory.build(:post)
+  post = Factory.build(:post)
   post.new_record?       # => true
   post.author.new_record # => false
 
