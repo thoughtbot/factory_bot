@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
                        using factories - less error-prone, more explicit, and
                        all-around easier to work with than fixtures.}
 
-    s.files        = Dir['[A-Z]*', 'lib/**/*.rb', 'spec/**/*.rb', 'features/**/*']
+    s.files        = Dir['[A-Z]*', 'lib/**/*.rb', 'spec/**/*.rb', 'features/**/*', 'rails/**/*']
     s.require_path = 'lib'
     s.test_files   = Dir['spec/**/*_spec.rb', 'features/**/*']
 

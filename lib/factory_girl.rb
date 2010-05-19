@@ -11,6 +11,7 @@ require 'factory_girl/attribute/association'
 require 'factory_girl/attribute/callback'
 require 'factory_girl/sequence'
 require 'factory_girl/aliases'
+require 'factory_girl/railtie'
 
 # Shortcut for Factory.default_strategy.
 #
@@ -19,16 +20,3 @@ require 'factory_girl/aliases'
 def Factory (name, attrs = {})
   Factory.default_strategy(name, attrs)
 end
-
-if defined? Rails.configuration
-  Rails.configuration.after_initialize do
-    Factory.definition_file_paths = [
-      File.join(Rails.root, 'test', 'factories'),
-      File.join(Rails.root, 'spec', 'factories')
-    ]
-    Factory.find_definitions
-  end
-else
-  Factory.find_definitions
-end
-
