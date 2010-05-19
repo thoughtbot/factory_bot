@@ -9,10 +9,8 @@ require 'cucumber/rake/task'
 
 desc 'Default: run the specs and features.'
 task :default do
-  %w(2.3.5 3.0.0.beta3).each do |version|
-    puts "Running tests with Rails #{version}"
-
-    system("CUSTOM_RAILS=#{version} rake -s spec features;")
+  %w(2.1 2.3 3.0).each do |version|
+    system("RAILS_VERSION=#{version} rake -s spec features;")
   end
 end
 
