@@ -1,4 +1,5 @@
 class Factory
+  VERSION = "1.2.4"
 
   # Raised when a factory is defined that attempts to instantiate itself.
   class AssociationDefinitionError < RuntimeError
