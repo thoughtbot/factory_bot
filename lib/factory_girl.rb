@@ -20,3 +20,7 @@ require 'factory_girl/railtie'
 def Factory (name, attrs = {})
   Factory.default_strategy(name, attrs)
 end
+
+class Factory
+  VERSION = "1.2.5"
+end
