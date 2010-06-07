@@ -1,6 +1,6 @@
 class Factory
-  undef :id
-  undef :type
+  undef :id   if Factory.instance_methods.include?('id')
+  undef :type if Factory.instance_methods.include?('type')
 
   # Raised when a factory is defined that attempts to instantiate itself.
   class AssociationDefinitionError < RuntimeError
