@@ -39,4 +39,3 @@ class Factory
 end
 
 ActiveRecord::Base.send(:include, Factory::Syntax::Blueprint::ActiveRecord)
-

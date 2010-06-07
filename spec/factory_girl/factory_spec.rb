@@ -36,7 +36,7 @@ describe Factory do
     end
 
     it "should not allow a duplicate factory definition" do
-      lambda { 
+      lambda {
         2.times { Factory.define(@name) {|f| } }
       }.should raise_error(Factory::DuplicateDefinitionError)
     end

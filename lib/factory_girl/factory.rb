@@ -5,7 +5,7 @@ class Factory
   # Raised when a factory is defined that attempts to instantiate itself.
   class AssociationDefinitionError < RuntimeError
   end
-  
+
   # Raised when a callback is defined that has an invalid name
   class InvalidCallbackNameError < RuntimeError
   end
@@ -13,7 +13,7 @@ class Factory
   # Raised when a factory is defined with the same name as a previously-defined factory.
   class DuplicateDefinitionError < RuntimeError
   end
-  
+
   class << self
     attr_accessor :factories #:nodoc:
 
@@ -56,13 +56,13 @@ class Factory
     yield(instance)
     if parent = options.delete(:parent)
       instance.inherit_from(Factory.factory_by_name(parent))
-    end    
-    if self.factories[instance.factory_name] 
+    end
+    if self.factories[instance.factory_name]
       raise DuplicateDefinitionError, "Factory already defined: #{name}"
     end
     self.factories[instance.factory_name] = instance
   end
-  
+
   def class_name #:nodoc:
     @options[:class] || factory_name
   end
@@ -70,7 +70,7 @@ class Factory
   def build_class #:nodoc:
     @build_class ||= class_for(class_name)
   end
-  
+
   def default_strategy #:nodoc:
     @options[:default_strategy] || :create
   end
@@ -78,10 +78,10 @@ class Factory
   def initialize (name, options = {}) #:nodoc:
     assert_valid_options(options)
     @factory_name = factory_name_for(name)
-    @options      = options      
+    @options      = options
     @attributes   = []
   end
-  
+
   def inherit_from(parent) #:nodoc:
     @options[:class] ||= parent.class_name
     parent.attributes.each do |attribute|
@@ -140,7 +140,7 @@ class Factory
   #     f.add_attribute :name, 'Billy Idol'
   #   end
   #
-  # are equivilent. 
+  # are equivilent.
   def method_missing (name, *args, &block)
     add_attribute(name, *args, &block)
   end
@@ -196,26 +196,26 @@ class Factory
     s = Sequence.new(&block)
     add_attribute(name) { s.next }
   end
-  
+
   def after_build(&block)
     callback(:after_build, &block)
   end
-  
+
   def after_create(&block)
     callback(:after_create, &block)
   end
-  
+
   def after_stub(&block)
     callback(:after_stub, &block)
   end
-  
+
   def callback(name, &block)
     unless [:after_build, :after_create, :after_stub].include?(name.to_sym)
       raise InvalidCallbackNameError, "#{name} is not a valid callback name. Valid callback names are :after_build, :after_create, and :after_stub"
     end
     @attributes << Attribute::Callback.new(name.to_sym, block)
   end
-  
+
   # Generates and returns a Hash of attributes from this factory. Attributes
   # can be individually overridden by passing in a Hash of attribute => value
   # pairs.
@@ -228,7 +228,7 @@ class Factory
   #
   # Returns: +Hash+
   # A set of attributes that can be used to build an instance of the class
-  # this factory generates. 
+  # this factory generates.
   def self.attributes_for (name, overrides = {})
     factory_by_name(name).run(Proxy::AttributesFor, overrides)
   end
@@ -268,7 +268,7 @@ class Factory
   def self.create (name, overrides = {})
     factory_by_name(name).run(Proxy::Create, overrides)
   end
-  
+
   # Generates and returns an object with all attributes from this factory
   # stubbed out. Attributes can be individually overridden by passing in a Hash
   # of attribute => value pairs.
@@ -284,7 +284,7 @@ class Factory
   def self.stub (name, overrides = {})
     factory_by_name(name).run(Proxy::Stub, overrides)
   end
-  
+
   # Executes the default strategy for the given factory. This is usually create,
   # but it can be overridden for each factory.
   #
@@ -296,7 +296,7 @@ class Factory
   #
   # Returns: +Object+
   # The result of the default strategy.
-  def self.default_strategy (name, overrides = {})  
+  def self.default_strategy (name, overrides = {})
     self.send(factory_by_name(name).default_strategy, name, overrides)
   end
 
@@ -367,13 +367,13 @@ class Factory
   end
 
   def assert_valid_options(options)
-    invalid_keys = options.keys - [:class, :parent, :default_strategy] 
+    invalid_keys = options.keys - [:class, :parent, :default_strategy]
     unless invalid_keys == []
       raise ArgumentError, "Unknown arguments: #{invalid_keys.inspect}"
     end
     assert_valid_strategy(options[:default_strategy]) if options[:default_strategy]
   end
-  
+
   def assert_valid_strategy(strategy)
     unless Factory::Proxy.const_defined? variable_name_to_class_name(strategy)
       raise ArgumentError, "Unknown strategy: #{strategy}"

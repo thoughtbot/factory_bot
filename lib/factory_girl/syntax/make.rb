@@ -7,7 +7,7 @@ class Factory
     # Usage:
     #
     #   require 'factory_girl/syntax/make'
-    #   
+    #
     #   Factory.define :user do |factory|
     #     factory.name 'Billy Bob'
     #     factory.email 'billy@bob.example.com'

@@ -202,7 +202,7 @@ Factory_girl makes available three callbacks for injecting some code:
 
 Examples:
 
-  # Define a factory that calls the generate_hashed_password method after it is built 
+  # Define a factory that calls the generate_hashed_password method after it is built
   Factory.define :user do |u|
     u.after_build { |user| do_something_to(user) }
   end

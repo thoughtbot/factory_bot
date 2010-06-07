@@ -51,4 +51,3 @@ Factory.factories.values.each do |factory|
     end
   end
 end
-

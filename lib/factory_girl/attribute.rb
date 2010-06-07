@@ -6,7 +6,7 @@ class Factory
   # * Defining an attribute twice in the same factory
   class AttributeDefinitionError < RuntimeError
   end
-  
+
   class Attribute #:nodoc:
 
     attr_reader :name
@@ -16,7 +16,7 @@ class Factory
 
       if @name.to_s =~ /=$/
         attribute_name = $`
-        raise AttributeDefinitionError, 
+        raise AttributeDefinitionError,
           "factory_girl uses 'f.#{attribute_name} value' syntax " +
           "rather than 'f.#{attribute_name} = value'"
       end
