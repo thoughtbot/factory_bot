@@ -23,8 +23,7 @@ end
 World(FactoryGirlStepHelpers)
 
 Factory.factories.values.each do |factory|
-  # TODO: support irregular pluralizations
-  Given /^the following #{factory.human_name}s? exists?:$/ do |table|
+  Given /^the following (?:#{factory.human_name}|#{factory.human_name.pluralize}) exists?:$/ do |table|
     table.hashes.each do |human_hash|
       attributes = convert_human_hash_to_attribute_hash(human_hash, factory.associations)
       Factory.create(factory.factory_name, attributes)
@@ -35,7 +34,7 @@ Factory.factories.values.each do |factory|
     Factory(factory.factory_name)
   end
 
-  Given /^(\d+) #{factory.human_name}s exist$/ do |count|
+  Given /^(\d+) #{factory.human_name.pluralize} exist$/ do |count|
     count.to_i.times { Factory(factory.factory_name) }
   end
 
@@ -46,7 +45,7 @@ Factory.factories.values.each do |factory|
         Factory(factory.factory_name, column.name => value)
       end
 
-      Given /^(\d+) #{factory.human_name}s exist with an? #{human_column_name} of "([^"]*)"$/i do |count, value|
+      Given /^(\d+) #{factory.human_name.pluralize} exist with an? #{human_column_name} of "([^"]*)"$/i do |count, value|
         count.to_i.times { Factory(factory.factory_name, column.name => value) }
       end
     end
