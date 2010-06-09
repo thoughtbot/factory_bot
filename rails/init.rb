@@ -1,2 +1,2 @@
-require 'factory_girl/railtie'
-Factory::Railtie.configure
+require 'factory_girl'
+Rails.configuration.after_initialize { Factory.find_definitions }

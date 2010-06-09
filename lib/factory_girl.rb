@@ -11,7 +11,6 @@ require 'factory_girl/attribute/association'
 require 'factory_girl/attribute/callback'
 require 'factory_girl/sequence'
 require 'factory_girl/aliases'
-require 'factory_girl/railtie'
 
 # Shortcut for Factory.default_strategy.
 #
@@ -22,5 +21,5 @@ def Factory (name, attrs = {})
 end
 
 class Factory
-  VERSION = "1.2.5"
+  VERSION = "1.3.0"
 end
