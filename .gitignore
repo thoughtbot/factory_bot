@@ -1,0 +1,6 @@
+*.swp
+test.db
+factory_girl-*.gem
+tmp
+rdoc
+coverage
