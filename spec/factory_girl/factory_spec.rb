@@ -1,6 +1,15 @@
-require File.expand_path(File.join(File.dirname(__FILE__), '..', 'spec_helper'))
+require 'spec_helper'
 
 describe Factory do
+  include DefinesConstants
+
+  before do
+    define_constant('User')
+    define_constant('Admin', User)
+    define_constant('Business')
+    define_constant('Admin::Settings')
+  end
+
   describe "defining a factory" do
     before do
       @name    = :user
@@ -411,7 +420,7 @@ describe Factory do
     end
 
     it "should build Admin::Settings class from Admin::Settings string" do
-      factory = Factory.define(@name.to_s, :class => @class.name.underscore) {}
+      factory = Factory.define(@name.to_s, :class => 'admin/settings') {}
       factory.build_class.should == @class
     end
   end

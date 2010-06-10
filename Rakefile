@@ -9,14 +9,28 @@ require 'cucumber/rake/task'
 
 desc 'Default: run the specs and features.'
 task :default do
+  system("rake -s spec:unit;")
   %w(2.1 2.3 3.0).each do |version|
-    system("RAILS_VERSION=#{version} rake -s spec features;")
+    system("RAILS_VERSION=#{version} rake -s spec:acceptance features;")
   end
 end
 
-Spec::Rake::SpecTask.new do |t|
-  t.spec_opts = ['--options', "spec/spec.opts"]
+namespace :spec do
+  desc "Run unit specs"
+  Spec::Rake::SpecTask.new('unit') do |t|
+    t.spec_opts = ['--options', "spec/spec.opts"]
+    t.spec_files = FileList['spec/factory_girl/**/*_spec.rb']
+  end
+
+  desc "Run acceptance specs"
+  Spec::Rake::SpecTask.new('acceptance') do |t|
+    t.spec_opts = ['--options', "spec/spec.opts"]
+    t.spec_files = FileList['spec/acceptance/**/*_spec.rb']
+  end
 end
+
+desc "Run the unit and acceptance specs"
+task :spec => ['spec:unit', 'spec:acceptance']
 
 desc 'Performs code coverage on the factory_girl plugin.'
 Rcov::RcovTask.new do |t|
