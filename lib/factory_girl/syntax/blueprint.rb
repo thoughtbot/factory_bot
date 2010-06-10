@@ -27,8 +27,9 @@ class Factory
 
           def blueprint(&block)
             instance = Factory.new(name.underscore, :class => self)
-            instance.instance_eval(&block)
-            Factory.factories[instance.factory_name] = instance
+            proxy = Factory::DefinitionProxy.new(instance)
+            proxy.instance_eval(&block)
+            Factory.register_factory(instance)
           end
 
         end

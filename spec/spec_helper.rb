@@ -10,6 +10,10 @@ require 'factory_girl'
 
 Spec::Runner.configure do |config|
   config.mock_with RR::Adapters::Rspec
+  config.after do
+    Factory.factories.clear
+    Factory.sequences.clear
+  end
 end
 
 share_as :DefinesConstants do

@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'acceptance/acceptance_helper'
 
 require 'factory_girl/syntax/generate'
 
@@ -9,10 +10,6 @@ describe "a factory using generate syntax" do
       factory.last_name  'Nye'
       factory.email      'science@guys.net'
     end
-  end
-
-  after do
-    Factory.factories.clear
   end
 
   it "should not raise an error when generating an invalid instance" do

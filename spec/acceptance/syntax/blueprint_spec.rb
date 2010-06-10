@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'acceptance/acceptance_helper'
 
 require 'factory_girl/syntax/blueprint'
 
@@ -10,11 +11,6 @@ describe "a blueprint" do
       last_name  { 'Nye'                }
       email      { Factory.next(:email) }
     end
-  end
-
-  after do
-    Factory.factories.clear
-    Factory.sequences.clear
   end
 
   describe "after making an instance" do

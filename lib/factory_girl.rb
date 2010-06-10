@@ -11,6 +11,8 @@ require 'factory_girl/attribute/association'
 require 'factory_girl/attribute/callback'
 require 'factory_girl/sequence'
 require 'factory_girl/aliases'
+require 'factory_girl/definition_proxy'
+require 'factory_girl/syntax/default'
 
 # Shortcut for Factory.default_strategy.
 #

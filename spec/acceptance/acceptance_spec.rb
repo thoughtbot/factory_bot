@@ -39,7 +39,7 @@ describe "integration" do
     end
 
     Factory.define :user_with_inherited_callbacks, :parent => :user_with_callbacks do |f|
-      f.callback(:after_stub) {|u| u.last_name = 'Double-Stubby' }
+      f.after_stub {|u| u.last_name = 'Double-Stubby' }
     end
 
     Factory.define :business do |f|
