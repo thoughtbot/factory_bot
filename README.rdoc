@@ -2,17 +2,16 @@
 
 factory_girl is a fixtures replacement with a straightforward definition syntax, support for multiple build strategies (saved instances, unsaved instances, attribute hashes, and stubbed objects), and support for multiple factories for the same class (user, admin_user, and so on), including factory inheritance.
 
+If you want to use factory_girl with Rails 3, use the factory_girl_rails gem, not this one.
+
+If you want to use factory_girl with Rails versions prior to Rails 3, use version 1.2.4.
+
 == Download
 
 Github: http://github.com/thoughtbot/factory_girl/tree/master
 
 Gem:
   gem install factory_girl
-
-If you want to use Rails 2.1+'s dependency manager you'll need this in your
-environment.rb file:
-
-  config.gem "factory_girl"
 
 == Defining factories
 
