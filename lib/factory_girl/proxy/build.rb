@@ -13,12 +13,14 @@ class Factory
         @instance.send(:"#{attribute}=", value)
       end
 
-      def associate(name, factory, attributes)
-        set(name, Factory.create(factory, attributes))
+      def associate(name, factory_name, overrides)
+        factory = Factory.factory_by_name(factory_name)
+        set(name, factory.run(Proxy::Create, overrides))
       end
 
-      def association(factory, overrides = {})
-        Factory.create(factory, overrides)
+      def association(factory_name, overrides = {})
+        factory = Factory.factory_by_name(factory_name)
+        factory.run(Proxy::Create, overrides)
       end
 
       def result

@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'acceptance/acceptance_helper'
 
 require 'factory_girl/syntax/sham'
 

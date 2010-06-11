@@ -1,5 +1,4 @@
 class Factory
-
   # Defines a new factory that can be used by the build strategies (create and
   # build) to build new objects.
   #
@@ -114,5 +113,13 @@ class Factory
   def self.default_strategy (name, overrides = {})
     self.send(factory_by_name(name).default_strategy, name, overrides)
   end
-
 end
+
+# Shortcut for Factory.default_strategy.
+#
+# Example:
+#   Factory(:user, :name => 'Joe')
+def Factory (name, attrs = {})
+  Factory.default_strategy(name, attrs)
+end
+

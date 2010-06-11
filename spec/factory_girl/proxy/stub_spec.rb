@@ -23,13 +23,14 @@ describe Factory::Proxy::Stub do
   describe "when a user factory exists" do
     before do
       @user = "user"
-      stub(Factory).stub(:user, {}) { @user }
+      stub(Factory).factory_by_name { @associated_factory }
+      @associated_factory = 'associate-factory'
     end
 
     describe "when asked to associate with another factory" do
       before do
         stub(@instance).owner { @user }
-        mock(Factory).stub(:user, {}) { @user }
+        mock(@associated_factory).run(Factory::Proxy::Stub, {}) { @user }
         mock(@stub).set(:owner, @user)
 
         @stub.associate(:owner, :user, {})
@@ -41,7 +42,7 @@ describe Factory::Proxy::Stub do
     end
 
     it "should return the association when building one" do
-      mock(Factory).create.never
+      mock(@associated_factory).run(Factory::Proxy::Stub, {}) { @user }
       @stub.association(:user).should == @user
     end
 

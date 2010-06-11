@@ -4,10 +4,8 @@ describe Factory::Proxy::Create do
   before do
     @class       = Class.new
     @instance    = "built-instance"
-    @association = "associated-instance"
 
     stub(@class).new { @instance }
-    stub(Factory).create { @association }
     stub(@instance).attribute { 'value' }
     stub(@instance, :attribute=)
     stub(@instance, :owner=)
@@ -22,11 +20,16 @@ describe Factory::Proxy::Create do
 
   describe "when asked to associate with another factory" do
     before do
-      @proxy.associate(:owner, :user, {})
+      @association = "associated-instance"
+      @associated_factory = "associated-factory"
+      stub(Factory).factory_by_name { @associated_factory }
+      stub(@associated_factory).run { @association }
+      @overrides = { 'attr' => 'value' }
+      @proxy.associate(:owner, :user, @overrides)
     end
 
     it "should create the associated instance" do
-      Factory.should have_received.create(:user, {})
+      @associated_factory.should have_received.run(Factory::Proxy::Create, @overrides)
     end
 
     it "should set the associated instance" do
@@ -34,12 +37,14 @@ describe Factory::Proxy::Create do
     end
   end
 
-  it "should call Factory.create when building an association" do
-    association = 'association'
-    attribs     = { :first_name => 'Billy' }
-    stub(Factory).create { association }
-    @proxy.association(:user, attribs).should == association
-    Factory.should have_received.create(:user, attribs)
+  it "should run create when building an association" do
+    association = "associated-instance"
+    associated_factory = "associated-factory"
+    stub(Factory).factory_by_name { associated_factory }
+    stub(associated_factory).run { association }
+    overrides = { 'attr' => 'value' }
+    @proxy.association(:user, overrides).should == association
+    associated_factory.should have_received.run(Factory::Proxy::Create, overrides)
   end
 
   describe "when asked for the result" do

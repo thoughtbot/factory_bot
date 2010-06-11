@@ -24,9 +24,9 @@ class Factory
       module Sham #:nodoc:
         def self.method_missing(name, &block)
           if block_given?
-            Factory.sequence(name, &block)
+            Factory.sequences[name] = Sequence.new(&block)
           else
-            Factory.next(name)
+            Factory.sequences[name].next
           end
         end
 

@@ -14,14 +14,6 @@ require 'factory_girl/aliases'
 require 'factory_girl/definition_proxy'
 require 'factory_girl/syntax/default'
 
-# Shortcut for Factory.default_strategy.
-#
-# Example:
-#   Factory(:user, :name => 'Joe')
-def Factory (name, attrs = {})
-  Factory.default_strategy(name, attrs)
-end
-
 class Factory
   VERSION = "1.3.1"
 end
