@@ -42,7 +42,7 @@ class Factory
     #
     # Returns:
     #   The generated association for the current build strategy. Note that
-    #   assocaitions are not generated for the attributes_for strategy. Returns
+    #   associations are not generated for the attributes_for strategy. Returns
     #   nil in this case.
     #
     # Example:

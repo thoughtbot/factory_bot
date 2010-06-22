@@ -16,7 +16,7 @@ class Factory
   #   aliases. Contents captured in the pattern can be used in the alias.
   # * replace: +String+
   #   The alias that results from the matched pattern. Captured strings can
-  #   be substituded like with +String#sub+.
+  #   be substituted like with +String#sub+.
   #
   # Example:
   #

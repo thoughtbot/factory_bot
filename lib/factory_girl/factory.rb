@@ -98,7 +98,7 @@ class Factory
   # This method should be called with either a value or block, but not both. If
   # called with a block, the attribute will be generated "lazily," whenever an
   # instance is generated. Lazy attribute blocks will not be called if that
-  # attribute is overriden for a specific instance.
+  # attribute is overridden for a specific instance.
   #
   # When defining lazy attributes, an instance of Factory::Proxy will
   # be yielded, allowing associations to be built using the correct build
