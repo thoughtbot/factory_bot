@@ -3,6 +3,7 @@ require 'rake'
 require 'rake/rdoctask'
 require 'rcov/rcovtask'
 require 'date'
+require 'rake/gempackagetask'
 
 require 'spec/rake/spectask'
 require 'cucumber/rake/task'
@@ -59,4 +60,10 @@ task :clobber => [:clobber_rdoc, :clobber_rcov]
 Cucumber::Rake::Task.new(:features) do |t|
   t.fork = true
   t.cucumber_opts = ['--format', (ENV['CUCUMBER_FORMAT'] || 'progress')]
+end
+
+eval("$specification = begin; #{IO.read('factory_girl.gemspec')}; end")
+Rake::GemPackageTask.new($specification) do |package|
+  package.need_zip = true
+  package.need_tar = true
 end
