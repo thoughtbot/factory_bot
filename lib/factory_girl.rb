@@ -21,5 +21,10 @@ def Factory (name, attrs = {})
 end
 
 class Factory
-  VERSION = "1.3.0"
+  VERSION = "1.3.1"
 end
+
+if defined?(Rails) && Rails::VERSION::MAJOR == 2
+  require 'factory_girl/rails2'
+end
+
