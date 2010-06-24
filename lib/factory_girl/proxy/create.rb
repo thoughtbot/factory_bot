@@ -1,4 +1,4 @@
-class Factory
+module FactoryGirl
   class Proxy #:nodoc:
     class Create < Build #:nodoc:
       def result

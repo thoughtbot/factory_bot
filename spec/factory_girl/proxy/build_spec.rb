@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Factory::Proxy::Build do
+describe FactoryGirl::Proxy::Build do
   before do
     @class       = Class.new
     @instance    = "built-instance"
@@ -10,7 +10,7 @@ describe Factory::Proxy::Build do
     stub(@instance, :attribute=)
     stub(@instance, :owner=)
 
-    @proxy = Factory::Proxy::Build.new(@class)
+    @proxy = FactoryGirl::Proxy::Build.new(@class)
   end
 
   it "should instantiate the class" do
@@ -21,14 +21,14 @@ describe Factory::Proxy::Build do
     before do
       @association = "associated-instance"
       @associated_factory = "associated-factory"
-      stub(Factory).factory_by_name { @associated_factory }
+      stub(FactoryGirl).factory_by_name { @associated_factory }
       stub(@associated_factory).run { @association }
       @overrides = { 'attr' => 'value' }
       @proxy.associate(:owner, :user, @overrides)
     end
 
     it "should create the associated instance" do
-      @associated_factory.should have_received.run(Factory::Proxy::Create, @overrides)
+      @associated_factory.should have_received.run(FactoryGirl::Proxy::Create, @overrides)
     end
 
     it "should set the associated instance" do
@@ -39,11 +39,11 @@ describe Factory::Proxy::Build do
   it "should run create when building an association" do
     association = "associated-instance"
     associated_factory = "associated-factory"
-    stub(Factory).factory_by_name { associated_factory }
+    stub(FactoryGirl).factory_by_name { associated_factory }
     stub(associated_factory).run { association }
     overrides = { 'attr' => 'value' }
     @proxy.association(:user, overrides).should == association
-    associated_factory.should have_received.run(Factory::Proxy::Create, overrides)
+    associated_factory.should have_received.run(FactoryGirl::Proxy::Create, overrides)
   end
 
   it "should return the built instance when asked for the result" do

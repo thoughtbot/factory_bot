@@ -1,4 +1,4 @@
-class Factory
+module FactoryGirl
   class Attribute #:nodoc:
 
     class Association < Attribute  #:nodoc:

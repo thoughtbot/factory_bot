@@ -1,4 +1,4 @@
-class Factory
+module FactoryGirl
   class DefinitionProxy
     instance_methods.each do |method|
       undef_method(method) unless method =~ /(^__|^nil\?$|^send$|^object_id$|^extend$|^instance_eval$)/

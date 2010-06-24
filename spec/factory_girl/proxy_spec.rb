@@ -1,8 +1,8 @@
 require 'spec_helper'
 
-describe Factory::Proxy do
+describe FactoryGirl::Proxy do
   before do
-    @proxy = Factory::Proxy.new(Class.new)
+    @proxy = FactoryGirl::Proxy.new(Class.new)
   end
 
   it "should do nothing when asked to set an attribute to a value" do

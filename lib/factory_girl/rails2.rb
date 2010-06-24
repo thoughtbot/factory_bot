@@ -1,1 +1,1 @@
-Rails.configuration.after_initialize { Factory.find_definitions }
+Rails.configuration.after_initialize { FactoryGirl.find_definitions }

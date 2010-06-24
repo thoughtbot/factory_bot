@@ -1,4 +1,4 @@
-class Factory
+module FactoryGirl
   class Proxy #:nodoc:
     class Build < Proxy #:nodoc:
       def initialize(klass)
@@ -14,12 +14,12 @@ class Factory
       end
 
       def associate(name, factory_name, overrides)
-        factory = Factory.factory_by_name(factory_name)
+        factory = FactoryGirl.factory_by_name(factory_name)
         set(name, factory.run(Proxy::Create, overrides))
       end
 
       def association(factory_name, overrides = {})
-        factory = Factory.factory_by_name(factory_name)
+        factory = FactoryGirl.factory_by_name(factory_name)
         factory.run(Proxy::Create, overrides)
       end
 

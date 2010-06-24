@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Factory::Proxy::Stub do
+describe FactoryGirl::Proxy::Stub do
   before do
     @class = "class"
     @instance = "instance"
@@ -9,7 +9,7 @@ describe Factory::Proxy::Stub do
     stub(@instance).id { 42 }
     stub(@instance).reload { @instance.connection.reload }
 
-    @stub = Factory::Proxy::Stub.new(@class)
+    @stub = FactoryGirl::Proxy::Stub.new(@class)
   end
 
   it "should not be a new record" do
@@ -23,14 +23,14 @@ describe Factory::Proxy::Stub do
   describe "when a user factory exists" do
     before do
       @user = "user"
-      stub(Factory).factory_by_name { @associated_factory }
+      stub(FactoryGirl).factory_by_name { @associated_factory }
       @associated_factory = 'associate-factory'
     end
 
     describe "when asked to associate with another factory" do
       before do
         stub(@instance).owner { @user }
-        mock(@associated_factory).run(Factory::Proxy::Stub, {}) { @user }
+        mock(@associated_factory).run(FactoryGirl::Proxy::Stub, {}) { @user }
         mock(@stub).set(:owner, @user)
 
         @stub.associate(:owner, :user, {})
@@ -42,7 +42,7 @@ describe Factory::Proxy::Stub do
     end
 
     it "should return the association when building one" do
-      mock(@associated_factory).run(Factory::Proxy::Stub, {}) { @user }
+      mock(@associated_factory).run(FactoryGirl::Proxy::Stub, {}) { @user }
       @stub.association(:user).should == @user
     end
 

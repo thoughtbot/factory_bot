@@ -1,4 +1,4 @@
-class Factory
+module FactoryGirl
 
   # Raised when defining an invalid attribute:
   # * Defining an attribute which has a name ending in "="

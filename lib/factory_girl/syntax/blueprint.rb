@@ -1,4 +1,4 @@
-class Factory
+module FactoryGirl
   module Syntax
 
     # Extends ActiveRecord::Base to provide a make class method, which is an
@@ -27,9 +27,9 @@ class Factory
 
           def blueprint(&block)
             instance = Factory.new(name.underscore, :class => self)
-            proxy = Factory::DefinitionProxy.new(instance)
+            proxy = FactoryGirl::DefinitionProxy.new(instance)
             proxy.instance_eval(&block)
-            Factory.register_factory(instance)
+            FactoryGirl.register_factory(instance)
           end
 
         end
@@ -39,4 +39,4 @@ class Factory
   end
 end
 
-ActiveRecord::Base.send(:include, Factory::Syntax::Blueprint::ActiveRecord)
+ActiveRecord::Base.send(:include, FactoryGirl::Syntax::Blueprint::ActiveRecord)

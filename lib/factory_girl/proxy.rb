@@ -1,5 +1,4 @@
-class Factory
-
+module FactoryGirl
   class Proxy #:nodoc:
 
     attr_reader :callbacks
@@ -75,5 +74,4 @@ class Factory
       raise NotImplementedError, "Strategies must return a result"
     end
   end
-
 end

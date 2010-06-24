@@ -1,11 +1,11 @@
 require 'spec_helper'
 
-describe Factory::Attribute::Association do
+describe FactoryGirl::Attribute::Association do
   before do
     @name      = :author
     @factory   = :user
     @overrides = { :first_name => 'John' }
-    @attr      = Factory::Attribute::Association.new(@name, @factory, @overrides)
+    @attr      = FactoryGirl::Attribute::Association.new(@name, @factory, @overrides)
   end
 
   it "should have a name" do
@@ -24,6 +24,6 @@ describe Factory::Attribute::Association do
   end
 
   it "should convert names to symbols" do
-    Factory::Attribute::Association.new('name', :user, {}).name.should == :name
+    FactoryGirl::Attribute::Association.new('name', :user, {}).name.should == :name
   end
 end

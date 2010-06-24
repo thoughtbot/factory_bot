@@ -1,4 +1,4 @@
-class Factory
+module FactoryGirl
   module Syntax
 
     # Adds a Sham module, which provides an alternate interface to
@@ -24,9 +24,9 @@ class Factory
       module Sham #:nodoc:
         def self.method_missing(name, &block)
           if block_given?
-            Factory.sequences[name] = Sequence.new(&block)
+            FactoryGirl.sequences[name] = Sequence.new(&block)
           else
-            Factory.sequences[name].next
+            FactoryGirl.sequences[name].next
           end
         end
 
@@ -39,4 +39,4 @@ class Factory
   end
 end
 
-include Factory::Syntax::Sham
+include FactoryGirl::Syntax::Sham

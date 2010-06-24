@@ -1,10 +1,10 @@
 require 'spec_helper'
 
-describe Factory::Attribute::Dynamic do
+describe FactoryGirl::Attribute::Dynamic do
   before do
     @name  = :first_name
     @block = lambda { 'value' }
-    @attr  = Factory::Attribute::Dynamic.new(@name, @block)
+    @attr  = FactoryGirl::Attribute::Dynamic.new(@name, @block)
   end
 
   it "should have a name" do
@@ -20,7 +20,7 @@ describe Factory::Attribute::Dynamic do
 
   it "should yield the proxy to the block when adding its value to a proxy" do
     @block = lambda {|a| a }
-    @attr  = Factory::Attribute::Dynamic.new(:user, @block)
+    @attr  = FactoryGirl::Attribute::Dynamic.new(:user, @block)
     @proxy = "proxy"
     stub(@proxy).set
     @attr.add_to(@proxy)
@@ -29,21 +29,21 @@ describe Factory::Attribute::Dynamic do
 
   it "should raise an error when defining an attribute writer" do
     lambda {
-      Factory::Attribute::Dynamic.new('test=', nil)
-    }.should raise_error(Factory::AttributeDefinitionError)
+      FactoryGirl::Attribute::Dynamic.new('test=', nil)
+    }.should raise_error(FactoryGirl::AttributeDefinitionError)
   end
 
   it "should raise an error when returning a sequence" do
-    stub(Factory).sequence { Factory::Sequence.new }
+    stub(Factory).sequence { FactoryGirl::Sequence.new }
     block = lambda { Factory.sequence(:email) }
-    attr = Factory::Attribute::Dynamic.new(:email, block)
+    attr = FactoryGirl::Attribute::Dynamic.new(:email, block)
     proxy = stub!.set.subject
     lambda {
       attr.add_to(proxy)
-    }.should raise_error(Factory::SequenceAbuseError)
+    }.should raise_error(FactoryGirl::SequenceAbuseError)
   end
 
   it "should convert names to symbols" do
-    Factory::Attribute::Dynamic.new('name', nil).name.should == :name
+    FactoryGirl::Attribute::Dynamic.new('name', nil).name.should == :name
   end
 end

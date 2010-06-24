@@ -1,4 +1,4 @@
-class Factory
+module FactoryGirl
   class Attribute #:nodoc:
 
     class Dynamic < Attribute  #:nodoc:
@@ -9,7 +9,7 @@ class Factory
 
       def add_to(proxy)
         value = @block.arity.zero? ? @block.call : @block.call(proxy)
-        if Factory::Sequence === value
+        if FactoryGirl::Sequence === value
           raise SequenceAbuseError
         end
         proxy.set(name, value)

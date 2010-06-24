@@ -1,10 +1,10 @@
 require 'spec_helper'
 
-describe Factory::Attribute::Callback do
+describe FactoryGirl::Attribute::Callback do
   before do
     @name  = :after_create
     @block = proc{ 'block' }
-    @attr  = Factory::Attribute::Callback.new(@name, @block)
+    @attr  = FactoryGirl::Attribute::Callback.new(@name, @block)
   end
 
   it "should have a name" do
@@ -18,6 +18,6 @@ describe Factory::Attribute::Callback do
   end
 
   it "should convert names to symbols" do
-    Factory::Attribute::Callback.new('name', nil).name.should == :name
+    FactoryGirl::Attribute::Callback.new('name', nil).name.should == :name
   end
 end

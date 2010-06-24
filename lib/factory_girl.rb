@@ -13,8 +13,9 @@ require 'factory_girl/sequence'
 require 'factory_girl/aliases'
 require 'factory_girl/definition_proxy'
 require 'factory_girl/syntax/default'
+require 'factory_girl/find_definitions'
 
-class Factory
+module FactoryGirl
   VERSION = "1.3.1"
 end
 

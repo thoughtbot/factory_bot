@@ -15,11 +15,6 @@ describe "a factory using sham syntax" do
     end
   end
 
-  after do
-    Factory.factories.clear
-    Factory.sequences.clear
-  end
-
   describe "after making an instance" do
     before do
       @instance = Factory(:user, :last_name => 'Rye')

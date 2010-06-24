@@ -11,8 +11,8 @@ require 'factory_girl'
 Spec::Runner.configure do |config|
   config.mock_with RR::Adapters::Rspec
   config.after do
-    Factory.factories.clear
-    Factory.sequences.clear
+    FactoryGirl.factories.clear
+    FactoryGirl.sequences.clear
   end
 end
 

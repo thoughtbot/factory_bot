@@ -3,7 +3,7 @@ module FactoryGirlStepHelpers
     attribute, value = assignment.split(':', 2)
     return if value.blank?
     attributes = convert_human_hash_to_attribute_hash(attribute => value.strip)
-    factory = Factory.factory_by_name(factory_name)
+    factory = FactoryGirl.factory_by_name(factory_name)
     model_class = factory.build_class
     model_class.find(:first, :conditions => attributes) or
       Factory(factory_name, attributes)
@@ -22,11 +22,11 @@ end
 
 World(FactoryGirlStepHelpers)
 
-Factory.factories.values.each do |factory|
+FactoryGirl.factories.values.each do |factory|
   Given /^the following (?:#{factory.human_name}|#{factory.human_name.pluralize}) exists?:$/ do |table|
     table.hashes.each do |human_hash|
       attributes = convert_human_hash_to_attribute_hash(human_hash, factory.associations)
-      factory.run(Factory::Proxy::Create, attributes)
+      factory.run(FactoryGirl::Proxy::Create, attributes)
     end
   end
 

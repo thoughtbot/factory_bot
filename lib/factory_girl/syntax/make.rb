@@ -1,4 +1,4 @@
-class Factory
+module FactoryGirl
   module Syntax
 
     # Extends ActiveRecord::Base to provide a make class method, which is a
@@ -26,7 +26,7 @@ class Factory
         module ClassMethods #:nodoc:
 
           def make(overrides = {})
-            Factory.factory_by_name(name.underscore).run(Proxy::Create, overrides)
+            FactoryGirl.factory_by_name(name.underscore).run(Proxy::Create, overrides)
           end
 
         end
@@ -36,4 +36,4 @@ class Factory
   end
 end
 
-ActiveRecord::Base.send(:include, Factory::Syntax::Make::ActiveRecord)
+ActiveRecord::Base.send(:include, FactoryGirl::Syntax::Make::ActiveRecord)

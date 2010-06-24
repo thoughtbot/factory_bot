@@ -2,7 +2,7 @@ $LOAD_PATH << File.join(File.dirname(__FILE__), 'lib')
 require 'factory_girl'
 Gem::Specification.new do |s|
     s.name        = %q{factory_girl}
-    s.version     = Factory::VERSION
+    s.version     = FactoryGirl::VERSION
     s.summary     = %q{factory_girl provides a framework and DSL for defining and
                        using model instance factories.}
     s.description = %q{factory_girl provides a framework and DSL for defining and
