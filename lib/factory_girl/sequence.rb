@@ -9,7 +9,7 @@ module FactoryGirl
 
     def initialize(value = 1, &proc) #:nodoc:
       @proc  = proc
-      @value = value || 1 
+      @value = value || 1
     end
 
     # Returns the next value for this sequence

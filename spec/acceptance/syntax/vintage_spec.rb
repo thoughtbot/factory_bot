@@ -153,7 +153,7 @@ describe "defining a sequence" do
     Factory.sequence(@name) {|n| yielded = true }
     (yielded).should be
   end
-  
+
   it "should use the supplied start_value as the sequence start_value" do
     mock(FactoryGirl::Sequence).new("A") { @sequence }
     Factory.sequence(@name, "A")
