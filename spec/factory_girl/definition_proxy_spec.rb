@@ -5,12 +5,12 @@ describe FactoryGirl::DefinitionProxy do
   subject { FactoryGirl::DefinitionProxy.new(factory) }
 
   it "should add a static attribute for type" do
-    subject.type
+    subject.type 'value'
     factory.attributes.last.should be_kind_of(FactoryGirl::Attribute::Static)
   end
 
   it "should add a static attribute for id" do
-    subject.id
+    subject.id 'value'
     factory.attributes.last.should be_kind_of(FactoryGirl::Attribute::Static)
   end
 
@@ -97,9 +97,26 @@ describe FactoryGirl::DefinitionProxy do
   it "should add an attribute using the method name when passed an undefined method" do
     attribute = 'attribute'
     stub(attribute).name { :name }
-    block = lambda {}
     mock(FactoryGirl::Attribute::Static).new(:name, 'value') { attribute }
     subject.send(:name, 'value')
     factory.attributes.should include(attribute)
+  end
+
+  it "adds an attribute using when passed an undefined method and block" do
+    attribute = 'attribute'
+    stub(attribute).name { :name }
+    block = lambda {}
+    mock(FactoryGirl::Attribute::Dynamic).new(:name, block) { attribute }
+    subject.send(:name, &block)
+    factory.attributes.should include(attribute)
+  end
+
+  it "adds an association when passed an undefined method without arguments or a block" do
+    name = :user
+    attr = 'attribute'
+    stub(attr).name { name }
+    mock(FactoryGirl::Attribute::Association).new(name, name, {}) { attr }
+    subject.send(name)
+    factory.attributes.should include(attr)
   end
 end

@@ -11,9 +11,13 @@ describe "integration" do
         email {|a| "#{a.first_name}.#{a.last_name}@example.com".downcase }
       end
 
+      # TODO: add sugar for this
+      factory :author, :parent => :user do
+      end
+
       factory Post, :default_strategy => :attributes_for do
         name   'Test Post'
-        association :author, :factory => :user
+        author
       end
 
       factory :admin, :class => User do
@@ -21,6 +25,7 @@ describe "integration" do
         last_name  'Stein'
         admin       true
         sequence(:username) { |n| "username#{n}" }
+        # TODO: add sugar for this
         email { Factory.next(:email) }
       end
 
