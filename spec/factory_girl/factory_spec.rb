@@ -586,7 +586,7 @@ describe Factory do
       files.each do |file|
         FileUtils.mkdir_p File.dirname(file)
         FileUtils.touch file
-        stub(Factory).require(file)
+        stub(Factory).require
       end
     end
 
@@ -598,7 +598,8 @@ describe Factory do
 
   def require_definitions_from(file)
     simple_matcher do |given, matcher|
-      has_received = have_received.method_missing(:require, file)
+      full_path = File.expand_path(file)
+      has_received = have_received.method_missing(:require, full_path)
       result = has_received.matches?(given)
       matcher.description = "require definitions from #{file}"
       matcher.failure_message = has_received.failure_message
