@@ -4,7 +4,7 @@ class Factory
     attr_accessor :aliases #:nodoc:
   end
   self.aliases = [
-    [/(.*)_id/, '\1'],
+    [/(.+)_id/, '\1'],
     [/(.*)/, '\1_id']
   ]
 
