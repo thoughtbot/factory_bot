@@ -14,6 +14,10 @@ describe Factory, "aliases" do
     FactoryGirl.aliases_for(:test).should include(:test_id)
   end
 
+  it "should NOT include an attribute as an alias when it starts with underscore" do
+    FactoryGirl.aliases_for(:_id).should_not include(:id)
+  end
+
   describe "after adding an alias" do
 
     before do
