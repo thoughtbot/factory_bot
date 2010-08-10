@@ -19,7 +19,6 @@ describe "definition loading" do
       files.each do |file|
         FileUtils.mkdir_p File.dirname(file)
         FileUtils.touch file
-        stub(Factory).require(file)
       end
     end
 
@@ -64,6 +63,17 @@ describe "definition loading" do
       it_should_behave_like "finds definitions"
       it { should require_definitions_from("#{dir}/factories/post_factory.rb") }
       it { should require_definitions_from("#{dir}/factories/person_factory.rb") }
+    end
+
+    describe "with several factories files under #{dir}/factories in non-alphabetical order" do
+      in_directory_with_files File.join(dir, 'factories', 'b.rb'),
+                              File.join(dir, 'factories', 'a.rb')
+      it "should load the files in the right order" do
+        @loaded = []
+        stub(FactoryGirl).require { |a| @loaded << File.split(a)[-1] }
+        FactoryGirl.find_definitions
+        @loaded.should == ["a.rb", "b.rb"]
+      end
     end
 
     describe "with nested and unnested factories files under #{dir}" do
