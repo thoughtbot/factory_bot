@@ -7,15 +7,16 @@ module FactoryGirl
   # using next.
   class Sequence
 
-    def initialize(&proc) #:nodoc:
+    def initialize(value = 1, &proc) #:nodoc:
       @proc  = proc
-      @value = 0
+      @value = value || 1 
     end
 
     # Returns the next value for this sequence
     def next
-      @value += 1
       @proc.call(@value)
+    ensure
+      @value = @value.next
     end
 
   end

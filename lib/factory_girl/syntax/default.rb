@@ -123,17 +123,22 @@ module FactoryGirl
         #   name: (Symbol)
         #     A unique name for this sequence. This name will be referenced when
         #     calling next to generate new values from this sequence.
+        #   start_value: +Integer+ or +String+
+        #     The starting value for this sequence. Any object that responds to 
+        #     +next+ will work.
+        #     Defaults to 1.
         #   block: (Proc)
         #     The code to generate each value in the sequence. This block will be
-        #     called with a unique number each time a value in the sequence is to be
+        #     called with a unique value each time an item in the sequence is to be
         #     generated. The block should return the generated value for the
         #     sequence.
         #
         # Example:
         #
         #   Factory.sequence(:email) {|n| "somebody_#{n}@example.com" }
-        def self.sequence(name, &block)
-          FactoryGirl.sequences[name] = Sequence.new(&block)
+        #   Factory.sequence(:product_code, "AAAA") {|s| "PC-#{s}" }
+        def self.sequence(name, start_value = 1, &block)
+          FactoryGirl.sequences[name] = Sequence.new(start_value, &block)
         end
 
         # Generates and returns the next value in a sequence.

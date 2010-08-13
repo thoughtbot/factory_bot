@@ -74,8 +74,8 @@ module FactoryGirl
     #   end
     #
     # Except that no globally available sequence will be defined.
-    def sequence(name, &block)
-      sequence = Sequence.new(&block)
+    def sequence(name, start_value = 1, &block)
+      sequence = Sequence.new(start_value, &block)
       add_attribute(name) { sequence.next }
     end
 

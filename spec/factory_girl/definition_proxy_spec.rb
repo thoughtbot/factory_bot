@@ -39,10 +39,15 @@ describe FactoryGirl::DefinitionProxy do
 
   describe "adding an attribute using a in-line sequence" do
     it "should create the sequence" do
-      mock(FactoryGirl::Sequence).new
+      mock(FactoryGirl::Sequence).new(1)
       subject.sequence(:name) {}
     end
 
+    it "should create the sequence with a custom default value" do
+      mock(FactoryGirl::Sequence).new("A")
+      subject.sequence(:name, "A") {}
+    end
+    
     it "should add a dynamic attribute" do
       attribute = 'attribute'
       stub(attribute).name { :name }

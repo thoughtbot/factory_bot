@@ -22,9 +22,10 @@ module FactoryGirl
     # This syntax was derived from Pete Yandell's machinist.
     module Sham
       module Sham #:nodoc:
-        def self.method_missing(name, &block)
+        def self.method_missing(name, *args, &block)
           if block_given?
-            FactoryGirl.sequences[name] = Sequence.new(&block)
+            start_value = args.first
+            FactoryGirl.sequences[name] = Sequence.new(start_value || 1, &block)
           else
             FactoryGirl.sequences[name].next
           end
