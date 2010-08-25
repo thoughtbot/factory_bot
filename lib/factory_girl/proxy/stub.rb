@@ -26,6 +26,10 @@ module FactoryGirl
           def reload
             raise "stubbed models are not allowed to access the database"
           end
+
+          def update_attribute(*args)
+            raise "stubbed models are not allowed to access the database"
+          end
         end
       end
 
