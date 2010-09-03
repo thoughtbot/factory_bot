@@ -196,6 +196,19 @@ describe FactoryGirl::Factory do
       child.attributes.size.should == 1
       child.attributes.first.should == @child_attr
     end
+
+    it "should allow to use parent attributes in defining additional attributes" do
+      User.class_eval { attr_accessor :name, :email }
+
+      child = FactoryGirl::Factory.new(:child)
+      @child_attr = FactoryGirl::Attribute::Dynamic.new(:email, lambda {|u| "#{u.name}@example.com"})
+      child.define_attribute(@child_attr)
+      child.inherit_from(@factory)
+      child.attributes.size.should == 2
+
+      result = child.run(FactoryGirl::Proxy::Build, {})
+      result.email.should == 'value@example.com'
+    end
   end
 
   it "inherit all callbacks" do
