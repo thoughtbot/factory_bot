@@ -201,7 +201,7 @@ describe FactoryGirl::Factory do
       class User; attr_accessor :name, :email; end
 
       child = FactoryGirl::Factory.new(:child)
-      @child_attr = FactoryGirl::Attribute::Dynamic.new(:email, lambda {|u| "@example.com"})
+      @child_attr = FactoryGirl::Attribute::Dynamic.new(:email, lambda {|u| "#{u.name}@example.com"})
       child.define_attribute(@child_attr)
       child.inherit_from(@factory)
       child.attributes.size.should == 2

@@ -57,7 +57,8 @@ module FactoryGirl
       @options[:default_strategy] ||= parent.default_strategy
       parent.attributes.each do |attribute|
         unless attribute_defined?(attribute.name)
-          @attributes << attribute.clone
+          # list the parent attributes before the child's (Issue #15)
+          @attributes.unshift(attribute.clone)
         end
       end
     end
