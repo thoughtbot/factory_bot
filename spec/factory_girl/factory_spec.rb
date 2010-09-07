@@ -299,6 +299,20 @@ describe FactoryGirl::Factory, "registered with a string name" do
   end
 end
 
+describe FactoryGirl::Factory, "registered with a custom name" do
+  before do
+    @actual_name = :string
+    @custom_name = :words
+    @factory = FactoryGirl::Factory.new(@actual_name)
+
+    FactoryGirl.register_factory(@factory, :as => @custom_name)
+  end
+
+  it "finds the factory using the custom name" do
+    FactoryGirl.factory_by_name(@custom_name).should == @factory
+  end
+end
+
 describe FactoryGirl::Factory, "for namespaced class" do
   include DefinesConstants
 

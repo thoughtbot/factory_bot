@@ -47,7 +47,7 @@ describe FactoryGirl::DefinitionProxy do
       mock(FactoryGirl::Sequence).new("A")
       subject.sequence(:name, "A") {}
     end
-    
+
     it "should add a dynamic attribute" do
       attribute = 'attribute'
       stub(attribute).name { :name }
@@ -118,5 +118,11 @@ describe FactoryGirl::DefinitionProxy do
     mock(FactoryGirl::Attribute::Association).new(name, name, {}) { attr }
     subject.send(name)
     factory.attributes.should include(attr)
+  end
+
+  it "registers its factory for an alias" do
+    aliased_name = :guest
+    mock(FactoryGirl).register_factory(factory, :as => aliased_name)
+    subject.aliased_as aliased_name
   end
 end

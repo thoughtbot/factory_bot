@@ -111,6 +111,24 @@ module FactoryGirl
       @factory.define_attribute(Attribute::Association.new(name, factory_name, options))
     end
 
+    # Registers an alias for this factory using the given name.
+    #
+    # Arguments:
+    # * name: +Symbol+
+    #   The name of the alias.
+    #
+    # Example:
+    #
+    #   Factory.define :user do |f|
+    #     f.aliased_as :author
+    #   end
+    #
+    #   Factory(:author).class
+    #   # => User
+    def aliased_as(name)
+      FactoryGirl.register_factory(@factory, :as => name)
+    end
+
     def after_build(&block)
       @factory.add_callback(:after_build, &block)
     end

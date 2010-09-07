@@ -9,8 +9,8 @@ module FactoryGirl
     factories[name.to_sym] or raise ArgumentError.new("No such factory: #{name.to_s}")
   end
 
-  def self.register_factory(factory)
-    name = factory.factory_name
+  def self.register_factory(factory, options = {})
+    name = options[:as] || factory.factory_name
     if self.factories[name]
       raise DuplicateDefinitionError, "Factory already defined: #{name}"
     end
