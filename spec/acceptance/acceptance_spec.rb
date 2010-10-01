@@ -8,8 +8,7 @@ describe "integration" do
         first_name 'Jimi'
         last_name  'Hendrix'
         admin       false
-        # TODO: evaluate in context of proxy
-        email {|a| "#{a.first_name}.#{a.last_name}@example.com".downcase }
+        email { "#{first_name}.#{last_name}@example.com".downcase }
 
         # TODO: nested factories
 

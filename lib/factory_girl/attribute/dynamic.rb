@@ -8,7 +8,7 @@ module FactoryGirl
       end
 
       def add_to(proxy)
-        value = @block.arity.zero? ? @block.call : @block.call(proxy)
+        value = @block.arity == 1 ? @block.call(proxy) : proxy.instance_eval(&@block)
         if FactoryGirl::Sequence === value
           raise SequenceAbuseError
         end

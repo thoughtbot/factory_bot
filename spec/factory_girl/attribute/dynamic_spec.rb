@@ -27,6 +27,17 @@ describe FactoryGirl::Attribute::Dynamic do
     @proxy.should have_received.set(:user, @proxy)
   end
 
+  it "evaluates the block with in the context of the proxy without an argument" do
+    result = 'other attribute value'
+    @block = lambda { other_attribute }
+    @attr  = FactoryGirl::Attribute::Dynamic.new(:user, @block)
+    @proxy = "proxy"
+    stub(@proxy).set
+    stub(@proxy).other_attribute { result }
+    @attr.add_to(@proxy)
+    @proxy.should have_received.set(:user, result)
+  end
+
   it "should raise an error when defining an attribute writer" do
     lambda {
       FactoryGirl::Attribute::Dynamic.new('test=', nil)
