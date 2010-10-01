@@ -2,7 +2,7 @@ module FactoryGirl
   module Syntax
 
     # Adds a Sham module, which provides an alternate interface to
-    # Factory::Sequence.
+    # FactoryGirl::Sequence.
     #
     # Usage:
     #
@@ -10,8 +10,10 @@ module FactoryGirl
     #
     #   Sham.email {|n| "somebody#{n}@example.com" }
     #
-    #   Factory.define :user do |factory|
-    #     factory.email { Sham.email }
+    #   FactoryGirl.define do
+    #     factory :user do
+    #       email
+    #     end
     #   end
     #
     # Note that you can also use Faker, but it is recommended that you simply

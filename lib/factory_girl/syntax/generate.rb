@@ -7,9 +7,11 @@ module FactoryGirl
     #
     #   require 'factory_girl/syntax/generate'
     #
-    #   Factory.define :user do |factory|
-    #     factory.name 'Billy Bob'
-    #     factory.email 'billy@bob.example.com'
+    #   FactoryGirl.define do
+    #     factory :user do
+    #       name 'Billy Bob'
+    #       email 'billy@bob.example.com'
+    #     end
     #   end
     #
     #   # Creates a saved instance without raising (same as saving the result

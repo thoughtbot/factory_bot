@@ -16,7 +16,7 @@ module FactoryGirl
     # instance is generated. Lazy attribute blocks will not be called if that
     # attribute is overridden for a specific instance.
     #
-    # When defining lazy attributes, an instance of Factory::Proxy will
+    # When defining lazy attributes, an instance of FactoryGirl::Proxy will
     # be yielded, allowing associations to be built using the correct build
     # strategy.
     #
@@ -43,14 +43,31 @@ module FactoryGirl
     # Calls add_attribute using the missing method name as the name of the
     # attribute, so that:
     #
-    #   Factory.define :user do |f|
-    #     f.name 'Billy Idol'
+    #   factory :user do
+    #     name 'Billy Idol'
     #   end
     #
     # and:
     #
-    #   Factory.define :user do |f|
-    #     f.add_attribute :name, 'Billy Idol'
+    #   factory :user do
+    #     add_attribute :name, 'Billy Idol'
+    #   end
+    #
+    # are equivilent.
+    #
+    # If no argument or block is given, factory_girl will look for a sequence
+    # or association with the same name. This means that:
+    #
+    #   factory :user do
+    #     email { Factory.next(:email) }
+    #     association :account
+    #   end
+    #
+    # and:
+    #
+    #   factory :user do
+    #     email
+    #     account
     #   end
     #
     # are equivilent.
@@ -70,15 +87,15 @@ module FactoryGirl
     # a specified format.
     #
     # The result of:
-    #   Factory.define :user do |f|
-    #    f.sequence(:email) { |n| "person#{n}@example.com" }
+    #   factory :user do
+    #     sequence(:email) { |n| "person#{n}@example.com" }
     #   end
     #
     # Is equal to:
-    #   Factory.sequence(:email) { |n| "person#{n}@example.com" }
+    #   sequence(:email) { |n| "person#{n}@example.com" }
     #
-    #   Factory.define :user do |f|
-    #    f.email { Factory.next(:email) }
+    #   factory :user do
+    #     email { Factory.next(:email) }
     #   end
     #
     # Except that no globally available sequence will be defined.
@@ -91,12 +108,12 @@ module FactoryGirl
     # be built using the same build strategy as the parent instance.
     #
     # Example:
-    #   Factory.define :user do |f|
-    #     f.name 'Joey'
+    #   factory :user do
+    #     name 'Joey'
     #   end
     #
-    #   Factory.define :post do |f|
-    #     f.association :author, :factory => :user
+    #   factory :post do
+    #     association :author, :factory => :user
     #   end
     #
     # Arguments:
@@ -123,11 +140,26 @@ module FactoryGirl
     #
     # Example:
     #
-    #   Factory.define :user do |f|
-    #     f.aliased_as :author
+    #   factory :user do
+    #     aliased_as :author
     #   end
     #
     #   Factory(:author).class
+    #   # => User
+    #
+    # Because an attribute defined without a value or block will build an
+    # association with the same name, this allows associations to be defined
+    # without factories, such as:
+    #
+    #   factory :user do
+    #     aliased_as :author
+    #   end
+    #
+    #   factory :post do
+    #     author
+    #   end
+    #
+    #   Factory(:post).author.class
     #   # => User
     def aliased_as(name)
       FactoryGirl.register_factory(@factory, :as => name)

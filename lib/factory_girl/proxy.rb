@@ -46,13 +46,13 @@ module FactoryGirl
     #
     # Example:
     #
-    #   Factory.define :user do |f|
+    #   factory :user do
     #     # ...
     #   end
     #
-    #   Factory.define :post do |f|
+    #   factory :post do
     #     # ...
-    #     f.author {|a| a.association :user, :name => 'Joe' }
+    #     author { |post| post.association(:user, :name => 'Joe') }
     #   end
     #
     #   # Builds (but doesn't save) a Post and a User
