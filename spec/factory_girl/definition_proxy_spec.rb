@@ -120,6 +120,16 @@ describe FactoryGirl::DefinitionProxy do
     factory.attributes.should include(attr)
   end
 
+  it "adds a sequence when passed an undefined method without arguments or a block" do
+    name = :airport
+    proxy = 'proxy'
+    FactoryGirl.sequences[name] = FactoryGirl::Sequence.new { |value| "expected" }
+    subject.send(name)
+    stub(proxy).set
+    factory.attributes.last.add_to(proxy)
+    proxy.should have_received.set(name, 'expected')
+  end
+
   it "registers its factory for an alias" do
     aliased_name = :guest
     mock(FactoryGirl).register_factory(factory, :as => aliased_name)

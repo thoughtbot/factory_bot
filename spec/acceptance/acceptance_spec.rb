@@ -4,6 +4,10 @@ require 'acceptance/acceptance_helper'
 describe "integration" do
   before do
     FactoryGirl.define do
+      sequence :email do |n|
+        "somebody#{n}@example.com"
+      end
+
       factory :user, :class => 'user' do
         first_name 'Jimi'
         last_name  'Hendrix'
@@ -26,8 +30,7 @@ describe "integration" do
         last_name  'Stein'
         admin       true
         sequence(:username) { |n| "username#{n}" }
-        # TODO: add sugar for this
-        email { Factory.next(:email) }
+        email
       end
 
       factory :sequence_abuser, :class => User do
@@ -53,10 +56,6 @@ describe "integration" do
       factory :business do
         name 'Supplier of Awesome'
         association :owner, :factory => :user
-      end
-
-      sequence :email do |n|
-        "somebody#{n}@example.com"
       end
     end
   end
