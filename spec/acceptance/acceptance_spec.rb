@@ -14,8 +14,6 @@ describe "integration" do
         admin       false
         email { "#{first_name}.#{last_name}@example.com".downcase }
 
-        # TODO: nested factories
-
         aliased_as :author
       end
 
@@ -24,7 +22,6 @@ describe "integration" do
         author
       end
 
-      # TODO: syntax for build classes
       factory :admin, :class => User do
         first_name 'Ben'
         last_name  'Stein'
@@ -43,7 +40,6 @@ describe "integration" do
       end
 
       factory :user_with_callbacks, :parent => :user do
-        # TODO: evaluate in context of instance
         after_stub   {|u| u.first_name = 'Stubby' }
         after_build  {|u| u.first_name = 'Buildy' }
         after_create {|u| u.last_name  = 'Createy' }
