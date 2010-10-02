@@ -10,7 +10,7 @@ module FactoryGirl
   end
 
   def self.register_factory(factory, options = {})
-    name = options[:as] || factory.factory_name
+    name = options[:as] || factory.name
     if self.factories[name]
       raise DuplicateDefinitionError, "Factory already defined: #{name}"
     end
@@ -30,11 +30,16 @@ module FactoryGirl
   end
 
   class Factory
-    attr_reader :factory_name #:nodoc:
+    attr_reader :name #:nodoc:
     attr_reader :attributes #:nodoc:
 
+    def factory_name
+      puts "WARNING: factory.factory_name is deprecated. Use factory.name instead."
+      name
+    end
+
     def class_name #:nodoc:
-      @options[:class] || factory_name
+      @options[:class] || name
     end
 
     def build_class #:nodoc:
@@ -45,11 +50,11 @@ module FactoryGirl
       @options[:default_strategy] || :create
     end
 
-    def initialize (name, options = {}) #:nodoc:
+    def initialize(name, options = {}) #:nodoc:
       assert_valid_options(options)
-      @factory_name = factory_name_for(name)
-      @options      = options
-      @attributes   = []
+      @name       = factory_name_for(name)
+      @options    = options
+      @attributes = []
     end
 
     def inherit_from(parent) #:nodoc:
@@ -71,8 +76,8 @@ module FactoryGirl
       if attribute_defined?(name)
         raise AttributeDefinitionError, "Attribute already defined: #{name}"
       end
-      if attribute.respond_to?(:factory) && attribute.factory == self.factory_name
-        raise AssociationDefinitionError, "Self-referencing association '#{name}' in factory '#{self.factory_name}'"
+      if attribute.respond_to?(:factory) && attribute.factory == self.name
+        raise AssociationDefinitionError, "Self-referencing association '#{name}' in factory '#{self.name}'"
       end
       @attributes << attribute
     end
@@ -98,11 +103,7 @@ module FactoryGirl
     end
 
     def human_name(*args, &block)
-      if args.size == 0 && block.nil?
-        factory_name.to_s.gsub('_', ' ')
-      else
-        add_attribute(:human_name, *args, &block)
-      end
+      name.to_s.gsub('_', ' ')
     end
 
     def associations
@@ -122,7 +123,7 @@ module FactoryGirl
       end
     end
 
-    def factory_name_for (class_or_to_s)
+    def factory_name_for(class_or_to_s)
       if class_or_to_s.respond_to?(:to_sym)
         class_or_to_s.to_sym
       else

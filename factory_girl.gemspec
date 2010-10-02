@@ -1,5 +1,5 @@
 $LOAD_PATH << File.join(File.dirname(__FILE__), 'lib')
-require 'factory_girl'
+require 'factory_girl/version'
 Gem::Specification.new do |s|
     s.name        = %q{factory_girl}
     s.version     = FactoryGirl::VERSION

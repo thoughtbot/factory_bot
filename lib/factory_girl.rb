@@ -16,10 +16,7 @@ require 'factory_girl/syntax/default'
 require 'factory_girl/syntax/vintage'
 require 'factory_girl/find_definitions'
 require 'factory_girl/deprecated'
-
-module FactoryGirl
-  VERSION = "1.3.1"
-end
+require 'factory_girl/version'
 
 if defined?(Rails) && Rails::VERSION::MAJOR == 2
   require 'factory_girl/rails2'

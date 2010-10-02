@@ -52,7 +52,7 @@ describe "defining a factory" do
     @name    = :user
     @factory = "factory"
     @proxy   = "proxy"
-    stub(@factory).factory_name { @name }
+    stub(@factory).name { @name }
     @options = { :class => 'magic' }
     stub(FactoryGirl::Factory).new { @factory }
     stub(FactoryGirl::DefinitionProxy).new { @proxy }

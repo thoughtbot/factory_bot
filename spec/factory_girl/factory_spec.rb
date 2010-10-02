@@ -4,7 +4,7 @@ describe FactoryGirl::Factory, "registering a factory" do
   before do
     @name    = :user
     @factory = "factory"
-    stub(@factory).factory_name { @name }
+    stub(@factory).name { @name }
   end
 
   it "should add the factory to the list of factories" do
@@ -29,6 +29,10 @@ describe FactoryGirl::Factory do
   end
 
   it "should have a factory name" do
+    @factory.name.should == @name
+  end
+
+  it "responds to factory_name" do
     @factory.factory_name.should == @name
   end
 
@@ -238,7 +242,7 @@ describe FactoryGirl::Factory, "when defined with a class instead of a name" do
   end
 
   it "should guess the name from the class" do
-    @factory.factory_name.should == @name
+    @factory.name.should == @name
   end
 
   it "should use the class as the build class" do
@@ -268,7 +272,7 @@ describe FactoryGirl::Factory, "with a name ending in s" do
   end
 
   it "should have a factory name" do
-    @factory.factory_name.should == @name
+    @factory.name.should == @name
   end
 
   it "should have a build class" do
@@ -283,7 +287,7 @@ describe FactoryGirl::Factory, "with a string for a name" do
   end
 
   it "should convert the string to a symbol" do
-    @factory.factory_name.should == @name
+    @factory.name.should == @name
   end
 end
 
@@ -378,5 +382,13 @@ describe FactoryGirl::Factory do
     end
   end
 
+end
+
+describe FactoryGirl::Factory, "with an underscore in the name" do
+  subject { FactoryGirl::Factory.new("happy_users") }
+
+  it "has a human name" do
+    subject.human_name.should == 'happy users'
+  end
 end
 
