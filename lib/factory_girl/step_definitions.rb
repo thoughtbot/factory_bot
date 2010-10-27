@@ -2,10 +2,15 @@ module FactoryGirlStepHelpers
   def convert_association_string_to_instance(factory_name, assignment)
     attribute, value = assignment.split(':', 2)
     return if value.blank?
-    attributes = convert_human_hash_to_attribute_hash(attribute => value.strip)
-    factory = FactoryGirl.factory_by_name(factory_name)
+    factory = Factory.factory_by_name(factory_name)
+    attributes = convert_human_hash_to_attribute_hash({attribute => value.strip}, factory.associations)
+    attributes_find = {}
+    attributes.each do |k, v|
+      k = "#{k}_id" if v.is_a? ActiveRecord::Base
+      attributes_find[k] = v
+    end
     model_class = factory.build_class
-    model_class.find(:first, :conditions => attributes) or
+    model_class.find(:first, :conditions => attributes_find) or
       Factory(factory_name, attributes)
   end
 
@@ -22,32 +27,33 @@ end
 
 World(FactoryGirlStepHelpers)
 
-FactoryGirl.factories.values.each do |factory|
+Factory.factories.values.each do |factory|
   Given /^the following (?:#{factory.human_name}|#{factory.human_name.pluralize}) exists?:$/ do |table|
     table.hashes.each do |human_hash|
       attributes = convert_human_hash_to_attribute_hash(human_hash, factory.associations)
-      factory.run(FactoryGirl::Proxy::Create, attributes)
+      Factory.create(factory.factory_name, attributes)
     end
   end
 
   Given /^an? #{factory.human_name} exists$/ do
-    Factory(factory.name)
+    Factory(factory.factory_name)
   end
 
   Given /^(\d+) #{factory.human_name.pluralize} exist$/ do |count|
-    count.to_i.times { Factory(factory.name) }
+    count.to_i.times { Factory(factory.factory_name) }
   end
 
   if factory.build_class.respond_to?(:columns)
     factory.build_class.columns.each do |column|
       human_column_name = column.name.downcase.gsub('_', ' ')
       Given /^an? #{factory.human_name} exists with an? #{human_column_name} of "([^"]*)"$/i do |value|
-        Factory(factory.name, column.name => value)
+        Factory(factory.factory_name, column.name => value)
       end
 
       Given /^(\d+) #{factory.human_name.pluralize} exist with an? #{human_column_name} of "([^"]*)"$/i do |count, value|
-        count.to_i.times { Factory(factory.name, column.name => value) }
+        count.to_i.times { Factory(factory.factory_name, column.name => value) }
       end
     end
   end
 end
+
