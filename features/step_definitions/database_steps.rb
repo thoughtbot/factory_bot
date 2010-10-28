@@ -15,4 +15,6 @@ Before do
   Post.delete_all
   User.delete_all
   Category.delete_all
+  CategoryGroup.delete_all
 end
+

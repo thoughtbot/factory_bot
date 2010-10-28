@@ -12,7 +12,12 @@ class CreateSchema < ActiveRecord::Migration
       t.string  :body
     end
 
+    create_table :category_groups, :force => true do |t|
+      t.string :name
+    end
+
     create_table :categories, :force => true do |t|
+      t.integer :category_group_id
       t.string :name
     end
 
@@ -28,7 +33,11 @@ CreateSchema.suppress_messages { CreateSchema.migrate(:up) }
 class User < ActiveRecord::Base
 end
 
+class CategoryGroup < ActiveRecord::Base
+end
+
 class Category < ActiveRecord::Base
+  belongs_to :category_group
 end
 
 class Post < ActiveRecord::Base
@@ -48,6 +57,11 @@ end
 
 Factory.define :category do |f|
   f.name "programming"
+  f.association :category_group
+end
+
+Factory.define :category_group do |f|
+  f.name "tecnhology"
 end
 
 Factory.define :post do |f|
@@ -60,3 +74,4 @@ Factory.define :non_active_record do |f|
 end
 
 require 'factory_girl/step_definitions'
+

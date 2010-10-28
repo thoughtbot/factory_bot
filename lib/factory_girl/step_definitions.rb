@@ -1,11 +1,17 @@
 module FactoryGirlStepHelpers
+
   def convert_association_string_to_instance(factory_name, assignment)
     attribute, value = assignment.split(':', 2)
     return if value.blank?
-    attributes = convert_human_hash_to_attribute_hash(attribute => value.strip)
     factory = FactoryGirl.factory_by_name(factory_name)
+    attributes = convert_human_hash_to_attribute_hash({attribute => value.strip}, factory.associations)
+    attributes_find = {}
+    attributes.each do |k, v|
+      k = "#{k}_id" if v.is_a? ActiveRecord::Base
+      attributes_find[k] = v
+    end
     model_class = factory.build_class
-    model_class.find(:first, :conditions => attributes) or
+    model_class.find(:first, :conditions => attributes_find) or
       Factory(factory_name, attributes)
   end
 
@@ -51,3 +57,4 @@ FactoryGirl.factories.values.each do |factory|
     end
   end
 end
+
