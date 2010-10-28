@@ -3,7 +3,7 @@ module FactoryGirlStepHelpers
   def convert_association_string_to_instance(factory_name, assignment)
     attribute, value = assignment.split(':', 2)
     return if value.blank?
-    factory = Factory.factory_by_name(factory_name)
+    factory = FactoryGirl.factory_by_name(factory_name)
     attributes = convert_human_hash_to_attribute_hash({attribute => value.strip}, factory.associations)
     attributes_find = {}
     attributes.each do |k, v|
@@ -14,7 +14,6 @@ module FactoryGirlStepHelpers
     model_class.find(:first, :conditions => attributes_find) or
       Factory(factory_name, attributes)
   end
-
 
   def convert_human_hash_to_attribute_hash(human_hash, associations = [])
     human_hash.inject({}) do |attribute_hash, (human_key, value)|
