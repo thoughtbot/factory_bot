@@ -23,7 +23,7 @@ Gem:
 Each factory has a name and a set of attributes. The name is used to guess the class of the object by default, but it's possible to explicitly specify it:
 
   # This will guess the User class
-  FactoryGirl.define :user do
+  FactoryGirl.define do
     factory :user do
       first_name 'John'
       last_name  'Doe'
