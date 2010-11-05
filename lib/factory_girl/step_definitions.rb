@@ -29,18 +29,18 @@ end
 World(FactoryGirlStepHelpers)
 
 FactoryGirl.factories.each do |factory|
-  Given /^the following (?:#{factory.human_name}|#{factory.human_name.pluralize}) exists?:$/ do |table|
+  Given /^the following (?:#{factory.human_name}|#{factory.human_name.pluralize}) exists?:$/i do |table|
     table.hashes.each do |human_hash|
       attributes = convert_human_hash_to_attribute_hash(human_hash, factory.associations)
       factory.run(FactoryGirl::Proxy::Create, attributes)
     end
   end
 
-  Given /^an? #{factory.human_name} exists$/ do
+  Given /^an? #{factory.human_name} exists$/i do
     FactoryGirl.create(factory.name)
   end
 
-  Given /^(\d+) #{factory.human_name.pluralize} exist$/ do |count|
+  Given /^(\d+) #{factory.human_name.pluralize} exist$/i do |count|
     count.to_i.times { FactoryGirl.create(factory.name) }
   end
 
