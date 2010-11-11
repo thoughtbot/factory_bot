@@ -1,19 +1,17 @@
 require 'rubygems'
+require 'bundler/setup'
 require 'rake'
 require 'rake/rdoctask'
 require 'rcov/rcovtask'
 require 'date'
 require 'rake/gempackagetask'
-
 require 'spec/rake/spectask'
 require 'cucumber/rake/task'
+require 'appraisal'
 
 desc 'Default: run the specs and features.'
-task :default do
-  system("rake -s spec:unit;")
-  %w(2.1 2.3 3.0).each do |version|
-    system("RAILS_VERSION=#{version} rake -s spec:acceptance features;")
-  end
+task :default => 'spec:unit' do
+  system("rake -s appraisal spec:acceptance features;")
 end
 
 namespace :spec do
@@ -67,3 +65,4 @@ Rake::GemPackageTask.new($specification) do |package|
   package.need_zip = true
   package.need_tar = true
 end
+
