@@ -132,39 +132,6 @@ module FactoryGirl
       @factory.define_attribute(Attribute::Association.new(name, factory_name, options))
     end
 
-    # Registers an alias for this factory using the given name.
-    #
-    # Arguments:
-    # * name: +Symbol+
-    #   The name of the alias.
-    #
-    # Example:
-    #
-    #   factory :user do
-    #     aliased_as :author
-    #   end
-    #
-    #   Factory(:author).class
-    #   # => User
-    #
-    # Because an attribute defined without a value or block will build an
-    # association with the same name, this allows associations to be defined
-    # without factories, such as:
-    #
-    #   factory :user do
-    #     aliased_as :author
-    #   end
-    #
-    #   factory :post do
-    #     author
-    #   end
-    #
-    #   Factory(:post).author.class
-    #   # => User
-    def aliased_as(name)
-      FactoryGirl.register_factory(@factory, :as => name)
-    end
-
     def after_build(&block)
       @factory.add_callback(:after_build, &block)
     end

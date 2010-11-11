@@ -8,13 +8,11 @@ describe "integration" do
         "somebody#{n}@example.com"
       end
 
-      factory :user, :class => 'user' do
+      factory :user, :class => 'user', :aliases => [:author] do
         first_name 'Jimi'
         last_name  'Hendrix'
         admin       false
         email { "#{first_name}.#{last_name}@example.com".downcase }
-
-        aliased_as :author
       end
 
       factory Post, :default_strategy => :attributes_for do

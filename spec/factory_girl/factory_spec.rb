@@ -4,7 +4,9 @@ describe FactoryGirl::Factory, "registering a factory" do
   before do
     @name    = :user
     @factory = "factory"
+    @aliases = [:one, :two]
     stub(@factory).name { @name }
+    stub(@factory).aliases { @aliases }
   end
 
   it "should add the factory to the list of factories" do
@@ -16,6 +18,13 @@ describe FactoryGirl::Factory, "registering a factory" do
     lambda {
       2.times { FactoryGirl.register_factory(@factory) }
     }.should raise_error(FactoryGirl::DuplicateDefinitionError)
+  end
+
+  it "registers aliases" do
+    FactoryGirl.register_factory(@factory)
+    @aliases.each do |name|
+      FactoryGirl.factory_by_name(name).should == @factory
+    end
   end
 end
 
@@ -392,3 +401,11 @@ describe FactoryGirl::Factory, "with an underscore in the name" do
   end
 end
 
+
+describe FactoryGirl::Factory, "with aliases" do
+  it "registers the aliases" do
+    aliased_name = :guest
+    factory = FactoryGirl::Factory.new("user", :aliases => [aliased_name])
+    factory.aliases.should == [aliased_name]
+  end
+end

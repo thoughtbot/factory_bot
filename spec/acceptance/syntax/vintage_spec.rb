@@ -53,6 +53,7 @@ describe "defining a factory" do
     @factory = "factory"
     @proxy   = "proxy"
     stub(@factory).name { @name }
+    stub(@factory).aliases { [] }
     @options = { :class => 'magic' }
     stub(FactoryGirl::Factory).new { @factory }
     stub(FactoryGirl::DefinitionProxy).new { @proxy }

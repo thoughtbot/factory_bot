@@ -129,10 +129,4 @@ describe FactoryGirl::DefinitionProxy do
     factory.attributes.last.add_to(proxy)
     proxy.should have_received.set(name, 'expected')
   end
-
-  it "registers its factory for an alias" do
-    aliased_name = :guest
-    mock(FactoryGirl).register_factory(factory, :as => aliased_name)
-    subject.aliased_as aliased_name
-  end
 end

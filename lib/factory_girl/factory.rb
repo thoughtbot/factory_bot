@@ -10,10 +10,19 @@ module FactoryGirl
   end
 
   def self.register_factory(factory, options = {})
-    name = options[:as] || factory.name
+    if options[:as]
+      name = options[:as]
+    else
+      name = factory.name
+      factory.aliases.each do |alias_name|
+        register_factory(factory, :as => alias_name)
+      end
+    end
+
     if self.factories[name]
       raise DuplicateDefinitionError, "Factory already defined: #{name}"
     end
+
     self.factories[name] = factory
   end
 
@@ -110,6 +119,35 @@ module FactoryGirl
       attributes.select {|attribute| attribute.is_a?(Attribute::Association) }
     end
 
+    # Alternate names for this factory.
+    #
+    # Example:
+    #
+    #   factory :user, :aliases => [:author] do
+    #     # ...
+    #   end
+    #
+    #   Factory(:author).class
+    #   # => User
+    #
+    # Because an attribute defined without a value or block will build an
+    # association with the same name, this allows associations to be defined
+    # without factories, such as:
+    #
+    #   factory :user, :aliases => [:author] do
+    #     # ...
+    #   end
+    #
+    #   factory :post do
+    #     author
+    #   end
+    #
+    #   Factory(:post).author.class
+    #   # => User
+    def aliases
+      @options[:aliases] || []
+    end
+
     private
 
     def class_for (class_or_to_s)
@@ -136,7 +174,7 @@ module FactoryGirl
     end
 
     def assert_valid_options(options)
-      invalid_keys = options.keys - [:class, :parent, :default_strategy]
+      invalid_keys = options.keys - [:class, :parent, :default_strategy, :aliases]
       unless invalid_keys == []
         raise ArgumentError, "Unknown arguments: #{invalid_keys.inspect}"
       end
