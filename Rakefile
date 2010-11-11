@@ -5,7 +5,7 @@ require 'rake/rdoctask'
 require 'rcov/rcovtask'
 require 'date'
 require 'rake/gempackagetask'
-require 'spec/rake/spectask'
+require 'rspec/core/rake_task'
 require 'cucumber/rake/task'
 require 'appraisal'
 
@@ -16,15 +16,13 @@ end
 
 namespace :spec do
   desc "Run unit specs"
-  Spec::Rake::SpecTask.new('unit') do |t|
-    t.spec_opts = ['--options', "spec/spec.opts"]
-    t.spec_files = FileList['spec/factory_girl/**/*_spec.rb']
+  RSpec::Core::RakeTask.new('unit') do |t|
+    t.pattern = 'spec/factory_girl/**/*_spec.rb'
   end
 
   desc "Run acceptance specs"
-  Spec::Rake::SpecTask.new('acceptance') do |t|
-    t.spec_opts = ['--options', "spec/spec.opts"]
-    t.spec_files = FileList['spec/acceptance/**/*_spec.rb']
+  RSpec::Core::RakeTask.new('acceptance') do |t|
+    t.pattern = 'spec/acceptance/**/*_spec.rb'
   end
 end
 

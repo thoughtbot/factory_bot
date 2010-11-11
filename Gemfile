@@ -1,7 +1,7 @@
 source "http://rubygems.org"
 gem "cucumber"
 gem "rake"
-gem "rspec", "~> 1.3"
+gem "rspec", "~> 2.0"
 gem "rcov"
 gem "activerecord", :require => false
 gem "rr"

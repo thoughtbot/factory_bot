@@ -24,7 +24,7 @@ describe FactoryGirl::Factory do
 
   before do
     @name    = :user
-    @class   = define_constant('User')
+    @class   = define_class('User')
     @factory = FactoryGirl::Factory.new(@name)
   end
 
@@ -265,7 +265,7 @@ describe FactoryGirl::Factory, "with a name ending in s" do
   include DefinesConstants
 
   before do
-    define_constant('Business')
+    define_class('Business')
     @name    = :business
     @class   = Business
     @factory = FactoryGirl::Factory.new(@name)
@@ -321,8 +321,8 @@ describe FactoryGirl::Factory, "for namespaced class" do
   include DefinesConstants
 
   before do
-    define_constant('Admin')
-    define_constant('Admin::Settings')
+    define_class('Admin')
+    define_class('Admin::Settings')
 
     @name  = :settings
     @class = Admin::Settings
@@ -343,8 +343,8 @@ describe FactoryGirl::Factory do
   include DefinesConstants
 
   before do
-    define_constant('User')
-    define_constant('Admin', User)
+    define_class('User')
+    define_class('Admin', User)
   end
 
   it "should raise an ArgumentError when trying to use a non-existent strategy" do

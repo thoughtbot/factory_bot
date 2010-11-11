@@ -32,7 +32,14 @@ GEM
     rake (0.8.7)
     rcov (0.9.9)
     rr (1.0.2)
-    rspec (1.3.0)
+    rspec (2.1.0)
+      rspec-core (~> 2.1.0)
+      rspec-expectations (~> 2.1.0)
+      rspec-mocks (~> 2.1.0)
+    rspec-core (2.1.0)
+    rspec-expectations (2.1.0)
+      diff-lcs (~> 1.1.2)
+    rspec-mocks (2.1.0)
     sqlite3-ruby (1.3.2)
     term-ansicolor (1.0.5)
     tzinfo (0.3.23)
@@ -47,5 +54,5 @@ DEPENDENCIES
   rake
   rcov
   rr
-  rspec (~> 1.3)
+  rspec (~> 2.0)
   sqlite3-ruby
