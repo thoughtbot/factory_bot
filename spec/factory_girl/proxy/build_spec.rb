@@ -47,14 +47,14 @@ describe FactoryGirl::Proxy::Build do
   end
 
   it "should return the built instance when asked for the result" do
-    @proxy.result.should == @instance
+    @proxy.result(nil).should == @instance
   end
 
   it "should run the :after_build callback when retrieving the result" do
     spy = Object.new
     stub(spy).foo
     @proxy.add_callback(:after_build, proc{ spy.foo })
-    @proxy.result
+    @proxy.result(nil)
     spy.should have_received.foo
   end
 

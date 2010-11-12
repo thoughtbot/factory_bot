@@ -13,11 +13,11 @@ describe FactoryGirl::Proxy::Stub do
   end
 
   it "should not be a new record" do
-    @stub.result.should_not be_new_record
+    @stub.result(nil).should_not be_new_record
   end
 
   it "should not be able to connect to the database" do
-    lambda { @stub.result.reload }.should raise_error(RuntimeError)
+    lambda { @stub.result(nil).reload }.should raise_error(RuntimeError)
   end
 
   describe "when a user factory exists" do
@@ -37,7 +37,7 @@ describe FactoryGirl::Proxy::Stub do
       end
 
       it "should set a value for the association" do
-        @stub.result.owner.should == @user
+        @stub.result(nil).owner.should == @user
       end
     end
 
@@ -48,14 +48,14 @@ describe FactoryGirl::Proxy::Stub do
 
     describe "when asked for the result" do
       it "should return the actual instance" do
-        @stub.result.should == @instance
+        @stub.result(nil).should == @instance
       end
 
       it "should run the :after_stub callback" do
         @spy = Object.new
         stub(@spy).foo
         @stub.add_callback(:after_stub, proc{ @spy.foo })
-        @stub.result
+        @stub.result(nil)
         @spy.should have_received.foo
       end
     end

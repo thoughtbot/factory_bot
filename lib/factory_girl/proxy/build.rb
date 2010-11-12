@@ -23,7 +23,7 @@ module FactoryGirl
         factory.run(Proxy::Create, overrides)
       end
 
-      def result
+      def result(to_create)
         run_callbacks(:after_build)
         @instance
       end

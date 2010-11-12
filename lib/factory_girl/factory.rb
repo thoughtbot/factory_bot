@@ -98,7 +98,7 @@ module FactoryGirl
       @attributes << Attribute::Callback.new(name.to_sym, block)
     end
 
-    def run (proxy_class, overrides) #:nodoc:
+    def run(proxy_class, overrides) #:nodoc:
       proxy = proxy_class.new(build_class)
       overrides = symbolize_keys(overrides)
       overrides.each {|attr, val| proxy.set(attr, val) }
@@ -108,7 +108,7 @@ module FactoryGirl
           attribute.add_to(proxy)
         end
       end
-      proxy.result
+      proxy.result(@to_create_block)
     end
 
     def human_name(*args, &block)
@@ -146,6 +146,10 @@ module FactoryGirl
     #   # => User
     def aliases
       @options[:aliases] || []
+    end
+
+    def to_create(&block)
+      @to_create_block = block
     end
 
     private

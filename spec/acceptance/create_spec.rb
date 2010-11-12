@@ -31,3 +31,33 @@ describe "a created instance" do
   end
 end
 
+describe "a custom create" do
+  before do
+    define_class('User') do
+      def initialize
+        @persisted = false
+      end
+
+      def persist
+        @persisted = true
+      end
+
+      def persisted?
+        @persisted
+      end
+    end
+
+    FactoryGirl.define do
+      factory :user do
+        to_create do |user|
+          user.persist
+        end
+      end
+    end
+  end
+
+  it "uses the custom create block instead of save" do
+    Factory(:user).should be_persisted
+  end
+end
+

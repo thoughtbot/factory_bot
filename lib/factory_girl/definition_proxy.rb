@@ -143,5 +143,9 @@ module FactoryGirl
     def after_stub(&block)
       @factory.add_callback(:after_stub, &block)
     end
+
+    def to_create(&block)
+      @factory.to_create(&block)
+    end
   end
 end

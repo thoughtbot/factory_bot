@@ -129,4 +129,11 @@ describe FactoryGirl::DefinitionProxy do
     factory.attributes.last.add_to(proxy)
     proxy.should have_received.set(name, 'expected')
   end
+
+  it "delegates to_create" do
+    result = 'expected'
+    mock(factory).to_create { result }
+
+    subject.to_create.should == result
+  end
 end

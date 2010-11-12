@@ -97,9 +97,22 @@ describe FactoryGirl::Factory do
     end
 
     it "should return the result from the proxy when running" do
-      mock(@proxy).result() { 'result' }
+      mock(@proxy).result(nil) { 'result' }
       @factory.run(FactoryGirl::Proxy::Build, {}).should == 'result'
     end
+  end
+
+  it "passes a custom creation block" do
+    proxy = 'proxy'
+    stub(FactoryGirl::Proxy::Build).new { proxy }
+    stub(proxy).result {}
+    block = lambda {}
+    factory = FactoryGirl::Factory.new(:object)
+    factory.to_create(&block)
+
+    factory.run(FactoryGirl::Proxy::Build, {})
+
+    proxy.should have_received.result(block)
   end
 
   it "should return associations" do

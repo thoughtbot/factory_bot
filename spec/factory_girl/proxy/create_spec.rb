@@ -55,7 +55,7 @@ describe FactoryGirl::Proxy::Create do
       stub(@create_spy).foo
       @proxy.add_callback(:after_build,  proc{ @build_spy.foo })
       @proxy.add_callback(:after_create, proc{ @create_spy.foo })
-      @result = @proxy.result
+      @result = @proxy.result(nil)
     end
 
     it "should save the instance" do
@@ -70,6 +70,14 @@ describe FactoryGirl::Proxy::Create do
       @build_spy.should have_received.foo
       @create_spy.should have_received.foo
     end
+  end
+
+  it "runs a custom create block" do
+    block = 'custom create block'
+    stub(block).call
+    stub(@instance).save! { raise }
+    instance = @proxy.result(block)
+    block.should have_received.call(instance)
   end
 
   describe "when setting an attribute" do

@@ -12,7 +12,7 @@ describe FactoryGirl::Proxy::AttributesFor do
     end
 
     it "should not set a value for the association" do
-      (@proxy.result.key?(:owner)).should_not be
+      (@proxy.result(nil).key?(:owner)).should_not be
     end
   end
 
@@ -32,7 +32,7 @@ describe FactoryGirl::Proxy::AttributesFor do
   end
 
   it "should return a hash when asked for the result" do
-    @proxy.result.should be_kind_of(Hash)
+    @proxy.result(nil).should be_kind_of(Hash)
   end
 
   describe "after setting an attribute" do
@@ -41,7 +41,7 @@ describe FactoryGirl::Proxy::AttributesFor do
     end
 
     it "should set that value in the resulting hash" do
-      @proxy.result[:attribute].should == 'value'
+      @proxy.result(nil)[:attribute].should == 'value'
     end
 
     it "should return that value when asked for that attribute" do

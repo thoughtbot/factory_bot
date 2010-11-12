@@ -23,7 +23,7 @@ describe FactoryGirl::Proxy do
   end
 
   it "should raise an error when asked for the result" do
-    lambda { @proxy.result }.should raise_error(NotImplementedError)
+    lambda { @proxy.result(nil) }.should raise_error(NotImplementedError)
   end
 
   describe "when adding callbacks" do

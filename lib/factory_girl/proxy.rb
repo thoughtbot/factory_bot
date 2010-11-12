@@ -70,7 +70,7 @@ module FactoryGirl
       get(method)
     end
 
-    def result
+    def result(to_create)
       raise NotImplementedError, "Strategies must return a result"
     end
   end

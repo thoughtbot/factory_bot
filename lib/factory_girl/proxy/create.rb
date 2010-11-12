@@ -1,9 +1,13 @@
 module FactoryGirl
   class Proxy #:nodoc:
     class Create < Build #:nodoc:
-      def result
+      def result(to_create)
         run_callbacks(:after_build)
-        @instance.save!
+        if to_create
+          to_create.call(@instance)
+        else
+          @instance.save!
+        end
         run_callbacks(:after_create)
         @instance
       end

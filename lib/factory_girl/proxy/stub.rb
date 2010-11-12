@@ -55,7 +55,7 @@ module FactoryGirl
         factory.run(Proxy::Stub, overrides)
       end
 
-      def result
+      def result(to_create)
         run_callbacks(:after_stub)
         @instance
       end

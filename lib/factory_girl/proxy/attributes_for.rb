@@ -13,7 +13,7 @@ module FactoryGirl
         @hash[attribute] = value
       end
 
-      def result
+      def result(to_create)
         @hash
       end
     end
