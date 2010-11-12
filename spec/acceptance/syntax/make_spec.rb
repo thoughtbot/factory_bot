@@ -5,10 +5,13 @@ require 'factory_girl/syntax/make'
 
 describe "a factory using make syntax" do
   before do
-    Factory.define :user do |factory|
-      factory.first_name 'Bill'
-      factory.last_name  'Nye'
-      factory.email      'science@guys.net'
+    define_model('User', :first_name => :string, :last_name => :string)
+
+    FactoryGirl.define do
+      factory :user do
+        first_name 'Bill'
+        last_name  'Nye'
+      end
     end
   end
 

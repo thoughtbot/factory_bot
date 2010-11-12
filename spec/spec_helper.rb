@@ -32,12 +32,19 @@ module DefinesConstants
     example_group.class_eval do
       before do
         @defined_constants = []
+        @created_tables = []
       end
 
       after do
         @defined_constants.reverse.each do |path|
           namespace, class_name = *constant_path(path)
           namespace.send(:remove_const, class_name)
+        end
+
+        @created_tables.each do |table_name|
+          ActiveRecord::Base.
+            connection.
+            execute("DROP TABLE IF EXISTS #{table_name}")
         end
       end
 
@@ -48,6 +55,30 @@ module DefinesConstants
         klass.class_eval(&block) if block_given?
         @defined_constants << path
         klass
+      end
+
+      def define_model(name, columns = {}, &block)
+        model = define_class(name, ActiveRecord::Base, &block)
+        create_table(model.table_name) do |table|
+          columns.each do |name, type|
+            table.column name, type
+          end
+        end
+        model
+      end
+
+      def create_table(table_name, &block)
+        connection = ActiveRecord::Base.connection
+
+        begin
+          connection.execute("DROP TABLE IF EXISTS #{table_name}")
+          connection.create_table(table_name, &block)
+          @created_tables << table_name
+          connection
+        rescue Exception => exception
+          connection.execute("DROP TABLE IF EXISTS #{table_name}")
+          raise exception
+        end
       end
 
       def constant_path(constant_name)

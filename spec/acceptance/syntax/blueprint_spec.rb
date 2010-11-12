@@ -5,6 +5,8 @@ require 'factory_girl/syntax/blueprint'
 
 describe "a blueprint" do
   before do
+    define_model('User', :first_name => :string, :last_name => :string, :email => :string)
+
     Factory.sequence(:email) { |n| "somebody#{n}@example.com" }
     User.blueprint do
       first_name { 'Bill'               }

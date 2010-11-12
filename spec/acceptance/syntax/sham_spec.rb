@@ -5,15 +5,22 @@ require 'factory_girl/syntax/sham'
 
 describe "a factory using sham syntax" do
   before do
+    define_model('User', :first_name => :string,
+                         :last_name  => :string,
+                         :email      => :string,
+                         :username   => :string)
+
     Sham.name        { "Name" }
     Sham.email       { "somebody#{rand(5)}@example.com" }
     Sham.user("FOO") { |c| "User-#{c}" }
 
-    Factory.define :user do |factory|
-      factory.first_name { Sham.name }
-      factory.last_name  { Sham.name }
-      factory.email      { Sham.email }
-      factory.username   { Sham.user }
+    FactoryGirl.define do
+      factory :user do
+        first_name { Sham.name }
+        last_name  { Sham.name }
+        email      { Sham.email }
+        username   { Sham.user }
+      end
     end
   end
 
@@ -29,7 +36,7 @@ describe "a factory using sham syntax" do
     it "should support shams with starting values" do
       @instance.username.should == 'User-FOO'
     end
-    
+
     it "should use the sham for the email" do
       @instance.email.should =~ /somebody\d@example.com/
     end

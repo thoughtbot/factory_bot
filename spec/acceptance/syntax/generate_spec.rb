@@ -5,10 +5,16 @@ require 'factory_girl/syntax/generate'
 
 describe "a factory using generate syntax" do
   before do
-    Factory.define :user do |factory|
-      factory.first_name 'Bill'
-      factory.last_name  'Nye'
-      factory.email      'science@guys.net'
+    define_model('User', :first_name => :string, :last_name => :string, :email => :string) do
+      validates_presence_of :first_name
+    end
+
+    FactoryGirl.define do
+      factory :user do
+        first_name 'Bill'
+        last_name  'Nye'
+        email      'science@guys.net'
+      end
     end
   end
 
