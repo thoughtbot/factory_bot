@@ -135,6 +135,18 @@ describe FactoryGirl::DefinitionProxy do
     factory.attributes.should include(attr)
   end
 
+  it "adds an association when passed an undefined method with a hash including :factory key" do
+    name = :author
+    factory_name = :user
+    overrides = { :first_name => 'Ben' }
+    args = { :factory => factory_name }.merge(overrides)
+    attr = 'attribute'
+    stub(attr).name { name }
+    mock(FactoryGirl::Attribute::Association).new(name, factory_name, overrides) { attr }
+    subject.send(name, args)
+    factory.attributes.should include(attr)
+  end
+
   it "delegates to_create" do
     result = 'expected'
     mock(factory).to_create { result }
