@@ -211,7 +211,7 @@ Examples:
 
   # Define a factory that calls the generate_hashed_password method after it is built
   factory :user do
-    after_build { |user| do_something_to(user) }
+    after_build { |user| generate_hashed_password(user) }
   end
 
 Note that you'll have an instance of the user in the block.  This can be useful.
