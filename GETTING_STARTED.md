@@ -238,6 +238,19 @@ Calling FactoryGirl.create will invoke both after_build and after_create callbac
 
 Also, like standard attributes, child factories will inherit (and can also define) callbacks from their parent factory.
 
+Building or Creating Multiple Records
+-------------------------------------
+
+Sometimes, you'll want to create or build multiple instances of a factory at once.
+
+    built_users   = FactoryGirl.build_list(:user, 25)
+    created_users = FactoryGirl.create_list(:user, 25)
+
+These methods will build or create a specific amount of factories and return them as an array.
+To set the attributes for each of the factories, you can pass in a hash as you normally would.
+
+    twenty_year_olds = FactoryGirl.build_list(:user, 25, :date_of_birth => 20.years.ago)
+
 Alternate Syntaxes
 ------------------
 
