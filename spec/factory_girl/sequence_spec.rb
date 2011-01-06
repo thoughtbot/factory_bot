@@ -61,4 +61,24 @@ describe FactoryGirl::Sequence do
     end
       
   end
+  
+  describe "array plus numerical sequence" do
+    before do
+      @sequence = FactoryGirl::Sequence.new(1, %w(one two)) {|a,n| "#{a}#{n}"}
+    end
+    
+    it "should start with 'one1'" do
+      @sequence.next.should == 'one1'
+    end
+    
+    describe "after being called once" do
+      before do
+        @sequence.next
+      end
+      
+      it "should use the next value" do
+        @sequence.next.should == "two2"
+      end
+    end
+  end
 end
