@@ -40,4 +40,25 @@ describe FactoryGirl::Sequence do
       end
     end
   end
+
+  describe "array sequence" do
+    before do
+      @sequence = FactoryGirl::Sequence.new(%w(one two)) {|ae| "#{ae}gir"}
+    end
+
+    it "should start with 'one'" do
+      @sequence.next.should == 'onegir'
+    end
+    
+    describe "after being called" do
+      before do
+        @sequence.next
+      end
+      
+      it "should use the next value" do
+        @sequence.next.should == 'twogir'
+      end
+    end
+      
+  end
 end
