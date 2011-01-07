@@ -19,9 +19,9 @@ module FactoryGirl
           end
           FactoryGirl.register_factory(factory)
         end
-
-        def sequence(name, start_value = 1, &block)
-          FactoryGirl.sequences[name] = Sequence.new(start_value, &block)
+        
+        def sequence (name, start_value = 1, enum = nil, &block)
+          FactoryGirl.sequences[name] = Sequence.new(start_value, enum, &block)
         end
       end
     end
