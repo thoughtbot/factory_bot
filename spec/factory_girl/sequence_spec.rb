@@ -64,11 +64,11 @@ describe FactoryGirl::Sequence do
   
   describe "array plus numerical sequence" do
     before do
-      @sequence = FactoryGirl::Sequence.new(1, %w(one two)) {|a,n| "#{a}#{n}"}
+      @sequence = FactoryGirl::Sequence.new(1, %w(one two)) {|value, array| "#{value}#{array}"}
     end
     
-    it "should start with 'one1'" do
-      @sequence.next.should == 'one1'
+    it "should start with '1one'" do
+      @sequence.next.should == '1one'
     end
     
     describe "after being called once" do
@@ -77,8 +77,24 @@ describe FactoryGirl::Sequence do
       end
       
       it "should use the next value" do
-        @sequence.next.should == "two2"
+        @sequence.next.should == "2two"
       end
+    end
+    
+    describe "after looping around" do
+      it "should be '1one'" do
+        @sequence.next.should == '1one'
+      end
+    end
+  end
+  
+  describe "just a block" do
+    before do
+      @sequence = FactoryGirl::Sequence.new() {rand(125)}
+    end
+    
+    it "should return a random number" do
+      @sequence.next.class.should == Fixnum
     end
   end
 end

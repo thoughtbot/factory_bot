@@ -17,16 +17,17 @@ module FactoryGirl
     # Returns the next value for this sequence
     def next
       begin
+        # let us handle when we pass just an array
+        if(@value.class == Array)
+          @enum = @value
+          @value = 1
+        end
+        
         retval = case @proc.arity
-          when 1
-            # let us handle when we pass just an array
-            if(@value.class == Array)
-              @enum = @value
-              @value = 1
-            end
-            @enum ? @proc.call(@enum[@enum_idx]) : @proc.call(@value) 
           when 2
-            @proc.call(@enum[@enum_idx], @value)
+            @proc.call(@value, @enum[@enum_idx])
+          else
+            @enum ? @proc.call(@enum[@enum_idx]) : @proc.call(@value)
         end
       ensure
         if @enum
