@@ -132,8 +132,8 @@ module FactoryGirl
         # Example:
         #
         #   Factory.sequence(:email) {|n| "somebody_#{n}@example.com" }
-        def self.sequence(name, start_value = 1, &block)
-          FactoryGirl.sequences[name] = Sequence.new(start_value, &block)
+        def self.sequence(name, start_value = 1, enum = nil, &block)
+          FactoryGirl.sequences[name] = Sequence.new(start_value, enum, &block)
         end
 
         # Generates and returns the next value in a sequence.
