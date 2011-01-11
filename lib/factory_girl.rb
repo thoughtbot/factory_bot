@@ -21,7 +21,7 @@ def Factory (name, attrs = {})
 end
 
 class Factory
-  VERSION = "1.3.2"
+  VERSION = "1.3.3"
 end
 
 if defined?(Rails) && Rails::VERSION::MAJOR == 2
