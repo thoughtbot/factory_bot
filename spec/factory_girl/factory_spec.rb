@@ -528,6 +528,22 @@ describe Factory do
       child.attributes.first.should be_kind_of(Factory::Attribute::Dynamic)
     end
 
+    it "should allow to use parent attributes in defining additional attributes" do
+      User.class_eval { attr_accessor :name, :email }
+
+      parent = Factory.define(:parent, :class => User) do |f|
+        f.name 'value'
+      end
+
+      child = Factory.new(:child)
+      child.add_attribute(:email) {|u| "#{u.name}@example.com" }
+      child.inherit_from(parent)
+      child.attributes.size.should == 2
+
+      result = child.run(Factory::Proxy::Build, {})
+      result.email.should == 'value@example.com'
+    end
+
     it "inherit all callbacks" do
       Factory.define(:child, :parent => :object) do |f|
         f.after_stub {|o| o.name = 'Stubby' }
@@ -538,8 +554,8 @@ describe Factory do
       end
 
       grandchild.attributes.size.should == 3
-      grandchild.attributes.first.should be_kind_of(Factory::Attribute::Callback)
       grandchild.attributes[1].should be_kind_of(Factory::Attribute::Callback)
+      grandchild.attributes[2].should be_kind_of(Factory::Attribute::Callback)
     end
   end
 
