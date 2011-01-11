@@ -43,6 +43,10 @@ module FactoryGirl
 
       def set(attribute, value)
         @instance.send(:"#{attribute}=", value)
+
+        if @instance.respond_to?(:"#{attribute}_id=") && value.respond_to?(:id)
+          @instance.send(:"#{attribute}_id=", value.id)
+        end
       end
 
       def associate(name, factory_name, overrides)

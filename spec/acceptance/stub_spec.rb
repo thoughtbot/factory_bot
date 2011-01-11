@@ -37,6 +37,15 @@ describe "a generated stub instance" do
     subject.user.should_not be_nil
   end
 
+  it "assigns association id" do
+    subject.user_id.should == subject.user.id
+  end
+
+  it "assigns association id via override" do
+    other_stub = Factory.stub(:post, :user => Factory.stub(:user))
+    other_stub.user_id.should == other_stub.user.id
+  end
+
   it "has an id" do
     subject.id.should > 0
   end
