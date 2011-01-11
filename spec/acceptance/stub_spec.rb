@@ -59,6 +59,10 @@ describe "a generated stub instance" do
     should_not be_new_record
   end
 
+  it "is persisted" do
+    should be_persisted
+  end
+
   it "disables connection" do
     lambda { subject.connection }.should raise_error(RuntimeError)
   end

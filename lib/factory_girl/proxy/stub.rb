@@ -11,6 +11,10 @@ module FactoryGirl
             id.nil?
           end
 
+          def persisted?
+            !new_record?
+          end
+
           def save(*args)
             raise "stubbed models are not allowed to access the database"
           end
