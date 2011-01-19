@@ -13,10 +13,6 @@ Gem::Specification.new do |s|
     s.require_path = 'lib'
     s.test_files   = Dir['spec/**/*_spec.rb', 'features/**/*']
 
-    s.has_rdoc         = true
-    s.extra_rdoc_files = ["README.rdoc"]
-    s.rdoc_options = ['--line-numbers', "--main", "README.rdoc"]
-
     s.authors = ["Joe Ferris"]
     s.email   = %q{jferris@thoughtbot.com}
     s.homepage = "http://thoughtbot.com/projects/factory_girl"
