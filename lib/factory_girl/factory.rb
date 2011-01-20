@@ -182,7 +182,11 @@ module FactoryGirl
       unless invalid_keys == []
         raise ArgumentError, "Unknown arguments: #{invalid_keys.inspect}"
       end
-      assert_valid_strategy(options[:default_strategy]) if options[:default_strategy]
+      if options[:default_strategy]
+        assert_valid_strategy(options[:default_strategy])
+        puts "WARNING: default_strategy is deprecated."
+        puts "Override to_create if you need to prevent a call to #save!."
+      end
     end
 
     def assert_valid_strategy(strategy)
