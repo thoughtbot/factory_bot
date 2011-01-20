@@ -112,7 +112,7 @@ Most factory attributes can be added using static values that are evaluated when
 Dependent Attributes
 --------------------
 
-Attributes can be based on the values of other attributes using the proxy that is yieled to lazy attribute blocks:
+Attributes can be based on the values of other attributes using the proxy that is yielded to lazy attribute blocks:
 
     factory :user do
       first_name 'Joe'
@@ -243,12 +243,12 @@ Factories can also define any number of the same kind of callback.  These callba
 
 Calling Factory.create will invoke both after_build and after_create callbacks.
 
-Also, like standard attributes, child factories will inherit (and can define additional) callbacks from their parent factory.
+Also, like standard attributes, child factories will inherit (and can also define) callbacks from their parent factory.
 
 Alternate Syntaxes
 ------------------
 
-Users' tastes for syntax vary dramatically, but most users are looking for a common feature set. Because of this, factory_girl supports "syntax layers" which provide alternate interfaces. See Factory::Syntax for information about the various layers available. For example, the Machinist-style syntax is popular:
+Users' tastes for syntax vary dramatically, but most users are looking for a common feature set. Because of this factory_girl supports "syntax layers" which provide alternate interfaces. See Factory::Syntax for information about the various layers available. For example, the Machinist-style syntax is popular:
 
     require 'factory_girl/syntax/blueprint'
     require 'factory_girl/syntax/make'
