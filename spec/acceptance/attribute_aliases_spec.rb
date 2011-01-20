@@ -20,7 +20,7 @@ describe "attribute aliases" do
   end
 
   it "doesn't assign both an association and its foreign key" do
-    Factory.build(:post, :user_id => 1).user_id.should == 1
+    FactoryGirl.build(:post, :user_id => 1).user_id.should == 1
   end
 end
 

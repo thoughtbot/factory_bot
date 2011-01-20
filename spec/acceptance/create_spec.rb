@@ -2,6 +2,8 @@ require 'spec_helper'
 require 'acceptance/acceptance_helper'
 
 describe "a created instance" do
+  include FactoryGirl::Syntax::Methods
+
   before do
     define_model('User')
 
@@ -19,7 +21,7 @@ describe "a created instance" do
     end
   end
 
-  subject { Factory.create('post') }
+  subject { create('post') }
 
   it "saves" do
     should_not be_new_record
@@ -32,6 +34,8 @@ describe "a created instance" do
 end
 
 describe "a custom create" do
+  include FactoryGirl::Syntax::Methods
+
   before do
     define_class('User') do
       def initialize

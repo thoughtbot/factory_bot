@@ -2,6 +2,8 @@ module FactoryGirl
   module Syntax
     module Vintage
       module Factory
+        extend Syntax::Methods
+
         # Defines a new factory that can be used by the build strategies (create and
         # build) to build new objects.
         #
@@ -31,75 +33,6 @@ module FactoryGirl
             factory.inherit_from(FactoryGirl.factory_by_name(parent))
           end
           FactoryGirl.register_factory(factory)
-        end
-
-        # Generates and returns a Hash of attributes from this factory. Attributes
-        # can be individually overridden by passing in a Hash of attribute => value
-        # pairs.
-        #
-        # Arguments:
-        # * name: +Symbol+ or +String+
-        #   The name of the factory that should be used.
-        # * overrides: +Hash+
-        #   Attributes to overwrite for this set.
-        #
-        # Returns: +Hash+
-        # A set of attributes that can be used to build an instance of the class
-        # this factory generates.
-        def self.attributes_for(name, overrides = {})
-          FactoryGirl.factory_by_name(name).run(Proxy::AttributesFor, overrides)
-        end
-
-        # Generates and returns an instance from this factory. Attributes can be
-        # individually overridden by passing in a Hash of attribute => value pairs.
-        #
-        # Arguments:
-        # * name: +Symbol+ or +String+
-        #   The name of the factory that should be used.
-        # * overrides: +Hash+
-        #   Attributes to overwrite for this instance.
-        #
-        # Returns: +Object+
-        # An instance of the class this factory generates, with generated attributes
-        # assigned.
-        def self.build(name, overrides = {})
-          FactoryGirl.factory_by_name(name).run(Proxy::Build, overrides)
-        end
-
-        # Generates, saves, and returns an instance from this factory. Attributes can
-        # be individually overridden by passing in a Hash of attribute => value
-        # pairs.
-        #
-        # Instances are saved using the +save!+ method, so ActiveRecord models will
-        # raise ActiveRecord::RecordInvalid exceptions for invalid attribute sets.
-        #
-        # Arguments:
-        # * name: +Symbol+ or +String+
-        #   The name of the factory that should be used.
-        # * overrides: +Hash+
-        #   Attributes to overwrite for this instance.
-        #
-        # Returns: +Object+
-        # A saved instance of the class this factory generates, with generated
-        # attributes assigned.
-        def self.create(name, overrides = {})
-          FactoryGirl.factory_by_name(name).run(Proxy::Create, overrides)
-        end
-
-        # Generates and returns an object with all attributes from this factory
-        # stubbed out. Attributes can be individually overridden by passing in a Hash
-        # of attribute => value pairs.
-        #
-        # Arguments:
-        # * name: +Symbol+ or +String+
-        #   The name of the factory that should be used.
-        # * overrides: +Hash+
-        #   Attributes to overwrite for this instance.
-        #
-        # Returns: +Object+
-        # An object with generated attributes stubbed out.
-        def self.stub(name, overrides = {})
-          FactoryGirl.factory_by_name(name).run(Proxy::Stub, overrides)
         end
 
         # Executes the default strategy for the given factory. This is usually create,
@@ -178,6 +111,11 @@ module FactoryGirl
         #   Factory(:post, :user_id => 1)
         def self.alias(pattern, replace)
           FactoryGirl.aliases << [pattern, replace]
+        end
+
+        # Alias for build_stubbed. Deprecated.
+        def self.stub(name, overrides = {})
+          build_stubbed(name, overrides)
         end
 
       end

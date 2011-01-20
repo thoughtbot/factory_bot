@@ -2,6 +2,8 @@ require 'spec_helper'
 require 'acceptance/acceptance_helper'
 
 describe "a generated attributes hash" do
+  include FactoryGirl::Syntax::Methods
+
   before do
     define_model('User')
 
@@ -25,7 +27,7 @@ describe "a generated attributes hash" do
     end
   end
 
-  subject { Factory.attributes_for(:post, :title => 'overridden title') }
+  subject { attributes_for(:post, :title => 'overridden title') }
 
   it "assigns an overridden value" do
     subject[:title].should == "overridden title"

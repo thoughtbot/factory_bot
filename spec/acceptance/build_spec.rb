@@ -2,6 +2,8 @@ require 'spec_helper'
 require 'acceptance/acceptance_helper'
 
 describe "a built instance" do
+  include FactoryGirl::Syntax::Methods
+
   before do
     define_model('User')
 
@@ -19,7 +21,7 @@ describe "a built instance" do
     end
   end
 
-  subject { Factory.build(:post) }
+  subject { build(:post) }
 
   it "isn't saved" do
     should be_new_record
