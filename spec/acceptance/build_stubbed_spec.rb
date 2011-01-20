@@ -2,6 +2,8 @@ require 'spec_helper'
 require 'acceptance/acceptance_helper'
 
 describe "a generated stub instance" do
+  include FactoryGirl::Syntax::Methods
+
   before do
     define_model('User')
 
@@ -23,7 +25,7 @@ describe "a generated stub instance" do
     end
   end
 
-  subject { Factory.stub(:post, :title => 'overridden title') }
+  subject { build_stubbed(:post, :title => 'overridden title') }
 
   it "assigns a default attribute" do
     subject.body.should == 'default body'
@@ -42,7 +44,7 @@ describe "a generated stub instance" do
   end
 
   it "generates unique ids" do
-    other_stub = Factory.stub(:post)
+    other_stub = build_stubbed(:post)
     subject.id.should_not == other_stub.id
   end
 

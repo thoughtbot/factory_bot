@@ -1,6 +1,8 @@
 module FactoryGirl
   module Syntax
     module Default
+      include Methods
+
       def define(&block)
         DSL.run(block)
       end
