@@ -206,7 +206,7 @@ And it's also possible to define an in-line sequence that is only used in
 a particular factory:
 
     factory :user do
-      f.sequence(:email) {|n| "person#{n}@example.com" }
+      sequence(:email) {|n| "person#{n}@example.com" }
     end
 
 Callbacks
