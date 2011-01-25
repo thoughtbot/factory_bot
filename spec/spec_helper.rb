@@ -22,8 +22,7 @@ RSpec.configure do |config|
   config.mock_framework = :rr
   RSpec::Core::ExampleGroup.send(:include, RR::Adapters::Rspec)
   config.after do
-    FactoryGirl.factories.clear
-    FactoryGirl.sequences.clear
+    FactoryGirl.registry = FactoryGirl::Registry.new
   end
 end
 

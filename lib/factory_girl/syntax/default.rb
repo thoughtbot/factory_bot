@@ -17,13 +17,13 @@ module FactoryGirl
           proxy = FactoryGirl::DefinitionProxy.new(factory)
           proxy.instance_eval(&block)
           if parent = options.delete(:parent)
-            factory.inherit_from(FactoryGirl.factory_by_name(parent))
+            factory.inherit_from(FactoryGirl.find(parent))
           end
-          FactoryGirl.register_factory(factory)
+          FactoryGirl.register(factory)
         end
 
         def sequence(name, start_value = 1, &block)
-          FactoryGirl.sequences[name] = Sequence.new(start_value, &block)
+          FactoryGirl.register(Sequence.new(name, start_value, &block))
         end
       end
     end

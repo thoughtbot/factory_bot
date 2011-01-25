@@ -1,29 +1,14 @@
 module FactoryGirl
-  class << self
-    attr_accessor :factories #:nodoc:
+  def self.factories
+    puts "WARNING: FactoryGirl.factories is deprecated."
+    puts "Use FactoryGirl.registry instead."
+    registry
   end
-
-  self.factories = {}
 
   def self.factory_by_name(name)
-    factories[name.to_sym] or raise ArgumentError.new("No such factory: #{name.to_s}")
-  end
-
-  def self.register_factory(factory, options = {})
-    if options[:as]
-      name = options[:as]
-    else
-      name = factory.name
-      factory.aliases.each do |alias_name|
-        register_factory(factory, :as => alias_name)
-      end
-    end
-
-    if self.factories[name]
-      raise DuplicateDefinitionError, "Factory already defined: #{name}"
-    end
-
-    self.factories[name] = factory
+    puts "WARNING: FactoryGirl.factory_by_name is deprecated."
+    puts "Use FactoryGirl.find instead."
+    registry.find(name)
   end
 
   # Raised when a factory is defined that attempts to instantiate itself.
@@ -119,7 +104,7 @@ module FactoryGirl
       attributes.select {|attribute| attribute.is_a?(Attribute::Association) }
     end
 
-    # Alternate names for this factory.
+    # Names for this factory, including aliases.
     #
     # Example:
     #
@@ -144,8 +129,8 @@ module FactoryGirl
     #
     #   FactoryGirl.create(:post).author.class
     #   # => User
-    def aliases
-      @options[:aliases] || []
+    def names
+      [name] + (@options[:aliases] || [])
     end
 
     def to_create(&block)

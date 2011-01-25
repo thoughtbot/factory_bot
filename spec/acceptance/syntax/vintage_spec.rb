@@ -11,7 +11,7 @@ describe "vintage syntax" do
     Factory.define :user do |factory|
       factory.first_name { 'Bill'               }
       factory.last_name  { 'Nye'                }
-      factory.email      { Factory.next(:email) }
+      factory.email      { Factory(:email) }
     end
   end
 
@@ -37,8 +37,8 @@ describe "vintage syntax" do
   end
 
   it "should raise Factory::SequenceAbuseError" do
-    Factory.define :sequence_abuser, :class => Object do |factory|
-      factory.first_name { Factory.sequence(:email) }
+    Factory.define :sequence_abuser, :class => User do |factory|
+      factory.first_name { Factory.sequence(:name) }
     end
 
     lambda {
@@ -51,7 +51,7 @@ describe Factory, "given a parent factory" do
   before do
     @parent = FactoryGirl::Factory.new(:object)
     @parent.define_attribute(FactoryGirl::Attribute::Static.new(:name, 'value'))
-    FactoryGirl.register_factory(@parent)
+    FactoryGirl.register(@parent)
   end
 
   it "should raise an ArgumentError when trying to use a non-existent factory as parent" do
@@ -66,8 +66,7 @@ describe "defining a factory" do
     @name    = :user
     @factory = "factory"
     @proxy   = "proxy"
-    stub(@factory).name { @name }
-    stub(@factory).aliases { [] }
+    stub(@factory).names { [@name] }
     @options = { :class => 'magic' }
     stub(FactoryGirl::Factory).new { @factory }
     stub(FactoryGirl::DefinitionProxy).new { @proxy }
@@ -88,21 +87,16 @@ describe "defining a factory" do
 
   it "should add the factory to the list of factories" do
     Factory.define(@name) {|f| }
-    @factory.should == FactoryGirl.factories[@name]
-  end
-
-  it "should allow a factory to be found by name" do
-    Factory.define(@name) {|f| }
-    FactoryGirl.factory_by_name(@name).should == @factory
+    @factory.should == FactoryGirl.find(@name)
   end
 end
 
 describe "after defining a factory" do
   before do
     @name    = :user
-    @factory = "factory"
+    @factory = FactoryGirl::Factory.new(@name)
 
-    FactoryGirl.factories[@name] = @factory
+    FactoryGirl.register(@factory)
   end
 
   it "should use Proxy::AttributesFor for Factory.attributes_for" do
@@ -152,33 +146,33 @@ end
 
 describe "defining a sequence" do
   before do
-    @sequence = "sequence"
     @name     = :count
+    @sequence = FactoryGirl::Sequence.new(@name) {}
     stub(FactoryGirl::Sequence).new { @sequence }
   end
 
   it "should create a new sequence" do
-    mock(FactoryGirl::Sequence).new(1) { @sequence }
+    mock(FactoryGirl::Sequence).new(@name, 1) { @sequence }
     Factory.sequence(@name)
   end
 
   it "should use the supplied block as the sequence generator" do
-    stub(FactoryGirl::Sequence).new.yields(1)
+    stub(FactoryGirl::Sequence).new { @sequence }.yields(1)
     yielded = false
     Factory.sequence(@name) {|n| yielded = true }
     (yielded).should be
   end
 
   it "should use the supplied start_value as the sequence start_value" do
-    mock(FactoryGirl::Sequence).new("A") { @sequence }
+    mock(FactoryGirl::Sequence).new(@name, "A") { @sequence }
     Factory.sequence(@name, "A")
   end
 end
 
 describe "after defining a sequence" do
   before do
-    @sequence = "sequence"
     @name     = :test
+    @sequence = FactoryGirl::Sequence.new(@name) {}
     @value    = '1 2 5'
 
     stub(@sequence).next { @value }

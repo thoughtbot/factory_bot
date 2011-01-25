@@ -12,14 +12,14 @@ describe "a factory using sham syntax" do
 
     Sham.name        { "Name" }
     Sham.email       { "somebody#{rand(5)}@example.com" }
-    Sham.user("FOO") { |c| "User-#{c}" }
+    Sham.username("FOO") { |c| "User-#{c}" }
 
     FactoryGirl.define do
       factory :user do
         first_name { Sham.name }
         last_name  { Sham.name }
         email      { Sham.email }
-        username   { Sham.user }
+        username   { Sham.username }
       end
     end
   end

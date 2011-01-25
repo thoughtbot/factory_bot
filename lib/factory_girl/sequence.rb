@@ -6,23 +6,37 @@ module FactoryGirl
   # Sequences are defined using sequence within a FactoryGirl.define block.
   # Sequence values are generated using next.
   class Sequence
-
-    def initialize(value = 1, &proc) #:nodoc:
+    def initialize(name, value = 1, &proc) #:nodoc:
+      @name = name
       @proc  = proc
       @value = value || 1
     end
 
     # Returns the next value for this sequence
-    def next
+    def run(proxy_class = nil, overrides = {})
       @proc ? @proc.call(@value) : @value
     ensure
       @value = @value.next
     end
 
+    def next
+      puts "WARNING: FactoryGirl::Sequence#next is deprecated."
+      puts "Use #run instead."
+      run
+    end
+
+    def default_strategy
+      :create
+    end
+
+    def names
+      [@name]
+    end
   end
 
-  class << self
-    attr_accessor :sequences #:nodoc:
+  def self.sequences
+    puts "WARNING: FactoryGirl.sequences is deprecated."
+    puts "Use FactoryGirl.registry instead."
+    registry
   end
-  self.sequences = {}
 end

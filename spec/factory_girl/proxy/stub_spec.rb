@@ -23,7 +23,7 @@ describe FactoryGirl::Proxy::Stub do
   describe "when a user factory exists" do
     before do
       @user = "user"
-      stub(FactoryGirl).factory_by_name { @associated_factory }
+      stub(FactoryGirl).find { @associated_factory }
       @associated_factory = 'associate-factory'
     end
 

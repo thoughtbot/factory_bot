@@ -21,7 +21,7 @@ describe FactoryGirl::Proxy::Build do
     before do
       @association = "associated-instance"
       @associated_factory = "associated-factory"
-      stub(FactoryGirl).factory_by_name { @associated_factory }
+      stub(FactoryGirl).find { @associated_factory }
       stub(@associated_factory).run { @association }
       @overrides = { 'attr' => 'value' }
       @proxy.associate(:owner, :user, @overrides)
@@ -39,7 +39,7 @@ describe FactoryGirl::Proxy::Build do
   it "should run create when building an association" do
     association = "associated-instance"
     associated_factory = "associated-factory"
-    stub(FactoryGirl).factory_by_name { associated_factory }
+    stub(FactoryGirl).find { associated_factory }
     stub(associated_factory).run { association }
     overrides = { 'attr' => 'value' }
     @proxy.association(:user, overrides).should == association

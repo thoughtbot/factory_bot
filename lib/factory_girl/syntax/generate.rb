@@ -42,7 +42,7 @@ module FactoryGirl
         module ClassMethods #:nodoc:
 
           def generate(overrides = {}, &block)
-            factory = FactoryGirl.factory_by_name(name.underscore)
+            factory = FactoryGirl.find(name.underscore)
             instance = factory.run(Proxy::Build, overrides)
             instance.save
             yield(instance) if block_given?
@@ -50,14 +50,14 @@ module FactoryGirl
           end
 
           def generate!(overrides = {}, &block)
-            factory = FactoryGirl.factory_by_name(name.underscore)
+            factory = FactoryGirl.find(name.underscore)
             instance = factory.run(Proxy::Create, overrides)
             yield(instance) if block_given?
             instance
           end
 
           def spawn(overrides = {}, &block)
-            factory = FactoryGirl.factory_by_name(name.underscore)
+            factory = FactoryGirl.find(name.underscore)
             instance = factory.run(Proxy::Build, overrides)
             yield(instance) if block_given?
             instance

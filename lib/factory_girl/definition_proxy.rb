@@ -59,7 +59,7 @@ module FactoryGirl
     # or association with the same name. This means that:
     #
     #   factory :user do
-    #     email { Factory.next(:email) }
+    #     email { create(:email) }
     #     association :account
     #   end
     #
@@ -73,11 +73,7 @@ module FactoryGirl
     # are equivilent.
     def method_missing(name, *args, &block)
       if args.empty? && block.nil?
-        if sequence = FactoryGirl.sequences[name]
-          add_attribute(name) { sequence.next }
-        else
-          association(name)
-        end
+        association(name)
       else
         add_attribute(name, *args, &block)
       end
@@ -95,13 +91,13 @@ module FactoryGirl
     #   sequence(:email) { |n| "person#{n}@example.com" }
     #
     #   factory :user do
-    #     email { Factory.next(:email) }
+    #     email { FactoryGirl.create(:email) }
     #   end
     #
     # Except that no globally available sequence will be defined.
     def sequence(name, start_value = 1, &block)
-      sequence = Sequence.new(start_value, &block)
-      add_attribute(name) { sequence.next }
+      sequence = Sequence.new(name, start_value, &block)
+      add_attribute(name) { sequence.run }
     end
 
     # Adds an attribute that builds an association. The associated instance will

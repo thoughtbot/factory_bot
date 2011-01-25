@@ -45,7 +45,7 @@ describe FactoryGirl::Attribute::Dynamic do
   end
 
   it "should raise an error when returning a sequence" do
-    stub(Factory).sequence { FactoryGirl::Sequence.new }
+    stub(Factory).sequence { FactoryGirl::Sequence.new(:email) }
     block = lambda { Factory.sequence(:email) }
     attr = FactoryGirl::Attribute::Dynamic.new(:email, block)
     proxy = stub!.set.subject

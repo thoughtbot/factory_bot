@@ -9,9 +9,9 @@ describe "a blueprint" do
 
     Factory.sequence(:email) { |n| "somebody#{n}@example.com" }
     User.blueprint do
-      first_name { 'Bill'               }
-      last_name  { 'Nye'                }
-      email      { Factory.next(:email) }
+      first_name { 'Bill'                     }
+      last_name  { 'Nye'                      }
+      email      { FactoryGirl.create(:email) }
     end
   end
 

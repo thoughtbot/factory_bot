@@ -31,9 +31,9 @@ module FactoryGirl
           proxy = FactoryGirl::DefinitionProxy.new(factory)
           yield(proxy)
           if parent = options.delete(:parent)
-            factory.inherit_from(FactoryGirl.factory_by_name(parent))
+            factory.inherit_from(FactoryGirl.find(parent))
           end
-          FactoryGirl.register_factory(factory)
+          FactoryGirl.register(factory)
         end
 
         # Executes the default strategy for the given factory. This is usually create,
@@ -48,7 +48,7 @@ module FactoryGirl
         # Returns: +Object+
         # The result of the default strategy.
         def self.default_strategy(name, overrides = {})
-          self.send(FactoryGirl.factory_by_name(name).default_strategy, name, overrides)
+          self.send(FactoryGirl.find(name).default_strategy, name, overrides)
         end
 
         # Defines a new sequence that can be used to generate unique values in a specific format.
@@ -67,7 +67,7 @@ module FactoryGirl
         #
         #   Factory.sequence(:email) {|n| "somebody_#{n}@example.com" }
         def self.sequence(name, start_value = 1, &block)
-          FactoryGirl.sequences[name] = Sequence.new(start_value, &block)
+          FactoryGirl.register(Sequence.new(name, start_value, &block))
         end
 
         # Generates and returns the next value in a sequence.
@@ -76,14 +76,12 @@ module FactoryGirl
         #   name: (Symbol)
         #     The name of the sequence that a value should be generated for.
         #
+        # DEPRECATED. Use create instead.
+        #
         # Returns:
         #   The next value in the sequence. (Object)
-        def self.next(sequence)
-          unless FactoryGirl.sequences.key?(sequence)
-            raise "No such sequence: #{sequence}"
-          end
-
-          FactoryGirl.sequences[sequence].next
+        def self.next(name)
+          FactoryGirl.find(name).next
         end
 
         # Defines a new alias for attributes.
