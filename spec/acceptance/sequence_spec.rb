@@ -16,5 +16,17 @@ describe "sequences" do
     another_value.should =~ /^somebody\d+@example\.com$/
     first_value.should_not == another_value
   end
-end
+  
+  it "generates sequential numbers if no block is given" do
+    FactoryGirl.define do
+      sequence :order
+    end
 
+    first_value = Factory.next(:order)
+    another_value = Factory.next(:order)
+
+    first_value.should == 1
+    another_value.should == 2
+    first_value.should_not == another_value
+  end
+end
