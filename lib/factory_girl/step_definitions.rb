@@ -12,7 +12,7 @@ module FactoryGirlStepHelpers
     end
     model_class = factory.build_class
     model_class.find(:first, :conditions => attributes_find) or
-      Factory(factory_name, attributes)
+      FactoryGirl.create(factory_name, attributes)
   end
 
   def convert_human_hash_to_attribute_hash(human_hash, associations = [])
@@ -37,22 +37,22 @@ FactoryGirl.factories.values.each do |factory|
   end
 
   Given /^an? #{factory.human_name} exists$/ do
-    Factory(factory.name)
+    FactoryGirl.create(factory.name)
   end
 
   Given /^(\d+) #{factory.human_name.pluralize} exist$/ do |count|
-    count.to_i.times { Factory(factory.name) }
+    count.to_i.times { FactoryGirl.create(factory.name) }
   end
 
   if factory.build_class.respond_to?(:columns)
     factory.build_class.columns.each do |column|
       human_column_name = column.name.downcase.gsub('_', ' ')
       Given /^an? #{factory.human_name} exists with an? #{human_column_name} of "([^"]*)"$/i do |value|
-        Factory(factory.name, column.name => value)
+        FactoryGirl.create(factory.name, column.name => value)
       end
 
       Given /^(\d+) #{factory.human_name.pluralize} exist with an? #{human_column_name} of "([^"]*)"$/i do |count, value|
-        count.to_i.times { Factory(factory.name, column.name => value) }
+        count.to_i.times { FactoryGirl.create(factory.name, column.name => value) }
       end
     end
   end

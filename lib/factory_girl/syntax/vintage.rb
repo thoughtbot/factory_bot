@@ -20,6 +20,7 @@ module FactoryGirl
         #   factory will be copied to the current one with an ability to override
         #   them.
         # * default_strategy: +Symbol+
+        #   DEPRECATED.
         #   The strategy that will be used by the Factory shortcut method.
         #   Defaults to :create.
         #

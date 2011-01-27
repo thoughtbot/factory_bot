@@ -13,7 +13,7 @@ module FactoryGirl
     #     email { 'billy@bob.example.com' }
     #   end
     #
-    #   Factory(:user, :name => 'Johnny')
+    #   FactoryGirl.create(:user, :name => 'Johnny')
     #
     # This syntax was derived from Pete Yandell's machinist.
     module Blueprint

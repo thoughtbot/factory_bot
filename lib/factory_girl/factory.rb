@@ -127,7 +127,7 @@ module FactoryGirl
     #     # ...
     #   end
     #
-    #   Factory(:author).class
+    #   FactoryGirl.create(:author).class
     #   # => User
     #
     # Because an attribute defined without a value or block will build an
@@ -142,7 +142,7 @@ module FactoryGirl
     #     author
     #   end
     #
-    #   Factory(:post).author.class
+    #   FactoryGirl.create(:post).author.class
     #   # => User
     def aliases
       @options[:aliases] || []

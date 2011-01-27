@@ -2,7 +2,7 @@ module FactoryGirl
   module Syntax
 
     # Extends ActiveRecord::Base to provide a make class method, which is a
-    # shortcut for Factory.create.
+    # shortcut for FactoryGirl.create.
     #
     # Usage:
     #

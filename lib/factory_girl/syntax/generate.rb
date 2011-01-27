@@ -15,14 +15,14 @@ module FactoryGirl
     #   end
     #
     #   # Creates a saved instance without raising (same as saving the result
-    #   # of Factory.build)
+    #   # of FactoryGirl.build)
     #   User.generate(:name => 'Johnny')
     #
     #   # Creates a saved instance and raises when invalid (same as
-    #   # Factory.create)
+    #   # FactoryGirl.create)
     #   User.generate!
     #
-    #   # Creates an unsaved instance (same as Factory.build)
+    #   # Creates an unsaved instance (same as FactoryGirl.build)
     #   User.spawn
     #
     #   # Creates an instance and yields it to the passed block

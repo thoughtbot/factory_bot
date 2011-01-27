@@ -7,7 +7,7 @@ describe FactoryGirl::Proxy::AttributesFor do
 
   describe "when asked to associate with another factory" do
     before do
-      stub(Factory).create
+      stub(FactoryGirl).create
       @proxy.associate(:owner, :user, {})
     end
 
@@ -21,9 +21,9 @@ describe FactoryGirl::Proxy::AttributesFor do
   end
 
   it "should not call Factory.create when building an association" do
-    stub(Factory).create
+    stub(FactoryGirl).create
     @proxy.association(:user).should be_nil
-    Factory.should have_received.create.never
+    FactoryGirl.should have_received.create.never
   end
 
   it "should always return nil when building an association" do

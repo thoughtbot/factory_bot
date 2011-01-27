@@ -26,7 +26,7 @@ describe "a factory using sham syntax" do
 
   describe "after making an instance" do
     before do
-      @instance = Factory(:user, :last_name => 'Rye')
+      @instance = FactoryGirl.create(:user, :last_name => 'Rye')
     end
 
     it "should support a sham called 'name'" do

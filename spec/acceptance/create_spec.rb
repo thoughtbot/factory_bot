@@ -61,7 +61,7 @@ describe "a custom create" do
   end
 
   it "uses the custom create block instead of save" do
-    Factory(:user).should be_persisted
+    FactoryGirl.create(:user).should be_persisted
   end
 end
 

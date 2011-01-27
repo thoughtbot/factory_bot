@@ -17,7 +17,7 @@ describe "a blueprint" do
 
   describe "after making an instance" do
     before do
-      @instance = Factory(:user, :last_name => 'Rye')
+      @instance = FactoryGirl.create(:user, :last_name => 'Rye')
     end
 
     it "should use attributes from the blueprint" do
@@ -26,7 +26,7 @@ describe "a blueprint" do
 
     it "should evaluate attribute blocks for each instance" do
       @instance.email.should =~ /somebody\d+@example.com/
-      Factory(:user).email.should_not == @instance.email
+      FactoryGirl.create(:user).email.should_not == @instance.email
     end
   end
 end
