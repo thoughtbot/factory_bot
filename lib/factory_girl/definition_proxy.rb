@@ -22,7 +22,7 @@ module FactoryGirl
     #
     # Arguments:
     # * name: +Symbol+ or +String+
-    #   The name of this attribute. This will be assigned using :"#{name}=" for
+    #   The name of this attribute. This will be assigned using "name=" for
     #   generated instances.
     # * value: +Object+
     #   If no block is given, this value will be used for this attribute.

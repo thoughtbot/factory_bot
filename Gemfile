@@ -7,4 +7,6 @@ gem "activerecord", :require => false
 gem "rr"
 gem "sqlite3-ruby", :require => false
 gem "appraisal"
+gem "yard"
+gem "bluecloth"
 
