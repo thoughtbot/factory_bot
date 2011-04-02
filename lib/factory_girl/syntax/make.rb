@@ -6,16 +6,16 @@ module FactoryGirl
     #
     # Usage:
     #
-    #   require 'factory_girl/syntax/make'
+    # require 'factory_girl/syntax/make'
     #
-    #   FactoryGirl.define do
-    #     factory :user do
-    #       name 'Billy Bob'
-    #       email 'billy@bob.example.com'
-    #     end
-    #   end
+    # FactoryGirl.define do
+    # factory :user do
+    # name 'Billy Bob'
+    # email 'billy@bob.example.com'
+    # end
+    # end
     #
-    #   User.make(:name => 'Johnny')
+    # User.make(:name => 'Johnny')
     #
     # This syntax was derived from Pete Yandell's machinist.
     module Make
@@ -27,10 +27,28 @@ module FactoryGirl
 
         module ClassMethods #:nodoc:
 
-          def make(overrides = {})
-            FactoryGirl.find(name.underscore).run(Proxy::Create, overrides)
+          def make(key_or_overrides = nil, overrides = {})
+            key, overrides = make_options_from_args(key_or_overrides, overrides)
+            FactoryGirl.find(key).run(Proxy::Build, overrides)
           end
 
+          def make!(key_or_overrides = nil, overrides = {})
+            key, overrides = make_options_from_args(key_or_overrides, overrides)
+            FactoryGirl.find(key).run(Proxy::Create, overrides)
+          end
+
+          def make_options_from_args(key_or_overrides = nil, overrides = {})
+            if key_or_overrides.nil?
+              key = name.underscore
+            elsif key_or_overrides.is_a?(Symbol)
+              key = key_or_overrides
+            else
+              key = name.underscore
+              overrides = key_or_overrides
+            end
+
+            [key, overrides]
+          end
         end
 
       end
