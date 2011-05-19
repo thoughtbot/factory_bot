@@ -1,5 +1,7 @@
 module FactoryGirl
   class Registry
+    include Enumerable
+
     def initialize
       @items = {}
     end
@@ -14,7 +16,7 @@ module FactoryGirl
     end
 
     def each(&block)
-      @items.each(&block)
+      @items.values.each(&block)
     end
 
     def [](name)
@@ -23,6 +25,10 @@ module FactoryGirl
 
     def registered?(name)
       @items.key?(name.to_sym)
+    end
+
+    def clear
+      @items.clear
     end
 
     private
@@ -34,26 +40,6 @@ module FactoryGirl
         @items[name.to_sym] = item
       end
     end
-  end
-
-  def self.register(item)
-    registry.add(item)
-  end
-
-  def self.registered?(name)
-    registry.registered?(name)
-  end
-
-  def self.find(name)
-    registry.find(name)
-  end
-
-  def self.registry
-    @registry ||= Registry.new
-  end
-
-  def self.registry=(registry)
-    @registry = registry
   end
 end
 

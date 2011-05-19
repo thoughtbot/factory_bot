@@ -11,7 +11,7 @@ describe "vintage syntax" do
     Factory.define :user do |factory|
       factory.first_name { 'Bill'               }
       factory.last_name  { 'Nye'                }
-      factory.email      { Factory(:email) }
+      factory.email      { Factory.next(:email) }
     end
   end
 
@@ -51,7 +51,7 @@ describe Factory, "given a parent factory" do
   before do
     @parent = FactoryGirl::Factory.new(:object)
     @parent.define_attribute(FactoryGirl::Attribute::Static.new(:name, 'value'))
-    FactoryGirl.register(@parent)
+    FactoryGirl.register_factory(@parent)
   end
 
   it "should raise an ArgumentError when trying to use a non-existent factory as parent" do
@@ -87,7 +87,7 @@ describe "defining a factory" do
 
   it "should add the factory to the list of factories" do
     Factory.define(@name) {|f| }
-    @factory.should == FactoryGirl.find(@name)
+    @factory.should == FactoryGirl.factory_by_name(@name)
   end
 end
 
@@ -96,7 +96,7 @@ describe "after defining a factory" do
     @name    = :user
     @factory = FactoryGirl::Factory.new(@name)
 
-    FactoryGirl.register(@factory)
+    FactoryGirl.register_factory(@factory)
   end
 
   it "should use Proxy::AttributesFor for Factory.attributes_for" do

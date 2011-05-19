@@ -48,29 +48,36 @@ end
 class NonActiveRecord
 end
 
-Factory.define :user do |f|
-end
+FactoryGirl.define do
+  # To make sure the step defs work with an email
+  sequence :email do |n|
+    "email#{n}@example.com"
+  end
 
-Factory.define :admin_user, :parent => :user do |f|
-  f.admin true
-end
+  factory :user do
+  end
 
-Factory.define :category do |f|
-  f.name "programming"
-  f.association :category_group
-end
+  factory :admin_user, :parent => :user do
+    admin true
+  end
 
-Factory.define :category_group do |f|
-  f.name "tecnhology"
-end
+  factory :category do
+    name "programming"
+    category_group
+  end
 
-Factory.define :post do |f|
-  f.association :author, :factory => :user
-  f.association :category
-end
+  factory :category_group do
+    name "tecnhology"
+  end
 
-# This is here to ensure that factory step definitions don't raise for a non-AR factory
-Factory.define :non_active_record do |f|
+  factory :post do
+    association :author, :factory => :user
+    category
+  end
+
+  # This is here to ensure that factory step definitions don't raise for a non-AR factory
+  factory :non_active_record do
+  end
 end
 
 require 'factory_girl/step_definitions'

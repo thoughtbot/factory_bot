@@ -7,15 +7,15 @@ describe FactoryGirl::Sequence do
       @sequence = FactoryGirl::Sequence.new(@name) {|n| "=#{n}" }
     end
 
+    it "has a name" do
+      @sequence.name.should == @name
+    end
+
     it "has names" do
       @sequence.names.should == [@name]
     end
 
     it "should start with a value of 1" do
-      @sequence.run.should == "=1"
-    end
-
-    it "responds to next" do
       @sequence.next.should == "=1"
     end
 
@@ -23,17 +23,13 @@ describe FactoryGirl::Sequence do
       @sequence.default_strategy.should == :create
     end
 
-    it "runs compatible with the Factory interface" do
-      @sequence.run(nil, nil).should == "=1"
-    end
-
     describe "after being called" do
       before do
-        @sequence.run
+        @sequence.next
       end
 
       it "should use the next value" do
-        @sequence.run.should == "=2"
+        @sequence.next.should == "=2"
       end
     end
   end
@@ -44,16 +40,16 @@ describe FactoryGirl::Sequence do
     end
 
     it "should start with a value of A" do
-      @sequence.run.should == "=A"
+      @sequence.next.should == "=A"
     end
 
     describe "after being called" do
       before do
-        @sequence.run
+        @sequence.next
       end
 
       it "should use the next value" do
-        @sequence.run.should == "=B"
+        @sequence.next.should == "=B"
       end
     end
   end
@@ -64,16 +60,16 @@ describe FactoryGirl::Sequence do
     end
 
     it "should start with a value of 1" do
-      @sequence.run.should == 1
+      @sequence.next.should == 1
     end
 
     describe "after being called" do
       before do
-        @sequence.run
+        @sequence.next
       end
 
       it "should use the next value" do
-        @sequence.run.should == 2
+        @sequence.next.should == 2
       end
     end
   end
@@ -84,16 +80,16 @@ describe FactoryGirl::Sequence do
     end
 
     it "should start with a value of A" do
-      @sequence.run.should == "A"
+      @sequence.next.should == "A"
     end
 
     describe "after being called" do
       before do
-        @sequence.run
+        @sequence.next
       end
 
       it "should use the next value" do
-        @sequence.run.should == "B"
+        @sequence.next.should == "B"
       end
     end
   end

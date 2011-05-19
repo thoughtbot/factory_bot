@@ -1,8 +1,6 @@
 module FactoryGirl
 
   class << self
-    attr_accessor :factories #:nodoc:
-
     # An Array of strings specifying locations that should be searched for
     # factory definitions. By default, factory_girl will attempt to require
     # "factories," "test/factories," and "spec/factories." Only the first

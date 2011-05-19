@@ -41,14 +41,13 @@ describe FactoryGirl::Registry do
     other_factory = FactoryGirl::Factory.new(:string)
     subject.add(factory)
     subject.add(other_factory)
-    result = {}
+    result = []
 
-    subject.each do |name, value|
-      result[name] = value
+    subject.each do |value|
+      result << value
     end
 
-    result.should == { factory.name       => factory,
-                       other_factory.name => other_factory }
+    result.should =~ [factory, other_factory]
   end
 
   it "registers an sequence" do
@@ -71,22 +70,14 @@ describe FactoryGirl::Registry do
     end
   end
 
-  context "on the FactoryGirl module" do
-    it "finds a registered a factory" do
-      FactoryGirl.register(factory)
-      FactoryGirl.find(factory.name).should == factory
-    end
+  it "is enumerable" do
+    should be_kind_of(Enumerable)
+  end
 
-    it "knows that a factory is registered by symbol" do
-      FactoryGirl.register(factory)
-      FactoryGirl.should be_registered(factory.name.to_sym)
-    end
-
-    it "sets the registry" do
-      registry = FactoryGirl::Registry.new
-      FactoryGirl.registry = registry
-      FactoryGirl.registry.should == registry
-    end
+  it "clears registered factories" do
+    subject.add(factory)
+    subject.clear
+    subject.count.should == 0
   end
 end
 

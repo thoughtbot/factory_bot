@@ -12,6 +12,10 @@ describe FactoryGirl::Attribute::Association do
     @attr.name.should == @name
   end
 
+  it "is an association" do
+    @attr.should be_association
+  end
+
   it "should have a factory" do
     @attr.factory.should == @factory
   end

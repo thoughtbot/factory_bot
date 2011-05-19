@@ -1,16 +1,4 @@
 module FactoryGirl
-  def self.factories
-    puts "WARNING: FactoryGirl.factories is deprecated."
-    puts "Use FactoryGirl.registry instead."
-    registry
-  end
-
-  def self.factory_by_name(name)
-    puts "WARNING: FactoryGirl.factory_by_name is deprecated."
-    puts "Use FactoryGirl.find instead."
-    registry.find(name)
-  end
-
   # Raised when a factory is defined that attempts to instantiate itself.
   class AssociationDefinitionError < RuntimeError
   end
@@ -101,7 +89,7 @@ module FactoryGirl
     end
 
     def associations
-      attributes.select {|attribute| attribute.is_a?(Attribute::Association) }
+      attributes.select {|attribute| attribute.association? }
     end
 
     # Names for this factory, including aliases.

@@ -2,6 +2,8 @@ require 'spec_helper'
 require 'acceptance/acceptance_helper'
 
 describe "sequences" do
+  include FactoryGirl::Syntax::Methods
+
   it "generates several values in the correct format" do
     FactoryGirl.define do
       sequence :email do |n|
@@ -9,8 +11,8 @@ describe "sequences" do
       end
     end
 
-    first_value = FactoryGirl.create(:email)
-    another_value = FactoryGirl.create(:email)
+    first_value = generate(:email)
+    another_value = generate(:email)
 
     first_value.should =~ /^somebody\d+@example\.com$/
     another_value.should =~ /^somebody\d+@example\.com$/
@@ -22,8 +24,8 @@ describe "sequences" do
       sequence :order
     end
 
-    first_value = FactoryGirl.create(:order)
-    another_value = FactoryGirl.create(:order)
+    first_value = generate(:order)
+    another_value = generate(:order)
 
     first_value.should == 1
     another_value.should == 2

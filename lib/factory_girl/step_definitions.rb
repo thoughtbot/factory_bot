@@ -3,7 +3,7 @@ module FactoryGirlStepHelpers
   def convert_association_string_to_instance(factory_name, assignment)
     attribute, value = assignment.split(':', 2)
     return if value.blank?
-    factory = FactoryGirl.find(factory_name)
+    factory = FactoryGirl.factory_by_name(factory_name)
     attributes = convert_human_hash_to_attribute_hash({attribute => value.strip}, factory.associations)
     attributes_find = {}
     attributes.each do |k, v|
@@ -28,7 +28,7 @@ end
 
 World(FactoryGirlStepHelpers)
 
-FactoryGirl.registry.each do |name, factory|
+FactoryGirl.factories.each do |factory|
   Given /^the following (?:#{factory.human_name}|#{factory.human_name.pluralize}) exists?:$/ do |table|
     table.hashes.each do |human_hash|
       attributes = convert_human_hash_to_attribute_hash(human_hash, factory.associations)

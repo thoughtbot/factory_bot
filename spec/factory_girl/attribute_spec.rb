@@ -10,6 +10,10 @@ describe FactoryGirl::Attribute do
     @attr.name.should == @name
   end
 
+  it "isn't an association" do
+    @attr.should_not be_association
+  end
+
   it "should do nothing when being added to a proxy" do
     @proxy = "proxy"
     stub(@proxy).set

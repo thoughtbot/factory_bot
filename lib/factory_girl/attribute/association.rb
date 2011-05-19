@@ -14,6 +14,10 @@ module FactoryGirl
       def add_to(proxy)
         proxy.associate(name, @factory, @overrides)
       end
+
+      def association?
+        true
+      end
     end
 
   end

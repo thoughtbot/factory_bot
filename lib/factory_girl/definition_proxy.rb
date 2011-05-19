@@ -73,7 +73,7 @@ module FactoryGirl
     # are equivilent.
     def method_missing(name, *args, &block)
       if args.empty? && block.nil?
-        association(name)
+        @factory.define_attribute(Attribute::Implicit.new(name))
       else
         add_attribute(name, *args, &block)
       end
@@ -97,7 +97,7 @@ module FactoryGirl
     # Except that no globally available sequence will be defined.
     def sequence(name, start_value = 1, &block)
       sequence = Sequence.new(name, start_value, &block)
-      add_attribute(name) { sequence.run }
+      add_attribute(name) { sequence.next }
     end
 
     # Adds an attribute that builds an association. The associated instance will

@@ -111,22 +111,11 @@ describe FactoryGirl::DefinitionProxy do
     factory.attributes.should include(attribute)
   end
 
-  it "adds an association when passed an undefined method without arguments or a block" do
+  it "adds an implicit attribute when passed an undefined method without arguments or a block" do
     name = :user
-    FactoryGirl.register(FactoryGirl::Factory.new(name))
     attr = 'attribute'
     stub(attr).name { name }
-    mock(FactoryGirl::Attribute::Association).new(name, name, {}) { attr }
-    subject.send(name)
-    factory.attributes.should include(attr)
-  end
-
-  it "adds a sequence when passed an undefined method without arguments or a block" do
-    name = :airport
-    FactoryGirl.register(FactoryGirl::Sequence.new(name))
-    attr = 'attribute'
-    stub(attr).name { name }
-    mock(FactoryGirl::Attribute::Association).new(name, name, {}) { attr }
+    mock(FactoryGirl::Attribute::Implicit).new(name) { attr }
     subject.send(name)
     factory.attributes.should include(attr)
   end

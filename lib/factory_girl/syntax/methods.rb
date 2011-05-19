@@ -15,7 +15,7 @@ module FactoryGirl
       # A set of attributes that can be used to build an instance of the class
       # this factory generates.
       def attributes_for(name, overrides = {})
-        FactoryGirl.find(name).run(Proxy::AttributesFor, overrides)
+        FactoryGirl.factory_by_name(name).run(Proxy::AttributesFor, overrides)
       end
 
       # Generates and returns an instance from this factory. Attributes can be
@@ -31,7 +31,7 @@ module FactoryGirl
       # An instance of the class this factory generates, with generated attributes
       # assigned.
       def build(name, overrides = {})
-        FactoryGirl.find(name).run(Proxy::Build, overrides)
+        FactoryGirl.factory_by_name(name).run(Proxy::Build, overrides)
       end
 
       # Generates, saves, and returns an instance from this factory. Attributes can
@@ -51,7 +51,7 @@ module FactoryGirl
       # A saved instance of the class this factory generates, with generated
       # attributes assigned.
       def create(name, overrides = {})
-        FactoryGirl.find(name).run(Proxy::Create, overrides)
+        FactoryGirl.factory_by_name(name).run(Proxy::Create, overrides)
       end
 
       # Generates and returns an object with all attributes from this factory
@@ -67,9 +67,20 @@ module FactoryGirl
       # Returns: +Object+
       # An object with generated attributes stubbed out.
       def build_stubbed(name, overrides = {})
-        FactoryGirl.find(name).run(Proxy::Stub, overrides)
+        FactoryGirl.factory_by_name(name).run(Proxy::Stub, overrides)
       end
 
+      # Generates and returns the next value in a sequence.
+      #
+      # Arguments:
+      #   name: (Symbol)
+      #     The name of the sequence that a value should be generated for.
+      #
+      # Returns:
+      #   The next value in the sequence. (Object)
+      def generate(name)
+        FactoryGirl.sequence_by_name(name).next
+      end
     end
   end
 end

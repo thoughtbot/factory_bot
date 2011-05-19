@@ -2,8 +2,6 @@ module FactoryGirl
   module Syntax
     module Vintage
       module Factory
-        extend Syntax::Methods
-
         # Defines a new factory that can be used by the build strategies (create and
         # build) to build new objects.
         #
@@ -31,13 +29,17 @@ module FactoryGirl
           proxy = FactoryGirl::DefinitionProxy.new(factory)
           yield(proxy)
           if parent = options.delete(:parent)
-            factory.inherit_from(FactoryGirl.find(parent))
+            factory.inherit_from(FactoryGirl.factory_by_name(parent))
           end
-          FactoryGirl.register(factory)
+          FactoryGirl.register_factory(factory)
         end
 
         # Executes the default strategy for the given factory. This is usually create,
         # but it can be overridden for each factory.
+        #
+        # DEPRECATED
+        #
+        # Use create instead.
         #
         # Arguments:
         # * name: +Symbol+ or +String+
@@ -48,7 +50,7 @@ module FactoryGirl
         # Returns: +Object+
         # The result of the default strategy.
         def self.default_strategy(name, overrides = {})
-          self.send(FactoryGirl.find(name).default_strategy, name, overrides)
+          FactoryGirl.send(FactoryGirl.factory_by_name(name).default_strategy, name, overrides)
         end
 
         # Defines a new sequence that can be used to generate unique values in a specific format.
@@ -67,7 +69,7 @@ module FactoryGirl
         #
         #   Factory.sequence(:email) {|n| "somebody_#{n}@example.com" }
         def self.sequence(name, start_value = 1, &block)
-          FactoryGirl.register(Sequence.new(name, start_value, &block))
+          FactoryGirl.register_sequence(Sequence.new(name, start_value, &block))
         end
 
         # Generates and returns the next value in a sequence.
@@ -76,12 +78,10 @@ module FactoryGirl
         #   name: (Symbol)
         #     The name of the sequence that a value should be generated for.
         #
-        # DEPRECATED. Use create instead.
-        #
         # Returns:
         #   The next value in the sequence. (Object)
         def self.next(name)
-          FactoryGirl.find(name).next
+          FactoryGirl.generate(name)
         end
 
         # Defines a new alias for attributes.
@@ -112,14 +112,33 @@ module FactoryGirl
           FactoryGirl.aliases << [pattern, replace]
         end
 
-        # Alias for build_stubbed. Deprecated.
-        def self.stub(name, overrides = {})
-          build_stubbed(name, overrides)
+        # Alias for FactoryGirl.attributes_for
+        def self.attributes_for(name, overrides = {})
+          FactoryGirl.attributes_for(name, overrides)
         end
 
+        # Alias for FactoryGirl.build
+        def self.build(name, overrides = {})
+          FactoryGirl.build(name, overrides)
+        end
+
+        # Alias for FactoryGirl.create
+        def self.create(name, overrides = {})
+          FactoryGirl.create(name, overrides)
+        end
+
+        # Alias for FactoryGirl.build_stubbed.
+        def self.stub(name, overrides = {})
+          FactoryGirl.build_stubbed(name, overrides)
+        end
       end
 
       # Shortcut for Factory.default_strategy.
+      #
+      # DEPRECATION WARNING:
+      #
+      # In a future release, default_strategy will be removed and this will
+      # simply call create instead.
       #
       # Example:
       #   Factory(:user, :name => 'Joe')

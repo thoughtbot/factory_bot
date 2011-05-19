@@ -29,7 +29,7 @@ module FactoryGirl
             instance = Factory.new(name.underscore, :class => self)
             proxy = FactoryGirl::DefinitionProxy.new(instance)
             proxy.instance_eval(&block)
-            FactoryGirl.register(instance)
+            FactoryGirl.register_factory(instance)
           end
 
         end

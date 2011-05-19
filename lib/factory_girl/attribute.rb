@@ -24,6 +24,10 @@ module FactoryGirl
 
     def add_to(proxy)
     end
+
+    def association?
+      false
+    end
   end
 
 end

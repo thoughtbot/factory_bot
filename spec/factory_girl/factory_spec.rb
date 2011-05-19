@@ -89,12 +89,14 @@ describe FactoryGirl::Factory do
 
   it "should return associations" do
     factory = FactoryGirl::Factory.new(:post)
+    FactoryGirl.register_factory(FactoryGirl::Factory.new(:admin))
     factory.define_attribute(FactoryGirl::Attribute::Association.new(:author, :author, {}))
     factory.define_attribute(FactoryGirl::Attribute::Association.new(:editor, :editor, {}))
+    factory.define_attribute(FactoryGirl::Attribute::Implicit.new(:admin))
     factory.associations.each do |association|
-      association.should be_a(FactoryGirl::Attribute::Association)
+      association.should be_association
     end
-    factory.associations.size.should == 2
+    factory.associations.size.should == 3
   end
 
   it "should raise for a self referencing association" do
