@@ -123,8 +123,8 @@ The behavior of the association method varies depending on the build strategy us
 
     # Builds and saves a User and a Post
     post = FactoryGirl.create(:post)
-    post.new_record?       # => false
-    post.author.new_record # => false
+    post.new_record?       # => true
+    post.author.new_record # => true
 
     # Builds and saves a User, and then builds but does not save a Post
     post = FactoryGirl.build(:post)
