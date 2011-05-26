@@ -36,7 +36,7 @@ module FactoryGirl
       assert_valid_options(options)
       @name       = factory_name_for(name)
       @options    = options
-      @attributes = []
+      @attributes   = Attribute::List.new
     end
 
     def inherit_from(parent) #:nodoc:

@@ -49,6 +49,7 @@ describe FactoryGirl::Factory do
       @proxy     = "proxy"
 
       stub(@attribute).name { :name }
+      stub(@attribute).ignored? { false }
       stub(@attribute).add_to
       stub(@proxy).set
       stub(@proxy).result { 'result' }

@@ -18,6 +18,15 @@ describe FactoryGirl::Proxy do
     @proxy.name.should == "it's a name"
   end
 
+  it "should store ignored attributes" do
+    @proxy.ignore(:name, "it's a name").should == "it's a name"
+  end
+
+  it "should get an ignored attribute" do
+    @proxy.ignore(:name, "it's a name")
+    @proxy.get(:name).should == "it's a name"
+  end
+
   it "should do nothing when asked to associate with another factory" do
     lambda { @proxy.associate(:owner, :user, {}) }.should_not raise_error
   end
@@ -79,6 +88,15 @@ describe FactoryGirl::Proxy do
       @proxy.add_callback(:after_create, proc{|spy| spy.foo })
       @proxy.run_callbacks(:after_create)
       @first_spy.should have_received.foo
+    end
+
+    it "should pass in the proxy if the block takes two arguments" do
+      @proxy.instance_variable_set("@instance", @first_spy)
+      stub(@proxy).bar
+      @proxy.add_callback(:after_create, proc {|spy, proxy| spy.foo; proxy.bar })
+      @proxy.run_callbacks(:after_create)
+      @first_spy.should have_received.foo
+      @proxy.should have_received.bar
     end
   end
 end

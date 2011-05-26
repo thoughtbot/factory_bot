@@ -9,7 +9,8 @@ module FactoryGirl
       end
 
       def add_to(proxy)
-        proxy.set(name, @value)
+        method = !ignored? ? :set : :ignore
+        proxy.send(method, name, @value)
       end
     end
 

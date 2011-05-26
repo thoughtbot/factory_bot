@@ -28,6 +28,15 @@ module FactoryGirl
     def association?
       false
     end
+
+    def ignore
+      @ignored = true
+      self
+    end
+    
+    def ignored?
+      @ignored
+    end
   end
 
 end

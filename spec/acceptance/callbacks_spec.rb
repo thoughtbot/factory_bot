@@ -15,6 +15,11 @@ describe "callbacks" do
       factory :user_with_inherited_callbacks, :parent => :user_with_callbacks do
         after_stub { |user| user.last_name = 'Double-Stubby' }
       end
+
+      factory :user_with_proxied_callbacks, :parent => :user_with_callbacks do |u|
+        u.proxified?(true).ignore
+        after_create { |user, proxy| user.last_name << ', Proxified' if proxy.proxified? }
+      end
     end
   end
 
@@ -38,5 +43,11 @@ describe "callbacks" do
     user = FactoryGirl.build_stubbed(:user_with_inherited_callbacks)
     user.first_name.should == 'Stubby'
     user.last_name.should == 'Double-Stubby'
+  end
+
+  it "provides the proxy to callbacks that want it" do
+    user = FactoryGirl.create(:user_with_proxied_callbacks)
+    user.first_name.should == 'Buildy'
+    user.last_name.should == 'Createy, Proxified'
   end
 end

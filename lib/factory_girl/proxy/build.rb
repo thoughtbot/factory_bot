@@ -6,7 +6,11 @@ module FactoryGirl
       end
 
       def get(attribute)
-        @instance.send(attribute)
+        if @instance.respond_to?(attribute)
+          @instance.send(attribute)
+        else
+          super
+        end
       end
 
       def set(attribute, value)

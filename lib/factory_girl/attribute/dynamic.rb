@@ -12,7 +12,8 @@ module FactoryGirl
         if FactoryGirl::Sequence === value
           raise SequenceAbuseError
         end
-        proxy.set(name, value)
+        method = !ignored? ? :set : :ignore
+        proxy.send(method, name, value)
       end
     end
 
