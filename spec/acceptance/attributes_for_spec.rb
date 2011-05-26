@@ -23,11 +23,12 @@ describe "a generated attributes hash" do
         body { "default body" }
         summary { title }
         user
+        uploaded_image(nil).ignore
       end
     end
   end
 
-  subject { attributes_for(:post, :title => 'overridden title') }
+  subject { attributes_for(:post, :title => 'overridden title', :uploaded_image => "foo") }
 
   it "assigns an overridden value" do
     subject[:title].should == "overridden title"
@@ -43,6 +44,10 @@ describe "a generated attributes hash" do
 
   it "doesn't assign associations" do
     subject[:user_id].should be_nil
+  end
+
+  it "doesn't assign ignored attributes" do
+    subject[:uploaded_image].should be_nil
   end
 end
 

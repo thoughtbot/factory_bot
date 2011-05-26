@@ -5,11 +5,11 @@ module FactoryGirl
         @hash = {}
       end
 
-      def get(attribute)
+      def get_attr(attribute)
         @hash[attribute]
       end
 
-      def set(attribute, value)
+      def set_attr(attribute, value)
         @hash[attribute] = value
       end
 

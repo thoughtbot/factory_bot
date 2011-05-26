@@ -2,15 +2,31 @@ module FactoryGirl
   class Proxy #:nodoc:
 
     attr_reader :callbacks
+    attr_writer :ignored_attributes
 
     def initialize(klass)
     end
 
     def get(attribute)
-      nil
+      if ignored? attribute
+        ignored_attributes[attribute]
+      else
+        get_attr attribute
+      end
+    end
+
+    def get_attr(attribute)
     end
 
     def set(attribute, value)
+      if ignored? attribute
+        ignored_attributes[attribute] = value
+      else
+        set_attr attribute, value
+      end
+    end
+
+    def set_attr(attribute, value)
     end
 
     def associate(name, factory, attributes)
@@ -25,7 +41,12 @@ module FactoryGirl
     def run_callbacks(name)
       if @callbacks && @callbacks[name]
         @callbacks[name].each do |block|
-          block.arity.zero? ? block.call : block.call(@instance)
+          case block.arity
+            when 0 then block.call
+            when 2 then block.call(@instance, self)
+            else
+              block.call(@instance)
+          end
         end
       end
     end
@@ -72,6 +93,16 @@ module FactoryGirl
 
     def result(to_create)
       raise NotImplementedError, "Strategies must return a result"
+    end
+
+    private
+
+    def ignored?(attribute)
+      ignored_attributes.has_key? attribute
+    end
+
+    def ignored_attributes
+      @ignored_attributes ||= {}
     end
   end
 end
