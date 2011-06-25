@@ -15,7 +15,7 @@ Gem::Specification.new do |s|
 
     s.authors = ["Joe Ferris"]
     s.email   = %q{jferris@thoughtbot.com}
-    s.homepage = "http://thoughtbot.com/projects/factory_girl"
+    s.homepage = "https://github.com/thoughtbot/factory_girl"
 
     s.add_development_dependency('rcov')
     s.add_development_dependency('rspec')
