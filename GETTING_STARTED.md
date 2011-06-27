@@ -190,6 +190,18 @@ a particular factory:
       sequence(:email) {|n| "person#{n}@example.com" }
     end
 
+You can also override the initial value:
+
+    factory :user do
+      sequence(:email, 1000) {|n| "person#{n}@example.com" }
+    end
+
+Without a block, the value will increment itself, starting at its initial value:
+
+    factory :post do
+      sequence(:position)
+    end
+
 Callbacks
 ---------
 
