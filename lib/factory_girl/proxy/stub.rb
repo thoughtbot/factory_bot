@@ -7,6 +7,10 @@ module FactoryGirl
         @instance = klass.new
         @instance.id = next_id
         @instance.instance_eval do
+          def persisted?
+            !new_record?
+          end
+
           def new_record?
             id.nil?
           end

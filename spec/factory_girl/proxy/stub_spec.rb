@@ -16,6 +16,10 @@ describe FactoryGirl::Proxy::Stub do
     @stub.result(nil).should_not be_new_record
   end
 
+  it "should be persisted" do
+    @stub.result(nil).should be_persisted
+  end
+
   it "should not be able to connect to the database" do
     lambda { @stub.result(nil).reload }.should raise_error(RuntimeError)
   end
