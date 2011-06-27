@@ -4,3 +4,4 @@ factory_girl-*.gem
 doc
 .yardoc
 coverage
+.bundle
