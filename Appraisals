@@ -1,4 +1,5 @@
 appraise "2.1" do
+  gem "test-unit", "~> 2.3.0", :platforms => [:mri_19]
   gem "activerecord", "~> 2.1"
 end
 

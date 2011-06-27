@@ -11,7 +11,7 @@ require 'yard'
 
 desc 'Default: run the specs and features.'
 task :default => 'spec:unit' do
-  system("rake -s appraisal spec:acceptance features;")
+  system("bundle exec rake -s appraisal spec:acceptance features;")
 end
 
 namespace :spec do
