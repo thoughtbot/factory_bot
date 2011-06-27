@@ -96,5 +96,14 @@ describe "definition loading" do
         it { should require_definitions_from("#{dir}/factories/person_factory.rb") }
       end
     end
+
+    describe "with deeply nested factory files under #{dir}" do
+      in_directory_with_files File.join(dir, 'factories', 'subdirectory', 'post_factory.rb'),
+                              File.join(dir, 'factories', 'subdirectory', 'person_factory.rb')
+      it_should_behave_like "finds definitions" do
+        it { should require_definitions_from("#{dir}/factories/subdirectory/post_factory.rb") }
+        it { should require_definitions_from("#{dir}/factories/subdirectory/person_factory.rb") }
+      end
+    end
   end
 end

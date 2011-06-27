@@ -14,7 +14,7 @@ module FactoryGirl
       require("#{path}.rb") if File.exists?("#{path}.rb")
 
       if File.directory? path
-        Dir[File.join(path, '*.rb')].sort.each do |file|
+        Dir[File.join(path, '**', '*.rb')].sort.each do |file|
           require file
         end
       end
