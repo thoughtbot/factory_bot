@@ -5,11 +5,11 @@ module FactoryGirl
         @instance = klass.new
       end
 
-      def get(attribute)
+      def get_attr(attribute)
         @instance.send(attribute)
       end
 
-      def set(attribute, value)
+      def set_attr(attribute, value)
         @instance.send(:"#{attribute}=", value)
       end
 

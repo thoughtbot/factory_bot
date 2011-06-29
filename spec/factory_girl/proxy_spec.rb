@@ -10,12 +10,39 @@ describe FactoryGirl::Proxy do
   end
 
   it "should return nil when asked for an attribute" do
-    @proxy.get(:name).should be_nil
+    @proxy.get_attr(:name).should be_nil
   end
 
   it "should call get for a missing method" do
     mock(@proxy).get(:name) { "it's a name" }
     @proxy.name.should == "it's a name"
+  end
+
+  describe "with ignored attributes" do
+    before do
+      @proxy.ignored_attributes = {
+        :foo => "bar",
+        :baz => 8,
+        :nil_attr => nil
+      }
+      dont_allow(@proxy).get_attr
+      dont_allow(@proxy).set_attr
+    end
+
+    it "#set stores the value rather than calling #set_attr" do
+      @proxy.set(:baz, 5)
+      @proxy.get(:baz).should == 5
+    end
+
+    it "#get returns the stored value of the ignored attribute without calling #get_attr" do
+      @proxy.get(:foo).should == "bar"
+    end
+
+    it "recognizes nil as a valid value for an ignored attribute" do
+      @proxy.get(:nil_attr).should be_nil
+      @proxy.set(:baz, nil)
+      @proxy.get(:baz).should be_nil
+    end
   end
 
   it "should do nothing when asked to associate with another factory" do
@@ -79,6 +106,15 @@ describe FactoryGirl::Proxy do
       @proxy.add_callback(:after_create, proc{|spy| spy.foo })
       @proxy.run_callbacks(:after_create)
       @first_spy.should have_received.foo
+    end
+
+    it "should pass in the proxy if the block takes two arguments" do
+      @proxy.instance_variable_set("@instance", @first_spy)
+      stub(@proxy).bar
+      @proxy.add_callback(:after_create, proc {|spy, proxy| spy.foo; proxy.bar })
+      @proxy.run_callbacks(:after_create)
+      @first_spy.should have_received.foo
+      @proxy.should have_received.bar
     end
   end
 end

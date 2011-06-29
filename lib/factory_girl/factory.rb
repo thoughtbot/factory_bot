@@ -36,7 +36,7 @@ module FactoryGirl
       assert_valid_options(options)
       @name       = factory_name_for(name)
       @options    = options
-      @attributes = []
+      @attributes   = []
     end
 
     def inherit_from(parent) #:nodoc:
@@ -62,17 +62,21 @@ module FactoryGirl
         raise AssociationDefinitionError, "Self-referencing association '#{name}' in factory '#{self.name}'"
       end
       @attributes << attribute
+      attribute
     end
 
     def add_callback(name, &block)
       unless [:after_build, :after_create, :after_stub].include?(name.to_sym)
         raise InvalidCallbackNameError, "#{name} is not a valid callback name. Valid callback names are :after_build, :after_create, and :after_stub"
       end
-      @attributes << Attribute::Callback.new(name.to_sym, block)
+      attribute = Attribute::Callback.new(name.to_sym, block)
+      @attributes << attribute
+      attribute
     end
 
     def run(proxy_class, overrides) #:nodoc:
       proxy = proxy_class.new(build_class)
+      proxy.ignored_attributes = ignored_attributes
       overrides = symbolize_keys(overrides)
       overrides.each {|attr, val| proxy.set(attr, val) }
       passed_keys = overrides.keys.collect {|k| FactoryGirl.aliases_for(k) }.flatten
@@ -126,6 +130,14 @@ module FactoryGirl
     end
 
     private
+
+    def ignored_attributes
+      Hash[@attributes.select do |attribute|
+        attribute.ignored?
+      end.map do |attribute|
+        [attribute.name, nil]
+      end]
+    end
 
     def class_for (class_or_to_s)
       if class_or_to_s.respond_to?(:to_sym)

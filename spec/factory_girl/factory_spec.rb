@@ -49,9 +49,11 @@ describe FactoryGirl::Factory do
       @proxy     = "proxy"
 
       stub(@attribute).name { :name }
+      stub(@attribute).ignored? { false }
       stub(@attribute).add_to
       stub(@proxy).set
       stub(@proxy).result { 'result' }
+      stub(@proxy).ignored_attributes = anything
       stub(FactoryGirl::Attribute::Static).new { @attribute }
       stub(FactoryGirl::Proxy::Build).new { @proxy }
 
@@ -68,6 +70,12 @@ describe FactoryGirl::Factory do
       @factory.run(FactoryGirl::Proxy::Build, {})
     end
 
+    it "should add the ignored attributes to the proxy by name when running" do
+      stub(@attribute).ignored? { true }
+      mock(@proxy).ignored_attributes = { :name => nil }
+      @factory.run(FactoryGirl::Proxy::Build, {})
+    end
+
     it "should return the result from the proxy when running" do
       mock(@proxy).result(nil) { 'result' }
       @factory.run(FactoryGirl::Proxy::Build, {}).should == 'result'
@@ -78,6 +86,7 @@ describe FactoryGirl::Factory do
     proxy = 'proxy'
     stub(FactoryGirl::Proxy::Build).new { proxy }
     stub(proxy).result {}
+    stub(proxy).ignored_attributes = anything
     block = lambda {}
     factory = FactoryGirl::Factory.new(:object)
     factory.to_create(&block)

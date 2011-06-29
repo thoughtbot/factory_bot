@@ -31,4 +31,9 @@ describe FactoryGirl::Attribute do
   it "should convert names to symbols" do
     FactoryGirl::Attribute.new('name').name.should == :name
   end
+
+  it "should be ignorable" do
+    @attr.ignore
+    @attr.should be_ignored
+  end
 end
