@@ -13,14 +13,14 @@ Each factory has a name and a set of attributes. The name is used to guess the c
         last_name  'Doe'
         admin false
       end
-  
+
       # This will use the User class (Admin would have been guessed)
       factory :admin, :class => User do
         first_name 'Admin'
         last_name  'User'
         admin true
       end
-  
+
       # The same, but using a string instead of class constant
       factory :admin, :class => 'user' do
         first_name 'Admin'
@@ -48,13 +48,13 @@ factory_girl supports several different build strategies: build, create, attribu
 
     # Returns a User instance that's not saved
     user = FactoryGirl.build(:user)
-  
+
     # Returns a saved User instance
     user = FactoryGirl.create(:user)
-  
+
     # Returns a hash of attributes that can be used to build a User instance:
     attrs = FactoryGirl.attributes_for(:user)
-  
+
     # Returns an object with all defined attributes stubbed out:
     stub = FactoryGirl.stub(:user)
 
@@ -143,7 +143,7 @@ You can easily create multiple factories for the same class without repeating co
       # the 'title' attribute is required for all posts
       title 'A title'
     end
-  
+
     factory :approved_post, :parent => :post do
       approved true
       # the 'approver' association is required for an approved post
@@ -164,10 +164,10 @@ Factory.next:
         "person#{n}@example.com"
       end
     end
-  
+
     Factory.next :email
     # => "person1@example.com"
-  
+
     Factory.next :email
     # => "person2@example.com"
 
@@ -259,13 +259,13 @@ Users' tastes for syntax vary dramatically, but most users are looking for a com
     require 'factory_girl/syntax/blueprint'
     require 'factory_girl/syntax/make'
     require 'factory_girl/syntax/sham'
-  
+
     Sham.email {|n| "#{n}@example.com" }
-  
+
     User.blueprint do
       name  { 'Billy Bob' }
       email { Sham.email }
     end
-  
+
     User.make(:name => 'Johnny')
 
