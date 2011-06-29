@@ -20,6 +20,10 @@ module FactoryGirl
             factory.inherit_from(FactoryGirl.factory_by_name(parent))
           end
           FactoryGirl.register_factory(factory)
+
+          proxy.child_factories.each do |(child_name, child_options, child_block)|
+            factory(child_name, child_options.merge(:parent => name), &child_block)
+          end
         end
 
         def sequence(name, start_value = 1, &block)

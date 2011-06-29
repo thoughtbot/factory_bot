@@ -133,7 +133,21 @@ The behavior of the association method varies depending on the build strategy us
 Inheritance
 -----------
 
-You can easily create multiple factories for the same class without repeating common attributes by using inheritance:
+You can easily create multiple factories for the same class without repeating common attributes by nesting factories:
+
+    factory :post do
+      title 'A title'
+
+      factory :approved_post do
+        approved true
+      end
+    end
+
+    approved_post = FactoryGirl.create(:approved_post)
+    approved_post.title # => 'A title'
+    approved_post.approved # => true
+
+You can also assign the parent explicitly:
 
     factory :post do
       title 'A title'
@@ -143,9 +157,11 @@ You can easily create multiple factories for the same class without repeating co
       approved true
     end
 
-    FactoryGirl.create(:approved_post).title     # => 'A title'
+    approved_post = FactoryGirl.create(:approved_post)
+    approved_post.title # => 'A title'
+    approved_post.approved # => true
 
-As mentioned above, it's good practice to define a basic factory for each class with only the attributes required to create it. Then, create more-specific factories that inherit from this basic parent. Factory definitions are still code, so keep them DRY.
+As mentioned above, it's good practice to define a basic factory for each class with only the attributes required to create it. Then, create more specific factories that inherit from this basic parent. Factory definitions are still code, so keep them DRY.
 
 Sequences
 ---------

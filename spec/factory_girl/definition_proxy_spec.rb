@@ -37,6 +37,16 @@ describe FactoryGirl::DefinitionProxy do
     }.should raise_error(FactoryGirl::AttributeDefinitionError)
   end
 
+  describe "child factories" do
+    its(:child_factories) { should == [] }
+
+    it "should be able to add child factories" do
+      block = lambda {}
+      subject.factory(:admin, { :aliases => [:great] }, &block)
+      subject.child_factories.should == [[:admin, { :aliases => [:great] }, block]]
+    end
+  end
+
   describe "adding an attribute using a in-line sequence" do
     it "should create the sequence" do
       mock(FactoryGirl::Sequence).new(:name, 1)

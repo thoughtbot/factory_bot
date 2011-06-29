@@ -4,8 +4,11 @@ module FactoryGirl
       undef_method(method) unless method =~ /(^__|^nil\?$|^send$|^object_id$|^extend$|^instance_eval$)/
     end
 
+    attr_reader :child_factories
+
     def initialize(factory)
       @factory = factory
+      @child_factories = []
     end
 
     # Adds an attribute that should be assigned on generated instances for this
@@ -142,6 +145,10 @@ module FactoryGirl
 
     def to_create(&block)
       @factory.to_create(&block)
+    end
+
+    def factory(name, options = {}, &block)
+      @child_factories << [name, options, block]
     end
   end
 end
