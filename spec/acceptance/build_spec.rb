@@ -12,8 +12,7 @@ describe "a built instance" do
     end
 
     FactoryGirl.define do
-      factory :user do
-      end
+      factory :user
 
       factory :post do
         user

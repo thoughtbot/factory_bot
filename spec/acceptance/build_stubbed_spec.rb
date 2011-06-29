@@ -14,8 +14,7 @@ describe "a generated stub instance" do
     end
 
     FactoryGirl.define do
-      factory :user do
-      end
+      factory :user
 
       factory :post do
         title { "default title" }

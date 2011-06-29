@@ -15,8 +15,7 @@ describe "a generated attributes hash" do
     end
 
     FactoryGirl.define do
-      factory :user do
-      end
+      factory :user
 
       factory :post do
         title { "default title" }

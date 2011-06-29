@@ -6,8 +6,7 @@ describe "default strategy" do
     define_model('User')
 
     FactoryGirl.define do
-      factory :user do
-      end
+      factory :user
     end
 
     Factory(:user).should_not be_new_record
@@ -17,8 +16,7 @@ describe "default strategy" do
     define_model('User')
 
     FactoryGirl.define do
-      factory :user, :default_strategy => :build do
-      end
+      factory :user, :default_strategy => :build
     end
 
     Factory(:user).should be_new_record
