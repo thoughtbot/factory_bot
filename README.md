@@ -32,7 +32,7 @@ More Information
 Contributing
 ------------
 
-Please read the contribution guidelines before submitting patches or pull requests.
+Please see the [contribution guidelines](http://github.com/thoughtbot/factory_girl/blob/master/CONTRIBUTION_GUIDELINES.md).
 
 Credits
 -------
