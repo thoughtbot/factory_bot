@@ -50,6 +50,19 @@ describe FactoryGirl::Registry do
     result.should =~ [factory, other_factory]
   end
 
+  it "iterates registered factories uniquely with aliases" do
+    other_factory = FactoryGirl::Factory.new(:string, :aliases => [:awesome])
+    subject.add(factory)
+    subject.add(other_factory)
+    result = []
+
+    subject.each do |value|
+      result << value
+    end
+
+    result.should =~ [factory, other_factory]
+  end
+
   it "registers an sequence" do
     sequence = FactoryGirl::Sequence.new(:email) { |n| "somebody#{n}@example.com" }
     subject.add(sequence)

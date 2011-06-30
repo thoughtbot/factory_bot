@@ -16,7 +16,7 @@ module FactoryGirl
     end
 
     def each(&block)
-      @items.values.each(&block)
+      @items.values.uniq.each(&block)
     end
 
     def [](name)
