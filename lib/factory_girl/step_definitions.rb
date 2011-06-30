@@ -1,24 +1,92 @@
 module FactoryGirlStepHelpers
-
-  def convert_association_string_to_instance(factory_name, assignment)
-    attribute, value = assignment.split(':', 2)
-    return if value.blank?
-    factory = FactoryGirl.factory_by_name(factory_name)
-    attributes = convert_human_hash_to_attribute_hash({attribute => value.strip}, factory.associations)
-    model_class = factory.build_class
-    model_class.find(:first, :conditions => attributes) or
-      FactoryGirl.create(factory_name, attributes)
+  def convert_human_hash_to_attribute_hash(human_hash, associations = [])
+    HumanHashToAttributeHash.new(human_hash, associations).attributes
   end
 
-  def convert_human_hash_to_attribute_hash(human_hash, associations = [])
-    human_hash.inject({}) do |attribute_hash, (human_key, value)|
-      key = human_key.downcase.gsub(' ', '_').to_sym
-      if association = associations.detect {|association| association.name == key }
-        association_instance = convert_association_string_to_instance(association.factory, value)
-        key = "#{key}_id"
-        value = association_instance.id if association_instance
+  class HumanHashToAttributeHash
+    attr_reader :associations
+
+    def initialize(human_hash, associations)
+      @human_hash   = human_hash
+      @associations = associations
+    end
+
+    def attributes(strategy = CreateAttributes)
+      @human_hash.inject({}) do |attribute_hash, (human_key, value)|
+        attributes = strategy.new(self, *process_key_value(human_key, value))
+        attribute_hash.merge({ attributes.key => attributes.value })
       end
-      attribute_hash.merge(key => value)
+    end
+
+    private
+
+    def process_key_value(key, value)
+      [key.downcase.gsub(' ', '_').to_sym, value.strip]
+    end
+
+    class AssociationManager
+      def initialize(human_hash_to_attributes_hash, key, value)
+        @human_hash_to_attributes_hash = human_hash_to_attributes_hash
+        @key   = key
+        @value = value
+      end
+
+      def association
+        @human_hash_to_attributes_hash.associations.detect {|association| association.name == @key }
+      end
+
+      def association_instance
+        return unless association
+
+        if attributes_hash = nested_attribute_hash
+          factory.build_class.find(:first, :conditions => attributes_hash.attributes(FindAttributes)) or
+          FactoryGirl.create(association.factory, attributes_hash.attributes)
+        end
+      end
+
+      private
+
+      def factory
+        FactoryGirl.factory_by_name(association.factory)
+      end
+
+      def nested_attribute_hash
+        attribute, value = @value.split(':', 2)
+        return if value.blank?
+
+        HumanHashToAttributeHash.new({ attribute => value }, factory.associations)
+      end
+    end
+
+    class AttributeStrategy
+      attr_reader :key, :value, :association_manager
+
+      def initialize(human_hash_to_attributes_hash, key, value)
+        @association_manager = AssociationManager.new(human_hash_to_attributes_hash, key, value)
+        @key   = key
+        @value = value
+      end
+    end
+
+    class FindAttributes < AttributeStrategy
+      def initialize(human_hash_to_attributes_hash, key, value)
+        super
+
+        if association_manager.association
+          @key = "#{@key}_id"
+          @value = association_manager.association_instance.try(:id)
+        end
+      end
+    end
+
+    class CreateAttributes < AttributeStrategy
+      def initialize(human_hash_to_attributes_hash, key, value)
+        super
+
+        if association_manager.association
+          @value = association_manager.association_instance
+        end
+      end
     end
   end
 end
