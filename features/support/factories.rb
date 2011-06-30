@@ -54,11 +54,10 @@ FactoryGirl.define do
     "email#{n}@example.com"
   end
 
-  factory :user do
-  end
-
-  factory :admin_user, :parent => :user do
-    admin true
+  factory :user, :aliases => [:person] do
+    factory :admin_user do
+      admin true
+    end
   end
 
   factory :category do

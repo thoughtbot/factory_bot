@@ -354,14 +354,22 @@ describe FactoryGirl::Factory do
 
 end
 
-describe FactoryGirl::Factory, "with an underscore in the name" do
-  subject { FactoryGirl::Factory.new("happy_users") }
+describe FactoryGirl::Factory, "human names" do
+  context "factory name without underscores" do
+    subject           { FactoryGirl::Factory.new("user") }
+    its(:human_names) { should == ["user"] }
+  end
 
-  it "has a human name" do
-    subject.human_name.should == 'happy users'
+  context "factory name with underscores" do
+    subject           { FactoryGirl::Factory.new("happy_user") }
+    its(:human_names) { should == ["happy user"] }
+  end
+
+  context "factory name with aliases" do
+    subject           { FactoryGirl::Factory.new("happy_user", :aliases => ["gleeful_user", "person"]) }
+    its(:human_names) { should == ["happy user", "gleeful user", "person"] }
   end
 end
-
 
 describe FactoryGirl::Factory, "with aliases" do
   it "registers the aliases" do
@@ -369,5 +377,12 @@ describe FactoryGirl::Factory, "with aliases" do
     aliased_name = :guest
     factory = FactoryGirl::Factory.new(:user, :aliases => [aliased_name])
     factory.names.should =~ [name, aliased_name]
+  end
+
+  it "has human names" do
+    name = :user
+    aliased_name = :guest
+    factory = FactoryGirl::Factory.new(:user, :aliases => [aliased_name])
+    factory.human_names.should =~ [name.to_s, aliased_name.to_s]
   end
 end

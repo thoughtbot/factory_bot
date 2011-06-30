@@ -84,8 +84,8 @@ module FactoryGirl
       proxy.result(@to_create_block)
     end
 
-    def human_name(*args, &block)
-      name.to_s.gsub('_', ' ')
+    def human_names
+      names.map {|name| name.to_s.gsub('_', ' ') }
     end
 
     def associations

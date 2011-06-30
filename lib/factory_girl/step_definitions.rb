@@ -94,30 +94,32 @@ end
 World(FactoryGirlStepHelpers)
 
 FactoryGirl.factories.each do |factory|
-  Given /^the following (?:#{factory.human_name}|#{factory.human_name.pluralize}) exists?:$/i do |table|
-    table.hashes.each do |human_hash|
-      attributes = convert_human_hash_to_attribute_hash(human_hash, factory.associations)
-      factory.run(FactoryGirl::Proxy::Create, attributes)
-    end
-  end
-
-  Given /^an? #{factory.human_name} exists$/i do
-    FactoryGirl.create(factory.name)
-  end
-
-  Given /^(\d+) #{factory.human_name.pluralize} exist$/i do |count|
-    count.to_i.times { FactoryGirl.create(factory.name) }
-  end
-
-  if factory.build_class.respond_to?(:columns)
-    factory.build_class.columns.each do |column|
-      human_column_name = column.name.downcase.gsub('_', ' ')
-      Given /^an? #{factory.human_name} exists with an? #{human_column_name} of "([^"]*)"$/i do |value|
-        FactoryGirl.create(factory.name, column.name => value)
+  factory.human_names.each do |human_name|
+    Given /^the following (?:#{human_name}|#{human_name.pluralize}) exists?:$/i do |table|
+      table.hashes.each do |human_hash|
+        attributes = convert_human_hash_to_attribute_hash(human_hash, factory.associations)
+        FactoryGirl.create(factory.name, attributes)
       end
+    end
 
-      Given /^(\d+) #{factory.human_name.pluralize} exist with an? #{human_column_name} of "([^"]*)"$/i do |count, value|
-        count.to_i.times { FactoryGirl.create(factory.name, column.name => value) }
+    Given /^an? #{human_name} exists$/i do
+      FactoryGirl.create(factory.name)
+    end
+
+    Given /^(\d+) #{human_name.pluralize} exist$/i do |count|
+      count.to_i.times { FactoryGirl.create(factory.name) }
+    end
+
+    if factory.build_class.respond_to?(:columns)
+      factory.build_class.columns.each do |column|
+        human_column_name = column.name.downcase.gsub('_', ' ')
+        Given /^an? #{human_name} exists with an? #{human_column_name} of "([^"]*)"$/i do |value|
+          FactoryGirl.create(factory.name, column.name => value)
+        end
+
+        Given /^(\d+) #{human_name.pluralize} exist with an? #{human_column_name} of "([^"]*)"$/i do |count, value|
+          count.to_i.times { FactoryGirl.create(factory.name, column.name => value) }
+        end
       end
     end
   end
