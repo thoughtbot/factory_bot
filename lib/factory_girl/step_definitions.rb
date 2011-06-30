@@ -5,13 +5,8 @@ module FactoryGirlStepHelpers
     return if value.blank?
     factory = FactoryGirl.factory_by_name(factory_name)
     attributes = convert_human_hash_to_attribute_hash({attribute => value.strip}, factory.associations)
-    attributes_find = {}
-    attributes.each do |k, v|
-      k = "#{k}_id" if v.is_a? ActiveRecord::Base
-      attributes_find[k] = v
-    end
     model_class = factory.build_class
-    model_class.find(:first, :conditions => attributes_find) or
+    model_class.find(:first, :conditions => attributes) or
       FactoryGirl.create(factory_name, attributes)
   end
 
@@ -19,7 +14,9 @@ module FactoryGirlStepHelpers
     human_hash.inject({}) do |attribute_hash, (human_key, value)|
       key = human_key.downcase.gsub(' ', '_').to_sym
       if association = associations.detect {|association| association.name == key }
-        value = convert_association_string_to_instance(association.factory, value)
+        association_instance = convert_association_string_to_instance(association.factory, value)
+        key = "#{key}_id"
+        value = association_instance.id if association_instance
       end
       attribute_hash.merge(key => value)
     end
