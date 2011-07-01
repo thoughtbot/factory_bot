@@ -77,6 +77,14 @@ If repeating "FactoryGirl" is too verbose for you, you can mix the syntax method
       include Factory::Syntax::Methods
     end
 
+This would allow you to write:
+
+    describe User, "#full_name" do
+      subject { create(:user, :first_name => "John", :last_name => "Doe") }
+
+      its(:full_name) { should == "John Doe" }
+    end
+
 Lazy Attributes
 ---------------
 
@@ -85,6 +93,7 @@ Most factory attributes can be added using static values that are evaluated when
     factory :user do
       # ...
       activation_code { User.generate_activation_code }
+      date_of_birth   { 21.years.ago }
     end
 
 Dependent Attributes
@@ -157,10 +166,6 @@ You can also assign the parent explicitly:
       approved true
     end
 
-    approved_post = FactoryGirl.create(:approved_post)
-    approved_post.title # => 'A title'
-    approved_post.approved # => true
-
 As mentioned above, it's good practice to define a basic factory for each class with only the attributes required to create it. Then, create more specific factories that inherit from this basic parent. Factory definitions are still code, so keep them DRY.
 
 Sequences
@@ -231,12 +236,12 @@ Examples:
       after_build { |user| generate_hashed_password(user) }
     end
 
-Note that you'll have an instance of the user in the block.  This can be useful.
+Note that you'll have an instance of the user in the block. This can be useful.
 
 You can also define multiple types of callbacks on the same factory:
 
     factory :user do
-      after_build  { |user| do_something_to(user)      }
+      after_build  { |user| do_something_to(user) }
       after_create { |user| do_something_else_to(user) }
     end
 
@@ -244,7 +249,7 @@ Factories can also define any number of the same kind of callback.  These callba
 
     factory :user do
       after_create { this_runs_first }
-      after_create { then_this       }
+      after_create { then_this }
     end
 
 Calling FactoryGirl.create will invoke both after_build and after_create callbacks.
@@ -281,4 +286,3 @@ Users' tastes for syntax vary dramatically, but most users are looking for a com
     end
 
     User.make(:name => 'Johnny')
-
