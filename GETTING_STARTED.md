@@ -96,6 +96,32 @@ Most factory attributes can be added using static values that are evaluated when
       date_of_birth   { 21.years.ago }
     end
 
+Aliases
+-------
+
+Aliases allow you to use named associations more easily.
+
+    factory :user, :aliases => [:author, :commenter] do
+      first_name    "John"
+      last_name     "Doe"
+      date_of_birth { 18.years.ago }
+    end
+
+    factory :post do
+      author
+      # instead of
+      # association :author, :factory => :user
+      title "How to read a book effectively"
+      body  "There are five steps involved."
+    end
+
+    factory :comment do
+      commenter
+      # instead of
+      # association :commenter, :factory => :user
+      body "Great article!"
+    end
+
 Dependent Attributes
 --------------------
 
