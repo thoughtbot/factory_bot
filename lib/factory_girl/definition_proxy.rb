@@ -56,7 +56,7 @@ module FactoryGirl
     #     add_attribute :name, 'Billy Idol'
     #   end
     #
-    # are equivilent.
+    # are equivalent.
     #
     # If no argument or block is given, factory_girl will look for a sequence
     # or association with the same name. This means that:
@@ -73,7 +73,7 @@ module FactoryGirl
     #     account
     #   end
     #
-    # are equivilent.
+    # are equivalent.
     def method_missing(name, *args, &block)
       if args.empty? && block.nil?
         @factory.define_attribute(Attribute::Implicit.new(name))
