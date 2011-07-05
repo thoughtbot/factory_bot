@@ -31,8 +31,8 @@ module DefinesConstants
   def self.included(example_group)
     example_group.class_eval do
       before do
-        @defined_constants = []
-        @created_tables = []
+        @defined_constants ||= []
+        @created_tables ||= []
       end
 
       after do
@@ -40,12 +40,14 @@ module DefinesConstants
           namespace, class_name = *constant_path(path)
           namespace.send(:remove_const, class_name)
         end
+        @defined_constants.clear
 
         @created_tables.each do |table_name|
           ActiveRecord::Base.
             connection.
             execute("DROP TABLE IF EXISTS #{table_name}")
         end
+        @created_tables.clear
       end
 
       def define_class(path, base = Object, &block)
