@@ -1,6 +1,6 @@
 module FactoryGirl
   class DefinitionProxy
-    UNPROXIED_METHODS = %w(__send__ nil? send object_id extend instance_eval initialize block_given? raise)
+    UNPROXIED_METHODS = %w(__send__ __id__ nil? send object_id extend instance_eval initialize block_given? raise)
 
     (instance_methods + private_instance_methods).each do |method|
       undef_method(method) unless UNPROXIED_METHODS.include?(method)
