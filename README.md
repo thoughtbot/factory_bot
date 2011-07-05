@@ -16,14 +16,14 @@ See [GETTING_STARTED.md](http://github.com/thoughtbot/factory_girl/blob/master/G
 Install
 --------
 
-```bash
+```shell
 gem install factory_girl
 ```
 or add the following line to Gemfile:
 ```ruby
 gem 'factory_girl'
 ```
-and run `bundle install`
+and run `bundle install` from your shell.
 
 More Information
 ----------------
