@@ -37,6 +37,11 @@ describe FactoryGirl::DefinitionProxy do
     }.should raise_error(FactoryGirl::AttributeDefinitionError)
   end
 
+  it "should add an attribute with a built-in private method" do
+    subject.instance_eval { sleep(0.1) }
+    factory.attributes.map { |attribute| attribute.name }.should == [:sleep]
+  end
+
   describe "child factories" do
     its(:child_factories) { should == [] }
 

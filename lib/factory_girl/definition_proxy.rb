@@ -1,7 +1,9 @@
 module FactoryGirl
   class DefinitionProxy
-    instance_methods.each do |method|
-      undef_method(method) unless method =~ /(^__|^nil\?$|^send$|^object_id$|^extend$|^instance_eval$)/
+    UNPROXIED_METHODS = %w(__send__ nil? send object_id extend instance_eval initialize block_given? raise)
+
+    (instance_methods + private_instance_methods).each do |method|
+      undef_method(method) unless UNPROXIED_METHODS.include?(method)
     end
 
     attr_reader :child_factories
