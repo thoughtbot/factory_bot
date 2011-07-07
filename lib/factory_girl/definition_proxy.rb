@@ -3,7 +3,7 @@ module FactoryGirl
     UNPROXIED_METHODS = %w(__send__ __id__ nil? send object_id extend instance_eval initialize block_given? raise)
 
     (instance_methods + private_instance_methods).each do |method|
-      undef_method(method) unless UNPROXIED_METHODS.include?(method)
+      undef_method(method) unless UNPROXIED_METHODS.include?(method.to_s)
     end
 
     attr_reader :child_factories
