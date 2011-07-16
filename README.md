@@ -20,6 +20,7 @@ Install
 gem install factory_girl
 ```
 or add the following line to Gemfile:
+
 ```ruby
 gem 'factory_girl'
 ```
