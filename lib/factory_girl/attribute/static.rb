@@ -11,7 +11,10 @@ module FactoryGirl
       def add_to(proxy)
         proxy.set(name, @value)
       end
-    end
 
+      def priority
+        0
+      end
+    end
   end
 end
