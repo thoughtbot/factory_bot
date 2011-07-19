@@ -8,6 +8,7 @@ module FactoryGirl
   end
 
   class Attribute #:nodoc:
+    include Comparable
 
     attr_reader :name
 
@@ -28,6 +29,16 @@ module FactoryGirl
     def association?
       false
     end
+
+    def priority
+      1
+    end
+
+    def <=>(another)
+      return nil unless another.is_a? Attribute
+      self.priority <=> another.priority
+    end
+
   end
 
 end

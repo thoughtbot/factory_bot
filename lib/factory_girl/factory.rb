@@ -49,7 +49,9 @@ module FactoryGirl
           new_attributes << attribute.clone
         end
       end
-      @attributes.unshift *new_attributes
+
+      @attributes += new_attributes
+      @attributes.sort!
     end
 
     def define_attribute(attribute)
