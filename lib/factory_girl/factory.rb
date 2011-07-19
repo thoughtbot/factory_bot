@@ -49,7 +49,13 @@ module FactoryGirl
           new_attributes << attribute.clone
         end
       end
-      @attributes.unshift *new_attributes
+
+      @attributes += new_attributes
+      # give the right priority to attributes: static attributes must be
+      # executed immediately, because dynamic attributes can depend on them.
+      @attributes = @attributes.collect do |a|
+        [ a.is_a?(Attribute::Static) ? -1 : 0, a ]
+      end.sort { |a,b| a[0] <=> b[0] }.collect{|a| a[1]}
     end
 
     def define_attribute(attribute)
