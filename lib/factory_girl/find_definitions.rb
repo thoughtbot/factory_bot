@@ -11,11 +11,11 @@ module FactoryGirl
 
   def self.find_definitions #:nodoc:
     definition_file_paths.each do |path|
-      require("#{path}.rb") if File.exists?("#{path}.rb")
+      require("./#{path}.rb") if File.exists?("#{path}.rb")
 
       if File.directory? path
         Dir[File.join(path, '**', '*.rb')].sort.each do |file|
-          require file
+          require "./#{file}"
         end
       end
     end
