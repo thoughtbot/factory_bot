@@ -24,6 +24,7 @@ Gem::Specification.new do |s|
     s.add_development_dependency('activerecord', '~>3.0.0.beta3')
     s.add_development_dependency('rr')
     s.add_development_dependency('sqlite3')
+    s.add_development_dependency('aruba')
 
     s.platform = Gem::Platform::RUBY
     s.rubygems_version = %q{1.2.0}
