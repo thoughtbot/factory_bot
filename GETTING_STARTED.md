@@ -6,11 +6,11 @@ Update Your Gemfile
 
 If you're using Rails, you'll need to upgrade `factory_girl_rails` to the latest RC:
 
-    gem "factory_girl_rails", "~> 1.1.rc1"
+    gem "factory_girl_rails", "~> 1.1"
 
 If you're *not* using Rails, you'll just have to change the required version of `factory_girl`:
 
-    gem "factory_girl", "~> 2.0.0.rc1"
+    gem "factory_girl", "~> 2.0.0"
 
 Once your Gemfile is updated, you'll want to update your bundle.
 
