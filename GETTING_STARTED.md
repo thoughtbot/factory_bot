@@ -308,6 +308,13 @@ To set the attributes for each of the factories, you can pass in a hash as you n
 
     twenty_year_olds = FactoryGirl.build_list(:user, 25, :date_of_birth => 20.years.ago)
 
+Cucumber Integration
+--------------------
+
+factory_girl ships with step definitions that make calling factories from Cucumber easier. To use them:
+
+    require 'factory_girl/step_definitions' 
+
 Alternate Syntaxes
 ------------------
 
