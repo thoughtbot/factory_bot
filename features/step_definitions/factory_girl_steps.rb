@@ -16,3 +16,10 @@ end
 When /^I create a "([^"]*)" instance from Factory Girl$/ do |factory_name|
   FactoryGirl.create(factory_name)
 end
+
+Given /^these super users exist:$/ do |table|
+  headers = table.headers + ["admin"]
+  rows    = table.rows.map { |row| row + [true] }
+  new_table = Cucumber::Ast::Table.new([headers] + rows)
+  Given %{the following person exists:}, new_table
+end

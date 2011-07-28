@@ -21,7 +21,7 @@ module FactoryGirlStepHelpers
     private
 
     def process_key_value(key, value)
-      [key.downcase.gsub(' ', '_').to_sym, value.strip]
+      [key.downcase.gsub(' ', '_').to_sym, value.to_s.strip]
     end
 
     class AssociationManager
