@@ -1,0 +1,8 @@
+rvm:
+  - 1.8.7
+  - 1.9.2
+script: "bundle exec rake spec:unit spec:acceptance features"
+gemfile:
+  - gemfiles/2.1.gemfile
+  - gemfiles/2.3.gemfile
+  - gemfiles/3.0.gemfile
