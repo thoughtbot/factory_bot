@@ -10,14 +10,14 @@ module FactoryGirl
   self.definition_file_paths = %w(factories test/factories spec/factories)
 
   def self.find_definitions #:nodoc:
-    definition_file_paths.each do |path|
-      path = File.expand_path(path)
+    absolute_definition_file_paths = definition_file_paths.map {|path| File.expand_path(path) }
 
-      require("#{path}.rb") if File.exists?("#{path}.rb")
+    absolute_definition_file_paths.uniq.each do |path|
+      load("#{path}.rb") if File.exists?("#{path}.rb")
 
       if File.directory? path
         Dir[File.join(path, '**', '*.rb')].sort.each do |file|
-          require file
+          load file
         end
       end
     end

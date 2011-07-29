@@ -2,20 +2,20 @@ require 'spec_helper'
 
 share_examples_for "finds definitions" do
   before do
-    stub(FactoryGirl).require
+    stub(FactoryGirl).load
     FactoryGirl.find_definitions
   end
   subject { FactoryGirl }
 end
 
-RSpec::Matchers.define :require_definitions_from do |file|
+RSpec::Matchers.define :load_definitions_from do |file|
   match do |given|
-    @has_received = have_received.method_missing(:require, File.expand_path(file))
+    @has_received = have_received.method_missing(:load, File.expand_path(file))
     @has_received.matches?(given)
   end
 
   description do
-    "require definitions from #{file}"
+    "load definitions from #{file}"
   end
 
   failure_message_for_should do
@@ -47,7 +47,7 @@ describe "definition loading" do
   describe "with factories.rb" do
     in_directory_with_files 'factories.rb'
     it_should_behave_like "finds definitions" do
-      it { should require_definitions_from('factories.rb') }
+      it { should load_definitions_from('factories.rb') }
     end
   end
 
@@ -55,14 +55,14 @@ describe "definition loading" do
     describe "with a factories file under #{dir}" do
       in_directory_with_files File.join(dir, 'factories.rb')
       it_should_behave_like "finds definitions" do
-        it { should require_definitions_from("#{dir}/factories.rb") }
+        it { should load_definitions_from("#{dir}/factories.rb") }
       end
     end
 
     describe "with a factories file under #{dir}/factories" do
       in_directory_with_files File.join(dir, 'factories', 'post_factory.rb')
       it_should_behave_like "finds definitions" do
-        it { should require_definitions_from("#{dir}/factories/post_factory.rb") }
+        it { should load_definitions_from("#{dir}/factories/post_factory.rb") }
       end
     end
 
@@ -70,8 +70,8 @@ describe "definition loading" do
       in_directory_with_files File.join(dir, 'factories', 'post_factory.rb'),
                               File.join(dir, 'factories', 'person_factory.rb')
       it_should_behave_like "finds definitions" do
-        it { should require_definitions_from("#{dir}/factories/post_factory.rb") }
-        it { should require_definitions_from("#{dir}/factories/person_factory.rb") }
+        it { should load_definitions_from("#{dir}/factories/post_factory.rb") }
+        it { should load_definitions_from("#{dir}/factories/person_factory.rb") }
       end
     end
 
@@ -80,7 +80,7 @@ describe "definition loading" do
                               File.join(dir, 'factories', 'a.rb')
       it "should load the files in the right order" do
         @loaded = []
-        stub(FactoryGirl).require { |a| @loaded << File.split(a)[-1] }
+        stub(FactoryGirl).load { |a| @loaded << File.split(a)[-1] }
         FactoryGirl.find_definitions
         @loaded.should == ["a.rb", "b.rb"]
       end
@@ -91,9 +91,9 @@ describe "definition loading" do
                               File.join(dir, 'factories', 'post_factory.rb'),
                               File.join(dir, 'factories', 'person_factory.rb')
       it_should_behave_like "finds definitions" do
-        it { should require_definitions_from("#{dir}/factories.rb") }
-        it { should require_definitions_from("#{dir}/factories/post_factory.rb") }
-        it { should require_definitions_from("#{dir}/factories/person_factory.rb") }
+        it { should load_definitions_from("#{dir}/factories.rb") }
+        it { should load_definitions_from("#{dir}/factories/post_factory.rb") }
+        it { should load_definitions_from("#{dir}/factories/person_factory.rb") }
       end
     end
 
@@ -101,8 +101,8 @@ describe "definition loading" do
       in_directory_with_files File.join(dir, 'factories', 'subdirectory', 'post_factory.rb'),
                               File.join(dir, 'factories', 'subdirectory', 'person_factory.rb')
       it_should_behave_like "finds definitions" do
-        it { should require_definitions_from("#{dir}/factories/subdirectory/post_factory.rb") }
-        it { should require_definitions_from("#{dir}/factories/subdirectory/person_factory.rb") }
+        it { should load_definitions_from("#{dir}/factories/subdirectory/post_factory.rb") }
+        it { should load_definitions_from("#{dir}/factories/subdirectory/person_factory.rb") }
       end
     end
   end
