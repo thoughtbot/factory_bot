@@ -31,4 +31,13 @@ describe FactoryGirl::Attribute do
   it "should convert names to symbols" do
     FactoryGirl::Attribute.new('name').name.should == :name
   end
+
+  it "should return nil when is compared with a non-attribute object" do
+    (@attr <=> "foo").should == nil
+  end
+
+  it "should use priority to perform comparisons" do
+    attr2 = FactoryGirl::Attribute.new('name')
+    (@attr <=> attr2).should == 0
+  end
 end
