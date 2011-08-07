@@ -76,13 +76,15 @@ module FactoryGirl
     def run(proxy_class, overrides) #:nodoc:
       proxy = proxy_class.new(build_class)
       overrides = symbolize_keys(overrides)
-      overrides.each {|attr, val| proxy.set(attr, val) }
-      passed_keys = overrides.keys.collect {|k| FactoryGirl.aliases_for(k) }.flatten
       @attributes.each do |attribute|
-        unless passed_keys.include?(attribute.name)
+        factory_overrides = overrides.select { |attr, val| attribute.aliases_for?(attr) }
+        if factory_overrides.empty?
           attribute.add_to(proxy)
+        else
+          factory_overrides.each { |attr, val| proxy.set(attr, val) }
         end
       end
+      overrides.each { |attr, val| proxy.set(attr, val) }
       proxy.result(@to_create_block)
     end
 
