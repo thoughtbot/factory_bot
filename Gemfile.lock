@@ -58,6 +58,7 @@ PLATFORMS
 
 DEPENDENCIES
   activerecord
+  activesupport
   appraisal (~> 0.3.5)
   bluecloth
   cucumber (~> 1.0.0)
