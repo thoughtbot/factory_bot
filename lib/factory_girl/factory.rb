@@ -50,7 +50,7 @@ module FactoryGirl
         end
       end
 
-      @attributes += new_attributes
+      @attributes.unshift *new_attributes
       @attributes.sort!
     end
 
