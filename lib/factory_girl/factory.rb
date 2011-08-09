@@ -45,7 +45,9 @@ module FactoryGirl
 
       new_attributes = []
       parent.attributes.each do |attribute|
-        unless attribute_defined?(attribute.name)
+        if attribute_defined?(attribute.name)
+          @attributes.delete_if {|attrib| new_attributes << attrib if attrib.name == attribute.name}
+        else
           new_attributes << attribute.clone
         end
       end
