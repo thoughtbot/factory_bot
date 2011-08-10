@@ -16,6 +16,11 @@ module FactoryGirl
           factory = Factory.new(name, options)
           proxy = FactoryGirl::DefinitionProxy.new(factory)
           proxy.instance_eval(&block) if block_given?
+
+          if groups = options.delete(:attr_groups)
+            factory.apply_attribute_groups(groups)
+          end
+
           if parent = options.delete(:parent)
             factory.inherit_from(FactoryGirl.factory_by_name(parent))
           end
@@ -25,7 +30,7 @@ module FactoryGirl
             factory(child_name, child_options.merge(:parent => name), &child_block)
           end
         end
-
+                
         def sequence(name, start_value = 1, &block)
           FactoryGirl.register_sequence(Sequence.new(name, start_value, &block))
         end
