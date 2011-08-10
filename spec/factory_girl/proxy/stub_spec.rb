@@ -9,6 +9,8 @@ describe FactoryGirl::Proxy::Stub do
   it_should_behave_like "proxy with association support", FactoryGirl::Proxy::Stub
   it_should_behave_like "proxy with standard getters and setters", :attribute_name, "attribute value!"
   it_should_behave_like "proxy with callbacks", :after_stub
+  it_should_behave_like "proxy with :method => :build",
+    FactoryGirl::Proxy::Stub
 
   context "asking for a result" do
     it { subject.result(nil).should_not be_new_record }

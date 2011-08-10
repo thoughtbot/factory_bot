@@ -31,6 +31,33 @@ describe "a created instance" do
   end
 end
 
+describe "a created instance, specifying :method => build" do
+  include FactoryGirl::Syntax::Methods
+
+  before do
+    define_model('User')
+
+    define_model('Post', :user_id => :integer) do
+      belongs_to :user
+    end
+
+    FactoryGirl.define do
+      factory :user
+
+      factory :post do
+        association(:user, :method => :build)
+      end
+    end
+  end
+
+  subject { create('post') }
+
+  it "still saves associations (:method => :build only affects build, not create)" do
+    subject.user.should be_kind_of(User)
+    subject.user.should_not be_new_record
+  end
+end
+
 describe "a custom create" do
   include FactoryGirl::Syntax::Methods
 
