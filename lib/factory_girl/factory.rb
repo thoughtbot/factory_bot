@@ -14,7 +14,6 @@ module FactoryGirl
   class Factory
     attr_reader :name #:nodoc:
     attr_reader :attributes #:nodoc:
-    attr_reader :attribute_groups #:nodoc:
     
     def factory_name
       puts "WARNING: factory.factory_name is deprecated. Use factory.name instead."
@@ -38,7 +37,6 @@ module FactoryGirl
       @name       = factory_name_for(name)
       @options    = options
       @attributes = []
-      @attribute_groups = {}
     end
 
     def inherit_from(parent) #:nodoc:
@@ -90,7 +88,7 @@ module FactoryGirl
     end
     
     def define_attribute_group(group)
-      @attribute_groups[group.name.to_sym] = group
+      attribute_groups.add group
     end
 
     def add_callback(name, &block)
@@ -124,13 +122,16 @@ module FactoryGirl
     end
 
     def attribute_group_by_name(name)
-      name=name.to_sym
-      group = @attribute_groups[name]
-      unless @options[:parent].nil?
-        group ||= FactoryGirl.factory_by_name(@options[:parent]).attribute_group_by_name(name)
+      return attribute_groups.find(name) if attribute_groups.registered?(name)
+      
+      parent=@options[:parent]
+      if parent.nil?
+        FactoryGirl::attribute_group_by_name(name)
+      else
+        FactoryGirl.factory_by_name(parent).attribute_group_by_name(name)
       end
-      group
     end
+    
     # Names for this factory, including aliases.
     #
     # Example:
@@ -230,6 +231,9 @@ module FactoryGirl
         options
       end
     end
-
+    
+    def attribute_groups
+      @attribute_groups ||= Registry.new
+    end
   end
 end

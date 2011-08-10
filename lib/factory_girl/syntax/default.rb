@@ -34,6 +34,10 @@ module FactoryGirl
         def sequence(name, start_value = 1, &block)
           FactoryGirl.register_sequence(Sequence.new(name, start_value, &block))
         end
+        
+        def attr_group(name, &block)
+          FactoryGirl.register_attribute_group(AttributeGroup.new(name, &block))
+        end
       end
     end
   end
