@@ -35,6 +35,7 @@ module FactoryGirl
     def initialize(name, options = {}) #:nodoc:
       assert_valid_options(options)
       @name       = factory_name_for(name)
+      @parent     = options[:parent]
       @options    = options
       @attributes = []
     end
@@ -124,11 +125,10 @@ module FactoryGirl
     def attribute_group_by_name(name)
       return attribute_groups.find(name) if attribute_groups.registered?(name)
       
-      parent=@options[:parent]
-      if parent.nil?
+      if @parent.nil?
         FactoryGirl::attribute_group_by_name(name)
       else
-        FactoryGirl.factory_by_name(parent).attribute_group_by_name(name)
+        FactoryGirl.factory_by_name(@parent).attribute_group_by_name(name)
       end
     end
     
