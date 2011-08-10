@@ -154,7 +154,8 @@ module FactoryGirl
       @child_factories << [name, options, block]
     end
     
-    def attr_group(name, &block)
+    def attr_group(name, options={}, &block)
+      factory(name, &block) if options.delete(:factory)
       @factory.define_attribute_group(AttributeGroup.new(name, &block))
     end
   end
