@@ -19,6 +19,10 @@ module FactoryGirl
       @attributes << attribute
     end
     
+    def names
+      [@name]
+    end
+    
     private
     
     def attribute_defined? (name)
