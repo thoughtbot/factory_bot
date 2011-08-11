@@ -72,8 +72,8 @@ module FactoryGirl
           end
         end
         @attributes.unshift *new_attributes
-        @attributes = @attributes.partition{|attr| attr.priority.zero?}.flatten
       end
+      @attributes = @attributes.partition{|attr| attr.priority.zero?}.flatten
     end
 
     def define_attribute(attribute)
