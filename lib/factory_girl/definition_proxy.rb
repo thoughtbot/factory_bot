@@ -77,7 +77,7 @@ module FactoryGirl
     # are equivalent.
     def method_missing(name, *args, &block)
       if args.empty? && block.nil?
-        @factory.define_attribute(Attribute::Implicit.new(name))
+        @factory.define_attribute(Attribute::Implicit.new(name, @factory))
       elsif args.first.is_a?(Hash) && args.first.has_key?(:factory)
         association(name, *args)
       else
