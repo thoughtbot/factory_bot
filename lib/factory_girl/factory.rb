@@ -191,7 +191,7 @@ module FactoryGirl
     end
 
     def assert_valid_options(options)
-      invalid_keys = options.keys - [:class, :parent, :default_strategy, :aliases, :attr_groups]
+      invalid_keys = options.keys - [:class, :parent, :default_strategy, :aliases, :attribute_groups]
       unless invalid_keys == []
         raise ArgumentError, "Unknown arguments: #{invalid_keys.inspect}"
       end
