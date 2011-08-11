@@ -2,8 +2,9 @@ module FactoryGirl
   class Attribute
 
     class Implicit < Attribute
-      def initialize(name)
+      def initialize(name, factory=nil)
         super(name)
+        @factory=factory
       end
 
       def add_to(proxy)
@@ -27,8 +28,10 @@ module FactoryGirl
       def resolve_name
         if FactoryGirl.factories.registered?(name)
           Attribute::Association.new(name, name, {})
-        else
+        elsif FactoryGirl.sequences.registered?(name)
           Attribute::Sequence.new(name, name)
+        else
+          Attribute::AttributeGroup.new(name, @factory)
         end
       end
     end
