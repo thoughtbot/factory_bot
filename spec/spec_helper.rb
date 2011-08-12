@@ -24,7 +24,7 @@ RSpec.configure do |config|
   config.after do
     FactoryGirl.factories.clear
     FactoryGirl.sequences.clear
-    FactoryGirl.attribute_groups.clear
+    FactoryGirl.traits.clear
   end
 end
 

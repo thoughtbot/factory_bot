@@ -17,8 +17,8 @@ module FactoryGirl
           proxy = FactoryGirl::DefinitionProxy.new(factory)
           proxy.instance_eval(&block) if block_given?
 
-          if groups = options.delete(:attribute_groups)
-            factory.apply_attribute_groups(groups)
+          if traits = options.delete(:traits)
+            factory.apply_traits(traits)
           end
 
           if parent = options.delete(:parent)
@@ -35,8 +35,8 @@ module FactoryGirl
           FactoryGirl.register_sequence(Sequence.new(name, start_value, &block))
         end
 
-        def attribute_group(name, &block)
-          FactoryGirl.register_attribute_group(AttributeGroup.new(name, &block))
+        def trait(name, &block)
+          FactoryGirl.register_trait(Trait.new(name, &block))
         end
       end
     end

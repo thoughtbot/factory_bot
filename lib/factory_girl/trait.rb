@@ -1,5 +1,5 @@
 module FactoryGirl
-  class AttributeGroup
+  class Trait
     attr_reader :name
 
     def initialize(name, &block) #:nodoc:

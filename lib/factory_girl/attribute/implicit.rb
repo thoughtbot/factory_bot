@@ -31,7 +31,7 @@ module FactoryGirl
         elsif FactoryGirl.sequences.registered?(name)
           Attribute::Sequence.new(name, name)
         else
-          Attribute::AttributeGroup.new(name, @factory)
+          Attribute::Trait.new(name, @factory)
         end
       end
     end

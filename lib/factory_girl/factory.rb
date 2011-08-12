@@ -13,7 +13,7 @@ module FactoryGirl
 
   class Factory
     attr_reader :name #:nodoc:
-    attr_reader :attribute_groups #:nodoc:
+    attr_reader :traits #:nodoc:
 
     def factory_name
       puts "WARNING: factory.factory_name is deprecated. Use factory.name instead."
@@ -34,11 +34,11 @@ module FactoryGirl
 
     def initialize(name, options = {}) #:nodoc:
       assert_valid_options(options)
-      @name             = factory_name_for(name)
-      @parent           = options[:parent]
-      @options          = options
-      @attribute_list   = AttributeList.new
-      @attribute_groups = []
+      @name           = factory_name_for(name)
+      @parent         = options[:parent]
+      @options        = options
+      @attribute_list = AttributeList.new
+      @traits         = []
     end
 
     def inherit_from(parent) #:nodoc:
@@ -48,9 +48,9 @@ module FactoryGirl
       apply_attributes(parent.attributes)
     end
 
-    def apply_attribute_groups(groups) #:nodoc:
-      groups.reverse.map { |name| attribute_group_by_name(name) }.each do |group|
-        apply_attributes(group.attributes)
+    def apply_traits(traits) #:nodoc:
+      traits.reverse.map { |name| trait_by_name(name) }.each do |trait|
+        apply_attributes(trait.attributes)
       end
     end
 
@@ -66,8 +66,8 @@ module FactoryGirl
       @attribute_list.define_attribute(attribute)
     end
 
-    def define_attribute_group(group)
-      @attribute_groups << group
+    def define_trait(trait)
+      @traits << trait
     end
 
     def add_callback(name, &block)
@@ -102,13 +102,13 @@ module FactoryGirl
       attributes.select {|attribute| attribute.association? }
     end
 
-    def attribute_group_by_name(name)
-      if existing_attribute = attribute_group_for(name)
+    def trait_by_name(name)
+      if existing_attribute = trait_for(name)
         existing_attribute
       elsif @parent
-        FactoryGirl.factory_by_name(@parent).attribute_group_by_name(name)
+        FactoryGirl.factory_by_name(@parent).trait_by_name(name)
       else
-        FactoryGirl.attribute_group_by_name(name)
+        FactoryGirl.trait_by_name(name)
       end
     end
 
@@ -167,7 +167,7 @@ module FactoryGirl
     end
 
     def assert_valid_options(options)
-      invalid_keys = options.keys - [:class, :parent, :default_strategy, :aliases, :attribute_groups]
+      invalid_keys = options.keys - [:class, :parent, :default_strategy, :aliases, :traits]
       unless invalid_keys == []
         raise ArgumentError, "Unknown arguments: #{invalid_keys.inspect}"
       end
@@ -208,8 +208,8 @@ module FactoryGirl
       end
     end
 
-    def attribute_group_for(name)
-      attribute_groups.detect {|attribute_group| attribute_group.name == name }
+    def trait_for(name)
+      traits.detect {|trait| trait.name == name }
     end
   end
 end

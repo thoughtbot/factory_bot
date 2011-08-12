@@ -259,10 +259,10 @@ Without a block, the value will increment itself, starting at its initial value:
       sequence(:position)
     end
 
-Attribute Groups
-----------------
+Traits
+------
 
-Attribute groups allow you to group attributes together and then apply them
+Traits allow you to group attributes together and then apply them
 to any factory.
 
     factory :user, :aliases => [:author]
@@ -271,31 +271,31 @@ to any factory.
       title "My awesome story"
       author
 
-      attribute_group :published do
+      trait :published do
         published true
       end
 
-      attribute_group :unpublished do
+      trait :unpublished do
         published false
       end
 
-      attribute_group :week_long_publishing do
+      trait :week_long_publishing do
         start_at { 1.week.ago }
         end_at   { Time.now }
       end
 
-      attribute_group :month_long_publishing do
+      trait :month_long_publishing do
         start_at { 1.month.ago }
         end_at   { Time.now }
       end
 
-      factory :week_long_published_story,    :attribute_groups => [:published, :week_long_publishing]
-      factory :month_long_published_story,   :attribute_groups => [:published, :month_long_publishing]
-      factory :week_long_unpublished_story,  :attribute_groups => [:unpublished, :week_long_publishing]
-      factory :month_long_unpublished_story, :attribute_groups => [:unpublished, :month_long_publishing]
+      factory :week_long_published_story,    :traits => [:published, :week_long_publishing]
+      factory :month_long_published_story,   :traits => [:published, :month_long_publishing]
+      factory :week_long_unpublished_story,  :traits => [:unpublished, :week_long_publishing]
+      factory :month_long_unpublished_story, :traits => [:unpublished, :month_long_publishing]
     end
 
-Attribute groups can be used as attributes:
+Traits can be used as attributes:
 
     factory :week_long_published_story_with_title, :parent => :story do
       published
@@ -303,32 +303,32 @@ Attribute groups can be used as attributes:
       title { "Publishing that was started at {start_at}" }
     end
 
-Attribute groups that define the same attributes won't raise AttributeDefinitionErrors;
-the attribute group that defines the attribute latest in order gets precedence.
+Traits that define the same attributes won't raise AttributeDefinitionErrors;
+the trait that defines the attribute latest gets precedence.
 
     factory :user do
       name "Friendly User"
       login { name }
 
-      attribute_group :male do
+      trait :male do
         name   "John Doe"
         gender "Male"
         login { "#{name} (M)" }
       end
 
-      attribute_group :female do
+      trait :female do
         name   "Jane Doe"
         gender "Female"
         login { "#{name} (F)" }
       end
 
-      attribute_group :admin do
+      trait :admin do
         admin true
         login { "admin-#{name}" }
       end
 
-      factory :male_admin,   :attribute_groups => [:male, :admin]   # login will be "admin-John Doe"
-      factory :female_admin, :attribute_groups => [:admin, :female] # login will be "Jane Doe (F)"
+      factory :male_admin,   :traits => [:male, :admin]   # login will be "admin-John Doe"
+      factory :female_admin, :traits => [:admin, :female] # login will be "Jane Doe (F)"
     end
 
 Callbacks
