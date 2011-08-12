@@ -74,7 +74,6 @@ module FactoryGirl
       @attribute_list.add_callback(name, &block)
     end
 
-
     def attributes
       @attribute_list.to_a
     end
