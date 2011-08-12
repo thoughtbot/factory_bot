@@ -1,7 +1,7 @@
 module FactoryGirl
-  class Attribute
+  class Attribute #:nodoc:
 
-    class AttributeGroup < Attribute
+    class AttributeGroup < Attribute #:nodoc:
       def initialize(name, factory)
         super(name)
         @factory = factory
@@ -17,5 +17,6 @@ module FactoryGirl
         (@factory || FactoryGirl).attribute_group_by_name(name)
       end
     end
+
   end
 end

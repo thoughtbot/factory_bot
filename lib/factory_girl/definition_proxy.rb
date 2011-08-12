@@ -7,6 +7,7 @@ module FactoryGirl
     end
 
     attr_reader :child_factories
+
     def initialize(factory)
       @factory = factory
       @child_factories = []
@@ -153,7 +154,7 @@ module FactoryGirl
     def factory(name, options = {}, &block)
       @child_factories << [name, options, block]
     end
-    
+
     def attribute_group(name, &block)
       @factory.define_attribute_group(AttributeGroup.new(name, &block))
     end
