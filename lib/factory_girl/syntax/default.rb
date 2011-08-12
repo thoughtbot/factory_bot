@@ -24,6 +24,9 @@ module FactoryGirl
           if parent = options.delete(:parent)
             factory.inherit_from(FactoryGirl.factory_by_name(parent))
           end
+          
+          factory.sort_attributes
+          
           FactoryGirl.register_factory(factory)
 
           proxy.child_factories.each do |(child_name, child_options, child_block)|
