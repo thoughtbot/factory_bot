@@ -25,24 +25,6 @@ describe FactoryGirl::Factory do
     @factory.default_strategy.should == :create
   end
 
-  it "should not allow the same attribute to be added twice" do
-    lambda {
-      2.times { @factory.define_attribute FactoryGirl::Attribute::Static.new(:name, 'value') }
-    }.should raise_error(FactoryGirl::AttributeDefinitionError)
-  end
-
-  it "should add a callback attribute when defining a callback" do
-    mock(FactoryGirl::Attribute::Callback).new(:after_create, is_a(Proc)) { 'after_create callback' }
-    @factory.add_callback(:after_create) {}
-    @factory.attributes.should include('after_create callback')
-  end
-
-  it "should raise an InvalidCallbackNameError when defining a callback with an invalid name" do
-    lambda{
-      @factory.add_callback(:invalid_callback_name) {}
-    }.should raise_error(FactoryGirl::InvalidCallbackNameError)
-  end
-
   describe "after adding an attribute" do
     before do
       @attribute = "attribute"

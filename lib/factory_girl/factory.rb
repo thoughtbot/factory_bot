@@ -13,7 +13,6 @@ module FactoryGirl
 
   class Factory
     attr_reader :name #:nodoc:
-    attr_reader :attributes #:nodoc:
     attr_reader :attribute_groups #:nodoc:
 
     def factory_name
@@ -38,7 +37,7 @@ module FactoryGirl
       @name             = factory_name_for(name)
       @parent           = options[:parent]
       @options          = options
-      @attributes       = []
+      @attribute_list   = AttributeList.new
       @attribute_groups = []
     end
 
@@ -47,26 +46,24 @@ module FactoryGirl
       @options[:default_strategy] ||= parent.default_strategy
 
       apply_attributes(parent.attributes)
-      sort_attributes!
     end
 
-    def apply_attribute_groups(groups)
+    def apply_attribute_groups(groups) #:nodoc:
       groups.reverse.map { |name| attribute_group_by_name(name) }.each do |group|
         apply_attributes(group.attributes)
       end
-      sort_attributes!
+    end
+
+    def apply_attributes(attributes_to_apply)
+      @attribute_list.apply_attributes(attributes_to_apply)
     end
 
     def define_attribute(attribute)
-      name = attribute.name
-      # TODO: move these checks into Attribute
-      if attribute_defined?(name)
-        raise AttributeDefinitionError, "Attribute already defined: #{name}"
-      end
       if attribute.respond_to?(:factory) && attribute.factory == self.name
-        raise AssociationDefinitionError, "Self-referencing association '#{name}' in factory '#{self.name}'"
+        raise AssociationDefinitionError, "Self-referencing association '#{attribute.name}' in factory '#{self.name}'"
       end
-      @attributes << attribute
+
+      @attribute_list.define_attribute(attribute)
     end
 
     def define_attribute_group(group)
@@ -74,16 +71,18 @@ module FactoryGirl
     end
 
     def add_callback(name, &block)
-      unless [:after_build, :after_create, :after_stub].include?(name.to_sym)
-        raise InvalidCallbackNameError, "#{name} is not a valid callback name. Valid callback names are :after_build, :after_create, and :after_stub"
-      end
-      @attributes << Attribute::Callback.new(name.to_sym, block)
+      @attribute_list.add_callback(name, &block)
+    end
+
+
+    def attributes
+      @attribute_list.to_a
     end
 
     def run(proxy_class, overrides) #:nodoc:
       proxy = proxy_class.new(build_class)
       overrides = symbolize_keys(overrides)
-      @attributes.each do |attribute|
+      @attribute_list.each do |attribute|
         factory_overrides = overrides.select { |attr, val| attribute.aliases_for?(attr) }
         if factory_overrides.empty?
           attribute.add_to(proxy)
@@ -167,10 +166,6 @@ module FactoryGirl
       end
     end
 
-    def attribute_defined? (name)
-      !@attributes.detect {|attr| attr.name == name && !attr.is_a?(Attribute::Callback) }.nil?
-    end
-
     def assert_valid_options(options)
       invalid_keys = options.keys - [:class, :parent, :default_strategy, :aliases, :attribute_groups]
       unless invalid_keys == []
@@ -211,26 +206,6 @@ module FactoryGirl
         options[(key.to_sym rescue key) || key] = value
         options
       end
-    end
-
-    def apply_attributes(attributes_to_apply)
-      new_attributes=[]
-
-      attributes_to_apply.each do |attribute|
-        if attribute_defined?(attribute.name)
-          @attributes.delete_if do |attrib|
-            new_attributes << attrib.clone if attrib.name == attribute.name
-          end
-        else
-          new_attributes << attribute.clone
-        end
-      end
-
-      @attributes.unshift *new_attributes
-    end
-
-    def sort_attributes!
-      @attributes = @attributes.partition {|attr| attr.priority.zero? }.flatten
     end
 
     def attribute_group_for(name)
