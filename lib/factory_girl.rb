@@ -12,7 +12,9 @@ require 'factory_girl/attribute/association'
 require 'factory_girl/attribute/callback'
 require 'factory_girl/attribute/sequence'
 require 'factory_girl/attribute/implicit'
+require 'factory_girl/attribute/attribute_group'
 require 'factory_girl/sequence'
+require 'factory_girl/attribute_group'
 require 'factory_girl/aliases'
 require 'factory_girl/definition_proxy'
 require 'factory_girl/syntax/methods'
@@ -50,4 +52,17 @@ module FactoryGirl
   def self.sequence_by_name(name)
     sequences.find(name)
   end
+  
+  def self.attribute_groups
+    @attribute_groups ||= Registry.new
+  end
+
+  def self.register_attribute_group(group)
+    attribute_groups.add(group)
+  end
+
+  def self.attribute_group_by_name(name)
+    attribute_groups.find(name)
+  end
+
 end

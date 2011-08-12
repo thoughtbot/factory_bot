@@ -7,7 +7,6 @@ module FactoryGirl
     end
 
     attr_reader :child_factories
-
     def initialize(factory)
       @factory = factory
       @child_factories = []
@@ -78,7 +77,7 @@ module FactoryGirl
     # are equivalent.
     def method_missing(name, *args, &block)
       if args.empty? && block.nil?
-        @factory.define_attribute(Attribute::Implicit.new(name))
+        @factory.define_attribute(Attribute::Implicit.new(name, @factory))
       elsif args.first.is_a?(Hash) && args.first.has_key?(:factory)
         association(name, *args)
       else
@@ -153,6 +152,10 @@ module FactoryGirl
 
     def factory(name, options = {}, &block)
       @child_factories << [name, options, block]
+    end
+    
+    def attribute_group(name, &block)
+      @factory.define_attribute_group(AttributeGroup.new(name, &block))
     end
   end
 end

@@ -14,7 +14,7 @@ module FactoryGirl
   class Factory
     attr_reader :name #:nodoc:
     attr_reader :attributes #:nodoc:
-
+    
     def factory_name
       puts "WARNING: factory.factory_name is deprecated. Use factory.name instead."
       name
@@ -35,6 +35,7 @@ module FactoryGirl
     def initialize(name, options = {}) #:nodoc:
       assert_valid_options(options)
       @name       = factory_name_for(name)
+      @parent     = options[:parent]
       @options    = options
       @attributes = []
     end
@@ -55,7 +56,24 @@ module FactoryGirl
       end
 
       @attributes.unshift *new_attributes
-      @attributes = @attributes.partition {|attr| attr.priority.zero? }.flatten
+      @attributes = @attributes.partition{|attr| attr.priority.zero? }.flatten
+    end
+    
+    def apply_attribute_groups(groups)
+      groups.reverse.map{ |name| attribute_group_by_name(name) }.each do |group|
+        new_attributes=[]
+        group.attributes.each do |attribute|
+          if attribute_defined?(attribute.name)
+            @attributes.delete_if do |attrib|
+              new_attributes << attrib.clone if attrib.name == attribute.name
+            end
+          else
+            new_attributes << attribute.clone
+          end
+        end
+        @attributes.unshift *new_attributes
+      end
+      @attributes = @attributes.partition{|attr| attr.priority.zero?}.flatten
     end
 
     def define_attribute(attribute)
@@ -68,6 +86,10 @@ module FactoryGirl
         raise AssociationDefinitionError, "Self-referencing association '#{name}' in factory '#{self.name}'"
       end
       @attributes << attribute
+    end
+    
+    def define_attribute_group(group)
+      attribute_groups.add group
     end
 
     def add_callback(name, &block)
@@ -100,6 +122,16 @@ module FactoryGirl
       attributes.select {|attribute| attribute.association? }
     end
 
+    def attribute_group_by_name(name)
+      return attribute_groups.find(name) if attribute_groups.registered?(name)
+      
+      if @parent.nil?
+        FactoryGirl::attribute_group_by_name(name)
+      else
+        FactoryGirl.factory_by_name(@parent).attribute_group_by_name(name)
+      end
+    end
+    
     # Names for this factory, including aliases.
     #
     # Example:
@@ -159,7 +191,7 @@ module FactoryGirl
     end
 
     def assert_valid_options(options)
-      invalid_keys = options.keys - [:class, :parent, :default_strategy, :aliases]
+      invalid_keys = options.keys - [:class, :parent, :default_strategy, :aliases, :attribute_groups]
       unless invalid_keys == []
         raise ArgumentError, "Unknown arguments: #{invalid_keys.inspect}"
       end
@@ -199,6 +231,9 @@ module FactoryGirl
         options
       end
     end
-
+    
+    def attribute_groups
+      @attribute_groups ||= Registry.new
+    end
   end
 end

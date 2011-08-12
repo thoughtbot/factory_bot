@@ -130,7 +130,7 @@ describe FactoryGirl::DefinitionProxy do
     name = :user
     attr = 'attribute'
     stub(attr).name { name }
-    mock(FactoryGirl::Attribute::Implicit).new(name) { attr }
+    mock(FactoryGirl::Attribute::Implicit).new(name,factory) { attr }
     subject.send(name)
     factory.attributes.should include(attr)
   end
