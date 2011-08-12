@@ -30,11 +30,11 @@ module FactoryGirl
             factory(child_name, child_options.merge(:parent => name), &child_block)
           end
         end
-                
+
         def sequence(name, start_value = 1, &block)
           FactoryGirl.register_sequence(Sequence.new(name, start_value, &block))
         end
-        
+
         def attribute_group(name, &block)
           FactoryGirl.register_attribute_group(AttributeGroup.new(name, &block))
         end

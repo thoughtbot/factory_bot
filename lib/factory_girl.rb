@@ -52,7 +52,7 @@ module FactoryGirl
   def self.sequence_by_name(name)
     sequences.find(name)
   end
-  
+
   def self.attribute_groups
     @attribute_groups ||= Registry.new
   end
@@ -64,5 +64,4 @@ module FactoryGirl
   def self.attribute_group_by_name(name)
     attribute_groups.find(name)
   end
-
 end

@@ -2,9 +2,9 @@ module FactoryGirl
   class Attribute
 
     class Implicit < Attribute
-      def initialize(name, factory=nil)
+      def initialize(name, factory = nil)
         super(name)
-        @factory=factory
+        @factory = factory
       end
 
       def add_to(proxy)

@@ -14,7 +14,7 @@ module FactoryGirl
   class Factory
     attr_reader :name #:nodoc:
     attr_reader :attributes #:nodoc:
-    
+
     def factory_name
       puts "WARNING: factory.factory_name is deprecated. Use factory.name instead."
       name
@@ -44,36 +44,15 @@ module FactoryGirl
       @options[:class]            ||= parent.class_name
       @options[:default_strategy] ||= parent.default_strategy
 
-      new_attributes = []
-      parent.attributes.each do |attribute|
-        if attribute_defined?(attribute.name)
-          @attributes.delete_if do |attrib|
-            new_attributes << attrib.clone if attrib.name == attribute.name
-          end
-        else
-          new_attributes << attribute.clone
-        end
-      end
-
-      @attributes.unshift *new_attributes
-      @attributes = @attributes.partition{|attr| attr.priority.zero? }.flatten
+      apply_attributes(parent.attributes)
+      sort_attributes!
     end
-    
+
     def apply_attribute_groups(groups)
-      groups.reverse.map{ |name| attribute_group_by_name(name) }.each do |group|
-        new_attributes=[]
-        group.attributes.each do |attribute|
-          if attribute_defined?(attribute.name)
-            @attributes.delete_if do |attrib|
-              new_attributes << attrib.clone if attrib.name == attribute.name
-            end
-          else
-            new_attributes << attribute.clone
-          end
-        end
-        @attributes.unshift *new_attributes
+      groups.reverse.map { |name| attribute_group_by_name(name) }.each do |group|
+        apply_attributes(group.attributes)
       end
-      @attributes = @attributes.partition{|attr| attr.priority.zero?}.flatten
+      sort_attributes!
     end
 
     def define_attribute(attribute)
@@ -87,7 +66,7 @@ module FactoryGirl
       end
       @attributes << attribute
     end
-    
+
     def define_attribute_group(group)
       attribute_groups.add group
     end
@@ -124,14 +103,14 @@ module FactoryGirl
 
     def attribute_group_by_name(name)
       return attribute_groups.find(name) if attribute_groups.registered?(name)
-      
-      if @parent.nil?
-        FactoryGirl::attribute_group_by_name(name)
-      else
+
+      if @parent
         FactoryGirl.factory_by_name(@parent).attribute_group_by_name(name)
+      else
+        FactoryGirl.attribute_group_by_name(name)
       end
     end
-    
+
     # Names for this factory, including aliases.
     #
     # Example:
@@ -231,7 +210,27 @@ module FactoryGirl
         options
       end
     end
-    
+
+    def apply_attributes(attributes_to_apply)
+      new_attributes=[]
+
+      attributes_to_apply.each do |attribute|
+        if attribute_defined?(attribute.name)
+          @attributes.delete_if do |attrib|
+            new_attributes << attrib.clone if attrib.name == attribute.name
+          end
+        else
+          new_attributes << attribute.clone
+        end
+      end
+
+      @attributes.unshift *new_attributes
+    end
+
+    def sort_attributes!
+      @attributes = @attributes.partition {|attr| attr.priority.zero? }.flatten
+    end
+
     def attribute_groups
       @attribute_groups ||= Registry.new
     end
