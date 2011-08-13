@@ -83,7 +83,7 @@ If repeating "FactoryGirl" is too verbose for you, you can mix the syntax method
     # rspec
     RSpec.configure do |config|
       config.include Factory::Syntax::Methods
-    end
+    end unless RSpec.world.example_groups.any?
 
     # Test::Unit
     class Test::Unit::TestCase
