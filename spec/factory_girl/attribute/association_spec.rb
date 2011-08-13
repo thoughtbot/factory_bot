@@ -1,32 +1,25 @@
 require 'spec_helper'
 
 describe FactoryGirl::Attribute::Association do
-  before do
-    @name      = :author
-    @factory   = :user
-    @overrides = { :first_name => 'John' }
-    @attr      = FactoryGirl::Attribute::Association.new(@name, @factory, @overrides)
-  end
+  let(:name)      { :author }
+  let(:factory)   { :user }
+  let(:overrides) { { :first_name => "John" } }
+  let(:proxy)     { stub("proxy") }
 
-  it "should have a name" do
-    @attr.name.should == @name
-  end
+  subject       { FactoryGirl::Attribute::Association.new(name, factory, overrides) }
 
-  it "is an association" do
-    @attr.should be_association
-  end
+  it            { should be_association }
+  its(:name)    { should == name }
+  its(:factory) { should == factory }
 
-  it "should have a factory" do
-    @attr.factory.should == @factory
+  it "tells the proxy to create an association when being added" do
+    proxy.stubs(:associate)
+    subject.add_to(proxy)
+    proxy.should have_received(:associate).with(name, factory, overrides)
   end
+end
 
-  it "should tell the proxy to associate when being added to a proxy" do
-    proxy = stub("proxy", :associate => nil)
-    @attr.add_to(proxy)
-    proxy.should have_received(:associate).with(@name, @factory, @overrides)
-  end
-
-  it "should convert names to symbols" do
-    FactoryGirl::Attribute::Association.new('name', :user, {}).name.should == :name
-  end
+describe FactoryGirl::Attribute::Association, "with a string name" do
+  subject    { FactoryGirl::Attribute::Association.new("name", :user, {}) }
+  its(:name) { should == :name }
 end

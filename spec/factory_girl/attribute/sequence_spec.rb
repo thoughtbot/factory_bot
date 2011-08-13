@@ -1,20 +1,19 @@
 require 'spec_helper'
 
 describe FactoryGirl::Attribute::Sequence do
-  before do
-    @name     = :first_name
-    @sequence = :name
-    FactoryGirl.register_sequence(FactoryGirl::Sequence.new(@sequence, 5) { |n| "Name #{n}" })
-    @attr  = FactoryGirl::Attribute::Sequence.new(@name, @sequence)
-  end
+  let(:sequence_name) { :name }
+  let(:name)          { :first_name }
+  let(:sequence)      { FactoryGirl::Sequence.new(sequence_name, 5) { |n| "Name #{n}" } }
+  let(:proxy)         { stub("proxy") }
 
-  it "should have a name" do
-    @attr.name.should == @name
-  end
+  subject { FactoryGirl::Attribute::Sequence.new(name, sequence_name) }
+  before  { FactoryGirl.register_sequence(sequence) }
+
+  its(:name) { should == name }
 
   it "assigns the next value in the sequence" do
-    proxy = stub("proxy", :set => nil)
-    @attr.add_to(proxy)
-    proxy.should have_received(:set).with(@name, "Name 5")
+    proxy.stubs(:set)
+    subject.add_to(proxy)
+    proxy.should have_received(:set).with(name, "Name 5")
   end
 end

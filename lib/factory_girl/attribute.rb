@@ -14,13 +14,7 @@ module FactoryGirl
 
     def initialize(name)
       @name = name.to_sym
-
-      if @name.to_s =~ /=$/
-        attribute_name = $`
-        raise AttributeDefinitionError,
-          "factory_girl uses 'f.#{attribute_name} value' syntax " +
-          "rather than 'f.#{attribute_name} = value'"
-      end
+      ensure_non_attribute_writer!
     end
 
     def add_to(proxy)
@@ -43,6 +37,15 @@ module FactoryGirl
       self.priority <=> another.priority
     end
 
-  end
+    private
 
+    def ensure_non_attribute_writer!
+      if @name.to_s =~ /=$/
+        attribute_name = $`
+        raise AttributeDefinitionError,
+          "factory_girl uses 'f.#{attribute_name} value' syntax " +
+          "rather than 'f.#{attribute_name} = value'"
+      end
+    end
+  end
 end

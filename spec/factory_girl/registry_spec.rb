@@ -1,9 +1,15 @@
 require 'spec_helper'
 
 describe FactoryGirl::Registry do
-  let(:factory) { FactoryGirl::Factory.new(:object) }
+  let(:aliases)              { [:thing, :widget] }
+  let(:sequence)             { FactoryGirl::Sequence.new(:email) { |n| "somebody#{n}@example.com" } }
+  let(:factory)              { FactoryGirl::Factory.new(:object) }
+  let(:other_factory)        { FactoryGirl::Factory.new(:string) }
+  let(:factory_with_aliases) { FactoryGirl::Factory.new(:string, :aliases => aliases) }
 
   subject { FactoryGirl::Registry.new }
+
+  it { should be_kind_of(Enumerable) }
 
   it "finds a registered a factory" do
     subject.add(factory)
@@ -38,33 +44,18 @@ describe FactoryGirl::Registry do
   end
 
   it "iterates registered factories" do
-    other_factory = FactoryGirl::Factory.new(:string)
     subject.add(factory)
     subject.add(other_factory)
-    result = []
-
-    subject.each do |value|
-      result << value
-    end
-
-    result.should =~ [factory, other_factory]
+    subject.to_a.should =~ [factory, other_factory]
   end
 
   it "iterates registered factories uniquely with aliases" do
-    other_factory = FactoryGirl::Factory.new(:string, :aliases => [:awesome])
     subject.add(factory)
-    subject.add(other_factory)
-    result = []
-
-    subject.each do |value|
-      result << value
-    end
-
-    result.should =~ [factory, other_factory]
+    subject.add(factory_with_aliases)
+    subject.to_a.should =~ [factory, factory_with_aliases]
   end
 
   it "registers an sequence" do
-    sequence = FactoryGirl::Sequence.new(:email) { |n| "somebody#{n}@example.com" }
     subject.add(sequence)
     subject.find(:email).should == sequence
   end
@@ -75,22 +66,15 @@ describe FactoryGirl::Registry do
   end
 
   it "registers aliases" do
-    aliases = [:thing, :widget]
-    factory = FactoryGirl::Factory.new(:object, :aliases => aliases)
-    subject.add(factory)
+    subject.add(factory_with_aliases)
     aliases.each do |name|
-      subject.find(name).should == factory
+      subject.find(name).should == factory_with_aliases
     end
-  end
-
-  it "is enumerable" do
-    should be_kind_of(Enumerable)
   end
 
   it "clears registered factories" do
     subject.add(factory)
     subject.clear
-    subject.count.should == 0
+    subject.count.should be_zero
   end
 end
-

@@ -9,9 +9,9 @@ module FactoryGirl
     attr_reader :name
 
     def initialize(name, value = 1, &proc) #:nodoc:
-      @name = name
+      @name  = name
       @proc  = proc
-      @value = value || 1
+      @value = value
     end
 
     def next

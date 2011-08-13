@@ -5,6 +5,7 @@ share_examples_for "finds definitions" do
     FactoryGirl.stubs(:load)
     FactoryGirl.find_definitions
   end
+
   subject { FactoryGirl }
 end
 
@@ -22,7 +23,6 @@ RSpec::Matchers.define :load_definitions_from do |file|
     @has_received.failure_message
   end
 end
-
 
 describe "definition loading" do
   def self.in_directory_with_files(*files)

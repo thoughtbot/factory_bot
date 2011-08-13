@@ -1,6 +1,5 @@
 module FactoryGirl
   class Attribute #:nodoc:
-
     class Dynamic < Attribute  #:nodoc:
       def initialize(name, block)
         super(name)
@@ -15,6 +14,5 @@ module FactoryGirl
         proxy.set(name, value)
       end
     end
-
   end
 end

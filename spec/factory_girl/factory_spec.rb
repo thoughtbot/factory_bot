@@ -200,169 +200,147 @@ describe FactoryGirl::Factory do
 end
 
 describe FactoryGirl::Factory, "when defined with a custom class" do
-  before do
-    @class   = Float
-    @factory = FactoryGirl::Factory.new(:author, :class => @class)
-  end
-
-  it "should use the specified class as the build class" do
-    @factory.build_class.should == @class
-  end
+  subject           { FactoryGirl::Factory.new(:author, :class => Float) }
+  its(:build_class) { should == Float }
 end
 
 describe FactoryGirl::Factory, "when defined with a class instead of a name" do
-  before do
-    @class   = ArgumentError
-    @name    = :argument_error
-    @factory = FactoryGirl::Factory.new(@class)
-  end
+  let(:factory_class) { ArgumentError }
+  let(:name)          { :argument_error }
 
-  it "should guess the name from the class" do
-    @factory.name.should == @name
-  end
+  subject { FactoryGirl::Factory.new(factory_class) }
 
-  it "should use the class as the build class" do
-    @factory.build_class.should == @class
-  end
+  its(:name)        { should == name }
+  its(:build_class) { should == factory_class }
 end
 
 describe FactoryGirl::Factory, "when defined with a custom class name" do
-  before do
-    @class   = ArgumentError
-    @factory = FactoryGirl::Factory.new(:author, :class => :argument_error)
-  end
-
-  it "should use the specified class as the build class" do
-    @factory.build_class.should == @class
-  end
+  subject           { FactoryGirl::Factory.new(:author, :class => :argument_error) }
+  its(:build_class) { should == ArgumentError }
 end
 
 describe FactoryGirl::Factory, "with a name ending in s" do
   include DefinesConstants
 
-  before do
-    define_class('Business')
-    @name    = :business
-    @class   = Business
-    @factory = FactoryGirl::Factory.new(@name)
-  end
+  let(:name)           { :business }
+  let(:business_class) { Business }
 
-  it "should have a factory name" do
-    @factory.name.should == @name
-  end
+  before  { define_class('Business') }
+  subject { FactoryGirl::Factory.new(name) }
 
-  it "should have a build class" do
-    @factory.build_class.should == @class
-  end
+  its(:name)        { should == name }
+  its(:build_class) { should == business_class }
 end
 
 describe FactoryGirl::Factory, "with a string for a name" do
-  before do
-    @name    = :string
-    @factory = FactoryGirl::Factory.new(@name.to_s) {}
-  end
-
-  it "should convert the string to a symbol" do
-    @factory.name.should == @name
-  end
+  let(:name) { :string }
+  subject    { FactoryGirl::Factory.new(name.to_s) }
+  its(:name) { should == name }
 end
 
 describe FactoryGirl::Factory, "for namespaced class" do
   include DefinesConstants
 
+  let(:name)           { :settings }
+  let(:settings_class) { Admin::Settings }
+
   before do
-    define_class('Admin')
-    define_class('Admin::Settings')
-
-    @name  = :settings
-    @class = Admin::Settings
+    define_class("Admin")
+    define_class("Admin::Settings")
   end
 
-  it "should build namespaced class passed by string" do
-    factory = FactoryGirl::Factory.new(@name.to_s, :class => @class.name)
-    factory.build_class.should == @class
+  context "with a namespaced class with Namespace::Class syntax" do
+    subject { FactoryGirl::Factory.new(name, :class => "Admin::Settings") }
+
+    it "sets build_class correctly" do
+      subject.build_class.should == settings_class
+    end
   end
 
-  it "should build Admin::Settings class from Admin::Settings string" do
-    factory = FactoryGirl::Factory.new(@name.to_s, :class => 'admin/settings')
-    factory.build_class.should == @class
+  context "with a namespaced class with namespace/class syntax" do
+    subject { FactoryGirl::Factory.new(name, :class => "admin/settings") }
+
+    it "sets build_class correctly" do
+      subject.build_class.should == settings_class
+    end
   end
 end
 
 describe FactoryGirl::Factory do
   include DefinesConstants
 
+  let(:factory_with_non_existant_strategy) do
+    FactoryGirl::Factory.new(:object, :default_strategy => :nonexistent) { }
+  end
+
+  let(:factory_with_stub_strategy) do
+    FactoryGirl::Factory.new(:object, :default_strategy => :stub)
+  end
+
+  let(:factory_without_strategy) do
+    FactoryGirl::Factory.new(:other_object)
+  end
+
+  let(:factory_with_build_strategy) do
+    FactoryGirl::Factory.new(:other_object, :default_strategy => :build)
+  end
+
   before do
-    define_class('User')
-    define_class('Admin', User)
+    define_class("User")
+    define_class("Admin", User)
   end
 
-  it "should raise an ArgumentError when trying to use a non-existent strategy" do
-    lambda {
-      FactoryGirl::Factory.new(:object, :default_strategy => :nonexistent) {}
-    }.should raise_error(ArgumentError)
+  it "raises an ArgumentError when trying to use a non-existent strategy" do
+    expect { factory_with_non_existant_strategy }.to raise_error(ArgumentError)
   end
 
-  it "should create a new factory with a specified default strategy" do
-    factory = FactoryGirl::Factory.new(:object, :default_strategy => :stub)
-    factory.default_strategy.should == :stub
+  it "creates a new factory with a specified default strategy" do
+    factory_with_stub_strategy.default_strategy.should == :stub
   end
 
-  describe 'defining a child factory without setting default strategy' do
+  describe "defining a child factory without setting default strategy" do
+    let(:parent) { factory_with_stub_strategy }
+    subject      { factory_without_strategy }
+
     before do
-      @parent = FactoryGirl::Factory.new(:object, :default_strategy => :stub)
-      @child = FactoryGirl::Factory.new(:child_object)
-      @child.inherit_from(@parent)
+      subject.inherit_from(parent)
     end
 
-    it "should inherit default strategy from its parent" do
-      @child.default_strategy.should == :stub
+    it "inherits default strategy from its parent" do
+      subject.default_strategy.should == :stub
     end
   end
 
-  describe 'defining a child factory with a default strategy' do
+  describe "defining a child factory with a default strategy" do
+    let(:parent) { factory_with_stub_strategy }
+    subject      { factory_with_build_strategy }
+
     before do
-      @parent = FactoryGirl::Factory.new(:object, :default_strategy => :stub)
-      @child = FactoryGirl::Factory.new(:child_object2, :default_strategy => :build)
-      @child.inherit_from(@parent)
+      subject.inherit_from(parent)
     end
 
-    it "should override the default strategy from parent" do
-      @child.default_strategy.should == :build
+    it "overrides the default strategy from parent" do
+      subject.default_strategy.should == :build
     end
   end
-
 end
 
 describe FactoryGirl::Factory, "human names" do
   context "factory name without underscores" do
-    subject           { FactoryGirl::Factory.new("user") }
+    subject           { FactoryGirl::Factory.new(:user) }
+    its(:names)       { should == [:user] }
     its(:human_names) { should == ["user"] }
   end
 
   context "factory name with underscores" do
-    subject           { FactoryGirl::Factory.new("happy_user") }
+    subject           { FactoryGirl::Factory.new(:happy_user) }
+    its(:names)       { should == [:happy_user] }
     its(:human_names) { should == ["happy user"] }
   end
 
   context "factory name with aliases" do
-    subject           { FactoryGirl::Factory.new("happy_user", :aliases => ["gleeful_user", "person"]) }
+    subject           { FactoryGirl::Factory.new(:happy_user, :aliases => [:gleeful_user, :person]) }
+    its(:names)       { should == [:happy_user, :gleeful_user, :person] }
     its(:human_names) { should == ["happy user", "gleeful user", "person"] }
-  end
-end
-
-describe FactoryGirl::Factory, "with aliases" do
-  it "registers the aliases" do
-    name = :user
-    aliased_name = :guest
-    factory = FactoryGirl::Factory.new(:user, :aliases => [aliased_name])
-    factory.names.should =~ [name, aliased_name]
-  end
-
-  it "has human names" do
-    name = :user
-    aliased_name = :guest
-    factory = FactoryGirl::Factory.new(:user, :aliases => [aliased_name])
-    factory.human_names.should =~ [name.to_s, aliased_name.to_s]
   end
 end

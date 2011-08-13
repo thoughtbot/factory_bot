@@ -1,82 +1,77 @@
 require 'spec_helper'
 
 describe FactoryGirl::Proxy do
-  before do
-    @proxy = FactoryGirl::Proxy.new(Class.new)
+  subject { FactoryGirl::Proxy.new(Class.new) }
+
+  it "doesn't raise when assigning a value to an attribute" do
+    expect { subject.set(:name, "a name") }.to_not raise_error
   end
 
-  it "should do nothing when asked to set an attribute to a value" do
-    lambda { @proxy.set(:name, 'a name') }.should_not raise_error
+  it "returns nil for an attribute without a value" do
+    subject.get(:name).should be_nil
   end
 
-  it "should return nil when asked for an attribute" do
-    @proxy.get(:name).should be_nil
+  it "calls get for a missing method" do
+    subject.stubs(:get).with(:name).returns("it's a name")
+    subject.name.should == "it's a name"
   end
 
-  it "should call get for a missing method" do
-    @proxy.stubs(:get).with(:name).returns("it's a name")
-    @proxy.name.should == "it's a name"
+  it "doesn't raise when asked to associate with another factory" do
+    expect { subject.associate(:owner, :user, {}) }.to_not raise_error
   end
 
-  it "should do nothing when asked to associate with another factory" do
-    lambda { @proxy.associate(:owner, :user, {}) }.should_not raise_error
-  end
-
-  it "should raise an error when asked for the result" do
-    lambda { @proxy.result(nil) }.should raise_error(NotImplementedError)
+  it "raises an error when asking for the result" do
+    expect { subject.result(nil) }.to raise_error(NotImplementedError)
   end
 
   describe "when adding callbacks" do
-    before do
-      @first_block  = proc{ 'block 1' }
-      @second_block = proc{ 'block 2' }
-    end
-    it "should add a callback" do
-      @proxy.add_callback(:after_create, @first_block)
-      @proxy.callbacks[:after_create].should be_eql([@first_block])
+    let(:block_1) { proc { "block 1" } }
+    let(:block_2) { proc { "block 2" } }
+
+    it "adds a callback" do
+      subject.add_callback(:after_create, block_1)
+      subject.callbacks[:after_create].should be_eql([block_1])
     end
 
-    it "should add multiple callbacks of the same name" do
-      @proxy.add_callback(:after_create, @first_block)
-      @proxy.add_callback(:after_create, @second_block)
-      @proxy.callbacks[:after_create].should be_eql([@first_block, @second_block])
+    it "adds multiple callbacks of the same name" do
+      subject.add_callback(:after_create, block_1)
+      subject.add_callback(:after_create, block_2)
+      subject.callbacks[:after_create].should be_eql([block_1, block_2])
     end
 
-    it "should add multiple callbacks of different names" do
-      @proxy.add_callback(:after_create, @first_block)
-      @proxy.add_callback(:after_build,  @second_block)
-      @proxy.callbacks[:after_create].should be_eql([@first_block])
-      @proxy.callbacks[:after_build].should be_eql([@second_block])
+    it "adds multiple callbacks with different names" do
+      subject.add_callback(:after_create, block_1)
+      subject.add_callback(:after_build,  block_2)
+      subject.callbacks[:after_create].should be_eql([block_1])
+      subject.callbacks[:after_build].should be_eql([block_2])
     end
   end
 
   describe "when running callbacks" do
-    before do
-      @first_spy  = stub("call_in_create", :foo => true)
-      @second_spy = stub("call_in_create", :foo => true)
+    let(:object_1_within_callback) { stub("call_in_create", :foo => true) }
+    let(:object_2_within_callback) { stub("call_in_create", :foo => true) }
+
+    it "runs all callbacks with a given name" do
+      subject.add_callback(:after_create, proc { object_1_within_callback.foo })
+      subject.add_callback(:after_create, proc { object_2_within_callback.foo })
+      subject.run_callbacks(:after_create)
+      object_1_within_callback.should have_received(:foo).once
+      object_2_within_callback.should have_received(:foo).once
     end
 
-    it "should run all callbacks with a given name" do
-      @proxy.add_callback(:after_create, proc{ @first_spy.foo })
-      @proxy.add_callback(:after_create, proc{ @second_spy.foo })
-      @proxy.run_callbacks(:after_create)
-      @first_spy.should have_received(:foo).once
-      @second_spy.should have_received(:foo).once
+    it "only runs callbacks with a given name" do
+      subject.add_callback(:after_create, proc { object_1_within_callback.foo })
+      subject.add_callback(:after_build,  proc { object_2_within_callback.foo })
+      subject.run_callbacks(:after_create)
+      object_1_within_callback.should have_received(:foo).once
+      object_2_within_callback.should have_received(:foo).never
     end
 
-    it "should only run callbacks with a given name" do
-      @proxy.add_callback(:after_create, proc{ @first_spy.foo })
-      @proxy.add_callback(:after_build,  proc{ @second_spy.foo })
-      @proxy.run_callbacks(:after_create)
-      @first_spy.should have_received(:foo).once
-      @second_spy.should have_received(:foo).never
-    end
-
-    it "should pass in the instance if the block takes an argument" do
-      @proxy.instance_variable_set("@instance", @first_spy)
-      @proxy.add_callback(:after_create, proc{|spy| spy.foo })
-      @proxy.run_callbacks(:after_create)
-      @first_spy.should have_received(:foo).once
+    it "passes in the instance if the block takes an argument" do
+      subject.instance_variable_set("@instance", object_1_within_callback)
+      subject.add_callback(:after_create, proc {|spy| spy.foo })
+      subject.run_callbacks(:after_create)
+      object_1_within_callback.should have_received(:foo).once
     end
   end
 end

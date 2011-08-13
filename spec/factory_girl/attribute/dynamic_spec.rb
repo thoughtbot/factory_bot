@@ -1,56 +1,56 @@
 require 'spec_helper'
 
 describe FactoryGirl::Attribute::Dynamic do
-  before do
-    @name  = :first_name
-    @block = lambda { 'value' }
-    @attr  = FactoryGirl::Attribute::Dynamic.new(@name, @block)
+  let(:name)  { :first_name }
+  let(:proxy) { stub("proxy", :set => nil) }
+  let(:block) { lambda { } }
+
+  subject { FactoryGirl::Attribute::Dynamic.new(name, block) }
+
+  its(:name) { should == name }
+
+  context "with a block returning a static value" do
+    let(:block) { lambda { "value" } }
+
+    it "calls the block to set a value" do
+      subject.add_to(proxy)
+      proxy.should have_received(:set).with(name, "value")
+    end
   end
 
-  it "should have a name" do
-    @attr.name.should == @name
+  context "with a block returning its block-level variable" do
+    let(:block) { lambda {|thing| thing } }
+
+    it "yields the proxy to the block" do
+      subject.add_to(proxy)
+      proxy.should have_received(:set).with(name, proxy)
+    end
   end
 
-  it "should call the block to set a value" do
-    @proxy = stub("proxy", :set => nil)
-    @attr.add_to(@proxy)
-    @proxy.should have_received(:set).with(@name, 'value')
+  context "with a block referencing an attribute on the proxy" do
+    let(:block)  { lambda { attribute_defined_on_proxy } }
+    let(:result) { "other attribute value" }
+
+    before do
+      proxy.stubs(:attribute_defined_on_proxy => result)
+    end
+
+    it "evaluates the attribute from the proxy" do
+      subject.add_to(proxy)
+      proxy.should have_received(:set).with(name, result)
+    end
   end
 
-  it "should yield the proxy to the block when adding its value to a proxy" do
-    @block = lambda {|a| a }
-    @attr  = FactoryGirl::Attribute::Dynamic.new(:user, @block)
-    @proxy = stub("proxy", :set => nil)
-    @attr.add_to(@proxy)
-    @proxy.should have_received(:set).with(:user, @proxy)
-  end
+  context "with a block returning a sequence" do
+    let(:block) { lambda { Factory.sequence(:email) } }
 
-  it "evaluates the block with in the context of the proxy without an argument" do
-    result = 'other attribute value'
-    @block = lambda { other_attribute }
-    @attr  = FactoryGirl::Attribute::Dynamic.new(:user, @block)
-    @proxy = stub("proxy", :set => nil, :other_attribute => result)
-    @attr.add_to(@proxy)
-    @proxy.should have_received(:set).with(:user, result)
+    it "raises a sequence abuse error" do
+      expect { subject.add_to(proxy) }.to raise_error(FactoryGirl::SequenceAbuseError)
+    end
   end
+end
 
-  it "should raise an error when defining an attribute writer" do
-    lambda {
-      FactoryGirl::Attribute::Dynamic.new('test=', nil)
-    }.should raise_error(FactoryGirl::AttributeDefinitionError)
-  end
-
-  it "should raise an error when returning a sequence" do
-    Factory.stubs(:sequence => FactoryGirl::Sequence.new(:email))
-    block = lambda { Factory.sequence(:email) }
-    attr = FactoryGirl::Attribute::Dynamic.new(:email, block)
-    proxy = stub("proxy")
-    lambda {
-      attr.add_to(proxy)
-    }.should raise_error(FactoryGirl::SequenceAbuseError)
-  end
-
-  it "should convert names to symbols" do
-    FactoryGirl::Attribute::Dynamic.new('name', nil).name.should == :name
-  end
+describe FactoryGirl::Attribute::Dynamic, "with a string name" do
+  subject    { FactoryGirl::Attribute::Dynamic.new("name", nil) }
+  its(:name) { should == :name }
 end

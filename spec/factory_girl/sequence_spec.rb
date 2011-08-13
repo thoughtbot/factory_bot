@@ -2,95 +2,47 @@ require 'spec_helper'
 
 describe FactoryGirl::Sequence do
   describe "a basic sequence" do
-    before do
-      @name = :test
-      @sequence = FactoryGirl::Sequence.new(@name) {|n| "=#{n}" }
-    end
+    let(:name) { :test }
+    subject    { FactoryGirl::Sequence.new(name) {|n| "=#{n}" } }
 
-    it "has a name" do
-      @sequence.name.should == @name
-    end
+    its(:name)             { should == name }
+    its(:names)            { should == [name] }
+    its(:next)             { should == "=1" }
+    its(:default_strategy) { should == :create }
 
-    it "has names" do
-      @sequence.names.should == [@name]
-    end
-
-    it "should start with a value of 1" do
-      @sequence.next.should == "=1"
-    end
-
-    it "responds to default_strategy" do
-      @sequence.default_strategy.should == :create
-    end
-
-    describe "after being called" do
-      before do
-        @sequence.next
-      end
-
-      it "should use the next value" do
-        @sequence.next.should == "=2"
-      end
+    describe "when incrementing" do
+      before     { subject.next }
+      its(:next) { should == "=2" }
     end
   end
 
   describe "a custom sequence" do
-    before do
-      @sequence = FactoryGirl::Sequence.new(:name, "A") {|n| "=#{n}" }
-    end
+    subject    { FactoryGirl::Sequence.new(:name, "A") {|n| "=#{n}" } }
+    its(:next) { should == "=A" }
 
-    it "should start with a value of A" do
-      @sequence.next.should == "=A"
-    end
-
-    describe "after being called" do
-      before do
-        @sequence.next
-      end
-
-      it "should use the next value" do
-        @sequence.next.should == "=B"
-      end
+    describe "when incrementing" do
+      before     { subject.next }
+      its(:next) { should == "=B" }
     end
   end
 
   describe "a basic sequence without a block" do
-    before do
-      @sequence = FactoryGirl::Sequence.new(:name)
-    end
+    subject    { FactoryGirl::Sequence.new(:name) }
+    its(:next) { should == 1 }
 
-    it "should start with a value of 1" do
-      @sequence.next.should == 1
-    end
-
-    describe "after being called" do
-      before do
-        @sequence.next
-      end
-
-      it "should use the next value" do
-        @sequence.next.should == 2
-      end
+    describe "when incrementing" do
+      before     { subject.next }
+      its(:next) { should == 2 }
     end
   end
 
   describe "a custom sequence without a block" do
-    before do
-      @sequence = FactoryGirl::Sequence.new(:name, "A")
-    end
+    subject    { FactoryGirl::Sequence.new(:name, "A") }
+    its(:next) { should == "A" }
 
-    it "should start with a value of A" do
-      @sequence.next.should == "A"
-    end
-
-    describe "after being called" do
-      before do
-        @sequence.next
-      end
-
-      it "should use the next value" do
-        @sequence.next.should == "B"
-      end
+    describe "when incrementing" do
+      before     { subject.next }
+      its(:next) { should == "B" }
     end
   end
 end

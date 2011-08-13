@@ -1,33 +1,31 @@
 require 'spec_helper'
 
-describe Factory, "aliases" do
-
-  it "should include an attribute as an alias for itself by default" do
-    FactoryGirl.aliases_for(:test).should include(:test)
+describe FactoryGirl, "aliases" do
+  context "aliases for an attribute" do
+    subject { FactoryGirl.aliases_for(:test) }
+    it      { should include(:test) }
+    it      { should include(:test_id) }
   end
 
-  it "should include the root of a foreign key as an alias by default" do
-    FactoryGirl.aliases_for(:test_id).should include(:test)
+  context "aliases for a foreign key" do
+    subject { FactoryGirl.aliases_for(:test_id) }
+    it      { should include(:test) }
+    it      { should include(:test_id) }
   end
 
-  it "should include an attribute's foreign key as an alias by default" do
-    FactoryGirl.aliases_for(:test).should include(:test_id)
+  context "aliases for an attribute starting with an underscore" do
+    subject { FactoryGirl.aliases_for(:_id) }
+    it      { should_not include(:id) }
+  end
+end
+
+describe Factory, "after defining an alias" do
+  before do
+    Factory.alias(/(.*)_suffix/, '\1')
   end
 
-  it "should NOT include an attribute as an alias when it starts with underscore" do
-    FactoryGirl.aliases_for(:_id).should_not include(:id)
-  end
+  subject { FactoryGirl.aliases_for(:test_suffix) }
 
-  describe "after adding an alias" do
-
-    before do
-      Factory.alias(/(.*)_suffix/, '\1')
-    end
-
-    it "should return the alias in the aliases list" do
-      FactoryGirl.aliases_for(:test_suffix).should include(:test)
-    end
-
-  end
-
+  it { should include(:test) }
+  it { should include(:test_suffix_id) }
 end

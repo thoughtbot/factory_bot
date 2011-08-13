@@ -1,6 +1,5 @@
 module FactoryGirl
   class Attribute #:nodoc:
-
     class Callback < Attribute  #:nodoc:
       def initialize(name, block)
         @name  = name.to_sym
@@ -11,6 +10,5 @@ module FactoryGirl
         proxy.add_callback(name, @block)
       end
     end
-
   end
 end

@@ -1,23 +1,22 @@
 require 'spec_helper'
 
 describe FactoryGirl::Attribute::Callback do
-  before do
-    @name  = :after_create
-    @block = proc{ 'block' }
-    @attr  = FactoryGirl::Attribute::Callback.new(@name, @block)
-  end
+  let(:name)  { :after_create }
+  let(:block) { proc { "block" } }
+  let(:proxy) { stub("proxy") }
 
-  it "should have a name" do
-    @attr.name.should == @name
-  end
+  subject     { FactoryGirl::Attribute::Callback.new(name, block) }
 
-  it "should set its callback on a proxy" do
-    proxy = stub("proxy", :add_callback => true)
-    @attr.add_to(proxy)
-    proxy.should have_received(:add_callback).with(@name, @block)
-  end
+  its(:name)  { should == name }
 
-  it "should convert names to symbols" do
-    FactoryGirl::Attribute::Callback.new('name', nil).name.should == :name
+  it "set its callback on a proxy" do
+    proxy.stubs(:add_callback)
+    subject.add_to(proxy)
+    proxy.should have_received(:add_callback).with(name, block)
   end
+end
+
+describe FactoryGirl::Attribute::Callback, "with a string name" do
+  subject    { FactoryGirl::Attribute::Callback.new("name", nil) }
+  its(:name) { should == :name }
 end
