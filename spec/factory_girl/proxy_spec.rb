@@ -14,7 +14,7 @@ describe FactoryGirl::Proxy do
   end
 
   it "should call get for a missing method" do
-    mock(@proxy).get(:name) { "it's a name" }
+    @proxy.stubs(:get).with(:name).returns("it's a name")
     @proxy.name.should == "it's a name"
   end
 
@@ -52,33 +52,31 @@ describe FactoryGirl::Proxy do
 
   describe "when running callbacks" do
     before do
-      @first_spy = Object.new
-      @second_spy = Object.new
-      stub(@first_spy).foo
-      stub(@second_spy).foo
+      @first_spy  = stub("call_in_create", :foo => true)
+      @second_spy = stub("call_in_create", :foo => true)
     end
 
     it "should run all callbacks with a given name" do
       @proxy.add_callback(:after_create, proc{ @first_spy.foo })
       @proxy.add_callback(:after_create, proc{ @second_spy.foo })
       @proxy.run_callbacks(:after_create)
-      @first_spy.should have_received.foo
-      @second_spy.should have_received.foo
+      @first_spy.should have_received(:foo).once
+      @second_spy.should have_received(:foo).once
     end
 
     it "should only run callbacks with a given name" do
       @proxy.add_callback(:after_create, proc{ @first_spy.foo })
       @proxy.add_callback(:after_build,  proc{ @second_spy.foo })
       @proxy.run_callbacks(:after_create)
-      @first_spy.should have_received.foo
-      @second_spy.should_not have_received.foo
+      @first_spy.should have_received(:foo).once
+      @second_spy.should have_received(:foo).never
     end
 
     it "should pass in the instance if the block takes an argument" do
       @proxy.instance_variable_set("@instance", @first_spy)
       @proxy.add_callback(:after_create, proc{|spy| spy.foo })
       @proxy.run_callbacks(:after_create)
-      @first_spy.should have_received.foo
+      @first_spy.should have_received(:foo).once
     end
   end
 end

@@ -27,46 +27,44 @@ describe FactoryGirl::Factory do
 
   describe "after adding an attribute" do
     before do
-      @attribute = "attribute"
-      @proxy     = "proxy"
+      @attribute = stub("attribute", :name => :name, :add_to => nil)
+      @proxy     = stub("proxy", :result => "result", :set => nil)
 
-      stub(@attribute).name { :name }
-      stub(@attribute).add_to
-      stub(@proxy).set
-      stub(@proxy).result { 'result' }
-      stub(FactoryGirl::Attribute::Static).new { @attribute }
-      stub(FactoryGirl::Proxy::Build).new { @proxy }
+      FactoryGirl::Attribute::Static.stubs(:new => @attribute)
+      FactoryGirl::Proxy::Build.stubs(:new => @proxy)
 
       @factory.define_attribute(@attribute)
     end
 
     it "should create the right proxy using the build class when running" do
-      mock(FactoryGirl::Proxy::Build).new(@factory.build_class) { @proxy }
+      FactoryGirl::Proxy::Build.stubs(:new => @proxy)
       @factory.run(FactoryGirl::Proxy::Build, {})
+      FactoryGirl::Proxy::Build.should have_received(:new).with(@factory.build_class)
     end
 
     it "should add the attribute to the proxy when running" do
-      mock(@attribute).add_to(@proxy)
+      @attribute.stubs(:add_to)
       @factory.run(FactoryGirl::Proxy::Build, {})
+      @attribute.should have_received(:add_to).with(@proxy)
     end
 
     it "should return the result from the proxy when running" do
-      mock(@proxy).result(nil) { 'result' }
+      @proxy.stubs(:result => "result")
       @factory.run(FactoryGirl::Proxy::Build, {}).should == 'result'
+      @proxy.should have_received(:result).with(nil)
     end
   end
 
   it "passes a custom creation block" do
-    proxy = 'proxy'
-    stub(FactoryGirl::Proxy::Build).new { proxy }
-    stub(proxy).result {}
+    proxy = stub("proxy", :result => nil)
+    FactoryGirl::Proxy::Build.stubs(:new => proxy)
     block = lambda {}
     factory = FactoryGirl::Factory.new(:object)
     factory.to_create(&block)
 
     factory.run(FactoryGirl::Proxy::Build, {})
 
-    proxy.should have_received.result(block)
+    proxy.should have_received(:result).with(block)
   end
 
   it "should return associations" do

@@ -13,9 +13,8 @@ describe FactoryGirl::Attribute::Sequence do
   end
 
   it "assigns the next value in the sequence" do
-    proxy = "proxy"
-    stub(proxy).set
+    proxy = stub("proxy", :set => nil)
     @attr.add_to(proxy)
-    proxy.should have_received.set(@name, "Name 5")
+    proxy.should have_received(:set).with(@name, "Name 5")
   end
 end

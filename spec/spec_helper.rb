@@ -4,23 +4,14 @@ $LOAD_PATH << File.join(File.dirname(__FILE__))
 require 'rubygems'
 require 'rspec'
 require 'rspec/autorun'
-require 'rr'
 
 require 'factory_girl'
-
-module RR
-  module Adapters
-    module Rspec
-      def self.included(mod)
-        RSpec.configuration.backtrace_clean_patterns.push(RR::Errors::BACKTRACE_IDENTIFIER)
-      end
-    end
-  end
-end
+require "mocha"
+require "bourne"
 
 RSpec.configure do |config|
-  config.mock_framework = :rr
-  RSpec::Core::ExampleGroup.send(:include, RR::Adapters::Rspec)
+  config.mock_framework = :mocha
+
   config.after do
     FactoryGirl.factories.clear
     FactoryGirl.sequences.clear

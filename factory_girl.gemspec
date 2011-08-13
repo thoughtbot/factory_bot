@@ -22,7 +22,8 @@ Gem::Specification.new do |s|
     s.add_development_dependency('cucumber')
     s.add_development_dependency('activerecord', '~>2.3.5')
     s.add_development_dependency('activerecord', '~>3.0.0.beta3')
-    s.add_development_dependency('rr')
+    s.add_development_dependency('mocha')
+    s.add_development_dependency('bourne')
     s.add_development_dependency('sqlite3')
     s.add_development_dependency('aruba')
 

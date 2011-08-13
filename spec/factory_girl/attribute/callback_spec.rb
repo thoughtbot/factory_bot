@@ -12,9 +12,9 @@ describe FactoryGirl::Attribute::Callback do
   end
 
   it "should set its callback on a proxy" do
-    @proxy = "proxy"
-    mock(@proxy).add_callback(@name, @block)
-    @attr.add_to(@proxy)
+    proxy = stub("proxy", :add_callback => true)
+    @attr.add_to(proxy)
+    proxy.should have_received(:add_callback).with(@name, @block)
   end
 
   it "should convert names to symbols" do

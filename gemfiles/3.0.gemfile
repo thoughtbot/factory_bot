@@ -2,14 +2,16 @@
 
 source "http://rubygems.org"
 
-gem "rr"
-gem "activerecord", "~> 3.0"
-gem "rake"
-gem "sqlite3-ruby", :require=>false
-gem "bluecloth"
-gem "rspec", "~> 2.0"
-gem "yard"
-gem "rcov"
 gem "cucumber", "~> 1.0.0"
+gem "rake"
+gem "rspec", "~> 2.0"
+gem "rcov"
+gem "activerecord", "~> 3.0"
+gem "activesupport", :require=>false
+gem "mocha"
+gem "bourne"
+gem "sqlite3-ruby", :require=>false
 gem "appraisal", "~> 0.3.5"
+gem "yard"
+gem "bluecloth"
 

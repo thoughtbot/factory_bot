@@ -5,7 +5,8 @@ gem "rspec", "~> 2.0"
 gem "rcov"
 gem "activerecord", :require => false
 gem "activesupport", :require => false
-gem "rr"
+gem "mocha"
+gem "bourne"
 gem "sqlite3-ruby", :require => false
 gem "appraisal", "~> 0.3.5"
 gem "yard"

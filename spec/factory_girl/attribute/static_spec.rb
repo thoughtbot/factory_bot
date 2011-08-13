@@ -12,9 +12,9 @@ describe FactoryGirl::Attribute::Static do
   end
 
   it "should set its static value on a proxy" do
-    @proxy = "proxy"
-    mock(@proxy).set(@name, @value)
+    @proxy = stub("proxy", :set => nil)
     @attr.add_to(@proxy)
+    @proxy.should have_received(:set).with(@name, @value)
   end
 
   it "should raise an error when defining an attribute writer" do

@@ -6,18 +6,18 @@ describe "accessing an undefined method on Factory that is defined on FactoryGir
   let(:args) { [1, 2, 3] }
 
   before do
-    stub($stderr).puts
-    stub(FactoryGirl, method_name).returns { return_value }
+    $stderr.stubs(:puts)
+    FactoryGirl.stubs(method_name => return_value)
 
     @result = Factory.send(method_name, *args)
   end
 
   it "prints a deprecation warning" do
-    $stderr.should have_received.puts(anything)
+    $stderr.should have_received(:puts).with(anything)
   end
 
   it "invokes that method on FactoryGirl" do
-    FactoryGirl.should have_received.method_missing(method_name, *args)
+    FactoryGirl.should have_received(method_name).with(*args)
   end
 
   it "returns the value from the method on FactoryGirl" do
@@ -26,19 +26,8 @@ describe "accessing an undefined method on Factory that is defined on FactoryGir
 end
 
 describe "accessing an undefined method on Factory that is not defined on FactoryGirl" do
-  let(:method_name) { :magic_beans }
-
-  before do
-    stub($stderr).puts { raise "Don't print a deprecation warning" }
-
-    begin
-      Factory.send(method_name)
-    rescue Exception => @raised
-    end
-  end
-
   it "raises a NoMethodError" do
-    @raised.should be_a(NoMethodError)
+    expect { Factory.send(:magic_beans) }.to raise_error(NoMethodError)
   end
 end
 
@@ -54,13 +43,7 @@ end
 
 describe "accessing an undefined constant on Factory that is undefined on FactoryGirl" do
   it "raises a NameError for Factory" do
-    begin
-      Factory::BOGUS
-    rescue Exception => exception
-    end
-
-    exception.should be_a(NameError)
-    exception.message.should include("Factory::BOGUS")
+    expect { Factory::BOGUS }.to raise_error(NameError, /Factory::BOGUS/)
   end
 end
 

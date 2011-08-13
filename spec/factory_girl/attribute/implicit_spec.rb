@@ -12,14 +12,15 @@ describe FactoryGirl::Attribute::Implicit do
 
   context "with a known factory" do
     before do
-      stub(FactoryGirl.factories).registered? { true }
+      FactoryGirl.factories.stubs(:registered? => true)
+      # stub(FactoryGirl.factories).registered? { true }
     end
 
     it "associates the factory" do
-      proxy = "proxy"
-      stub(proxy).associate
+      proxy = stub("proxy", :associate => nil)
+      # stub(proxy).associate
       @attr.add_to(proxy)
-      proxy.should have_received.associate(@name, @name, {})
+      proxy.should have_received(:associate).with(@name, @name, {})
     end
 
     it "is an association" do
@@ -37,10 +38,9 @@ describe FactoryGirl::Attribute::Implicit do
     end
 
     it "generates the sequence" do
-      proxy = "proxy"
-      stub(proxy).set
+      proxy = stub("proxy", :set => nil)
       @attr.add_to(proxy)
-      proxy.should have_received.set(@name, "magic")
+      proxy.should have_received(:set).with(@name, "magic")
     end
 
     it "isn't an association" do

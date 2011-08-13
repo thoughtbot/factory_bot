@@ -2,7 +2,7 @@ require 'spec_helper'
 
 share_examples_for "finds definitions" do
   before do
-    stub(FactoryGirl).load
+    FactoryGirl.stubs(:load)
     FactoryGirl.find_definitions
   end
   subject { FactoryGirl }
@@ -10,7 +10,7 @@ end
 
 RSpec::Matchers.define :load_definitions_from do |file|
   match do |given|
-    @has_received = have_received.method_missing(:load, File.expand_path(file))
+    @has_received = have_received(:load).with(File.expand_path(file))
     @has_received.matches?(given)
   end
 
@@ -79,10 +79,11 @@ describe "definition loading" do
       in_directory_with_files File.join(dir, 'factories', 'b.rb'),
                               File.join(dir, 'factories', 'a.rb')
       it "should load the files in the right order" do
-        @loaded = []
-        stub(FactoryGirl).load { |a| @loaded << File.split(a)[-1] }
+        FactoryGirl.stubs(:load)
+        sorted_load_order = sequence("load order")
+        FactoryGirl.expects(:load).with(includes("a.rb")).in_sequence(sorted_load_order)
+        FactoryGirl.expects(:load).with(includes("b.rb")).in_sequence(sorted_load_order)
         FactoryGirl.find_definitions
-        @loaded.should == ["a.rb", "b.rb"]
       end
     end
 

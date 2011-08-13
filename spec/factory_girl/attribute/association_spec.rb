@@ -21,10 +21,9 @@ describe FactoryGirl::Attribute::Association do
   end
 
   it "should tell the proxy to associate when being added to a proxy" do
-    proxy = "proxy"
-    stub(proxy).associate
+    proxy = stub("proxy", :associate => nil)
     @attr.add_to(proxy)
-    proxy.should have_received.associate(@name, @factory, @overrides)
+    proxy.should have_received(:associate).with(@name, @factory, @overrides)
   end
 
   it "should convert names to symbols" do

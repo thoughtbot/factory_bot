@@ -64,17 +64,17 @@ end
 describe "defining a factory" do
   before do
     @name    = :user
-    @factory = "factory"
+    @factory = stub("factory", :names => [@name])
     @proxy   = "proxy"
-    stub(@factory).names { [@name] }
     @options = { :class => 'magic' }
-    stub(FactoryGirl::Factory).new { @factory }
-    stub(FactoryGirl::DefinitionProxy).new { @proxy }
+    FactoryGirl::Factory.stubs(:new => @factory)
+    FactoryGirl::DefinitionProxy.stubs(:new => @proxy)
   end
 
   it "should create a new factory using the specified name and options" do
-    mock(FactoryGirl::Factory).new(@name, @options) { @factory }
+    FactoryGirl::Factory.stubs(:new => @factory)
     Factory.define(@name, @options) {|f| }
+    FactoryGirl::Factory.should have_received(:new).with(@name, @options)
   end
 
   it "should pass the factory do the block" do
@@ -100,35 +100,39 @@ describe "after defining a factory" do
   end
 
   it "should use Proxy::AttributesFor for Factory.attributes_for" do
-    mock(@factory).run(FactoryGirl::Proxy::AttributesFor, :attr => 'value') { 'result' }
+    @factory.stubs(:run => "result")
     Factory.attributes_for(@name, :attr => 'value').should == 'result'
+    @factory.should have_received(:run).with(FactoryGirl::Proxy::AttributesFor, :attr => 'value')
   end
 
   it "should use Proxy::Build for Factory.build" do
-    mock(@factory).run(FactoryGirl::Proxy::Build, :attr => 'value') { 'result' }
+    @factory.stubs(:run => "result")
     Factory.build(@name, :attr => 'value').should == 'result'
+    @factory.should have_received(:run).with(FactoryGirl::Proxy::Build, :attr => 'value')
   end
 
   it "should use Proxy::Create for Factory.create" do
-    mock(@factory).run(FactoryGirl::Proxy::Create, :attr => 'value') { 'result' }
+    @factory.stubs(:run => "result")
     Factory.create(@name, :attr => 'value').should == 'result'
+    @factory.should have_received(:run).with(FactoryGirl::Proxy::Create, :attr => 'value')
   end
 
   it "should use Proxy::Stub for Factory.stub" do
-    mock(@factory).run(FactoryGirl::Proxy::Stub, :attr => 'value') { 'result' }
+    @factory.stubs(:run => "result")
     Factory.stub(@name, :attr => 'value').should == 'result'
+    @factory.should have_received(:run).with(FactoryGirl::Proxy::Stub, :attr => 'value')
   end
 
   it "should use default strategy option as Factory.default_strategy" do
-    stub(@factory).default_strategy { :create }
-    mock(@factory).run(FactoryGirl::Proxy::Create, :attr => 'value') { 'result' }
+    @factory.stubs(:default_strategy => :create, :run => "result")
     Factory.default_strategy(@name, :attr => 'value').should == 'result'
+    @factory.should have_received(:run).with(FactoryGirl::Proxy::Create, :attr => 'value')
   end
 
   it "should use the default strategy for the global Factory method" do
-    stub(@factory).default_strategy { :create }
-    mock(@factory).run(FactoryGirl::Proxy::Create, :attr => 'value') { 'result' }
+    @factory.stubs(:default_strategy => :create, :run => "result")
     Factory(@name, :attr => 'value').should == 'result'
+    @factory.should have_received(:run).with(FactoryGirl::Proxy::Create, :attr => 'value')
   end
 
   [:build, :create, :attributes_for, :stub].each do |method|
@@ -137,7 +141,7 @@ describe "after defining a factory" do
     end
 
     it "should recognize either 'name' or :name for Factory.#{method}" do
-      stub(@factory).run
+      @factory.stubs(:run)
       lambda { Factory.send(method, @name.to_s) }.should_not raise_error
       lambda { Factory.send(method, @name.to_sym) }.should_not raise_error
     end
@@ -146,26 +150,22 @@ end
 
 describe "defining a sequence" do
   before do
-    @name     = :count
-    @sequence = FactoryGirl::Sequence.new(@name) {}
-    stub(FactoryGirl::Sequence).new { @sequence }
+    @name = :count
   end
 
   it "should create a new sequence" do
-    mock(FactoryGirl::Sequence).new(@name, 1) { @sequence }
     Factory.sequence(@name)
+    Factory.next(@name).should == 1
   end
 
   it "should use the supplied block as the sequence generator" do
-    stub(FactoryGirl::Sequence).new { @sequence }.yields(1)
-    yielded = false
-    Factory.sequence(@name) {|n| yielded = true }
-    (yielded).should be
+    Factory.sequence(@name) {|n| "user-#{n}" }
+    Factory.next(@name).should == "user-1"
   end
 
   it "should use the supplied start_value as the sequence start_value" do
-    mock(FactoryGirl::Sequence).new(@name, "A") { @sequence }
     Factory.sequence(@name, "A")
+    Factory.next(@name).should == "A"
   end
 end
 
@@ -175,16 +175,15 @@ describe "after defining a sequence" do
     @sequence = FactoryGirl::Sequence.new(@name) {}
     @value    = '1 2 5'
 
-    stub(@sequence).next { @value }
-    stub(FactoryGirl::Sequence).new { @sequence }
+    @sequence.stubs(:next => @value)
+    FactoryGirl::Sequence.stubs(:new => @sequence)
 
     Factory.sequence(@name) {}
   end
 
   it "should call next on the sequence when sent next" do
-    mock(@sequence).next
-
     Factory.next(@name)
+    @sequence.should have_received(:next)
   end
 
   it "should return the value from the sequence" do

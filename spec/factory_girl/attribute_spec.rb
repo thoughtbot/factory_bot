@@ -15,10 +15,9 @@ describe FactoryGirl::Attribute do
   end
 
   it "should do nothing when being added to a proxy" do
-    @proxy = "proxy"
-    stub(@proxy).set
+    @proxy = stub("proxy", :set => nil)
     @attr.add_to(@proxy)
-    @proxy.should have_received.set.never
+    @proxy.should have_received(:set).never
   end
 
   it "should raise an error when defining an attribute writer" do

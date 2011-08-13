@@ -13,6 +13,8 @@ GEM
       cucumber (>= 0.10.5)
       rspec (>= 2.6.0)
     bluecloth (2.1.0)
+    bourne (1.0)
+      mocha (= 0.9.8)
     builder (3.0.0)
     childprocess (0.1.9)
       ffi (~> 1.0.6)
@@ -27,9 +29,10 @@ GEM
     gherkin (2.4.1)
       json (>= 1.4.6)
     json (1.5.3)
+    mocha (0.9.8)
+      rake
     rake (0.9.2)
     rcov (0.9.9)
-    rr (1.0.2)
     rspec (2.6.0)
       rspec-core (~> 2.6.0)
       rspec-expectations (~> 2.6.0)
@@ -49,12 +52,14 @@ PLATFORMS
 
 DEPENDENCIES
   activerecord (~> 2.3)
+  activesupport
   appraisal (~> 0.3.5)
   bluecloth
+  bourne
   cucumber (~> 1.0.0)
+  mocha
   rake
   rcov
-  rr
   rspec (~> 2.0)
   sqlite3-ruby
   yard

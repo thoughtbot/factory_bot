@@ -15,20 +15,22 @@ describe FactoryGirl::DefinitionProxy do
   end
 
   it "should add a static attribute when an attribute is defined with a value" do
-    attribute = 'attribute'
-    stub(attribute).name { :name }
-    mock(FactoryGirl::Attribute::Static).new(:name, 'value') { attribute }
-    mock(factory).define_attribute(attribute)
+    attribute = stub('attribute', :name => :name)
+    FactoryGirl::Attribute::Static.stubs(:new => attribute)
+    factory.stubs(:define_attribute)
     subject.add_attribute(:name, 'value')
+    factory.should have_received(:define_attribute).with(attribute)
+    FactoryGirl::Attribute::Static.should have_received(:new).with(:name, "value")
   end
 
   it "should add a dynamic attribute when an attribute is defined with a block" do
-    attribute = 'attribute'
-    stub(attribute).name { :name }
+    attribute = stub('attribute', :name => :name)
     block     = lambda {}
-    mock(FactoryGirl::Attribute::Dynamic).new(:name, block) { attribute }
-    mock(factory).define_attribute(attribute)
+    FactoryGirl::Attribute::Dynamic.stubs(:new => attribute)
+    factory.stubs(:define_attribute)
     subject.add_attribute(:name, &block)
+    FactoryGirl::Attribute::Dynamic.should have_received(:new).with(:name, block)
+    factory.should have_received(:define_attribute).with(attribute)
   end
 
   it "should raise for an attribute with a value and a block" do
@@ -54,85 +56,90 @@ describe FactoryGirl::DefinitionProxy do
 
   describe "adding an attribute using a in-line sequence" do
     it "should create the sequence" do
-      mock(FactoryGirl::Sequence).new(:name, 1)
+      FactoryGirl::Sequence.stubs(:new)
       subject.sequence(:name) {}
+      FactoryGirl::Sequence.should have_received(:new).with(:name, 1)
     end
 
     it "should create the sequence with a custom default value" do
-      mock(FactoryGirl::Sequence).new(:name, "A")
+      FactoryGirl::Sequence.stubs(:new)
       subject.sequence(:name, "A") {}
+      FactoryGirl::Sequence.should have_received(:new).with(:name, "A")
     end
 
     it "should add a dynamic attribute" do
-      attribute = 'attribute'
-      stub(attribute).name { :name }
-      mock(FactoryGirl::Attribute::Dynamic).new(:name, is_a(Proc)) { attribute }
+      attribute = stub('attribute', :name => :name)
+      FactoryGirl::Attribute::Dynamic.stubs(:new => attribute)
       subject.sequence(:name) {}
       factory.attributes.should include(attribute)
+      FactoryGirl::Attribute::Dynamic.should have_received(:new).with(:name, is_a(Proc))
     end
   end
 
   it "should add a callback attribute when the after_build attribute is defined" do
-    mock(FactoryGirl::Attribute::Callback).new(:after_build, is_a(Proc)) { 'after_build callback' }
+    FactoryGirl::Attribute::Callback.stubs(:new => "after_build callback")
     subject.after_build {}
     factory.attributes.should include('after_build callback')
+    FactoryGirl::Attribute::Callback.should have_received(:new).with(:after_build, is_a(Proc))
   end
 
   it "should add a callback attribute when the after_create attribute is defined" do
-    mock(FactoryGirl::Attribute::Callback).new(:after_create, is_a(Proc)) { 'after_create callback' }
+    FactoryGirl::Attribute::Callback.stubs(:new => "after_create callback")
     subject.after_create {}
     factory.attributes.should include('after_create callback')
+    FactoryGirl::Attribute::Callback.should have_received(:new).with(:after_create, is_a(Proc))
   end
 
   it "should add a callback attribute when the after_stub attribute is defined" do
-    mock(FactoryGirl::Attribute::Callback).new(:after_stub, is_a(Proc)) { 'after_stub callback' }
+    FactoryGirl::Attribute::Callback.stubs(:new => "after_stub callback")
     subject.after_stub {}
     factory.attributes.should include('after_stub callback')
+    FactoryGirl::Attribute::Callback.should have_received(:new).with(:after_stub, is_a(Proc))
   end
 
   it "should add an association without a factory name or overrides" do
     name = :user
-    attr = 'attribute'
-    stub(attr).name { name }
-    mock(FactoryGirl::Attribute::Association).new(name, name, {}) { attr }
+    attr = stub('attribute', :name => name)
+    FactoryGirl::Attribute::Association.stubs(:new => attr)
     subject.association(name)
     factory.attributes.should include(attr)
+    FactoryGirl::Attribute::Association.should have_received(:new).with(name, name, {})
   end
 
   it "should add an association with overrides" do
     name      = :user
-    attr      = 'attribute'
+    attr      = stub('attribute', :name => name)
     overrides = { :first_name => 'Ben' }
-    stub(attr).name { name }
-    mock(FactoryGirl::Attribute::Association).new(name, name, overrides) { attr }
+    FactoryGirl::Attribute::Association.stubs(:new => attr)
     subject.association(name, overrides)
     factory.attributes.should include(attr)
+    FactoryGirl::Attribute::Association.should have_received(:new).with(name, name, overrides)
   end
 
   it "should add an attribute using the method name when passed an undefined method" do
-    attribute = 'attribute'
-    stub(attribute).name { :name }
-    mock(FactoryGirl::Attribute::Static).new(:name, 'value') { attribute }
+    attribute = stub('attribute', :name => :name)
+    FactoryGirl::Attribute::Static.stubs(:new => attribute)
     subject.send(:name, 'value')
     factory.attributes.should include(attribute)
+    FactoryGirl::Attribute::Static.should have_received(:new).with(:name, 'value')
   end
 
   it "adds an attribute using when passed an undefined method and block" do
-    attribute = 'attribute'
-    stub(attribute).name { :name }
+    attribute = stub('attribute', :name => :name)
     block = lambda {}
-    mock(FactoryGirl::Attribute::Dynamic).new(:name, block) { attribute }
+    FactoryGirl::Attribute::Dynamic.stubs(:new => attribute)
     subject.send(:name, &block)
     factory.attributes.should include(attribute)
+    FactoryGirl::Attribute::Dynamic.should have_received(:new).with(:name, block)
   end
 
   it "adds an implicit attribute when passed an undefined method without arguments or a block" do
     name = :user
-    attr = 'attribute'
-    stub(attr).name { name }
-    mock(FactoryGirl::Attribute::Implicit).new(name, factory) { attr }
+    attr = stub('attribute', :name => name)
+    FactoryGirl::Attribute::Implicit.stubs(:new => attr)
     subject.send(name)
     factory.attributes.should include(attr)
+    FactoryGirl::Attribute::Implicit.should have_received(:new).with(name, factory)
   end
 
   it "adds an association when passed an undefined method with a hash including :factory key" do
@@ -140,17 +147,17 @@ describe FactoryGirl::DefinitionProxy do
     factory_name = :user
     overrides = { :first_name => 'Ben' }
     args = { :factory => factory_name }.merge(overrides)
-    attr = 'attribute'
-    stub(attr).name { name }
-    mock(FactoryGirl::Attribute::Association).new(name, factory_name, overrides) { attr }
+    attr = stub('attribute', :name => name)
+    FactoryGirl::Attribute::Association.stubs(:new => attr)
     subject.send(name, args)
     factory.attributes.should include(attr)
+    FactoryGirl::Attribute::Association.should have_received(:new).with(name, factory_name, overrides)
   end
 
   it "delegates to_create" do
     result = 'expected'
-    mock(factory).to_create { result }
-
+    factory.stubs(:to_create => result)
     subject.to_create.should == result
+    factory.should have_received(:to_create)
   end
 end
