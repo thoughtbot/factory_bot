@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'acceptance/acceptance_helper'
 
 describe "vintage syntax" do
   before do

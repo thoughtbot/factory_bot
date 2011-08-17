@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'acceptance/acceptance_helper'
 
 describe "default strategy" do
   it "uses create when not specified" do

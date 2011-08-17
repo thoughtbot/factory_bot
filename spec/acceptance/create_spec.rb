@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'acceptance/acceptance_helper'
 
 describe "a created instance" do
   include FactoryGirl::Syntax::Methods

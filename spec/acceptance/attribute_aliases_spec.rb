@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'acceptance/acceptance_helper'
 
 describe "attribute aliases" do
   before do

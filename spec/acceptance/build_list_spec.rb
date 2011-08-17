@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'acceptance/acceptance_helper'
 
 describe "build multiple instances" do
   before do

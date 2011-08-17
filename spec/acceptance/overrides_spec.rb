@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'acceptance/acceptance_helper'
 require 'active_support/ordered_hash'
 
 describe "attribute overrides" do

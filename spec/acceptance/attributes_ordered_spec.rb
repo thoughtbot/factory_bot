@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'acceptance/acceptance_helper'
 
 describe "a generated attributes hash where order matters" do
   include FactoryGirl::Syntax::Methods

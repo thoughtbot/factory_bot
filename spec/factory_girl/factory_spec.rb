@@ -1,8 +1,6 @@
 require 'spec_helper'
 
 describe FactoryGirl::Factory do
-  include DefinesConstants
-
   before do
     @name    = :user
     @class   = define_class('User')
@@ -220,8 +218,6 @@ describe FactoryGirl::Factory, "when defined with a custom class name" do
 end
 
 describe FactoryGirl::Factory, "with a name ending in s" do
-  include DefinesConstants
-
   let(:name)           { :business }
   let(:business_class) { Business }
 
@@ -239,8 +235,6 @@ describe FactoryGirl::Factory, "with a string for a name" do
 end
 
 describe FactoryGirl::Factory, "for namespaced class" do
-  include DefinesConstants
-
   let(:name)           { :settings }
   let(:settings_class) { Admin::Settings }
 
@@ -267,8 +261,6 @@ describe FactoryGirl::Factory, "for namespaced class" do
 end
 
 describe FactoryGirl::Factory do
-  include DefinesConstants
-
   let(:factory_with_non_existant_strategy) do
     FactoryGirl::Factory.new(:object, :default_strategy => :nonexistent) { }
   end
