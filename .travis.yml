@@ -1,10 +1,6 @@
 rvm:
-  - ree-1.8.7-2010.02
   - ree-1.8.7-2011.03
-  - 1.8.7-p174
-  - 1.8.7-p334
   - 1.8.7-p352
-  - 1.9.2-p180
   - 1.9.2-p290
 script: "bundle exec rake spec:unit spec:acceptance features"
 gemfile:
