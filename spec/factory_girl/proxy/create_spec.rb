@@ -1,95 +1,42 @@
 require 'spec_helper'
 
 describe FactoryGirl::Proxy::Create do
-  before do
-    @instance = stub("built-instance", :attribute => "value", :attribute= => nil, :owner= => nil, :save! => nil)
-    @class    = stub("class", :new => @instance)
-    @proxy    = FactoryGirl::Proxy::Create.new(@class)
-  end
 
-  it "should instantiate the class" do
-    @class.should have_received(:new)
-  end
+  let(:instance)    { stub("created-instance", :save! => true) }
+  let(:proxy_class) { stub("class", :new => instance) }
 
-  describe "when asked to associate with another factory" do
-    before do
-      @association = "associated-instance"
-      @associated_factory = stub("associated-factory", :run => @association)
-      FactoryGirl.stubs(:factory_by_name => @associated_factory)
-      @overrides = { 'attr' => 'value' }
-      @proxy.associate(:owner, :user, @overrides)
-    end
+  subject { FactoryGirl::Proxy::Create.new(proxy_class) }
 
-    it "should create the associated instance" do
-      @associated_factory.should have_received(:run).with(FactoryGirl::Proxy::Create, @overrides)
-    end
+  it_should_behave_like "proxy with association support", FactoryGirl::Proxy::Create
+  it_should_behave_like "proxy with standard getters and setters", :attribute_name, "attribute value!"
+  it_should_behave_like "proxy with callbacks", :after_build
+  it_should_behave_like "proxy with callbacks", :after_create
 
-    it "should set the associated instance" do
-      @instance.should have_received(:owner=).with(@association)
-    end
-  end
-
-  it "should run create when building an association" do
-    association = "associated-instance"
-    associated_factory = stub("associated-factory", :run => association)
-    FactoryGirl.stubs(:factory_by_name => associated_factory)
-    overrides = { 'attr' => 'value' }
-    @proxy.association(:user, overrides).should == association
-    associated_factory.should have_received(:run).with(FactoryGirl::Proxy::Create, overrides)
-  end
-
-  describe "when asked for the result" do
-    before do
-      @build_spy  = stub("build", :foo => nil)
-      @create_spy = stub("create", :foo => nil)
-      @proxy.add_callback(:after_build,  proc{ @build_spy.foo })
-      @proxy.add_callback(:after_create, proc{ @create_spy.foo })
-      @result = @proxy.result(nil)
-    end
-
-    it "should save the instance" do
-      @instance.should have_received(:save!)
-    end
-
-    it "should return the built instance" do
-      @result.should == @instance
-    end
-
-    it "should run both the build and the create callbacks" do
-      @build_spy.should have_received(:foo)
-      @create_spy.should have_received(:foo)
-    end
+  it "saves the instance before returning the result" do
+    subject.result(nil)
+    instance.should have_received(:save!)
   end
 
   it "runs a custom create block" do
     block = stub('custom create block', :call => nil)
-    @instance.stubs(:save!).raises(RuntimeError)
-    instance = @proxy.result(block)
+    subject.result(block)
     block.should have_received(:call).with(instance)
+    instance.should have_received(:save!).never
   end
 
-  describe "when setting an attribute" do
-    before do
-      @proxy.set(:attribute, 'value')
-    end
+  context "callback execution order" do
+    let(:after_build_callback)  { stub("after_build callback", :foo => nil) }
+    let(:after_create_callback) { stub("after_create callback", :foo => nil) }
+    let(:callback_sequence)     { sequence("after_* callbacks") }
 
-    it "should set that value" do
-      @instance.should have_received(:attribute=).with('value')
-    end
-  end
+    it "runs after_build callbacks before after_create callbacks" do
+      subject.add_callback(:after_build,  proc { after_build_callback.foo })
+      subject.add_callback(:after_create, proc { after_create_callback.foo })
 
-  describe "when getting an attribute" do
-    before do
-      @result = @proxy.get(:attribute)
-    end
+      after_build_callback.expects(:foo).once.in_sequence(callback_sequence)
+      after_create_callback.expects(:foo).once.in_sequence(callback_sequence)
 
-    it "should ask the built class for the value" do
-      @instance.should have_received(:attribute)
-    end
-
-    it "should return the value for that attribute" do
-      @result.should == 'value'
+      subject.result(nil)
     end
   end
 end
-

@@ -3,6 +3,8 @@ require 'spec_helper'
 describe FactoryGirl::Proxy do
   subject { FactoryGirl::Proxy.new(Class.new) }
 
+  it_should_behave_like "proxy without association support"
+
   it "doesn't raise when assigning a value to an attribute" do
     expect { subject.set(:name, "a name") }.to_not raise_error
   end
@@ -14,10 +16,6 @@ describe FactoryGirl::Proxy do
   it "calls get for a missing method" do
     subject.stubs(:get).with(:name).returns("it's a name")
     subject.name.should == "it's a name"
-  end
-
-  it "doesn't raise when asked to associate with another factory" do
-    expect { subject.associate(:owner, :user, {}) }.to_not raise_error
   end
 
   it "raises an error when asking for the result" do

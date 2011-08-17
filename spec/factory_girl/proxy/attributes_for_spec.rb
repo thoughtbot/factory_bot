@@ -1,51 +1,42 @@
 require 'spec_helper'
 
 describe FactoryGirl::Proxy::AttributesFor do
-  before do
-    @proxy = FactoryGirl::Proxy::AttributesFor.new(@class)
+  let(:proxy_class) { stub("class") }
+
+  subject { FactoryGirl::Proxy::AttributesFor.new(proxy_class) }
+
+  it_should_behave_like "proxy without association support"
+
+  it "returns a hash when asked for the result" do
+    subject.result(nil).should be_kind_of(Hash)
   end
 
-  describe "when asked to associate with another factory" do
-    before do
-      FactoryGirl.stubs(:create)
-      @proxy.associate(:owner, :user, {})
+  context "after associating a factory" do
+    let(:attribute) { :owner }
+
+    before { subject.associate(attribute, :user, {}) }
+
+    it "doesn't set that key in the resulting hash" do
+      subject.result(nil).should_not have_key(attribute)
     end
 
-    it "should not set a value for the association" do
-      (@proxy.result(nil).key?(:owner)).should_not be
+    it "returns nil when asked for that attribute" do
+      subject.get(attribute).should be_nil
     end
-  end
-
-  it "should return nil when building an association" do
-    @proxy.association(:user).should be_nil
-  end
-
-  it "should not call Factory.create when building an association" do
-    FactoryGirl.stubs(:create)
-    @proxy.association(:user).should be_nil
-    FactoryGirl.should have_received(:create).never
-  end
-
-  it "should always return nil when building an association" do
-    @proxy.set(:association, 'x')
-    @proxy.association(:user).should be_nil
-  end
-
-  it "should return a hash when asked for the result" do
-    @proxy.result(nil).should be_kind_of(Hash)
   end
 
   describe "after setting an attribute" do
-    before do
-      @proxy.set(:attribute, 'value')
+    let(:attribute) { :attribute }
+    let(:value)     { "value" }
+
+    before { subject.set(attribute, value) }
+
+    it "sets that value in the resulting hash" do
+      subject.result(nil)[attribute].should == value
     end
 
-    it "should set that value in the resulting hash" do
-      @proxy.result(nil)[:attribute].should == 'value'
-    end
-
-    it "should return that value when asked for that attribute" do
-      @proxy.get(:attribute).should == 'value'
+    it "returns that value when asked for that attribute" do
+      subject.get(attribute).should == value
     end
   end
 end

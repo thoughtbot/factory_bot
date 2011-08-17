@@ -7,7 +7,6 @@ module FactoryGirl
     end
 
     def get(attribute)
-      nil
     end
 
     def set(attribute, value)
@@ -63,7 +62,6 @@ module FactoryGirl
     #   FactoryGirl.create(:post)
     #
     def association(name, overrides = {})
-      nil
     end
 
     def method_missing(method, *args, &block)
