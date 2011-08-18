@@ -47,9 +47,13 @@ module FactoryGirl
       end
 
       @attributes.unshift *new_attributes
-      @attributes = @attributes.partition {|attr| attr.priority.zero? }.flatten
+      prioritize_static_attributes
     end
 
+    def prioritize_static_attributes
+      @attributes = @attributes.partition {|attr| attr.priority.zero? }.flatten
+    end
+    
     private
 
     def valid_callback_names

@@ -77,6 +77,10 @@ module FactoryGirl
     def attributes
       @attribute_list.to_a
     end
+    
+    def sort_attributes
+      @attribute_list.prioritize_static_attributes
+    end
 
     def run(proxy_class, overrides) #:nodoc:
       proxy = proxy_class.new(build_class)
