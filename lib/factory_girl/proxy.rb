@@ -59,7 +59,7 @@ module FactoryGirl
     #   FactoryGirl.build(:post)
     #
     #   # Builds and saves a User, builds a Post, assigns the User to the
-    #   # author association, and saves the User.
+    #   # author association, and saves the Post.
     #   FactoryGirl.create(:post)
     #
     def association(name, overrides = {})
