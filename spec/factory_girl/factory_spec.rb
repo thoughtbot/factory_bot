@@ -261,7 +261,7 @@ describe FactoryGirl::Factory, "for namespaced class" do
 end
 
 describe FactoryGirl::Factory do
-  let(:factory_with_non_existant_strategy) do
+  let(:factory_with_non_existent_strategy) do
     FactoryGirl::Factory.new(:object, :default_strategy => :nonexistent) { }
   end
 
@@ -283,7 +283,7 @@ describe FactoryGirl::Factory do
   end
 
   it "raises an ArgumentError when trying to use a non-existent strategy" do
-    expect { factory_with_non_existant_strategy }.to raise_error(ArgumentError)
+    expect { factory_with_non_existent_strategy }.to raise_error(ArgumentError)
   end
 
   it "creates a new factory with a specified default strategy" do

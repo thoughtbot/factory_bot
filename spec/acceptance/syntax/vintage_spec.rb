@@ -135,7 +135,7 @@ describe "after defining a factory" do
   end
 
   [:build, :create, :attributes_for, :stub].each do |method|
-    it "should raise an ArgumentError on #{method} with a nonexistant factory" do
+    it "should raise an ArgumentError on #{method} with a nonexistent factory" do
       lambda { Factory.send(method, :bogus) }.should raise_error(ArgumentError)
     end
 

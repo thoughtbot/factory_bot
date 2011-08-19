@@ -34,7 +34,8 @@ describe "accessing an undefined method on Factory that is not defined on Factor
 end
 
 describe "accessing an undefined constant on Factory that is defined on FactoryGirl" do
-  it { Factory::VERSION.should == FactoryGirl::VERSION }
+  subject { Factory::VERSION }
+  it      { should == FactoryGirl::VERSION }
 end
 
 describe "accessing an undefined constant on Factory that is undefined on FactoryGirl" do
