@@ -11,7 +11,7 @@ module FactoryGirl
         if FactoryGirl::Sequence === value
           raise SequenceAbuseError
         end
-        proxy.set(name, value)
+        proxy.set(name, value, @ignored)
       end
     end
   end

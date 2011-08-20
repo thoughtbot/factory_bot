@@ -71,5 +71,14 @@ describe FactoryGirl::Proxy do
       subject.run_callbacks(:after_create)
       object_1_within_callback.should have_received(:foo).once
     end
+
+    it "passes in the instance and the proxy if the block takes two arguments" do
+      subject.instance_variable_set("@instance", object_1_within_callback)
+      proxy_instance = nil
+      subject.add_callback(:after_create, proc {|spy, proxy| spy.foo; proxy_instance = proxy })
+      subject.run_callbacks(:after_create)
+      object_1_within_callback.should have_received(:foo).once
+      proxy_instance.should == subject
+    end
   end
 end

@@ -86,7 +86,7 @@ module FactoryGirl
         if factory_overrides.empty?
           attribute.add_to(proxy)
         else
-          factory_overrides.each { |attr, val| proxy.set(attr, val); overrides.delete(attr) }
+          factory_overrides.each { |attr, val| proxy.set(attr, val, attribute.ignored); overrides.delete(attr) }
         end
       end
       overrides.each { |attr, val| proxy.set(attr, val) }

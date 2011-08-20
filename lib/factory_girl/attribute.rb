@@ -10,11 +10,16 @@ module FactoryGirl
   class Attribute #:nodoc:
     include Comparable
 
-    attr_reader :name
+    attr_reader :name, :ignored
 
     def initialize(name)
       @name = name.to_sym
+      @ignored = false
       ensure_non_attribute_writer!
+    end
+
+    def ignore
+      @ignored = true
     end
 
     def add_to(proxy)

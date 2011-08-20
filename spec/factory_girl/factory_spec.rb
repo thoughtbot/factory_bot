@@ -309,7 +309,7 @@ end
 
 describe FactoryGirl::Factory, "running a factory" do
   subject             { FactoryGirl::Factory.new(:user) }
-  let(:attribute)     { stub("attribute", :name => :name, :add_to => nil, :aliases_for? => true) }
+  let(:attribute)     { stub("attribute", :name => :name, :ignored => false, :add_to => nil, :aliases_for? => true) }
   let(:proxy)         { stub("proxy", :result => "result", :set => nil) }
 
   before do

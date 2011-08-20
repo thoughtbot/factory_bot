@@ -149,6 +149,30 @@ Attributes can be based on the values of other attributes using the proxy that i
     FactoryGirl.create(:user, :last_name => 'Doe').email
     # => "joe.doe@example.com"
 
+Transient Attributes
+--------------------
+
+There may be times where your code can be DRYed up by passing in transient attributes to factories.
+
+    factory :user do
+      rockstar(true).ignore
+      upcased { false }.ignore
+
+      name  { "John Doe#{" - Rockstar" if rockstar}" }
+      email { "#{name.downcase}@example.com" }
+
+      after_create do |user, proxy|
+        user.name.upcase! if proxy.upcased
+      end
+    end
+
+FactoryGirl.create(:user, :upcased => true).name
+# => "JOHN DOE - ROCKSTAR"
+
+Static and dynamic attributes can be ignored. Ignored attributes will be ignored within attributes_for and won't be set on the model, even if the attribute exists or you attempt to override it.
+
+Within Factory Girl's dynamic attributes, you can access ignored attributes as you would expect. If you need to access the proxy in a Factory Girl callback, you'll need to declare a second block argument (for the proxy) and access ignored attributes from there.
+
 Associations
 ------------
 

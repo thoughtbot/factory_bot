@@ -63,6 +63,14 @@ shared_examples_for "proxy with standard getters and setters" do |attribute, val
     it { instance.should have_received(:"#{attribute}=").with(value) }
   end
 
+  describe "when setting an ignored attribute" do
+    before do
+      subject.set(attribute, value, true)
+    end
+
+    it { instance.should have_received(:"#{attribute}=").with(value).never }
+  end
+
   describe "when getting an attribute" do
     it { subject.get(attribute).should == value }
 

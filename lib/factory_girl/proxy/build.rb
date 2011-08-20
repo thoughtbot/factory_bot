@@ -3,14 +3,23 @@ module FactoryGirl
     class Build < Proxy #:nodoc:
       def initialize(klass)
         @instance = klass.new
+        @ignored_attributes = {}
       end
 
       def get(attribute)
-        @instance.send(attribute)
+        if @ignored_attributes.has_key?(attribute)
+          @ignored_attributes[attribute]
+        else
+          @instance.send(attribute)
+        end
       end
 
-      def set(attribute, value)
-        @instance.send(:"#{attribute}=", value)
+      def set(attribute, value, ignored = false)
+        if ignored
+          @ignored_attributes[attribute] = value
+        else
+          @instance.send(:"#{attribute}=", value)
+        end
       end
 
       def associate(name, factory_name, overrides)

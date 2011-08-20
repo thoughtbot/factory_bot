@@ -3,14 +3,19 @@ module FactoryGirl
     class AttributesFor < Proxy #:nodoc:
       def initialize(klass)
         @hash = {}
+        @ignored_attributes = {}
       end
 
       def get(attribute)
-        @hash[attribute]
+        @ignored_attributes[attribute] || @hash[attribute]
       end
 
-      def set(attribute, value)
-        @hash[attribute] = value
+      def set(attribute, value, ignored = false)
+        if ignored
+          @ignored_attributes[attribute] = value
+        else
+          @hash[attribute] = value
+        end
       end
 
       def result(to_create)
