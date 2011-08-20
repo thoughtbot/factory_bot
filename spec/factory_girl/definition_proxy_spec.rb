@@ -66,98 +66,140 @@ describe FactoryGirl::DefinitionProxy do
       subject.sequence(:name, "A") {}
       FactoryGirl::Sequence.should have_received(:new).with(:name, "A")
     end
-
-    it "should add a dynamic attribute" do
-      attribute = stub('attribute', :name => :name)
-      FactoryGirl::Attribute::Dynamic.stubs(:new => attribute)
-      subject.sequence(:name) {}
-      factory.attributes.should include(attribute)
-      FactoryGirl::Attribute::Dynamic.should have_received(:new).with(:name, is_a(Proc))
-    end
-  end
-
-  it "should add a callback attribute when the after_build attribute is defined" do
-    FactoryGirl::Attribute::Callback.stubs(:new => "after_build callback")
-    subject.after_build {}
-    factory.attributes.should include('after_build callback')
-    FactoryGirl::Attribute::Callback.should have_received(:new).with(:after_build, is_a(Proc))
-  end
-
-  it "should add a callback attribute when the after_create attribute is defined" do
-    FactoryGirl::Attribute::Callback.stubs(:new => "after_create callback")
-    subject.after_create {}
-    factory.attributes.should include('after_create callback')
-    FactoryGirl::Attribute::Callback.should have_received(:new).with(:after_create, is_a(Proc))
-  end
-
-  it "should add a callback attribute when the after_stub attribute is defined" do
-    FactoryGirl::Attribute::Callback.stubs(:new => "after_stub callback")
-    subject.after_stub {}
-    factory.attributes.should include('after_stub callback')
-    FactoryGirl::Attribute::Callback.should have_received(:new).with(:after_stub, is_a(Proc))
-  end
-
-  it "should add an association without a factory name or overrides" do
-    name = :user
-    attr = stub('attribute', :name => name)
-    FactoryGirl::Attribute::Association.stubs(:new => attr)
-    subject.association(name)
-    factory.attributes.should include(attr)
-    FactoryGirl::Attribute::Association.should have_received(:new).with(name, name, {})
-  end
-
-  it "should add an association with overrides" do
-    name      = :user
-    attr      = stub('attribute', :name => name)
-    overrides = { :first_name => 'Ben' }
-    FactoryGirl::Attribute::Association.stubs(:new => attr)
-    subject.association(name, overrides)
-    factory.attributes.should include(attr)
-    FactoryGirl::Attribute::Association.should have_received(:new).with(name, name, overrides)
-  end
-
-  it "should add an attribute using the method name when passed an undefined method" do
-    attribute = stub('attribute', :name => :name)
-    FactoryGirl::Attribute::Static.stubs(:new => attribute)
-    subject.send(:name, 'value')
-    factory.attributes.should include(attribute)
-    FactoryGirl::Attribute::Static.should have_received(:new).with(:name, 'value')
-  end
-
-  it "adds an attribute using when passed an undefined method and block" do
-    attribute = stub('attribute', :name => :name)
-    block = lambda {}
-    FactoryGirl::Attribute::Dynamic.stubs(:new => attribute)
-    subject.send(:name, &block)
-    factory.attributes.should include(attribute)
-    FactoryGirl::Attribute::Dynamic.should have_received(:new).with(:name, block)
   end
 
   it "adds an implicit attribute when passed an undefined method without arguments or a block" do
-    name = :user
-    attr = stub('attribute', :name => name)
-    FactoryGirl::Attribute::Implicit.stubs(:new => attr)
-    subject.send(name)
-    factory.attributes.should include(attr)
-    FactoryGirl::Attribute::Implicit.should have_received(:new).with(name, factory)
+    factory.stubs(:define_attribute)
+    attribute = stub('attribute', :name => :name)
+    FactoryGirl::Attribute::Implicit.stubs(:new => attribute)
+    subject.send(:name)
+    FactoryGirl::Attribute::Implicit.should have_received(:new).with(:name, factory)
+    factory.should have_received(:define_attribute).with(attribute)
+  end
+end
+
+describe FactoryGirl::DefinitionProxy, "with a factory mock" do
+  before do
+    define_class("FactoryMock") do
+      def add_callback(callback, &block)
+        [callback, block.call]
+      end
+
+      def to_create(&block)
+        block.call
+      end
+    end
   end
 
-  it "adds an association when passed an undefined method with a hash including :factory key" do
-    name = :author
-    factory_name = :user
-    overrides = { :first_name => 'Ben' }
-    args = { :factory => factory_name }.merge(overrides)
-    attr = stub('attribute', :name => name)
-    FactoryGirl::Attribute::Association.stubs(:new => attr)
-    subject.send(name, args)
-    factory.attributes.should include(attr)
-    FactoryGirl::Attribute::Association.should have_received(:new).with(name, factory_name, overrides)
+  let(:factory_mock) { FactoryMock.new }
+  subject { FactoryGirl::DefinitionProxy.new(factory_mock) }
+
+  it "defines after_build callbacks" do
+    subject.after_build { "after_build value" }.should == [:after_build, "after_build value"]
   end
 
-  it "delegates to_create" do
-    result = 'expected'
-    factory.stubs(:to_create => result)
-    subject.to_create.should == result
-    factory.should have_received(:to_create)
+  it "defines after_create callbacks" do
+    subject.after_create { "after_create value" }.should == [:after_create, "after_create value"]
+  end
+
+  it "defines after_stub callbacks" do
+    subject.after_stub { "after_stub value" }.should == [:after_stub, "after_stub value"]
+  end
+
+  it "defines to_create" do
+    subject.to_create { "to_create value" }.should == "to_create value"
+  end
+end
+
+describe FactoryGirl::DefinitionProxy, "adding attributes" do
+  let(:factory)         { FactoryGirl::Factory.new(:object) }
+  subject               { FactoryGirl::DefinitionProxy.new(factory) }
+  let(:attribute)       { stub("created attribute") }
+  let(:block)           { lambda { } }
+  let(:attribute_name)  { :full_name }
+  let(:attribute_value) { "passed value" }
+
+  before { factory.stubs(:define_attribute) }
+
+  context "when a block is passed" do
+    before { FactoryGirl::Attribute::Dynamic.stubs(:new => attribute) }
+
+    it "creates a dynamic attribute" do
+      subject.add_attribute(attribute_name, &block)
+      FactoryGirl::Attribute::Dynamic.should have_received(:new).with(attribute_name, block)
+      factory.should have_received(:define_attribute).with(attribute)
+    end
+
+    it "creates a dynamic attribute without the method being defined" do
+      subject.send(attribute_name, &block)
+      FactoryGirl::Attribute::Dynamic.should have_received(:new).with(attribute_name, block)
+      factory.should have_received(:define_attribute).with(attribute)
+    end
+  end
+
+  context "when a value is passed" do
+    before { FactoryGirl::Attribute::Static.stubs(:new => attribute) }
+
+    it "creates a static attribute" do
+      subject.add_attribute(attribute_name, attribute_value)
+      FactoryGirl::Attribute::Static.should have_received(:new).with(attribute_name, attribute_value)
+      factory.should have_received(:define_attribute).with(attribute)
+    end
+
+    it "creates a static attribute without the method being defined" do
+      subject.send(attribute_name, attribute_value)
+      FactoryGirl::Attribute::Static.should have_received(:new).with(attribute_name, attribute_value)
+      factory.should have_received(:define_attribute).with(attribute)
+    end
+  end
+
+  context "when a block and value are passed" do
+    it "raises an exception" do
+      expect do
+        subject.add_attribute(attribute_name, attribute_value) { "block" }
+      end.to raise_error(FactoryGirl::AttributeDefinitionError, "Both value and block given")
+    end
+  end
+end
+
+describe FactoryGirl::DefinitionProxy, "#association" do
+  let(:factory)          { FactoryGirl::Factory.new(:object) }
+  subject                { FactoryGirl::DefinitionProxy.new(factory) }
+  let(:attribute)        { stub("attribute") }
+  let(:association_name) { :author }
+  let(:factory_name)     { :user }
+
+  before do
+    FactoryGirl::Attribute::Association.stubs(:new => attribute)
+    factory.stubs(:define_attribute)
+  end
+
+  context "with a factory set in the hash" do
+    let(:options) { { :factory => factory_name, :name => "John Doe" } }
+
+    it "defines an association attribute with the factory name" do
+      subject.association(association_name, options)
+
+      factory.should have_received(:define_attribute).with(attribute)
+      FactoryGirl::Attribute::Association.should have_received(:new).with(association_name, factory_name, :name => "John Doe")
+    end
+
+    it "defines an association attribute when the association is called implicitly" do
+      subject.send(association_name, options)
+
+      factory.should have_received(:define_attribute).with(attribute)
+      FactoryGirl::Attribute::Association.should have_received(:new).with(association_name, factory_name, :name => "John Doe")
+    end
+  end
+
+  context "without a factory set in the hash" do
+    let(:options) { { :name => "Jane Doe" } }
+
+    it "defines an association attribute with the association name" do
+      subject.association(association_name, options)
+
+      factory.should have_received(:define_attribute).with(attribute)
+      FactoryGirl::Attribute::Association.should have_received(:new).with(association_name, association_name, options)
+    end
   end
 end

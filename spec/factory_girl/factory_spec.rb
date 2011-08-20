@@ -23,36 +23,6 @@ describe FactoryGirl::Factory do
     @factory.default_strategy.should == :create
   end
 
-  describe "after adding an attribute" do
-    before do
-      @attribute = stub("attribute", :name => :name, :add_to => nil)
-      @proxy     = stub("proxy", :result => "result", :set => nil)
-
-      FactoryGirl::Attribute::Static.stubs(:new => @attribute)
-      FactoryGirl::Proxy::Build.stubs(:new => @proxy)
-
-      @factory.define_attribute(@attribute)
-    end
-
-    it "should create the right proxy using the build class when running" do
-      FactoryGirl::Proxy::Build.stubs(:new => @proxy)
-      @factory.run(FactoryGirl::Proxy::Build, {})
-      FactoryGirl::Proxy::Build.should have_received(:new).with(@factory.build_class)
-    end
-
-    it "should add the attribute to the proxy when running" do
-      @attribute.stubs(:add_to)
-      @factory.run(FactoryGirl::Proxy::Build, {})
-      @attribute.should have_received(:add_to).with(@proxy)
-    end
-
-    it "should return the result from the proxy when running" do
-      @proxy.stubs(:result => "result")
-      @factory.run(FactoryGirl::Proxy::Build, {}).should == 'result'
-      @proxy.should have_received(:result).with(nil)
-    end
-  end
-
   it "passes a custom creation block" do
     proxy = stub("proxy", :result => nil)
     FactoryGirl::Proxy::Build.stubs(:new => proxy)
@@ -334,5 +304,33 @@ describe FactoryGirl::Factory, "human names" do
     subject           { FactoryGirl::Factory.new(:happy_user, :aliases => [:gleeful_user, :person]) }
     its(:names)       { should == [:happy_user, :gleeful_user, :person] }
     its(:human_names) { should == ["happy user", "gleeful user", "person"] }
+  end
+end
+
+describe FactoryGirl::Factory, "running a factory" do
+  subject             { FactoryGirl::Factory.new(:user) }
+  let(:attribute)     { stub("attribute", :name => :name, :add_to => nil) }
+  let(:proxy)         { stub("proxy", :result => "result", :set => nil) }
+
+  before do
+    define_class("User")
+    FactoryGirl::Attribute::Static.stubs(:new => attribute)
+    FactoryGirl::Proxy::Build.stubs(:new => proxy)
+    FactoryGirl::AttributeList.stubs(:new => [attribute])
+  end
+
+  it "creates the right proxy using the build class when running" do
+    subject.run(FactoryGirl::Proxy::Build, {})
+    FactoryGirl::Proxy::Build.should have_received(:new).with(subject.build_class)
+  end
+
+  it "adds the attribute to the proxy when running" do
+    subject.run(FactoryGirl::Proxy::Build, {})
+    attribute.should have_received(:add_to).with(proxy)
+  end
+
+  it "returns the result from the proxy when running" do
+    subject.run(FactoryGirl::Proxy::Build, {}).should == "result"
+    proxy.should have_received(:result).with(nil)
   end
 end
