@@ -309,11 +309,11 @@ end
 
 describe FactoryGirl::Factory, "running a factory" do
   subject             { FactoryGirl::Factory.new(:user) }
-  let(:attribute)     { stub("attribute", :name => :name, :add_to => nil) }
+  let(:attribute)     { stub("attribute", :name => :name, :add_to => nil, :aliases_for? => true) }
   let(:proxy)         { stub("proxy", :result => "result", :set => nil) }
 
   before do
-    define_class("User")
+    define_model("User", :name => :string)
     FactoryGirl::Attribute::Static.stubs(:new => attribute)
     FactoryGirl::Proxy::Build.stubs(:new => proxy)
     FactoryGirl::AttributeList.stubs(:new => [attribute])
@@ -332,5 +332,10 @@ describe FactoryGirl::Factory, "running a factory" do
   it "returns the result from the proxy when running" do
     subject.run(FactoryGirl::Proxy::Build, {}).should == "result"
     proxy.should have_received(:result).with(nil)
+  end
+
+  it "sets overrides once on the factory" do
+    subject.run(FactoryGirl::Proxy::Build, { :name => "John Doe" })
+    proxy.should have_received(:set).once
   end
 end
