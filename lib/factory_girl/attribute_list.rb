@@ -58,6 +58,7 @@ module FactoryGirl
     def add_attribute(attribute)
       @attributes[attribute.priority] ||= []
       @attributes[attribute.priority] << attribute
+      attribute
     end
 
     def prepend_attributes(new_attributes)

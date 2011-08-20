@@ -12,6 +12,11 @@ describe FactoryGirl::AttributeList, "#define_attribute" do
     subject.to_a.should == [static_attribute, dynamic_attribute]
   end
 
+  it "returns the attribute" do
+    subject.define_attribute(static_attribute).should == static_attribute
+    subject.define_attribute(dynamic_attribute).should == dynamic_attribute
+  end
+
   it "raises if an attribute has already been defined" do
     expect {
       2.times { subject.define_attribute(static_attribute) }
@@ -49,7 +54,6 @@ describe FactoryGirl::AttributeList, "#add_callback" do
   let(:valid_callback_names) { [:after_create, :after_build, :after_stub] }
   let(:invalid_callback_names) { [:before_create, :before_build, :bogus] }
 
-
   it "allows for defining adding a callback" do
     subject.add_callback(:after_create) { "Called after_create" }
 
@@ -57,6 +61,10 @@ describe FactoryGirl::AttributeList, "#add_callback" do
 
     subject.first.add_to(proxy)
     proxy.callbacks[:after_create].first.call.should == "Called after_create"
+  end
+
+  it "returns the callback" do
+    subject.add_callback(:after_create) { "Called after_create" }.should be_a(FactoryGirl::Attribute::Callback)
   end
 
   it "allows valid callback names to be assigned" do
