@@ -3,7 +3,7 @@ module FactoryGirl
     include Enumerable
 
     def initialize
-      @attributes = []
+      @attributes = {}
     end
 
     def define_attribute(attribute)
@@ -11,7 +11,7 @@ module FactoryGirl
         raise AttributeDefinitionError, "Attribute already defined: #{attribute.name}"
       end
 
-      @attributes << attribute
+      add_attribute attribute
     end
 
     def add_callback(name, &block)
@@ -19,15 +19,15 @@ module FactoryGirl
         raise InvalidCallbackNameError, "#{name} is not a valid callback name. Valid callback names are #{valid_callback_names.inspect}"
       end
 
-      @attributes << Attribute::Callback.new(name.to_sym, block)
+      add_attribute Attribute::Callback.new(name.to_sym, block)
     end
 
     def each(&block)
-      @attributes.each(&block)
+      flattened_attributes.each(&block)
     end
 
     def attribute_defined?(attribute_name)
-      !@attributes.detect do |attribute|
+      !@attributes.values.flatten.detect do |attribute|
         attribute.name == attribute_name &&
           !attribute.is_a?(FactoryGirl::Attribute::Callback)
       end.nil?
@@ -38,7 +38,7 @@ module FactoryGirl
 
       attributes_to_apply.each do |attribute|
         if attribute_defined?(attribute.name)
-          @attributes.delete_if do |attrib|
+          @attributes[attribute.priority].delete_if do |attrib|
             new_attributes << attrib.clone if attrib.name == attribute.name
           end
         else
@@ -46,14 +46,32 @@ module FactoryGirl
         end
       end
 
-      @attributes.unshift *new_attributes
-      @attributes = @attributes.partition {|attr| attr.priority.zero? }.flatten
+      prepend_attributes new_attributes
     end
 
     private
 
     def valid_callback_names
       [:after_build, :after_create, :after_stub]
+    end
+
+    def add_attribute(attribute)
+      @attributes[attribute.priority] ||= []
+      @attributes[attribute.priority] << attribute
+    end
+
+    def prepend_attributes(new_attributes)
+      new_attributes.group_by {|attr| attr.priority }.each do |priority, attributes|
+        @attributes[priority] ||= []
+        @attributes[priority].unshift *attributes
+      end
+    end
+
+    def flattened_attributes
+      @attributes.keys.sort.inject([]) do |result, key|
+        result << @attributes[key]
+        result
+      end.flatten
     end
   end
 end
