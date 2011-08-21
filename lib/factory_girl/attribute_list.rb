@@ -38,8 +38,10 @@ module FactoryGirl
 
       attributes_to_apply.each do |attribute|
         if attribute_defined?(attribute.name)
-          @attributes[attribute.priority].delete_if do |attrib|
-            new_attributes << attrib.clone if attrib.name == attribute.name
+          @attributes.each_value do |attributes|
+            attributes.delete_if do |attrib|
+              new_attributes << attrib.clone if attrib.name == attribute.name
+            end
           end
         else
           new_attributes << attribute.clone
