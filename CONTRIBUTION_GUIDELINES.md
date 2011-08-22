@@ -5,5 +5,6 @@ Contributing to factory_girl:
 3. Send a pull request.
 
 Notes:
+
 * Contributions without tests won't be accepted.
 * Please don't update the Gem version.
