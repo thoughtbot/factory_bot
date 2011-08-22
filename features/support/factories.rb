@@ -21,6 +21,11 @@ class CreateSchema < ActiveRecord::Migration
       t.string :name
     end
 
+    create_table :tags, :force => true do |t|
+      t.integer :post_id
+      t.string :name
+    end
+
     create_table :users, :force => true do |t|
       t.string  :name
       t.boolean :admin, :default => false, :null => false
@@ -43,6 +48,11 @@ end
 class Post < ActiveRecord::Base
   belongs_to :author, :class_name => 'User'
   belongs_to :category
+  has_many :tags
+end
+
+class Tag < ActiveRecord::Base
+  belongs_to :post
 end
 
 class NonActiveRecord
@@ -74,6 +84,9 @@ FactoryGirl.define do
     category
   end
 
+  factory :tag do
+    post
+  end
   # This is here to ensure that factory step definitions don't raise for a non-AR factory
   factory :non_active_record do
   end

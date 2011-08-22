@@ -11,8 +11,30 @@ Then /^there should be (\d+) (.*)$/ do |count, model|
   model_class.count.should == count.to_i
 end
 
+Then /^the post "([^"]*)" should (not )?have the following tags?:$/ do |post_title, negate, table|
+  post = Post.find_by_title!(post_title)
+
+  table.hashes.each do |row|
+    tag = Tag.find_by_name(row[:name])
+
+    if negate
+      post.tags.should_not include(tag)
+    else
+      post.tags.should include(tag)
+    end
+  end
+end
+
+Transform /^table:(?:.*,)?tags(?:,.*)?$/ do |table|
+  table.map_column!("tags") do |tags|
+    tags.split(',').map {|tag| Tag.find_by_name! tag.strip }
+  end
+  table
+end
+
 Before do
   Post.delete_all
+  Tag.delete_all
   User.delete_all
   Category.delete_all
   CategoryGroup.delete_all
