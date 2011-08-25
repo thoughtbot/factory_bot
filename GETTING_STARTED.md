@@ -176,7 +176,7 @@ Within Factory Girl's dynamic attributes, you can access ignored attributes as y
 Associations
 ------------
 
-It's possbile to set up associations within factories. If the factory name is the same as the association name, the factory name can be left out.
+It's possible to set up associations within factories. If the factory name is the same as the association name, the factory name can be left out.
 
     factory :post do
       # ...
