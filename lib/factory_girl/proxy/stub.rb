@@ -60,12 +60,16 @@ module FactoryGirl
 
       def associate(name, factory_name, overrides)
         factory = FactoryGirl.factory_by_name(factory_name)
-        set(name, factory.run(Proxy::Stub, overrides))
+        set(name, factory.run(Proxy::Stub, remove_method(overrides)))
       end
 
       def association(factory_name, overrides = {})
         factory = FactoryGirl.factory_by_name(factory_name)
-        factory.run(Proxy::Stub, overrides)
+        factory.run(Proxy::Stub, remove_method(overrides))
+      end
+
+      def remove_method(overrides)
+        overrides.dup.delete_if {|key, value| key == :method}
       end
 
       def result(to_create)

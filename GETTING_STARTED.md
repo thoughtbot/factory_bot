@@ -194,13 +194,25 @@ The behavior of the association method varies depending on the build strategy us
 
     # Builds and saves a User and a Post
     post = FactoryGirl.create(:post)
-    post.new_record?       # => false
-    post.author.new_record # => false
+    post.new_record?        # => false
+    post.author.new_record? # => false
 
     # Builds and saves a User, and then builds but does not save a Post
     post = FactoryGirl.build(:post)
-    post.new_record?       # => true
-    post.author.new_record # => false
+    post.new_record?        # => true
+    post.author.new_record? # => false
+
+To not save the associated object, specify :method => :build in the factory:
+
+    factory :post do
+      # ...
+      association :author, :factory => :user, :method => :build
+    end
+
+    # Builds a User, and then builds a Post, but does not save either
+    post = FactoryGirl.build(:post)
+    post.new_record?        # => true
+    post.author.new_record? # => true
 
 Inheritance
 -----------
