@@ -166,8 +166,8 @@ There may be times where your code can be DRYed up by passing in transient attri
       end
     end
 
-FactoryGirl.create(:user, :upcased => true).name
-# => "JOHN DOE - ROCKSTAR"
+    FactoryGirl.create(:user, :upcased => true).name
+    #=> "JOHN DOE - ROCKSTAR"
 
 Static and dynamic attributes can be ignored. Ignored attributes will be ignored within attributes_for and won't be set on the model, even if the attribute exists or you attempt to override it.
 
