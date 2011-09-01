@@ -69,7 +69,7 @@ factory_girl supports several different build strategies: build, create, attribu
     attrs = FactoryGirl.attributes_for(:user)
 
     # Returns an object with all defined attributes stubbed out
-    stub = FactoryGirl.stub(:user)
+    stub = FactoryGirl.build_stubbed(:user)
 
 No matter which strategy is used, it's possible to override the defined attributes by passing a hash:
 
