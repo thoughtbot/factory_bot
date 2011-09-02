@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    factory_girl (2.0.5)
+    factory_girl (2.1.0)
 
 GEM
   remote: http://rubygems.org/
