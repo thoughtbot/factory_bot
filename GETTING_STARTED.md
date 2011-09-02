@@ -447,6 +447,8 @@ When modifying a factory, you can change any of the attributes you want (aside f
 
 A couple caveats: you can only modify factories (not sequences or traits) and callbacks *still compound as they normally would*. So, if
 the factory you're modifying defines an `after_create` callback, you defining an `after_create` won't override it, it'll just get run after the first callback.
+You also can't modify attributes assigned by traits. So, if you have a trait that grants a name attribute, and you modify the factory to set the name,
+it currently will reflect the name in the trait instead of the modified name.
 
 Building or Creating Multiple Records
 -------------------------------------
