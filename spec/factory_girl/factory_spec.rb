@@ -308,15 +308,17 @@ describe FactoryGirl::Factory, "human names" do
 end
 
 describe FactoryGirl::Factory, "running a factory" do
-  subject             { FactoryGirl::Factory.new(:user) }
-  let(:attribute)     { stub("attribute", :name => :name, :ignored => false, :add_to => nil, :aliases_for? => true) }
-  let(:proxy)         { stub("proxy", :result => "result", :set => nil) }
+  subject              { FactoryGirl::Factory.new(:user) }
+  let(:attribute)      { stub("attribute", :name => :name, :ignored => false, :add_to => nil, :aliases_for? => true) }
+  let(:attribute_list) { [attribute] }
+  let(:proxy)          { stub("proxy", :result => "result", :set => nil) }
 
   before do
     define_model("User", :name => :string)
     FactoryGirl::Attribute::Static.stubs(:new => attribute)
     FactoryGirl::Proxy::Build.stubs(:new => proxy)
-    FactoryGirl::AttributeList.stubs(:new => [attribute])
+    attribute_list.stubs(:apply_attributes)
+    FactoryGirl::AttributeList.stubs(:new => attribute_list)
   end
 
   it "creates the right proxy using the build class when running" do

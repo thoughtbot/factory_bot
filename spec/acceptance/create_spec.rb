@@ -89,4 +89,3 @@ describe "a custom create" do
     FactoryGirl.create(:user).should be_persisted
   end
 end
-

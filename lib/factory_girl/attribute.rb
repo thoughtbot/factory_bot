@@ -42,6 +42,10 @@ module FactoryGirl
       self.priority <=> another.priority
     end
 
+    def ==(another)
+      self.object_id == another.object_id
+    end
+
     private
 
     def ensure_non_attribute_writer!

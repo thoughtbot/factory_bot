@@ -403,6 +403,51 @@ Calling FactoryGirl.create will invoke both after_build and after_create callbac
 
 Also, like standard attributes, child factories will inherit (and can also define) callbacks from their parent factory.
 
+Modifying factories
+-------------------
+
+If you're given a set of factories (say, from a gem developer) but want to change them to fit into your application better, you can
+modify that factory instead of creating a child factory and adding attributes there.
+
+If a gem were to give you a User factory:
+
+    FactoryGirl.define do
+      factory :user do
+        full_name "John Doe"
+        sequence(:username) {|n| "user#{n}" }
+        password "password"
+      end
+    end
+
+Instead of creating a child factory that added additional attributes:
+
+    FactoryGirl.define do
+      factory :application_user, :parent => :user do
+        full_name     { Faker::Name.name }
+        date_of_birth { 21.years.ago }
+        gender        "Female"
+        health        90
+      end
+    end
+
+You could modify that factory instead.
+
+    FactoryGirl.modify do
+      factory :user do
+        full_name     { Faker::Name.name }
+        date_of_birth { 21.years.ago }
+        gender        "Female"
+        health        90
+      end
+    end
+
+When modifying a factory, you can change any of the attributes you want (aside from callbacks).
+
+`FactoryGirl.modify` must be called outside of a `FactoryGirl.define` block as it operates on factories differently.
+
+A couple caveats: you can only modify factories (not sequences or traits) and callbacks *still compound as they normally would*. So, if
+the factory you're modifying defines an `after_create` callback, you defining an `after_create` won't override it, it'll just get run after the first callback.
+
 Building or Creating Multiple Records
 -------------------------------------
 

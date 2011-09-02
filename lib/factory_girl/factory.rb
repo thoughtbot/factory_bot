@@ -34,18 +34,37 @@ module FactoryGirl
 
     def initialize(name, options = {}) #:nodoc:
       assert_valid_options(options)
-      @name           = factory_name_for(name)
-      @parent         = options[:parent]
-      @options        = options
-      @attribute_list = AttributeList.new
-      @traits         = []
+      @name                     = factory_name_for(name)
+      @parent                   = options[:parent]
+      @options                  = options
+      @traits                   = []
+      @children                 = []
+      @attribute_list           = AttributeList.new
+      @inherited_attribute_list = AttributeList.new
+    end
+
+    def allow_overrides
+      @attribute_list.overridable
+      @inherited_attribute_list.overridable
+      self
+    end
+
+    def allow_overrides?
+      @attribute_list.overridable?
     end
 
     def inherit_from(parent) #:nodoc:
       @options[:class]            ||= parent.class_name
       @options[:default_strategy] ||= parent.default_strategy
 
-      apply_attributes(parent.attributes)
+      allow_overrides if parent.allow_overrides?
+      parent.add_child(self)
+
+      @inherited_attribute_list.apply_attributes(parent.attributes)
+    end
+
+    def add_child(factory)
+      @children << factory unless @children.include?(factory)
     end
 
     def apply_traits(traits) #:nodoc:
@@ -63,7 +82,7 @@ module FactoryGirl
         raise AssociationDefinitionError, "Self-referencing association '#{attribute.name}' in factory '#{self.name}'"
       end
 
-      @attribute_list.define_attribute(attribute)
+      @attribute_list.define_attribute(attribute).tap { update_children }
     end
 
     def define_trait(trait)
@@ -75,13 +94,17 @@ module FactoryGirl
     end
 
     def attributes
-      @attribute_list.to_a
+      AttributeList.new.tap do |list|
+        list.apply_attributes(@attribute_list)
+        list.apply_attributes(@inherited_attribute_list)
+      end.to_a
     end
 
     def run(proxy_class, overrides) #:nodoc:
       proxy = proxy_class.new(build_class)
       overrides = symbolize_keys(overrides)
-      @attribute_list.each do |attribute|
+
+      attributes.each do |attribute|
         factory_overrides = overrides.select { |attr, val| attribute.aliases_for?(attr) }
         if factory_overrides.empty?
           attribute.add_to(proxy)
@@ -145,6 +168,10 @@ module FactoryGirl
     end
 
     private
+
+    def update_children
+      @children.each { |child| child.inherit_from(self) }
+    end
 
     def class_for (class_or_to_s)
       if class_or_to_s.respond_to?(:to_sym)

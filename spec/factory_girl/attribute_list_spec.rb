@@ -1,5 +1,14 @@
 require "spec_helper"
 
+describe FactoryGirl::AttributeList, "overridable" do
+  it { should_not be_overridable }
+
+  it "can set itself as overridable" do
+    subject.overridable
+    subject.should be_overridable
+  end
+end
+
 describe FactoryGirl::AttributeList, "#define_attribute" do
   let(:static_attribute)  { FactoryGirl::Attribute::Static.new(:full_name, "value") }
   let(:dynamic_attribute) { FactoryGirl::Attribute::Dynamic.new(:email, lambda {|u| "#{u.full_name}@example.com" }) }
@@ -21,6 +30,18 @@ describe FactoryGirl::AttributeList, "#define_attribute" do
     expect {
       2.times { subject.define_attribute(static_attribute) }
     }.to raise_error(FactoryGirl::AttributeDefinitionError, "Attribute already defined: full_name")
+  end
+
+  context "when set as overridable" do
+    let(:static_attribute_with_same_name) { FactoryGirl::Attribute::Static.new(:full_name, "overridden value") }
+    before { subject.overridable }
+
+    it "redefines the attribute if the name already exists" do
+      subject.define_attribute(static_attribute)
+      subject.define_attribute(static_attribute_with_same_name)
+
+      subject.to_a.should == [static_attribute_with_same_name]
+    end
   end
 end
 
@@ -109,11 +130,42 @@ describe FactoryGirl::AttributeList, "#apply_attributes" do
     subject.to_a.should == [city_attribute, full_name_attribute, email_attribute, login_attribute]
   end
 
-  it "overwrites attributes that are already defined" do
+  it "doesn't overwrite attributes that are already defined" do
     subject.define_attribute(full_name_attribute)
     attribute_with_same_name = FactoryGirl::Attribute::Static.new(:full_name, "Benjamin Franklin")
 
     subject.apply_attributes([attribute_with_same_name])
-    subject.to_a.should == [attribute_with_same_name]
+    subject.to_a.should == [full_name_attribute]
+  end
+
+  context "when set as overridable" do
+    before { subject.overridable }
+
+    it "prepends applied attributes" do
+      subject.define_attribute(full_name_attribute)
+      subject.apply_attributes([city_attribute])
+      subject.to_a.should == [city_attribute, full_name_attribute]
+    end
+
+    it "moves non-static attributes to the end of the list" do
+      subject.define_attribute(full_name_attribute)
+      subject.apply_attributes([city_attribute, email_attribute])
+      subject.to_a.should == [city_attribute, full_name_attribute, email_attribute]
+    end
+
+    it "maintains order of non-static attributes" do
+      subject.define_attribute(full_name_attribute)
+      subject.define_attribute(login_attribute)
+      subject.apply_attributes([city_attribute, email_attribute])
+      subject.to_a.should == [city_attribute, full_name_attribute, email_attribute, login_attribute]
+    end
+
+    it "overwrites attributes that are already defined" do
+      subject.define_attribute(full_name_attribute)
+      attribute_with_same_name = FactoryGirl::Attribute::Static.new(:full_name, "Benjamin Franklin")
+
+      subject.apply_attributes([attribute_with_same_name])
+      subject.to_a.should == [attribute_with_same_name]
+    end
   end
 end
