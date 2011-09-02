@@ -22,6 +22,7 @@ require 'factory_girl/syntax/methods'
 require 'factory_girl/syntax/default'
 require 'factory_girl/syntax/vintage'
 require 'factory_girl/find_definitions'
+require 'factory_girl/reload'
 require 'factory_girl/deprecated'
 require 'factory_girl/version'
 

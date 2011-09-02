@@ -44,19 +44,32 @@ Feature: Factory girl can find factory definitions correctly
       | name     |
       | great!!! |
 
-  Scenario: Find definitions after clearing loaded factories
-    Given a file named "nested/swell_factories.rb" with:
+  Scenario: Reload Factory Girl
+    Given a file named "nested/reload_factories.rb" with:
     """
     FactoryGirl.define do
-      factory :swell_category, :class => Category do
-        name "swell!!!"
+      sequence(:great)
+      trait :admin do
+        admin true
+      end
+
+      factory :handy_category, :class => Category do
+        name "handy"
       end
     end
     """
     When "nested" is added to Factory Girl's file definitions path
-    And I clear out the factories
-    And I find definitions
-    And I create a "swell_category" instance from Factory Girl
+    And I append to "nested/reload_factories.rb" with:
+    """
+
+    FactoryGirl.modify do
+      factory :handy_category do
+        name "HANDY!!!"
+      end
+    end
+    """
+    And I reload factories
+    And I create a "handy_category" instance from Factory Girl
     Then I should find the following for the last category:
       | name     |
-      | swell!!! |
+      | HANDY!!! |

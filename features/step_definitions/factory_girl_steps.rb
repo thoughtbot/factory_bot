@@ -34,10 +34,10 @@ Given /^these super users exist:$/ do |table|
   Given %{the following person exists:}, new_table
 end
 
-When /^I clear out the factories$/ do
-  FactoryGirl.factories.clear
-end
-
 When /^I find definitions$/ do
   FactoryGirl.find_definitions
+end
+
+When /^I reload factories$/ do
+  FactoryGirl.reload
 end
