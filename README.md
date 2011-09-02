@@ -49,6 +49,8 @@ factory_girl was written by Joe Ferris with contributions from several authors, 
 * Josh Nichols
 * Josh Owens
 * Nate Sutton
+* Josh Clayton
+* Thomas Walpole
 
 The syntax layers are derived from software written by the following authors:
 
