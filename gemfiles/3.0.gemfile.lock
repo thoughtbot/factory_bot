@@ -1,3 +1,8 @@
+PATH
+  remote: /Users/joshuaclayton/dev/gems/factory_girl
+  specs:
+    factory_girl (2.0.5)
+
 GEM
   remote: http://rubygems.org/
   specs:
@@ -11,8 +16,7 @@ GEM
       arel (~> 2.0.10)
       tzinfo (~> 0.3.23)
     activesupport (3.0.9)
-    appraisal (0.3.5)
-      aruba (~> 0.3.6)
+    appraisal (0.3.8)
       bundler
       rake
     arel (2.0.10)
@@ -62,13 +66,13 @@ PLATFORMS
 
 DEPENDENCIES
   activerecord (~> 3.0)
-  activesupport
-  appraisal (~> 0.3.5)
+  appraisal (~> 0.3.8)
+  aruba
   bluecloth
   bourne
   cucumber (~> 1.0.0)
+  factory_girl!
   mocha
-  rake
   rcov
   rspec (~> 2.0)
   sqlite3-ruby

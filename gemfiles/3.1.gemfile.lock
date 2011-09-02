@@ -1,5 +1,5 @@
 PATH
-  remote: .
+  remote: /Users/joshuaclayton/dev/gems/factory_girl
   specs:
     factory_girl (2.0.5)
 
@@ -22,10 +22,10 @@ GEM
       bundler
       rake
     arel (2.2.1)
-    aruba (0.4.6)
+    aruba (0.4.5)
       bcat (>= 0.6.1)
-      childprocess (>= 0.2.0)
-      cucumber (>= 1.0.2)
+      childprocess (>= 0.1.9)
+      cucumber (>= 0.10.7)
       rdiscount (>= 1.6.8)
       rspec (>= 2.6.0)
     bcat (0.6.1)
@@ -35,7 +35,7 @@ GEM
     bourne (1.0)
       mocha (= 0.9.8)
     builder (3.0.0)
-    childprocess (0.2.2)
+    childprocess (0.2.1)
       ffi (~> 1.0.6)
     cucumber (1.0.2)
       builder (>= 2.1.2)
@@ -75,7 +75,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  activerecord
+  activerecord (~> 3.1)
   appraisal (~> 0.3.8)
   aruba
   bluecloth

@@ -17,15 +17,16 @@ Gem::Specification.new do |s|
     s.email   = %q{jferris@thoughtbot.com}
     s.homepage = "https://github.com/thoughtbot/factory_girl"
 
-    s.add_development_dependency('rcov')
-    s.add_development_dependency('rspec')
-    s.add_development_dependency('cucumber')
-    s.add_development_dependency('activerecord', '~>2.3.5')
-    s.add_development_dependency('activerecord', '~>3.0.0.beta3')
-    s.add_development_dependency('mocha')
-    s.add_development_dependency('bourne')
-    s.add_development_dependency('sqlite3')
-    s.add_development_dependency('aruba')
+    s.add_development_dependency("rspec",    "~> 2.0")
+    s.add_development_dependency("cucumber", "~> 1.0.0")
+    s.add_development_dependency("rcov")
+    s.add_development_dependency("aruba")
+    s.add_development_dependency("mocha")
+    s.add_development_dependency("bourne")
+    s.add_development_dependency("appraisal", "~> 0.3.8")
+    s.add_development_dependency("sqlite3-ruby")
+    s.add_development_dependency("yard")
+    s.add_development_dependency("bluecloth")
 
     s.platform = Gem::Platform::RUBY
     s.rubygems_version = %q{1.2.0}
