@@ -1,4 +1,4 @@
-# factory_girl [![Build Status](https://secure.travis-ci.org/thoughtbot/factory_girl.png)](http://travis-ci.org/thoughtbot/factory_girl)
+# factory_girl [![Build Status](https://secure.travis-ci.org/thoughtbot/factory_girl.png)](http://travis-ci.org/thoughtbot/factory_girl?branch=master)
 
 factory_girl is a fixtures replacement with a straightforward definition syntax, support for multiple build strategies (saved instances, unsaved instances, attribute hashes, and stubbed objects), and support for multiple factories for the same class (user, admin_user, and so on), including factory inheritance.
 
