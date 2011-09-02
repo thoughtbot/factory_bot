@@ -8,6 +8,7 @@ require 'rspec/autorun'
 require 'factory_girl'
 require "mocha"
 require "bourne"
+require "timecop"
 
 Dir["spec/support/**/*.rb"].each { |f| require File.expand_path(f) }
 

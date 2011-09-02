@@ -13,8 +13,20 @@ describe FactoryGirl::Proxy::Stub do
     FactoryGirl::Proxy::Stub
 
   context "asking for a result" do
+    before { Timecop.freeze(Time.now) }
+    after  { Timecop.return }
+
     it { subject.result(nil).should_not be_new_record }
     it { subject.result(nil).should be_persisted }
+
+    it "assigns created_at" do
+      created_at = subject.result(nil).created_at
+      created_at.should == Time.now
+
+      Timecop.travel(150000)
+
+      subject.result(nil).created_at.should == created_at
+    end
 
     [:save, :destroy, :connection, :reload, :update_attribute].each do |database_method|
       it "raises when attempting to connect to the database by calling #{database_method}" do

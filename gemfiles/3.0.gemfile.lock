@@ -58,6 +58,7 @@ GEM
     sqlite3-ruby (1.3.3)
       sqlite3 (>= 1.3.3)
     term-ansicolor (1.0.5)
+    timecop (0.3.5)
     tzinfo (0.3.28)
     yard (0.7.2)
 
@@ -76,4 +77,5 @@ DEPENDENCIES
   rcov
   rspec (~> 2.0)
   sqlite3-ruby
+  timecop
   yard

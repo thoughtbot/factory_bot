@@ -12,6 +12,10 @@ module FactoryGirl
             !new_record?
           end
 
+          def created_at
+            @created_at ||= Time.now
+          end
+
           def new_record?
             id.nil?
           end

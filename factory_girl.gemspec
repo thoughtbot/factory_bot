@@ -22,6 +22,7 @@ Gem::Specification.new do |s|
 
     s.add_development_dependency("rspec",    "~> 2.0")
     s.add_development_dependency("cucumber", "~> 1.0.0")
+    s.add_development_dependency("timecop")
     s.add_development_dependency("rcov")
     s.add_development_dependency("aruba")
     s.add_development_dependency("mocha")
