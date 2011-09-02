@@ -9,9 +9,12 @@ Gem::Specification.new do |s|
                        using factories - less error-prone, more explicit, and
                        all-around easier to work with than fixtures.}
 
-    s.files        = Dir['[A-Z]*', 'lib/**/*.rb', 'spec/**/*.rb', 'features/**/*', 'rails/**/*']
+    all_files       = %x{git ls-files}.split("\n").reject {|file| file =~ /gemspec/ }
+
+    s.files         = all_files.reject {|file| file =~ /^(spec|features|cucumber|gemfiles|Appraisals)/ }
+    s.test_files    = all_files.select {|file| file =~ /^(spec|features|cucumber|gemfiles|Appraisals)/ }
+
     s.require_path = 'lib'
-    s.test_files   = Dir['spec/**/*_spec.rb', 'features/**/*']
 
     s.authors = ["Joe Ferris"]
     s.email   = %q{jferris@thoughtbot.com}
