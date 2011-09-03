@@ -9,6 +9,10 @@ module FactoryGirl
       def add_to(proxy)
         proxy.add_callback(name, @block)
       end
+
+      def callback?
+        true
+      end
     end
   end
 end

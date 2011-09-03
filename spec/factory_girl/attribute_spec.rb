@@ -7,6 +7,7 @@ describe FactoryGirl::Attribute do
 
   its(:name) { should == name.to_sym }
   it { should_not be_association }
+  it { should_not be_callback }
 
   it "doesn't set any attributes on a proxy when added" do
     proxy.stubs(:set)

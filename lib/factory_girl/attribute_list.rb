@@ -85,9 +85,8 @@ module FactoryGirl
     end
 
     def find_attribute(attribute_name)
-      @attributes.values.flatten.detect do |attribute|
-        attribute.name == attribute_name &&
-          !attribute.is_a?(FactoryGirl::Attribute::Callback)
+      @attributes.values.flatten.reject(&:callback?).detect do |attribute|
+        attribute.name == attribute_name
       end
     end
 

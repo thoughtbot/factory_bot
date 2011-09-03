@@ -29,6 +29,10 @@ module FactoryGirl
       false
     end
 
+    def callback?
+      false
+    end
+
     def priority
       1
     end

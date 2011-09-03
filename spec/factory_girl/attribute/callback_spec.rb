@@ -9,6 +9,8 @@ describe FactoryGirl::Attribute::Callback do
 
   its(:name)  { should == name }
 
+  it { should be_callback }
+
   it "set its callback on a proxy" do
     proxy.stubs(:add_callback)
     subject.add_to(proxy)
