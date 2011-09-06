@@ -4,7 +4,7 @@ Getting Started
 Update Your Gemfile
 -------------------
 
-If you're using Rails, you'll need to change the required version `factory_girl_rails`:
+If you're using Rails, you'll need to change the required version of `factory_girl_rails`:
 
     gem "factory_girl_rails", "~> 1.1"
 
