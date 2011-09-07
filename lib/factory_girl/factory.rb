@@ -41,6 +41,7 @@ module FactoryGirl
       @children                 = []
       @attribute_list           = AttributeList.new
       @inherited_attribute_list = AttributeList.new
+      @compiled                 = false
     end
 
     def allow_overrides
@@ -82,7 +83,8 @@ module FactoryGirl
         raise AssociationDefinitionError, "Self-referencing association '#{attribute.name}' in factory '#{self.name}'"
       end
 
-      @attribute_list.define_attribute(attribute).tap { update_children }
+      @attribute_list.define_attribute(attribute)
+      update_children if allow_overrides?
     end
 
     def define_trait(trait)
@@ -94,6 +96,7 @@ module FactoryGirl
     end
 
     def attributes
+      ensure_compiled
       AttributeList.new.tap do |list|
         list.apply_attributes(@attribute_list)
         list.apply_attributes(@inherited_attribute_list)
@@ -172,7 +175,22 @@ module FactoryGirl
       attributes.callbacks
     end
 
+    def compile
+      declarations.each do |declaration|
+        define_attribute(declaration.to_attribute)
+      end
+      @compiled = true
+    end
+
+    def declare_attribute(declaration)
+      @attribute_list.declare_attribute(declaration)
+    end
+
     private
+
+    def declarations
+      @attribute_list.declarations
+    end
 
     def update_children
       @children.each { |child| child.inherit_from(self) }
@@ -241,6 +259,10 @@ module FactoryGirl
 
     def trait_for(name)
       traits.detect {|trait| trait.name == name }
+    end
+
+    def ensure_compiled
+      compile unless @compiled
     end
   end
 end

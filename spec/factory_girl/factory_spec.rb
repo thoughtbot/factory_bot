@@ -38,9 +38,9 @@ describe FactoryGirl::Factory do
   it "should return associations" do
     factory = FactoryGirl::Factory.new(:post)
     FactoryGirl.register_factory(FactoryGirl::Factory.new(:admin))
-    factory.define_attribute(FactoryGirl::Attribute::Association.new(:author, :author, {}))
-    factory.define_attribute(FactoryGirl::Attribute::Association.new(:editor, :editor, {}))
-    factory.define_attribute(FactoryGirl::Attribute::Implicit.new(:admin))
+    factory.declare_attribute(FactoryGirl::Declaration::Association.new(:author, {}))
+    factory.declare_attribute(FactoryGirl::Declaration::Association.new(:editor, {}))
+    factory.declare_attribute(FactoryGirl::Declaration::Implicit.new(:admin, factory))
     factory.associations.each do |association|
       association.should be_association
     end
@@ -164,6 +164,11 @@ describe FactoryGirl::Factory do
     child = FactoryGirl::Factory.new(:child)
     child.inherit_from(@factory)
     child.callbacks.should_not be_empty
+  end
+
+  it "compiles when looking for attributes" do
+    @factory.declare_attribute(FactoryGirl::Declaration::Static.new("name", "value"))
+    @factory.attributes.size.should == 1
   end
 end
 
@@ -308,9 +313,11 @@ describe FactoryGirl::Factory, "human names" do
 end
 
 describe FactoryGirl::Factory, "running a factory" do
-  subject         { FactoryGirl::Factory.new(:user) }
-  let(:attribute) { FactoryGirl::Attribute::Static.new(:name, "value") }
-  let(:proxy)     { stub("proxy", :result => "result", :set => nil) }
+  subject              { FactoryGirl::Factory.new(:user) }
+  let(:attribute)      { FactoryGirl::Attribute::Static.new(:name, "value") }
+  let(:proxy)          { stub("proxy", :result => "result", :set => nil) }
+  let(:attributes)     { [attribute] }
+  let(:attribute_list) { stub('attribute-list', :declarations => [], :to_a => attributes) }
 
   before do
     define_model("User", :name => :string)
