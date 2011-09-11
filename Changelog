@@ -1,3 +1,12 @@
+2.1.0 (September 02, 2011)
+  Bugfix: created_at now defined for stubbed models
+  Gemspec updated for use with Rails 3.1
+  Factories can now be modified post-definition (useful for overriding defaults from gems/plugins)
+  All factories can now be reloaded with Factory.reload
+  Add :method => build to factory associations to prevent saving of associated objects
+  Factories defined in {Rails.root}/factories are now loaded by default
+  Various documentation updates
+
 1.1.4 (November 28, 2008)
   Factory.build now uses Factory.create for associations of the built object
   Factory definitions are now detected in subdirectories, such as
