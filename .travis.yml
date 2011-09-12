@@ -8,3 +8,6 @@ gemfile:
   - gemfiles/2.3.gemfile
   - gemfiles/3.0.gemfile
   - gemfiles/3.1.gemfile
+branches:
+  only:
+    - master
