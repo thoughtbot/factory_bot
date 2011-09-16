@@ -15,7 +15,7 @@ module FactoryGirl
     end
 
     def add_callback(name, &block)
-      @attribute_list.add_callback(name, &block)
+      @attribute_list.add_callback(Callback.new(name, block))
     end
 
     def attributes

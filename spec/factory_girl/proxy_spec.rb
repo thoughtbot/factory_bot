@@ -23,62 +23,49 @@ describe FactoryGirl::Proxy do
   end
 
   describe "when adding callbacks" do
-    let(:block_1) { proc { "block 1" } }
-    let(:block_2) { proc { "block 2" } }
-
     it "adds a callback" do
-      subject.add_callback(:after_create, block_1)
-      subject.callbacks[:after_create].should be_eql([block_1])
+      callback = FactoryGirl::Callback.new(:after_create, lambda {})
+      subject.add_callback(callback)
+      subject.callbacks[:after_create].should == [callback]
     end
 
     it "adds multiple callbacks of the same name" do
-      subject.add_callback(:after_create, block_1)
-      subject.add_callback(:after_create, block_2)
-      subject.callbacks[:after_create].should be_eql([block_1, block_2])
+      one = FactoryGirl::Callback.new(:after_create, lambda {})
+      two = FactoryGirl::Callback.new(:after_create, lambda {})
+      subject.add_callback(one)
+      subject.add_callback(two)
+      subject.callbacks[:after_create].should == [one, two]
     end
 
     it "adds multiple callbacks with different names" do
-      subject.add_callback(:after_create, block_1)
-      subject.add_callback(:after_build,  block_2)
-      subject.callbacks[:after_create].should be_eql([block_1])
-      subject.callbacks[:after_build].should be_eql([block_2])
+      after_create = FactoryGirl::Callback.new(:after_create, lambda {})
+      after_build = FactoryGirl::Callback.new(:after_build, lambda {})
+      subject.add_callback(after_create)
+      subject.add_callback(after_build)
+      subject.callbacks[:after_create].should == [after_create]
+      subject.callbacks[:after_build].should == [after_build]
     end
   end
 
   describe "when running callbacks" do
-    let(:object_1_within_callback) { stub("call_in_create", :foo => true) }
-    let(:object_2_within_callback) { stub("call_in_create", :foo => true) }
-
     it "runs all callbacks with a given name" do
-      subject.add_callback(:after_create, proc { object_1_within_callback.foo })
-      subject.add_callback(:after_create, proc { object_2_within_callback.foo })
+      ran = []
+      one = FactoryGirl::Callback.new(:after_create, lambda { ran << :one })
+      two = FactoryGirl::Callback.new(:after_create, lambda { ran << :two })
+      subject.add_callback(one)
+      subject.add_callback(two)
       subject.run_callbacks(:after_create)
-      object_1_within_callback.should have_received(:foo).once
-      object_2_within_callback.should have_received(:foo).once
+      ran.should == [:one, :two]
     end
 
     it "only runs callbacks with a given name" do
-      subject.add_callback(:after_create, proc { object_1_within_callback.foo })
-      subject.add_callback(:after_build,  proc { object_2_within_callback.foo })
+      ran = []
+      after_create = FactoryGirl::Callback.new(:after_create, lambda { ran << :after_create })
+      after_build = FactoryGirl::Callback.new(:after_build, lambda { ran << :after_build })
+      subject.add_callback(after_create)
+      subject.add_callback(after_build)
       subject.run_callbacks(:after_create)
-      object_1_within_callback.should have_received(:foo).once
-      object_2_within_callback.should have_received(:foo).never
-    end
-
-    it "passes in the instance if the block takes an argument" do
-      subject.instance_variable_set("@instance", object_1_within_callback)
-      subject.add_callback(:after_create, proc {|spy| spy.foo })
-      subject.run_callbacks(:after_create)
-      object_1_within_callback.should have_received(:foo).once
-    end
-
-    it "passes in the instance and the proxy if the block takes two arguments" do
-      subject.instance_variable_set("@instance", object_1_within_callback)
-      proxy_instance = nil
-      subject.add_callback(:after_create, proc {|spy, proxy| spy.foo; proxy_instance = proxy })
-      subject.run_callbacks(:after_create)
-      object_1_within_callback.should have_received(:foo).once
-      proxy_instance.should == subject
+      ran.should == [:after_create]
     end
   end
 end

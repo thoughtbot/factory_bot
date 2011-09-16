@@ -18,8 +18,8 @@ module FactoryGirl
       add_attribute attribute
     end
 
-    def add_callback(name, &block)
-      @callbacks << Callback.new(name.to_sym, block)
+    def add_callback(callback)
+      @callbacks << callback
     end
 
     def each(&block)
@@ -31,7 +31,7 @@ module FactoryGirl
     end
 
     def apply_attributes(attributes_to_apply)
-      attributes_to_apply.callbacks.each { |callback| add_callback(callback.name, &callback.block) }
+      attributes_to_apply.callbacks.each { |callback| add_callback(callback) }
       new_attributes = []
 
       attributes_to_apply.each do |attribute|

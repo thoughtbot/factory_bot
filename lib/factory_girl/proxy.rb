@@ -4,6 +4,7 @@ module FactoryGirl
     attr_reader :callbacks
 
     def initialize(klass)
+      @callbacks = {}
     end
 
     def get(attribute)
@@ -15,20 +16,15 @@ module FactoryGirl
     def associate(name, factory, attributes)
     end
 
-    def add_callback(name, block)
-      @callbacks ||= {}
-      @callbacks[name] ||= []
-      @callbacks[name] << block
+    def add_callback(callback)
+      @callbacks[callback.name] ||= []
+      @callbacks[callback.name] << callback
     end
 
     def run_callbacks(name)
-      if @callbacks && @callbacks[name]
-        @callbacks[name].each do |block|
-          case block.arity
-          when 0 then block.call
-          when 2 then block.call(@instance, self)
-          else block.call(@instance)
-          end
+      if @callbacks[name]
+        @callbacks[name].each do |callback|
+          callback.run(@instance, self)
         end
       end
     end

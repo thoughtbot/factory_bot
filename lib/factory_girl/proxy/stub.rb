@@ -4,6 +4,7 @@ module FactoryGirl
       @@next_id = 1000
 
       def initialize(klass)
+        super(klass)
         @instance = klass.new
         @ignored_attributes = {}
         @instance.id = next_id

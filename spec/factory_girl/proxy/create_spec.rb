@@ -25,18 +25,16 @@ describe FactoryGirl::Proxy::Create do
   end
 
   context "callback execution order" do
-    let(:after_build_callback)  { stub("after_build callback", :foo => nil) }
-    let(:after_create_callback) { stub("after_create callback", :foo => nil) }
-    let(:callback_sequence)     { sequence("after_* callbacks") }
-
     it "runs after_build callbacks before after_create callbacks" do
-      subject.add_callback(:after_build,  proc { after_build_callback.foo })
-      subject.add_callback(:after_create, proc { after_create_callback.foo })
-
-      after_build_callback.expects(:foo).once.in_sequence(callback_sequence)
-      after_create_callback.expects(:foo).once.in_sequence(callback_sequence)
+      ran = []
+      after_create = FactoryGirl::Callback.new(:after_create, lambda { ran << :after_create })
+      after_build = FactoryGirl::Callback.new(:after_build, lambda { ran << :after_build })
+      subject.add_callback(after_create)
+      subject.add_callback(after_build)
 
       subject.result(nil)
+
+      ran.should == [:after_build, :after_create]
     end
   end
 end

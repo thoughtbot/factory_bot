@@ -90,7 +90,7 @@ module FactoryGirl
     end
 
     def add_callback(name, &block)
-      @attribute_list.add_callback(name, &block)
+      @attribute_list.add_callback(Callback.new(name, block))
     end
 
     def attributes
@@ -102,7 +102,7 @@ module FactoryGirl
 
     def run(proxy_class, overrides) #:nodoc:
       proxy = proxy_class.new(build_class)
-      callbacks.each { |callback| proxy.add_callback(callback.name, callback.block) }
+      callbacks.each { |callback| proxy.add_callback(callback) }
       overrides = symbolize_keys(overrides)
 
       attributes.each do |attribute|

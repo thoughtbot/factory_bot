@@ -114,7 +114,7 @@ shared_examples_for "proxy with callbacks" do |callback_name|
   let(:callback) { stub("#{callback_name} callback", :foo => nil) }
 
   before do
-    subject.add_callback(callback_name, proc { callback.foo })
+    subject.add_callback(FactoryGirl::Callback.new(callback_name, proc { callback.foo }))
   end
 
   it "runs the #{callback_name} callback" do

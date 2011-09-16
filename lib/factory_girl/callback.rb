@@ -10,6 +10,14 @@ module FactoryGirl
       check_name
     end
 
+    def run(instance, proxy)
+      case block.arity
+      when 1 then block.call(instance)
+      when 2 then block.call(instance, proxy)
+      else block.call
+      end
+    end
+
     private
 
     def check_name

@@ -2,6 +2,7 @@ module FactoryGirl
   class Proxy #:nodoc:
     class AttributesFor < Proxy #:nodoc:
       def initialize(klass)
+        super(klass)
         @hash = {}
         @ignored_attributes = {}
       end

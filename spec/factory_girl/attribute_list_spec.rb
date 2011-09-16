@@ -65,10 +65,10 @@ describe FactoryGirl::AttributeList, "#add_callback" do
   let(:proxy) { FactoryGirl::Proxy.new(proxy_class) }
 
   it "allows for defining adding a callback" do
-    subject.add_callback(:after_create) { "Called after_create" }
+    subject.add_callback(FactoryGirl::Callback.new(:after_create, lambda { "Called after_create" }))
 
     subject.callbacks.first.name.should == :after_create
-    subject.callbacks.first.block.call.should == "Called after_create"
+    subject.callbacks.first.run(nil, nil).should == "Called after_create"
   end
 end
 
