@@ -2,9 +2,12 @@ module FactoryGirl
   class AttributeList
     include Enumerable
 
+    attr_reader :callbacks
+
     def initialize
       @attributes  = {}
       @overridable = false
+      @callbacks = []
     end
 
     def define_attribute(attribute)
@@ -20,7 +23,7 @@ module FactoryGirl
         raise InvalidCallbackNameError, "#{name} is not a valid callback name. Valid callback names are #{valid_callback_names.inspect}"
       end
 
-      add_attribute Attribute::Callback.new(name.to_sym, block)
+      @callbacks << Callback.new(name.to_sym, block)
     end
 
     def each(&block)
@@ -32,6 +35,7 @@ module FactoryGirl
     end
 
     def apply_attributes(attributes_to_apply)
+      attributes_to_apply.callbacks.each { |callback| add_callback(callback.name, &callback.block) }
       new_attributes = []
 
       attributes_to_apply.each do |attribute|
@@ -54,6 +58,10 @@ module FactoryGirl
 
     def overridable?
       @overridable
+    end
+
+    def size
+      to_a.size
     end
 
     private
@@ -85,7 +93,7 @@ module FactoryGirl
     end
 
     def find_attribute(attribute_name)
-      @attributes.values.flatten.reject(&:callback?).detect do |attribute|
+      @attributes.values.flatten.detect do |attribute|
         attribute.name == attribute_name
       end
     end

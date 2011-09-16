@@ -47,7 +47,7 @@ end
 
 describe FactoryGirl::AttributeList, "#attribute_defined?" do
   let(:static_attribute)                    { FactoryGirl::Attribute::Static.new(:full_name, "value") }
-  let(:callback_attribute)                  { FactoryGirl::Attribute::Callback.new(:after_create, lambda { }) }
+  let(:callback_attribute)                  { FactoryGirl::Callback.new(:after_create, lambda { }) }
   let(:static_attribute_named_after_create) { FactoryGirl::Attribute::Static.new(:after_create, "funky!") }
 
   it "knows if an attribute has been defined" do
@@ -57,15 +57,6 @@ describe FactoryGirl::AttributeList, "#attribute_defined?" do
 
     subject.attribute_defined?(static_attribute.name).should == true
     subject.attribute_defined?(:undefined_attribute).should == false
-  end
-
-  it "doesn't reference callbacks" do
-    subject.define_attribute(callback_attribute)
-
-    subject.attribute_defined?(:after_create).should == false
-
-    subject.define_attribute(static_attribute_named_after_create)
-    subject.attribute_defined?(:after_create).should == true
   end
 end
 
@@ -78,14 +69,8 @@ describe FactoryGirl::AttributeList, "#add_callback" do
   it "allows for defining adding a callback" do
     subject.add_callback(:after_create) { "Called after_create" }
 
-    subject.first.name.should == :after_create
-
-    subject.first.add_to(proxy)
-    proxy.callbacks[:after_create].first.call.should == "Called after_create"
-  end
-
-  it "returns the callback" do
-    subject.add_callback(:after_create) { "Called after_create" }.should be_a(FactoryGirl::Attribute::Callback)
+    subject.callbacks.first.name.should == :after_create
+    subject.callbacks.first.block.call.should == "Called after_create"
   end
 
   it "allows valid callback names to be assigned" do
@@ -111,22 +96,28 @@ describe FactoryGirl::AttributeList, "#apply_attributes" do
   let(:email_attribute)     { FactoryGirl::Attribute::Dynamic.new(:email, lambda {|model| "#{model.full_name}@example.com" }) }
   let(:login_attribute)     { FactoryGirl::Attribute::Dynamic.new(:login, lambda {|model| "username-#{model.full_name}" }) }
 
+  def list(*attributes)
+    FactoryGirl::AttributeList.new.tap do |list|
+      attributes.each { |attribute| list.define_attribute(attribute) }
+    end
+  end
+
   it "prepends applied attributes" do
     subject.define_attribute(full_name_attribute)
-    subject.apply_attributes([city_attribute])
+    subject.apply_attributes(list(city_attribute))
     subject.to_a.should == [city_attribute, full_name_attribute]
   end
 
   it "moves non-static attributes to the end of the list" do
     subject.define_attribute(full_name_attribute)
-    subject.apply_attributes([city_attribute, email_attribute])
+    subject.apply_attributes(list(city_attribute, email_attribute))
     subject.to_a.should == [city_attribute, full_name_attribute, email_attribute]
   end
 
   it "maintains order of non-static attributes" do
     subject.define_attribute(full_name_attribute)
     subject.define_attribute(login_attribute)
-    subject.apply_attributes([city_attribute, email_attribute])
+    subject.apply_attributes(list(city_attribute, email_attribute))
     subject.to_a.should == [city_attribute, full_name_attribute, email_attribute, login_attribute]
   end
 
@@ -134,7 +125,7 @@ describe FactoryGirl::AttributeList, "#apply_attributes" do
     subject.define_attribute(full_name_attribute)
     attribute_with_same_name = FactoryGirl::Attribute::Static.new(:full_name, "Benjamin Franklin")
 
-    subject.apply_attributes([attribute_with_same_name])
+    subject.apply_attributes(list(attribute_with_same_name))
     subject.to_a.should == [full_name_attribute]
   end
 
@@ -143,20 +134,20 @@ describe FactoryGirl::AttributeList, "#apply_attributes" do
 
     it "prepends applied attributes" do
       subject.define_attribute(full_name_attribute)
-      subject.apply_attributes([city_attribute])
+      subject.apply_attributes(list(city_attribute))
       subject.to_a.should == [city_attribute, full_name_attribute]
     end
 
     it "moves non-static attributes to the end of the list" do
       subject.define_attribute(full_name_attribute)
-      subject.apply_attributes([city_attribute, email_attribute])
+      subject.apply_attributes(list(city_attribute, email_attribute))
       subject.to_a.should == [city_attribute, full_name_attribute, email_attribute]
     end
 
     it "maintains order of non-static attributes" do
       subject.define_attribute(full_name_attribute)
       subject.define_attribute(login_attribute)
-      subject.apply_attributes([city_attribute, email_attribute])
+      subject.apply_attributes(list(city_attribute, email_attribute))
       subject.to_a.should == [city_attribute, full_name_attribute, email_attribute, login_attribute]
     end
 
@@ -164,7 +155,7 @@ describe FactoryGirl::AttributeList, "#apply_attributes" do
       subject.define_attribute(full_name_attribute)
       attribute_with_same_name = FactoryGirl::Attribute::Static.new(:full_name, "Benjamin Franklin")
 
-      subject.apply_attributes([attribute_with_same_name])
+      subject.apply_attributes(list(attribute_with_same_name))
       subject.to_a.should == [attribute_with_same_name]
     end
   end

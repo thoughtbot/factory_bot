@@ -6,12 +6,12 @@ describe FactoryGirl::DefinitionProxy do
 
   it "should add a static attribute for type" do
     subject.type 'value'
-    factory.attributes.last.should be_kind_of(FactoryGirl::Attribute::Static)
+    factory.attributes.to_a.last.should be_kind_of(FactoryGirl::Attribute::Static)
   end
 
   it "should add a static attribute for id" do
     subject.id 'value'
-    factory.attributes.last.should be_kind_of(FactoryGirl::Attribute::Static)
+    factory.attributes.to_a.last.should be_kind_of(FactoryGirl::Attribute::Static)
   end
 
   it "should add a static attribute when an attribute is defined with a value" do

@@ -97,11 +97,12 @@ module FactoryGirl
       AttributeList.new.tap do |list|
         list.apply_attributes(@attribute_list)
         list.apply_attributes(@inherited_attribute_list)
-      end.to_a
+      end
     end
 
     def run(proxy_class, overrides) #:nodoc:
       proxy = proxy_class.new(build_class)
+      callbacks.each { |callback| proxy.add_callback(callback.name, callback.block) }
       overrides = symbolize_keys(overrides)
 
       attributes.each do |attribute|
@@ -165,6 +166,10 @@ module FactoryGirl
 
     def to_create(&block)
       @to_create_block = block
+    end
+
+    def callbacks
+      attributes.callbacks
     end
 
     private

@@ -19,7 +19,7 @@ module FactoryGirl
     end
 
     def attributes
-      @attribute_list.to_a
+      @attribute_list
     end
 
     def names

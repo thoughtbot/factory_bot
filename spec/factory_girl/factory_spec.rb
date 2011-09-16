@@ -159,11 +159,11 @@ describe FactoryGirl::Factory do
     end
   end
 
-  it "inherit all callbacks" do
+  it "inherits callbacks" do
     @factory.add_callback(:after_stub) { |object| object.name = 'Stubby' }
     child = FactoryGirl::Factory.new(:child)
     child.inherit_from(@factory)
-    child.attributes.last.should be_kind_of(FactoryGirl::Attribute::Callback)
+    child.callbacks.should_not be_empty
   end
 end
 
@@ -308,17 +308,16 @@ describe FactoryGirl::Factory, "human names" do
 end
 
 describe FactoryGirl::Factory, "running a factory" do
-  subject              { FactoryGirl::Factory.new(:user) }
-  let(:attribute)      { stub("attribute", :name => :name, :ignored => false, :add_to => nil, :aliases_for? => true) }
-  let(:attribute_list) { [attribute] }
-  let(:proxy)          { stub("proxy", :result => "result", :set => nil) }
+  subject         { FactoryGirl::Factory.new(:user) }
+  let(:attribute) { FactoryGirl::Attribute::Static.new(:name, "value") }
+  let(:proxy)     { stub("proxy", :result => "result", :set => nil) }
 
   before do
     define_model("User", :name => :string)
     FactoryGirl::Attribute::Static.stubs(:new => attribute)
     FactoryGirl::Proxy::Build.stubs(:new => proxy)
-    attribute_list.stubs(:apply_attributes)
-    FactoryGirl::AttributeList.stubs(:new => attribute_list)
+    subject.define_attribute(attribute)
+    attribute.stubs(:add_to => nil)
   end
 
   it "creates the right proxy using the build class when running" do
