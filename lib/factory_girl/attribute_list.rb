@@ -19,10 +19,6 @@ module FactoryGirl
     end
 
     def add_callback(name, &block)
-      unless valid_callback_names.include?(name.to_sym)
-        raise InvalidCallbackNameError, "#{name} is not a valid callback name. Valid callback names are #{valid_callback_names.inspect}"
-      end
-
       @callbacks << Callback.new(name.to_sym, block)
     end
 
@@ -65,10 +61,6 @@ module FactoryGirl
     end
 
     private
-
-    def valid_callback_names
-      [:after_build, :after_create, :after_stub]
-    end
 
     def add_attribute(attribute)
       delete_attribute(attribute.name) if overridable?

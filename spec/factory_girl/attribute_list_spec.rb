@@ -63,30 +63,12 @@ end
 describe FactoryGirl::AttributeList, "#add_callback" do
   let(:proxy_class) { mock("klass") }
   let(:proxy) { FactoryGirl::Proxy.new(proxy_class) }
-  let(:valid_callback_names) { [:after_create, :after_build, :after_stub] }
-  let(:invalid_callback_names) { [:before_create, :before_build, :bogus] }
 
   it "allows for defining adding a callback" do
     subject.add_callback(:after_create) { "Called after_create" }
 
     subject.callbacks.first.name.should == :after_create
     subject.callbacks.first.block.call.should == "Called after_create"
-  end
-
-  it "allows valid callback names to be assigned" do
-    valid_callback_names.each do |callback_name|
-      expect do
-        subject.add_callback(callback_name) { "great name!" }
-      end.to_not raise_error(FactoryGirl::InvalidCallbackNameError)
-    end
-  end
-
-  it "raises if an invalid callback name is assigned" do
-    invalid_callback_names.each do |callback_name|
-      expect do
-        subject.add_callback(callback_name) { "great name!" }
-      end.to raise_error(FactoryGirl::InvalidCallbackNameError, "#{callback_name} is not a valid callback name. Valid callback names are [:after_build, :after_create, :after_stub]")
-    end
   end
 end
 

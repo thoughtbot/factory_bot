@@ -1,16 +1,23 @@
 require 'spec_helper'
 
 describe FactoryGirl::Callback do
-  let(:name)  { :after_create }
-  let(:block) { proc { "block" } }
-  let(:proxy) { stub("proxy") }
+  it "has a name" do
+    FactoryGirl::Callback.new(:after_create, lambda {}).name.should == :after_create
+  end
 
-  subject     { FactoryGirl::Callback.new(name, block) }
+  it "converts strings to symbols" do
+    FactoryGirl::Callback.new("after_create", lambda {}).name.should == :after_create
+  end
 
-  its(:name)  { should == name }
-end
+  it "allows valid callback names to be assigned" do
+    FactoryGirl::Callback::VALID_NAMES.each do |callback_name|
+      expect { FactoryGirl::Callback.new(callback_name, lambda {}) }.
+        to_not raise_error(FactoryGirl::InvalidCallbackNameError)
+    end
+  end
 
-describe FactoryGirl::Callback, "with a string name" do
-  subject    { FactoryGirl::Callback.new("name", nil) }
-  its(:name) { should == :name }
+  it "raises if an invalid callback name is assigned" do
+    expect { FactoryGirl::Callback.new(:magic_fairies, lambda {}) }.
+      to raise_error(FactoryGirl::InvalidCallbackNameError, /magic_fairies is not a valid callback name/)
+  end
 end
