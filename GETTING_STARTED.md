@@ -57,7 +57,7 @@ are defined in files at the following locations:
 Using factories
 ---------------
 
-factory_girl supports several different build strategies: build, create, attributes_for and stub:
+factory\_girl supports several different build strategies: build, create, attributes\_for and stub:
 
     # Returns a User instance that's not saved
     user = FactoryGirl.build(:user)
@@ -101,7 +101,11 @@ This would allow you to write:
 Lazy Attributes
 ---------------
 
-Most factory attributes can be added using static values that are evaluated when the factory is defined, but some attributes (such as associations and other attributes that must be dynamically generated) will need values assigned each time an instance is generated. These "lazy" attributes can be added by passing a block instead of a parameter:
+Most factory attributes can be added using static values that are evaluated when
+the factory is defined, but some attributes (such as associations and other
+attributes that must be dynamically generated) will need values assigned each
+time an instance is generated. These "lazy" attributes can be added by passing a
+block instead of a parameter:
 
     factory :user do
       # ...
@@ -169,9 +173,14 @@ There may be times where your code can be DRYed up by passing in transient attri
     FactoryGirl.create(:user, :upcased => true).name
     #=> "JOHN DOE - ROCKSTAR"
 
-Static and dynamic attributes can be ignored. Ignored attributes will be ignored within attributes_for and won't be set on the model, even if the attribute exists or you attempt to override it.
+Static and dynamic attributes can be ignored. Ignored attributes will be ignored
+within attributes\_for and won't be set on the model, even if the attribute
+exists or you attempt to override it.
 
-Within Factory Girl's dynamic attributes, you can access ignored attributes as you would expect. If you need to access the proxy in a Factory Girl callback, you'll need to declare a second block argument (for the proxy) and access ignored attributes from there.
+Within Factory Girl's dynamic attributes, you can access ignored attributes as
+you would expect. If you need to access the proxy in a Factory Girl callback,
+you'll need to declare a second block argument (for the proxy) and access
+ignored attributes from there.
 
 Associations
 ------------
@@ -241,7 +250,10 @@ You can also assign the parent explicitly:
       approved true
     end
 
-As mentioned above, it's good practice to define a basic factory for each class with only the attributes required to create it. Then, create more specific factories that inherit from this basic parent. Factory definitions are still code, so keep them DRY.
+As mentioned above, it's good practice to define a basic factory for each class
+with only the attributes required to create it. Then, create more specific
+factories that inherit from this basic parent. Factory definitions are still
+code, so keep them DRY.
 
 Sequences
 ---------
@@ -370,7 +382,7 @@ the trait that defines the attribute latest gets precedence.
 Callbacks
 ---------
 
-Factory_girl makes available three callbacks for injecting some code:
+factory\_girl makes available three callbacks for injecting some code:
 
 * after_build  - called after a factory is built   (via FactoryGirl.build)
 * after_create - called after a factory is saved   (via FactoryGirl.create)
@@ -399,7 +411,7 @@ Factories can also define any number of the same kind of callback.  These callba
       after_create { then_this }
     end
 
-Calling FactoryGirl.create will invoke both after_build and after_create callbacks.
+Calling FactoryGirl.create will invoke both after\_build and after\_create callbacks.
 
 Also, like standard attributes, child factories will inherit (and can also define) callbacks from their parent factory.
 
@@ -466,14 +478,17 @@ To set the attributes for each of the factories, you can pass in a hash as you n
 Cucumber Integration
 --------------------
 
-factory_girl ships with step definitions that make calling factories from Cucumber easier. To use them add the following to features/support/env.rb
+factory\_girl ships with step definitions that make calling factories from Cucumber easier. To use them, add the following to features/support/env.rb:
 
-    require 'factory_girl/step_definitions' 
+    require 'factory_girl/step_definitions'
 
 Alternate Syntaxes
 ------------------
 
-Users' tastes for syntax vary dramatically, but most users are looking for a common feature set. Because of this factory_girl supports "syntax layers" which provide alternate interfaces. See Factory::Syntax for information about the various layers available. For example, the Machinist-style syntax is popular:
+Users' tastes for syntax vary dramatically, but most users are looking for a
+common feature set. Because of this factory\_girl supports "syntax layers" which
+provide alternate interfaces. See Factory::Syntax for information about the
+various layers available. For example, the Machinist-style syntax is popular:
 
     require 'factory_girl/syntax/blueprint'
     require 'factory_girl/syntax/make'
