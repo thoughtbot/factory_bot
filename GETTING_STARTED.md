@@ -466,7 +466,7 @@ To set the attributes for each of the factories, you can pass in a hash as you n
 Cucumber Integration
 --------------------
 
-factory_girl ships with step definitions that make calling factories from Cucumber easier. To use them:
+factory_girl ships with step definitions that make calling factories from Cucumber easier. To use them add the following to features/support/env.rb
 
     require 'factory_girl/step_definitions' 
 
