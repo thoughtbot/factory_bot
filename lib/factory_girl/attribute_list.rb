@@ -31,7 +31,7 @@ module FactoryGirl
     end
 
     def apply_attributes(attributes_to_apply)
-      attributes_to_apply.callbacks.each { |callback| add_callback(callback) }
+      attributes_to_apply.callbacks.reverse.each { |callback| prepend_callback(callback) }
       new_attributes = []
 
       attributes_to_apply.each do |attribute|
@@ -68,6 +68,10 @@ module FactoryGirl
       @attributes[attribute.priority] ||= []
       @attributes[attribute.priority] << attribute
       attribute
+    end
+
+    def prepend_callback(callback)
+      @callbacks.unshift(callback)
     end
 
     def prepend_attributes(new_attributes)

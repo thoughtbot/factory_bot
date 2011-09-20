@@ -12,7 +12,8 @@ describe "callbacks" do
       end
 
       factory :user_with_inherited_callbacks, :parent => :user_with_callbacks do
-        after_stub { |user| user.last_name = 'Double-Stubby' }
+        after_stub  { |user| user.last_name  = 'Double-Stubby' }
+        after_build { |user| user.first_name = 'Child-Buildy' }
       end
     end
   end
@@ -37,5 +38,10 @@ describe "callbacks" do
     user = FactoryGirl.build_stubbed(:user_with_inherited_callbacks)
     user.first_name.should == 'Stubby'
     user.last_name.should == 'Double-Stubby'
+  end
+
+  it "runs child callback after parent callback" do
+    user = FactoryGirl.build(:user_with_inherited_callbacks)
+    user.first_name.should == 'Child-Buildy'
   end
 end
