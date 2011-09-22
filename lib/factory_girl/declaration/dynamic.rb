@@ -9,7 +9,7 @@ module FactoryGirl
       private
 
       def build
-        Attribute::Dynamic.new(name, @block)
+        [Attribute::Dynamic.new(name, @block)]
       end
     end
   end

@@ -10,7 +10,7 @@ module FactoryGirl
 
       def build
         factory_name = @options.delete(:factory) || name
-        Attribute::Association.new(name, factory_name, @options)
+        [Attribute::Association.new(name, factory_name, @options)]
       end
     end
   end

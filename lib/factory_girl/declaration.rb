@@ -11,7 +11,7 @@ module FactoryGirl
     end
 
     def to_attributes
-      [build].flatten.tap do |attributes|
+      build.tap do |attributes|
         attributes.each(&:ignore) if @ignored
       end
     end

@@ -9,7 +9,7 @@ module FactoryGirl
       private
 
       def build
-        Attribute::Static.new(name, @value)
+        [Attribute::Static.new(name, @value)]
       end
     end
   end
