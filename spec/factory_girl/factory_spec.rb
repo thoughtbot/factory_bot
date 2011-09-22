@@ -106,13 +106,13 @@ describe FactoryGirl::Factory do
 
   it "should create a new factory using the class of the parent" do
     child = FactoryGirl::Factory.new(:child)
-    child.inherit_from(@factory)
+    child.inherit_factory(@factory)
     child.build_class.should == @factory.build_class
   end
 
   it "should create a new factory while overriding the parent class" do
     child = FactoryGirl::Factory.new(:child, :class => String)
-    child.inherit_from(@factory)
+    child.inherit_factory(@factory)
     child.build_class.should == String
   end
 
@@ -124,7 +124,7 @@ describe FactoryGirl::Factory do
 
     it "should create a new factory with attributes of the parent" do
       child = FactoryGirl::Factory.new(:child)
-      child.inherit_from(@factory)
+      child.inherit_factory(@factory)
       child.attributes.size.should == 1
       child.attributes.first.name.should == @parent_attr
     end
@@ -132,7 +132,7 @@ describe FactoryGirl::Factory do
     it "should allow a child to define additional attributes" do
       child = FactoryGirl::Factory.new(:child)
       child.define_attribute(FactoryGirl::Attribute::Static.new(:email, 'value'))
-      child.inherit_from(@factory)
+      child.inherit_factory(@factory)
       child.attributes.size.should == 2
     end
 
@@ -140,7 +140,7 @@ describe FactoryGirl::Factory do
       child = FactoryGirl::Factory.new(:child)
       @child_attr = FactoryGirl::Attribute::Static.new(@parent_attr, 'value')
       child.define_attribute(@child_attr)
-      child.inherit_from(@factory)
+      child.inherit_factory(@factory)
       child.attributes.size.should == 1
       child.attributes.first.should == @child_attr
     end
@@ -151,7 +151,7 @@ describe FactoryGirl::Factory do
       child = FactoryGirl::Factory.new(:child)
       @child_attr = FactoryGirl::Attribute::Dynamic.new(:email, lambda {|u| "#{u.name}@example.com"})
       child.define_attribute(@child_attr)
-      child.inherit_from(@factory)
+      child.inherit_factory(@factory)
       child.attributes.size.should == 2
 
       result = child.run(FactoryGirl::Proxy::Build, {})
@@ -162,7 +162,7 @@ describe FactoryGirl::Factory do
   it "inherits callbacks" do
     @factory.add_callback(:after_stub) { |object| object.name = 'Stubby' }
     child = FactoryGirl::Factory.new(:child)
-    child.inherit_from(@factory)
+    child.inherit_factory(@factory)
     child.callbacks.should_not be_empty
   end
 
@@ -270,7 +270,7 @@ describe FactoryGirl::Factory do
     subject      { factory_without_strategy }
 
     before do
-      subject.inherit_from(parent)
+      subject.inherit_factory(parent)
     end
 
     it "inherits default strategy from its parent" do
@@ -283,7 +283,7 @@ describe FactoryGirl::Factory do
     subject      { factory_with_build_strategy }
 
     before do
-      subject.inherit_from(parent)
+      subject.inherit_factory(parent)
     end
 
     it "overrides the default strategy from parent" do
