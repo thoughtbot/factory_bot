@@ -165,7 +165,9 @@ module FactoryGirl
 
     def compile
       declarations.each do |declaration|
-        define_attribute(declaration.to_attribute)
+        declaration.to_attributes.each do |attribute|
+          define_attribute(attribute)
+        end
       end
       @compiled = true
     end

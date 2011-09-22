@@ -10,9 +10,9 @@ module FactoryGirl
       @ignored = true
     end
 
-    def to_attribute
-      build.tap do |attribute|
-        attribute.ignore if @ignored
+    def to_attributes
+      [build].flatten.tap do |attributes|
+        attributes.each(&:ignore) if @ignored
       end
     end
   end

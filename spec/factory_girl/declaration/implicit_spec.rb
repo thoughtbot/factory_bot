@@ -4,11 +4,7 @@ describe FactoryGirl::Declaration::Implicit do
   let(:name)      { :author }
   let(:proxy)     { stub("proxy") }
   subject         { FactoryGirl::Declaration::Implicit.new(name) }
-  let(:attribute) { subject.to_attribute }
-
-  it "has a name" do
-    attribute.name.should == name
-  end
+  let(:attribute) { subject.to_attributes.first }
 
   context "with a known factory" do
     before do

@@ -143,7 +143,7 @@ describe FactoryGirl::Factory do
       child.declare_attribute(@child_declaration)
       child.inherit_factory(@factory)
       child.attributes.size.should == 1
-      child.attributes.first.should == @child_declaration.to_attribute
+      child.attributes.first.should == @child_declaration.to_attributes.first
     end
 
     it "should allow to use parent attributes in defining additional attributes" do
@@ -324,7 +324,7 @@ describe FactoryGirl::Factory, "running a factory" do
   before do
     define_model("User", :name => :string)
     FactoryGirl::Declaration::Static.stubs(:new => declaration)
-    declaration.stubs(:to_attribute => attribute)
+    declaration.stubs(:to_attributes => attributes)
     attribute.stubs(:add_to => nil)
     FactoryGirl::Proxy::Build.stubs(:new => proxy)
     subject.declare_attribute(declaration)
