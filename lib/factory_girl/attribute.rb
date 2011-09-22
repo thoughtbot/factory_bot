@@ -10,11 +10,12 @@ module FactoryGirl
   class Attribute #:nodoc:
     include Comparable
 
-    attr_reader :name, :ignored
+    attr_reader :name, :value, :ignored
 
     def initialize(name)
       @name = name.to_sym
       @ignored = false
+      @value = nil
       ensure_non_attribute_writer!
     end
 
@@ -43,7 +44,9 @@ module FactoryGirl
     end
 
     def ==(another)
-      self.object_id == another.object_id
+      self.name == another.name &&
+        self.value == another.value &&
+        self.ignored == another.ignored
     end
 
     private

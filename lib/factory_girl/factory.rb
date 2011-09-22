@@ -71,19 +71,6 @@ module FactoryGirl
       @traits = traits
     end
 
-    def apply_attributes(attributes_to_apply)
-      @attribute_list.apply_attributes(attributes_to_apply)
-    end
-
-    def define_attribute(attribute)
-      if attribute.respond_to?(:factory) && attribute.factory == self.name
-        raise AssociationDefinitionError, "Self-referencing association '#{attribute.name}' in factory '#{self.name}'"
-      end
-
-      @attribute_list.define_attribute(attribute)
-      update_children if allow_overrides?
-    end
-
     def define_trait(trait)
       @defined_traits << trait
     end
@@ -195,6 +182,15 @@ module FactoryGirl
 
     def update_children
       @children.each { |child| child.inherit_factory(self) }
+    end
+
+    def define_attribute(attribute)
+      if attribute.respond_to?(:factory) && attribute.factory == self.name
+        raise AssociationDefinitionError, "Self-referencing association '#{attribute.name}' in factory '#{self.name}'"
+      end
+
+      @attribute_list.define_attribute(attribute)
+      update_children if allow_overrides?
     end
 
     def class_for (class_or_to_s)

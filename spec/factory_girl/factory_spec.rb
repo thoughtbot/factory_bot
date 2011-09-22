@@ -50,7 +50,8 @@ describe FactoryGirl::Factory do
   it "should raise for a self referencing association" do
     factory = FactoryGirl::Factory.new(:post)
     lambda {
-      factory.define_attribute(FactoryGirl::Attribute::Association.new(:parent, :post, {}))
+      factory.declare_attribute(FactoryGirl::Declaration::Association.new(:parent, { :factory => :post }))
+      factory.attributes
     }.should raise_error(FactoryGirl::AssociationDefinitionError)
   end
 
@@ -62,21 +63,21 @@ describe FactoryGirl::Factory do
     end
 
     it "should return the overridden value in the generated attributes" do
-      attr = FactoryGirl::Attribute::Static.new(@name, 'The price is wrong, Bob!')
-      @factory.define_attribute(attr)
+      declaration = FactoryGirl::Declaration::Static.new(@name, 'The price is wrong, Bob!')
+      @factory.declare_attribute(declaration)
       result = @factory.run(FactoryGirl::Proxy::AttributesFor, @hash)
       result[@name].should == @value
     end
 
     it "should not call a lazy attribute block for an overridden attribute" do
-      attr = FactoryGirl::Attribute::Dynamic.new(@name, lambda { flunk })
-      @factory.define_attribute(attr)
+      declaration = FactoryGirl::Declaration::Dynamic.new(@name, lambda { flunk })
+      @factory.declare_attribute(declaration)
       result = @factory.run(FactoryGirl::Proxy::AttributesFor, @hash)
     end
 
     it "should override a symbol parameter with a string parameter" do
-      attr = FactoryGirl::Attribute::Static.new(@name, 'The price is wrong, Bob!')
-      @factory.define_attribute(attr)
+      declaration = FactoryGirl::Declaration::Static.new(@name, 'The price is wrong, Bob!')
+      @factory.declare_attribute(declaration)
       @hash = { @name.to_s => @value }
       result = @factory.run(FactoryGirl::Proxy::AttributesFor, @hash)
       result[@name].should == @value
@@ -85,7 +86,7 @@ describe FactoryGirl::Factory do
 
   describe "overriding an attribute with an alias" do
     before do
-      @factory.define_attribute(FactoryGirl::Attribute::Static.new(:test, 'original'))
+      @factory.declare_attribute(FactoryGirl::Declaration::Static.new(:test, 'original'))
       Factory.alias(/(.*)_alias/, '\1')
       @result = @factory.run(FactoryGirl::Proxy::AttributesFor,
                              :test_alias => 'new')
@@ -119,7 +120,7 @@ describe FactoryGirl::Factory do
   describe "given a parent with attributes" do
     before do
       @parent_attr = :name
-      @factory.define_attribute(FactoryGirl::Attribute::Static.new(@parent_attr, 'value'))
+      @factory.declare_attribute(FactoryGirl::Declaration::Static.new(@parent_attr, 'value'))
     end
 
     it "should create a new factory with attributes of the parent" do
@@ -131,26 +132,26 @@ describe FactoryGirl::Factory do
 
     it "should allow a child to define additional attributes" do
       child = FactoryGirl::Factory.new(:child)
-      child.define_attribute(FactoryGirl::Attribute::Static.new(:email, 'value'))
+      child.declare_attribute(FactoryGirl::Declaration::Static.new(:email, 'value'))
       child.inherit_factory(@factory)
       child.attributes.size.should == 2
     end
 
     it "should allow to override parent attributes" do
       child = FactoryGirl::Factory.new(:child)
-      @child_attr = FactoryGirl::Attribute::Static.new(@parent_attr, 'value')
-      child.define_attribute(@child_attr)
+      @child_declaration = FactoryGirl::Declaration::Static.new(@parent_attr, 'overridden')
+      child.declare_attribute(@child_declaration)
       child.inherit_factory(@factory)
       child.attributes.size.should == 1
-      child.attributes.first.should == @child_attr
+      child.attributes.first.should == @child_declaration.to_attribute
     end
 
     it "should allow to use parent attributes in defining additional attributes" do
       User.class_eval { attr_accessor :name, :email }
 
       child = FactoryGirl::Factory.new(:child)
-      @child_attr = FactoryGirl::Attribute::Dynamic.new(:email, lambda {|u| "#{u.name}@example.com"})
-      child.define_attribute(@child_attr)
+      @child_declaration = FactoryGirl::Declaration::Dynamic.new(:email, lambda {|u| "#{u.name}@example.com"})
+      child.declare_attribute(@child_declaration)
       child.inherit_factory(@factory)
       child.attributes.size.should == 2
 
@@ -315,16 +316,18 @@ end
 describe FactoryGirl::Factory, "running a factory" do
   subject              { FactoryGirl::Factory.new(:user) }
   let(:attribute)      { FactoryGirl::Attribute::Static.new(:name, "value") }
+  let(:declaration)    { FactoryGirl::Declaration::Static.new(:name, "value") }
   let(:proxy)          { stub("proxy", :result => "result", :set => nil) }
   let(:attributes)     { [attribute] }
-  let(:attribute_list) { stub('attribute-list', :declarations => [], :to_a => attributes) }
+  let(:attribute_list) { stub('attribute-list', :declarations => [declaration], :to_a => attributes) }
 
   before do
     define_model("User", :name => :string)
-    FactoryGirl::Attribute::Static.stubs(:new => attribute)
-    FactoryGirl::Proxy::Build.stubs(:new => proxy)
-    subject.define_attribute(attribute)
+    FactoryGirl::Declaration::Static.stubs(:new => declaration)
+    declaration.stubs(:to_attribute => attribute)
     attribute.stubs(:add_to => nil)
+    FactoryGirl::Proxy::Build.stubs(:new => proxy)
+    subject.declare_attribute(declaration)
   end
 
   it "creates the right proxy using the build class when running" do
