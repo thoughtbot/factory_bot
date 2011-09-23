@@ -1,3 +1,9 @@
+2.1.1 (September 23, 2011)
+  Bugfix: Parent object callbacks are run before child object callbacks
+  Declarations: allow overriding/modification of individual traits in child factories
+  Callbacks refactored to not be attributes
+  Updating documentation for formatting and clarity (incl. new specificity for cucumber)
+
 2.1.0 (September 02, 2011)
   Bugfix: created_at now defined for stubbed models
   Gemspec updated for use with Rails 3.1
