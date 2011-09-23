@@ -1,24 +1,27 @@
 require 'spec_helper'
 
-describe FactoryGirl::Attribute::Implicit do
-  let(:name)  { :author }
-  let(:proxy) { stub("proxy") }
-  subject     { FactoryGirl::Attribute::Implicit.new(name) }
-
-  its(:name) { should == name }
+describe FactoryGirl::Declaration::Implicit do
+  let(:name)      { :author }
+  let(:proxy)     { stub("proxy") }
+  subject         { FactoryGirl::Declaration::Implicit.new(name) }
+  let(:attribute) { subject.to_attributes.first }
 
   context "with a known factory" do
     before do
       FactoryGirl.factories.stubs(:registered? => true)
     end
 
-    it { should be_association }
+    it "generates an association" do
+      attribute.should be_association
+    end
 
-    its(:factory) { should == name }
+    it "generates an association with the correct factory" do
+      attribute.factory.should == name
+    end
 
     it "associates the factory" do
       proxy.stubs(:associate)
-      subject.add_to(proxy)
+      attribute.add_to(proxy)
       proxy.should have_received(:associate).with(name, name, {})
     end
   end
@@ -27,11 +30,13 @@ describe FactoryGirl::Attribute::Implicit do
     let(:sequence) { FactoryGirl::Sequence.new(name, 1) { "magic" } }
     before         { FactoryGirl.register_sequence(sequence) }
 
-    it { should_not be_association }
+    it "doesn't generate an association" do
+      attribute.should_not be_association
+    end
 
     it "generates the sequence" do
       proxy.stubs(:set)
-      subject.add_to(proxy)
+      attribute.add_to(proxy)
       proxy.should have_received(:set).with(name, "magic")
     end
   end

@@ -13,7 +13,6 @@ module FactoryGirl
 
   class Factory
     attr_reader :name #:nodoc:
-    attr_reader :traits #:nodoc:
 
     def factory_name
       puts "WARNING: factory.factory_name is deprecated. Use factory.name instead."
@@ -34,18 +33,19 @@ module FactoryGirl
 
     def initialize(name, options = {}) #:nodoc:
       assert_valid_options(options)
-      @name                     = factory_name_for(name)
-      @parent                   = options[:parent]
-      @options                  = options
-      @traits                   = []
-      @children                 = []
-      @attribute_list           = AttributeList.new
-      @inherited_attribute_list = AttributeList.new
+      @name           = factory_name_for(name)
+      @parent         = options[:parent]
+      @parent_factory = nil
+      @options        = options
+      @defined_traits = []
+      @traits         = []
+      @children       = []
+      @attribute_list = AttributeList.new
+      @compiled       = false
     end
 
     def allow_overrides
       @attribute_list.overridable
-      @inherited_attribute_list.overridable
       self
     end
 
@@ -53,40 +53,26 @@ module FactoryGirl
       @attribute_list.overridable?
     end
 
-    def inherit_from(parent) #:nodoc:
+    def inherit_factory(parent) #:nodoc:
       @options[:class]            ||= parent.class_name
       @options[:default_strategy] ||= parent.default_strategy
 
       allow_overrides if parent.allow_overrides?
       parent.add_child(self)
 
-      @inherited_attribute_list.apply_attributes(parent.attributes)
+      @parent_factory = parent
     end
 
     def add_child(factory)
       @children << factory unless @children.include?(factory)
     end
 
-    def apply_traits(traits) #:nodoc:
-      traits.reverse.map { |name| trait_by_name(name) }.each do |trait|
-        apply_attributes(trait.attributes)
-      end
-    end
-
-    def apply_attributes(attributes_to_apply)
-      @attribute_list.apply_attributes(attributes_to_apply)
-    end
-
-    def define_attribute(attribute)
-      if attribute.respond_to?(:factory) && attribute.factory == self.name
-        raise AssociationDefinitionError, "Self-referencing association '#{attribute.name}' in factory '#{self.name}'"
-      end
-
-      @attribute_list.define_attribute(attribute).tap { update_children }
+    def inherit_traits(traits)
+      @traits = traits
     end
 
     def define_trait(trait)
-      @traits << trait
+      @defined_traits << trait
     end
 
     def add_callback(name, &block)
@@ -94,9 +80,14 @@ module FactoryGirl
     end
 
     def attributes
+      ensure_compiled
       AttributeList.new.tap do |list|
+        @traits.reverse.map { |name| trait_by_name(name) }.each do |trait|
+          list.apply_attributes(trait.attributes)
+        end
+
         list.apply_attributes(@attribute_list)
-        list.apply_attributes(@inherited_attribute_list)
+        list.apply_attributes(@parent_factory.attributes) if @parent_factory
       end
     end
 
@@ -172,10 +163,36 @@ module FactoryGirl
       attributes.callbacks
     end
 
+    def compile
+      declarations.each do |declaration|
+        declaration.to_attributes.each do |attribute|
+          define_attribute(attribute)
+        end
+      end
+      @compiled = true
+    end
+
+    def declare_attribute(declaration)
+      @attribute_list.declare_attribute(declaration)
+    end
+
     private
 
+    def declarations
+      @attribute_list.declarations
+    end
+
     def update_children
-      @children.each { |child| child.inherit_from(self) }
+      @children.each { |child| child.inherit_factory(self) }
+    end
+
+    def define_attribute(attribute)
+      if attribute.respond_to?(:factory) && attribute.factory == self.name
+        raise AssociationDefinitionError, "Self-referencing association '#{attribute.name}' in factory '#{self.name}'"
+      end
+
+      @attribute_list.define_attribute(attribute)
+      update_children if allow_overrides?
     end
 
     def class_for (class_or_to_s)
@@ -240,7 +257,11 @@ module FactoryGirl
     end
 
     def trait_for(name)
-      traits.detect {|trait| trait.name == name }
+      @defined_traits.detect {|trait| trait.name == name }
+    end
+
+    def ensure_compiled
+      compile unless @compiled
     end
   end
 end

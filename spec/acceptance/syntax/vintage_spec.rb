@@ -46,13 +46,7 @@ describe "vintage syntax" do
   end
 end
 
-describe Factory, "given a parent factory" do
-  before do
-    @parent = FactoryGirl::Factory.new(:object)
-    @parent.define_attribute(FactoryGirl::Attribute::Static.new(:name, 'value'))
-    FactoryGirl.register_factory(@parent)
-  end
-
+describe Factory, "referencing a nonexistent factory as a parent" do
   it "should raise an ArgumentError when trying to use a non-existent factory as parent" do
     lambda {
       Factory.define(:child, :parent => :nonexsitent) {}
