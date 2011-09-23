@@ -169,6 +169,8 @@ module FactoryGirl
           define_attribute(attribute)
         end
       end
+
+      update_children if allow_overrides?
       @compiled = true
     end
 
@@ -192,7 +194,6 @@ module FactoryGirl
       end
 
       @attribute_list.define_attribute(attribute)
-      update_children if allow_overrides?
     end
 
     def assert_valid_options(options)
