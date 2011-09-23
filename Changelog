@@ -1,4 +1,8 @@
-2.1.1 (September 23, 2011)
+2.1.2 (September 23, 2011)
+  Bugfix: Vintage syntax fixed after bug introduced in 2.1.1
+  Introduce dependency on activesupport to remove code from Factory class
+
+2.1.1 (September 23, 2011) (yanked)
   Bugfix: Parent object callbacks are run before child object callbacks
   Declarations: allow overriding/modification of individual traits in child factories
   Callbacks refactored to not be attributes
