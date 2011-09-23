@@ -379,6 +379,24 @@ the trait that defines the attribute latest gets precedence.
       factory :female_admin, :traits => [:admin, :female] # login will be "Jane Doe (F)"
     end
 
+You can also override individual attributes granted by a trait in subclasses.
+
+    factory :user do
+      name "Friendly User"
+      login { name }
+
+      trait :male do
+        name   "John Doe"
+        gender "Male"
+        login { "#{name} (M)" }
+      end
+
+      factory :brandon do
+        male
+        name "Brandon"
+      end
+    end
+
 Callbacks
 ---------
 
@@ -457,10 +475,8 @@ When modifying a factory, you can change any of the attributes you want (aside f
 
 `FactoryGirl.modify` must be called outside of a `FactoryGirl.define` block as it operates on factories differently.
 
-A couple caveats: you can only modify factories (not sequences or traits) and callbacks *still compound as they normally would*. So, if
+A caveat: you can only modify factories (not sequences or traits) and callbacks *still compound as they normally would*. So, if
 the factory you're modifying defines an `after_create` callback, you defining an `after_create` won't override it, it'll just get run after the first callback.
-You also can't modify attributes assigned by traits. So, if you have a trait that grants a name attribute, and you modify the factory to set the name,
-it currently will reflect the name in the trait instead of the modified name.
 
 Building or Creating Multiple Records
 -------------------------------------
