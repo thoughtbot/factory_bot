@@ -23,7 +23,7 @@ module FactoryGirl
     end
 
     def class_name #:nodoc:
-      @options[:class] || name
+      @class_name || name
     end
 
     def build_class #:nodoc:
@@ -31,20 +31,22 @@ module FactoryGirl
     end
 
     def default_strategy #:nodoc:
-      @options[:default_strategy] || :create
+      @default_strategy || :create
     end
 
     def initialize(name, options = {}) #:nodoc:
       assert_valid_options(options)
-      @name           = name.to_s.underscore.to_sym
-      @parent         = options[:parent]
-      @parent_factory = nil
-      @options        = options
-      @defined_traits = []
-      @traits         = []
-      @children       = []
-      @attribute_list = AttributeList.new
-      @compiled       = false
+      @name             = name.to_s.underscore.to_sym
+      @parent_factory   = nil
+      @parent           = options[:parent]
+      @aliases          = options[:aliases] || []
+      @class_name       = options[:class]
+      @default_strategy = options[:default_strategy]
+      @defined_traits   = []
+      @traits           = []
+      @children         = []
+      @attribute_list   = AttributeList.new
+      @compiled         = false
     end
 
     def allow_overrides
@@ -57,13 +59,12 @@ module FactoryGirl
     end
 
     def inherit_factory(parent) #:nodoc:
-      @options[:class]            ||= parent.class_name
-      @options[:default_strategy] ||= parent.default_strategy
+      @class_name       ||= parent.class_name
+      @default_strategy ||= parent.default_strategy
+      @parent_factory   = parent
 
       allow_overrides if parent.allow_overrides?
       parent.add_child(self)
-
-      @parent_factory = parent
     end
 
     def add_child(factory)
@@ -155,7 +156,7 @@ module FactoryGirl
     #   FactoryGirl.create(:post).author.class
     #   # => User
     def names
-      [name] + (@options[:aliases] || [])
+      [name] + @aliases
     end
 
     def to_create(&block)
