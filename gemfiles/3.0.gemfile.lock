@@ -2,6 +2,7 @@ PATH
   remote: /Users/joshuaclayton/dev/gems/factory_girl
   specs:
     factory_girl (2.1.1)
+      activesupport
 
 GEM
   remote: http://rubygems.org/
