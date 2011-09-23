@@ -3,6 +3,8 @@ module FactoryGirl
 
     class Static < Attribute  #:nodoc:
 
+      attr_reader :value
+
       def initialize(name, value)
         super(name)
         @value = value

@@ -10,7 +10,7 @@ module FactoryGirl
   class Attribute #:nodoc:
     include Comparable
 
-    attr_reader :name, :value, :ignored
+    attr_reader :name, :ignored
 
     def initialize(name)
       @name = name.to_sym
