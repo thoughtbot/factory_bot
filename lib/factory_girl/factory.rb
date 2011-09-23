@@ -27,7 +27,7 @@ module FactoryGirl
     end
 
     def build_class #:nodoc:
-      @build_class ||= class_for(class_name)
+      @build_class ||= class_name.to_s.camelize.constantize
     end
 
     def default_strategy #:nodoc:
@@ -36,7 +36,7 @@ module FactoryGirl
 
     def initialize(name, options = {}) #:nodoc:
       assert_valid_options(options)
-      @name           = factory_name_for(name)
+      @name           = name.to_s.underscore.to_sym
       @parent         = options[:parent]
       @parent_factory = nil
       @options        = options
@@ -112,7 +112,7 @@ module FactoryGirl
     end
 
     def human_names
-      names.map {|name| name.to_s.gsub('_', ' ') }
+      names.map {|name| name.to_s.humanize.downcase }
     end
 
     def associations
@@ -196,24 +196,6 @@ module FactoryGirl
 
       @attribute_list.define_attribute(attribute)
       update_children if allow_overrides?
-    end
-
-    def class_for(class_or_to_s)
-      if class_or_to_s.respond_to?(:to_sym)
-        class_or_to_s.to_s.camelize.split('::').inject(Object) do |object, string|
-          object.const_get(string)
-        end
-      else
-        class_or_to_s
-      end
-    end
-
-    def factory_name_for(class_or_to_s)
-      if class_or_to_s.respond_to?(:to_sym)
-        class_or_to_s
-      else
-        class_or_to_s.to_s.underscore
-      end.to_sym
     end
 
     def assert_valid_options(options)
