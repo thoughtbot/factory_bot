@@ -36,13 +36,14 @@ module FactoryGirl
         if value
           raise AttributeDefinitionError, "Both value and block given"
         else
-          attribute = Attribute::Dynamic.new(name, block)
+          declaration = Declaration::Dynamic.new(name, block)
         end
       else
-        attribute = Attribute::Static.new(name, value)
+        declaration = FactoryGirl::Declaration::Static.new(name, value)
       end
 
-      @factory.define_attribute(attribute)
+      @factory.declare_attribute(declaration)
+      declaration
     end
 
     # Calls add_attribute using the missing method name as the name of the
@@ -78,7 +79,7 @@ module FactoryGirl
     # are equivalent.
     def method_missing(name, *args, &block)
       if args.empty? && block.nil?
-        @factory.define_attribute(Attribute::Implicit.new(name, @factory))
+        @factory.declare_attribute(Declaration::Implicit.new(name, @factory))
       elsif args.first.is_a?(Hash) && args.first.has_key?(:factory)
         association(name, *args)
       else
@@ -131,8 +132,7 @@ module FactoryGirl
     #    name of the factory. For example, a "user" association will by
     #    default use the "user" factory.
     def association(name, options = {})
-      factory_name = options.delete(:factory) || name
-      @factory.define_attribute(Attribute::Association.new(name, factory_name, options))
+      @factory.declare_attribute(Declaration::Association.new(name, options))
     end
 
     def after_build(&block)

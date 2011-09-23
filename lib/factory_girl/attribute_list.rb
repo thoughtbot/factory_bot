@@ -2,12 +2,17 @@ module FactoryGirl
   class AttributeList
     include Enumerable
 
-    attr_reader :callbacks
+    attr_reader :callbacks, :declarations
 
     def initialize
       @attributes  = {}
+      @declarations = []
       @overridable = false
       @callbacks = []
+    end
+
+    def declare_attribute(declaration)
+      @declarations << declaration
     end
 
     def define_attribute(attribute)

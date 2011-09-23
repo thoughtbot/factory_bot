@@ -22,12 +22,13 @@ module FactoryGirl
           proxy.instance_eval(&block) if block_given?
 
           if traits = options.delete(:traits)
-            factory.apply_traits(traits)
+            factory.inherit_traits(traits)
           end
 
           if parent = options.delete(:parent)
-            factory.inherit_from(FactoryGirl.factory_by_name(parent))
+            factory.inherit_factory(FactoryGirl.factory_by_name(parent))
           end
+
           FactoryGirl.register_factory(factory)
 
           proxy.child_factories.each do |(child_name, child_options, child_block)|
@@ -53,6 +54,7 @@ module FactoryGirl
           factory = FactoryGirl.factory_by_name(name).allow_overrides
           proxy = FactoryGirl::DefinitionProxy.new(factory)
           proxy.instance_eval(&block)
+          factory.compile
         end
       end
     end
