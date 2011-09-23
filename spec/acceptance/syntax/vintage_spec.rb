@@ -50,6 +50,7 @@ describe Factory, "referencing a nonexistent factory as a parent" do
   it "should raise an ArgumentError when trying to use a non-existent factory as parent" do
     lambda {
       Factory.define(:child, :parent => :nonexsitent) {}
+      Factory.build(:child)
     }.should raise_error(ArgumentError)
   end
 end

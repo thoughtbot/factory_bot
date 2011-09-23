@@ -21,10 +21,6 @@ module FactoryGirl
           proxy = FactoryGirl::DefinitionProxy.new(factory)
           proxy.instance_eval(&block) if block_given?
 
-          if parent = options.delete(:parent)
-            factory.inherit_factory(FactoryGirl.factory_by_name(parent))
-          end
-
           FactoryGirl.register_factory(factory)
 
           proxy.child_factories.each do |(child_name, child_options, child_block)|

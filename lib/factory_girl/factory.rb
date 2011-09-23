@@ -58,15 +58,6 @@ module FactoryGirl
       @attribute_list.overridable?
     end
 
-    def inherit_factory(parent) #:nodoc:
-      @class_name       ||= parent.class_name
-      @default_strategy ||= parent.default_strategy
-      @parent_factory   = parent
-
-      allow_overrides if parent.allow_overrides?
-      parent.add_child(self)
-    end
-
     def add_child(factory)
       @children << factory unless @children.include?(factory)
     end
@@ -92,6 +83,7 @@ module FactoryGirl
     end
 
     def run(proxy_class, overrides) #:nodoc:
+      ensure_compiled
       proxy = proxy_class.new(build_class)
       callbacks.each { |callback| proxy.add_callback(callback) }
       overrides = overrides.symbolize_keys
@@ -164,13 +156,14 @@ module FactoryGirl
     end
 
     def compile
+      inherit_factory(FactoryGirl.factory_by_name(@parent)) if @parent
+
       declarations.each do |declaration|
         declaration.to_attributes.each do |attribute|
           define_attribute(attribute)
         end
       end
 
-      update_children if allow_overrides?
       @compiled = true
     end
 
@@ -178,14 +171,24 @@ module FactoryGirl
       @attribute_list.declare_attribute(declaration)
     end
 
+    def ensure_compiled
+      compile unless @compiled
+    end
+
+    def inherit_factory(parent) #:nodoc:
+      parent.ensure_compiled
+      @class_name       ||= parent.class_name
+      @default_strategy ||= parent.default_strategy
+      @parent_factory   = parent
+
+      allow_overrides if parent.allow_overrides?
+      parent.add_child(self)
+    end
+
     private
 
     def declarations
       @attribute_list.declarations
-    end
-
-    def update_children
-      @children.each { |child| child.inherit_factory(self) }
     end
 
     def define_attribute(attribute)
@@ -214,10 +217,6 @@ module FactoryGirl
 
     def trait_for(name)
       @defined_traits.detect {|trait| trait.name == name }
-    end
-
-    def ensure_compiled
-      compile unless @compiled
     end
   end
 end
