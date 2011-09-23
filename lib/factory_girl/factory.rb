@@ -40,10 +40,10 @@ module FactoryGirl
       @parent_factory   = nil
       @parent           = options[:parent]
       @aliases          = options[:aliases] || []
+      @traits           = options[:traits]  || []
       @class_name       = options[:class]
       @default_strategy = options[:default_strategy]
       @defined_traits   = []
-      @traits           = []
       @children         = []
       @attribute_list   = AttributeList.new
       @compiled         = false
@@ -69,10 +69,6 @@ module FactoryGirl
 
     def add_child(factory)
       @children << factory unless @children.include?(factory)
-    end
-
-    def inherit_traits(traits)
-      @traits = traits
     end
 
     def define_trait(trait)
