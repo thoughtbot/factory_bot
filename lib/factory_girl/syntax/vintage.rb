@@ -29,7 +29,7 @@ module FactoryGirl
           proxy = FactoryGirl::DefinitionProxy.new(factory)
           yield(proxy)
           if parent = options.delete(:parent)
-            factory.inherit_from(FactoryGirl.factory_by_name(parent))
+            factory.inherit_factory(FactoryGirl.factory_by_name(parent))
           end
           FactoryGirl.register_factory(factory)
         end
