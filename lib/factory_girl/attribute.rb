@@ -15,7 +15,6 @@ module FactoryGirl
     def initialize(name)
       @name = name.to_sym
       @ignored = false
-      @value = nil
       ensure_non_attribute_writer!
     end
 
@@ -44,9 +43,7 @@ module FactoryGirl
     end
 
     def ==(another)
-      self.name == another.name &&
-        self.value == another.value &&
-        self.ignored == another.ignored
+      self.object_id == another.object_id
     end
 
     private
