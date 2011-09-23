@@ -1,3 +1,6 @@
+require "active_support/core_ext/hash/keys"
+require "active_support/inflector"
+
 module FactoryGirl
   # Raised when a factory is defined that attempts to instantiate itself.
   class AssociationDefinitionError < RuntimeError
@@ -94,7 +97,7 @@ module FactoryGirl
     def run(proxy_class, overrides) #:nodoc:
       proxy = proxy_class.new(build_class)
       callbacks.each { |callback| proxy.add_callback(callback) }
-      overrides = symbolize_keys(overrides)
+      overrides = overrides.symbolize_keys
 
       attributes.each do |attribute|
         factory_overrides = overrides.select { |attr, val| attribute.aliases_for?(attr) }
@@ -195,10 +198,9 @@ module FactoryGirl
       update_children if allow_overrides?
     end
 
-    def class_for (class_or_to_s)
+    def class_for(class_or_to_s)
       if class_or_to_s.respond_to?(:to_sym)
-        class_name = variable_name_to_class_name(class_or_to_s)
-        class_name.split('::').inject(Object) do |object, string|
+        class_or_to_s.to_s.camelize.split('::').inject(Object) do |object, string|
           object.const_get(string)
         end
       else
@@ -208,17 +210,15 @@ module FactoryGirl
 
     def factory_name_for(class_or_to_s)
       if class_or_to_s.respond_to?(:to_sym)
-        class_or_to_s.to_sym
+        class_or_to_s
       else
-        class_name_to_variable_name(class_or_to_s).to_sym
-      end
+        class_or_to_s.to_s.underscore
+      end.to_sym
     end
 
     def assert_valid_options(options)
-      invalid_keys = options.keys - [:class, :parent, :default_strategy, :aliases, :traits]
-      unless invalid_keys == []
-        raise ArgumentError, "Unknown arguments: #{invalid_keys.inspect}"
-      end
+      options.assert_valid_keys(:class, :parent, :default_strategy, :aliases, :traits)
+
       if options[:default_strategy]
         assert_valid_strategy(options[:default_strategy])
         puts "WARNING: default_strategy is deprecated."
@@ -227,32 +227,8 @@ module FactoryGirl
     end
 
     def assert_valid_strategy(strategy)
-      unless Proxy.const_defined? variable_name_to_class_name(strategy)
+      unless Proxy.const_defined? strategy.to_s.camelize
         raise ArgumentError, "Unknown strategy: #{strategy}"
-      end
-    end
-
-    # Based on ActiveSupport's underscore inflector
-    def class_name_to_variable_name(name)
-      name.to_s.gsub(/::/, '/').
-        gsub(/([A-Z]+)([A-Z][a-z])/,'\1_\2').
-        gsub(/([a-z\d])([A-Z])/,'\1_\2').
-        tr("-", "_").
-        downcase
-    end
-
-    # Based on ActiveSupport's camelize inflector
-    def variable_name_to_class_name(name)
-      name.to_s.
-        gsub(/\/(.?)/) { "::#{$1.upcase}" }.
-        gsub(/(?:^|_)(.)/) { $1.upcase }
-    end
-
-    # From ActiveSupport
-    def symbolize_keys(hash)
-      hash.inject({}) do |options, (key, value)|
-        options[(key.to_sym rescue key) || key] = value
-        options
       end
     end
 

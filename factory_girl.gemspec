@@ -20,6 +20,8 @@ Gem::Specification.new do |s|
     s.email   = %q{jferris@thoughtbot.com}
     s.homepage = "https://github.com/thoughtbot/factory_girl"
 
+    s.add_dependency("activesupport")
+
     s.add_development_dependency("rspec",    "~> 2.0")
     s.add_development_dependency("cucumber", "~> 1.0.0")
     s.add_development_dependency("timecop")
