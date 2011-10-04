@@ -12,7 +12,7 @@ module FactoryGirl
     end
 
     def find(name)
-      @items[name.to_sym] or raise ArgumentError.new("Not registered: #{name.to_s}")
+      @items[name.to_sym] or raise ArgumentError.new("Not registered with factory: #{name.to_s}")
     end
 
     def each(&block)
@@ -35,7 +35,7 @@ module FactoryGirl
 
     def add_as(name, item)
       if registered?(name)
-        raise DuplicateDefinitionError, "Already defined: #{name}"
+        raise DuplicateDefinitionError, "Already registered with factory: #{name}"
       else
         @items[name.to_sym] = item
       end

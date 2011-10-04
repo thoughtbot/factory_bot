@@ -17,7 +17,7 @@ describe FactoryGirl::Registry do
   end
 
   it "raises when finding an unregistered factory" do
-    expect { subject.find(:bogus) }.to raise_error(ArgumentError)
+    expect { subject.find(:bogus) }.to raise_error(ArgumentError, "Not registered with factory: bogus")
   end
 
   it "adds and returns a factory" do
@@ -62,7 +62,7 @@ describe FactoryGirl::Registry do
 
   it "doesn't allow a duplicate name" do
     expect { 2.times { subject.add(factory) } }.
-      to raise_error(FactoryGirl::DuplicateDefinitionError)
+      to raise_error(FactoryGirl::DuplicateDefinitionError, "Already registered with factory: #{factory.name}")
   end
 
   it "registers aliases" do
