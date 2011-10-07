@@ -12,14 +12,10 @@ module FactoryGirl
 
     attr_reader :name, :ignored
 
-    def initialize(name)
+    def initialize(name, ignored)
       @name = name.to_sym
-      @ignored = false
+      @ignored = ignored
       ensure_non_attribute_writer!
-    end
-
-    def ignore
-      @ignored = true
     end
 
     def add_to(proxy)

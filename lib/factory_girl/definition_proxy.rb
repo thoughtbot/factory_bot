@@ -8,8 +8,9 @@ module FactoryGirl
 
     attr_reader :child_factories
 
-    def initialize(factory)
-      @factory = factory
+    def initialize(factory, ignore = false)
+      @factory         = factory
+      @ignore          = ignore
       @child_factories = []
     end
 
@@ -36,14 +37,19 @@ module FactoryGirl
         if value
           raise AttributeDefinitionError, "Both value and block given"
         else
-          declaration = Declaration::Dynamic.new(name, block)
+          declaration = Declaration::Dynamic.new(name, @ignore, block)
         end
       else
-        declaration = FactoryGirl::Declaration::Static.new(name, value)
+        declaration = FactoryGirl::Declaration::Static.new(name, value, @ignore)
       end
 
       @factory.declare_attribute(declaration)
       declaration
+    end
+
+    def ignore(&block)
+      proxy = DefinitionProxy.new(@factory, true)
+      proxy.instance_eval(&block)
     end
 
     # Calls add_attribute using the missing method name as the name of the
@@ -79,7 +85,7 @@ module FactoryGirl
     # are equivalent.
     def method_missing(name, *args, &block)
       if args.empty? && block.nil?
-        @factory.declare_attribute(Declaration::Implicit.new(name, @factory))
+        @factory.declare_attribute(Declaration::Implicit.new(name, @factory, @ignore))
       elsif args.first.is_a?(Hash) && args.first.has_key?(:factory)
         association(name, *args)
       else

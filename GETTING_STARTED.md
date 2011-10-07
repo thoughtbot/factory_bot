@@ -159,8 +159,10 @@ Transient Attributes
 There may be times where your code can be DRYed up by passing in transient attributes to factories.
 
     factory :user do
-      rockstar(true).ignore
-      upcased { false }.ignore
+      ignore do
+        rockstar true
+        upcased { false }
+      end
 
       name  { "John Doe#{" - Rockstar" if rockstar}" }
       email { "#{name.downcase}@example.com" }

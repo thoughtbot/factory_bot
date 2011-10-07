@@ -11,7 +11,7 @@ describe FactoryGirl::DefinitionProxy do
     subject.add_attribute(:name, 'value')
     factory.ensure_compiled
     factory.should have_received(:define_attribute).with(attribute)
-    FactoryGirl::Attribute::Static.should have_received(:new).with(:name, "value")
+    FactoryGirl::Attribute::Static.should have_received(:new).with(:name, "value", false)
   end
 
   it "should add a dynamic attribute when an attribute is defined with a block" do
@@ -21,7 +21,7 @@ describe FactoryGirl::DefinitionProxy do
     factory.stubs(:define_attribute)
     subject.add_attribute(:name, &block)
     factory.ensure_compiled
-    FactoryGirl::Attribute::Dynamic.should have_received(:new).with(:name, block)
+    FactoryGirl::Attribute::Dynamic.should have_received(:new).with(:name, false, block)
     factory.should have_received(:define_attribute).with(attribute)
   end
 
@@ -105,14 +105,14 @@ describe FactoryGirl::DefinitionProxy, "adding attributes" do
     it "creates a dynamic attribute" do
       subject.add_attribute(attribute_name, &block)
       factory.ensure_compiled
-      FactoryGirl::Attribute::Dynamic.should have_received(:new).with(attribute_name, block)
+      FactoryGirl::Attribute::Dynamic.should have_received(:new).with(attribute_name, false, block)
       factory.should have_received(:define_attribute).with(attribute)
     end
 
     it "creates a dynamic attribute without the method being defined" do
       subject.send(attribute_name, &block)
       factory.ensure_compiled
-      FactoryGirl::Attribute::Dynamic.should have_received(:new).with(attribute_name, block)
+      FactoryGirl::Attribute::Dynamic.should have_received(:new).with(attribute_name, false, block)
       factory.should have_received(:define_attribute).with(attribute)
     end
   end
@@ -123,14 +123,14 @@ describe FactoryGirl::DefinitionProxy, "adding attributes" do
     it "creates a static attribute" do
       subject.add_attribute(attribute_name, attribute_value)
       factory.ensure_compiled
-      FactoryGirl::Attribute::Static.should have_received(:new).with(attribute_name, attribute_value)
+      FactoryGirl::Attribute::Static.should have_received(:new).with(attribute_name, attribute_value, false)
       factory.should have_received(:define_attribute).with(attribute)
     end
 
     it "creates a static attribute without the method being defined" do
       subject.send(attribute_name, attribute_value)
       factory.ensure_compiled
-      FactoryGirl::Attribute::Static.should have_received(:new).with(attribute_name, attribute_value)
+      FactoryGirl::Attribute::Static.should have_received(:new).with(attribute_name, attribute_value, false)
       factory.should have_received(:define_attribute).with(attribute)
     end
   end

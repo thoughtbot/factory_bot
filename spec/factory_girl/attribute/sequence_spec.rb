@@ -6,7 +6,7 @@ describe FactoryGirl::Attribute::Sequence do
   let(:sequence)      { FactoryGirl::Sequence.new(sequence_name, 5) { |n| "Name #{n}" } }
   let(:proxy)         { stub("proxy") }
 
-  subject { FactoryGirl::Attribute::Sequence.new(name, sequence_name) }
+  subject { FactoryGirl::Attribute::Sequence.new(name, sequence_name, false) }
   before  { FactoryGirl.register_sequence(sequence) }
 
   its(:name) { should == name }

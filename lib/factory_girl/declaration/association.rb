@@ -2,7 +2,7 @@ module FactoryGirl
   class Declaration
     class Association < Declaration
       def initialize(name, options)
-        super(name)
+        super(name, false)
         @options = options
       end
 

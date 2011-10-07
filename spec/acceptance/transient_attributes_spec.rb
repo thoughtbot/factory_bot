@@ -8,9 +8,11 @@ describe "transient attributes" do
       sequence(:name) {|n| "John #{n}" }
 
       factory :user do
-        four  { 2 + 2 }.ignore
-        rockstar(true).ignore
-        upcased(false).ignore
+        ignore do
+          four     { 2 + 2 }
+          rockstar true
+          upcased  false
+        end
 
         name  { "#{FactoryGirl.generate(:name)}#{" - Rockstar" if rockstar}" }
         email { "#{name.downcase}#{four}@example.com" }
@@ -64,5 +66,45 @@ describe "transient attributes" do
     it "uses the default value of the attribute" do
       rockstar.name.should == "John 1 - Rockstar"
     end
+  end
+end
+
+describe "deprecated way of ignoring attributes" do
+  before do
+    define_model("User", :name => :string)
+
+    FactoryGirl.define do
+      factory :user do
+        rockstar(false).ignore
+
+        name { "John Doe#{" Rockstar" if rockstar}" }
+      end
+    end
+  end
+
+  it "assigns attributes correctly" do
+    FactoryGirl.build(:user, :rockstar => true).name.should == "John Doe Rockstar"
+    FactoryGirl.build(:user).name.should == "John Doe"
+  end
+end
+
+describe "transient sequences" do
+  before do
+    define_model("User", :name => :string)
+
+    FactoryGirl.define do
+      factory :user do
+        ignore do
+          sequence(:counter)
+        end
+
+        name { "John Doe #{counter}" }
+      end
+    end
+  end
+
+  it "increments sequences correctly" do
+    FactoryGirl.build(:user).name.should == "John Doe 1"
+    FactoryGirl.build(:user).name.should == "John Doe 2"
   end
 end

@@ -10,8 +10,8 @@ describe FactoryGirl::AttributeList, "overridable" do
 end
 
 describe FactoryGirl::AttributeList, "#define_attribute" do
-  let(:static_attribute)  { FactoryGirl::Attribute::Static.new(:full_name, "value") }
-  let(:dynamic_attribute) { FactoryGirl::Attribute::Dynamic.new(:email, lambda {|u| "#{u.full_name}@example.com" }) }
+  let(:static_attribute)  { FactoryGirl::Attribute::Static.new(:full_name, "value", false) }
+  let(:dynamic_attribute) { FactoryGirl::Attribute::Dynamic.new(:email, false, lambda {|u| "#{u.full_name}@example.com" }) }
 
   it "maintains a list of attributes" do
     subject.define_attribute(static_attribute)
@@ -33,7 +33,7 @@ describe FactoryGirl::AttributeList, "#define_attribute" do
   end
 
   context "when set as overridable" do
-    let(:static_attribute_with_same_name) { FactoryGirl::Attribute::Static.new(:full_name, "overridden value") }
+    let(:static_attribute_with_same_name) { FactoryGirl::Attribute::Static.new(:full_name, "overridden value", false) }
     before { subject.overridable }
 
     it "redefines the attribute if the name already exists" do
@@ -58,10 +58,10 @@ describe FactoryGirl::AttributeList, "#add_callback" do
 end
 
 describe FactoryGirl::AttributeList, "#apply_attributes" do
-  let(:full_name_attribute) { FactoryGirl::Attribute::Static.new(:full_name, "John Adams") }
-  let(:city_attribute)      { FactoryGirl::Attribute::Static.new(:city, "Boston") }
-  let(:email_attribute)     { FactoryGirl::Attribute::Dynamic.new(:email, lambda {|model| "#{model.full_name}@example.com" }) }
-  let(:login_attribute)     { FactoryGirl::Attribute::Dynamic.new(:login, lambda {|model| "username-#{model.full_name}" }) }
+  let(:full_name_attribute) { FactoryGirl::Attribute::Static.new(:full_name, "John Adams", false) }
+  let(:city_attribute)      { FactoryGirl::Attribute::Static.new(:city, "Boston", false) }
+  let(:email_attribute)     { FactoryGirl::Attribute::Dynamic.new(:email, false, lambda {|model| "#{model.full_name}@example.com" }) }
+  let(:login_attribute)     { FactoryGirl::Attribute::Dynamic.new(:login, false, lambda {|model| "username-#{model.full_name}" }) }
 
   def list(*attributes)
     FactoryGirl::AttributeList.new.tap do |list|
@@ -90,7 +90,7 @@ describe FactoryGirl::AttributeList, "#apply_attributes" do
 
   it "doesn't overwrite attributes that are already defined" do
     subject.define_attribute(full_name_attribute)
-    attribute_with_same_name = FactoryGirl::Attribute::Static.new(:full_name, "Benjamin Franklin")
+    attribute_with_same_name = FactoryGirl::Attribute::Static.new(:full_name, "Benjamin Franklin", false)
 
     subject.apply_attributes(list(attribute_with_same_name))
     subject.to_a.should == [full_name_attribute]
@@ -120,7 +120,7 @@ describe FactoryGirl::AttributeList, "#apply_attributes" do
 
     it "overwrites attributes that are already defined" do
       subject.define_attribute(full_name_attribute)
-      attribute_with_same_name = FactoryGirl::Attribute::Static.new(:full_name, "Benjamin Franklin")
+      attribute_with_same_name = FactoryGirl::Attribute::Static.new(:full_name, "Benjamin Franklin", false)
 
       subject.apply_attributes(list(attribute_with_same_name))
       subject.to_a.should == [attribute_with_same_name]

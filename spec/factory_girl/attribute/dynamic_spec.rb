@@ -5,7 +5,7 @@ describe FactoryGirl::Attribute::Dynamic do
   let(:proxy) { stub("proxy", :set => nil) }
   let(:block) { lambda { } }
 
-  subject { FactoryGirl::Attribute::Dynamic.new(name, block) }
+  subject { FactoryGirl::Attribute::Dynamic.new(name, false, block) }
 
   its(:name) { should == name }
 
@@ -14,7 +14,7 @@ describe FactoryGirl::Attribute::Dynamic do
 
     it "calls the block to set a value" do
       subject.add_to(proxy)
-      proxy.should have_received(:set).with(name, "value", false)
+      proxy.should have_received(:set).with(name, "value")
     end
   end
 
@@ -23,7 +23,7 @@ describe FactoryGirl::Attribute::Dynamic do
 
     it "yields the proxy to the block" do
       subject.add_to(proxy)
-      proxy.should have_received(:set).with(name, proxy, false)
+      proxy.should have_received(:set).with(name, proxy)
     end
   end
 
@@ -37,7 +37,7 @@ describe FactoryGirl::Attribute::Dynamic do
 
     it "evaluates the attribute from the proxy" do
       subject.add_to(proxy)
-      proxy.should have_received(:set).with(name, result, false)
+      proxy.should have_received(:set).with(name, result)
     end
   end
 
@@ -51,6 +51,6 @@ describe FactoryGirl::Attribute::Dynamic do
 end
 
 describe FactoryGirl::Attribute::Dynamic, "with a string name" do
-  subject    { FactoryGirl::Attribute::Dynamic.new("name", nil) }
+  subject    { FactoryGirl::Attribute::Dynamic.new("name", nil, false) }
   its(:name) { should == :name }
 end

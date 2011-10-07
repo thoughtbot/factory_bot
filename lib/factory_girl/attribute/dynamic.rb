@@ -1,8 +1,8 @@
 module FactoryGirl
   class Attribute #:nodoc:
     class Dynamic < Attribute  #:nodoc:
-      def initialize(name, block)
-        super(name)
+      def initialize(name, ignored, block)
+        super(name, ignored)
         @block = block
       end
 
@@ -11,7 +11,12 @@ module FactoryGirl
         if FactoryGirl::Sequence === value
           raise SequenceAbuseError
         end
-        proxy.set(name, value, @ignored)
+
+        if @ignored
+          proxy.set_ignored(name, value)
+        else
+          proxy.set(name, value)
+        end
       end
     end
   end

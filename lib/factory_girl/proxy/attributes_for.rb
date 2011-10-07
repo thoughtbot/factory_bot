@@ -11,12 +11,8 @@ module FactoryGirl
         @ignored_attributes[attribute] || @hash[attribute]
       end
 
-      def set(attribute, value, ignored = false)
-        if ignored
-          @ignored_attributes[attribute] = value
-        else
-          @hash[attribute] = value
-        end
+      def set(attribute, value)
+        @hash[attribute] = value
       end
 
       def result(to_create)

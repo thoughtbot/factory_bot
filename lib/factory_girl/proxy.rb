@@ -5,12 +5,17 @@ module FactoryGirl
 
     def initialize(klass)
       @callbacks = {}
+      @ignored_attributes = {}
     end
 
     def get(attribute)
     end
 
-    def set(attribute, value, ignored = false)
+    def set(attribute, value)
+    end
+
+    def set_ignored(attribute, value)
+      @ignored_attributes[attribute] = value
     end
 
     def associate(name, factory, attributes)

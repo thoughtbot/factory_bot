@@ -4,7 +4,7 @@ module FactoryGirl
       attr_reader :factory
 
       def initialize(name, factory, overrides)
-        super(name)
+        super(name, false)
         @factory   = factory
         @overrides = overrides
       end

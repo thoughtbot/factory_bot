@@ -1,15 +1,15 @@
 module FactoryGirl
   class Declaration
     class Dynamic < Declaration
-      def initialize(name, block)
-        super(name)
+      def initialize(name, ignored = false, block)
+        super(name, ignored)
         @block = block
       end
 
       private
 
       def build
-        [Attribute::Dynamic.new(name, @block)]
+        [Attribute::Dynamic.new(name, @ignored, @block)]
       end
     end
   end

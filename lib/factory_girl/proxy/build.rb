@@ -4,7 +4,6 @@ module FactoryGirl
       def initialize(klass)
         super(klass)
         @instance = klass.new
-        @ignored_attributes = {}
       end
 
       def get(attribute)
@@ -15,12 +14,8 @@ module FactoryGirl
         end
       end
 
-      def set(attribute, value, ignored = false)
-        if ignored
-          @ignored_attributes[attribute] = value
-        else
-          @instance.send(:"#{attribute}=", value)
-        end
+      def set(attribute, value)
+        @instance.send(:"#{attribute}=", value)
       end
 
       def associate(name, factory_name, overrides)
