@@ -2,33 +2,8 @@ require "active_support/core_ext/hash/keys"
 require "active_support/inflector"
 
 module FactoryGirl
-  # Raised when a factory is defined that attempts to instantiate itself.
-  class AssociationDefinitionError < RuntimeError
-  end
-
-  # Raised when a callback is defined that has an invalid name
-  class InvalidCallbackNameError < RuntimeError
-  end
-
-  # Raised when a factory is defined with the same name as a previously-defined factory.
-  class DuplicateDefinitionError < RuntimeError
-  end
-
   class Factory
     attr_reader :name #:nodoc:
-
-    def factory_name
-      puts "WARNING: factory.factory_name is deprecated. Use factory.name instead."
-      name
-    end
-
-    def build_class #:nodoc:
-      @build_class ||= class_name.to_s.camelize.constantize
-    end
-
-    def default_strategy #:nodoc:
-      @default_strategy || (parent && parent.default_strategy) || :create
-    end
 
     def initialize(name, options = {}) #:nodoc:
       assert_valid_options(options)
@@ -42,6 +17,19 @@ module FactoryGirl
       @children         = []
       @attribute_list   = AttributeList.new
       @compiled         = false
+    end
+
+    def factory_name
+      puts "WARNING: factory.factory_name is deprecated. Use factory.name instead."
+      name
+    end
+
+    def build_class #:nodoc:
+      @build_class ||= class_name.to_s.camelize.constantize
+    end
+
+    def default_strategy #:nodoc:
+      @default_strategy || (parent && parent.default_strategy) || :create
     end
 
     def allow_overrides

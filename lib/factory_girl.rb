@@ -34,6 +34,15 @@ if defined?(Rails) && Rails::VERSION::MAJOR == 2
 end
 
 module FactoryGirl
+  # Raised when a factory is defined that attempts to instantiate itself.
+  class AssociationDefinitionError < RuntimeError; end
+
+  # Raised when a callback is defined that has an invalid name
+  class InvalidCallbackNameError < RuntimeError; end
+
+  # Raised when a factory is defined with the same name as a previously-defined factory.
+  class DuplicateDefinitionError < RuntimeError; end
+
   def self.factories
     @factories ||= Registry.new
   end
