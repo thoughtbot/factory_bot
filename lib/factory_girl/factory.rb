@@ -14,7 +14,6 @@ module FactoryGirl
       @class_name       = options[:class]
       @default_strategy = options[:default_strategy]
       @defined_traits   = []
-      @children         = []
       @attribute_list   = AttributeList.new
       @compiled         = false
     end
@@ -133,10 +132,6 @@ module FactoryGirl
       @class_name || (parent && parent.class_name) || name
     end
 
-    def add_child(factory)
-      @children << factory unless @children.include?(factory)
-    end
-
     def attributes
       ensure_compiled
       AttributeList.new.tap do |list|
@@ -170,7 +165,6 @@ module FactoryGirl
     def inherit_factory(parent) #:nodoc:
       parent.ensure_compiled
       allow_overrides if parent.allow_overrides?
-      parent.add_child(self)
     end
 
     def declarations
