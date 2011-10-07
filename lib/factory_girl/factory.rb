@@ -50,18 +50,6 @@ module FactoryGirl
       @attribute_list.add_callback(Callback.new(name, block))
     end
 
-    def attributes
-      ensure_compiled
-      AttributeList.new.tap do |list|
-        @traits.reverse.map { |name| trait_by_name(name) }.each do |trait|
-          list.apply_attributes(trait.attributes)
-        end
-
-        list.apply_attributes(@attribute_list)
-        list.apply_attributes(parent.attributes) if parent
-      end
-    end
-
     def run(proxy_class, overrides) #:nodoc:
       ensure_compiled
       proxy = proxy_class.new(build_class)
@@ -147,6 +135,18 @@ module FactoryGirl
 
     def add_child(factory)
       @children << factory unless @children.include?(factory)
+    end
+
+    def attributes
+      ensure_compiled
+      AttributeList.new.tap do |list|
+        @traits.reverse.map { |name| trait_by_name(name) }.each do |trait|
+          list.apply_attributes(trait.attributes)
+        end
+
+        list.apply_attributes(@attribute_list)
+        list.apply_attributes(parent.attributes) if parent
+      end
     end
 
     private

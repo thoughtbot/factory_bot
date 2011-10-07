@@ -52,7 +52,7 @@ describe FactoryGirl::Factory do
     factory = FactoryGirl::Factory.new(:post)
     lambda {
       factory.declare_attribute(FactoryGirl::Declaration::Association.new(:parent, { :factory => :post }))
-      factory.attributes
+      factory.ensure_compiled
     }.should raise_error(FactoryGirl::AssociationDefinitionError)
   end
 
@@ -116,54 +116,6 @@ describe FactoryGirl::Factory do
     child = FactoryGirl::Factory.new(:child, :class => String, :parent => @factory.name)
     child.ensure_compiled
     child.build_class.should == String
-  end
-
-  describe "given a parent with attributes" do
-    before do
-      @parent_attr = :name
-      @factory.declare_attribute(FactoryGirl::Declaration::Static.new(@parent_attr, 'value'))
-    end
-
-    it "should create a new factory with attributes of the parent" do
-      child = FactoryGirl::Factory.new(:child, :parent => @factory.name)
-      child.ensure_compiled
-      child.attributes.size.should == 1
-      child.attributes.first.name.should == @parent_attr
-    end
-
-    it "should allow a child to define additional attributes" do
-      child = FactoryGirl::Factory.new(:child, :parent => @factory.name)
-      child.declare_attribute(FactoryGirl::Declaration::Static.new(:email, 'value'))
-      child.ensure_compiled
-      child.attributes.size.should == 2
-    end
-
-    it "should allow to override parent attributes" do
-      child = FactoryGirl::Factory.new(:child, :parent => @factory.name)
-      @child_declaration = FactoryGirl::Declaration::Static.new(@parent_attr, 'overridden')
-      child.declare_attribute(@child_declaration)
-      child.ensure_compiled
-      child.attributes.size.should == 1
-      child.attributes.first.should == @child_declaration.to_attributes.first
-    end
-
-    it "should allow to use parent attributes in defining additional attributes" do
-      User.class_eval { attr_accessor :name, :email }
-
-      child = FactoryGirl::Factory.new(:child, :parent => @factory.name)
-      @child_declaration = FactoryGirl::Declaration::Dynamic.new(:email, lambda {|u| "#{u.name}@example.com"})
-      child.declare_attribute(@child_declaration)
-      child.ensure_compiled
-      child.attributes.size.should == 2
-
-      result = child.run(FactoryGirl::Proxy::Build, {})
-      result.email.should == 'value@example.com'
-    end
-  end
-
-  it "compiles when looking for attributes" do
-    @factory.declare_attribute(FactoryGirl::Declaration::Static.new("name", "value"))
-    @factory.attributes.size.should == 1
   end
 end
 

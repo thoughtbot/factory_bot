@@ -4,20 +4,6 @@ describe FactoryGirl::DefinitionProxy do
   let(:factory) { FactoryGirl::Factory.new(:object) }
   subject { FactoryGirl::DefinitionProxy.new(factory) }
 
-  def attributes
-    factory.attributes
-  end
-
-  it "should add a static attribute for type" do
-    subject.type 'value'
-    attributes.to_a.last.should be_kind_of(FactoryGirl::Attribute::Static)
-  end
-
-  it "should add a static attribute for id" do
-    subject.id 'value'
-    attributes.to_a.last.should be_kind_of(FactoryGirl::Attribute::Static)
-  end
-
   it "should add a static attribute when an attribute is defined with a value" do
     attribute = stub('attribute', :name => :name)
     FactoryGirl::Attribute::Static.stubs(:new => attribute)
@@ -43,11 +29,6 @@ describe FactoryGirl::DefinitionProxy do
     lambda {
       subject.add_attribute(:name, 'value') {}
     }.should raise_error(FactoryGirl::AttributeDefinitionError)
-  end
-
-  it "should add an attribute with a built-in private method" do
-    subject.instance_eval { sleep(0.1) }
-    attributes.map { |attribute| attribute.name }.should == [:sleep]
   end
 
   describe "child factories" do
