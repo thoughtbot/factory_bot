@@ -27,7 +27,7 @@ module FactoryGirl
     end
 
     def default_strategy #:nodoc:
-      @default_strategy || :create
+      @default_strategy || (parent && parent.default_strategy) || :create
     end
 
     def initialize(name, options = {}) #:nodoc:
@@ -162,7 +162,7 @@ module FactoryGirl
     protected
 
     def class_name #:nodoc:
-      @class_name || name
+      @class_name || (parent && parent.class_name) || name
     end
 
     private
@@ -181,9 +181,6 @@ module FactoryGirl
 
     def inherit_factory(parent) #:nodoc:
       parent.ensure_compiled
-      @class_name       ||= parent.class_name
-      @default_strategy ||= parent.default_strategy
-
       allow_overrides if parent.allow_overrides?
       parent.add_child(self)
     end
