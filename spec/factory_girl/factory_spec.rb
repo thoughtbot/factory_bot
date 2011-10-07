@@ -161,13 +161,6 @@ describe FactoryGirl::Factory do
     end
   end
 
-  it "inherits callbacks" do
-    @factory.add_callback(:after_stub) { |object| object.name = 'Stubby' }
-    child = FactoryGirl::Factory.new(:child, :parent => @factory.name)
-    child.ensure_compiled
-    child.callbacks.should_not be_empty
-  end
-
   it "compiles when looking for attributes" do
     @factory.declare_attribute(FactoryGirl::Declaration::Static.new("name", "value"))
     @factory.attributes.size.should == 1

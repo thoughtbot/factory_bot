@@ -54,10 +54,6 @@ module FactoryGirl
       @attribute_list.overridable?
     end
 
-    def add_child(factory)
-      @children << factory unless @children.include?(factory)
-    end
-
     def define_trait(trait)
       @defined_traits << trait
     end
@@ -147,10 +143,6 @@ module FactoryGirl
       @to_create_block = block
     end
 
-    def callbacks
-      attributes.callbacks
-    end
-
     def ensure_compiled
       compile unless @compiled
     end
@@ -165,7 +157,15 @@ module FactoryGirl
       @class_name || (parent && parent.class_name) || name
     end
 
+    def add_child(factory)
+      @children << factory unless @children.include?(factory)
+    end
+
     private
+
+    def callbacks
+      attributes.callbacks
+    end
 
     def compile
       inherit_factory(parent) if parent
