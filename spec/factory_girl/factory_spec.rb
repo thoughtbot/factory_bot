@@ -5,6 +5,7 @@ describe FactoryGirl::Factory do
     @name    = :user
     @class   = define_class('User')
     @factory = FactoryGirl::Factory.new(@name)
+    FactoryGirl.register_factory(@factory)
   end
 
   it "should have a factory name" do
@@ -106,14 +107,14 @@ describe FactoryGirl::Factory do
   end
 
   it "should create a new factory using the class of the parent" do
-    child = FactoryGirl::Factory.new(:child)
-    child.inherit_factory(@factory)
+    child = FactoryGirl::Factory.new(:child, :parent => @factory.name)
+    child.ensure_compiled
     child.build_class.should == @factory.build_class
   end
 
   it "should create a new factory while overriding the parent class" do
-    child = FactoryGirl::Factory.new(:child, :class => String)
-    child.inherit_factory(@factory)
+    child = FactoryGirl::Factory.new(:child, :class => String, :parent => @factory.name)
+    child.ensure_compiled
     child.build_class.should == String
   end
 
@@ -124,24 +125,24 @@ describe FactoryGirl::Factory do
     end
 
     it "should create a new factory with attributes of the parent" do
-      child = FactoryGirl::Factory.new(:child)
-      child.inherit_factory(@factory)
+      child = FactoryGirl::Factory.new(:child, :parent => @factory.name)
+      child.ensure_compiled
       child.attributes.size.should == 1
       child.attributes.first.name.should == @parent_attr
     end
 
     it "should allow a child to define additional attributes" do
-      child = FactoryGirl::Factory.new(:child)
+      child = FactoryGirl::Factory.new(:child, :parent => @factory.name)
       child.declare_attribute(FactoryGirl::Declaration::Static.new(:email, 'value'))
-      child.inherit_factory(@factory)
+      child.ensure_compiled
       child.attributes.size.should == 2
     end
 
     it "should allow to override parent attributes" do
-      child = FactoryGirl::Factory.new(:child)
+      child = FactoryGirl::Factory.new(:child, :parent => @factory.name)
       @child_declaration = FactoryGirl::Declaration::Static.new(@parent_attr, 'overridden')
       child.declare_attribute(@child_declaration)
-      child.inherit_factory(@factory)
+      child.ensure_compiled
       child.attributes.size.should == 1
       child.attributes.first.should == @child_declaration.to_attributes.first
     end
@@ -149,10 +150,10 @@ describe FactoryGirl::Factory do
     it "should allow to use parent attributes in defining additional attributes" do
       User.class_eval { attr_accessor :name, :email }
 
-      child = FactoryGirl::Factory.new(:child)
+      child = FactoryGirl::Factory.new(:child, :parent => @factory.name)
       @child_declaration = FactoryGirl::Declaration::Dynamic.new(:email, lambda {|u| "#{u.name}@example.com"})
       child.declare_attribute(@child_declaration)
-      child.inherit_factory(@factory)
+      child.ensure_compiled
       child.attributes.size.should == 2
 
       result = child.run(FactoryGirl::Proxy::Build, {})
@@ -162,8 +163,8 @@ describe FactoryGirl::Factory do
 
   it "inherits callbacks" do
     @factory.add_callback(:after_stub) { |object| object.name = 'Stubby' }
-    child = FactoryGirl::Factory.new(:child)
-    child.inherit_factory(@factory)
+    child = FactoryGirl::Factory.new(:child, :parent => @factory.name)
+    child.ensure_compiled
     child.callbacks.should_not be_empty
   end
 
@@ -245,17 +246,10 @@ describe FactoryGirl::Factory do
     FactoryGirl::Factory.new(:object, :default_strategy => :stub)
   end
 
-  let(:factory_without_strategy) do
-    FactoryGirl::Factory.new(:other_object)
-  end
-
-  let(:factory_with_build_strategy) do
-    FactoryGirl::Factory.new(:other_object, :default_strategy => :build)
-  end
-
   before do
     define_class("User")
     define_class("Admin", User)
+    FactoryGirl.register_factory(factory_with_stub_strategy)
   end
 
   it "raises an ArgumentError when trying to use a non-existent strategy" do
@@ -267,12 +261,8 @@ describe FactoryGirl::Factory do
   end
 
   describe "defining a child factory without setting default strategy" do
-    let(:parent) { factory_with_stub_strategy }
-    subject      { factory_without_strategy }
-
-    before do
-      subject.inherit_factory(parent)
-    end
+    subject { FactoryGirl::Factory.new(:other_object, :parent => factory_with_stub_strategy.name) }
+    before  { subject.ensure_compiled }
 
     it "inherits default strategy from its parent" do
       subject.default_strategy.should == :stub
@@ -280,12 +270,8 @@ describe FactoryGirl::Factory do
   end
 
   describe "defining a child factory with a default strategy" do
-    let(:parent) { factory_with_stub_strategy }
-    subject      { factory_with_build_strategy }
-
-    before do
-      subject.inherit_factory(parent)
-    end
+    subject { FactoryGirl::Factory.new(:other_object, :default_strategy => :build, :parent => factory_with_stub_strategy.name) }
+    before  { subject.ensure_compiled }
 
     it "overrides the default strategy from parent" do
       subject.default_strategy.should == :build

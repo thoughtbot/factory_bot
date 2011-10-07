@@ -22,10 +22,6 @@ module FactoryGirl
       name
     end
 
-    def class_name #:nodoc:
-      @class_name || name
-    end
-
     def build_class #:nodoc:
       @build_class ||= class_name.to_s.camelize.constantize
     end
@@ -37,7 +33,6 @@ module FactoryGirl
     def initialize(name, options = {}) #:nodoc:
       assert_valid_options(options)
       @name             = name.to_s.underscore.to_sym
-      @parent_factory   = nil
       @parent           = options[:parent]
       @aliases          = options[:aliases] || []
       @traits           = options[:traits]  || []
@@ -50,6 +45,7 @@ module FactoryGirl
     end
 
     def allow_overrides
+      @compiled = false
       @attribute_list.overridable
       self
     end
@@ -78,7 +74,7 @@ module FactoryGirl
         end
 
         list.apply_attributes(@attribute_list)
-        list.apply_attributes(@parent_factory.attributes) if @parent_factory
+        list.apply_attributes(parent.attributes) if parent
       end
     end
 
@@ -111,8 +107,8 @@ module FactoryGirl
     def trait_by_name(name)
       if existing_attribute = trait_for(name)
         existing_attribute
-      elsif @parent
-        FactoryGirl.factory_by_name(@parent).trait_by_name(name)
+      elsif parent
+        parent.trait_by_name(name)
       else
         FactoryGirl.trait_by_name(name)
       end
@@ -155,8 +151,24 @@ module FactoryGirl
       attributes.callbacks
     end
 
+    def ensure_compiled
+      compile unless @compiled
+    end
+
+    def declare_attribute(declaration)
+      @attribute_list.declare_attribute(declaration)
+    end
+
+    protected
+
+    def class_name #:nodoc:
+      @class_name || name
+    end
+
+    private
+
     def compile
-      inherit_factory(FactoryGirl.factory_by_name(@parent)) if @parent
+      inherit_factory(parent) if parent
 
       declarations.each do |declaration|
         declaration.to_attributes.each do |attribute|
@@ -167,25 +179,14 @@ module FactoryGirl
       @compiled = true
     end
 
-    def declare_attribute(declaration)
-      @attribute_list.declare_attribute(declaration)
-    end
-
-    def ensure_compiled
-      compile unless @compiled
-    end
-
     def inherit_factory(parent) #:nodoc:
       parent.ensure_compiled
       @class_name       ||= parent.class_name
       @default_strategy ||= parent.default_strategy
-      @parent_factory   = parent
 
       allow_overrides if parent.allow_overrides?
       parent.add_child(self)
     end
-
-    private
 
     def declarations
       @attribute_list.declarations
@@ -217,6 +218,11 @@ module FactoryGirl
 
     def trait_for(name)
       @defined_traits.detect {|trait| trait.name == name }
+    end
+
+    def parent
+      return unless @parent
+      FactoryGirl.factory_by_name(@parent)
     end
   end
 end

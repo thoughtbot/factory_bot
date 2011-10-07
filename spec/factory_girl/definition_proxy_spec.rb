@@ -23,7 +23,7 @@ describe FactoryGirl::DefinitionProxy do
     FactoryGirl::Attribute::Static.stubs(:new => attribute)
     factory.stubs(:define_attribute)
     subject.add_attribute(:name, 'value')
-    factory.compile
+    factory.ensure_compiled
     factory.should have_received(:define_attribute).with(attribute)
     FactoryGirl::Attribute::Static.should have_received(:new).with(:name, "value")
   end
@@ -34,7 +34,7 @@ describe FactoryGirl::DefinitionProxy do
     FactoryGirl::Attribute::Dynamic.stubs(:new => attribute)
     factory.stubs(:define_attribute)
     subject.add_attribute(:name, &block)
-    factory.compile
+    factory.ensure_compiled
     FactoryGirl::Attribute::Dynamic.should have_received(:new).with(:name, block)
     factory.should have_received(:define_attribute).with(attribute)
   end
@@ -123,14 +123,14 @@ describe FactoryGirl::DefinitionProxy, "adding attributes" do
 
     it "creates a dynamic attribute" do
       subject.add_attribute(attribute_name, &block)
-      factory.compile
+      factory.ensure_compiled
       FactoryGirl::Attribute::Dynamic.should have_received(:new).with(attribute_name, block)
       factory.should have_received(:define_attribute).with(attribute)
     end
 
     it "creates a dynamic attribute without the method being defined" do
       subject.send(attribute_name, &block)
-      factory.compile
+      factory.ensure_compiled
       FactoryGirl::Attribute::Dynamic.should have_received(:new).with(attribute_name, block)
       factory.should have_received(:define_attribute).with(attribute)
     end
@@ -141,14 +141,14 @@ describe FactoryGirl::DefinitionProxy, "adding attributes" do
 
     it "creates a static attribute" do
       subject.add_attribute(attribute_name, attribute_value)
-      factory.compile
+      factory.ensure_compiled
       FactoryGirl::Attribute::Static.should have_received(:new).with(attribute_name, attribute_value)
       factory.should have_received(:define_attribute).with(attribute)
     end
 
     it "creates a static attribute without the method being defined" do
       subject.send(attribute_name, attribute_value)
-      factory.compile
+      factory.ensure_compiled
       FactoryGirl::Attribute::Static.should have_received(:new).with(attribute_name, attribute_value)
       factory.should have_received(:define_attribute).with(attribute)
     end
@@ -180,7 +180,7 @@ describe FactoryGirl::DefinitionProxy, "#association" do
 
     it "defines an association attribute with the factory name" do
       subject.association(association_name, options)
-      factory.compile
+      factory.ensure_compiled
 
       factory.should have_received(:define_attribute).with(attribute)
       FactoryGirl::Attribute::Association.should have_received(:new).with(association_name, factory_name, :name => "John Doe")
@@ -188,7 +188,7 @@ describe FactoryGirl::DefinitionProxy, "#association" do
 
     it "defines an association attribute when the association is called implicitly" do
       subject.send(association_name, options)
-      factory.compile
+      factory.ensure_compiled
 
       factory.should have_received(:define_attribute).with(attribute)
       FactoryGirl::Attribute::Association.should have_received(:new).with(association_name, factory_name, :name => "John Doe")
@@ -200,7 +200,7 @@ describe FactoryGirl::DefinitionProxy, "#association" do
 
     it "defines an association attribute with the association name" do
       subject.association(association_name, options)
-      factory.compile
+      factory.ensure_compiled
 
       factory.should have_received(:define_attribute).with(attribute)
       FactoryGirl::Attribute::Association.should have_received(:new).with(association_name, association_name, options)
