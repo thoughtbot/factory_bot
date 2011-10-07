@@ -45,21 +45,6 @@ describe FactoryGirl::AttributeList, "#define_attribute" do
   end
 end
 
-describe FactoryGirl::AttributeList, "#attribute_defined?" do
-  let(:static_attribute)                    { FactoryGirl::Attribute::Static.new(:full_name, "value") }
-  let(:callback_attribute)                  { FactoryGirl::Callback.new(:after_create, lambda { }) }
-  let(:static_attribute_named_after_create) { FactoryGirl::Attribute::Static.new(:after_create, "funky!") }
-
-  it "knows if an attribute has been defined" do
-    subject.attribute_defined?(static_attribute.name).should == false
-
-    subject.define_attribute(static_attribute)
-
-    subject.attribute_defined?(static_attribute.name).should == true
-    subject.attribute_defined?(:undefined_attribute).should == false
-  end
-end
-
 describe FactoryGirl::AttributeList, "#add_callback" do
   let(:proxy_class) { mock("klass") }
   let(:proxy) { FactoryGirl::Proxy.new(proxy_class) }

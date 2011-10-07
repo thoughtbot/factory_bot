@@ -31,10 +31,6 @@ module FactoryGirl
       flattened_attributes.each(&block)
     end
 
-    def attribute_defined?(attribute_name)
-      !!find_attribute(attribute_name)
-    end
-
     def apply_attributes(attributes_to_apply)
       attributes_to_apply.callbacks.reverse.each { |callback| prepend_callback(callback) }
       new_attributes = []
@@ -91,6 +87,10 @@ module FactoryGirl
         result << @attributes[key]
         result
       end.flatten
+    end
+
+    def attribute_defined?(attribute_name)
+      !!find_attribute(attribute_name)
     end
 
     def find_attribute(attribute_name)
