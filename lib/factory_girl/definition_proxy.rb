@@ -33,18 +33,15 @@ module FactoryGirl
     # * value: +Object+
     #   If no block is given, this value will be used for this attribute.
     def add_attribute(name, value = nil, &block)
-      if block_given?
-        if value
-          raise AttributeDefinitionError, "Both value and block given"
-        else
-          declaration = Declaration::Dynamic.new(name, @ignore, block)
-        end
+      raise AttributeDefinitionError, "Both value and block given" if value && block_given?
+
+      declaration = if block_given?
+        Declaration::Dynamic.new(name, @ignore, block)
       else
-        declaration = FactoryGirl::Declaration::Static.new(name, value, @ignore)
+        Declaration::Static.new(name, value, @ignore)
       end
 
       @factory.declare_attribute(declaration)
-      declaration
     end
 
     def ignore(&block)

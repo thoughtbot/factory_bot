@@ -13,6 +13,7 @@ module FactoryGirl
 
     def declare_attribute(declaration)
       @declarations << declaration
+      declaration
     end
 
     def define_attribute(attribute)
