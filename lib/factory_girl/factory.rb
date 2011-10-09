@@ -19,7 +19,7 @@ module FactoryGirl
     end
 
     def factory_name
-      puts "WARNING: factory.factory_name is deprecated. Use factory.name instead."
+      $stderr.puts "DEPRECATION WARNING: factory.factory_name is deprecated; use factory.name instead."
       name
     end
 
@@ -192,8 +192,8 @@ module FactoryGirl
 
       if options[:default_strategy]
         assert_valid_strategy(options[:default_strategy])
-        puts "WARNING: default_strategy is deprecated."
-        puts "Override to_create if you need to prevent a call to #save!."
+        $stderr.puts "DEPRECATION WARNING: default_strategy is deprecated."
+        $stderr.puts "Override to_create if you need to prevent a call to #save!."
       end
     end
 
