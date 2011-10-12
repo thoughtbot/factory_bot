@@ -9,19 +9,19 @@ describe FactoryGirl::Factory do
   end
 
   it "should have a factory name" do
-    @factory.name.should == @name
+    @factory.name.should eq @name
   end
 
   it "responds to factory_name" do
-    @factory.factory_name.should == @name
+    @factory.factory_name.should eq @name
   end
 
   it "should have a build class" do
-    @factory.build_class.should == @class
+    @factory.build_class.should eq @class
   end
 
   it "should have a default strategy" do
-    @factory.default_strategy.should == :create
+    @factory.default_strategy.should eq :create
   end
 
   it "passes a custom creation block" do
@@ -45,15 +45,15 @@ describe FactoryGirl::Factory do
     factory.associations.each do |association|
       association.should be_association
     end
-    factory.associations.size.should == 3
+    factory.associations.size.should eq 3
   end
 
   it "should raise for a self referencing association" do
     factory = FactoryGirl::Factory.new(:post)
-    lambda {
+    expect {
       factory.declare_attribute(FactoryGirl::Declaration::Association.new(:parent, { :factory => :post }))
       factory.ensure_compiled
-    }.should raise_error(FactoryGirl::AssociationDefinitionError)
+    }.to raise_error(FactoryGirl::AssociationDefinitionError)
   end
 
   describe "when overriding generated attributes with a hash" do
@@ -67,7 +67,7 @@ describe FactoryGirl::Factory do
       declaration = FactoryGirl::Declaration::Static.new(@name, 'The price is wrong, Bob!')
       @factory.declare_attribute(declaration)
       result = @factory.run(FactoryGirl::Proxy::AttributesFor, @hash)
-      result[@name].should == @value
+      result[@name].should eq @value
     end
 
     it "should not call a lazy attribute block for an overridden attribute" do
@@ -81,7 +81,7 @@ describe FactoryGirl::Factory do
       @factory.declare_attribute(declaration)
       @hash = { @name.to_s => @value }
       result = @factory.run(FactoryGirl::Proxy::AttributesFor, @hash)
-      result[@name].should == @value
+      result[@name].should eq @value
     end
   end
 
@@ -94,7 +94,7 @@ describe FactoryGirl::Factory do
     end
 
     it "should use the passed in value for the alias" do
-      @result[:test_alias].should == 'new'
+      @result[:test_alias].should eq 'new'
     end
 
     it "should discard the predefined value for the attribute" do
@@ -103,25 +103,25 @@ describe FactoryGirl::Factory do
   end
 
   it "should guess the build class from the factory name" do
-    @factory.build_class.should == User
+    @factory.build_class.should eq User
   end
 
   it "should create a new factory using the class of the parent" do
     child = FactoryGirl::Factory.new(:child, :parent => @factory.name)
     child.ensure_compiled
-    child.build_class.should == @factory.build_class
+    child.build_class.should eq @factory.build_class
   end
 
   it "should create a new factory while overriding the parent class" do
     child = FactoryGirl::Factory.new(:child, :class => String, :parent => @factory.name)
     child.ensure_compiled
-    child.build_class.should == String
+    child.build_class.should eq String
   end
 end
 
 describe FactoryGirl::Factory, "when defined with a custom class" do
   subject           { FactoryGirl::Factory.new(:author, :class => Float) }
-  its(:build_class) { should == Float }
+  its(:build_class) { should eq Float }
 end
 
 describe FactoryGirl::Factory, "when defined with a class instead of a name" do
@@ -130,13 +130,13 @@ describe FactoryGirl::Factory, "when defined with a class instead of a name" do
 
   subject { FactoryGirl::Factory.new(factory_class) }
 
-  its(:name)        { should == name }
-  its(:build_class) { should == factory_class }
+  its(:name)        { should eq name }
+  its(:build_class) { should eq factory_class }
 end
 
 describe FactoryGirl::Factory, "when defined with a custom class name" do
   subject           { FactoryGirl::Factory.new(:author, :class => :argument_error) }
-  its(:build_class) { should == ArgumentError }
+  its(:build_class) { should eq ArgumentError }
 end
 
 describe FactoryGirl::Factory, "with a name ending in s" do
@@ -146,14 +146,14 @@ describe FactoryGirl::Factory, "with a name ending in s" do
   before  { define_class('Business') }
   subject { FactoryGirl::Factory.new(name) }
 
-  its(:name)        { should == name }
-  its(:build_class) { should == business_class }
+  its(:name)        { should eq name }
+  its(:build_class) { should eq business_class }
 end
 
 describe FactoryGirl::Factory, "with a string for a name" do
   let(:name) { :string }
   subject    { FactoryGirl::Factory.new(name.to_s) }
-  its(:name) { should == name }
+  its(:name) { should eq name }
 end
 
 describe FactoryGirl::Factory, "for namespaced class" do
@@ -169,7 +169,7 @@ describe FactoryGirl::Factory, "for namespaced class" do
     subject { FactoryGirl::Factory.new(name, :class => "Admin::Settings") }
 
     it "sets build_class correctly" do
-      subject.build_class.should == settings_class
+      subject.build_class.should eq settings_class
     end
   end
 
@@ -177,7 +177,7 @@ describe FactoryGirl::Factory, "for namespaced class" do
     subject { FactoryGirl::Factory.new(name, :class => "admin/settings") }
 
     it "sets build_class correctly" do
-      subject.build_class.should == settings_class
+      subject.build_class.should eq settings_class
     end
   end
 end
@@ -202,7 +202,7 @@ describe FactoryGirl::Factory do
   end
 
   it "creates a new factory with a specified default strategy" do
-    factory_with_stub_strategy.default_strategy.should == :stub
+    factory_with_stub_strategy.default_strategy.should eq :stub
   end
 
   describe "defining a child factory without setting default strategy" do
@@ -210,7 +210,7 @@ describe FactoryGirl::Factory do
     before  { subject.ensure_compiled }
 
     it "inherits default strategy from its parent" do
-      subject.default_strategy.should == :stub
+      subject.default_strategy.should eq :stub
     end
   end
 
@@ -219,7 +219,7 @@ describe FactoryGirl::Factory do
     before  { subject.ensure_compiled }
 
     it "overrides the default strategy from parent" do
-      subject.default_strategy.should == :build
+      subject.default_strategy.should eq :build
     end
   end
 end
@@ -227,20 +227,20 @@ end
 describe FactoryGirl::Factory, "human names" do
   context "factory name without underscores" do
     subject           { FactoryGirl::Factory.new(:user) }
-    its(:names)       { should == [:user] }
-    its(:human_names) { should == ["user"] }
+    its(:names)       { should eq [:user] }
+    its(:human_names) { should eq ["user"] }
   end
 
   context "factory name with underscores" do
     subject           { FactoryGirl::Factory.new(:happy_user) }
-    its(:names)       { should == [:happy_user] }
-    its(:human_names) { should == ["happy user"] }
+    its(:names)       { should eq [:happy_user] }
+    its(:human_names) { should eq ["happy user"] }
   end
 
   context "factory name with aliases" do
     subject           { FactoryGirl::Factory.new(:happy_user, :aliases => [:gleeful_user, :person]) }
-    its(:names)       { should == [:happy_user, :gleeful_user, :person] }
-    its(:human_names) { should == ["happy user", "gleeful user", "person"] }
+    its(:names)       { should eq [:happy_user, :gleeful_user, :person] }
+    its(:human_names) { should eq ["happy user", "gleeful user", "person"] }
   end
 end
 
@@ -272,7 +272,7 @@ describe FactoryGirl::Factory, "running a factory" do
   end
 
   it "returns the result from the proxy when running" do
-    subject.run(FactoryGirl::Proxy::Build, {}).should == "result"
+    subject.run(FactoryGirl::Proxy::Build, {}).should eq "result"
     proxy.should have_received(:result).with(nil)
   end
 

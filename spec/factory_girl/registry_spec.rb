@@ -13,7 +13,7 @@ describe FactoryGirl::Registry do
 
   it "finds a registered a factory" do
     subject.add(factory)
-    subject.find(factory.name).should == factory
+    subject.find(factory.name).should eq factory
   end
 
   it "raises when finding an unregistered factory" do
@@ -21,7 +21,7 @@ describe FactoryGirl::Registry do
   end
 
   it "adds and returns a factory" do
-    subject.add(factory).should == factory
+    subject.add(factory).should eq factory
   end
 
   it "knows that a factory is registered by symbol" do
@@ -40,7 +40,7 @@ describe FactoryGirl::Registry do
 
   it "can be accessed like a hash" do
     subject.add(factory)
-    subject[factory.name].should == factory
+    subject[factory.name].should eq factory
   end
 
   it "iterates registered factories" do
@@ -57,7 +57,7 @@ describe FactoryGirl::Registry do
 
   it "registers an sequence" do
     subject.add(sequence)
-    subject.find(:email).should == sequence
+    subject.find(:email).should eq sequence
   end
 
   it "doesn't allow a duplicate name" do
@@ -68,7 +68,7 @@ describe FactoryGirl::Registry do
   it "registers aliases" do
     subject.add(factory_with_aliases)
     aliases.each do |name|
-      subject.find(name).should == factory_with_aliases
+      subject.find(name).should eq factory_with_aliases
     end
   end
 

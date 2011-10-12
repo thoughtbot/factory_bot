@@ -20,19 +20,19 @@ describe "vintage syntax" do
     end
 
     it "should use attributes from the definition" do
-      @instance.first_name.should == 'Bill'
+      @instance.first_name.should eq 'Bill'
     end
 
     it "should evaluate attribute blocks for each instance" do
       @instance.email.should =~ /somebody\d+@example.com/
-      Factory(:user).email.should_not == @instance.email
+      Factory(:user).email.should_not eq @instance.email
     end
   end
 
   it "should raise an ArgumentError when trying to use a non-existent strategy" do
-    lambda {
+    expect {
       Factory.define(:object, :default_strategy => :nonexistent) {}
-    }.should raise_error(ArgumentError)
+    }.to raise_error(ArgumentError)
   end
 
   it "should raise Factory::SequenceAbuseError" do
@@ -40,18 +40,18 @@ describe "vintage syntax" do
       factory.first_name { Factory.sequence(:name) }
     end
 
-    lambda {
+    expect {
       Factory(:sequence_abuser)
-    }.should raise_error(FactoryGirl::SequenceAbuseError)
+    }.to raise_error(FactoryGirl::SequenceAbuseError)
   end
 end
 
 describe Factory, "referencing a nonexistent factory as a parent" do
   it "should raise an ArgumentError when trying to use a non-existent factory as parent" do
-    lambda {
+    expect {
       Factory.define(:child, :parent => :nonexsitent) {}
       Factory.build(:child)
-    }.should raise_error(ArgumentError)
+    }.to raise_error(ArgumentError)
   end
 end
 
@@ -76,12 +76,12 @@ describe "defining a factory" do
     Factory.define(@name) do |y|
       yielded = y
     end
-    yielded.should == @proxy
+    yielded.should eq @proxy
   end
 
   it "should add the factory to the list of factories" do
     Factory.define(@name) {|f| }
-    @factory.should == FactoryGirl.factory_by_name(@name)
+    @factory.should eq FactoryGirl.factory_by_name(@name)
   end
 end
 
@@ -95,49 +95,49 @@ describe "after defining a factory" do
 
   it "should use Proxy::AttributesFor for Factory.attributes_for" do
     @factory.stubs(:run => "result")
-    Factory.attributes_for(@name, :attr => 'value').should == 'result'
+    Factory.attributes_for(@name, :attr => 'value').should eq 'result'
     @factory.should have_received(:run).with(FactoryGirl::Proxy::AttributesFor, :attr => 'value')
   end
 
   it "should use Proxy::Build for Factory.build" do
     @factory.stubs(:run => "result")
-    Factory.build(@name, :attr => 'value').should == 'result'
+    Factory.build(@name, :attr => 'value').should eq 'result'
     @factory.should have_received(:run).with(FactoryGirl::Proxy::Build, :attr => 'value')
   end
 
   it "should use Proxy::Create for Factory.create" do
     @factory.stubs(:run => "result")
-    Factory.create(@name, :attr => 'value').should == 'result'
+    Factory.create(@name, :attr => 'value').should eq 'result'
     @factory.should have_received(:run).with(FactoryGirl::Proxy::Create, :attr => 'value')
   end
 
   it "should use Proxy::Stub for Factory.stub" do
     @factory.stubs(:run => "result")
-    Factory.stub(@name, :attr => 'value').should == 'result'
+    Factory.stub(@name, :attr => 'value').should eq 'result'
     @factory.should have_received(:run).with(FactoryGirl::Proxy::Stub, :attr => 'value')
   end
 
   it "should use default strategy option as Factory.default_strategy" do
     @factory.stubs(:default_strategy => :create, :run => "result")
-    Factory.default_strategy(@name, :attr => 'value').should == 'result'
+    Factory.default_strategy(@name, :attr => 'value').should eq 'result'
     @factory.should have_received(:run).with(FactoryGirl::Proxy::Create, :attr => 'value')
   end
 
   it "should use the default strategy for the global Factory method" do
     @factory.stubs(:default_strategy => :create, :run => "result")
-    Factory(@name, :attr => 'value').should == 'result'
+    Factory(@name, :attr => 'value').should eq 'result'
     @factory.should have_received(:run).with(FactoryGirl::Proxy::Create, :attr => 'value')
   end
 
   [:build, :create, :attributes_for, :stub].each do |method|
     it "should raise an ArgumentError on #{method} with a nonexistent factory" do
-      lambda { Factory.send(method, :bogus) }.should raise_error(ArgumentError)
+      expect { Factory.send(method, :bogus) }.to raise_error(ArgumentError)
     end
 
     it "should recognize either 'name' or :name for Factory.#{method}" do
       @factory.stubs(:run)
-      lambda { Factory.send(method, @name.to_s) }.should_not raise_error
-      lambda { Factory.send(method, @name.to_sym) }.should_not raise_error
+      expect { Factory.send(method, @name.to_s) }.to_not raise_error
+      expect { Factory.send(method, @name.to_sym) }.to_not raise_error
     end
   end
 end
@@ -149,17 +149,17 @@ describe "defining a sequence" do
 
   it "should create a new sequence" do
     Factory.sequence(@name)
-    Factory.next(@name).should == 1
+    Factory.next(@name).should eq 1
   end
 
   it "should use the supplied block as the sequence generator" do
     Factory.sequence(@name) {|n| "user-#{n}" }
-    Factory.next(@name).should == "user-1"
+    Factory.next(@name).should eq "user-1"
   end
 
   it "should use the supplied start_value as the sequence start_value" do
     Factory.sequence(@name, "A")
-    Factory.next(@name).should == "A"
+    Factory.next(@name).should eq "A"
   end
 end
 
@@ -181,7 +181,7 @@ describe "after defining a sequence" do
   end
 
   it "should return the value from the sequence" do
-    Factory.next(@name).should == @value
+    Factory.next(@name).should eq @value
   end
 end
 
@@ -210,7 +210,7 @@ describe "an attribute generated by an in-line sequence" do
     end
 
     it "should not be the same as the first generated value" do
-      @another_username.should_not == @username
+      @another_username.should_not eq @username
     end
   end
 end
@@ -230,6 +230,6 @@ describe "a factory with a parent" do
   end
 
   it "supports defining parents" do
-    Factory.build(:boring_user).username.should == "boring_username"
+    Factory.build(:boring_user).username.should eq "boring_username"
   end
 end

@@ -23,7 +23,7 @@ describe "accessing an undefined method on Factory that is defined on FactoryGir
   end
 
   it "returns the value from the method on FactoryGirl" do
-    subject.should == return_value
+    subject.should eq return_value
   end
 end
 
@@ -35,7 +35,7 @@ end
 
 describe "accessing an undefined constant on Factory that is defined on FactoryGirl" do
   subject { Factory::VERSION }
-  it      { should == FactoryGirl::VERSION }
+  it      { should eq FactoryGirl::VERSION }
 end
 
 describe "accessing an undefined constant on Factory that is undefined on FactoryGirl" do

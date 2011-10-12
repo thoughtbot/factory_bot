@@ -14,22 +14,20 @@ describe FactoryGirl::Proxy::Build do
 
   describe "specifying method" do
     it "defaults to create" do
-      subject.send(:get_method, nil).should == FactoryGirl::Proxy::Create
+      subject.send(:get_method, nil).should eq FactoryGirl::Proxy::Create
     end
 
     it "can specify create explicitly" do
-      subject.send(:get_method, :create).should ==
-        FactoryGirl::Proxy::Create
+      subject.send(:get_method, :create).should eq FactoryGirl::Proxy::Create
     end
 
     it "can specify build explicitly" do
-      subject.send(:get_method, :build).should ==
-        FactoryGirl::Proxy::Build
+      subject.send(:get_method, :build).should eq FactoryGirl::Proxy::Build
     end
 
     it "complains if method is unrecognized" do
-      lambda { subject.send(:get_method, :froboznicate) }.
-        should raise_error("unrecognized method froboznicate")
+      expect { subject.send(:get_method, :froboznicate) }.
+        to raise_error("unrecognized method froboznicate")
     end
   end
 

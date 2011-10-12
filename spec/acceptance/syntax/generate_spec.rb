@@ -18,11 +18,11 @@ describe "a factory using generate syntax" do
   end
 
   it "should not raise an error when generating an invalid instance" do
-    lambda { User.generate(:first_name => nil) }.should_not raise_error
+    expect { User.generate(:first_name => nil) }.to_not raise_error
   end
 
   it "should raise an error when forcefully generating an invalid instance" do
-    lambda { User.generate!(:first_name => nil) }.should raise_error(ActiveRecord::RecordInvalid)
+    expect { User.generate!(:first_name => nil) }.to raise_error(ActiveRecord::RecordInvalid)
   end
 
   %w(generate generate! spawn).each do |method|
@@ -38,11 +38,11 @@ describe "a factory using generate syntax" do
       end
 
       it "should use attributes from the factory" do
-        @instance.first_name.should == 'Bill'
+        @instance.first_name.should eq 'Bill'
       end
 
       it "should use attributes passed to generate" do
-        @instance.last_name.should == 'Rye'
+        @instance.last_name.should eq 'Rye'
       end
 
       if method == 'spawn'

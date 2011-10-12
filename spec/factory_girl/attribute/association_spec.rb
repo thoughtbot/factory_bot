@@ -9,8 +9,8 @@ describe FactoryGirl::Attribute::Association do
   subject       { FactoryGirl::Attribute::Association.new(name, factory, overrides) }
 
   it            { should be_association }
-  its(:name)    { should == name }
-  its(:factory) { should == factory }
+  its(:name)    { should eq name }
+  its(:factory) { should eq factory }
 
   it "tells the proxy to create an association when being added" do
     proxy.stubs(:associate)
@@ -21,5 +21,5 @@ end
 
 describe FactoryGirl::Attribute::Association, "with a string name" do
   subject    { FactoryGirl::Attribute::Association.new("name", :user, {}) }
-  its(:name) { should == :name }
+  its(:name) { should eq :name }
 end

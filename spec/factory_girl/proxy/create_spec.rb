@@ -34,7 +34,7 @@ describe FactoryGirl::Proxy::Create do
 
       subject.result(nil)
 
-      ran.should == [:after_build, :after_create]
+      ran.should eq [:after_build, :after_create]
     end
   end
 end

@@ -5,7 +5,7 @@ describe FactoryGirl::Attribute do
   let(:proxy) { stub("proxy") }
   subject     { FactoryGirl::Attribute.new(name, false) }
 
-  its(:name) { should == name.to_sym }
+  its(:name) { should eq name.to_sym }
   it { should_not be_association }
 
   it "doesn't set any attributes on a proxy when added" do

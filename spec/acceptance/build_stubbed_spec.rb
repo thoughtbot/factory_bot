@@ -26,11 +26,11 @@ describe "a generated stub instance" do
   subject { build_stubbed(:post, :title => 'overridden title') }
 
   it "assigns a default attribute" do
-    subject.body.should == 'default body'
+    subject.body.should eq 'default body'
   end
 
   it "assigns an overridden attribute" do
-    subject.title.should == 'overridden title'
+    subject.title.should eq 'overridden title'
   end
 
   it "assigns associations" do
@@ -43,7 +43,7 @@ describe "a generated stub instance" do
 
   it "generates unique ids" do
     other_stub = build_stubbed(:post)
-    subject.id.should_not == other_stub.id
+    subject.id.should_not eq other_stub.id
   end
 
   it "isn't a new record" do
@@ -51,27 +51,27 @@ describe "a generated stub instance" do
   end
 
   it "disables connection" do
-    lambda { subject.connection }.should raise_error(RuntimeError)
+    expect { subject.connection }.to raise_error(RuntimeError)
   end
 
   it "disables update_attribute" do
-    lambda { subject.update_attribute(:title, "value") }.should raise_error(RuntimeError)
+    expect { subject.update_attribute(:title, "value") }.to raise_error(RuntimeError)
   end
 
   it "disables reload" do
-    lambda { subject.reload }.should raise_error(RuntimeError)
+    expect { subject.reload }.to raise_error(RuntimeError)
   end
 
   it "disables destroy" do
-    lambda { subject.destroy }.should raise_error(RuntimeError)
+    expect { subject.destroy }.to raise_error(RuntimeError)
   end
 
   it "disables save" do
-    lambda { subject.save }.should raise_error(RuntimeError)
+    expect { subject.save }.to raise_error(RuntimeError)
   end
 
   it "disables increment" do
-    lambda { subject.increment!(:age) }.should raise_error(RuntimeError)
+    expect { subject.increment!(:age) }.to raise_error(RuntimeError)
   end
 end
 

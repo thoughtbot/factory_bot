@@ -40,23 +40,23 @@ describe "transient attributes" do
     let(:groupie)            { FactoryGirl.create(:user, :rockstar => false) }
 
     it "generates the correct attributes on a rockstar" do
-      rockstar.name.should  == "John 1 - Rockstar"
-      rockstar.email.should == "john 1 - rockstar1234@example.com"
+      rockstar.name.should  eq "John 1 - Rockstar"
+      rockstar.email.should eq "john 1 - rockstar1234@example.com"
     end
 
     it "generates the correct attributes on an upcased rockstar" do
-      upcased_rockstar.name.should  == "JOHN 1 - ROCKSTAR"
-      upcased_rockstar.email.should == "john 1 - rockstar4@example.com"
+      upcased_rockstar.name.should  eq "JOHN 1 - ROCKSTAR"
+      upcased_rockstar.email.should eq "john 1 - rockstar4@example.com"
     end
 
     it "generates the correct attributes on a groupie" do
-      groupie.name.should  == "John 1"
-      groupie.email.should == "john 14@example.com"
+      groupie.name.should  eq "John 1"
+      groupie.email.should eq "john 14@example.com"
     end
 
     it "generates the correct attributes on a rockstar with a name" do
-      rockstar_with_name.name.should  == "Jane Doe"
-      rockstar_with_name.email.should == "jane doe4@example.com"
+      rockstar_with_name.name.should  eq "Jane Doe"
+      rockstar_with_name.email.should eq "jane doe4@example.com"
     end
   end
 
@@ -64,7 +64,7 @@ describe "transient attributes" do
     let(:rockstar) { FactoryGirl.create(:user) }
 
     it "uses the default value of the attribute" do
-      rockstar.name.should == "John 1 - Rockstar"
+      rockstar.name.should eq "John 1 - Rockstar"
     end
   end
 end
@@ -83,8 +83,8 @@ describe "deprecated way of ignoring attributes" do
   end
 
   it "assigns attributes correctly" do
-    FactoryGirl.build(:user, :rockstar => true).name.should == "John Doe Rockstar"
-    FactoryGirl.build(:user).name.should == "John Doe"
+    FactoryGirl.build(:user, :rockstar => true).name.should eq "John Doe Rockstar"
+    FactoryGirl.build(:user).name.should eq "John Doe"
   end
 end
 
@@ -104,7 +104,7 @@ describe "transient sequences" do
   end
 
   it "increments sequences correctly" do
-    FactoryGirl.build(:user).name.should == "John Doe 1"
-    FactoryGirl.build(:user).name.should == "John Doe 2"
+    FactoryGirl.build(:user).name.should eq "John Doe 1"
+    FactoryGirl.build(:user).name.should eq "John Doe 2"
   end
 end

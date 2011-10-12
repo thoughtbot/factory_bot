@@ -29,11 +29,11 @@ describe "a factory using sham syntax" do
     end
 
     it "should support a sham called 'name'" do
-      @instance.first_name.should == 'Name'
+      @instance.first_name.should eq 'Name'
     end
 
     it "should support shams with starting values" do
-      @instance.username.should == 'User-FOO'
+      @instance.username.should eq 'User-FOO'
     end
 
     it "should use the sham for the email" do

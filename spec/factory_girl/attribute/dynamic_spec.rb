@@ -7,7 +7,7 @@ describe FactoryGirl::Attribute::Dynamic do
 
   subject { FactoryGirl::Attribute::Dynamic.new(name, false, block) }
 
-  its(:name) { should == name }
+  its(:name) { should eq name }
 
   context "with a block returning a static value" do
     let(:block) { lambda { "value" } }
@@ -52,5 +52,5 @@ end
 
 describe FactoryGirl::Attribute::Dynamic, "with a string name" do
   subject    { FactoryGirl::Attribute::Dynamic.new("name", nil, false) }
-  its(:name) { should == :name }
+  its(:name) { should eq :name }
 end

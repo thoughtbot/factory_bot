@@ -26,18 +26,18 @@ describe FactoryGirl::DefinitionProxy do
   end
 
   it "should raise for an attribute with a value and a block" do
-    lambda {
+    expect {
       subject.add_attribute(:name, 'value') {}
-    }.should raise_error(FactoryGirl::AttributeDefinitionError)
+    }.to raise_error(FactoryGirl::AttributeDefinitionError)
   end
 
   describe "child factories" do
-    its(:child_factories) { should == [] }
+    its(:child_factories) { should eq [] }
 
     it "should be able to add child factories" do
       block = lambda {}
       subject.factory(:admin, { :aliases => [:great] }, &block)
-      subject.child_factories.should == [[:admin, { :aliases => [:great] }, block]]
+      subject.child_factories.should eq [[:admin, { :aliases => [:great] }, block]]
     end
   end
 
@@ -73,19 +73,19 @@ describe FactoryGirl::DefinitionProxy, "with a factory mock" do
   subject { FactoryGirl::DefinitionProxy.new(factory_mock) }
 
   it "defines after_build callbacks" do
-    subject.after_build { "after_build value" }.should == [:after_build, "after_build value"]
+    subject.after_build { "after_build value" }.should eq [:after_build, "after_build value"]
   end
 
   it "defines after_create callbacks" do
-    subject.after_create { "after_create value" }.should == [:after_create, "after_create value"]
+    subject.after_create { "after_create value" }.should eq [:after_create, "after_create value"]
   end
 
   it "defines after_stub callbacks" do
-    subject.after_stub { "after_stub value" }.should == [:after_stub, "after_stub value"]
+    subject.after_stub { "after_stub value" }.should eq [:after_stub, "after_stub value"]
   end
 
   it "defines to_create" do
-    subject.to_create { "to_create value" }.should == "to_create value"
+    subject.to_create { "to_create value" }.should eq "to_create value"
   end
 end
 

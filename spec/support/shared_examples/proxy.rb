@@ -30,7 +30,7 @@ shared_examples_for "proxy with association support" do |factory_girl_proxy_clas
 
   it "sets a value for the association" do
     subject.associate(association_name, factory_name, {})
-    subject.result(nil).send(association_name).should == factory_name
+    subject.result(nil).send(association_name).should eq factory_name
   end
 
   it "sets the association attribute as the factory" do
@@ -64,7 +64,7 @@ shared_examples_for "proxy with :method => :build" do |factory_girl_proxy_class|
 
   it "sets a value for the association" do
     subject.associate(association_name, factory_name, overrides)
-    subject.result(nil).send(association_name).should == factory_name
+    subject.result(nil).send(association_name).should eq factory_name
   end
 
   it "sets the association attribute as the factory" do
@@ -88,7 +88,7 @@ shared_examples_for "proxy with standard getters and setters" do |attribute, val
       subject.set(attribute, value)
     end
 
-    its(attribute) { should == value }
+    its(attribute) { should eq value }
     it { instance.should have_received(:"#{attribute}=").with(value) }
   end
 
@@ -101,7 +101,7 @@ shared_examples_for "proxy with standard getters and setters" do |attribute, val
   end
 
   describe "when getting an attribute" do
-    it { subject.get(attribute).should == value }
+    it { subject.get(attribute).should eq value }
 
     it "retrieves the value from the instance" do
       subject.get(attribute)
@@ -123,6 +123,6 @@ shared_examples_for "proxy with callbacks" do |callback_name|
   end
 
   it "returns the proxy instance" do
-    subject.result(nil).should == instance
+    subject.result(nil).should eq instance
   end
 end

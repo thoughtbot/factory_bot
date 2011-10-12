@@ -9,7 +9,7 @@ describe FactoryGirl::Attribute::Sequence do
   subject { FactoryGirl::Attribute::Sequence.new(name, sequence_name, false) }
   before  { FactoryGirl.register_sequence(sequence) }
 
-  its(:name) { should == name }
+  its(:name) { should eq name }
 
   it "assigns the next value in the sequence" do
     proxy.stubs(:set)

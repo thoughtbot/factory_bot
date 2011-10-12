@@ -20,11 +20,11 @@ describe "a factory using make syntax" do
     end
 
     it "should use attributes from the factory" do
-      @instance.first_name.should == 'Bill'
+      @instance.first_name.should eq 'Bill'
     end
 
     it "should use attributes passed to make" do
-      @instance.last_name.should == 'Rye'
+      @instance.last_name.should eq 'Rye'
     end
 
     it "should build the record" do
@@ -38,11 +38,11 @@ describe "a factory using make syntax" do
     end
 
     it "should use attributes from the factory" do
-      @instance.first_name.should == 'Bill'
+      @instance.first_name.should eq 'Bill'
     end
 
     it "should use attributes passed to make" do
-      @instance.last_name.should == 'Rye'
+      @instance.last_name.should eq 'Rye'
     end
 
     it "should save the record" do

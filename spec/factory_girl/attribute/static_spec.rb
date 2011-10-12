@@ -7,7 +7,7 @@ describe FactoryGirl::Attribute::Static do
 
   subject { FactoryGirl::Attribute::Static.new(name, value, false) }
 
-  its(:name) { should == name }
+  its(:name) { should eq name }
 
   it "sets its static value on a proxy" do
     proxy.stubs(:set)
@@ -18,5 +18,5 @@ end
 
 describe FactoryGirl::Attribute::Static, "with a string name" do
   subject    { FactoryGirl::Attribute::Static.new("name", nil, false) }
-  its(:name) { should == :name }
+  its(:name) { should eq :name }
 end
