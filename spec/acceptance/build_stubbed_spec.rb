@@ -88,7 +88,6 @@ describe "calling `build_stubbed` with a block" do
 
   it "passes the stub instance" do
     build_stubbed(:company, :name => 'thoughtbot') do |company|
-      company.should_not be_new_record
       company.name.should eq('thoughtbot')
       expect { company.save }.to raise_error(RuntimeError)
     end

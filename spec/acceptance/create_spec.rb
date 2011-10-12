@@ -103,7 +103,6 @@ describe "calling `create` with a block" do
 
   it "passes the created instance" do
     create(:company, :name => 'thoughtbot') do |company|
-      company.should_not be_new_record
       company.name.should eq('thoughtbot')
     end
   end

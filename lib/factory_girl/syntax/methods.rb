@@ -10,30 +10,32 @@ module FactoryGirl
       #   The name of the factory that should be used.
       # * overrides: +Hash+
       #   Attributes to overwrite for this set.
+      # * block:
+      #   Yields the hash of attributes.
       #
       # Returns: +Hash+
       # A set of attributes that can be used to build an instance of the class
       # this factory generates.
-      def attributes_for(name, overrides = {})
-        FactoryGirl.factory_by_name(name).run(Proxy::AttributesFor, overrides)
+      def attributes_for(name, overrides = {}, &block)
+        FactoryGirl.factory_by_name(name).run(Proxy::AttributesFor, overrides, &block)
       end
 
       # Generates and returns an instance from this factory. Attributes can be
       # individually overridden by passing in a Hash of attribute => value pairs.
-      #
-      # Passing a block will yield the built instance.
       #
       # Arguments:
       # * name: +Symbol+ or +String+
       #   The name of the factory that should be used.
       # * overrides: +Hash+
       #   Attributes to overwrite for this instance.
+      # * block:
+      #   Yields the built instance.
       #
       # Returns: +Object+
       # An instance of the class this factory generates, with generated attributes
       # assigned.
-      def build(name, overrides = {})
-        FactoryGirl.factory_by_name(name).run(Proxy::Build, overrides).maybe_yield
+      def build(name, overrides = {}, &block)
+        FactoryGirl.factory_by_name(name).run(Proxy::Build, overrides, &block)
       end
 
       # Generates, saves, and returns an instance from this factory. Attributes can
@@ -43,37 +45,37 @@ module FactoryGirl
       # Instances are saved using the +save!+ method, so ActiveRecord models will
       # raise ActiveRecord::RecordInvalid exceptions for invalid attribute sets.
       #
-      # Passing a block will yield the created instance.
-      #
       # Arguments:
       # * name: +Symbol+ or +String+
       #   The name of the factory that should be used.
       # * overrides: +Hash+
       #   Attributes to overwrite for this instance.
+      # * block:
+      #   Yields the created instance.
       #
       # Returns: +Object+
       # A saved instance of the class this factory generates, with generated
       # attributes assigned.
-      def create(name, overrides = {})
-        FactoryGirl.factory_by_name(name).run(Proxy::Create, overrides).maybe_yield
+      def create(name, overrides = {}, &block)
+        FactoryGirl.factory_by_name(name).run(Proxy::Create, overrides, &block)
       end
 
       # Generates and returns an object with all attributes from this factory
       # stubbed out. Attributes can be individually overridden by passing in a Hash
       # of attribute => value pairs.
       #
-      # Passing a block will yield the stubbed object.
-      #
       # Arguments:
       # * name: +Symbol+ or +String+
       #   The name of the factory that should be used.
       # * overrides: +Hash+
       #   Attributes to overwrite for this instance.
+      # * block
+      #   Yields the stubbed object.
       #
       # Returns: +Object+
       # An object with generated attributes stubbed out.
-      def build_stubbed(name, overrides = {})
-        FactoryGirl.factory_by_name(name).run(Proxy::Stub, overrides).maybe_yield
+      def build_stubbed(name, overrides = {}, &block)
+        FactoryGirl.factory_by_name(name).run(Proxy::Stub, overrides, &block)
       end
 
       # Builds and returns multiple instances from this factory as an array. Attributes can be

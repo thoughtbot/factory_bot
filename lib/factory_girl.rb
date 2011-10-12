@@ -1,4 +1,3 @@
-require 'factory_girl/core_ext'
 require 'factory_girl/proxy'
 require 'factory_girl/proxy/build'
 require 'factory_girl/proxy/create'
