@@ -19,15 +19,15 @@ describe "a factory using make syntax" do
       @instance = User.make(:last_name => 'Rye')
     end
 
-    it "should use attributes from the factory" do
+    it "uses attributes from the factory" do
       @instance.first_name.should == 'Bill'
     end
 
-    it "should use attributes passed to make" do
+    it "uses attributes passed to make" do
       @instance.last_name.should == 'Rye'
     end
 
-    it "should build the record" do
+    it "builds the record" do
       @instance.should be_new_record
     end
   end
@@ -37,15 +37,15 @@ describe "a factory using make syntax" do
       @instance = User.make!(:last_name => 'Rye')
     end
 
-    it "should use attributes from the factory" do
+    it "uses attributes from the factory" do
       @instance.first_name.should == 'Bill'
     end
 
-    it "should use attributes passed to make" do
+    it "uses attributes passed to make" do
       @instance.last_name.should == 'Rye'
     end
 
-    it "should save the record" do
+    it "saves the record" do
       @instance.should_not be_new_record
     end
   end

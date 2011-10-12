@@ -28,15 +28,15 @@ describe "a factory using sham syntax" do
       @instance = FactoryGirl.create(:user, :last_name => 'Rye')
     end
 
-    it "should support a sham called 'name'" do
+    it "supports a sham called 'name'" do
       @instance.first_name.should == 'Name'
     end
 
-    it "should support shams with starting values" do
+    it "supports shams with starting values" do
       @instance.username.should == 'User-FOO'
     end
 
-    it "should use the sham for the email" do
+    it "uses the sham for the email" do
       @instance.email.should =~ /somebody\d@example.com/
     end
   end

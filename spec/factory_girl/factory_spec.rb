@@ -8,7 +8,7 @@ describe FactoryGirl::Factory do
     FactoryGirl.register_factory(@factory)
   end
 
-  it "should have a factory name" do
+  it "has a factory name" do
     @factory.name.should == @name
   end
 
@@ -16,11 +16,11 @@ describe FactoryGirl::Factory do
     @factory.factory_name.should == @name
   end
 
-  it "should have a build class" do
+  it "has a build class" do
     @factory.build_class.should == @class
   end
 
-  it "should have a default strategy" do
+  it "has a default strategy" do
     @factory.default_strategy.should == :create
   end
 
@@ -36,7 +36,7 @@ describe FactoryGirl::Factory do
     proxy.should have_received(:result).with(block)
   end
 
-  it "should return associations" do
+  it "returns associations" do
     factory = FactoryGirl::Factory.new(:post)
     FactoryGirl.register_factory(FactoryGirl::Factory.new(:admin))
     factory.declare_attribute(FactoryGirl::Declaration::Association.new(:author, {}))
@@ -48,7 +48,7 @@ describe FactoryGirl::Factory do
     factory.associations.size.should == 3
   end
 
-  it "should raise for a self referencing association" do
+  it "raises for a self referencing association" do
     factory = FactoryGirl::Factory.new(:post)
     lambda {
       factory.declare_attribute(FactoryGirl::Declaration::Association.new(:parent, { :factory => :post }))
@@ -63,20 +63,20 @@ describe FactoryGirl::Factory do
       @hash  = { @name => @value }
     end
 
-    it "should return the overridden value in the generated attributes" do
+    it "returns the overridden value in the generated attributes" do
       declaration = FactoryGirl::Declaration::Static.new(@name, 'The price is wrong, Bob!')
       @factory.declare_attribute(declaration)
       result = @factory.run(FactoryGirl::Proxy::AttributesFor, @hash)
       result[@name].should == @value
     end
 
-    it "should not call a lazy attribute block for an overridden attribute" do
+    it "does not call a lazy attribute block for an overridden attribute" do
       declaration = FactoryGirl::Declaration::Dynamic.new(@name, lambda { flunk })
       @factory.declare_attribute(declaration)
       result = @factory.run(FactoryGirl::Proxy::AttributesFor, @hash)
     end
 
-    it "should override a symbol parameter with a string parameter" do
+    it "overrides a symbol parameter with a string parameter" do
       declaration = FactoryGirl::Declaration::Static.new(@name, 'The price is wrong, Bob!')
       @factory.declare_attribute(declaration)
       @hash = { @name.to_s => @value }
@@ -93,26 +93,26 @@ describe FactoryGirl::Factory do
                              :test_alias => 'new')
     end
 
-    it "should use the passed in value for the alias" do
+    it "uses the passed in value for the alias" do
       @result[:test_alias].should == 'new'
     end
 
-    it "should discard the predefined value for the attribute" do
+    it "discards the predefined value for the attribute" do
       @result[:test].should be_nil
     end
   end
 
-  it "should guess the build class from the factory name" do
+  it "guesses the build class from the factory name" do
     @factory.build_class.should == User
   end
 
-  it "should create a new factory using the class of the parent" do
+  it "creates a new factory using the class of the parent" do
     child = FactoryGirl::Factory.new(:child, :parent => @factory.name)
     child.ensure_compiled
     child.build_class.should == @factory.build_class
   end
 
-  it "should create a new factory while overriding the parent class" do
+  it "creates a new factory while overriding the parent class" do
     child = FactoryGirl::Factory.new(:child, :class => String, :parent => @factory.name)
     child.ensure_compiled
     child.build_class.should == String

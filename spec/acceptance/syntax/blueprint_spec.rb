@@ -19,11 +19,11 @@ describe "a blueprint" do
       @instance = FactoryGirl.create(:user, :last_name => 'Rye')
     end
 
-    it "should use attributes from the blueprint" do
+    it "uses attributes from the blueprint" do
       @instance.first_name.should == 'Bill'
     end
 
-    it "should evaluate attribute blocks for each instance" do
+    it "evaluates attribute blocks for each instance" do
       @instance.email.should =~ /somebody\d+@example.com/
       FactoryGirl.create(:user).email.should_not == @instance.email
     end
