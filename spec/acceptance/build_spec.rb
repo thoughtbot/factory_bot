@@ -60,5 +60,23 @@ describe "a built instance with :method => :build" do
     subject.user.should be_kind_of(User)
     subject.user.should be_new_record
   end
+end
 
+describe "calling `build` with a block" do
+  include FactoryGirl::Syntax::Methods
+
+  before do
+    define_model('Company', :name => :string)
+
+    FactoryGirl.define do
+      factory :company
+    end
+  end
+
+  it "passes the built instance" do
+    build(:company, :name => 'thoughtbot') do |company|
+      company.should_not be_new_record
+      company.name.should eq('thoughtbot')
+    end
+  end
 end

@@ -21,6 +21,8 @@ module FactoryGirl
       # Generates and returns an instance from this factory. Attributes can be
       # individually overridden by passing in a Hash of attribute => value pairs.
       #
+      # Passing a block will yield the built instance.
+      #
       # Arguments:
       # * name: +Symbol+ or +String+
       #   The name of the factory that should be used.
@@ -31,7 +33,7 @@ module FactoryGirl
       # An instance of the class this factory generates, with generated attributes
       # assigned.
       def build(name, overrides = {})
-        FactoryGirl.factory_by_name(name).run(Proxy::Build, overrides)
+        FactoryGirl.factory_by_name(name).run(Proxy::Build, overrides).maybe_yield
       end
 
       # Generates, saves, and returns an instance from this factory. Attributes can
@@ -40,6 +42,8 @@ module FactoryGirl
       #
       # Instances are saved using the +save!+ method, so ActiveRecord models will
       # raise ActiveRecord::RecordInvalid exceptions for invalid attribute sets.
+      #
+      # Passing a block will yield the created instance.
       #
       # Arguments:
       # * name: +Symbol+ or +String+
@@ -51,12 +55,14 @@ module FactoryGirl
       # A saved instance of the class this factory generates, with generated
       # attributes assigned.
       def create(name, overrides = {})
-        FactoryGirl.factory_by_name(name).run(Proxy::Create, overrides)
+        FactoryGirl.factory_by_name(name).run(Proxy::Create, overrides).maybe_yield
       end
 
       # Generates and returns an object with all attributes from this factory
       # stubbed out. Attributes can be individually overridden by passing in a Hash
       # of attribute => value pairs.
+      #
+      # Passing a block will yield the stubbed object.
       #
       # Arguments:
       # * name: +Symbol+ or +String+
@@ -67,7 +73,7 @@ module FactoryGirl
       # Returns: +Object+
       # An object with generated attributes stubbed out.
       def build_stubbed(name, overrides = {})
-        FactoryGirl.factory_by_name(name).run(Proxy::Stub, overrides)
+        FactoryGirl.factory_by_name(name).run(Proxy::Stub, overrides).maybe_yield
       end
 
       # Builds and returns multiple instances from this factory as an array. Attributes can be

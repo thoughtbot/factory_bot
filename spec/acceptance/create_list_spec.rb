@@ -39,3 +39,23 @@ describe "create multiple instances" do
     end
   end
 end
+
+describe "calling `create_list` with a block" do
+  include FactoryGirl::Syntax::Methods
+
+  before do
+    define_model('Company', :name => :string)
+
+    FactoryGirl.define do
+      factory :company
+    end
+  end
+
+  it "passes each created instance" do
+    create_list(:company, 2, :name => 'thoughtbot') do |company|
+      raise
+      company.should be_new_record
+      company.name.should eq('thoughtbot')
+    end
+  end
+end
