@@ -49,7 +49,7 @@ module FactoryGirl
       @attribute_list.add_callback(Callback.new(name, block))
     end
 
-    def run(proxy_class, overrides) #:nodoc:
+    def run(proxy_class, overrides, &block) #:nodoc:
       ensure_compiled
       proxy = proxy_class.new(build_class)
       callbacks.each { |callback| proxy.add_callback(callback) }
@@ -72,7 +72,9 @@ module FactoryGirl
         end
       end
       overrides.each { |attr, val| proxy.set(attr, val) }
-      proxy.result(@to_create_block)
+      result = proxy.result(@to_create_block)
+
+      block ? block.call(result) : result
     end
 
     def human_names
