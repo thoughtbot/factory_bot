@@ -1,8 +1,6 @@
 require "spec_helper"
 
-describe "modifying factories" do
-  include FactoryGirl::Syntax::Methods
-
+describe "modifying factories", :syntax_methods do
   before do
     define_model('User', :name => :string, :admin => :boolean, :email => :string, :login => :string)
 

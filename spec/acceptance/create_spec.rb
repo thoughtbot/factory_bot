@@ -1,8 +1,6 @@
 require 'spec_helper'
 
-describe "a created instance" do
-  include FactoryGirl::Syntax::Methods
-
+describe "a created instance", :syntax_methods do
   before do
     define_model('User')
 
@@ -31,9 +29,7 @@ describe "a created instance" do
   end
 end
 
-describe "a created instance, specifying :method => build" do
-  include FactoryGirl::Syntax::Methods
-
+describe "a created instance, specifying :method => build", :syntax_methods do
   before do
     define_model('User')
 
@@ -58,9 +54,7 @@ describe "a created instance, specifying :method => build" do
   end
 end
 
-describe "a custom create" do
-  include FactoryGirl::Syntax::Methods
-
+describe "a custom create", :syntax_methods do
   before do
     define_class('User') do
       def initialize

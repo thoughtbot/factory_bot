@@ -1,8 +1,6 @@
 require 'spec_helper'
 
-describe "sequences" do
-  include FactoryGirl::Syntax::Methods
-
+describe "sequences", :syntax_methods do
   it "generates several values in the correct format" do
     FactoryGirl.define do
       sequence :email do |n|

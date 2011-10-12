@@ -1,8 +1,6 @@
 require 'spec_helper'
 
-describe "a generated stub instance" do
-  include FactoryGirl::Syntax::Methods
-
+describe "a generated stub instance", :syntax_methods do
   before do
     define_model('User')
 

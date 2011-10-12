@@ -1,8 +1,6 @@
 require 'spec_helper'
 
-describe "a generated attributes hash" do
-  include FactoryGirl::Syntax::Methods
-
+describe "a generated attributes hash", :syntax_methods do
   before do
     define_model('User')
 

@@ -1,8 +1,6 @@
 require 'spec_helper'
 
-describe "a generated attributes hash where order matters" do
-  include FactoryGirl::Syntax::Methods
-
+describe "a generated attributes hash where order matters", :syntax_methods do
   before do
     define_model('ParentModel', :static           => :integer,
                                 :evaluates_first  => :integer,

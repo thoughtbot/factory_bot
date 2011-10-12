@@ -1,8 +1,6 @@
 require 'spec_helper'
 
-describe "a built instance" do
-  include FactoryGirl::Syntax::Methods
-
+describe "a built instance", :syntax_methods do
   before do
     define_model('User')
 
@@ -31,9 +29,7 @@ describe "a built instance" do
   end
 end
 
-describe "a built instance with :method => :build" do
-  include FactoryGirl::Syntax::Methods
-
+describe "a built instance with :method => :build", :syntax_methods do
   before do
     define_model('User')
 
