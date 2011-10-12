@@ -75,3 +75,21 @@ describe "a generated stub instance" do
   end
 end
 
+describe "calling `build_stubbed` with a block" do
+  include FactoryGirl::Syntax::Methods
+
+  before do
+    define_model('Company', :name => :string)
+
+    FactoryGirl.define do
+      factory :company
+    end
+  end
+
+  it "passes the stub instance" do
+    build_stubbed(:company, :name => 'thoughtbot') do |company|
+      company.name.should eq('thoughtbot')
+      expect { company.save }.to raise_error(RuntimeError)
+    end
+  end
+end

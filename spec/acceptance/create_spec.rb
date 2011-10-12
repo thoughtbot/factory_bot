@@ -89,3 +89,21 @@ describe "a custom create" do
     FactoryGirl.create(:user).should be_persisted
   end
 end
+
+describe "calling `create` with a block" do
+  include FactoryGirl::Syntax::Methods
+
+  before do
+    define_model('Company', :name => :string)
+
+    FactoryGirl.define do
+      factory :company
+    end
+  end
+
+  it "passes the created instance" do
+    create(:company, :name => 'thoughtbot') do |company|
+      company.name.should eq('thoughtbot')
+    end
+  end
+end

@@ -44,3 +44,20 @@ describe "a generated attributes hash" do
   end
 end
 
+describe "calling `attributes_for` with a block" do
+  include FactoryGirl::Syntax::Methods
+
+  before do
+    define_model('Company', :name => :string)
+
+    FactoryGirl.define do
+      factory :company
+    end
+  end
+
+  it "passes the hash of attributes" do
+    attributes_for(:company, :name => 'thoughtbot') do |attributes|
+      attributes[:name].should eq('thoughtbot')
+    end
+  end
+end
