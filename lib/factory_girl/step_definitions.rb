@@ -109,7 +109,7 @@ FactoryGirl.factories.each do |factory|
     end
 
     Given /^(\d+) #{human_name.pluralize} exist$/i do |count|
-      count.to_i.times { FactoryGirl.create(factory.name) }
+      FactoryGirl.create_list(factory.name, count.to_i)
     end
 
     if factory.build_class.respond_to?(:columns)
@@ -120,7 +120,7 @@ FactoryGirl.factories.each do |factory|
         end
 
         Given /^(\d+) #{human_name.pluralize} exist with an? #{human_column_name} of "([^"]*)"$/i do |count, value|
-          count.to_i.times { FactoryGirl.create(factory.name, column.name => value) }
+          FactoryGirl.create_list(factory.name, count.to_i, column.name => value)
         end
       end
     end
