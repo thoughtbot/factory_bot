@@ -1,8 +1,6 @@
 require 'spec_helper'
 
-describe "a generated attributes hash where order matters" do
-  include FactoryGirl::Syntax::Methods
-
+describe "a generated attributes hash where order matters", :syntax_methods do
   before do
     define_model('ParentModel', :static           => :integer,
                                 :evaluates_first  => :integer,
@@ -33,9 +31,9 @@ describe "a generated attributes hash where order matters" do
     subject { FactoryGirl.build(:child_model) }
 
     it "assigns attributes in the order they're defined with preference to static attributes" do
-      subject[:evaluates_first].should  == 1
-      subject[:evaluates_second].should == 1
-      subject[:evaluates_third].should  == 1
+      subject[:evaluates_first].should  eq 1
+      subject[:evaluates_second].should eq 1
+      subject[:evaluates_third].should  eq 1
     end
   end
 
@@ -43,9 +41,9 @@ describe "a generated attributes hash where order matters" do
     subject { FactoryGirl.build(:without_parent) }
 
     it "assigns attributes in the order they're defined with preference to static attributes without a parent class" do
-      subject[:evaluates_first].should  == 1
-      subject[:evaluates_second].should == 1
-      subject[:evaluates_third].should  == 1
+      subject[:evaluates_first].should  eq 1
+      subject[:evaluates_second].should eq 1
+      subject[:evaluates_third].should  eq 1
     end
   end
 end

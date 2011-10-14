@@ -15,15 +15,15 @@ describe FactoryGirl::AttributeList, "#define_attribute" do
 
   it "maintains a list of attributes" do
     subject.define_attribute(static_attribute)
-    subject.to_a.should == [static_attribute]
+    subject.to_a.should eq [static_attribute]
 
     subject.define_attribute(dynamic_attribute)
-    subject.to_a.should == [static_attribute, dynamic_attribute]
+    subject.to_a.should eq [static_attribute, dynamic_attribute]
   end
 
   it "returns the attribute" do
-    subject.define_attribute(static_attribute).should == static_attribute
-    subject.define_attribute(dynamic_attribute).should == dynamic_attribute
+    subject.define_attribute(static_attribute).should eq static_attribute
+    subject.define_attribute(dynamic_attribute).should eq dynamic_attribute
   end
 
   it "raises if an attribute has already been defined" do
@@ -40,7 +40,7 @@ describe FactoryGirl::AttributeList, "#define_attribute" do
       subject.define_attribute(static_attribute)
       subject.define_attribute(static_attribute_with_same_name)
 
-      subject.to_a.should == [static_attribute_with_same_name]
+      subject.to_a.should eq [static_attribute_with_same_name]
     end
   end
 end
@@ -52,8 +52,8 @@ describe FactoryGirl::AttributeList, "#add_callback" do
   it "allows for defining adding a callback" do
     subject.add_callback(FactoryGirl::Callback.new(:after_create, lambda { "Called after_create" }))
 
-    subject.callbacks.first.name.should == :after_create
-    subject.callbacks.first.run(nil, nil).should == "Called after_create"
+    subject.callbacks.first.name.should eq :after_create
+    subject.callbacks.first.run(nil, nil).should eq "Called after_create"
   end
 end
 
@@ -72,20 +72,20 @@ describe FactoryGirl::AttributeList, "#apply_attributes" do
   it "prepends applied attributes" do
     subject.define_attribute(full_name_attribute)
     subject.apply_attributes(list(city_attribute))
-    subject.to_a.should == [city_attribute, full_name_attribute]
+    subject.to_a.should eq [city_attribute, full_name_attribute]
   end
 
   it "moves non-static attributes to the end of the list" do
     subject.define_attribute(full_name_attribute)
     subject.apply_attributes(list(city_attribute, email_attribute))
-    subject.to_a.should == [city_attribute, full_name_attribute, email_attribute]
+    subject.to_a.should eq [city_attribute, full_name_attribute, email_attribute]
   end
 
   it "maintains order of non-static attributes" do
     subject.define_attribute(full_name_attribute)
     subject.define_attribute(login_attribute)
     subject.apply_attributes(list(city_attribute, email_attribute))
-    subject.to_a.should == [city_attribute, full_name_attribute, email_attribute, login_attribute]
+    subject.to_a.should eq [city_attribute, full_name_attribute, email_attribute, login_attribute]
   end
 
   it "doesn't overwrite attributes that are already defined" do
@@ -93,7 +93,7 @@ describe FactoryGirl::AttributeList, "#apply_attributes" do
     attribute_with_same_name = FactoryGirl::Attribute::Static.new(:full_name, "Benjamin Franklin", false)
 
     subject.apply_attributes(list(attribute_with_same_name))
-    subject.to_a.should == [full_name_attribute]
+    subject.to_a.should eq [full_name_attribute]
   end
 
   context "when set as overridable" do
@@ -102,20 +102,20 @@ describe FactoryGirl::AttributeList, "#apply_attributes" do
     it "prepends applied attributes" do
       subject.define_attribute(full_name_attribute)
       subject.apply_attributes(list(city_attribute))
-      subject.to_a.should == [city_attribute, full_name_attribute]
+      subject.to_a.should eq [city_attribute, full_name_attribute]
     end
 
     it "moves non-static attributes to the end of the list" do
       subject.define_attribute(full_name_attribute)
       subject.apply_attributes(list(city_attribute, email_attribute))
-      subject.to_a.should == [city_attribute, full_name_attribute, email_attribute]
+      subject.to_a.should eq [city_attribute, full_name_attribute, email_attribute]
     end
 
     it "maintains order of non-static attributes" do
       subject.define_attribute(full_name_attribute)
       subject.define_attribute(login_attribute)
       subject.apply_attributes(list(city_attribute, email_attribute))
-      subject.to_a.should == [city_attribute, full_name_attribute, email_attribute, login_attribute]
+      subject.to_a.should eq [city_attribute, full_name_attribute, email_attribute, login_attribute]
     end
 
     it "overwrites attributes that are already defined" do
@@ -123,7 +123,7 @@ describe FactoryGirl::AttributeList, "#apply_attributes" do
       attribute_with_same_name = FactoryGirl::Attribute::Static.new(:full_name, "Benjamin Franklin", false)
 
       subject.apply_attributes(list(attribute_with_same_name))
-      subject.to_a.should == [attribute_with_same_name]
+      subject.to_a.should eq [attribute_with_same_name]
     end
   end
 end

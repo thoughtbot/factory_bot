@@ -78,7 +78,7 @@ describe "definition loading" do
     describe "with several factories files under #{dir}/factories in non-alphabetical order" do
       in_directory_with_files File.join(dir, 'factories', 'b.rb'),
                               File.join(dir, 'factories', 'a.rb')
-      it "should load the files in the right order" do
+      it "loads the files in the right order" do
         FactoryGirl.stubs(:load)
         sorted_load_order = sequence("load order")
         FactoryGirl.expects(:load).with(includes("a.rb")).in_sequence(sorted_load_order)

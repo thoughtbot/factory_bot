@@ -21,11 +21,11 @@ describe FactoryGirl::Proxy::Stub do
 
     it "assigns created_at" do
       created_at = subject.result(nil).created_at
-      created_at.should == Time.now
+      created_at.should eq Time.now
 
       Timecop.travel(150000)
 
-      subject.result(nil).created_at.should == created_at
+      subject.result(nil).created_at.should eq created_at
     end
 
     [:save, :destroy, :connection, :reload, :update_attribute].each do |database_method|

@@ -16,7 +16,7 @@ describe FactoryGirl::Declaration::Implicit do
     end
 
     it "generates an association with the correct factory" do
-      attribute.factory.should == name
+      attribute.factory.should eq name
     end
 
     it "associates the factory" do

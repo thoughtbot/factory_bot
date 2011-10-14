@@ -1,8 +1,6 @@
 require 'spec_helper'
 
-describe "a stubbed instance" do
-  include FactoryGirl::Syntax::Methods
-
+describe "a stubbed instance", :syntax_methods do
   before do
     define_model('User')
 
@@ -31,9 +29,7 @@ describe "a stubbed instance" do
   end
 end
 
-describe "a stubbed instance with :method => :build" do
-  include FactoryGirl::Syntax::Methods
-
+describe "a stubbed instance with :method => :build", :syntax_methods do
   before do
     define_model('User')
 

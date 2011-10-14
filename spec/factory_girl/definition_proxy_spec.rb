@@ -4,7 +4,7 @@ describe FactoryGirl::DefinitionProxy do
   let(:factory) { FactoryGirl::Factory.new(:object) }
   subject { FactoryGirl::DefinitionProxy.new(factory) }
 
-  it "should add a static attribute when an attribute is defined with a value" do
+  it "adds a static attribute when an attribute is defined with a value" do
     attribute = stub('attribute', :name => :name)
     FactoryGirl::Attribute::Static.stubs(:new => attribute)
     factory.stubs(:define_attribute)
@@ -14,7 +14,7 @@ describe FactoryGirl::DefinitionProxy do
     FactoryGirl::Attribute::Static.should have_received(:new).with(:name, "value", false)
   end
 
-  it "should add a dynamic attribute when an attribute is defined with a block" do
+  it "adds a dynamic attribute when an attribute is defined with a block" do
     attribute = stub('attribute', :name => :name)
     block     = lambda {}
     FactoryGirl::Attribute::Dynamic.stubs(:new => attribute)
@@ -25,30 +25,30 @@ describe FactoryGirl::DefinitionProxy do
     factory.should have_received(:define_attribute).with(attribute)
   end
 
-  it "should raise for an attribute with a value and a block" do
-    lambda {
+  it "raises for an attribute with a value and a block" do
+    expect {
       subject.add_attribute(:name, 'value') {}
-    }.should raise_error(FactoryGirl::AttributeDefinitionError)
+    }.to raise_error(FactoryGirl::AttributeDefinitionError)
   end
 
   describe "child factories" do
-    its(:child_factories) { should == [] }
+    its(:child_factories) { should eq [] }
 
-    it "should be able to add child factories" do
+    it "is be able to add child factories" do
       block = lambda {}
       subject.factory(:admin, { :aliases => [:great] }, &block)
-      subject.child_factories.should == [[:admin, { :aliases => [:great] }, block]]
+      subject.child_factories.should eq [[:admin, { :aliases => [:great] }, block]]
     end
   end
 
   describe "adding an attribute using a in-line sequence" do
-    it "should create the sequence" do
+    it "creates the sequence" do
       FactoryGirl::Sequence.stubs(:new)
       subject.sequence(:name) {}
       FactoryGirl::Sequence.should have_received(:new).with(:name, 1)
     end
 
-    it "should create the sequence with a custom default value" do
+    it "creates the sequence with a custom default value" do
       FactoryGirl::Sequence.stubs(:new)
       subject.sequence(:name, "A") {}
       FactoryGirl::Sequence.should have_received(:new).with(:name, "A")
@@ -73,19 +73,19 @@ describe FactoryGirl::DefinitionProxy, "with a factory mock" do
   subject { FactoryGirl::DefinitionProxy.new(factory_mock) }
 
   it "defines after_build callbacks" do
-    subject.after_build { "after_build value" }.should == [:after_build, "after_build value"]
+    subject.after_build { "after_build value" }.should eq [:after_build, "after_build value"]
   end
 
   it "defines after_create callbacks" do
-    subject.after_create { "after_create value" }.should == [:after_create, "after_create value"]
+    subject.after_create { "after_create value" }.should eq [:after_create, "after_create value"]
   end
 
   it "defines after_stub callbacks" do
-    subject.after_stub { "after_stub value" }.should == [:after_stub, "after_stub value"]
+    subject.after_stub { "after_stub value" }.should eq [:after_stub, "after_stub value"]
   end
 
   it "defines to_create" do
-    subject.to_create { "to_create value" }.should == "to_create value"
+    subject.to_create { "to_create value" }.should eq "to_create value"
   end
 end
 

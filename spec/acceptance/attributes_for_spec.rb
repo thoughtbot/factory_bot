@@ -1,8 +1,6 @@
 require 'spec_helper'
 
-describe "a generated attributes hash" do
-  include FactoryGirl::Syntax::Methods
-
+describe "a generated attributes hash", :syntax_methods do
   before do
     define_model('User')
 
@@ -28,15 +26,15 @@ describe "a generated attributes hash" do
   subject { attributes_for(:post, :title => 'overridden title') }
 
   it "assigns an overridden value" do
-    subject[:title].should == "overridden title"
+    subject[:title].should eq "overridden title"
   end
 
   it "assigns a default value" do
-    subject[:body].should == "default body"
+    subject[:body].should eq "default body"
   end
 
   it "assigns a lazy, dependent attribute" do
-    subject[:summary].should == "overridden title"
+    subject[:summary].should eq "overridden title"
   end
 
   it "doesn't assign associations" do

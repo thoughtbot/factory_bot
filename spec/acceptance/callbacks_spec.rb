@@ -20,28 +20,28 @@ describe "callbacks" do
 
   it "runs the after_stub callback when stubbing" do
     user = FactoryGirl.build_stubbed(:user_with_callbacks)
-    user.first_name.should == 'Stubby'
+    user.first_name.should eq 'Stubby'
   end
 
   it "runs the after_build callback when building" do
     user = FactoryGirl.build(:user_with_callbacks)
-    user.first_name.should == 'Buildy'
+    user.first_name.should eq 'Buildy'
   end
 
   it "runs both the after_build and after_create callbacks when creating" do
     user = FactoryGirl.create(:user_with_callbacks)
-    user.first_name.should == 'Buildy'
-    user.last_name.should == 'Createy'
+    user.first_name.should eq 'Buildy'
+    user.last_name.should eq 'Createy'
   end
 
   it "runs both the after_stub callback on the factory and the inherited after_stub callback" do
     user = FactoryGirl.build_stubbed(:user_with_inherited_callbacks)
-    user.first_name.should == 'Stubby'
-    user.last_name.should == 'Double-Stubby'
+    user.first_name.should eq 'Stubby'
+    user.last_name.should eq 'Double-Stubby'
   end
 
   it "runs child callback after parent callback" do
     user = FactoryGirl.build(:user_with_inherited_callbacks)
-    user.first_name.should == 'Child-Buildy'
+    user.first_name.should eq 'Child-Buildy'
   end
 end

@@ -32,11 +32,11 @@ describe FactoryGirl::Proxy::AttributesFor do
     before { subject.set(attribute, value) }
 
     it "sets that value in the resulting hash" do
-      subject.result(nil)[attribute].should == value
+      subject.result(nil)[attribute].should eq value
     end
 
     it "returns that value when asked for that attribute" do
-      subject.get(attribute).should == value
+      subject.get(attribute).should eq value
     end
   end
 end
