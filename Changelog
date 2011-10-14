@@ -1,3 +1,18 @@
+2.2.0 (October 14, 2011)
+  Clean up RSpec suite to not use 'should'
+  Use create_list in step definitions
+  Syntax methods that deal with ORM interaction (attributes_for, build, build_stubbed,
+    and create) now accept a block that yields the result. This results in a
+    more convenient way to interact with the result than using Object.tap.
+  Standardize deprecation warnings
+  Update transient attribute syntax to use blocks instead of calling ignore on
+    each attribute declaration
+  Parents can be defined after children because factories are evaluated when
+    they're used; this means breaking up factories across multiple files will
+    behave as expected
+  Large internal refactoring, including changing access modifiers for a
+    handful of methods for a more clearly defined API
+
 2.1.2 (September 23, 2011)
   Bugfix: Vintage syntax fixed after bug introduced in 2.1.1
   Introduce dependency on activesupport to remove code from Factory class
