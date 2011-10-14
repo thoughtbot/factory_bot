@@ -15,5 +15,8 @@ module FactoryGirl
     def to_attributes
       build
     end
+
+    protected
+    attr_reader :ignored
   end
 end

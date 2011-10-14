@@ -5,9 +5,10 @@ module FactoryGirl
     def initialize(name, &block) #:nodoc:
       @name = name
       @attribute_list = AttributeList.new
+      @block = block
 
       proxy = FactoryGirl::DefinitionProxy.new(self)
-      proxy.instance_eval(&block) if block_given?
+      proxy.instance_eval(&@block) if block_given?
     end
 
     def declare_attribute(declaration)
@@ -33,5 +34,13 @@ module FactoryGirl
     def names
       [@name]
     end
+
+    def ==(other)
+      name == other.name &&
+        block == other.block
+    end
+
+    protected
+    attr_reader :block
   end
 end

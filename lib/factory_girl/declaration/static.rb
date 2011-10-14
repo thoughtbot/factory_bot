@@ -6,6 +6,15 @@ module FactoryGirl
         @value = value
       end
 
+      def ==(other)
+        name == other.name &&
+          value == other.value &&
+          ignored == other.ignored
+      end
+
+      protected
+      attr_reader :value
+
       private
 
       def build

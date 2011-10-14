@@ -6,6 +6,14 @@ module FactoryGirl
         @options = options
       end
 
+      def ==(other)
+        name == other.name &&
+          options == other.options
+      end
+
+      protected
+      attr_reader :options
+
       private
 
       def build
