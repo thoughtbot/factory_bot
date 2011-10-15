@@ -71,9 +71,9 @@ describe FactoryGirl::Factory do
     end
 
     it "does not call a lazy attribute block for an overridden attribute" do
-      declaration = FactoryGirl::Declaration::Dynamic.new(@name, lambda { flunk })
+      declaration = FactoryGirl::Declaration::Dynamic.new(@name, false, lambda { flunk })
       @factory.declare_attribute(declaration)
-      result = @factory.run(FactoryGirl::Proxy::AttributesFor, @hash)
+      @factory.run(FactoryGirl::Proxy::AttributesFor, @hash)
     end
 
     it "overrides a symbol parameter with a string parameter" do
