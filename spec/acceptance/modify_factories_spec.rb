@@ -39,7 +39,7 @@ describe "modifying factories" do
     it "doesn't allow the factory to be subsequently defined" do
       expect do
         FactoryGirl.define { factory :user }
-      end.to raise_error(FactoryGirl::DuplicateDefinitionError)
+      end.to raise_error(FactoryGirl::DuplicateDefinitionError, "Factory already registered: user")
     end
 
     it "does allow the factory to be subsequently modified" do

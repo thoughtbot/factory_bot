@@ -44,7 +44,7 @@ module FactoryGirl
   class DuplicateDefinitionError < RuntimeError; end
 
   def self.factories
-    @factories ||= Registry.new
+    @factories ||= Registry.new("Factory")
   end
 
   def self.register_factory(factory)
@@ -56,7 +56,7 @@ module FactoryGirl
   end
 
   def self.sequences
-    @sequences ||= Registry.new
+    @sequences ||= Registry.new("Sequence")
   end
 
   def self.register_sequence(sequence)
@@ -68,7 +68,7 @@ module FactoryGirl
   end
 
   def self.traits
-    @traits ||= Registry.new
+    @traits ||= Registry.new("Trait")
   end
 
   def self.register_trait(trait)

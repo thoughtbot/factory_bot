@@ -6,8 +6,9 @@ describe FactoryGirl::Registry do
   let(:factory)              { FactoryGirl::Factory.new(:object) }
   let(:other_factory)        { FactoryGirl::Factory.new(:string) }
   let(:factory_with_aliases) { FactoryGirl::Factory.new(:string, :aliases => aliases) }
+  let(:registry_name)        { "Factory" }
 
-  subject { FactoryGirl::Registry.new }
+  subject { FactoryGirl::Registry.new(registry_name) }
 
   it { should be_kind_of(Enumerable) }
 
@@ -17,7 +18,7 @@ describe FactoryGirl::Registry do
   end
 
   it "raises when finding an unregistered factory" do
-    expect { subject.find(:bogus) }.to raise_error(ArgumentError)
+    expect { subject.find(:bogus) }.to raise_error(ArgumentError, "Factory not registered: bogus")
   end
 
   it "adds and returns a factory" do
@@ -62,7 +63,7 @@ describe FactoryGirl::Registry do
 
   it "doesn't allow a duplicate name" do
     expect { 2.times { subject.add(factory) } }.
-      to raise_error(FactoryGirl::DuplicateDefinitionError)
+      to raise_error(FactoryGirl::DuplicateDefinitionError, "Factory already registered: object")
   end
 
   it "registers aliases" do

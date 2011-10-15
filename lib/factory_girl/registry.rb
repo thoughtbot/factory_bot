@@ -2,7 +2,8 @@ module FactoryGirl
   class Registry
     include Enumerable
 
-    def initialize
+    def initialize(name)
+      @name  = name
       @items = {}
     end
 
@@ -12,7 +13,7 @@ module FactoryGirl
     end
 
     def find(name)
-      @items[name.to_sym] or raise ArgumentError.new("Not registered: #{name.to_s}")
+      @items[name.to_sym] or raise ArgumentError.new("#{@name} not registered: #{name.to_s}")
     end
 
     def each(&block)
@@ -35,7 +36,7 @@ module FactoryGirl
 
     def add_as(name, item)
       if registered?(name)
-        raise DuplicateDefinitionError, "Already defined: #{name}"
+        raise DuplicateDefinitionError, "#{@name} already registered: #{name}"
       else
         @items[name.to_sym] = item
       end
