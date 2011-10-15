@@ -128,20 +128,17 @@ describe FactoryGirl::DefinitionProxy, "adding callbacks" do
 
   context "#after_build" do
     before { proxy.after_build(&callback) }
-
-    its(:build_callbacks) { should include(callback) }
+    it     { should have_callback(:after_build).with_block(callback) }
   end
 
   context "#after_create" do
     before { proxy.after_create(&callback) }
-
-    its(:create_callbacks) { should include(callback) }
+    it     { should have_callback(:after_create).with_block(callback) }
   end
 
   context "#after_stub" do
     before { proxy.after_stub(&callback) }
-
-    its(:stub_callbacks) { should include(callback) }
+    it     { should have_callback(:after_stub).with_block(callback) }
   end
 end
 

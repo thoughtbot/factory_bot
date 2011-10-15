@@ -19,7 +19,7 @@ module FactoryGirl
       @compiled         = false
     end
 
-    delegate :overridable?, :declarations, :declare_attribute, :to => :@attribute_list
+    delegate :overridable?, :declarations, :declare_attribute, :add_callback, :to => :@attribute_list
 
     def factory_name
       $stderr.puts "DEPRECATION WARNING: factory.factory_name is deprecated; use factory.name instead."
@@ -42,10 +42,6 @@ module FactoryGirl
 
     def define_trait(trait)
       @defined_traits << trait
-    end
-
-    def add_callback(name, &block)
-      @attribute_list.add_callback(Callback.new(name, block))
     end
 
     def run(proxy_class, overrides, &block) #:nodoc:

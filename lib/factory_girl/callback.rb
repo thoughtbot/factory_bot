@@ -18,6 +18,11 @@ module FactoryGirl
       end
     end
 
+    def ==(other)
+      name == other.name &&
+        block == other.block
+    end
+
     private
 
     def check_name

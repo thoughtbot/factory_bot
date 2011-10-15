@@ -139,15 +139,15 @@ module FactoryGirl
     end
 
     def after_build(&block)
-      @factory.add_callback(:after_build, &block)
+      @factory.add_callback(Callback.new(:after_build, block))
     end
 
     def after_create(&block)
-      @factory.add_callback(:after_create, &block)
+      @factory.add_callback(Callback.new(:after_create, block))
     end
 
     def after_stub(&block)
-      @factory.add_callback(:after_stub, &block)
+      @factory.add_callback(Callback.new(:after_stub, block))
     end
 
     def to_create(&block)

@@ -1,10 +1,10 @@
 class MockFactory
-  attr_reader :declarations, :traits
+  attr_reader :declarations, :traits, :callbacks
 
   def initialize
     @declarations = []
     @traits       = []
-    @callbacks    = Hash.new([])
+    @callbacks    = []
     @to_create    = nil
   end
 
@@ -20,20 +20,8 @@ class MockFactory
     @declarations << declaration
   end
 
-  def build_callbacks
-    @callbacks[:after_build]
-  end
-
-  def create_callbacks
-    @callbacks[:after_create]
-  end
-
-  def stub_callbacks
-    @callbacks[:after_stub]
-  end
-
-  def add_callback(callback_type, &callback)
-    @callbacks[callback_type] << callback
+  def add_callback(callback)
+    @callbacks << callback
   end
 
   def define_trait(trait)
