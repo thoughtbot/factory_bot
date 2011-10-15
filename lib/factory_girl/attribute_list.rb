@@ -5,10 +5,10 @@ module FactoryGirl
     attr_reader :callbacks, :declarations
 
     def initialize
-      @attributes  = {}
+      @attributes   = {}
       @declarations = []
-      @overridable = false
-      @callbacks = []
+      @callbacks    = []
+      @overridable  = false
     end
 
     def declare_attribute(declaration)
@@ -17,10 +17,7 @@ module FactoryGirl
     end
 
     def define_attribute(attribute)
-      if !overridable? && attribute_defined?(attribute.name)
-        raise AttributeDefinitionError, "Attribute already defined: #{attribute.name}"
-      end
-
+      ensure_attribute_not_defined! attribute
       add_attribute attribute
     end
 
@@ -88,6 +85,12 @@ module FactoryGirl
         result << @attributes[key]
         result
       end.flatten
+    end
+
+    def ensure_attribute_not_defined!(attribute)
+      if !overridable? && attribute_defined?(attribute.name)
+        raise AttributeDefinitionError, "Attribute already defined: #{attribute.name}"
+      end
     end
 
     def attribute_defined?(attribute_name)
