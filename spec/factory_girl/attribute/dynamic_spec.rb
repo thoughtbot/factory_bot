@@ -51,6 +51,6 @@ describe FactoryGirl::Attribute::Dynamic do
 end
 
 describe FactoryGirl::Attribute::Dynamic, "with a string name" do
-  subject    { FactoryGirl::Attribute::Dynamic.new("name", nil, false) }
+  subject    { FactoryGirl::Attribute::Dynamic.new("name", false, lambda { } ) }
   its(:name) { should == :name }
 end
