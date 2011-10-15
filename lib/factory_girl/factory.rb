@@ -1,4 +1,5 @@
 require "active_support/core_ext/hash/keys"
+require "active_support/core_ext/module/delegation"
 require "active_support/inflector"
 
 module FactoryGirl
@@ -18,6 +19,8 @@ module FactoryGirl
       @compiled         = false
     end
 
+    delegate :overridable?, :declarations, :declare_attribute, :to => :@attribute_list
+
     def factory_name
       $stderr.puts "DEPRECATION WARNING: factory.factory_name is deprecated; use factory.name instead."
       name
@@ -35,10 +38,6 @@ module FactoryGirl
       @compiled = false
       @attribute_list.overridable
       self
-    end
-
-    def allow_overrides?
-      @attribute_list.overridable?
     end
 
     def define_trait(trait)
@@ -132,10 +131,6 @@ module FactoryGirl
       compile unless @compiled
     end
 
-    def declare_attribute(declaration)
-      @attribute_list.declare_attribute(declaration)
-    end
-
     protected
 
     def class_name #:nodoc:
@@ -174,11 +169,7 @@ module FactoryGirl
 
     def inherit_factory(parent) #:nodoc:
       parent.ensure_compiled
-      allow_overrides if parent.allow_overrides?
-    end
-
-    def declarations
-      @attribute_list.declarations
+      allow_overrides if parent.overridable?
     end
 
     def define_attribute(attribute)
