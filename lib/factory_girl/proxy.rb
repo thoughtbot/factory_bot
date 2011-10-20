@@ -75,5 +75,11 @@ module FactoryGirl
     def result(to_create)
       raise NotImplementedError, "Strategies must return a result"
     end
+
+    def self.ensure_strategy_exists!(strategy)
+      unless Proxy.const_defined? strategy.to_s.camelize
+        raise ArgumentError, "Unknown strategy: #{strategy}"
+      end
+    end
   end
 end

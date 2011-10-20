@@ -42,3 +42,13 @@ describe FactoryGirl::Proxy, "when running callbacks" do
     callback_result.should == [:after_build_one]
   end
 end
+
+describe FactoryGirl::Proxy, ".ensure_strategy_exists!" do
+  it "raises when passed a nonexistent strategy" do
+    expect { FactoryGirl::Proxy.ensure_strategy_exists!(:nonexistent) }.to raise_error(ArgumentError, "Unknown strategy: nonexistent")
+  end
+
+  it "doesn't raise when passed a valid strategy" do
+    expect { FactoryGirl::Proxy.ensure_strategy_exists!(:create) }.to_not raise_error
+  end
+end

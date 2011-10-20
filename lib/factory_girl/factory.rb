@@ -168,15 +168,9 @@ module FactoryGirl
       options.assert_valid_keys(:class, :parent, :default_strategy, :aliases, :traits)
 
       if options[:default_strategy]
-        assert_valid_strategy(options[:default_strategy])
+        Proxy.ensure_strategy_exists!(options[:default_strategy])
         $stderr.puts "DEPRECATION WARNING: default_strategy is deprecated."
         $stderr.puts "Override to_create if you need to prevent a call to #save!."
-      end
-    end
-
-    def assert_valid_strategy(strategy)
-      unless Proxy.const_defined? strategy.to_s.camelize
-        raise ArgumentError, "Unknown strategy: #{strategy}"
       end
     end
 

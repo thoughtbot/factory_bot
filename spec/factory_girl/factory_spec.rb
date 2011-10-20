@@ -197,8 +197,8 @@ describe FactoryGirl::Factory do
     FactoryGirl.register_factory(factory_with_stub_strategy)
   end
 
-  it "raises an ArgumentError when trying to use a non-existent strategy" do
-    expect { factory_with_non_existent_strategy }.to raise_error(ArgumentError)
+  it "raises when trying to use a non-existent strategy" do
+    expect { factory_with_non_existent_strategy }.to raise_error
   end
 
   it "creates a new factory with a specified default strategy" do
