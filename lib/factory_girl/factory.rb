@@ -205,7 +205,7 @@ module FactoryGirl
 
         apply_callbacks
         apply_attributes
-        apply_remaining_attributes
+        apply_remaining_overrides
 
         proxy.result(@to_create)
       end
@@ -221,18 +221,22 @@ module FactoryGirl
       def apply_attributes
         @attributes.each do |attribute|
           if overrides_for_attribute(attribute).any?
-            handle_overrides(attribute)
+            handle_attribute_with_overrides(attribute)
           else
             handle_attribute_without_overrides(attribute)
           end
         end
       end
 
+      def apply_remaining_overrides
+        @overrides.each { |attr, val| proxy.set(attr, val) }
+      end
+
       def overrides_for_attribute(attribute)
         @overrides.select { |attr, val| attribute.aliases_for?(attr) }
       end
 
-      def handle_overrides(attribute)
+      def handle_attribute_with_overrides(attribute)
         overrides_for_attribute(attribute).each do |attr, val|
           if attribute.ignored
             proxy.set_ignored(attr, val)
@@ -246,10 +250,6 @@ module FactoryGirl
 
       def handle_attribute_without_overrides(attribute)
         attribute.add_to(proxy)
-      end
-
-      def apply_remaining_attributes
-        @overrides.each { |attr, val| proxy.set(attr, val) }
       end
 
       def proxy
