@@ -15,11 +15,11 @@ module FactoryGirl
       @class_name       = options[:class]
       @default_strategy = options[:default_strategy]
       @defined_traits   = []
-      @attribute_list   = AttributeList.new
+      @attribute_list   = build_attribute_list
       @compiled         = false
     end
 
-    delegate :overridable?, :declarations, :declare_attribute, :add_callback, :to => :@attribute_list
+    delegate :overridable?, :declarations, :declare_attribute, :define_attribute, :add_callback, :to => :@attribute_list
 
     def factory_name
       $stderr.puts "DEPRECATION WARNING: factory.factory_name is deprecated; use factory.name instead."
@@ -123,7 +123,7 @@ module FactoryGirl
 
     def attributes
       ensure_compiled
-      AttributeList.new.tap do |list|
+      build_attribute_list.tap do |list|
         @traits.reverse.map { |name| trait_by_name(name) }.each do |trait|
           list.apply_attributes(trait.attributes)
         end
@@ -156,14 +156,6 @@ module FactoryGirl
       allow_overrides if parent.overridable?
     end
 
-    def define_attribute(attribute)
-      if attribute.respond_to?(:factory) && attribute.factory == self.name
-        raise AssociationDefinitionError, "Self-referencing association '#{attribute.name}' in factory '#{self.name}'"
-      end
-
-      @attribute_list.define_attribute(attribute)
-    end
-
     def assert_valid_options(options)
       options.assert_valid_keys(:class, :parent, :default_strategy, :aliases, :traits)
 
@@ -181,6 +173,10 @@ module FactoryGirl
     def parent
       return unless @parent
       FactoryGirl.factory_by_name(@parent)
+    end
+
+    def build_attribute_list
+      AttributeList.new(@name)
     end
 
     class Runner

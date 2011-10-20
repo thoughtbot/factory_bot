@@ -48,14 +48,6 @@ describe FactoryGirl::Factory do
     factory.associations.size.should == 3
   end
 
-  it "raises for a self referencing association" do
-    factory = FactoryGirl::Factory.new(:post)
-    lambda {
-      factory.declare_attribute(FactoryGirl::Declaration::Association.new(:parent, { :factory => :post }))
-      factory.ensure_compiled
-    }.should raise_error(FactoryGirl::AssociationDefinitionError)
-  end
-
   describe "when overriding generated attributes with a hash" do
     before do
       @name  = :name

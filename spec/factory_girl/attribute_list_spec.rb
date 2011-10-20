@@ -45,6 +45,21 @@ describe FactoryGirl::AttributeList, "#define_attribute" do
   end
 end
 
+describe FactoryGirl::AttributeList, "#define_attribute with a named attribute list" do
+  subject { FactoryGirl::AttributeList.new(:author) }
+
+  let(:association_with_same_name)      { FactoryGirl::Attribute::Association.new(:author, :author, {}) }
+  let(:association_with_different_name) { FactoryGirl::Attribute::Association.new(:author, :post, {}) }
+
+  it "raises when the attribute is a self-referencing association" do
+    expect { subject.define_attribute(association_with_same_name) }.to raise_error(FactoryGirl::AssociationDefinitionError, "Self-referencing association 'author' in 'author'")
+  end
+
+  it "does not raise when the attribute is not a self-referencing association" do
+    expect { subject.define_attribute(association_with_different_name) }.to_not raise_error
+  end
+end
+
 describe FactoryGirl::AttributeList, "#add_callback" do
   let(:proxy_class) { mock("klass") }
   let(:proxy) { FactoryGirl::Proxy.new(proxy_class) }

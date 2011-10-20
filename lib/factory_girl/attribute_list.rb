@@ -4,7 +4,8 @@ module FactoryGirl
 
     attr_reader :callbacks, :declarations
 
-    def initialize
+    def initialize(name = nil)
+      @name         = name
       @attributes   = {}
       @declarations = []
       @callbacks    = []
@@ -17,6 +18,10 @@ module FactoryGirl
     end
 
     def define_attribute(attribute)
+      if attribute.respond_to?(:factory) && attribute.factory == @name
+        raise AssociationDefinitionError, "Self-referencing association '#{attribute.name}' in '#{attribute.factory}'"
+      end
+
       ensure_attribute_not_defined! attribute
       add_attribute attribute
     end
