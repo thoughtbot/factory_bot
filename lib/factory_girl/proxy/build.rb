@@ -25,7 +25,7 @@ module FactoryGirl
       def association(factory_name, overrides = {})
         method = get_method(overrides[:method])
         factory = FactoryGirl.factory_by_name(factory_name)
-        factory.run(method, remove_method(overrides))
+        factory.run(method, overrides.except(:method))
       end
 
       def result(to_create)
@@ -34,10 +34,6 @@ module FactoryGirl
       end
 
       private
-
-      def remove_method(overrides)
-        overrides.dup.delete_if {|key, value| key == :method}
-      end
 
       def get_method(method)
         case method

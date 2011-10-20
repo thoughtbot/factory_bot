@@ -1,3 +1,5 @@
+require "active_support/core_ext/hash/except"
+
 module FactoryGirl
   class Proxy #:nodoc:
     def initialize(klass, callbacks = [])
