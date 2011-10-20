@@ -203,7 +203,6 @@ module FactoryGirl
       def run(overrides = {})
         @overrides = overrides.symbolize_keys
 
-        apply_callbacks
         apply_attributes
         apply_remaining_overrides
 
@@ -211,12 +210,6 @@ module FactoryGirl
       end
 
       private
-
-      def apply_callbacks
-        @callbacks.each do |callback|
-          proxy.add_callback(callback)
-        end
-      end
 
       def apply_attributes
         @attributes.each do |attribute|
@@ -253,7 +246,7 @@ module FactoryGirl
       end
 
       def proxy
-        @proxy ||= @proxy_class.new(@build_class)
+        @proxy ||= @proxy_class.new(@build_class, @callbacks)
       end
     end
   end

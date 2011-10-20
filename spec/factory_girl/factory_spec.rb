@@ -263,7 +263,7 @@ describe FactoryGirl::Factory, "running a factory" do
 
   it "creates the right proxy using the build class when running" do
     subject.run(FactoryGirl::Proxy::Build, {})
-    FactoryGirl::Proxy::Build.should have_received(:new).with(subject.build_class)
+    FactoryGirl::Proxy::Build.should have_received(:new).with(subject.build_class, [])
   end
 
   it "adds the attribute to the proxy when running" do

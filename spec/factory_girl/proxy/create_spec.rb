@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 describe FactoryGirl::Proxy::Create do
-
   let(:instance)    { stub("created-instance", :save! => true) }
   let(:proxy_class) { stub("class", :new => instance) }
 
@@ -24,17 +23,21 @@ describe FactoryGirl::Proxy::Create do
     instance.should have_received(:save!).never
   end
 
-  context "callback execution order" do
-    it "runs after_build callbacks before after_create callbacks" do
-      ran = []
-      after_create = FactoryGirl::Callback.new(:after_create, lambda { ran << :after_create })
-      after_build = FactoryGirl::Callback.new(:after_build, lambda { ran << :after_build })
-      subject.add_callback(after_create)
-      subject.add_callback(after_build)
+end
 
-      subject.result(nil)
+describe FactoryGirl::Proxy::Create, "when running callbacks" do
+  let(:instance)         { stub("created-instance", :save! => true) }
+  let(:proxy_class)      { stub("class", :new => instance) }
+  let!(:callback_result) { [] }
 
-      ran.should == [:after_build, :after_create]
-    end
+  let(:after_create_one) { FactoryGirl::Callback.new(:after_create, lambda { callback_result << :after_create_one }) }
+  let(:after_create_two) { FactoryGirl::Callback.new(:after_create, lambda { callback_result << :after_create_two }) }
+  let(:after_build_one)  { FactoryGirl::Callback.new(:after_build,  lambda { callback_result << :after_build_one }) }
+
+  subject { FactoryGirl::Proxy::Create.new(proxy_class, [after_create_one, after_create_two, after_build_one]) }
+
+  it "runs callbacks in the correct order" do
+    subject.result(nil)
+    callback_result.should == [:after_build_one, :after_create_one, :after_create_two]
   end
 end

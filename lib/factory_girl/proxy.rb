@@ -1,10 +1,12 @@
 module FactoryGirl
   class Proxy #:nodoc:
+    def initialize(klass, callbacks = [])
+      @callbacks = callbacks.inject({}) do |result, callback|
+        result[callback.name] ||= []
+        result[callback.name] << callback
+        result
+      end
 
-    attr_reader :callbacks
-
-    def initialize(klass)
-      @callbacks = {}
       @ignored_attributes = {}
     end
 
@@ -19,11 +21,6 @@ module FactoryGirl
     end
 
     def associate(name, factory, attributes)
-    end
-
-    def add_callback(callback)
-      @callbacks[callback.name] ||= []
-      @callbacks[callback.name] << callback
     end
 
     def run_callbacks(name)

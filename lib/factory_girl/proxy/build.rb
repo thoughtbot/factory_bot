@@ -1,8 +1,8 @@
 module FactoryGirl
   class Proxy #:nodoc:
     class Build < Proxy #:nodoc:
-      def initialize(klass)
-        super(klass)
+      def initialize(klass, callbacks = [])
+        super
         @instance = klass.new
       end
 

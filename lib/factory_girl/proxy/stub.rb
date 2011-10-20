@@ -3,8 +3,8 @@ module FactoryGirl
     class Stub < Proxy #:nodoc:
       @@next_id = 1000
 
-      def initialize(klass)
-        super(klass)
+      def initialize(klass, callbacks = [])
+        super
         @instance = klass.new
         @ignored_attributes = {}
         @instance.id = next_id

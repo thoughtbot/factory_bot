@@ -111,15 +111,14 @@ shared_examples_for "proxy with standard getters and setters" do |attribute, val
 end
 
 shared_examples_for "proxy with callbacks" do |callback_name|
-  let(:callback) { stub("#{callback_name} callback", :foo => nil) }
+  let(:callback_instance) { stub("#{callback_name} callback", :foo => nil) }
+  let(:callback) { FactoryGirl::Callback.new(callback_name, proc { callback_instance.foo }) }
 
-  before do
-    subject.add_callback(FactoryGirl::Callback.new(callback_name, proc { callback.foo }))
-  end
+  subject        { described_class.new(proxy_class, [callback]) }
 
   it "runs the #{callback_name} callback" do
     subject.result(nil)
-    callback.should have_received(:foo).once
+    callback_instance.should have_received(:foo).once
   end
 
   it "returns the proxy instance" do
