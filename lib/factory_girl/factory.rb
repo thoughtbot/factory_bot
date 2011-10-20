@@ -46,28 +46,16 @@ module FactoryGirl
 
     def run(proxy_class, overrides, &block) #:nodoc:
       ensure_compiled
-      proxy = proxy_class.new(build_class)
-      callbacks.each { |callback| proxy.add_callback(callback) }
-      overrides = overrides.symbolize_keys
 
-      attributes.each do |attribute|
-        factory_overrides = overrides.select { |attr, val| attribute.aliases_for?(attr) }
-        if factory_overrides.empty?
-          attribute.add_to(proxy)
-        else
-          factory_overrides.each do |attr, val|
-            if attribute.ignored
-              proxy.set_ignored(attr, val)
-            else
-              proxy.set(attr, val)
-            end
+      runner_options = {
+        :attributes  => attributes,
+        :callbacks   => callbacks,
+        :to_create   => @to_create_block,
+        :build_class => build_class,
+        :proxy_class => proxy_class
+      }
 
-            overrides.delete(attr)
-          end
-        end
-      end
-      overrides.each { |attr, val| proxy.set(attr, val) }
-      result = proxy.result(@to_create_block)
+      result = Runner.new(runner_options).run(overrides)
 
       block ? block.call(result) : result
     end
@@ -199,6 +187,74 @@ module FactoryGirl
     def parent
       return unless @parent
       FactoryGirl.factory_by_name(@parent)
+    end
+
+    class Runner
+      def initialize(options = {})
+        @attributes  = options[:attributes]
+        @callbacks   = options[:callbacks]
+        @to_create   = options[:to_create]
+        @build_class = options[:build_class]
+        @proxy_class = options[:proxy_class]
+
+        @overrides   = {}
+      end
+
+      def run(overrides = {})
+        @overrides = overrides.symbolize_keys
+
+        apply_callbacks
+        apply_attributes
+        apply_remaining_attributes
+
+        proxy.result(@to_create)
+      end
+
+      private
+
+      def apply_callbacks
+        @callbacks.each do |callback|
+          proxy.add_callback(callback)
+        end
+      end
+
+      def apply_attributes
+        @attributes.each do |attribute|
+          if overrides_for_attribute(attribute).any?
+            handle_overrides(attribute)
+          else
+            handle_attribute_without_overrides(attribute)
+          end
+        end
+      end
+
+      def overrides_for_attribute(attribute)
+        @overrides.select { |attr, val| attribute.aliases_for?(attr) }
+      end
+
+      def handle_overrides(attribute)
+        overrides_for_attribute(attribute).each do |attr, val|
+          if attribute.ignored
+            proxy.set_ignored(attr, val)
+          else
+            proxy.set(attr, val)
+          end
+
+          @overrides.delete(attr)
+        end
+      end
+
+      def handle_attribute_without_overrides(attribute)
+        attribute.add_to(proxy)
+      end
+
+      def apply_remaining_attributes
+        @overrides.each { |attr, val| proxy.set(attr, val) }
+      end
+
+      def proxy
+        @proxy ||= @proxy_class.new(@build_class)
+      end
     end
   end
 end
