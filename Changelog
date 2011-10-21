@@ -41,7 +41,7 @@
 		Josh Nichols)
   Factory names ending in 's' no longer cause problems (thanks to Alex Sharp
 		and Josh Owens)
-  
+
 1.1.3 (September 12, 2008)
   Automatically pull in definitions from factories.rb, test/factories.rb, or
 	spec/factories.rb
