@@ -229,6 +229,12 @@ describe FactoryGirl::Factory, "human names" do
     its(:human_names) { should == ["happy user"] }
   end
 
+  context "factory name with big letters" do
+    subject           { FactoryGirl::Factory.new(:LoL) }
+    its(:names)       { should == [:LoL] }
+    its(:human_names) { should == ["lol"] }
+  end
+
   context "factory name with aliases" do
     subject           { FactoryGirl::Factory.new(:happy_user, :aliases => [:gleeful_user, :person]) }
     its(:names)       { should == [:happy_user, :gleeful_user, :person] }
