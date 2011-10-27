@@ -272,4 +272,12 @@ describe FactoryGirl::Factory, "running a factory" do
     subject.run(FactoryGirl::Proxy::Build, { :name => "John Doe" })
     proxy.should have_received(:set).once
   end
+
+  it "calls the block and returns the result" do
+    block = proc { nil }
+    block.stubs(:call => "block result")
+
+    subject.run(FactoryGirl::Proxy::Build, { }, &block).should == "block result"
+    block.should have_received(:call).once
+  end
 end
