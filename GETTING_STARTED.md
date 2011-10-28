@@ -69,7 +69,7 @@ factory\_girl supports several different build strategies: build, create, attrib
     attrs = FactoryGirl.attributes_for(:user)
 
     # Returns an object with all defined attributes stubbed out
-    stub = FactoryGirl.build_stubbed(:user
+    stub = FactoryGirl.build_stubbed(:user)
 
     # Passing a block to any of the methods above will yield the return object
     FactoryGirl.create(:user) do |user|
