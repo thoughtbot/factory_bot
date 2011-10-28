@@ -46,7 +46,7 @@ module FactoryGirl
           factory = FactoryGirl.factory_by_name(name).allow_overrides
           proxy = FactoryGirl::DefinitionProxy.new(factory)
           proxy.instance_eval(&block)
-          factory.ensure_compiled
+          factory.compile
         end
       end
     end

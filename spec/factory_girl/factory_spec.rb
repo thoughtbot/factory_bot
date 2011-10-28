@@ -100,13 +100,13 @@ describe FactoryGirl::Factory do
 
   it "creates a new factory using the class of the parent" do
     child = FactoryGirl::Factory.new(:child, :parent => @factory.name)
-    child.ensure_compiled
+    child.compile
     child.build_class.should == @factory.build_class
   end
 
   it "creates a new factory while overriding the parent class" do
     child = FactoryGirl::Factory.new(:child, :class => String, :parent => @factory.name)
-    child.ensure_compiled
+    child.compile
     child.build_class.should == String
   end
 end
@@ -199,7 +199,7 @@ describe FactoryGirl::Factory do
 
   describe "defining a child factory without setting default strategy" do
     subject { FactoryGirl::Factory.new(:other_object, :parent => factory_with_stub_strategy.name) }
-    before  { subject.ensure_compiled }
+    before  { subject.compile }
 
     it "inherits default strategy from its parent" do
       subject.default_strategy.should == :stub
@@ -208,7 +208,7 @@ describe FactoryGirl::Factory do
 
   describe "defining a child factory with a default strategy" do
     subject { FactoryGirl::Factory.new(:other_object, :default_strategy => :build, :parent => factory_with_stub_strategy.name) }
-    before  { subject.ensure_compiled }
+    before  { subject.compile }
 
     it "overrides the default strategy from parent" do
       subject.default_strategy.should == :build

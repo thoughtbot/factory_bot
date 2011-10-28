@@ -95,7 +95,7 @@ end
 World(FactoryGirlStepHelpers)
 
 FactoryGirl.factories.each do |factory|
-  factory.ensure_compiled
+  factory.compile
   factory.human_names.each do |human_name|
     Given /^the following (?:#{human_name}|#{human_name.pluralize}) exists?:$/i do |table|
       table.hashes.each do |human_hash|

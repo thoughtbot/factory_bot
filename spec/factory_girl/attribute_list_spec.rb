@@ -60,19 +60,7 @@ describe FactoryGirl::AttributeList, "#define_attribute with a named attribute l
   end
 end
 
-describe FactoryGirl::AttributeList, "#add_callback" do
-  let(:proxy_class) { mock("klass") }
-  let(:proxy) { FactoryGirl::Proxy.new(proxy_class) }
-
-  it "allows for defining adding a callback" do
-    subject.add_callback(FactoryGirl::Callback.new(:after_create, lambda { "Called after_create" }))
-
-    subject.callbacks.first.name.should == :after_create
-    subject.callbacks.first.run(nil, nil).should == "Called after_create"
-  end
-end
-
-describe FactoryGirl::AttributeList, "#apply_attributes" do
+describe FactoryGirl::AttributeList, "#apply_attribute_list" do
   let(:full_name_attribute) { FactoryGirl::Attribute::Static.new(:full_name, "John Adams", false) }
   let(:city_attribute)      { FactoryGirl::Attribute::Static.new(:city, "Boston", false) }
   let(:email_attribute)     { FactoryGirl::Attribute::Dynamic.new(:email, false, lambda {|model| "#{model.full_name}@example.com" }) }
@@ -86,20 +74,20 @@ describe FactoryGirl::AttributeList, "#apply_attributes" do
 
   it "prepends applied attributes" do
     subject.define_attribute(full_name_attribute)
-    subject.apply_attributes(list(city_attribute))
+    subject.apply_attribute_list(list(city_attribute))
     subject.to_a.should == [city_attribute, full_name_attribute]
   end
 
   it "moves non-static attributes to the end of the list" do
     subject.define_attribute(full_name_attribute)
-    subject.apply_attributes(list(city_attribute, email_attribute))
+    subject.apply_attribute_list(list(city_attribute, email_attribute))
     subject.to_a.should == [city_attribute, full_name_attribute, email_attribute]
   end
 
   it "maintains order of non-static attributes" do
     subject.define_attribute(full_name_attribute)
     subject.define_attribute(login_attribute)
-    subject.apply_attributes(list(city_attribute, email_attribute))
+    subject.apply_attribute_list(list(city_attribute, email_attribute))
     subject.to_a.should == [city_attribute, full_name_attribute, email_attribute, login_attribute]
   end
 
@@ -107,7 +95,7 @@ describe FactoryGirl::AttributeList, "#apply_attributes" do
     subject.define_attribute(full_name_attribute)
     attribute_with_same_name = FactoryGirl::Attribute::Static.new(:full_name, "Benjamin Franklin", false)
 
-    subject.apply_attributes(list(attribute_with_same_name))
+    subject.apply_attribute_list(list(attribute_with_same_name))
     subject.to_a.should == [full_name_attribute]
   end
 
@@ -116,20 +104,20 @@ describe FactoryGirl::AttributeList, "#apply_attributes" do
 
     it "prepends applied attributes" do
       subject.define_attribute(full_name_attribute)
-      subject.apply_attributes(list(city_attribute))
+      subject.apply_attribute_list(list(city_attribute))
       subject.to_a.should == [city_attribute, full_name_attribute]
     end
 
     it "moves non-static attributes to the end of the list" do
       subject.define_attribute(full_name_attribute)
-      subject.apply_attributes(list(city_attribute, email_attribute))
+      subject.apply_attribute_list(list(city_attribute, email_attribute))
       subject.to_a.should == [city_attribute, full_name_attribute, email_attribute]
     end
 
     it "maintains order of non-static attributes" do
       subject.define_attribute(full_name_attribute)
       subject.define_attribute(login_attribute)
-      subject.apply_attributes(list(city_attribute, email_attribute))
+      subject.apply_attribute_list(list(city_attribute, email_attribute))
       subject.to_a.should == [city_attribute, full_name_attribute, email_attribute, login_attribute]
     end
 
@@ -137,7 +125,7 @@ describe FactoryGirl::AttributeList, "#apply_attributes" do
       subject.define_attribute(full_name_attribute)
       attribute_with_same_name = FactoryGirl::Attribute::Static.new(:full_name, "Benjamin Franklin", false)
 
-      subject.apply_attributes(list(attribute_with_same_name))
+      subject.apply_attribute_list(list(attribute_with_same_name))
       subject.to_a.should == [attribute_with_same_name]
     end
   end

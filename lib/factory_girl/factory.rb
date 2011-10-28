@@ -1,5 +1,4 @@
 require "active_support/core_ext/hash/keys"
-require "active_support/core_ext/module/delegation"
 require "active_support/inflector"
 
 module FactoryGirl
@@ -16,14 +15,18 @@ module FactoryGirl
       @default_strategy = options[:default_strategy]
       @defined_traits   = []
       @attribute_list   = build_attribute_list
-      @compiled         = false
+      @callbacks = []
     end
 
-    delegate :overridable?, :declarations, :declare_attribute, :define_attribute, :add_callback, :to => :@attribute_list
+    delegate :declare_attribute, :to => :@attribute_list
 
     def factory_name
       $stderr.puts "DEPRECATION WARNING: factory.factory_name is deprecated; use factory.name instead."
       name
+    end
+
+    def add_callback(callback)
+      @callbacks << callback
     end
 
     def build_class #:nodoc:
@@ -35,7 +38,6 @@ module FactoryGirl
     end
 
     def allow_overrides
-      @compiled = false
       @attribute_list.overridable
       self
     end
@@ -45,8 +47,6 @@ module FactoryGirl
     end
 
     def run(proxy_class, overrides, &block) #:nodoc:
-      ensure_compiled
-
       runner_options = {
         :attributes  => attributes,
         :callbacks   => callbacks,
@@ -111,8 +111,9 @@ module FactoryGirl
       @to_create_block = block
     end
 
-    def ensure_compiled
-      compile unless @compiled
+    def compile
+      parent.compile if parent
+      @attribute_list.ensure_compiled
     end
 
     protected
@@ -122,39 +123,24 @@ module FactoryGirl
     end
 
     def attributes
-      ensure_compiled
+      compile
       build_attribute_list.tap do |list|
-        @traits.reverse.map { |name| trait_by_name(name) }.each do |trait|
-          list.apply_attributes(trait.attributes)
+        traits.each do |trait|
+          list.apply_attribute_list(trait.attributes)
         end
 
-        list.apply_attributes(@attribute_list)
-        list.apply_attributes(parent.attributes) if parent
+        list.apply_attribute_list(@attribute_list)
+        list.apply_attribute_list(parent.attributes) if parent
       end
+    end
+
+    def callbacks
+      [@callbacks].tap do |result|
+        result.unshift(*parent.callbacks) if parent
+      end.flatten
     end
 
     private
-
-    def callbacks
-      attributes.callbacks
-    end
-
-    def compile
-      inherit_factory(parent) if parent
-
-      declarations.each do |declaration|
-        declaration.to_attributes.each do |attribute|
-          define_attribute(attribute)
-        end
-      end
-
-      @compiled = true
-    end
-
-    def inherit_factory(parent) #:nodoc:
-      parent.ensure_compiled
-      allow_overrides if parent.overridable?
-    end
 
     def assert_valid_options(options)
       options.assert_valid_keys(:class, :parent, :default_strategy, :aliases, :traits)
@@ -164,6 +150,10 @@ module FactoryGirl
         $stderr.puts "DEPRECATION WARNING: default_strategy is deprecated."
         $stderr.puts "Override to_create if you need to prevent a call to #save!."
       end
+    end
+
+    def traits
+      @traits.reverse.map { |name| trait_by_name(name) }
     end
 
     def trait_for(name)

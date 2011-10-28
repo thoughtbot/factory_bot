@@ -1,3 +1,5 @@
+require "active_support/core_ext/module/delegation"
+
 require 'factory_girl/proxy'
 require 'factory_girl/proxy/build'
 require 'factory_girl/proxy/create'
@@ -11,6 +13,7 @@ require 'factory_girl/attribute/dynamic'
 require 'factory_girl/attribute/association'
 require 'factory_girl/attribute/sequence'
 require 'factory_girl/callback'
+require 'factory_girl/declaration_list'
 require 'factory_girl/declaration'
 require 'factory_girl/declaration/static'
 require 'factory_girl/declaration/dynamic'

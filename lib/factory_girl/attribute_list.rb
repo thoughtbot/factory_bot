@@ -2,14 +2,12 @@ module FactoryGirl
   class AttributeList
     include Enumerable
 
-    attr_reader :callbacks, :declarations
-
     def initialize(name = nil)
       @name         = name
       @attributes   = {}
-      @declarations = []
-      @callbacks    = []
+      @declarations = DeclarationList.new
       @overridable  = false
+      @compiled     = false
     end
 
     def declare_attribute(declaration)
@@ -18,24 +16,21 @@ module FactoryGirl
     end
 
     def define_attribute(attribute)
-      if attribute.respond_to?(:factory) && attribute.factory == @name
-        raise AssociationDefinitionError, "Self-referencing association '#{attribute.name}' in '#{attribute.factory}'"
-      end
-
+      ensure_attribute_not_self_referencing! attribute
       ensure_attribute_not_defined! attribute
-      add_attribute attribute
-    end
 
-    def add_callback(callback)
-      @callbacks << callback
+      add_attribute attribute
     end
 
     def each(&block)
       flattened_attributes.each(&block)
     end
 
-    def apply_attributes(attributes_to_apply)
-      attributes_to_apply.callbacks.reverse.each { |callback| prepend_callback(callback) }
+    def ensure_compiled
+      compile unless @compiled
+    end
+
+    def apply_attribute_list(attributes_to_apply)
       new_attributes = []
 
       attributes_to_apply.each do |attribute|
@@ -53,18 +48,18 @@ module FactoryGirl
     end
 
     def overridable
+      @compiled = false
       @overridable = true
     end
 
-    def overridable?
-      @overridable
-    end
-
-    def size
-      to_a.size
-    end
-
     private
+
+    def compile
+      @declarations.to_attributes.each do |attribute|
+        define_attribute(attribute)
+      end
+      @compiled = true
+    end
 
     def add_attribute(attribute)
       delete_attribute(attribute.name) if overridable?
@@ -72,10 +67,6 @@ module FactoryGirl
       @attributes[attribute.priority] ||= []
       @attributes[attribute.priority] << attribute
       attribute
-    end
-
-    def prepend_callback(callback)
-      @callbacks.unshift(callback)
     end
 
     def prepend_attributes(new_attributes)
@@ -98,6 +89,12 @@ module FactoryGirl
       end
     end
 
+    def ensure_attribute_not_self_referencing!(attribute)
+      if attribute.respond_to?(:factory) && attribute.factory == @name
+        raise AssociationDefinitionError, "Self-referencing association '#{attribute.name}' in '#{attribute.factory}'"
+      end
+    end
+
     def attribute_defined?(attribute_name)
       !!find_attribute(attribute_name)
     end
@@ -114,6 +111,10 @@ module FactoryGirl
           attributes.delete_if {|attrib| attrib.name == attribute_name }
         end
       end
+    end
+
+    def overridable?
+      @overridable
     end
   end
 end
