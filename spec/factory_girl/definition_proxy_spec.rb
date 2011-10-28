@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe FactoryGirl::DefinitionProxy, "#add_attribute" do
-  subject     { MockFactory.new }
+  subject     { FactoryGirl::Definition.new }
   let(:proxy) { FactoryGirl::DefinitionProxy.new(subject) }
 
   it "raises if both a block and value are given" do
@@ -23,7 +23,7 @@ describe FactoryGirl::DefinitionProxy, "#add_attribute" do
 end
 
 describe FactoryGirl::DefinitionProxy, "#add_attribute when the proxy ignores attributes" do
-  subject     { MockFactory.new }
+  subject     { FactoryGirl::Definition.new }
   let(:proxy) { FactoryGirl::DefinitionProxy.new(subject, true) }
 
   it "raises if both a block and value are given" do
@@ -45,7 +45,7 @@ describe FactoryGirl::DefinitionProxy, "#add_attribute when the proxy ignores at
 end
 
 describe FactoryGirl::DefinitionProxy, "#ignore" do
-  subject     { MockFactory.new }
+  subject     { FactoryGirl::Definition.new }
   let(:proxy) { FactoryGirl::DefinitionProxy.new(subject) }
 
   it "makes all attributes added ignored" do
@@ -58,7 +58,7 @@ describe FactoryGirl::DefinitionProxy, "#ignore" do
 end
 
 describe FactoryGirl::DefinitionProxy, "#method_missing" do
-  subject     { MockFactory.new }
+  subject     { FactoryGirl::Definition.new }
   let(:proxy) { FactoryGirl::DefinitionProxy.new(subject) }
 
   it "declares an implicit declaration without args or a block" do
@@ -84,7 +84,7 @@ describe FactoryGirl::DefinitionProxy, "#method_missing" do
 end
 
 describe FactoryGirl::DefinitionProxy, "#sequence" do
-  subject     { MockFactory.new }
+  subject     { FactoryGirl::Definition.new }
   let(:proxy) { FactoryGirl::DefinitionProxy.new(subject) }
 
   before      { FactoryGirl::Sequence.stubs(:new) }
@@ -107,7 +107,7 @@ describe FactoryGirl::DefinitionProxy, "#sequence" do
 end
 
 describe FactoryGirl::DefinitionProxy, "#association" do
-  subject     { MockFactory.new }
+  subject     { FactoryGirl::Definition.new }
   let(:proxy) { FactoryGirl::DefinitionProxy.new(subject) }
 
   it "declares an association" do
@@ -122,7 +122,7 @@ describe FactoryGirl::DefinitionProxy, "#association" do
 end
 
 describe FactoryGirl::DefinitionProxy, "adding callbacks" do
-  subject        { MockFactory.new }
+  subject        { FactoryGirl::Definition.new }
   let(:proxy)    { FactoryGirl::DefinitionProxy.new(subject) }
   let(:callback) { lambda { "my awesome callback!" } }
 
@@ -143,7 +143,7 @@ describe FactoryGirl::DefinitionProxy, "adding callbacks" do
 end
 
 describe FactoryGirl::DefinitionProxy, "#to_create" do
-  subject     { MockFactory.new }
+  subject     { FactoryGirl::Definition.new }
   let(:proxy) { FactoryGirl::DefinitionProxy.new(subject) }
 
   it "accepts a block to run in place of #save!" do
@@ -154,7 +154,7 @@ describe FactoryGirl::DefinitionProxy, "#to_create" do
 end
 
 describe FactoryGirl::DefinitionProxy, "#factory" do
-  subject     { MockFactory.new }
+  subject     { FactoryGirl::Definition.new }
   let(:proxy) { FactoryGirl::DefinitionProxy.new(subject) }
 
   it "without options" do
@@ -175,7 +175,7 @@ describe FactoryGirl::DefinitionProxy, "#factory" do
 end
 
 describe FactoryGirl::DefinitionProxy, "#trait" do
-  subject     { MockFactory.new }
+  subject     { FactoryGirl::Definition.new }
   let(:proxy) { FactoryGirl::DefinitionProxy.new(subject) }
 
   it "declares a trait" do

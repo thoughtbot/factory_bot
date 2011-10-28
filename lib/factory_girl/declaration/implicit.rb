@@ -23,8 +23,7 @@ module FactoryGirl
         elsif FactoryGirl.sequences.registered?(name)
           [Attribute::Sequence.new(name, name, @ignored)]
         else
-          trait_root = @factory || FactoryGirl
-          trait_root.trait_by_name(name).attributes.to_a
+          @factory.trait_by_name(name).attributes.to_a
         end
       end
     end

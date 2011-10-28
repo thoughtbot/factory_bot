@@ -8,8 +8,8 @@ module FactoryGirl
 
     attr_reader :child_factories
 
-    def initialize(factory, ignore = false)
-      @factory         = factory
+    def initialize(definition, ignore = false)
+      @definition      = definition
       @ignore          = ignore
       @child_factories = []
     end
@@ -41,11 +41,11 @@ module FactoryGirl
         Declaration::Static.new(name, value, @ignore)
       end
 
-      @factory.declare_attribute(declaration)
+      @definition.declare_attribute(declaration)
     end
 
     def ignore(&block)
-      proxy = DefinitionProxy.new(@factory, true)
+      proxy = DefinitionProxy.new(@definition, true)
       proxy.instance_eval(&block)
     end
 
@@ -82,7 +82,7 @@ module FactoryGirl
     # are equivalent.
     def method_missing(name, *args, &block)
       if args.empty? && block.nil?
-        @factory.declare_attribute(Declaration::Implicit.new(name, @factory, @ignore))
+        @definition.declare_attribute(Declaration::Implicit.new(name, @definition, @ignore))
       elsif args.first.is_a?(Hash) && args.first.has_key?(:factory)
         association(name, *args)
       else
@@ -135,23 +135,23 @@ module FactoryGirl
     #    name of the factory. For example, a "user" association will by
     #    default use the "user" factory.
     def association(name, options = {})
-      @factory.declare_attribute(Declaration::Association.new(name, options))
+      @definition.declare_attribute(Declaration::Association.new(name, options))
     end
 
     def after_build(&block)
-      @factory.add_callback(Callback.new(:after_build, block))
+      @definition.add_callback(Callback.new(:after_build, block))
     end
 
     def after_create(&block)
-      @factory.add_callback(Callback.new(:after_create, block))
+      @definition.add_callback(Callback.new(:after_create, block))
     end
 
     def after_stub(&block)
-      @factory.add_callback(Callback.new(:after_stub, block))
+      @definition.add_callback(Callback.new(:after_stub, block))
     end
 
     def to_create(&block)
-      @factory.to_create(&block)
+      @definition.to_create(&block)
     end
 
     def factory(name, options = {}, &block)
@@ -159,7 +159,7 @@ module FactoryGirl
     end
 
     def trait(name, &block)
-      @factory.define_trait(Trait.new(name, &block))
+      @definition.define_trait(Trait.new(name, &block))
     end
   end
 end

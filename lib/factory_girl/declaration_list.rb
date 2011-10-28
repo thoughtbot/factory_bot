@@ -1,15 +1,15 @@
 module FactoryGirl
   class DeclarationList
     def initialize
-      @definitions = []
+      @declarations = []
     end
 
     def to_attributes
-      @definitions.inject([]) {|result, definition| result += definition.to_attributes }
+      @declarations.inject([]) {|result, declaration| result += declaration.to_attributes }
     end
 
     def method_missing(name, *args, &block)
-      @definitions.send(name, *args, &block)
+      @declarations.send(name, *args, &block)
     end
   end
 end

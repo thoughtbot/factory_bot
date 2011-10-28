@@ -21,7 +21,7 @@ module DeclarationMatchers
     end
 
     def matches?(subject)
-      subject.declarations.include?(expected_declaration)
+      subject.attribute_list.declarations.include?(expected_declaration)
     end
 
     def named(name)

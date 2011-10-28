@@ -4,18 +4,19 @@ module FactoryGirl
 
     def initialize(name, &block) #:nodoc:
       @name = name
-      @attribute_list = AttributeList.new
       @block = block
+      @definition = Definition.new
 
-      proxy = FactoryGirl::DefinitionProxy.new(self)
+      proxy = FactoryGirl::DefinitionProxy.new(@definition)
       proxy.instance_eval(&@block) if block_given?
     end
 
-    delegate :declare_attribute, :to => :@attribute_list
+    delegate :add_callback, :declare_attribute, :to_create, :define_trait,
+             :callbacks, :to => :@definition
 
     def attributes
-      @attribute_list.ensure_compiled
-      @attribute_list
+      attribute_list.ensure_compiled
+      attribute_list
     end
 
     def names
@@ -29,5 +30,11 @@ module FactoryGirl
 
     protected
     attr_reader :block
+
+    private
+
+    def attribute_list
+      @definition.attribute_list
+    end
   end
 end
