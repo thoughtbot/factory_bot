@@ -29,7 +29,7 @@ module FactoryGirl
     end
 
     def default_strategy #:nodoc:
-      @default_strategy || (parent && parent.default_strategy) || :create
+      @default_strategy || parent.default_strategy || :create
     end
 
     def allow_overrides
@@ -89,17 +89,15 @@ module FactoryGirl
     end
 
     def compile
-      if parent
-        parent.defined_traits.each {|trait| define_trait(trait) }
-        parent.compile
-      end
+      parent.defined_traits.each {|trait| define_trait(trait) }
+      parent.compile
       attribute_list.ensure_compiled
     end
 
     protected
 
     def class_name #:nodoc:
-      @class_name || (parent && parent.class_name) || name
+      @class_name || parent.class_name || name
     end
 
     def attributes
@@ -110,14 +108,12 @@ module FactoryGirl
         end
 
         list.apply_attribute_list(attribute_list)
-        list.apply_attribute_list(parent.attributes) if parent
+        list.apply_attribute_list(parent.attributes)
       end
     end
 
     def callbacks
-      [traits.map(&:callbacks), @definition.callbacks].tap do |result|
-        result.unshift(*parent.callbacks) if parent
-      end.flatten
+      [parent.callbacks, traits.map(&:callbacks), @definition.callbacks].flatten
     end
 
     private
@@ -137,8 +133,11 @@ module FactoryGirl
     end
 
     def parent
-      return unless @parent
-      FactoryGirl.factory_by_name(@parent)
+      if @parent
+        FactoryGirl.factory_by_name(@parent)
+      else
+        NullFactory.new
+      end
     end
 
     def attribute_list
