@@ -47,21 +47,24 @@ describe FactoryGirl::Definition, "#to_create" do
   end
 end
 
-describe FactoryGirl::Definition, "#trait_by_name" do
+describe FactoryGirl::Definition, "#traits" do
   let(:female_trait) { stub("female trait", :name => :female) }
   let(:admin_trait)  { stub("admin trait", :name => :admin) }
 
   before do
     subject.define_trait(female_trait)
+    FactoryGirl.stubs(:trait_by_name => admin_trait)
   end
 
-  it "finds the correct trait if defined on the definition" do
-    subject.trait_by_name(:female).should == female_trait
+  its(:traits) { should be_empty }
+
+  it "finds the correct traits after inheriting" do
+    subject.inherit_traits([:female])
+    subject.traits.should == [female_trait]
   end
 
   it "looks for the trait on FactoryGirl" do
-    FactoryGirl.stubs(:trait_by_name => admin_trait)
-    subject.trait_by_name(:admin).should == admin_trait
-    FactoryGirl.should have_received(:trait_by_name).with(:admin)
+    subject.inherit_traits([:female, :admin])
+    subject.traits.should == [admin_trait, female_trait]
   end
 end

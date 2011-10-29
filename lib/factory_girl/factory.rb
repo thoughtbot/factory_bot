@@ -10,14 +10,15 @@ module FactoryGirl
       @name             = name.to_s.underscore.to_sym
       @parent           = options[:parent]
       @aliases          = options[:aliases] || []
-      @traits           = options[:traits]  || []
       @class_name       = options[:class]
       @default_strategy = options[:default_strategy]
       @definition       = Definition.new(@name)
+
+      inherit_traits(options[:traits] || [])
     end
 
     delegate :add_callback, :declare_attribute, :to_create, :define_trait,
-             :defined_traits, :trait_by_name, :to => :@definition
+             :defined_traits, :traits, :inherit_traits, :to => :@definition
 
     def factory_name
       $stderr.puts "DEPRECATION WARNING: factory.factory_name is deprecated; use factory.name instead."
@@ -126,10 +127,6 @@ module FactoryGirl
         $stderr.puts "DEPRECATION WARNING: default_strategy is deprecated."
         $stderr.puts "Override to_create if you need to prevent a call to #save!."
       end
-    end
-
-    def traits
-      @traits.reverse.map { |name| trait_by_name(name) }
     end
 
     def parent

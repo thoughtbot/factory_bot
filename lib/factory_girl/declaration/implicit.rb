@@ -23,7 +23,8 @@ module FactoryGirl
         elsif FactoryGirl.sequences.registered?(name)
           [Attribute::Sequence.new(name, name, @ignored)]
         else
-          @factory.trait_by_name(name).attributes.to_a
+          @factory.inherit_traits([name])
+          []
         end
       end
     end

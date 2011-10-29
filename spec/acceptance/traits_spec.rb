@@ -197,6 +197,6 @@ describe "traits with callbacks" do
 
   context "when the factory has an implicit trait" do
     subject    { FactoryGirl.create(:caps_user_implicit_trait) }
-    its(:name) { pending }
+    its(:name) { should == "JOHN" }
   end
 end
