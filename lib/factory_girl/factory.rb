@@ -33,11 +33,6 @@ module FactoryGirl
       @default_strategy || parent.default_strategy || :create
     end
 
-    def allow_overrides
-      attribute_list.overridable
-      self
-    end
-
     def run(proxy_class, overrides, &block) #:nodoc:
       runner_options = {
         :attributes  => attributes,
@@ -92,7 +87,7 @@ module FactoryGirl
     def compile
       parent.defined_traits.each {|trait| define_trait(trait) }
       parent.compile
-      attribute_list.ensure_compiled
+      @definition.compile
     end
 
     protected
@@ -105,11 +100,11 @@ module FactoryGirl
       compile
       AttributeList.new(@name).tap do |list|
         traits.each do |trait|
-          list.apply_attribute_list(trait.attributes)
+          list.apply_attributes(trait.attributes)
         end
 
-        list.apply_attribute_list(attribute_list)
-        list.apply_attribute_list(parent.attributes)
+        list.apply_attributes(@definition.attributes)
+        list.apply_attributes(parent.attributes)
       end
     end
 
@@ -135,10 +130,6 @@ module FactoryGirl
       else
         NullFactory.new
       end
-    end
-
-    def attribute_list
-      @definition.attribute_list
     end
 
     class Runner

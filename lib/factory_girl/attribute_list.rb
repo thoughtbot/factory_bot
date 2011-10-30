@@ -2,19 +2,9 @@ module FactoryGirl
   class AttributeList
     include Enumerable
 
-    attr_reader :declarations
-
     def initialize(name = nil)
-      @name         = name
-      @attributes   = {}
-      @declarations = DeclarationList.new
-      @overridable  = false
-      @compiled     = false
-    end
-
-    def declare_attribute(declaration)
-      @declarations << declaration
-      declaration
+      @name       = name
+      @attributes = {}
     end
 
     def define_attribute(attribute)
@@ -28,20 +18,11 @@ module FactoryGirl
       flattened_attributes.each(&block)
     end
 
-    def ensure_compiled
-      compile unless @compiled
-    end
-
-    def apply_attribute_list(attributes_to_apply)
+    def apply_attributes(attributes_to_apply)
       new_attributes = []
 
       attributes_to_apply.each do |attribute|
-        new_attribute = if !overridable? && defined_attribute = find_attribute(attribute.name)
-          defined_attribute
-        else
-          attribute
-        end
-
+        new_attribute = find_attribute(attribute.name) || attribute
         delete_attribute(attribute.name)
         new_attributes << new_attribute
       end
@@ -49,23 +30,9 @@ module FactoryGirl
       prepend_attributes new_attributes
     end
 
-    def overridable
-      @compiled = false
-      @overridable = true
-    end
-
     private
 
-    def compile
-      @declarations.to_attributes.each do |attribute|
-        define_attribute(attribute)
-      end
-      @compiled = true
-    end
-
     def add_attribute(attribute)
-      delete_attribute(attribute.name) if overridable?
-
       @attributes[attribute.priority] ||= []
       @attributes[attribute.priority] << attribute
       attribute
@@ -86,7 +53,7 @@ module FactoryGirl
     end
 
     def ensure_attribute_not_defined!(attribute)
-      if !overridable? && attribute_defined?(attribute.name)
+      if attribute_defined?(attribute.name)
         raise AttributeDefinitionError, "Attribute already defined: #{attribute.name}"
       end
     end
@@ -113,10 +80,6 @@ module FactoryGirl
           attributes.delete_if {|attrib| attrib.name == attribute_name }
         end
       end
-    end
-
-    def overridable?
-      @overridable
     end
   end
 end

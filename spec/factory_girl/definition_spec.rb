@@ -1,7 +1,8 @@
 require "spec_helper"
 
 describe FactoryGirl::Definition do
-  it { should delegate(:declare_attribute).to(:attribute_list) }
+  it { should delegate(:declare_attribute).to(:declarations) }
+  it { should delegate(:attributes).to(:declarations).as(:attribute_list) }
 end
 
 describe FactoryGirl::Definition, "with a name" do
@@ -9,9 +10,19 @@ describe FactoryGirl::Definition, "with a name" do
   subject    { FactoryGirl::Definition.new(name) }
 
   it "creates a new attribute list with the name passed" do
-    FactoryGirl::AttributeList.stubs(:new)
+    FactoryGirl::DeclarationList.stubs(:new)
     subject
-    FactoryGirl::AttributeList.should have_received(:new).with(name)
+    FactoryGirl::DeclarationList.should have_received(:new).with(name)
+  end
+end
+
+describe FactoryGirl::Definition, "#overridable" do
+  let(:list) { stub("declaration list", :overridable => true) }
+  before { FactoryGirl::DeclarationList.stubs(:new => list) }
+
+  it "sets the declaration list as overridable" do
+    subject.overridable.should == subject
+    list.should have_received(:overridable).once
   end
 end
 

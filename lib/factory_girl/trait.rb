@@ -12,12 +12,7 @@ module FactoryGirl
     end
 
     delegate :add_callback, :declare_attribute, :to_create, :define_trait,
-             :callbacks, :to => :@definition
-
-    def attributes
-      attribute_list.ensure_compiled
-      attribute_list
-    end
+             :callbacks, :attributes, :to => :@definition
 
     def names
       [@name]
@@ -30,11 +25,5 @@ module FactoryGirl
 
     protected
     attr_reader :block
-
-    private
-
-    def attribute_list
-      @definition.attribute_list
-    end
   end
 end

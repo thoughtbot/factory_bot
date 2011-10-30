@@ -1,16 +1,29 @@
 module FactoryGirl
   class Definition
-    attr_reader :callbacks, :defined_traits, :attribute_list
+    attr_reader :callbacks, :defined_traits, :declarations
 
     def initialize(name = nil)
-      @attribute_list = AttributeList.new(name)
+      @declarations   = DeclarationList.new(name)
       @callbacks      = []
       @defined_traits = []
       @to_create      = nil
       @traits         = []
     end
 
-    delegate :declare_attribute, :to => :attribute_list
+    delegate :declare_attribute, :to => :declarations
+
+    def attributes
+      @attributes ||= declarations.attribute_list
+    end
+
+    def compile
+      attributes
+    end
+
+    def overridable
+      declarations.overridable
+      self
+    end
 
     def traits
       @traits.reverse.map { |name| trait_by_name(name) }

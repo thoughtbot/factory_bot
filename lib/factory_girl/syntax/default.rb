@@ -43,8 +43,8 @@ module FactoryGirl
         end
 
         def factory(name, options = {}, &block)
-          factory = FactoryGirl.factory_by_name(name).allow_overrides
-          proxy = FactoryGirl::DefinitionProxy.new(factory.definition)
+          factory = FactoryGirl.factory_by_name(name)
+          proxy = FactoryGirl::DefinitionProxy.new(factory.definition.overridable)
           proxy.instance_eval(&block)
         end
       end

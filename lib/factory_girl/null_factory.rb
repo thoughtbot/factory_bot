@@ -6,14 +6,10 @@ module FactoryGirl
       @definition = Definition.new
     end
 
-    delegate :defined_traits, :callbacks, :to => :definition
+    delegate :defined_traits, :callbacks, :attributes, :to => :definition
 
     def compile; end
     def default_strategy; end
     def class_name; end
-
-    def attributes
-      AttributeList.new
-    end
   end
 end
