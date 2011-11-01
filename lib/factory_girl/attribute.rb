@@ -55,9 +55,9 @@ module FactoryGirl
 
     def set_proxy_value(proxy, value)
       if @ignored
-        proxy.set_ignored(name, value)
+        proxy.set_ignored(self, value)
       else
-        proxy.set(name, value)
+        proxy.set(self, value)
       end
     end
   end

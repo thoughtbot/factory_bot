@@ -12,7 +12,7 @@ describe FactoryGirl::Attribute::Static do
   it "sets its static value on a proxy" do
     proxy.stubs(:set)
     subject.add_to(proxy)
-    proxy.should have_received(:set).with(name, value)
+    proxy.should have_received(:set).with(subject, value)
   end
 end
 

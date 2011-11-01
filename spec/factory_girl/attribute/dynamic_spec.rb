@@ -14,7 +14,7 @@ describe FactoryGirl::Attribute::Dynamic do
 
     it "calls the block to set a value" do
       subject.add_to(proxy)
-      proxy.should have_received(:set).with(name, "value")
+      proxy.should have_received(:set).with(subject, "value")
     end
   end
 
@@ -23,7 +23,7 @@ describe FactoryGirl::Attribute::Dynamic do
 
     it "yields the proxy to the block" do
       subject.add_to(proxy)
-      proxy.should have_received(:set).with(name, proxy)
+      proxy.should have_received(:set).with(subject, proxy)
     end
   end
 
@@ -37,7 +37,7 @@ describe FactoryGirl::Attribute::Dynamic do
 
     it "evaluates the attribute from the proxy" do
       subject.add_to(proxy)
-      proxy.should have_received(:set).with(name, result)
+      proxy.should have_received(:set).with(subject, result)
     end
   end
 

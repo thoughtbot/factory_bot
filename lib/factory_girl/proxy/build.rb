@@ -15,11 +15,7 @@ module FactoryGirl
       end
 
       def set(attribute, value)
-        @instance.send(:"#{attribute}=", value)
-      end
-
-      def associate(name, factory_name, overrides)
-        set(name, association(factory_name, overrides))
+        @instance.send(:"#{attribute.name}=", value)
       end
 
       def association(factory_name, overrides = {})

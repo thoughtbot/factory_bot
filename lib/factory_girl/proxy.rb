@@ -19,10 +19,7 @@ module FactoryGirl
     end
 
     def set_ignored(attribute, value)
-      @ignored_attributes[attribute] = value
-    end
-
-    def associate(name, factory, attributes)
+      @ignored_attributes[attribute.name] = value
     end
 
     def run_callbacks(name)

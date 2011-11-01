@@ -11,32 +11,18 @@ describe FactoryGirl::Proxy::AttributesFor do
     subject.result(nil).should be_kind_of(Hash)
   end
 
-  context "after associating a factory" do
-    let(:attribute) { :owner }
-
-    before { subject.associate(attribute, :user, {}) }
-
-    it "doesn't set that key in the resulting hash" do
-      subject.result(nil).should_not have_key(attribute)
-    end
-
-    it "returns nil when asked for that attribute" do
-      subject.get(attribute).should be_nil
-    end
-  end
-
   describe "after setting an attribute" do
-    let(:attribute) { :attribute }
+    let(:attribute) { stub("attribute", :name => :attribute) }
     let(:value)     { "value" }
 
     before { subject.set(attribute, value) }
 
     it "sets that value in the resulting hash" do
-      subject.result(nil)[attribute].should == value
+      subject.result(nil)[:attribute].should == value
     end
 
     it "returns that value when asked for that attribute" do
-      subject.get(attribute).should == value
+      subject.get(:attribute).should == value
     end
   end
 end

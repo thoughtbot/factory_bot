@@ -20,9 +20,11 @@ describe FactoryGirl::Declaration::Implicit do
     end
 
     it "associates the factory" do
-      proxy.stubs(:associate)
+      association = stub("association")
+      proxy.stubs(:set => nil, :association => association)
       attribute.add_to(proxy)
-      proxy.should have_received(:associate).with(name, name, {})
+      proxy.should have_received(:set).with(attribute, association)
+      proxy.should have_received(:association).with(name, {})
     end
   end
 
@@ -37,7 +39,7 @@ describe FactoryGirl::Declaration::Implicit do
     it "generates the sequence" do
       proxy.stubs(:set)
       attribute.add_to(proxy)
-      proxy.should have_received(:set).with(name, "magic")
+      proxy.should have_received(:set).with(attribute, "magic")
     end
   end
 end

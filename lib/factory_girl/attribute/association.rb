@@ -10,7 +10,7 @@ module FactoryGirl
       end
 
       def add_to(proxy)
-        proxy.associate(name, @factory, @overrides)
+        proxy.set(self, proxy.association(@factory, @overrides))
       end
 
       def association?

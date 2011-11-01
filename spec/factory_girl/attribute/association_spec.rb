@@ -12,10 +12,12 @@ describe FactoryGirl::Attribute::Association do
   its(:name)    { should == name }
   its(:factory) { should == factory }
 
-  it "tells the proxy to create an association when being added" do
-    proxy.stubs(:associate)
+  it "tells the proxy to set the association when being added" do
+    association = stub("association")
+    proxy.stubs(:set => nil, :association => association)
     subject.add_to(proxy)
-    proxy.should have_received(:associate).with(name, factory, overrides)
+    proxy.should have_received(:set).with(subject, association)
+    proxy.should have_received(:association).with(factory, overrides)
   end
 end
 

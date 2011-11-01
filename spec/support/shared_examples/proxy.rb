@@ -1,91 +1,76 @@
 shared_examples_for "proxy without association support" do
-  it "doesn't raise when asked to associate with another factory" do
-    expect { subject.associate(:owner, :user, {}) }.to_not raise_error
-  end
+  let(:attribute) { FactoryGirl::Attribute::Association.new(:user, :user, {}) }
 
   it "does not call FactoryGirl.create when building an association" do
     FactoryGirl.stubs(:create)
-    subject.association(:user)
+    subject.set(attribute, "awesome")
     FactoryGirl.should have_received(:create).never
   end
 
-  it "returns nil when building an association" do
-    subject.set(:association, 'x')
-    subject.association(:user).should be_nil
+  it "returns nil when accessing an association" do
+    subject.set(attribute, "awesome")
+    subject.get(:user).should be_nil
+  end
+
+  it "does not attempt to look up the factory when accessing the association" do
+    FactoryGirl.stubs(:factory_by_name)
+    subject.association(:awesome)
+    FactoryGirl.should have_received(:factory_by_name).never
   end
 end
 
 shared_examples_for "proxy with association support" do |factory_girl_proxy_class|
-  let(:factory_name)     { :user }
-  let(:association_name) { :owner }
-  let(:factory)          { stub("associate_factory") }
-  let(:overrides)        { { :one => 1, :two => 2 } }
+  let(:factory)      { stub("associate_factory") }
+  let(:overrides)    { { :great => "value" } }
+  let(:factory_name) { :author }
 
   before do
     FactoryGirl.stubs(:factory_by_name => factory)
-    instance.stubs(association_name => factory_name)
-    factory.stubs(:run => factory_name)
-    subject.stubs(:set)
+    factory.stubs(:run)
   end
 
-  it "sets a value for the association" do
-    subject.associate(association_name, factory_name, {})
-    subject.result(nil).send(association_name).should == factory_name
-  end
-
-  it "sets the association attribute as the factory" do
-    subject.associate(association_name, factory_name, {})
-    subject.should have_received(:set).with(association_name, factory_name)
-  end
-
-  it "runs the factory with the correct proxy class" do
-    subject.associate(association_name, factory_name, {})
-    factory.should have_received(:run).with(factory_girl_proxy_class, {})
-  end
-
-  it "runs the factory with the correct proxy class and overrides" do
-    subject.associate(association_name, factory_name, overrides)
+  it "runs the factory with the correct overrides" do
+    subject.association(factory_name, overrides)
     factory.should have_received(:run).with(factory_girl_proxy_class, overrides)
+  end
+
+  it "finds the factory with the correct factory name" do
+    subject.association(factory_name, overrides)
+    FactoryGirl.should have_received(:factory_by_name).with(factory_name)
   end
 end
 
 shared_examples_for "proxy with :method => :build" do |factory_girl_proxy_class|
-  let(:factory_name)     { :user }
-  let(:association_name) { :owner }
-  let(:factory)          { stub("associate_factory") }
-  let(:overrides)        { { :method => :build } }
+  let(:factory)      { stub("associate_factory") }
+  let(:overrides)    { { :method => :build, :great => "value" } }
+  let(:factory_name) { :author }
 
   before do
     FactoryGirl.stubs(:factory_by_name => factory)
-    instance.stubs(association_name => factory_name)
-    factory.stubs(:run => factory_name)
-    subject.stubs(:set)
+    factory.stubs(:run)
   end
 
-  it "sets a value for the association" do
-    subject.associate(association_name, factory_name, overrides)
-    subject.result(nil).send(association_name).should == factory_name
+  it "runs the factory with the correct overrides" do
+    subject.association(factory_name, overrides)
+    factory.should have_received(:run).with(factory_girl_proxy_class, { :great => "value" })
   end
 
-  it "sets the association attribute as the factory" do
-    subject.associate(association_name, factory_name, overrides)
-    subject.should have_received(:set).with(association_name, factory_name)
-  end
-
-  it "runs the factory with the correct proxy class" do
-    subject.associate(association_name, factory_name, overrides)
-    factory.should have_received(:run).with(factory_girl_proxy_class, {})
+  it "finds the factory with the correct factory name" do
+    subject.association(factory_name, overrides)
+    FactoryGirl.should have_received(:factory_by_name).with(factory_name)
   end
 end
 
 shared_examples_for "proxy with standard getters and setters" do |attribute, value|
+  let(:attribute_instance) { stub("attribute #{attribute}", :name => attribute) }
+
   before do
     instance.stubs(:"#{attribute}=" => value, :"#{attribute}" => value)
   end
 
   describe "when setting an attribute" do
     before do
-      subject.set(attribute, value)
+      subject.set(attribute_instance, value)
     end
 
     its(attribute) { should == value }
@@ -94,7 +79,7 @@ shared_examples_for "proxy with standard getters and setters" do |attribute, val
 
   describe "when setting an ignored attribute" do
     before do
-      subject.set_ignored(attribute, value)
+      subject.set_ignored(attribute_instance, value)
     end
 
     it { instance.should have_received(:"#{attribute}=").with(value).never }

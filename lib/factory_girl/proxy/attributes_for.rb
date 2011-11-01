@@ -11,7 +11,9 @@ module FactoryGirl
       end
 
       def set(attribute, value)
-        @hash[attribute] = value
+        return if attribute.is_a? Attribute::Association
+
+        @hash[attribute.name] = value
       end
 
       def result(to_create)
