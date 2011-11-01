@@ -12,11 +12,7 @@ module FactoryGirl
           raise SequenceAbuseError
         end
 
-        if @ignored
-          proxy.set_ignored(name, value)
-        else
-          proxy.set(name, value)
-        end
+        set_proxy_value(proxy, value)
       end
     end
   end

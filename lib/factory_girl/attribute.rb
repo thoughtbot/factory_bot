@@ -52,5 +52,13 @@ module FactoryGirl
           "rather than 'f.#{attribute_name} = value'"
       end
     end
+
+    def set_proxy_value(proxy, value)
+      if @ignored
+        proxy.set_ignored(name, value)
+      else
+        proxy.set(name, value)
+      end
+    end
   end
 end

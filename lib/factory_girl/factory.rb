@@ -165,7 +165,7 @@ module FactoryGirl
       end
 
       def apply_remaining_overrides
-        @overrides.each { |attr, val| proxy.set(attr, val) }
+        @overrides.each { |attr, val| add_static_attribute(attr, val) }
       end
 
       def overrides_for_attribute(attribute)
@@ -174,14 +174,13 @@ module FactoryGirl
 
       def handle_attribute_with_overrides(attribute)
         overrides_for_attribute(attribute).each do |attr, val|
-          if attribute.ignored
-            proxy.set_ignored(attr, val)
-          else
-            proxy.set(attr, val)
-          end
-
+          add_static_attribute(attr, val, attribute.ignored)
           @overrides.delete(attr)
         end
+      end
+
+      def add_static_attribute(attr, val, ignored = false)
+        Attribute::Static.new(attr, val, ignored).add_to(proxy)
       end
 
       def handle_attribute_without_overrides(attribute)
