@@ -6,7 +6,6 @@ module FactoryGirl
       def initialize(klass, callbacks = [])
         super
         @instance = klass.new
-        @ignored_attributes = {}
         @instance.id = next_id
         @instance.instance_eval do
           def persisted?

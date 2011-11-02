@@ -4,7 +4,6 @@ module FactoryGirl
       def initialize(klass, callbacks = [])
         super
         @hash = {}
-        @ignored_attributes = {}
       end
 
       def get(attribute)
