@@ -87,7 +87,7 @@ If repeating "FactoryGirl" is too verbose for you, you can mix the syntax method
 
     # rspec
     RSpec.configure do |config|
-      config.include Factory::Syntax::Methods
+      config.include FactoryGirl::Syntax::Methods
     end
 
     # Test::Unit
