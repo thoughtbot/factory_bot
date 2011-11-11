@@ -1,7 +1,6 @@
 require 'rubygems'
 require 'bundler'
 require 'rake'
-require 'date'
 require 'appraisal'
 require 'yard'
 require 'rspec/core/rake_task'
