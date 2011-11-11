@@ -1,13 +1,14 @@
 require 'rubygems'
-require 'bundler/setup'
+require 'bundler'
 require 'rake'
-require 'rcov/rcovtask'
 require 'date'
-require 'rake/gempackagetask'
-require 'rspec/core/rake_task'
-require 'cucumber/rake/task'
 require 'appraisal'
 require 'yard'
+require 'rspec/core/rake_task'
+require 'cucumber/rake/task'
+require 'rcov/rcovtask'
+
+Bundler::GemHelper.install_tasks
 
 desc 'Default: run the specs and features.'
 task :default => 'spec:unit' do
@@ -43,12 +44,6 @@ task :clobber => [:clobber_rcov]
 Cucumber::Rake::Task.new(:features) do |t|
   t.fork = true
   t.cucumber_opts = ['--format', (ENV['CUCUMBER_FORMAT'] || 'progress')]
-end
-
-eval("$specification = begin; #{IO.read('factory_girl.gemspec')}; end")
-Rake::GemPackageTask.new($specification) do |package|
-  package.need_zip = true
-  package.need_tar = true
 end
 
 YARD::Rake::YardocTask.new do |t|
