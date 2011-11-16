@@ -7,7 +7,7 @@ module FactoryGirl
 
     def initialize(name, options = {}) #:nodoc:
       assert_valid_options(options)
-      @name             = name.to_s.underscore.to_sym
+      @name             = name.is_a?(Symbol) ? name : name.to_s.underscore.to_sym
       @parent           = options[:parent]
       @aliases          = options[:aliases] || []
       @class_name       = options[:class]
