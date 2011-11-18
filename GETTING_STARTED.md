@@ -404,6 +404,26 @@ You can also override individual attributes granted by a trait in subclasses.
       end
     end
 
+Traits can also be passed in as a list of symbols when you construct an instance from FactoryGirl.
+
+    factory :user do
+      name "Friendly User"
+
+      trait :male do
+        name   "John Doe"
+        gender "Male"
+      end
+
+      trait :admin do
+        admin true
+      end
+    end
+
+    # creates an admin user with gender "Male" and name "Jon Snow"
+    FactoryGirl.create(:user, :admin, :male, :name => "Jon Snow")
+
+This ability works with `build`, `build_stubbed`, `attributes_for`, and `create`.
+
 Callbacks
 ---------
 

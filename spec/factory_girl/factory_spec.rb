@@ -286,3 +286,23 @@ describe FactoryGirl::Factory, "running a factory" do
     block_run.should == "changed"
   end
 end
+
+describe FactoryGirl::Factory, "#with_traits" do
+  subject            { FactoryGirl::Factory.new(:user) }
+  let(:admin_trait)  { FactoryGirl::Trait.new(:admin) }
+  let(:female_trait) { FactoryGirl::Trait.new(:female) }
+
+  before do
+    FactoryGirl.register_trait(admin_trait)
+    FactoryGirl.register_trait(female_trait)
+  end
+
+  it "returns a factory with the correct traits" do
+    subject.with_traits([:admin, :female]).traits.should =~ [admin_trait, female_trait]
+  end
+
+  it "doesn't modify the original factory's traits" do
+    subject.with_traits([:admin, :female])
+    subject.traits.should be_empty
+  end
+end

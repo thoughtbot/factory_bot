@@ -90,6 +90,12 @@ module FactoryGirl
       @definition.compile
     end
 
+    def with_traits(traits)
+      self.clone.tap do |factory_with_traits|
+        factory_with_traits.inherit_traits traits
+      end
+    end
+
     protected
 
     def class_name #:nodoc:
@@ -130,6 +136,11 @@ module FactoryGirl
       else
         NullFactory.new
       end
+    end
+
+    def initialize_copy(source)
+      super
+      @definition = @definition.clone
     end
 
     class Runner
