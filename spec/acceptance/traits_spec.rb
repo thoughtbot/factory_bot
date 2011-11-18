@@ -200,3 +200,57 @@ describe "traits with callbacks" do
     its(:name) { should == "JOHN" }
   end
 end
+
+describe "traits added via proxy" do
+  before do
+    define_model("User", :name => :string, :admin => :boolean)
+
+    FactoryGirl.define do
+      factory :user do
+        name "John"
+
+        trait :admin do
+          admin true
+        end
+
+        trait :great do
+          after_create {|user| user.name.upcase! }
+        end
+      end
+    end
+  end
+
+  context "adding traits in create" do
+    subject { FactoryGirl.create(:user, :admin, :great, :name => "Joe") }
+
+    its(:admin) { should be_true }
+    its(:name)  { should == "JOE" }
+
+    it "doesn't modify the user factory" do
+      subject
+      FactoryGirl.create(:user).should_not be_admin
+      FactoryGirl.create(:user).name.should == "John"
+    end
+  end
+
+  context "adding traits in build" do
+    subject { FactoryGirl.build(:user, :admin, :great, :name => "Joe") }
+
+    its(:admin) { should be_true }
+    its(:name)  { should == "Joe" }
+  end
+
+  context "adding traits in attributes_for" do
+    subject { FactoryGirl.attributes_for(:user, :admin, :great) }
+
+    its([:admin]) { should be_true }
+    its([:name])  { should == "John" }
+  end
+
+  context "adding traits in build_stubbed" do
+    subject { FactoryGirl.build_stubbed(:user, :admin, :great, :name => "Jack") }
+
+    its(:admin) { should be_true }
+    its(:name)  { should == "Jack" }
+  end
+end
