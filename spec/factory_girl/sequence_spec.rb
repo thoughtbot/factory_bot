@@ -1,9 +1,9 @@
 require 'spec_helper'
 
-describe FactoryGirl::Sequence do
+describe FactoryWoman::Sequence do
   describe "a basic sequence" do
     let(:name) { :test }
-    subject    { FactoryGirl::Sequence.new(name) {|n| "=#{n}" } }
+    subject    { FactoryWoman::Sequence.new(name) {|n| "=#{n}" } }
 
     its(:name)             { should == name }
     its(:names)            { should == [name] }
@@ -17,7 +17,7 @@ describe FactoryGirl::Sequence do
   end
 
   describe "a custom sequence" do
-    subject    { FactoryGirl::Sequence.new(:name, "A") {|n| "=#{n}" } }
+    subject    { FactoryWoman::Sequence.new(:name, "A") {|n| "=#{n}" } }
     its(:next) { should == "=A" }
 
     describe "when incrementing" do
@@ -27,7 +27,7 @@ describe FactoryGirl::Sequence do
   end
 
   describe "a basic sequence without a block" do
-    subject    { FactoryGirl::Sequence.new(:name) }
+    subject    { FactoryWoman::Sequence.new(:name) }
     its(:next) { should == 1 }
 
     describe "when incrementing" do
@@ -37,7 +37,7 @@ describe FactoryGirl::Sequence do
   end
 
   describe "a custom sequence without a block" do
-    subject    { FactoryGirl::Sequence.new(:name, "A") }
+    subject    { FactoryWoman::Sequence.new(:name, "A") }
     its(:next) { should == "A" }
 
     describe "when incrementing" do

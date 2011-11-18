@@ -3,7 +3,7 @@ require "spec_helper"
 describe "modifying inherited factories with traits" do
   before do
     define_model('User', :gender => :string, :admin => :boolean, :age => :integer)
-    FactoryGirl.define do
+    FactoryWoman.define do
       factory :user do
         trait(:female) { gender "Female" }
         trait(:male)   { gender "Male" }
@@ -39,7 +39,7 @@ describe "modifying inherited factories with traits" do
   end
 
   it "allows modification of attributes created via traits" do
-    FactoryGirl.modify do
+    FactoryWoman.modify do
       factory :male_user do
         age 20
       end

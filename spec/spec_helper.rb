@@ -5,7 +5,7 @@ require 'rubygems'
 require 'rspec'
 require 'rspec/autorun'
 
-require 'factory_girl'
+require 'factory_woman'
 require "mocha"
 require "bourne"
 require "timecop"
@@ -18,8 +18,8 @@ RSpec.configure do |config|
   config.include DeclarationMatchers
 
   config.after do
-    FactoryGirl.factories.clear
-    FactoryGirl.sequences.clear
-    FactoryGirl.traits.clear
+    FactoryWoman.factories.clear
+    FactoryWoman.sequences.clear
+    FactoryWoman.traits.clear
   end
 end

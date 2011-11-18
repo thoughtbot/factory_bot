@@ -17,7 +17,7 @@ end
 namespace :spec do
   desc "Run unit specs"
   RSpec::Core::RakeTask.new('unit') do |t|
-    t.pattern = 'spec/{*_spec.rb,factory_girl/**/*_spec.rb}'
+    t.pattern = 'spec/{*_spec.rb,factory_woman/**/*_spec.rb}'
   end
 
   desc "Run acceptance specs"
@@ -29,7 +29,7 @@ end
 desc "Run the unit and acceptance specs"
 task :spec => ['spec:unit', 'spec:acceptance']
 
-desc 'Performs code coverage on the factory_girl plugin.'
+desc 'Performs code coverage on the factory_woman plugin.'
 RSpec::Core::RakeTask.new(:rcov) do |task|
   task.pattern = 'spec/**/*_spec.rb'
   task.rcov = true

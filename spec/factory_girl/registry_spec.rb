@@ -1,14 +1,14 @@
 require 'spec_helper'
 
-describe FactoryGirl::Registry do
+describe FactoryWoman::Registry do
   let(:aliases)              { [:thing, :widget] }
-  let(:sequence)             { FactoryGirl::Sequence.new(:email) { |n| "somebody#{n}@example.com" } }
-  let(:factory)              { FactoryGirl::Factory.new(:object) }
-  let(:other_factory)        { FactoryGirl::Factory.new(:string) }
-  let(:factory_with_aliases) { FactoryGirl::Factory.new(:string, :aliases => aliases) }
+  let(:sequence)             { FactoryWoman::Sequence.new(:email) { |n| "somebody#{n}@example.com" } }
+  let(:factory)              { FactoryWoman::Factory.new(:object) }
+  let(:other_factory)        { FactoryWoman::Factory.new(:string) }
+  let(:factory_with_aliases) { FactoryWoman::Factory.new(:string, :aliases => aliases) }
   let(:registry_name)        { "Factory" }
 
-  subject { FactoryGirl::Registry.new(registry_name) }
+  subject { FactoryWoman::Registry.new(registry_name) }
 
   it { should be_kind_of(Enumerable) }
 
@@ -63,7 +63,7 @@ describe FactoryGirl::Registry do
 
   it "doesn't allow a duplicate name" do
     expect { 2.times { subject.add(factory) } }.
-      to raise_error(FactoryGirl::DuplicateDefinitionError, "Factory already registered: object")
+      to raise_error(FactoryWoman::DuplicateDefinitionError, "Factory already registered: object")
   end
 
   it "registers aliases" do

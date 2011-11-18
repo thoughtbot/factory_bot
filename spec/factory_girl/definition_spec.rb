@@ -1,24 +1,24 @@
 require "spec_helper"
 
-describe FactoryGirl::Definition do
+describe FactoryWoman::Definition do
   it { should delegate(:declare_attribute).to(:declarations) }
   it { should delegate(:attributes).to(:declarations).as(:attribute_list) }
 end
 
-describe FactoryGirl::Definition, "with a name" do
+describe FactoryWoman::Definition, "with a name" do
   let(:name) { :"great name" }
-  subject    { FactoryGirl::Definition.new(name) }
+  subject    { FactoryWoman::Definition.new(name) }
 
   it "creates a new attribute list with the name passed" do
-    FactoryGirl::DeclarationList.stubs(:new)
+    FactoryWoman::DeclarationList.stubs(:new)
     subject
-    FactoryGirl::DeclarationList.should have_received(:new).with(name)
+    FactoryWoman::DeclarationList.should have_received(:new).with(name)
   end
 end
 
-describe FactoryGirl::Definition, "#overridable" do
+describe FactoryWoman::Definition, "#overridable" do
   let(:list) { stub("declaration list", :overridable => true) }
-  before { FactoryGirl::DeclarationList.stubs(:new => list) }
+  before { FactoryWoman::DeclarationList.stubs(:new => list) }
 
   it "sets the declaration list as overridable" do
     subject.overridable.should == subject
@@ -26,7 +26,7 @@ describe FactoryGirl::Definition, "#overridable" do
   end
 end
 
-describe FactoryGirl::Definition, "defining traits" do
+describe FactoryWoman::Definition, "defining traits" do
   let(:trait_1) { stub("trait") }
   let(:trait_2) { stub("trait") }
 
@@ -37,7 +37,7 @@ describe FactoryGirl::Definition, "defining traits" do
   end
 end
 
-describe FactoryGirl::Definition, "adding callbacks" do
+describe FactoryWoman::Definition, "adding callbacks" do
   let(:callback_1) { stub("callback") }
   let(:callback_2) { stub("callback") }
 
@@ -48,7 +48,7 @@ describe FactoryGirl::Definition, "adding callbacks" do
   end
 end
 
-describe FactoryGirl::Definition, "#to_create" do
+describe FactoryWoman::Definition, "#to_create" do
   its(:to_create) { should be_nil }
 
   it "returns the assigned value when given a block" do
@@ -58,13 +58,13 @@ describe FactoryGirl::Definition, "#to_create" do
   end
 end
 
-describe FactoryGirl::Definition, "#traits" do
+describe FactoryWoman::Definition, "#traits" do
   let(:female_trait) { stub("female trait", :name => :female) }
   let(:admin_trait)  { stub("admin trait", :name => :admin) }
 
   before do
     subject.define_trait(female_trait)
-    FactoryGirl.stubs(:trait_by_name => admin_trait)
+    FactoryWoman.stubs(:trait_by_name => admin_trait)
   end
 
   its(:traits) { should be_empty }
@@ -74,7 +74,7 @@ describe FactoryGirl::Definition, "#traits" do
     subject.traits.should == [female_trait]
   end
 
-  it "looks for the trait on FactoryGirl" do
+  it "looks for the trait on FactoryWoman" do
     subject.inherit_traits([:female, :admin])
     subject.traits.should == [admin_trait, female_trait]
   end

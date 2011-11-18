@@ -4,7 +4,7 @@ describe "create multiple instances" do
   before do
     define_model('Post', :title => :string)
 
-    FactoryGirl.define do
+    FactoryWoman.define do
       factory(:post) do |post|
         post.title "Through the Looking Glass"
       end
@@ -12,7 +12,7 @@ describe "create multiple instances" do
   end
 
   context "without default attributes" do
-    subject { FactoryGirl.create_list(:post, 20) }
+    subject { FactoryWoman.create_list(:post, 20) }
 
     its(:length) { should == 20 }
 
@@ -30,7 +30,7 @@ describe "create multiple instances" do
   end
 
   context "with default attributes" do
-    subject { FactoryGirl.create_list(:post, 20, :title => "The Hunting of the Snark") }
+    subject { FactoryWoman.create_list(:post, 20, :title => "The Hunting of the Snark") }
 
     it "overrides the default values" do
       subject.each do |record|

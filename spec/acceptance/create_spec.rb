@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe "a created instance" do
-  include FactoryGirl::Syntax::Methods
+  include FactoryWoman::Syntax::Methods
 
   before do
     define_model('User')
@@ -10,7 +10,7 @@ describe "a created instance" do
       belongs_to :user
     end
 
-    FactoryGirl.define do
+    FactoryWoman.define do
       factory :user
 
       factory :post do
@@ -32,7 +32,7 @@ describe "a created instance" do
 end
 
 describe "a created instance, specifying :method => build" do
-  include FactoryGirl::Syntax::Methods
+  include FactoryWoman::Syntax::Methods
 
   before do
     define_model('User')
@@ -41,7 +41,7 @@ describe "a created instance, specifying :method => build" do
       belongs_to :user
     end
 
-    FactoryGirl.define do
+    FactoryWoman.define do
       factory :user
 
       factory :post do
@@ -59,7 +59,7 @@ describe "a created instance, specifying :method => build" do
 end
 
 describe "a custom create" do
-  include FactoryGirl::Syntax::Methods
+  include FactoryWoman::Syntax::Methods
 
   before do
     define_class('User') do
@@ -76,7 +76,7 @@ describe "a custom create" do
       end
     end
 
-    FactoryGirl.define do
+    FactoryWoman.define do
       factory :user do
         to_create do |user|
           user.persist
@@ -86,17 +86,17 @@ describe "a custom create" do
   end
 
   it "uses the custom create block instead of save" do
-    FactoryGirl.create(:user).should be_persisted
+    FactoryWoman.create(:user).should be_persisted
   end
 end
 
 describe "calling `create` with a block" do
-  include FactoryGirl::Syntax::Methods
+  include FactoryWoman::Syntax::Methods
 
   before do
     define_model('Company', :name => :string)
 
-    FactoryGirl.define do
+    FactoryWoman.define do
       factory :company
     end
   end

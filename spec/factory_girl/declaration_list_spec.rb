@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe FactoryGirl::DeclarationList, "#attribute_list" do
+describe FactoryWoman::DeclarationList, "#attribute_list" do
   let(:static_attribute_1)  { stub("static attribute 1") }
   let(:static_attribute_2)  { stub("static attribute 2") }
   let(:dynamic_attribute_1) { stub("dynamic attribute 1") }
@@ -8,13 +8,13 @@ describe FactoryGirl::DeclarationList, "#attribute_list" do
   let(:dynamic_declaration) { stub("static declaration", :to_attributes => [dynamic_attribute_1]) }
 
   it "returns an AttributeList" do
-    subject.attribute_list.should be_a(FactoryGirl::AttributeList)
+    subject.attribute_list.should be_a(FactoryWoman::AttributeList)
   end
 
   let(:attribute_list) { stub("attribute list", :define_attribute => true) }
 
   it "defines each attribute on the attribute list" do
-    FactoryGirl::AttributeList.stubs(:new => attribute_list)
+    FactoryWoman::AttributeList.stubs(:new => attribute_list)
 
     subject.declare_attribute(static_declaration)
     subject.declare_attribute(dynamic_declaration)
@@ -31,7 +31,7 @@ describe FactoryGirl::DeclarationList, "#attribute_list" do
   end
 end
 
-describe FactoryGirl::DeclarationList, "#declare_attribute" do
+describe FactoryWoman::DeclarationList, "#declare_attribute" do
   let(:declaration_1)              { stub("declaration", :name => "declaration 1") }
   let(:declaration_2)              { stub("declaration", :name => "declaration 2") }
   let(:declaration_with_same_name) { stub("declaration", :name => "declaration 1") }

@@ -8,7 +8,7 @@ describe "attribute aliases" do
       belongs_to :user
     end
 
-    FactoryGirl.define do
+    FactoryWoman.define do
       factory :user do
         factory :user_with_name do
           name "John Doe"
@@ -26,7 +26,7 @@ describe "attribute aliases" do
   end
 
   context "assigning an association by foreign key" do
-    subject { FactoryGirl.build(:post, :user_id => 1) }
+    subject { FactoryWoman.build(:post, :user_id => 1) }
 
     it "doesn't assign both an association and its foreign key" do
       subject.user_id.should == 1
@@ -34,7 +34,7 @@ describe "attribute aliases" do
   end
 
   context "assigning an association by passing factory" do
-    subject { FactoryGirl.create(:post_with_named_user).user }
+    subject { FactoryWoman.create(:post_with_named_user).user }
 
     it "assigns attributes correctly" do
       subject.name.should == "John Doe"

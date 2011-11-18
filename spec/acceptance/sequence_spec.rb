@@ -1,10 +1,10 @@
 require 'spec_helper'
 
 describe "sequences" do
-  include FactoryGirl::Syntax::Methods
+  include FactoryWoman::Syntax::Methods
 
   it "generates several values in the correct format" do
-    FactoryGirl.define do
+    FactoryWoman.define do
       sequence :email do |n|
         "somebody#{n}@example.com"
       end
@@ -19,7 +19,7 @@ describe "sequences" do
   end
 
   it "generates sequential numbers if no block is given" do
-    FactoryGirl.define do
+    FactoryWoman.define do
       sequence :order
     end
 

@@ -1,12 +1,12 @@
 require 'spec_helper'
 
-require 'factory_girl/syntax/make'
+require 'factory_woman/syntax/make'
 
 describe "a factory using make syntax" do
   before do
     define_model('User', :first_name => :string, :last_name => :string)
 
-    FactoryGirl.define do
+    FactoryWoman.define do
       factory :user do
         first_name 'Bill'
         last_name  'Nye'

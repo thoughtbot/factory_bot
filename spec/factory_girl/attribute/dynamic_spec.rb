@@ -1,11 +1,11 @@
 require 'spec_helper'
 
-describe FactoryGirl::Attribute::Dynamic do
+describe FactoryWoman::Attribute::Dynamic do
   let(:name)  { :first_name }
   let(:proxy) { stub("proxy", :set => nil) }
   let(:block) { lambda { } }
 
-  subject { FactoryGirl::Attribute::Dynamic.new(name, false, block) }
+  subject { FactoryWoman::Attribute::Dynamic.new(name, false, block) }
 
   its(:name) { should == name }
 
@@ -45,12 +45,12 @@ describe FactoryGirl::Attribute::Dynamic do
     let(:block) { lambda { Factory.sequence(:email) } }
 
     it "raises a sequence abuse error" do
-      expect { subject.add_to(proxy) }.to raise_error(FactoryGirl::SequenceAbuseError)
+      expect { subject.add_to(proxy) }.to raise_error(FactoryWoman::SequenceAbuseError)
     end
   end
 end
 
-describe FactoryGirl::Attribute::Dynamic, "with a string name" do
-  subject    { FactoryGirl::Attribute::Dynamic.new("name", false, lambda { } ) }
+describe FactoryWoman::Attribute::Dynamic, "with a string name" do
+  subject    { FactoryWoman::Attribute::Dynamic.new("name", false, lambda { } ) }
   its(:name) { should == :name }
 end

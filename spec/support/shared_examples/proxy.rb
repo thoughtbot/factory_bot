@@ -3,10 +3,10 @@ shared_examples_for "proxy without association support" do
     expect { subject.associate(:owner, :user, {}) }.to_not raise_error
   end
 
-  it "does not call FactoryGirl.create when building an association" do
-    FactoryGirl.stubs(:create)
+  it "does not call FactoryWoman.create when building an association" do
+    FactoryWoman.stubs(:create)
     subject.association(:user)
-    FactoryGirl.should have_received(:create).never
+    FactoryWoman.should have_received(:create).never
   end
 
   it "returns nil when building an association" do
@@ -15,14 +15,14 @@ shared_examples_for "proxy without association support" do
   end
 end
 
-shared_examples_for "proxy with association support" do |factory_girl_proxy_class|
+shared_examples_for "proxy with association support" do |factory_woman_proxy_class|
   let(:factory_name)     { :user }
   let(:association_name) { :owner }
   let(:factory)          { stub("associate_factory") }
   let(:overrides)        { { :one => 1, :two => 2 } }
 
   before do
-    FactoryGirl.stubs(:factory_by_name => factory)
+    FactoryWoman.stubs(:factory_by_name => factory)
     instance.stubs(association_name => factory_name)
     factory.stubs(:run => factory_name)
     subject.stubs(:set)
@@ -40,23 +40,23 @@ shared_examples_for "proxy with association support" do |factory_girl_proxy_clas
 
   it "runs the factory with the correct proxy class" do
     subject.associate(association_name, factory_name, {})
-    factory.should have_received(:run).with(factory_girl_proxy_class, {})
+    factory.should have_received(:run).with(factory_woman_proxy_class, {})
   end
 
   it "runs the factory with the correct proxy class and overrides" do
     subject.associate(association_name, factory_name, overrides)
-    factory.should have_received(:run).with(factory_girl_proxy_class, overrides)
+    factory.should have_received(:run).with(factory_woman_proxy_class, overrides)
   end
 end
 
-shared_examples_for "proxy with :method => :build" do |factory_girl_proxy_class|
+shared_examples_for "proxy with :method => :build" do |factory_woman_proxy_class|
   let(:factory_name)     { :user }
   let(:association_name) { :owner }
   let(:factory)          { stub("associate_factory") }
   let(:overrides)        { { :method => :build } }
 
   before do
-    FactoryGirl.stubs(:factory_by_name => factory)
+    FactoryWoman.stubs(:factory_by_name => factory)
     instance.stubs(association_name => factory_name)
     factory.stubs(:run => factory_name)
     subject.stubs(:set)
@@ -74,7 +74,7 @@ shared_examples_for "proxy with :method => :build" do |factory_girl_proxy_class|
 
   it "runs the factory with the correct proxy class" do
     subject.associate(association_name, factory_name, overrides)
-    factory.should have_received(:run).with(factory_girl_proxy_class, {})
+    factory.should have_received(:run).with(factory_woman_proxy_class, {})
   end
 end
 
@@ -112,7 +112,7 @@ end
 
 shared_examples_for "proxy with callbacks" do |callback_name|
   let(:callback_instance) { stub("#{callback_name} callback", :foo => nil) }
-  let(:callback) { FactoryGirl::Callback.new(callback_name, proc { callback_instance.foo }) }
+  let(:callback) { FactoryWoman::Callback.new(callback_name, proc { callback_instance.foo }) }
 
   subject        { described_class.new(proxy_class, [callback]) }
 
