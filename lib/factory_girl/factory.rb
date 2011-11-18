@@ -26,7 +26,7 @@ module FactoryGirl
     end
 
     def build_class #:nodoc:
-      @build_class ||= class_name.to_s.camelize.constantize
+      class_name.to_s.camelize.constantize
     end
 
     def default_strategy #:nodoc:
