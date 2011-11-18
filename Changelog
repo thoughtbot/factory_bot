@@ -1,3 +1,16 @@
+2.3.0 (November 18, 2011)
+  Registries are named, resulting in better messages when factories, traits,
+    or sequences cannot be found
+  Fix incorrect tests
+  Internals refactoring introducing FactoryGirl::NullFactory,
+    FactoryGirl::Definition, and FactoryGirl::DeclarationList
+  Use ActiveSupport for Hash#except and its delegation capabilities
+  Fix usage of callbacks when added via implicit traits
+  Use Bundler tasks and clean up dependencies
+  Fix failing spec for big letters in factory name passed as symbol
+  Add ability for traits to be added dynamically when creating an instance via
+    build, create, build_stubbed, or attributes_for
+
 2.2.0 (October 14, 2011)
   Clean up RSpec suite to not use 'should'
   Use create_list in step definitions

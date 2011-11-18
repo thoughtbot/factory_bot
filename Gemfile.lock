@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    factory_girl (2.2.0)
+    factory_girl (2.3.0)
       activesupport
 
 GEM
