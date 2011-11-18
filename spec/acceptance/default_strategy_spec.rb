@@ -4,7 +4,7 @@ describe "default strategy" do
   it "uses create when not specified" do
     define_model('User')
 
-    FactoryGirl.define do
+    FactoryWoman.define do
       factory :user
     end
 
@@ -14,7 +14,7 @@ describe "default strategy" do
   it "can be overridden" do
     define_model('User')
 
-    FactoryGirl.define do
+    FactoryWoman.define do
       factory :user, :default_strategy => :build
     end
 

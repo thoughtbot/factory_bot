@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe "a stubbed instance" do
-  include FactoryGirl::Syntax::Methods
+  include FactoryWoman::Syntax::Methods
 
   before do
     define_model('User')
@@ -10,7 +10,7 @@ describe "a stubbed instance" do
       belongs_to :user
     end
 
-    FactoryGirl.define do
+    FactoryWoman.define do
       factory :user
 
       factory :post do
@@ -32,7 +32,7 @@ describe "a stubbed instance" do
 end
 
 describe "a stubbed instance with :method => :build" do
-  include FactoryGirl::Syntax::Methods
+  include FactoryWoman::Syntax::Methods
 
   before do
     define_model('User')
@@ -41,7 +41,7 @@ describe "a stubbed instance with :method => :build" do
       belongs_to :user
     end
 
-    FactoryGirl.define do
+    FactoryWoman.define do
       factory :user
 
       factory :post do

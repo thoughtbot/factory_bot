@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe "a generated stub instance" do
-  include FactoryGirl::Syntax::Methods
+  include FactoryWoman::Syntax::Methods
 
   before do
     define_model('User')
@@ -12,7 +12,7 @@ describe "a generated stub instance" do
       belongs_to :user
     end
 
-    FactoryGirl.define do
+    FactoryWoman.define do
       factory :user
 
       factory :post do
@@ -76,12 +76,12 @@ describe "a generated stub instance" do
 end
 
 describe "calling `build_stubbed` with a block" do
-  include FactoryGirl::Syntax::Methods
+  include FactoryWoman::Syntax::Methods
 
   before do
     define_model('Company', :name => :string)
 
-    FactoryGirl.define do
+    FactoryWoman.define do
       factory :company
     end
   end

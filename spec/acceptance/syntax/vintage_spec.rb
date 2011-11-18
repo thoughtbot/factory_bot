@@ -42,7 +42,7 @@ describe "vintage syntax" do
 
     expect {
       Factory(:sequence_abuser)
-    }.to raise_error(FactoryGirl::SequenceAbuseError)
+    }.to raise_error(FactoryWoman::SequenceAbuseError)
   end
 end
 
@@ -61,14 +61,14 @@ describe "defining a factory" do
     @factory = stub("factory", :names => [@name])
     @proxy   = "proxy"
     @options = { :class => 'magic' }
-    FactoryGirl::Factory.stubs(:new => @factory)
-    FactoryGirl::DefinitionProxy.stubs(:new => @proxy)
+    FactoryWoman::Factory.stubs(:new => @factory)
+    FactoryWoman::DefinitionProxy.stubs(:new => @proxy)
   end
 
   it "creates a new factory using the specified name and options" do
-    FactoryGirl::Factory.stubs(:new => @factory)
+    FactoryWoman::Factory.stubs(:new => @factory)
     Factory.define(@name, @options) {|f| }
-    FactoryGirl::Factory.should have_received(:new).with(@name, @options)
+    FactoryWoman::Factory.should have_received(:new).with(@name, @options)
   end
 
   it "passes the factory do the block" do
@@ -81,52 +81,52 @@ describe "defining a factory" do
 
   it "adds the factory to the list of factories" do
     Factory.define(@name) {|f| }
-    @factory.should == FactoryGirl.factory_by_name(@name)
+    @factory.should == FactoryWoman.factory_by_name(@name)
   end
 end
 
 describe "after defining a factory" do
   before do
     @name    = :user
-    @factory = FactoryGirl::Factory.new(@name)
+    @factory = FactoryWoman::Factory.new(@name)
 
-    FactoryGirl.register_factory(@factory)
+    FactoryWoman.register_factory(@factory)
   end
 
   it "uses Proxy::AttributesFor for Factory.attributes_for" do
     @factory.stubs(:run => "result")
     Factory.attributes_for(@name, :attr => 'value').should == 'result'
-    @factory.should have_received(:run).with(FactoryGirl::Proxy::AttributesFor, :attr => 'value')
+    @factory.should have_received(:run).with(FactoryWoman::Proxy::AttributesFor, :attr => 'value')
   end
 
   it "uses Proxy::Build for Factory.build" do
     @factory.stubs(:run => "result")
     Factory.build(@name, :attr => 'value').should == 'result'
-    @factory.should have_received(:run).with(FactoryGirl::Proxy::Build, :attr => 'value')
+    @factory.should have_received(:run).with(FactoryWoman::Proxy::Build, :attr => 'value')
   end
 
   it "uses Proxy::Create for Factory.create" do
     @factory.stubs(:run => "result")
     Factory.create(@name, :attr => 'value').should == 'result'
-    @factory.should have_received(:run).with(FactoryGirl::Proxy::Create, :attr => 'value')
+    @factory.should have_received(:run).with(FactoryWoman::Proxy::Create, :attr => 'value')
   end
 
   it "uses Proxy::Stub for Factory.stub" do
     @factory.stubs(:run => "result")
     Factory.stub(@name, :attr => 'value').should == 'result'
-    @factory.should have_received(:run).with(FactoryGirl::Proxy::Stub, :attr => 'value')
+    @factory.should have_received(:run).with(FactoryWoman::Proxy::Stub, :attr => 'value')
   end
 
   it "uses default strategy option as Factory.default_strategy" do
     @factory.stubs(:default_strategy => :create, :run => "result")
     Factory.default_strategy(@name, :attr => 'value').should == 'result'
-    @factory.should have_received(:run).with(FactoryGirl::Proxy::Create, :attr => 'value')
+    @factory.should have_received(:run).with(FactoryWoman::Proxy::Create, :attr => 'value')
   end
 
   it "uses the default strategy for the global Factory method" do
     @factory.stubs(:default_strategy => :create, :run => "result")
     Factory(@name, :attr => 'value').should == 'result'
-    @factory.should have_received(:run).with(FactoryGirl::Proxy::Create, :attr => 'value')
+    @factory.should have_received(:run).with(FactoryWoman::Proxy::Create, :attr => 'value')
   end
 
   [:build, :create, :attributes_for, :stub].each do |method|
@@ -166,11 +166,11 @@ end
 describe "after defining a sequence" do
   before do
     @name     = :test
-    @sequence = FactoryGirl::Sequence.new(@name) {}
+    @sequence = FactoryWoman::Sequence.new(@name) {}
     @value    = '1 2 5'
 
     @sequence.stubs(:next => @value)
-    FactoryGirl::Sequence.stubs(:new => @sequence)
+    FactoryWoman::Sequence.stubs(:new => @sequence)
 
     Factory.sequence(@name) {}
   end

@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    factory_girl (2.2.0)
+    factory_woman (2.2.0)
       activesupport
 
 GEM
@@ -83,7 +83,7 @@ DEPENDENCIES
   bluecloth
   bourne
   cucumber (~> 1.0.0)
-  factory_girl!
+  factory_woman!
   mocha
   rcov
   rspec (~> 2.0)

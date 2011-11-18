@@ -53,10 +53,10 @@ module DeclarationMatchers
 
     def expected_declaration
       case @declaration_type
-      when :static      then FactoryGirl::Declaration::Static.new(@name, @value, ignored?)
-      when :dynamic     then FactoryGirl::Declaration::Dynamic.new(@name, ignored?, @value)
-      when :implicit    then FactoryGirl::Declaration::Implicit.new(@name, @factory, ignored?)
-      when :association then FactoryGirl::Declaration::Association.new(@name, options)
+      when :static      then FactoryWoman::Declaration::Static.new(@name, @value, ignored?)
+      when :dynamic     then FactoryWoman::Declaration::Dynamic.new(@name, ignored?, @value)
+      when :implicit    then FactoryWoman::Declaration::Implicit.new(@name, @factory, ignored?)
+      when :association then FactoryWoman::Declaration::Association.new(@name, options)
       end
     end
 

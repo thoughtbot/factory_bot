@@ -4,7 +4,7 @@ describe "declaring attributes on a Factory that are private methods on Object" 
   before do
     define_model("Website", :system => :boolean, :link => :string, :sleep => :integer)
 
-    FactoryGirl.define do
+    FactoryWoman.define do
       factory :website do
         system false
         link   "http://example.com"
@@ -13,7 +13,7 @@ describe "declaring attributes on a Factory that are private methods on Object" 
     end
   end
 
-  subject { FactoryGirl.build(:website, :sleep => -5) }
+  subject { FactoryWoman.build(:website, :sleep => -5) }
 
   its(:system) { should == false }
   its(:link)   { should == "http://example.com" }

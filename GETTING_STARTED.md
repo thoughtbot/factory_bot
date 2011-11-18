@@ -4,13 +4,13 @@ Getting Started
 Update Your Gemfile
 -------------------
 
-If you're using Rails, you'll need to change the required version of `factory_girl_rails`:
+If you're using Rails, you'll need to change the required version of `factory_woman_rails`:
 
-    gem "factory_girl_rails", "~> 1.2"
+    gem "factory_woman_rails", "~> 1.2"
 
-If you're *not* using Rails, you'll just have to change the required version of `factory_girl`:
+If you're *not* using Rails, you'll just have to change the required version of `factory_woman`:
 
-    gem "factory_girl", "~> 2.1.0"
+    gem "factory_woman", "~> 2.1.0"
 
 Once your Gemfile is updated, you'll want to update your bundle.
 
@@ -20,7 +20,7 @@ Defining factories
 Each factory has a name and a set of attributes. The name is used to guess the class of the object by default, but it's possible to explicitly specify it:
 
     # This will guess the User class
-    FactoryGirl.define do
+    FactoryWoman.define do
       factory :user do
         first_name 'John'
         last_name  'Doe'
@@ -57,37 +57,37 @@ are defined in files at the following locations:
 Using factories
 ---------------
 
-factory\_girl supports several different build strategies: build, create, attributes\_for and stub:
+factory\_woman supports several different build strategies: build, create, attributes\_for and stub:
 
     # Returns a User instance that's not saved
-    user = FactoryGirl.build(:user)
+    user = FactoryWoman.build(:user)
 
     # Returns a saved User instance
-    user = FactoryGirl.create(:user)
+    user = FactoryWoman.create(:user)
 
     # Returns a hash of attributes that can be used to build a User instance
-    attrs = FactoryGirl.attributes_for(:user)
+    attrs = FactoryWoman.attributes_for(:user)
 
     # Returns an object with all defined attributes stubbed out
-    stub = FactoryGirl.build_stubbed(:user)
+    stub = FactoryWoman.build_stubbed(:user)
 
     # Passing a block to any of the methods above will yield the return object
-    FactoryGirl.create(:user) do |user|
+    FactoryWoman.create(:user) do |user|
       user.posts.create(attributes_for(:post))
     end
 
 No matter which strategy is used, it's possible to override the defined attributes by passing a hash:
 
     # Build a User instance and override the first_name property
-    user = FactoryGirl.build(:user, :first_name => 'Joe')
+    user = FactoryWoman.build(:user, :first_name => 'Joe')
     user.first_name
     # => "Joe"
 
-If repeating "FactoryGirl" is too verbose for you, you can mix the syntax methods in:
+If repeating "FactoryWoman" is too verbose for you, you can mix the syntax methods in:
 
     # rspec
     RSpec.configure do |config|
-      config.include FactoryGirl::Syntax::Methods
+      config.include FactoryWoman::Syntax::Methods
     end
 
     # Test::Unit
@@ -155,7 +155,7 @@ Attributes can be based on the values of other attributes using the proxy that i
       email { "#{first_name}.#{last_name}@example.com".downcase }
     end
 
-    FactoryGirl.create(:user, :last_name => 'Doe').email
+    FactoryWoman.create(:user, :last_name => 'Doe').email
     # => "joe.doe@example.com"
 
 Transient Attributes
@@ -177,15 +177,15 @@ There may be times where your code can be DRYed up by passing in transient attri
       end
     end
 
-    FactoryGirl.create(:user, :upcased => true).name
+    FactoryWoman.create(:user, :upcased => true).name
     #=> "JOHN DOE - ROCKSTAR"
 
 Static and dynamic attributes can be ignored. Ignored attributes will be ignored
 within attributes\_for and won't be set on the model, even if the attribute
 exists or you attempt to override it.
 
-Within Factory Girl's dynamic attributes, you can access ignored attributes as
-you would expect. If you need to access the proxy in a Factory Girl callback,
+Within Factory Woman's dynamic attributes, you can access ignored attributes as
+you would expect. If you need to access the proxy in a Factory Woman callback,
 you'll need to declare a second block argument (for the proxy) and access
 ignored attributes from there.
 
@@ -209,12 +209,12 @@ You can also specify a different factory or override attributes:
 The behavior of the association method varies depending on the build strategy used for the parent object.
 
     # Builds and saves a User and a Post
-    post = FactoryGirl.create(:post)
+    post = FactoryWoman.create(:post)
     post.new_record?        # => false
     post.author.new_record? # => false
 
     # Builds and saves a User, and then builds but does not save a Post
-    post = FactoryGirl.build(:post)
+    post = FactoryWoman.build(:post)
     post.new_record?        # => true
     post.author.new_record? # => false
 
@@ -226,7 +226,7 @@ To not save the associated object, specify :method => :build in the factory:
     end
 
     # Builds a User, and then builds a Post, but does not save either
-    post = FactoryGirl.build(:post)
+    post = FactoryWoman.build(:post)
     post.new_record?        # => true
     post.author.new_record? # => true
 
@@ -243,7 +243,7 @@ You can easily create multiple factories for the same class without repeating co
       end
     end
 
-    approved_post = FactoryGirl.create(:approved_post)
+    approved_post = FactoryWoman.create(:approved_post)
     approved_post.title # => 'A title'
     approved_post.approved # => true
 
@@ -268,19 +268,19 @@ Sequences
 Unique values in a specific format (for example, e-mail addresses) can be
 generated using sequences. Sequences are defined by calling sequence in a
 definition block, and values in a sequence are generated by calling
-FactoryGirl.generate:
+FactoryWoman.generate:
 
     # Defines a new sequence
-    FactoryGirl.define do
+    FactoryWoman.define do
       sequence :email do |n|
         "person#{n}@example.com"
       end
     end
 
-    FactoryGirl.generate :email
+    FactoryWoman.generate :email
     # => "person1@example.com"
 
-    FactoryGirl.generate :email
+    FactoryWoman.generate :email
     # => "person2@example.com"
 
 Sequences can be used as attributes:
@@ -292,7 +292,7 @@ Sequences can be used as attributes:
 Or in lazy attributes:
 
     factory :invite do
-      invitee { FactoryGirl.generate(:email) }
+      invitee { FactoryWoman.generate(:email) }
     end
 
 And it's also possible to define an in-line sequence that is only used in
@@ -407,11 +407,11 @@ You can also override individual attributes granted by a trait in subclasses.
 Callbacks
 ---------
 
-factory\_girl makes available three callbacks for injecting some code:
+factory\_woman makes available three callbacks for injecting some code:
 
-* after_build  - called after a factory is built   (via FactoryGirl.build)
-* after_create - called after a factory is saved   (via FactoryGirl.create)
-* after_stub   - called after a factory is stubbed (via FactoryGirl.stub)
+* after_build  - called after a factory is built   (via FactoryWoman.build)
+* after_create - called after a factory is saved   (via FactoryWoman.create)
+* after_stub   - called after a factory is stubbed (via FactoryWoman.stub)
 
 Examples:
 
@@ -436,7 +436,7 @@ Factories can also define any number of the same kind of callback.  These callba
       after_create { then_this }
     end
 
-Calling FactoryGirl.create will invoke both after\_build and after\_create callbacks.
+Calling FactoryWoman.create will invoke both after\_build and after\_create callbacks.
 
 Also, like standard attributes, child factories will inherit (and can also define) callbacks from their parent factory.
 
@@ -448,7 +448,7 @@ modify that factory instead of creating a child factory and adding attributes th
 
 If a gem were to give you a User factory:
 
-    FactoryGirl.define do
+    FactoryWoman.define do
       factory :user do
         full_name "John Doe"
         sequence(:username) {|n| "user#{n}" }
@@ -458,7 +458,7 @@ If a gem were to give you a User factory:
 
 Instead of creating a child factory that added additional attributes:
 
-    FactoryGirl.define do
+    FactoryWoman.define do
       factory :application_user, :parent => :user do
         full_name     { Faker::Name.name }
         date_of_birth { 21.years.ago }
@@ -469,7 +469,7 @@ Instead of creating a child factory that added additional attributes:
 
 You could modify that factory instead.
 
-    FactoryGirl.modify do
+    FactoryWoman.modify do
       factory :user do
         full_name     { Faker::Name.name }
         date_of_birth { 21.years.ago }
@@ -480,7 +480,7 @@ You could modify that factory instead.
 
 When modifying a factory, you can change any of the attributes you want (aside from callbacks).
 
-`FactoryGirl.modify` must be called outside of a `FactoryGirl.define` block as it operates on factories differently.
+`FactoryWoman.modify` must be called outside of a `FactoryWoman.define` block as it operates on factories differently.
 
 A caveat: you can only modify factories (not sequences or traits) and callbacks *still compound as they normally would*. So, if
 the factory you're modifying defines an `after_create` callback, you defining an `after_create` won't override it, it'll just get run after the first callback.
@@ -490,32 +490,32 @@ Building or Creating Multiple Records
 
 Sometimes, you'll want to create or build multiple instances of a factory at once.
 
-    built_users   = FactoryGirl.build_list(:user, 25)
-    created_users = FactoryGirl.create_list(:user, 25)
+    built_users   = FactoryWoman.build_list(:user, 25)
+    created_users = FactoryWoman.create_list(:user, 25)
 
 These methods will build or create a specific amount of factories and return them as an array.
 To set the attributes for each of the factories, you can pass in a hash as you normally would.
 
-    twenty_year_olds = FactoryGirl.build_list(:user, 25, :date_of_birth => 20.years.ago)
+    twenty_year_olds = FactoryWoman.build_list(:user, 25, :date_of_birth => 20.years.ago)
 
 Cucumber Integration
 --------------------
 
-factory\_girl ships with step definitions that make calling factories from Cucumber easier. To use them, add the following to features/support/env.rb:
+factory\_woman ships with step definitions that make calling factories from Cucumber easier. To use them, add the following to features/support/env.rb:
 
-    require 'factory_girl/step_definitions'
+    require 'factory_woman/step_definitions'
 
 Alternate Syntaxes
 ------------------
 
 Users' tastes for syntax vary dramatically, but most users are looking for a
-common feature set. Because of this factory\_girl supports "syntax layers" which
+common feature set. Because of this factory\_woman supports "syntax layers" which
 provide alternate interfaces. See Factory::Syntax for information about the
 various layers available. For example, the Machinist-style syntax is popular:
 
-    require 'factory_girl/syntax/blueprint'
-    require 'factory_girl/syntax/make'
-    require 'factory_girl/syntax/sham'
+    require 'factory_woman/syntax/blueprint'
+    require 'factory_woman/syntax/make'
+    require 'factory_woman/syntax/sham'
 
     Sham.email {|n| "#{n}@example.com" }
 

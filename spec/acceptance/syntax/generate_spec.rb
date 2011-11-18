@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-require 'factory_girl/syntax/generate'
+require 'factory_woman/syntax/generate'
 
 describe "a factory using generate syntax" do
   before do
@@ -8,7 +8,7 @@ describe "a factory using generate syntax" do
       validates_presence_of :first_name
     end
 
-    FactoryGirl.define do
+    FactoryWoman.define do
       factory :user do
         first_name 'Bill'
         last_name  'Nye'

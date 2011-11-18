@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-require 'factory_girl/syntax/sham'
+require 'factory_woman/syntax/sham'
 
 describe "a factory using sham syntax" do
   before do
@@ -13,7 +13,7 @@ describe "a factory using sham syntax" do
     Sham.email       { "somebody#{rand(5)}@example.com" }
     Sham.username("FOO") { |c| "User-#{c}" }
 
-    FactoryGirl.define do
+    FactoryWoman.define do
       factory :user do
         first_name { Sham.name }
         last_name  { Sham.name }
@@ -25,7 +25,7 @@ describe "a factory using sham syntax" do
 
   describe "after making an instance" do
     before do
-      @instance = FactoryGirl.create(:user, :last_name => 'Rye')
+      @instance = FactoryWoman.create(:user, :last_name => 'Rye')
     end
 
     it "supports a sham called 'name'" do

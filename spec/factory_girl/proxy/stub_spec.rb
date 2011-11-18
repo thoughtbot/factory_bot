@@ -1,16 +1,16 @@
 require 'spec_helper'
 
-describe FactoryGirl::Proxy::Stub do
+describe FactoryWoman::Proxy::Stub do
   let(:instance)    { stub("instance", :id= => nil, :id => 42) }
   let(:proxy_class) { stub("class", :new => instance) }
 
-  subject { FactoryGirl::Proxy::Stub.new(proxy_class) }
+  subject { FactoryWoman::Proxy::Stub.new(proxy_class) }
 
-  it_should_behave_like "proxy with association support", FactoryGirl::Proxy::Stub
+  it_should_behave_like "proxy with association support", FactoryWoman::Proxy::Stub
   it_should_behave_like "proxy with standard getters and setters", :attribute_name, "attribute value!"
   it_should_behave_like "proxy with callbacks", :after_stub
   it_should_behave_like "proxy with :method => :build",
-    FactoryGirl::Proxy::Stub
+    FactoryWoman::Proxy::Stub
 
   context "asking for a result" do
     before { Timecop.freeze(Time.now) }

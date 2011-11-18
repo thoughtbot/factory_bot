@@ -2,11 +2,11 @@ require 'spec_helper'
 
 share_examples_for "finds definitions" do
   before do
-    FactoryGirl.stubs(:load)
-    FactoryGirl.find_definitions
+    FactoryWoman.stubs(:load)
+    FactoryWoman.find_definitions
   end
 
-  subject { FactoryGirl }
+  subject { FactoryWoman }
 end
 
 RSpec::Matchers.define :load_definitions_from do |file|
@@ -79,11 +79,11 @@ describe "definition loading" do
       in_directory_with_files File.join(dir, 'factories', 'b.rb'),
                               File.join(dir, 'factories', 'a.rb')
       it "loads the files in the right order" do
-        FactoryGirl.stubs(:load)
+        FactoryWoman.stubs(:load)
         sorted_load_order = sequence("load order")
-        FactoryGirl.expects(:load).with(includes("a.rb")).in_sequence(sorted_load_order)
-        FactoryGirl.expects(:load).with(includes("b.rb")).in_sequence(sorted_load_order)
-        FactoryGirl.find_definitions
+        FactoryWoman.expects(:load).with(includes("a.rb")).in_sequence(sorted_load_order)
+        FactoryWoman.expects(:load).with(includes("b.rb")).in_sequence(sorted_load_order)
+        FactoryWoman.find_definitions
       end
     end
 

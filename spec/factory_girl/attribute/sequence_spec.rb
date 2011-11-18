@@ -1,13 +1,13 @@
 require 'spec_helper'
 
-describe FactoryGirl::Attribute::Sequence do
+describe FactoryWoman::Attribute::Sequence do
   let(:sequence_name) { :name }
   let(:name)          { :first_name }
-  let(:sequence)      { FactoryGirl::Sequence.new(sequence_name, 5) { |n| "Name #{n}" } }
+  let(:sequence)      { FactoryWoman::Sequence.new(sequence_name, 5) { |n| "Name #{n}" } }
   let(:proxy)         { stub("proxy") }
 
-  subject { FactoryGirl::Attribute::Sequence.new(name, sequence_name, false) }
-  before  { FactoryGirl.register_sequence(sequence) }
+  subject { FactoryWoman::Attribute::Sequence.new(name, sequence_name, false) }
+  before  { FactoryWoman.register_sequence(sequence) }
 
   its(:name) { should == name }
 

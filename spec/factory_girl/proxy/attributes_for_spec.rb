@@ -1,9 +1,9 @@
 require 'spec_helper'
 
-describe FactoryGirl::Proxy::AttributesFor do
+describe FactoryWoman::Proxy::AttributesFor do
   let(:proxy_class) { stub("class") }
 
-  subject { FactoryGirl::Proxy::AttributesFor.new(proxy_class) }
+  subject { FactoryWoman::Proxy::AttributesFor.new(proxy_class) }
 
   it_should_behave_like "proxy without association support"
 

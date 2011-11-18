@@ -1,11 +1,11 @@
 require 'spec_helper'
 
-describe FactoryGirl::Attribute::Static do
+describe FactoryWoman::Attribute::Static do
   let(:name)  { :first_name }
   let(:value) { "John" }
   let(:proxy) { stub("proxy") }
 
-  subject { FactoryGirl::Attribute::Static.new(name, value, false) }
+  subject { FactoryWoman::Attribute::Static.new(name, value, false) }
 
   its(:name) { should == name }
 
@@ -16,7 +16,7 @@ describe FactoryGirl::Attribute::Static do
   end
 end
 
-describe FactoryGirl::Attribute::Static, "with a string name" do
-  subject    { FactoryGirl::Attribute::Static.new("name", nil, false) }
+describe FactoryWoman::Attribute::Static, "with a string name" do
+  subject    { FactoryWoman::Attribute::Static.new("name", nil, false) }
   its(:name) { should == :name }
 end

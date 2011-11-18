@@ -58,7 +58,7 @@ end
 class NonActiveRecord
 end
 
-FactoryGirl.define do
+FactoryWoman.define do
   # To make sure the step defs work with an email
   sequence :email do |n|
     "email#{n}@example.com"
@@ -92,5 +92,5 @@ FactoryGirl.define do
   end
 end
 
-require 'factory_girl/step_definitions'
+require 'factory_woman/step_definitions'
 

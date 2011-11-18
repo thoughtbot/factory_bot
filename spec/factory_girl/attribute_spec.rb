@@ -1,9 +1,9 @@
 require 'spec_helper'
 
-describe FactoryGirl::Attribute do
+describe FactoryWoman::Attribute do
   let(:name)  { "user" }
   let(:proxy) { stub("proxy") }
-  subject     { FactoryGirl::Attribute.new(name, false) }
+  subject     { FactoryWoman::Attribute.new(name, false) }
 
   its(:name) { should == name.to_sym }
   it { should_not be_association }
@@ -17,8 +17,8 @@ describe FactoryGirl::Attribute do
   it "raises an error when defining an attribute writer" do
     error_message = %{factory_girl uses 'f.test value' syntax rather than 'f.test = value'}
     expect {
-      FactoryGirl::Attribute.new('test=', false)
-    }.to raise_error(FactoryGirl::AttributeDefinitionError, error_message)
+      FactoryWoman::Attribute.new('test=', false)
+    }.to raise_error(FactoryWoman::AttributeDefinitionError, error_message)
   end
 
   it "returns nil when compared to a non-attribute" do
@@ -26,7 +26,7 @@ describe FactoryGirl::Attribute do
   end
 
   it "uses priority to perform comparisons" do
-    second_attribute = FactoryGirl::Attribute.new('name', false)
+    second_attribute = FactoryWoman::Attribute.new('name', false)
     (subject <=> second_attribute).should be_zero
   end
 end

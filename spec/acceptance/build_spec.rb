@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe "a built instance" do
-  include FactoryGirl::Syntax::Methods
+  include FactoryWoman::Syntax::Methods
 
   before do
     define_model('User')
@@ -10,7 +10,7 @@ describe "a built instance" do
       belongs_to :user
     end
 
-    FactoryGirl.define do
+    FactoryWoman.define do
       factory :user
 
       factory :post do
@@ -32,7 +32,7 @@ describe "a built instance" do
 end
 
 describe "a built instance with :method => :build" do
-  include FactoryGirl::Syntax::Methods
+  include FactoryWoman::Syntax::Methods
 
   before do
     define_model('User')
@@ -41,7 +41,7 @@ describe "a built instance with :method => :build" do
       belongs_to :user
     end
 
-    FactoryGirl.define do
+    FactoryWoman.define do
       factory :user
 
       factory :post do
@@ -63,12 +63,12 @@ describe "a built instance with :method => :build" do
 end
 
 describe "calling `build` with a block" do
-  include FactoryGirl::Syntax::Methods
+  include FactoryWoman::Syntax::Methods
 
   before do
     define_model('Company', :name => :string)
 
-    FactoryGirl.define do
+    FactoryWoman.define do
       factory :company
     end
   end
