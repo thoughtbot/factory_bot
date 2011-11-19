@@ -1,4 +1,8 @@
 require "active_support/core_ext/hash/except"
+require "factory_girl/proxy/build"
+require "factory_girl/proxy/create"
+require "factory_girl/proxy/attributes_for"
+require "factory_girl/proxy/stub"
 
 module FactoryGirl
   class Proxy #:nodoc:

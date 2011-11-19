@@ -1,5 +1,9 @@
-module FactoryGirl
+require "factory_girl/attribute/static"
+require "factory_girl/attribute/dynamic"
+require "factory_girl/attribute/association"
+require "factory_girl/attribute/sequence"
 
+module FactoryGirl
   # Raised when defining an invalid attribute:
   # * Defining an attribute which has a name ending in "="
   # * Defining an attribute with both a static and lazy value

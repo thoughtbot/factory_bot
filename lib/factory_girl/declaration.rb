@@ -1,3 +1,8 @@
+require "factory_girl/declaration/static"
+require "factory_girl/declaration/dynamic"
+require "factory_girl/declaration/association"
+require "factory_girl/declaration/implicit"
+
 module FactoryGirl
   class Declaration
     attr_reader :name
