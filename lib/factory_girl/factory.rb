@@ -34,6 +34,8 @@ module FactoryGirl
     end
 
     def run(proxy_class, overrides, &block) #:nodoc:
+      block ||= lambda {|result| result }
+
       runner_options = {
         :attributes  => attributes,
         :callbacks   => callbacks,
@@ -42,9 +44,7 @@ module FactoryGirl
         :proxy_class => proxy_class
       }
 
-      result = Runner.new(runner_options).run(overrides)
-
-      block ? block.call(result) : result
+      block[Runner.new(runner_options).run(overrides)]
     end
 
     def human_names
