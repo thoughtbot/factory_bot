@@ -4,7 +4,7 @@ module FactoryGirl
 
     def initialize(name = nil)
       @name       = name
-      @attributes = {}
+      @attributes = []
     end
 
     def define_attribute(attribute)
@@ -15,7 +15,7 @@ module FactoryGirl
     end
 
     def each(&block)
-      flattened_attributes.each(&block)
+      sorted_attributes.each(&block)
     end
 
     def apply_attributes(attributes_to_apply)
@@ -33,21 +33,19 @@ module FactoryGirl
     private
 
     def add_attribute(attribute)
-      @attributes[attribute.priority] ||= []
-      @attributes[attribute.priority] << attribute
+      @attributes << attribute
       attribute
     end
 
     def prepend_attributes(new_attributes)
-      new_attributes.group_by {|attr| attr.priority }.each do |priority, attributes|
-        @attributes[priority] ||= []
-        @attributes[priority].unshift *attributes
-      end
+      @attributes.unshift *new_attributes
     end
 
-    def flattened_attributes
-      @attributes.keys.sort.inject([]) do |result, key|
-        result << @attributes[key]
+    def sorted_attributes
+      attributes_hash = attributes_hash_by_priority
+
+      attributes_hash.keys.sort.inject([]) do |result, key|
+        result << attributes_hash[key]
         result
       end.flatten
     end
@@ -69,16 +67,20 @@ module FactoryGirl
     end
 
     def find_attribute(attribute_name)
-      @attributes.values.flatten.detect do |attribute|
+      @attributes.detect do |attribute|
         attribute.name == attribute_name
       end
     end
 
     def delete_attribute(attribute_name)
-      if attribute_defined?(attribute_name)
-        @attributes.each_value do |attributes|
-          attributes.delete_if {|attrib| attrib.name == attribute_name }
-        end
+      @attributes.delete_if {|attrib| attrib.name == attribute_name }
+    end
+
+    def attributes_hash_by_priority
+      @attributes.inject({}) do |result, attribute|
+        result[attribute.priority] ||= []
+        result[attribute.priority] << attribute
+        result
       end
     end
   end
