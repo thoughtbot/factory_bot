@@ -6,7 +6,8 @@ describe FactoryGirl::Proxy do
   it_should_behave_like "proxy without association support"
 
   it "doesn't raise when assigning a value to an attribute" do
-    expect { subject.set(:name, "a name") }.to_not raise_error
+    name_attribute = FactoryGirl::Attribute::Static.new(:name, "great", false)
+    expect { subject.set(name_attribute, "a name") }.to_not raise_error
   end
 
   it "returns nil for an attribute without a value" do
