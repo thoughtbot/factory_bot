@@ -13,23 +13,25 @@ module FactoryGirl
         result
       end
 
-      @ignored_attributes = {}
+      @instance = NullInstanceWrapper.new
     end
 
     def get(attribute)
+      @instance.get(attribute)
     end
 
     def set(attribute, value)
+      @instance.set(attribute.name, value)
     end
 
     def set_ignored(attribute, value)
-      @ignored_attributes[attribute.name] = value
+      @instance.set_ignored(attribute.name, value)
     end
 
     def run_callbacks(name)
       if @callbacks[name]
         @callbacks[name].each do |callback|
-          callback.run(@instance, self)
+          callback.run(@instance.object, self)
         end
       end
     end
@@ -81,6 +83,41 @@ module FactoryGirl
       unless Proxy.const_defined? strategy.to_s.camelize
         raise ArgumentError, "Unknown strategy: #{strategy}"
       end
+    end
+
+    class InstanceWrapper
+      attr_reader :object
+      def initialize(object = nil)
+        @object             = object
+        @ignored_attributes = {}
+      end
+
+      def set_ignored(attribute, value)
+        @ignored_attributes[attribute] = value
+      end
+
+      def get(attribute)
+        if @ignored_attributes.has_key?(attribute)
+          @ignored_attributes[attribute]
+        else
+          get_attr(attribute)
+        end
+      end
+    end
+
+    class NullInstanceWrapper < InstanceWrapper
+      def get_attr(attribute);   end
+      def set(attribute, value); end
+    end
+
+    class ClassInstanceWrapper < InstanceWrapper
+      def get_attr(attribute);   @object.send(attribute);               end
+      def set(attribute, value); @object.send(:"#{attribute}=", value); end
+    end
+
+    class HashInstanceWrapper < InstanceWrapper
+      def get_attr(attribute);   @object[attribute];         end
+      def set(attribute, value); @object[attribute] = value; end
     end
   end
 end

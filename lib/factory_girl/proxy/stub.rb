@@ -5,9 +5,9 @@ module FactoryGirl
 
       def initialize(klass, callbacks = [])
         super
-        @instance = klass.new
-        @instance.id = next_id
-        @instance.instance_eval do
+        @instance = ClassInstanceWrapper.new(klass.new)
+        @instance.object.id = next_id
+        @instance.object.instance_eval do
           def persisted?
             !new_record?
           end
@@ -42,18 +42,6 @@ module FactoryGirl
         end
       end
 
-      def get(attribute)
-        if @ignored_attributes.has_key?(attribute)
-          @ignored_attributes[attribute]
-        else
-          @instance.send(attribute)
-        end
-      end
-
-      def set(attribute, value)
-        @instance.send(:"#{attribute.name}=", value)
-      end
-
       def association(factory_name, overrides = {})
         factory = FactoryGirl.factory_by_name(factory_name)
         factory.run(Proxy::Stub, overrides.except(:method))
@@ -61,7 +49,7 @@ module FactoryGirl
 
       def result(to_create)
         run_callbacks(:after_stub)
-        @instance
+        @instance.object
       end
 
       private
