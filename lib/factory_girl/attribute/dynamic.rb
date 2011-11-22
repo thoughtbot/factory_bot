@@ -6,13 +6,14 @@ module FactoryGirl
         @block = block
       end
 
-      def add_to(proxy)
-        value = @block.arity == 1 ? @block.call(proxy) : proxy.instance_exec(&@block)
-        if FactoryGirl::Sequence === value
-          raise SequenceAbuseError
-        end
+      def to_proc(proxy)
+        block = @block
 
-        set_proxy_value(proxy, value)
+        lambda {
+          value = block.arity == 1 ? block.call(proxy) : proxy.instance_exec(&block)
+          raise SequenceAbuseError if FactoryGirl::Sequence === value
+          value
+        }
       end
     end
   end

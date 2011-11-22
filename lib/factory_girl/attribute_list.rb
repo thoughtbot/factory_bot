@@ -15,19 +15,16 @@ module FactoryGirl
     end
 
     def each(&block)
-      sorted_attributes.each(&block)
+      @attributes.each(&block)
     end
 
     def apply_attributes(attributes_to_apply)
-      new_attributes = []
-
       attributes_to_apply.each do |attribute|
         new_attribute = find_attribute(attribute.name) || attribute
         delete_attribute(attribute.name)
-        new_attributes << new_attribute
-      end
 
-      prepend_attributes new_attributes
+        add_attribute new_attribute
+      end
     end
 
     private
@@ -35,19 +32,6 @@ module FactoryGirl
     def add_attribute(attribute)
       @attributes << attribute
       attribute
-    end
-
-    def prepend_attributes(new_attributes)
-      @attributes.unshift *new_attributes
-    end
-
-    def sorted_attributes
-      attributes_hash = attributes_hash_by_priority
-
-      attributes_hash.keys.sort.inject([]) do |result, key|
-        result << attributes_hash[key]
-        result
-      end.flatten
     end
 
     def ensure_attribute_not_defined!(attribute)
@@ -74,14 +58,6 @@ module FactoryGirl
 
     def delete_attribute(attribute_name)
       @attributes.delete_if {|attrib| attrib.name == attribute_name }
-    end
-
-    def attributes_hash_by_priority
-      @attributes.inject({}) do |result, attribute|
-        result[attribute.priority] ||= []
-        result[attribute.priority] << attribute
-        result
-      end
     end
   end
 end

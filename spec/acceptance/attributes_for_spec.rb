@@ -61,3 +61,20 @@ describe "calling `attributes_for` with a block" do
     end
   end
 end
+
+describe "`attributes_for` for a class whose constructor has required params" do
+  before do
+    define_model("User", :name => :string) do
+      def initialize(arg1, arg2); end
+    end
+
+    FactoryGirl.define do
+      factory :user do
+        name "John Doe"
+      end
+    end
+  end
+
+  subject      { FactoryGirl.attributes_for(:user) }
+  its([:name]) { should == "John Doe" }
+end

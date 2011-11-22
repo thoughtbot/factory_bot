@@ -9,8 +9,10 @@ module FactoryGirl
         @overrides = overrides
       end
 
-      def add_to(proxy)
-        proxy.set(self, proxy.association(@factory, @overrides))
+      def to_proc(proxy)
+        factory   = @factory
+        overrides = @overrides
+        lambda { proxy.association(factory, overrides) }
       end
 
       def association?

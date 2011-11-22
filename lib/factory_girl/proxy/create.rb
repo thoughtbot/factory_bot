@@ -4,10 +4,10 @@ module FactoryGirl
       def result(to_create)
         super
 
-        to_create[@instance.object]
+        to_create[result_instance]
 
         run_callbacks(:after_create)
-        @instance.object
+        result_instance
       end
     end
   end

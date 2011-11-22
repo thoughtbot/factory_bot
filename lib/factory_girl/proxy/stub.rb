@@ -5,9 +5,8 @@ module FactoryGirl
 
       def initialize(klass, callbacks = [])
         super
-        @instance = ClassInstanceWrapper.new(klass.new)
-        @instance.object.id = next_id
-        @instance.object.instance_eval do
+        result_instance.id = next_id
+        result_instance.instance_eval do
           def persisted?
             !new_record?
           end
@@ -49,7 +48,7 @@ module FactoryGirl
 
       def result(to_create)
         run_callbacks(:after_stub)
-        @instance.object
+        result_instance
       end
 
       private

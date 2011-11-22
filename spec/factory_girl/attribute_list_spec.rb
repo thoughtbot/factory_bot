@@ -51,23 +51,11 @@ describe FactoryGirl::AttributeList, "#apply_attributes" do
     end
   end
 
-  it "prepends applied attributes" do
-    subject.define_attribute(full_name_attribute)
-    subject.apply_attributes(list(city_attribute))
-    subject.to_a.should == [city_attribute, full_name_attribute]
-  end
-
-  it "moves non-static attributes to the end of the list" do
-    subject.define_attribute(full_name_attribute)
-    subject.apply_attributes(list(city_attribute, email_attribute))
-    subject.to_a.should == [city_attribute, full_name_attribute, email_attribute]
-  end
-
-  it "maintains order of non-static attributes" do
+  it "adds attributes in the order defined regardless of attribute type" do
     subject.define_attribute(full_name_attribute)
     subject.define_attribute(login_attribute)
     subject.apply_attributes(list(city_attribute, email_attribute))
-    subject.to_a.should == [city_attribute, full_name_attribute, email_attribute, login_attribute]
+    subject.to_a.should == [full_name_attribute, login_attribute, city_attribute, email_attribute]
   end
 
   it "doesn't overwrite attributes that are already defined" do

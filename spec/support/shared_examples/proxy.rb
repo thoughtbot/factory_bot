@@ -3,13 +3,12 @@ shared_examples_for "proxy without association support" do
 
   it "does not call FactoryGirl.create when building an association" do
     FactoryGirl.stubs(:create)
-    subject.set(attribute, "awesome")
+    subject.set(attribute, lambda { "awesome" })
     FactoryGirl.should have_received(:create).never
   end
 
   it "returns nil when accessing an association" do
-    subject.set(attribute, "awesome")
-    subject.get(:user).should be_nil
+    subject.association(:user, {}).should be_nil
   end
 
   it "does not attempt to look up the factory when accessing the association" do
@@ -70,7 +69,8 @@ shared_examples_for "proxy with standard getters and setters" do |attribute, val
 
   describe "when setting an attribute" do
     before do
-      subject.set(attribute_instance, value)
+      subject.set(attribute_instance, lambda { value })
+      subject.result(lambda {|instance| instance })
     end
 
     its(attribute) { should == value }
@@ -79,19 +79,20 @@ shared_examples_for "proxy with standard getters and setters" do |attribute, val
 
   describe "when setting an ignored attribute" do
     before do
-      subject.set_ignored(attribute_instance, value)
+      subject.set_ignored(attribute_instance, lambda { value })
+      subject.result(lambda {|instance| instance })
     end
 
     it { instance.should have_received(:"#{attribute}=").with(value).never }
   end
 
   describe "when getting an attribute" do
-    it { subject.get(attribute).should == value }
-
-    it "retrieves the value from the instance" do
-      subject.get(attribute)
-      instance.should have_received(:"#{attribute}")
+    before do
+      subject.set(attribute_instance, lambda { value })
+      subject.result(lambda {|instance| instance })
     end
+
+    it { subject.get(attribute).should == value }
   end
 end
 

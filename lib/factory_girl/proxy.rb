@@ -7,31 +7,16 @@ require "factory_girl/proxy/stub"
 module FactoryGirl
   class Proxy #:nodoc:
     def initialize(klass, callbacks = [])
-      @callbacks = callbacks.inject({}) do |result, callback|
-        result[callback.name] ||= []
-        result[callback.name] << callback
-        result
-      end
-
-      @instance = NullInstanceWrapper.new
+      @callbacks = process_callbacks(callbacks)
+      @proxy     = ObjectWrapper.new(klass)
     end
 
-    def get(attribute)
-      @instance.get(attribute)
-    end
-
-    def set(attribute, value)
-      @instance.set(attribute.name, value)
-    end
-
-    def set_ignored(attribute, value)
-      @instance.set_ignored(attribute.name, value)
-    end
+    delegate :get, :set, :set_ignored, :to => :@proxy
 
     def run_callbacks(name)
       if @callbacks[name]
         @callbacks[name].each do |callback|
-          callback.run(@instance.object, self)
+          callback.run(result_instance, self)
         end
       end
     end
@@ -71,10 +56,6 @@ module FactoryGirl
     def association(name, overrides = {})
     end
 
-    def method_missing(method, *args, &block)
-      get(method)
-    end
-
     def result(to_create)
       raise NotImplementedError, "Strategies must return a result"
     end
@@ -85,39 +66,80 @@ module FactoryGirl
       end
     end
 
-    class InstanceWrapper
-      attr_reader :object
-      def initialize(object = nil)
-        @object             = object
-        @ignored_attributes = {}
+    private
+
+    def method_missing(method, *args, &block)
+      get(method)
+    end
+
+    def process_callbacks(callbacks)
+      callbacks.inject({}) do |result, callback|
+        result[callback.name] ||= []
+        result[callback.name] << callback
+        result
+      end
+    end
+
+    def result_instance
+      @proxy.object
+    end
+
+    def result_hash
+      @proxy.to_hash
+    end
+
+    class ObjectWrapper
+      def initialize(klass)
+        @klass      = klass
+        @attributes = []
+        @cached_attribute_values = {}
+      end
+
+      def to_hash
+        @attributes.inject({}) do |result, attribute|
+          result[attribute] = get(attribute)
+          result
+        end
+      end
+
+      def object
+        @object ||= @klass.new
+        assign_object_attributes
+        @object
+      end
+
+      def set(attribute, value)
+        define_attribute(attribute, value)
+        @attributes << attribute.name
       end
 
       def set_ignored(attribute, value)
-        @ignored_attributes[attribute] = value
+        define_attribute(attribute, value)
       end
 
       def get(attribute)
-        if @ignored_attributes.has_key?(attribute)
-          @ignored_attributes[attribute]
-        else
-          get_attr(attribute)
+        @cached_attribute_values[attribute] ||= anonymous_instance.send(attribute)
+      end
+
+      private
+
+      def define_attribute(attribute, value)
+        anonymous_class.send(:define_method, attribute.name, value)
+      end
+
+      def assign_object_attributes
+        (@attributes - @cached_attribute_values.keys).each do |attribute|
+          @object.send("#{attribute}=", get(attribute))
         end
       end
-    end
 
-    class NullInstanceWrapper < InstanceWrapper
-      def get_attr(attribute);   end
-      def set(attribute, value); end
-    end
+      def anonymous_class
+        @anonymous_class ||= Class.new
+      end
 
-    class ClassInstanceWrapper < InstanceWrapper
-      def get_attr(attribute);   @object.send(attribute);               end
-      def set(attribute, value); @object.send(:"#{attribute}=", value); end
-    end
-
-    class HashInstanceWrapper < InstanceWrapper
-      def get_attr(attribute);   @object[attribute];         end
-      def set(attribute, value); @object[attribute] = value; end
+      def anonymous_instance
+        @anonymous_instance ||= anonymous_class.new
+      end
     end
   end
 end

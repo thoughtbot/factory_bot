@@ -9,10 +9,8 @@ describe FactoryGirl::Attribute::Static do
 
   its(:name) { should == name }
 
-  it "sets its static value on a proxy" do
-    proxy.stubs(:set)
-    subject.add_to(proxy)
-    proxy.should have_received(:set).with(subject, value)
+  it "returns the value when executing the proc" do
+    subject.to_proc(proxy).call.should == value
   end
 end
 

@@ -1,11 +1,6 @@
 module FactoryGirl
   class Proxy #:nodoc:
     class Build < Proxy #:nodoc:
-      def initialize(klass, callbacks = [])
-        super
-        @instance = ClassInstanceWrapper.new(klass.new)
-      end
-
       def association(factory_name, overrides = {})
         factory = FactoryGirl.factory_by_name(factory_name)
         factory.run(get_method(overrides[:method]), overrides.except(:method))
@@ -13,7 +8,7 @@ module FactoryGirl
 
       def result(to_create)
         run_callbacks(:after_build)
-        @instance.object
+        result_instance
       end
 
       private

@@ -7,11 +7,7 @@ describe FactoryGirl::Proxy do
 
   it "doesn't raise when assigning a value to an attribute" do
     name_attribute = FactoryGirl::Attribute::Static.new(:name, "great", false)
-    expect { subject.set(name_attribute, "a name") }.to_not raise_error
-  end
-
-  it "returns nil for an attribute without a value" do
-    subject.get(:name).should be_nil
+    expect { subject.set(name_attribute, lambda { "a name" }) }.to_not raise_error
   end
 
   it "calls get for a missing method" do

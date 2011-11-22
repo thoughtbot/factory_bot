@@ -12,18 +12,16 @@ describe FactoryGirl::Attribute::Dynamic do
   context "with a block returning a static value" do
     let(:block) { lambda { "value" } }
 
-    it "calls the block to set a value" do
-      subject.add_to(proxy)
-      proxy.should have_received(:set).with(subject, "value")
+    it "returns the value when executing the proc" do
+      subject.to_proc(proxy).call.should == "value"
     end
   end
 
   context "with a block returning its block-level variable" do
     let(:block) { lambda {|thing| thing } }
 
-    it "yields the proxy to the block" do
-      subject.add_to(proxy)
-      proxy.should have_received(:set).with(subject, proxy)
+    it "returns the proxy when executing the proc" do
+      subject.to_proc(proxy).call.should == proxy
     end
   end
 
@@ -36,8 +34,7 @@ describe FactoryGirl::Attribute::Dynamic do
     end
 
     it "evaluates the attribute from the proxy" do
-      subject.add_to(proxy)
-      proxy.should have_received(:set).with(subject, result)
+      subject.to_proc(proxy).call.should == result
     end
   end
 
@@ -45,7 +42,7 @@ describe FactoryGirl::Attribute::Dynamic do
     let(:block) { lambda { Factory.sequence(:email) } }
 
     it "raises a sequence abuse error" do
-      expect { subject.add_to(proxy) }.to raise_error(FactoryGirl::SequenceAbuseError)
+      expect { subject.to_proc(proxy).call }.to raise_error(FactoryGirl::SequenceAbuseError)
     end
   end
 end
