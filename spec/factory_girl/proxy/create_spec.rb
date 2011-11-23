@@ -18,7 +18,7 @@ describe FactoryGirl::Proxy::Create do
 
   it "runs a custom create block" do
     block_run = false
-    block = lambda { block_run = true }
+    block = lambda {|instance| block_run = true }
     subject.result(block)
     instance.should have_received(:save!).never
     block_run.should be_true
