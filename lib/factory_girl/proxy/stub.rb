@@ -42,10 +42,6 @@ module FactoryGirl
         end
       end
 
-      def next_id
-        @@next_id += 1
-      end
-
       def get(attribute)
         if @ignored_attributes.has_key?(attribute)
           @ignored_attributes[attribute]
@@ -66,6 +62,12 @@ module FactoryGirl
       def result(to_create)
         run_callbacks(:after_stub)
         @instance
+      end
+
+      private
+
+      def next_id
+        @@next_id += 1
       end
     end
   end
