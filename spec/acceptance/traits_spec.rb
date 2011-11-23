@@ -263,3 +263,26 @@ describe "traits added via proxy" do
     its(:name)  { should == "Jack" }
   end
 end
+
+describe "traits and dynamic attributes that are applied simultaneously" do
+  before do
+    define_model("User", :name => :string, :email => :string, :combined => :string)
+
+    FactoryGirl.define do
+      trait :email do
+        email { "#{name}@example.com" }
+      end
+
+      factory :user do
+        name "John"
+        email
+        combined { "#{name} <#{email}>" }
+      end
+    end
+  end
+
+  subject        { FactoryGirl.build(:user) }
+  its(:name)     { should == "John" }
+  its(:email)    { should == "John@example.com" }
+  its(:combined) { should == "John <John@example.com>" }
+end
