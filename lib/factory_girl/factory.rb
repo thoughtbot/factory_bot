@@ -115,7 +115,7 @@ module FactoryGirl
     end
 
     def callbacks
-      [parent.callbacks, traits.map(&:callbacks), @definition.callbacks].flatten
+      [parent.callbacks, traits.map(&:callbacks).reverse, @definition.callbacks].flatten
     end
 
     private

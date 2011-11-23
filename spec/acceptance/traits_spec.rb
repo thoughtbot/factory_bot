@@ -181,7 +181,12 @@ describe "traits with callbacks" do
           after_create {|user| user.name.upcase! }
         end
 
+        trait :awesome do
+          after_create {|user| user.name = "awesome" }
+        end
+
         factory :caps_user, :traits => [:great]
+        factory :awesome_user, :traits => [:great, :awesome]
 
         factory :caps_user_implicit_trait do
           great
@@ -198,6 +203,10 @@ describe "traits with callbacks" do
   context "when the factory has an implicit trait" do
     subject    { FactoryGirl.create(:caps_user_implicit_trait) }
     its(:name) { should == "JOHN" }
+  end
+
+  it "executes callbacks in the order assigned" do
+    FactoryGirl.create(:awesome_user).name.should == "awesome"
   end
 end
 
