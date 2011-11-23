@@ -17,10 +17,11 @@ describe FactoryGirl::Proxy::Create do
   end
 
   it "runs a custom create block" do
-    block = stub('custom create block', :call => nil)
+    block_run = false
+    block = lambda { block_run = true }
     subject.result(block)
-    block.should have_received(:call).with(instance)
     instance.should have_received(:save!).never
+    block_run.should be_true
   end
 
 end
