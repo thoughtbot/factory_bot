@@ -1,3 +1,12 @@
+2.3.1 (November 23, 2011)
+  Remove internally-used associate method from all the FactoryGirl::Proxy subclasses
+  Move around requiring of files
+  Consolidate errors into factory_girl.rb
+  Refactor AttributeList to deal with priority only when iterating over
+    attributes
+  Refactor internals of some of the Proxy subclasses
+  Ensure callbacks on traits are executed in the correct order
+
 2.3.0 (November 18, 2011)
   Registries are named, resulting in better messages when factories, traits,
     or sequences cannot be found
