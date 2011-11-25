@@ -11,11 +11,6 @@ describe FactoryGirl::Proxy::Create do
   it_should_behave_like "proxy with callbacks", :after_build
   it_should_behave_like "proxy with callbacks", :after_create
 
-  it "saves the instance before returning the result" do
-    subject.result(nil)
-    instance.should have_received(:save!)
-  end
-
   it "runs a custom create block" do
     block_run = false
     block = lambda {|instance| block_run = true }
@@ -23,7 +18,6 @@ describe FactoryGirl::Proxy::Create do
     instance.should have_received(:save!).never
     block_run.should be_true
   end
-
 end
 
 describe FactoryGirl::Proxy::Create, "when running callbacks" do
@@ -38,7 +32,7 @@ describe FactoryGirl::Proxy::Create, "when running callbacks" do
   subject { FactoryGirl::Proxy::Create.new(proxy_class, [after_create_one, after_create_two, after_build_one]) }
 
   it "runs callbacks in the correct order" do
-    subject.result(nil)
+    subject.result(lambda {|instance| instance })
     callback_result.should == [:after_build_one, :after_create_one, :after_create_two]
   end
 end

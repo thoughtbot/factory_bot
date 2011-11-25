@@ -6,7 +6,7 @@ module FactoryGirl
       @declarations   = DeclarationList.new(name)
       @callbacks      = []
       @defined_traits = []
-      @to_create      = nil
+      @to_create      = lambda {|instance| instance.save! }
       @traits         = []
     end
 

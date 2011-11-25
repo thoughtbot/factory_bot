@@ -4,7 +4,6 @@ module FactoryGirl
       def result(to_create)
         super
 
-        to_create ||= lambda {|instance| instance.save! }
         to_create[@instance]
 
         run_callbacks(:after_create)

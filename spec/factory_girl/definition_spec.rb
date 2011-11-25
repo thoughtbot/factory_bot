@@ -49,7 +49,13 @@ describe FactoryGirl::Definition, "adding callbacks" do
 end
 
 describe FactoryGirl::Definition, "#to_create" do
-  its(:to_create) { should be_nil }
+  its(:to_create) { should be_a(Proc) }
+
+  it "calls save! on the object when run" do
+    instance = stub("model instance", :save! => true)
+    subject.to_create[instance]
+    instance.should have_received(:save!).once
+  end
 
   it "returns the assigned value when given a block" do
     block = proc { nil }

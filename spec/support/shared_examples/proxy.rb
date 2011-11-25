@@ -102,11 +102,11 @@ shared_examples_for "proxy with callbacks" do |callback_name|
   subject        { described_class.new(proxy_class, [callback]) }
 
   it "runs the #{callback_name} callback" do
-    subject.result(nil)
+    subject.result(lambda {|instance| instance })
     callback_instance.should have_received(:foo).once
   end
 
   it "returns the proxy instance" do
-    subject.result(nil).should == instance
+    subject.result(lambda {|instance| instance }).should == instance
   end
 end

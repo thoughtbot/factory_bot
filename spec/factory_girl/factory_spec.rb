@@ -271,7 +271,7 @@ describe FactoryGirl::Factory, "running a factory" do
 
   it "returns the result from the proxy when running" do
     subject.run(FactoryGirl::Proxy::Build, {}).should == "result"
-    proxy.should have_received(:result).with(nil)
+    proxy.should have_received(:result).with(subject.definition.to_create)
   end
 
   it "sets overrides once on the factory" do
