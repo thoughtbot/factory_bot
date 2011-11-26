@@ -180,7 +180,7 @@ module FactoryGirl
       end
 
       def overrides_for_attribute(attribute)
-        @overrides.select { |attr, val| attribute.aliases_for?(attr) }
+        @overrides.select { |attr, val| attribute.alias_for?(attr) }
       end
 
       def handle_attribute_with_overrides(attribute)

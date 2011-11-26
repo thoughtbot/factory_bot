@@ -27,7 +27,7 @@ module FactoryGirl
       1
     end
 
-    def aliases_for?(attr)
+    def alias_for?(attr)
       FactoryGirl.aliases_for(attr).include?(name)
     end
 
