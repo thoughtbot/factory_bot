@@ -20,10 +20,7 @@ module FactoryGirl
 
     def apply_attributes(attributes_to_apply)
       attributes_to_apply.each do |attribute|
-        new_attribute = find_attribute(attribute.name) || attribute
-        delete_attribute(attribute.name)
-
-        add_attribute new_attribute
+        add_attribute(attribute) unless attribute_defined?(attribute.name)
       end
     end
 
@@ -47,17 +44,9 @@ module FactoryGirl
     end
 
     def attribute_defined?(attribute_name)
-      !!find_attribute(attribute_name)
-    end
-
-    def find_attribute(attribute_name)
-      @attributes.detect do |attribute|
+      @attributes.any? do |attribute|
         attribute.name == attribute_name
       end
-    end
-
-    def delete_attribute(attribute_name)
-      @attributes.delete_if {|attrib| attrib.name == attribute_name }
     end
   end
 end
