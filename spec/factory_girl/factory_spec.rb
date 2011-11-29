@@ -254,7 +254,7 @@ describe FactoryGirl::Factory, "running a factory" do
     define_model("User", :name => :string)
     FactoryGirl::Declaration::Static.stubs(:new => declaration)
     declaration.stubs(:to_attributes => attributes)
-    attribute.stubs(:add_to => nil)
+    proxy.stubs(:set)
     FactoryGirl::Proxy::Build.stubs(:new => proxy)
     subject.declare_attribute(declaration)
   end
@@ -266,7 +266,7 @@ describe FactoryGirl::Factory, "running a factory" do
 
   it "adds the attribute to the proxy when running" do
     subject.run(FactoryGirl::Proxy::Build, {})
-    attribute.should have_received(:add_to).with(proxy)
+    proxy.should have_received(:set).with(attribute)
   end
 
   it "returns the result from the proxy when running" do

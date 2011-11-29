@@ -2,7 +2,6 @@ require 'spec_helper'
 
 describe FactoryGirl::Attribute::Dynamic do
   let(:name)  { :first_name }
-  let(:proxy) { stub("proxy", :set => nil) }
   let(:block) { lambda { } }
 
   subject { FactoryGirl::Attribute::Dynamic.new(name, false, block) }
@@ -13,7 +12,7 @@ describe FactoryGirl::Attribute::Dynamic do
     let(:block) { lambda { "value" } }
 
     it "returns the value when executing the proc" do
-      subject.to_proc(proxy).call.should == "value"
+      subject.to_proc.call.should == "value"
     end
   end
 
@@ -21,20 +20,20 @@ describe FactoryGirl::Attribute::Dynamic do
     let(:block) { lambda {|thing| thing } }
 
     it "returns self when executing the proc" do
-      subject.to_proc(proxy).call.should == subject
+      subject.to_proc.call.should == subject
     end
   end
 
-  context "with a block referencing an attribute on the proxy" do
-    let(:block)  { lambda { attribute_defined_on_proxy } }
+  context "with a block referencing an attribute on the attribute" do
+    let(:block)  { lambda { attribute_defined_on_attribute } }
     let(:result) { "other attribute value" }
 
     before do
-      subject.stubs(:attribute_defined_on_proxy => result)
+      subject.stubs(:attribute_defined_on_attribute => result)
     end
 
-    it "evaluates the attribute from the proxy" do
-      subject.to_proc(proxy).call.should == result
+    it "evaluates the attribute from the attribute" do
+      subject.to_proc.call.should == result
     end
   end
 
@@ -42,7 +41,7 @@ describe FactoryGirl::Attribute::Dynamic do
     let(:block) { lambda { Factory.sequence(:email) } }
 
     it "raises a sequence abuse error" do
-      expect { subject.to_proc(proxy).call }.to raise_error(FactoryGirl::SequenceAbuseError)
+      expect { subject.to_proc.call }.to raise_error(FactoryGirl::SequenceAbuseError)
     end
   end
 end

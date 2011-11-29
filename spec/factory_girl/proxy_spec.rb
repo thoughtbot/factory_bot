@@ -7,7 +7,7 @@ describe FactoryGirl::Proxy do
 
   it "doesn't raise when assigning a value to an attribute" do
     name_attribute = FactoryGirl::Attribute::Static.new(:name, "great", false)
-    expect { subject.set(name_attribute, lambda { "a name" }) }.to_not raise_error
+    expect { subject.set(name_attribute) }.to_not raise_error
   end
 
   it "raises an error when asking for the result" do

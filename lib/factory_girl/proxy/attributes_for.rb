@@ -1,7 +1,7 @@
 module FactoryGirl
   class Proxy #:nodoc:
     class AttributesFor < Proxy #:nodoc:
-      def set(attribute, value)
+      def set(attribute)
         return if attribute.is_a? Attribute::Association
         super
       end

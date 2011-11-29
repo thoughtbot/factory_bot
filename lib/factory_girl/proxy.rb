@@ -8,17 +8,23 @@ module FactoryGirl
   class Proxy #:nodoc:
     def initialize(klass, callbacks = [])
       @callbacks = process_callbacks(callbacks)
-      @proxy     = ObjectWrapper.new(klass)
+      @proxy     = ObjectWrapper.new(klass, self)
     end
-
-    delegate :get, :set, :set_ignored, :anonymous_instance, :to => :@proxy
 
     def run_callbacks(name)
       if @callbacks[name]
         @callbacks[name].each do |callback|
-          callback.run(result_instance, anonymous_instance)
+          callback.run(result_instance, @proxy.anonymous_instance)
         end
       end
+    end
+
+    def set_ignored(attribute)
+      @proxy.set_ignored(attribute.name, attribute.to_proc)
+    end
+
+    def set(attribute)
+      @proxy.set(attribute.name, attribute.to_proc)
     end
 
     # Generates an association using the current build strategy.
@@ -85,14 +91,21 @@ module FactoryGirl
     end
 
     class ObjectWrapper
-      def initialize(klass)
+      def initialize(klass, proxy)
         @klass      = klass
-        @attributes = []
+        @proxy      = proxy
         @assigned_attributes = []
+
+        @evaluator = AnonymousEvaluator.new
+        @evaluator.evaluator.send(:define_method, :association) { |*args|
+          proxy.association(*args)
+        }
       end
 
+      delegate :set, :set_ignored, :attributes, :to => :@evaluator
+
       def to_hash
-        @attributes.inject({}) do |result, attribute|
+        attributes.inject({}) do |result, attribute|
           result[attribute] = get(attribute)
           result
         end
@@ -104,44 +117,21 @@ module FactoryGirl
         @object
       end
 
-      def set(attribute, value)
-        define_attribute(attribute, value)
-        @attributes << attribute.name
-      end
-
-      def set_ignored(attribute, value)
-        define_attribute(attribute, value)
-      end
-
-      def get(attribute)
-        anonymous_instance.send(attribute)
-      end
-
       def anonymous_instance
-        @anonymous_instance ||= anonymous_class.new
+        @anonymous_instance ||= @evaluator.evaluator.new
       end
 
       private
 
-      def define_attribute(attribute, value)
-        anonymous_class.send(:define_method, attribute.name) {
-          @cached_attributes[attribute.name] ||= instance_exec(&value)
-        }
-      end
-
       def assign_object_attributes
-        (@attributes - @assigned_attributes).each do |attribute|
+        (attributes - @assigned_attributes).each do |attribute|
           @assigned_attributes << attribute
           @object.send("#{attribute}=", get(attribute))
         end
       end
 
-      def anonymous_class
-        @anonymous_class ||= Class.new do
-          def initialize
-            @cached_attributes = {}
-          end
-        end
+      def get(attribute)
+        anonymous_instance.send(attribute)
       end
     end
   end

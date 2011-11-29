@@ -14,15 +14,7 @@ module FactoryGirl
       ensure_non_attribute_writer!
     end
 
-    def add_to(proxy)
-      if @ignored
-        proxy.set_ignored(self, to_proc(proxy))
-      else
-        proxy.set(self, to_proc(proxy))
-      end
-    end
-
-    def to_proc(proxy)
+    def to_proc
       lambda { }
     end
 

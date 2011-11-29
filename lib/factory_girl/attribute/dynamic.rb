@@ -6,7 +6,7 @@ module FactoryGirl
         @block = block
       end
 
-      def to_proc(proxy)
+      def to_proc
         block = @block
 
         lambda {

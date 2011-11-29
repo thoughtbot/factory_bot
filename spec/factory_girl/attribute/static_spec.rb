@@ -3,14 +3,13 @@ require 'spec_helper'
 describe FactoryGirl::Attribute::Static do
   let(:name)  { :first_name }
   let(:value) { "John" }
-  let(:proxy) { stub("proxy") }
 
   subject { FactoryGirl::Attribute::Static.new(name, value, false) }
 
   its(:name) { should == name }
 
   it "returns the value when executing the proc" do
-    subject.to_proc(proxy).call.should == value
+    subject.to_proc.call.should == value
   end
 end
 

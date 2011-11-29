@@ -7,7 +7,7 @@ module FactoryGirl
         @sequence = sequence
       end
 
-      def to_proc(proxy)
+      def to_proc
         sequence = @sequence
         lambda { FactoryGirl.generate(sequence) }
       end

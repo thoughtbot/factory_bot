@@ -18,16 +18,12 @@ describe FactoryGirl::Proxy::AttributesFor do
   end
 
   describe "after setting an attribute" do
-    let(:attribute) { stub("attribute", :name => :attribute) }
+    let(:attribute) { stub("attribute", :name => :attribute, :to_proc => lambda { "value" }) }
 
-    before { subject.set(attribute, lambda { "value" }) }
+    before { subject.set(attribute) }
 
     it "sets that value in the resulting hash" do
       subject.result(nil)[:attribute].should == "value"
-    end
-
-    it "returns that value when asked for that attribute" do
-      subject.get(:attribute).should == "value"
     end
   end
 end

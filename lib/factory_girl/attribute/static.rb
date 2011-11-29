@@ -6,7 +6,7 @@ module FactoryGirl
         @value = value
       end
 
-      def to_proc(proxy)
+      def to_proc
         value = @value
         lambda { value }
       end

@@ -7,18 +7,19 @@ describe FactoryGirl::Attribute::Association do
   let(:association) { stub("association") }
   let(:proxy)       { stub("proxy", :association => association) }
 
-  subject    { FactoryGirl::Attribute::Association.new(name, factory, overrides) }
+  subject { FactoryGirl::Attribute::Association.new(name, factory, overrides) }
+  before  { subject.stubs(:association => association) }
 
   it         { should be_association }
   its(:name) { should == name }
 
   it "builds the association when calling the proc" do
-    subject.to_proc(proxy).call.should == association
+    subject.to_proc.call.should == association
   end
 
   it "builds the association when calling the proc" do
-    subject.to_proc(proxy).call
-    proxy.should have_received(:association).with(factory, overrides)
+    subject.to_proc.call
+    subject.should have_received(:association).with(factory, overrides)
   end
 end
 

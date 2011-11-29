@@ -191,11 +191,19 @@ module FactoryGirl
       end
 
       def add_static_attribute(attr, val, ignored = false)
-        Attribute::Static.new(attr, val, ignored).add_to(proxy)
+        set_attribute_on_proxy(Attribute::Static.new(attr, val, ignored))
       end
 
       def handle_attribute_without_overrides(attribute)
-        attribute.add_to(proxy)
+        set_attribute_on_proxy(attribute)
+      end
+
+      def set_attribute_on_proxy(attribute)
+        if attribute.ignored
+          proxy.set_ignored(attribute)
+        else
+          proxy.set(attribute)
+        end
       end
 
       def proxy
