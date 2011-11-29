@@ -20,8 +20,8 @@ describe FactoryGirl::Attribute::Dynamic do
   context "with a block returning its block-level variable" do
     let(:block) { lambda {|thing| thing } }
 
-    it "returns the proxy when executing the proc" do
-      subject.to_proc(proxy).call.should == proxy
+    it "returns self when executing the proc" do
+      subject.to_proc(proxy).call.should == subject
     end
   end
 
@@ -30,7 +30,7 @@ describe FactoryGirl::Attribute::Dynamic do
     let(:result) { "other attribute value" }
 
     before do
-      proxy.stubs(:attribute_defined_on_proxy => result)
+      subject.stubs(:attribute_defined_on_proxy => result)
     end
 
     it "evaluates the attribute from the proxy" do

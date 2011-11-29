@@ -73,7 +73,7 @@ shared_examples_for "proxy with standard getters and setters" do |attribute, val
       subject.result(lambda {|instance| instance })
     end
 
-    its(attribute) { should == value }
+    its(:"anonymous_instance.#{attribute}") { should == value }
     it { instance.should have_received(:"#{attribute}=").with(value) }
   end
 

@@ -11,12 +11,12 @@ module FactoryGirl
       @proxy     = ObjectWrapper.new(klass)
     end
 
-    delegate :get, :set, :set_ignored, :to => :@proxy
+    delegate :get, :set, :set_ignored, :anonymous_instance, :to => :@proxy
 
     def run_callbacks(name)
       if @callbacks[name]
         @callbacks[name].each do |callback|
-          callback.run(result_instance, self)
+          callback.run(result_instance, anonymous_instance)
         end
       end
     end
@@ -68,10 +68,6 @@ module FactoryGirl
 
     private
 
-    def method_missing(method, *args, &block)
-      get(method)
-    end
-
     def process_callbacks(callbacks)
       callbacks.inject({}) do |result, callback|
         result[callback.name] ||= []
@@ -92,7 +88,7 @@ module FactoryGirl
       def initialize(klass)
         @klass      = klass
         @attributes = []
-        @cached_attribute_values = {}
+        @assigned_attributes = []
       end
 
       def to_hash
@@ -118,27 +114,34 @@ module FactoryGirl
       end
 
       def get(attribute)
-        @cached_attribute_values[attribute] ||= anonymous_instance.send(attribute)
+        anonymous_instance.send(attribute)
+      end
+
+      def anonymous_instance
+        @anonymous_instance ||= anonymous_class.new
       end
 
       private
 
       def define_attribute(attribute, value)
-        anonymous_class.send(:define_method, attribute.name, value)
+        anonymous_class.send(:define_method, attribute.name) {
+          @cached_attributes[attribute.name] ||= instance_exec(&value)
+        }
       end
 
       def assign_object_attributes
-        (@attributes - @cached_attribute_values.keys).each do |attribute|
+        (@attributes - @assigned_attributes).each do |attribute|
+          @assigned_attributes << attribute
           @object.send("#{attribute}=", get(attribute))
         end
       end
 
       def anonymous_class
-        @anonymous_class ||= Class.new
-      end
-
-      def anonymous_instance
-        @anonymous_instance ||= anonymous_class.new
+        @anonymous_class ||= Class.new do
+          def initialize
+            @cached_attributes = {}
+          end
+        end
       end
     end
   end

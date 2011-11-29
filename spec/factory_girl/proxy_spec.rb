@@ -10,11 +10,6 @@ describe FactoryGirl::Proxy do
     expect { subject.set(name_attribute, lambda { "a name" }) }.to_not raise_error
   end
 
-  it "calls get for a missing method" do
-    subject.stubs(:get).with(:name).returns("it's a name")
-    subject.name.should == "it's a name"
-  end
-
   it "raises an error when asking for the result" do
     expect { subject.result(nil) }.to raise_error(NotImplementedError)
   end
