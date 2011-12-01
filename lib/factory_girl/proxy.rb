@@ -11,20 +11,14 @@ module FactoryGirl
       @proxy     = ObjectWrapper.new(klass, self)
     end
 
+    delegate :set, :to => :@proxy
+
     def run_callbacks(name)
       if @callbacks[name]
         @callbacks[name].each do |callback|
           callback.run(result_instance, @proxy.anonymous_instance)
         end
       end
-    end
-
-    def set_ignored(attribute)
-      @proxy.set_ignored(attribute.name, attribute.to_proc)
-    end
-
-    def set(attribute)
-      @proxy.set(attribute.name, attribute.to_proc)
     end
 
     # Generates an association using the current build strategy.
@@ -102,7 +96,7 @@ module FactoryGirl
         }
       end
 
-      delegate :set, :set_ignored, :attributes, :to => :@evaluator
+      delegate :set, :attributes, :to => :@evaluator
 
       def to_hash
         attributes.inject({}) do |result, attribute|

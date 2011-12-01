@@ -61,7 +61,7 @@ shared_examples_for "proxy with :method => :build" do |factory_girl_proxy_class|
 end
 
 shared_examples_for "proxy with standard getters and setters" do |attribute, value|
-  let(:attribute_instance) { stub("attribute #{attribute}", :name => attribute, :to_proc => lambda { value }) }
+  let(:attribute_instance) { stub("attribute #{attribute}", :name => attribute, :to_proc => lambda { value }, :ignored => false) }
 
   before do
     instance.stubs(:"#{attribute}=" => value, :"#{attribute}" => value)
@@ -74,15 +74,6 @@ shared_examples_for "proxy with standard getters and setters" do |attribute, val
     end
 
     it { instance.should have_received(:"#{attribute}=").with(value) }
-  end
-
-  describe "when setting an ignored attribute" do
-    before do
-      subject.set_ignored(attribute_instance)
-      subject.result(lambda {|instance| instance })
-    end
-
-    it { instance.should have_received(:"#{attribute}=").with(value).never }
   end
 end
 

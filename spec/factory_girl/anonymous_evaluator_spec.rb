@@ -1,29 +1,13 @@
 require "spec_helper"
 
-describe FactoryGirl::AnonymousEvaluator do
-  its(:attributes) { should == [] }
-end
-
-describe FactoryGirl::AnonymousEvaluator, "#set" do
-  let(:attribute) { :one }
-  let(:value)     { lambda { @result ||= 0; @result += 1 } }
-
-  def set_attribute
-    subject.set(attribute, value)
-  end
-
+shared_examples "#set on an AnonymousEvaluator" do
   it "adds the method to the evaluator" do
-    set_attribute
+    subject.set(attribute)
     subject.evaluator.new.one.should == 1
   end
 
-  it "tracks the attribute" do
-    set_attribute
-    subject.attributes.should == [attribute]
-  end
-
   it "caches the result" do
-    set_attribute
+    subject.set(attribute)
     subject.evaluator.new.tap do |obj|
       obj.one.should == 1
       obj.one.should == 1
@@ -31,35 +15,39 @@ describe FactoryGirl::AnonymousEvaluator, "#set" do
   end
 
   it "evaluates the block in the context of the evaluator" do
-    set_attribute
-    subject.set(:two, lambda { one + 1 })
+    subject.set(attribute)
+    second_attribute = stub("attribute", :name => :two, :to_proc => lambda { one + 1 }, :ignored => false)
+    subject.set(second_attribute)
     subject.evaluator.new.two.should == 2
   end
 end
 
-describe FactoryGirl::AnonymousEvaluator, "#set_ignored" do
-  let(:attribute) { :one }
-  let(:value)     { lambda { @result ||= 0; @result += 1 } }
+describe FactoryGirl::AnonymousEvaluator do
+  its(:attributes) { should == [] }
+end
 
-  def set_attribute
-    subject.set_ignored(attribute, value)
+describe FactoryGirl::AnonymousEvaluator, "#set" do
+  let(:value) { lambda { @result ||= 0; @result += 1 } }
+
+  context "setting an ignored attribute" do
+    let(:attribute) { stub("attribute", :name => :one, :to_proc => value, :ignored => true) }
+
+    it_behaves_like "#set on an AnonymousEvaluator"
+
+    it "does not track the attribute" do
+      subject.set(attribute)
+      subject.attributes.should be_empty
+    end
   end
 
-  it "adds the method to the evaluator" do
-    set_attribute
-    subject.evaluator.new.one.should == 1
-  end
+  context "setting an attribute" do
+    let(:attribute) { stub("attribute", :name => :one, :to_proc => value, :ignored => false) }
 
-  it "does not track the attribute" do
-    set_attribute
-    subject.attributes.should == []
-  end
+    it_behaves_like "#set on an AnonymousEvaluator"
 
-  it "caches the result" do
-    set_attribute
-    subject.evaluator.new.tap do |obj|
-      obj.one.should == 1
-      obj.one.should == 1
+    it "tracks the attribute" do
+      subject.set(attribute)
+      subject.attributes.should == [:one]
     end
   end
 end

@@ -18,7 +18,7 @@ describe FactoryGirl::Proxy::AttributesFor do
   end
 
   describe "after setting an attribute" do
-    let(:attribute) { stub("attribute", :name => :attribute, :to_proc => lambda { "value" }) }
+    let(:attribute) { stub("attribute", :name => :attribute, :to_proc => lambda { "value" }, :ignored => false) }
 
     before { subject.set(attribute) }
 

@@ -6,13 +6,9 @@ module FactoryGirl
       @attributes = []
     end
 
-    def set(attribute, value)
-      define_attribute(attribute, value)
-      @attributes << attribute
-    end
-
-    def set_ignored(attribute, value)
-      define_attribute(attribute, value)
+    def set(attribute)
+      define_attribute(attribute.name, attribute.to_proc)
+      @attributes << attribute.name unless attribute.ignored
     end
 
     def evaluator
@@ -25,9 +21,9 @@ module FactoryGirl
 
     private
 
-    def define_attribute(attribute, value)
-      evaluator.send(:define_method, attribute) {
-        @cached_attributes[attribute] ||= instance_exec(&value)
+    def define_attribute(attribute_name, attribute_proc)
+      evaluator.send(:define_method, attribute_name) {
+        @cached_attributes[attribute_name] ||= instance_exec(&attribute_proc)
       }
     end
   end
