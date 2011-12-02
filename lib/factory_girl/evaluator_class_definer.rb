@@ -7,7 +7,7 @@ module FactoryGirl
     end
 
     def evaluator_class
-      @evaluator ||= Class.new(FactoryGirl::Evaluator)
+      @evaluator_class ||= Class.new(FactoryGirl::Evaluator)
     end
 
     def set(attribute)
