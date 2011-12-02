@@ -41,10 +41,11 @@ module FactoryGirl
         :callbacks   => callbacks,
         :to_create   => to_create,
         :build_class => build_class,
-        :proxy_class => proxy_class
+        :proxy_class => proxy_class,
+        :overrides   => overrides.dup
       }
 
-      block[Runner.new(runner_options).run(overrides)]
+      block[Runner.new(runner_options).run]
     end
 
     def human_names
@@ -100,6 +101,7 @@ module FactoryGirl
 
     def class_name #:nodoc:
       @class_name || parent.class_name || name
+
     end
 
     def attributes
@@ -150,13 +152,10 @@ module FactoryGirl
         @to_create   = options[:to_create]
         @build_class = options[:build_class]
         @proxy_class = options[:proxy_class]
-
-        @overrides   = {}
+        @overrides   = options[:overrides]
       end
 
-      def run(overrides = {})
-        @overrides = overrides.symbolize_keys
-
+      def run
         apply_attributes
         apply_remaining_overrides
 
