@@ -1,14 +1,17 @@
 require "spec_helper"
 
 shared_examples "#set on an EvaluatorClassDefiner" do
+  let(:build_strategy)     { stub("build strategy") }
+  let(:evaluator_instance) { subject.evaluator_class.new(build_strategy) }
+
   it "adds the method to the evaluator" do
     subject.set(attribute)
-    subject.evaluator_class.new.one.should == 1
+    evaluator_instance.one.should == 1
   end
 
   it "caches the result" do
     subject.set(attribute)
-    subject.evaluator_class.new.tap do |obj|
+    evaluator_instance.tap do |obj|
       obj.one.should == 1
       obj.one.should == 1
     end
@@ -18,7 +21,7 @@ shared_examples "#set on an EvaluatorClassDefiner" do
     subject.set(attribute)
     second_attribute = stub("attribute", :name => :two, :to_proc => lambda { one + 1 }, :ignored => false)
     subject.set(second_attribute)
-    subject.evaluator_class.new.two.should == 2
+    evaluator_instance.two.should == 2
   end
 end
 

@@ -91,9 +91,6 @@ module FactoryGirl
         @assigned_attributes = []
 
         @evaluator_class_definer = EvaluatorClassDefiner.new
-        @evaluator_class_definer.evaluator_class.send(:define_method, :association) { |*args|
-          proxy.association(*args)
-        }
       end
 
       delegate :set, :attributes, :to => :@evaluator_class_definer
@@ -112,7 +109,7 @@ module FactoryGirl
       end
 
       def anonymous_instance
-        @anonymous_instance ||= @evaluator_class_definer.evaluator_class.new
+        @anonymous_instance ||= @evaluator_class_definer.evaluator_class.new(@proxy)
       end
 
       private
