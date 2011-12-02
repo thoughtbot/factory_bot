@@ -90,13 +90,13 @@ module FactoryGirl
         @proxy      = proxy
         @assigned_attributes = []
 
-        @evaluator = AnonymousEvaluator.new
-        @evaluator.evaluator.send(:define_method, :association) { |*args|
+        @evaluator_class_definer = EvaluatorClassDefiner.new
+        @evaluator_class_definer.evaluator_class.send(:define_method, :association) { |*args|
           proxy.association(*args)
         }
       end
 
-      delegate :set, :attributes, :to => :@evaluator
+      delegate :set, :attributes, :to => :@evaluator_class_definer
 
       def to_hash
         attributes.inject({}) do |result, attribute|
@@ -112,7 +112,7 @@ module FactoryGirl
       end
 
       def anonymous_instance
-        @anonymous_instance ||= @evaluator.evaluator.new
+        @anonymous_instance ||= @evaluator_class_definer.evaluator_class.new
       end
 
       private

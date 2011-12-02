@@ -1,9 +1,13 @@
 module FactoryGirl
-  class AnonymousEvaluator
+  class EvaluatorClassDefiner
     attr_reader :attributes
 
     def initialize
       @attributes = []
+    end
+
+    def evaluator_class
+      @evaluator ||= Class.new(FactoryGirl::Evaluator)
     end
 
     def set(attribute)
@@ -11,18 +15,10 @@ module FactoryGirl
       @attributes << attribute.name unless attribute.ignored
     end
 
-    def evaluator
-      @evaluator ||= Class.new do
-        def initialize
-          @cached_attributes = {}
-        end
-      end
-    end
-
     private
 
     def define_attribute(attribute_name, attribute_proc)
-      evaluator.send(:define_method, attribute_name) {
+      evaluator_class.send(:define_method, attribute_name) {
         @cached_attributes[attribute_name] ||= instance_exec(&attribute_proc)
       }
     end
