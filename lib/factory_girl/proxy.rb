@@ -96,16 +96,11 @@ module FactoryGirl
       delegate :set, :attributes, :to => :@evaluator_class_definer
 
       def to_hash
-        attributes.inject({}) do |result, attribute|
-          result[attribute] = get(attribute)
-          result
-        end
+        attribute_assigner.hash
       end
 
       def object
-        @object ||= @klass.new
-        assign_object_attributes
-        @object
+        attribute_assigner.object
       end
 
       def anonymous_instance
@@ -114,15 +109,12 @@ module FactoryGirl
 
       private
 
-      def assign_object_attributes
-        (attributes - @assigned_attributes).each do |attribute|
-          @assigned_attributes << attribute
-          @object.send("#{attribute}=", get(attribute))
-        end
-      end
-
       def get(attribute)
         anonymous_instance.send(attribute)
+      end
+
+      def attribute_assigner
+        @attribute_assigner ||= AttributeAssigner.new(@klass, anonymous_instance, attributes)
       end
     end
   end
