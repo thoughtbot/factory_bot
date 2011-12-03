@@ -8,15 +8,17 @@ module FactoryGirl
   class Proxy #:nodoc:
     def initialize(klass, callbacks = [])
       @callbacks = process_callbacks(callbacks)
-      @proxy     = ObjectWrapper.new(klass, self)
+      @klass     = klass
+
+      @evaluator_class_definer = EvaluatorClassDefiner.new
     end
 
-    delegate :set, :to => :@proxy
+    delegate :set, :to => :@evaluator_class_definer
 
     def run_callbacks(name)
       if @callbacks[name]
         @callbacks[name].each do |callback|
-          callback.run(result_instance, @proxy.anonymous_instance)
+          callback.run(result_instance, anonymous_instance)
         end
       end
     end
@@ -77,45 +79,19 @@ module FactoryGirl
     end
 
     def result_instance
-      @proxy.object
+      attribute_assigner.object
     end
 
     def result_hash
-      @proxy.to_hash
+      attribute_assigner.hash
     end
 
-    class ObjectWrapper
-      def initialize(klass, proxy)
-        @klass      = klass
-        @proxy      = proxy
-        @assigned_attributes = []
+    def anonymous_instance
+      @anonymous_instance ||= @evaluator_class_definer.evaluator_class.new(self)
+    end
 
-        @evaluator_class_definer = EvaluatorClassDefiner.new
-      end
-
-      delegate :set, :attributes, :to => :@evaluator_class_definer
-
-      def to_hash
-        attribute_assigner.hash
-      end
-
-      def object
-        attribute_assigner.object
-      end
-
-      def anonymous_instance
-        @anonymous_instance ||= @evaluator_class_definer.evaluator_class.new(@proxy)
-      end
-
-      private
-
-      def get(attribute)
-        anonymous_instance.send(attribute)
-      end
-
-      def attribute_assigner
-        @attribute_assigner ||= AttributeAssigner.new(@klass, anonymous_instance, attributes)
-      end
+    def attribute_assigner
+      @attribute_assigner ||= AttributeAssigner.new(@klass, anonymous_instance, @evaluator_class_definer.attributes)
     end
   end
 end
