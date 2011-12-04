@@ -1,7 +1,8 @@
 module FactoryGirl
   class Evaluator
     def initialize(build_strategy, overrides = {})
-      @build_strategy = build_strategy
+      @build_strategy    = build_strategy
+      @overrides         = overrides.dup
       @cached_attributes = overrides
     end
 

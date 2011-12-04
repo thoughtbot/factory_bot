@@ -6,14 +6,13 @@ require "factory_girl/proxy/stub"
 
 module FactoryGirl
   class Proxy #:nodoc:
-    def initialize(klass, callbacks = [])
+    def initialize(evaluator_class_definer, klass, callbacks = [], overrides = {})
       @callbacks = process_callbacks(callbacks)
       @klass     = klass
+      @overrides = overrides
 
-      @evaluator_class_definer = EvaluatorClassDefiner.new
+      @evaluator_class_definer = evaluator_class_definer
     end
-
-    delegate :set, :to => :@evaluator_class_definer
 
     def run_callbacks(name)
       if @callbacks[name]
@@ -87,7 +86,7 @@ module FactoryGirl
     end
 
     def anonymous_instance
-      @anonymous_instance ||= @evaluator_class_definer.evaluator_class.new(self)
+      @anonymous_instance ||= @evaluator_class_definer.evaluator_class.new(self, @overrides)
     end
 
     def attribute_assigner

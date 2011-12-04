@@ -2,24 +2,27 @@ module FactoryGirl
   class EvaluatorClassDefiner
     attr_reader :attributes
 
-    def initialize
-      @attributes = []
+    def initialize(attributes)
+      @attributes = attributes
+
+      @attributes.each do |attribute|
+        define_attribute(attribute.name, attribute.to_proc)
+      end
     end
 
     def evaluator_class
       @evaluator_class ||= Class.new(FactoryGirl::Evaluator)
     end
 
-    def set(attribute)
-      define_attribute(attribute.name, attribute.to_proc)
-      @attributes << attribute.name unless attribute.ignored
-    end
-
     private
 
     def define_attribute(attribute_name, attribute_proc)
       evaluator_class.send(:define_method, attribute_name) {
-        @cached_attributes[attribute_name] ||= instance_exec(&attribute_proc)
+        if @cached_attributes.key?(attribute_name)
+          @cached_attributes[attribute_name]
+        else
+          @cached_attributes[attribute_name] = instance_exec(&attribute_proc)
+        end
       }
     end
   end
