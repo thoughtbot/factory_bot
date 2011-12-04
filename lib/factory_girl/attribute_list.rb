@@ -19,9 +19,7 @@ module FactoryGirl
     end
 
     def apply_attributes(attributes_to_apply)
-      attributes_to_apply.each do |attribute|
-        add_attribute(attribute) unless attribute_defined?(attribute.name)
-      end
+      attributes_to_apply.each {|attribute| add_attribute(attribute) }
     end
 
     private

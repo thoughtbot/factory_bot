@@ -95,26 +95,26 @@ module FactoryGirl
 
     def class_name #:nodoc:
       @class_name || parent.class_name || name
-
     end
 
     def attributes
       compile
       AttributeList.new(@name).tap do |list|
-        traits.each do |trait|
-          list.apply_attributes(trait.attributes)
+        processing_order.each do |factory|
+          list.apply_attributes factory.attributes
         end
-
-        list.apply_attributes(@definition.attributes)
-        list.apply_attributes(parent.attributes)
       end
     end
 
     def callbacks
-      [parent.callbacks, traits.map(&:callbacks).reverse, @definition.callbacks].flatten
+      processing_order.map {|factory| factory.callbacks }.flatten
     end
 
     private
+
+    def processing_order
+      [parent, traits.reverse, @definition].flatten
+    end
 
     def assert_valid_options(options)
       options.assert_valid_keys(:class, :parent, :default_strategy, :aliases, :traits)
