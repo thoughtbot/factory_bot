@@ -7,7 +7,7 @@ require "factory_girl/proxy/stub"
 module FactoryGirl
   class Proxy #:nodoc:
     def initialize(evaluator_class_definer, klass, callbacks = [], overrides = {})
-      @callbacks = process_callbacks(callbacks)
+      @callbacks = callbacks
       @klass     = klass
       @overrides = overrides
 
@@ -15,10 +15,8 @@ module FactoryGirl
     end
 
     def run_callbacks(name)
-      if @callbacks[name]
-        @callbacks[name].each do |callback|
-          callback.run(result_instance, evaluator)
-        end
+      @callbacks.select {|callback| callback.name == name }.each do |callback|
+        callback.run(result_instance, evaluator)
       end
     end
 
@@ -68,14 +66,6 @@ module FactoryGirl
     end
 
     private
-
-    def process_callbacks(callbacks)
-      callbacks.inject({}) do |result, callback|
-        result[callback.name] ||= []
-        result[callback.name] << callback
-        result
-      end
-    end
 
     def result_instance
       attribute_assigner.object
