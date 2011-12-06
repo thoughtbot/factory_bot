@@ -57,12 +57,4 @@ describe FactoryGirl::AttributeList, "#apply_attributes" do
     subject.apply_attributes(list(city_attribute, email_attribute))
     subject.to_a.should == [full_name_attribute, login_attribute, city_attribute, email_attribute]
   end
-
-  it "doesn't overwrite attributes that are already defined" do
-    subject.define_attribute(full_name_attribute)
-    attribute_with_same_name = FactoryGirl::Attribute::Static.new(:full_name, "Benjamin Franklin", false)
-
-    subject.apply_attributes(list(attribute_with_same_name))
-    subject.to_a.should == [full_name_attribute]
-  end
 end

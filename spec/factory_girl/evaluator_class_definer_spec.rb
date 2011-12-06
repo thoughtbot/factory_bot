@@ -1,56 +1,29 @@
 require "spec_helper"
 
-shared_examples "#set on an EvaluatorClassDefiner" do
-  let(:build_strategy)     { stub("build strategy") }
-  let(:evaluator_instance) { subject.evaluator_class.new(build_strategy) }
+describe FactoryGirl::EvaluatorClassDefiner do
+  let(:simple_attribute)                    { stub("simple attribute",   :name => :simple, :to_proc => lambda { 1 }) }
+  let(:relative_attribute)                  { stub("relative attribute", :name => :relative, :to_proc => lambda { simple + 1 }) }
+  let(:attribute_that_raises_a_second_time) { stub("attribute that would raise without a cache", :name => :raises_without_proper_cache, :to_proc => lambda { raise "failed" if @run; @run = true; nil }) }
 
-  it "adds the method to the evaluator" do
-    subject.set(attribute)
-    evaluator_instance.one.should == 1
+  let(:attributes)    { [simple_attribute, relative_attribute, attribute_that_raises_a_second_time] }
+  let(:class_definer) { FactoryGirl::EvaluatorClassDefiner.new(attributes) }
+  let(:evaluator)     { class_definer.evaluator_class.new(stub("build strategy")) }
+
+  it "returns an evaluator when accessing the evaluator class" do
+    evaluator.should be_a(FactoryGirl::Evaluator)
   end
 
-  it "caches the result" do
-    subject.set(attribute)
-    evaluator_instance.tap do |obj|
-      obj.one.should == 1
-      obj.one.should == 1
-    end
+  it "adds each attribute to the evaluator" do
+    evaluator.simple.should == 1
   end
 
   it "evaluates the block in the context of the evaluator" do
-    subject.set(attribute)
-    second_attribute = stub("attribute", :name => :two, :to_proc => lambda { one + 1 }, :ignored => false)
-    subject.set(second_attribute)
-    evaluator_instance.two.should == 2
-  end
-end
-
-describe FactoryGirl::EvaluatorClassDefiner do
-  its(:attributes) { should == [] }
-end
-
-describe FactoryGirl::EvaluatorClassDefiner, "#set" do
-  let(:value) { lambda { @result ||= 0; @result += 1 } }
-
-  context "setting an ignored attribute" do
-    let(:attribute) { stub("attribute", :name => :one, :to_proc => value, :ignored => true) }
-
-    it_behaves_like "#set on an EvaluatorClassDefiner"
-
-    it "does not track the attribute" do
-      subject.set(attribute)
-      subject.attributes.should be_empty
-    end
+    evaluator.relative.should == 2
   end
 
-  context "setting an attribute" do
-    let(:attribute) { stub("attribute", :name => :one, :to_proc => value, :ignored => false) }
-
-    it_behaves_like "#set on an EvaluatorClassDefiner"
-
-    it "tracks the attribute" do
-      subject.set(attribute)
-      subject.attributes.should == [:one]
-    end
+  it "only instance_execs the block once even when returning nil" do
+    expect {
+      2.times { evaluator.raises_without_proper_cache }
+    }.to_not raise_error
   end
 end
