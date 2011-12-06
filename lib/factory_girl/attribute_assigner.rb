@@ -17,7 +17,7 @@ module FactoryGirl
     end
 
     def hash
-      attribute_names_to_assign.inject({}) do |result, attribute|
+      attributes_to_set_on_hash.inject({}) do |result, attribute|
         result[attribute] = get(attribute)
         result
       end
@@ -37,11 +37,25 @@ module FactoryGirl
       attribute_names_to_assign - @attribute_names_assigned
     end
 
+    def attributes_to_set_on_hash
+      attribute_names_to_assign - association_names
+    end
+
     def attribute_names_to_assign
-      non_ignored_attribute_names = @attribute_list.reject(&:ignored).map(&:name)
-      ignored_attribute_names     = @attribute_list.select(&:ignored).map(&:name)
-      override_names              = @evaluator.__overrides.keys
+      override_names = @evaluator.__overrides.keys
       non_ignored_attribute_names + override_names - ignored_attribute_names
+    end
+
+    def non_ignored_attribute_names
+      @attribute_list.reject(&:ignored).map(&:name)
+    end
+
+    def ignored_attribute_names
+      @attribute_list.select(&:ignored).map(&:name)
+    end
+
+    def association_names
+      @attribute_list.select(&:association?).map(&:name)
     end
   end
 end
