@@ -15,5 +15,9 @@ module FactoryGirl
         super
       end
     end
+
+    def __overrides
+      @overrides
+    end
   end
 end

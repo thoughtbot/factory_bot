@@ -40,7 +40,7 @@ module FactoryGirl
     def attribute_names_to_assign
       non_ignored_attribute_names = @attribute_list.reject(&:ignored).map(&:name)
       ignored_attribute_names     = @attribute_list.select(&:ignored).map(&:name)
-      override_names              = @evaluator.instance_variable_get(:@overrides).keys
+      override_names              = @evaluator.__overrides.keys
       non_ignored_attribute_names + override_names - ignored_attribute_names
     end
   end
