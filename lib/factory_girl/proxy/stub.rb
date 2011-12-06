@@ -3,12 +3,12 @@ module FactoryGirl
     class Stub < Proxy #:nodoc:
       @@next_id = 1000
 
-      def association(factory_name, overrides = {})
+      def self.association(factory_name, overrides = {})
         factory = FactoryGirl.factory_by_name(factory_name)
         factory.run(Proxy::Stub, overrides.except(:method))
       end
 
-      def result(to_create)
+      def result
         stub_database_interaction_on_result
         run_callbacks(:after_stub)
         result_instance

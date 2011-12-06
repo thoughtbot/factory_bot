@@ -6,18 +6,11 @@ require "factory_girl/proxy/stub"
 
 module FactoryGirl
   class Proxy #:nodoc:
-    def initialize(evaluator_class_definer, klass, callbacks = [], overrides = {})
-      @callbacks = callbacks
-      @klass     = klass
-      @overrides = overrides
-
-      @evaluator_class_definer = evaluator_class_definer
-    end
-
-    def run_callbacks(name)
-      @callbacks.select {|callback| callback.name == name }.each do |callback|
-        callback.run(result_instance, evaluator)
-      end
+    def initialize(options)
+      @evaluator          = options[:evaluator]
+      @attribute_assigner = options[:attribute_assigner]
+      @callbacks          = options[:callbacks]
+      @to_create          = options[:to_create]
     end
 
     # Generates an association using the current build strategy.
@@ -52,10 +45,10 @@ module FactoryGirl
     #   # author association, and saves the Post.
     #   FactoryGirl.create(:post)
     #
-    def association(name, overrides = {})
+    def self.association(name, overrides = {})
     end
 
-    def result(to_create)
+    def result
       raise NotImplementedError, "Strategies must return a result"
     end
 
@@ -68,19 +61,17 @@ module FactoryGirl
     private
 
     def result_instance
-      attribute_assigner.object
+      @attribute_assigner.object
     end
 
     def result_hash
-      attribute_assigner.hash
+      @attribute_assigner.hash
     end
 
-    def evaluator
-      @evaluator ||= @evaluator_class_definer.evaluator_class.new(self, @overrides)
-    end
-
-    def attribute_assigner
-      @attribute_assigner ||= AttributeAssigner.new(@klass, evaluator, @evaluator_class_definer.attributes)
+    def run_callbacks(name)
+      @callbacks.select {|callback| callback.name == name }.each do |callback|
+        callback.run(result_instance, @evaluator)
+      end
     end
   end
 end

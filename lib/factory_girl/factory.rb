@@ -37,9 +37,14 @@ module FactoryGirl
       block ||= lambda {|result| result }
       compile
 
-      proxy = proxy_class.new(evaluator_class_definer, build_class, callbacks, overrides)
+      evaluator = evaluator_class_definer.evaluator_class.new(proxy_class, overrides)
+      attribute_assigner = AttributeAssigner.new(build_class, evaluator, attributes)
 
-      block[proxy.result(to_create)]
+      proxy = proxy_class.new :evaluator          => evaluator,
+                              :attribute_assigner => attribute_assigner,
+                              :callbacks          => callbacks,
+                              :to_create          => to_create
+      block[proxy.result]
     end
 
     def human_names

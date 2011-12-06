@@ -1,11 +1,7 @@
 module FactoryGirl
   class EvaluatorClassDefiner
-    attr_reader :attributes
-
     def initialize(attributes)
-      @attributes = attributes
-
-      @attributes.each do |attribute|
+      attributes.each do |attribute|
         define_attribute(attribute.name, attribute.to_proc)
       end
     end
