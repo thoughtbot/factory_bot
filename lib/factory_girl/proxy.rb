@@ -17,7 +17,7 @@ module FactoryGirl
     def run_callbacks(name)
       if @callbacks[name]
         @callbacks[name].each do |callback|
-          callback.run(result_instance, anonymous_instance)
+          callback.run(result_instance, evaluator)
         end
       end
     end
@@ -85,12 +85,12 @@ module FactoryGirl
       attribute_assigner.hash
     end
 
-    def anonymous_instance
-      @anonymous_instance ||= @evaluator_class_definer.evaluator_class.new(self, @overrides)
+    def evaluator
+      @evaluator ||= @evaluator_class_definer.evaluator_class.new(self, @overrides)
     end
 
     def attribute_assigner
-      @attribute_assigner ||= AttributeAssigner.new(@klass, anonymous_instance, @evaluator_class_definer.attributes)
+      @attribute_assigner ||= AttributeAssigner.new(@klass, evaluator, @evaluator_class_definer.attributes)
     end
   end
 end
