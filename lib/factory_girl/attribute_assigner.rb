@@ -1,8 +1,8 @@
 module FactoryGirl
   class AttributeAssigner
-    def initialize(build_class, evaluator_class_instance, attribute_list)
+    def initialize(build_class, evaluator, attribute_list)
       @build_class              = build_class
-      @evaluator_class_instance = evaluator_class_instance
+      @evaluator                = evaluator
       @attribute_list           = attribute_list
       @attribute_names_assigned = []
     end
@@ -30,7 +30,7 @@ module FactoryGirl
     end
 
     def get(attribute_name)
-      @evaluator_class_instance.send(attribute_name)
+      @evaluator.send(attribute_name)
     end
 
     def attributes_to_set_on_instance
@@ -40,7 +40,7 @@ module FactoryGirl
     def attribute_names_to_assign
       non_ignored_attribute_names = @attribute_list.reject(&:ignored).map(&:name)
       ignored_attribute_names     = @attribute_list.select(&:ignored).map(&:name)
-      override_names              = @evaluator_class_instance.instance_variable_get(:@overrides).keys
+      override_names              = @evaluator.instance_variable_get(:@overrides).keys
       non_ignored_attribute_names + override_names - ignored_attribute_names
     end
   end
