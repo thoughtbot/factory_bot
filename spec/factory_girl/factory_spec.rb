@@ -116,6 +116,25 @@ describe FactoryGirl::Factory, "when defined with a custom class" do
   its(:build_class) { should == Float }
 end
 
+describe FactoryGirl::Factory, "when given a class that overrides #to_s" do
+  let(:overriding_class) { Overriding::Class }
+
+  before do
+    define_class("Overriding")
+    define_class("Overriding::Class") do
+      def self.to_s
+        "Overriding"
+      end
+    end
+  end
+
+  subject { FactoryGirl::Factory.new(:overriding_class, :class => Overriding::Class) }
+
+  it "sets build_class correctly" do
+    subject.build_class.should == overriding_class
+  end
+end
+
 describe FactoryGirl::Factory, "when defined with a class instead of a name" do
   let(:factory_class) { ArgumentError }
   let(:name)          { :argument_error }

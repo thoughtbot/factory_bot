@@ -27,7 +27,11 @@ module FactoryGirl
     end
 
     def build_class #:nodoc:
-      @build_class ||= class_name.to_s.camelize.constantize
+      @build_class ||= if class_name.is_a? Class
+        class_name
+      else
+        class_name.to_s.camelize.constantize
+      end
     end
 
     def default_strategy #:nodoc:
