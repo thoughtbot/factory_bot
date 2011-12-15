@@ -114,13 +114,14 @@ FactoryGirl.factories.each do |factory|
 
     if factory.build_class.respond_to?(:columns)
       factory.build_class.columns.each do |column|
-        human_column_name = column.name.downcase.gsub('_', ' ')
+        name = column.respond_to?(:name) ? column.name : column.to_s
+        human_column_name = name.downcase.gsub('_', ' ')
         Given /^an? #{human_name} exists with an? #{human_column_name} of "([^"]*)"$/i do |value|
-          FactoryGirl.create(factory.name, column.name => value)
+          FactoryGirl.create(factory.name, name => value)
         end
 
         Given /^(\d+) #{human_name.pluralize} exist with an? #{human_column_name} of "([^"]*)"$/i do |count, value|
-          FactoryGirl.create_list(factory.name, count.to_i, column.name => value)
+          FactoryGirl.create_list(factory.name, count.to_i, name => value)
         end
       end
     end
