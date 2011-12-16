@@ -10,8 +10,7 @@ module FactoryGirl
     include Observable
 
     def initialize(options)
-      @attribute_assigner = options[:attribute_assigner]
-      @to_create          = options[:to_create]
+      @to_create = options[:to_create]
     end
 
     # Generates an association using the current build strategy.
@@ -61,15 +60,7 @@ module FactoryGirl
 
     private
 
-    def result_instance
-      @attribute_assigner.object
-    end
-
-    def result_hash
-      @attribute_assigner.hash
-    end
-
-    def run_callbacks(name)
+    def run_callbacks(name, result_instance)
       changed
       notify_observers(name, result_instance)
     end

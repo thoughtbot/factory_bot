@@ -8,10 +8,11 @@ module FactoryGirl
         factory.run(Proxy::Stub, overrides.except(:method))
       end
 
-      def result
-        stub_database_interaction_on_result
-        run_callbacks(:after_stub)
-        result_instance
+      def result(attribute_assigner)
+        attribute_assigner.object.tap do |result_instance|
+          stub_database_interaction_on_result(result_instance)
+          run_callbacks(:after_stub, result_instance)
+        end
       end
 
       private
@@ -20,7 +21,7 @@ module FactoryGirl
         @@next_id += 1
       end
 
-      def stub_database_interaction_on_result
+      def stub_database_interaction_on_result(result_instance)
         result_instance.id = next_id
         result_instance.instance_eval do
           def persisted?
