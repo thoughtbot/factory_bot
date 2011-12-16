@@ -9,10 +9,6 @@ module FactoryGirl
   class Proxy #:nodoc:
     include Observable
 
-    def initialize(options)
-      @to_create = options[:to_create]
-    end
-
     # Generates an association using the current build strategy.
     #
     # Arguments:
@@ -48,7 +44,7 @@ module FactoryGirl
     def association(name, overrides = {})
     end
 
-    def result(attribute_assigner)
+    def result(attribute_assigner, &to_create)
       raise NotImplementedError, "Strategies must return a result"
     end
 

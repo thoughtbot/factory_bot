@@ -6,7 +6,7 @@ module FactoryGirl
         factory.run(get_method(overrides[:method]), overrides.except(:method))
       end
 
-      def result(attribute_assigner)
+      def result(attribute_assigner, &to_create)
         attribute_assigner.object.tap do |result_instance|
           run_callbacks(:after_build, result_instance)
         end
