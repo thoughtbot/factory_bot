@@ -1,7 +1,5 @@
 module FactoryGirl
   class Evaluator
-    undef_method :id
-
     def initialize(build_strategy, overrides = {}, callbacks = [])
       @build_strategy    = build_strategy
       @overrides         = overrides
@@ -15,6 +13,14 @@ module FactoryGirl
     def method_missing(method_name, *args, &block)
       if @cached_attributes.key?(method_name)
         @cached_attributes[method_name]
+      else
+        super
+      end
+    end
+
+    def id
+      if @cached_attributes.key?(:id)
+        @cached_attributes[:id]
       else
         super
       end
