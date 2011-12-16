@@ -3,7 +3,7 @@ module FactoryGirl
     class Stub < Proxy #:nodoc:
       @@next_id = 1000
 
-      def self.association(factory_name, overrides = {})
+      def association(factory_name, overrides = {})
         factory = FactoryGirl.factory_by_name(factory_name)
         factory.run(Proxy::Stub, overrides.except(:method))
       end

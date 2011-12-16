@@ -4,7 +4,8 @@ module FactoryGirl
       @build_strategy    = build_strategy
       @overrides         = overrides.dup
       @cached_attributes = overrides
-      @callbacks         = callbacks
+
+      @build_strategy.add_observer(CallbackRunner.new(callbacks, self))
     end
 
     delegate :association, :to => :@build_strategy
@@ -21,9 +22,18 @@ module FactoryGirl
       @overrides
     end
 
-    def update(name, result_instance)
-      @callbacks.select {|callback| callback.name == name }.each do |callback|
-        callback.run(result_instance, self)
+    private
+
+    class CallbackRunner
+      def initialize(callbacks, evaluator)
+        @callbacks = callbacks
+        @evaluator = evaluator
+      end
+
+      def update(name, result_instance)
+        @callbacks.select {|callback| callback.name == name }.each do |callback|
+          callback.run(result_instance, @evaluator)
+        end
       end
     end
   end

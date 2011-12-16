@@ -1,7 +1,7 @@
 module FactoryGirl
   class Proxy #:nodoc:
     class Build < Proxy #:nodoc:
-      def self.association(factory_name, overrides = {})
+      def association(factory_name, overrides = {})
         factory = FactoryGirl.factory_by_name(factory_name)
         factory.run(get_method(overrides[:method]), overrides.except(:method))
       end
@@ -14,7 +14,7 @@ module FactoryGirl
 
       private
 
-      def self.get_method(method)
+      def get_method(method)
         case method
         when :build  then Proxy::Build
         when :create then Proxy::Create
