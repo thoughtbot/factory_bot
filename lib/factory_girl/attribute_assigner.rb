@@ -42,8 +42,7 @@ module FactoryGirl
     end
 
     def attribute_names_to_assign
-      override_names = @evaluator.__overrides.keys
-      non_ignored_attribute_names + override_names - ignored_attribute_names
+      (non_ignored_attribute_names + override_names - ignored_attribute_names - aliases_to_ignore)
     end
 
     def non_ignored_attribute_names
@@ -56,6 +55,16 @@ module FactoryGirl
 
     def association_names
       @attribute_list.select(&:association?).map(&:name)
+    end
+
+    def override_names
+      @evaluator.__overrides.keys
+    end
+
+    def aliases_to_ignore
+      @attribute_list.reject(&:ignored).map do |attribute|
+        override_names.map {|o| attribute.name if attribute.alias_for?(o) && attribute.name != o }
+      end.flatten.compact
     end
   end
 end
