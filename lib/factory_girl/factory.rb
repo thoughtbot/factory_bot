@@ -39,7 +39,7 @@ module FactoryGirl
 
       proxy = proxy_class.new
 
-      evaluator = evaluator_class_definer.evaluator_class.new(proxy, overrides, callbacks)
+      evaluator = evaluator_class_definer.evaluator_class.new(proxy, overrides.symbolize_keys, callbacks)
       attribute_assigner = AttributeAssigner.new(build_class, evaluator, attributes)
 
       block[proxy.result(attribute_assigner, to_create)]

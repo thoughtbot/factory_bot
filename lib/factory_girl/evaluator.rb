@@ -2,7 +2,7 @@ module FactoryGirl
   class Evaluator
     def initialize(build_strategy, overrides = {}, callbacks = [])
       @build_strategy    = build_strategy
-      @overrides         = overrides.dup
+      @overrides         = overrides
       @cached_attributes = overrides
 
       @build_strategy.add_observer(CallbackRunner.new(callbacks, self))
