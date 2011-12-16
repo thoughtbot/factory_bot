@@ -1,5 +1,7 @@
 module FactoryGirl
   class Evaluator
+    undef_method :id
+
     def initialize(build_strategy, overrides = {}, callbacks = [])
       @build_strategy    = build_strategy
       @overrides         = overrides
