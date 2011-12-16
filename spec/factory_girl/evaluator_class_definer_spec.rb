@@ -7,7 +7,7 @@ describe FactoryGirl::EvaluatorClassDefiner do
 
   let(:attributes)    { [simple_attribute, relative_attribute, attribute_that_raises_a_second_time] }
   let(:class_definer) { FactoryGirl::EvaluatorClassDefiner.new(attributes) }
-  let(:evaluator)     { class_definer.evaluator_class.new(stub("build strategy")) }
+  let(:evaluator)     { class_definer.evaluator_class.new(stub("build strategy", :add_observer => true)) }
 
   it "returns an evaluator when accessing the evaluator class" do
     evaluator.should be_a(FactoryGirl::Evaluator)
