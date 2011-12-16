@@ -54,35 +54,37 @@ shared_examples_for "proxy with :method => :build" do |factory_girl_proxy_class|
   end
 end
 
-shared_examples_for "proxy with standard getters and setters" do |attribute, value|
-  let(:attribute_instance) { stub("attribute #{attribute}", :name => attribute, :to_proc => lambda { value }, :ignored => false) }
+shared_examples_for "proxy with callbacks" do |*callback_names|
+  let(:callback_observer) do
+    define_class("CallbackObserver") do
+      attr_reader :callbacks_called
 
-  before do
-    instance.stubs(:"#{attribute}=" => value, :"#{attribute}" => value)
+      def initialize
+        @callbacks_called = []
+      end
+
+      def update(callback_name, assigner)
+        @callbacks_called << [callback_name, assigner]
+      end
+    end.new
   end
 
-  describe "when setting an attribute" do
-    before do
-      subject.set(attribute_instance)
-      subject.result(lambda {|instance| instance })
-    end
-
-    it { instance.should have_received(:"#{attribute}=").with(value) }
-  end
-end
-
-shared_examples_for "proxy with callbacks" do |callback_name|
-  let(:callback_instance) { stub("#{callback_name} callback", :foo => nil) }
-  let(:callback) { FactoryGirl::Callback.new(callback_name, proc { callback_instance.foo }) }
-
-  subject        { described_class.new(proxy_class, [callback]) }
-
-  it "runs the #{callback_name} callback" do
-    subject.result(lambda {|instance| instance })
-    callback_instance.should have_received(:foo).once
+  let(:result_instance) do
+    define_class("ResultInstance") do
+      attr_accessor :id
+    end.new
   end
 
-  it "returns the proxy instance" do
-    subject.result(lambda {|instance| instance }).should == instance
+  let(:assigner) { stub("attribute assigner", :object => result_instance) }
+
+  before { subject.add_observer(callback_observer) }
+
+  it "runs the callbacks #{callback_names} with the assigner's object" do
+    subject.result(assigner, lambda {|instance| instance })
+    callback_observer.callbacks_called.should == callback_names.map {|name| [name, assigner.object] }
+  end
+
+  it "returns the object from the assigner" do
+    subject.result(assigner, lambda {|instance| instance }).should == assigner.object
   end
 end
