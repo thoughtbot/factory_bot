@@ -44,7 +44,7 @@ module FactoryGirl
     def association(name, overrides = {})
     end
 
-    def result(attribute_assigner, &to_create)
+    def result(attribute_assigner, to_create)
       raise NotImplementedError, "Strategies must return a result"
     end
 

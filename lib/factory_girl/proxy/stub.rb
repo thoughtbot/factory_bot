@@ -8,7 +8,7 @@ module FactoryGirl
         factory.run(Proxy::Stub, overrides.except(:method))
       end
 
-      def result(attribute_assigner, &to_create)
+      def result(attribute_assigner, to_create)
         attribute_assigner.object.tap do |result_instance|
           stub_database_interaction_on_result(result_instance)
           run_callbacks(:after_stub, result_instance)
