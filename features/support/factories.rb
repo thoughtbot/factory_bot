@@ -58,6 +58,21 @@ end
 class NonActiveRecord
 end
 
+class SimpleColumn
+  def self.columns
+    [:name]
+  end
+
+  def save!
+    @@count ||= 0
+    @@count += 1
+  end
+
+  def self.count
+    @@count
+  end
+end
+
 FactoryGirl.define do
   # To make sure the step defs work with an email
   sequence :email do |n|
@@ -89,6 +104,10 @@ FactoryGirl.define do
   end
   # This is here to ensure that factory step definitions don't raise for a non-AR factory
   factory :non_active_record do
+  end
+
+  # This is here to make FG work with ORMs that have `columns => [:name, :admin, :etc]` on the class (Neo4j)
+  factory :simple_column do
   end
 end
 
