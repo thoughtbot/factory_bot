@@ -3,13 +3,14 @@ require "factory_girl/proxy/build"
 require "factory_girl/proxy/create"
 require "factory_girl/proxy/attributes_for"
 require "factory_girl/proxy/stub"
+require "observer"
 
 module FactoryGirl
   class Proxy #:nodoc:
+    include Observable
+
     def initialize(options)
-      @evaluator          = options[:evaluator]
       @attribute_assigner = options[:attribute_assigner]
-      @callbacks          = options[:callbacks]
       @to_create          = options[:to_create]
     end
 
@@ -69,9 +70,8 @@ module FactoryGirl
     end
 
     def run_callbacks(name)
-      @callbacks.select {|callback| callback.name == name }.each do |callback|
-        callback.run(result_instance, @evaluator)
-      end
+      changed
+      notify_observers(name, result_instance)
     end
   end
 end
