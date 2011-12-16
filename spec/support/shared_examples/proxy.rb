@@ -1,12 +1,6 @@
 shared_examples_for "proxy without association support" do
   let(:attribute) { FactoryGirl::Attribute::Association.new(:user, :user, {}) }
 
-  it "does not call FactoryGirl.create when building an association" do
-    FactoryGirl.stubs(:create)
-    subject.set(attribute)
-    FactoryGirl.should have_received(:create).never
-  end
-
   it "returns nil when accessing an association" do
     subject.association(:user, {}).should be_nil
   end
