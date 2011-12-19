@@ -13,13 +13,13 @@ module FactoryGirl
     private
 
     def define_attribute(attribute_name, attribute_proc)
-      evaluator_class.send(:define_method, attribute_name) {
+      evaluator_class.send(:define_method, attribute_name) do
         if @cached_attributes.key?(attribute_name)
           @cached_attributes[attribute_name]
         else
           @cached_attributes[attribute_name] = instance_exec(&attribute_proc)
         end
-      }
+      end
     end
   end
 end
