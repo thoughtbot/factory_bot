@@ -6,7 +6,7 @@ describe FactoryGirl::NullFactory do
   it { should delegate(:attributes).to(:definition) }
 
   its(:compile)          { should be_nil }
-  its(:default_strategy) { should be_nil }
   its(:class_name)       { should be_nil }
+  its(:default_strategy) { should == :create }
   its(:attributes)       { should be_an_instance_of(FactoryGirl::AttributeList) }
 end

@@ -9,7 +9,7 @@ module FactoryGirl
     delegate :defined_traits, :callbacks, :attributes, :to => :definition
 
     def compile; end
-    def default_strategy; end
     def class_name; end
+    def default_strategy; :create; end
   end
 end

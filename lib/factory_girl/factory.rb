@@ -30,7 +30,7 @@ module FactoryGirl
     end
 
     def default_strategy #:nodoc:
-      @default_strategy || parent.default_strategy || :create
+      @default_strategy || parent.default_strategy
     end
 
     def run(proxy_class, overrides, &block) #:nodoc:
