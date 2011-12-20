@@ -92,4 +92,12 @@ describe "calling `build_stubbed` with a block" do
       expect { company.save }.to raise_error(RuntimeError)
     end
   end
+
+  it "returns the stub instance" do
+    expected = nil
+    build_stubbed(:company) do |company|
+      expected = company
+      "hello!"
+    end.should == expected
+  end
 end
