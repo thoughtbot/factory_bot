@@ -61,6 +61,14 @@ describe "calling `attributes_for` with a block" do
       attributes[:name].should eq('thoughtbot')
     end
   end
+
+  it "returns the hash of attributes" do
+    expected = nil
+    attributes_for(:company) do |attributes|
+      expected = attributes
+      "hello!"
+    end.should == expected
+  end
 end
 
 describe "`attributes_for` for a class whose constructor has required params" do
