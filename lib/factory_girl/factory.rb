@@ -45,7 +45,7 @@ module FactoryGirl
         :overrides   => overrides.dup
       }
 
-      block[Runner.new(runner_options).run]
+      Runner.new(runner_options).run.tap(&block)
     end
 
     def human_names

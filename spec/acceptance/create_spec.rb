@@ -106,4 +106,12 @@ describe "calling `create` with a block" do
       company.name.should eq('thoughtbot')
     end
   end
+
+  it "returns the created instance" do
+    expected = nil
+    create(:company) do |company|
+      expected = company
+      "hello!"
+    end.should == expected
+  end
 end
