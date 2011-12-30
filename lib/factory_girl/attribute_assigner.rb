@@ -63,7 +63,7 @@ module FactoryGirl
 
     def alias_names_to_ignore
       @attribute_list.reject(&:ignored).map do |attribute|
-        override_names.map {|o| attribute.name if attribute.alias_for?(o) && attribute.name != o }
+        override_names.map {|override| attribute.name if attribute.alias_for?(override) && attribute.name != override }
       end.flatten.compact
     end
   end
