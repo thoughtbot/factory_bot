@@ -50,7 +50,7 @@ module FactoryGirl
     end
 
     def associations
-      attributes.select {|attribute| attribute.association? }
+      attributes.associations
     end
 
     # Names for this factory, including aliases.

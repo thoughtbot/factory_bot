@@ -18,6 +18,10 @@ module FactoryGirl
       @attributes.each(&block)
     end
 
+    def associations
+      @attributes.select(&:association?)
+    end
+
     def apply_attributes(attributes_to_apply)
       attributes_to_apply.each {|attribute| add_attribute(attribute) }
     end

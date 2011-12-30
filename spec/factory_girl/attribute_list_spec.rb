@@ -58,3 +58,21 @@ describe FactoryGirl::AttributeList, "#apply_attributes" do
     subject.to_a.should == [full_name_attribute, login_attribute, city_attribute, email_attribute]
   end
 end
+
+describe FactoryGirl::AttributeList, "#associations" do
+  let(:full_name_attribute) { FactoryGirl::Attribute::Static.new(:full_name, "value", false) }
+  let(:email_attribute)     { FactoryGirl::Attribute::Dynamic.new(:email, false, lambda {|u| "#{u.full_name}@example.com" }) }
+  let(:author_attribute)    { FactoryGirl::Attribute::Association.new(:author, :user, {}) }
+  let(:profile_attribute)   { FactoryGirl::Attribute::Association.new(:profile, :profile, {}) }
+
+  before do
+    subject.define_attribute(full_name_attribute)
+    subject.define_attribute(email_attribute)
+    subject.define_attribute(author_attribute)
+    subject.define_attribute(profile_attribute)
+  end
+
+  it "returns associations" do
+    subject.associations.should == [author_attribute, profile_attribute]
+  end
+end

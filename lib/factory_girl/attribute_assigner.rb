@@ -54,7 +54,7 @@ module FactoryGirl
     end
 
     def association_names
-      @attribute_list.select(&:association?).map(&:name)
+      @attribute_list.associations.map(&:name)
     end
 
     def override_names
