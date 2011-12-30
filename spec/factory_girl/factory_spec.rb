@@ -25,7 +25,7 @@ describe FactoryGirl::Factory do
   end
 
   it "passes a custom creation block" do
-    proxy = stub("proxy", :result => nil)
+    proxy = stub("proxy", :result => nil, :add_observer => true)
     FactoryGirl::Proxy::Build.stubs(:new => proxy)
     block = lambda {}
     factory = FactoryGirl::Factory.new(:object)
@@ -33,7 +33,7 @@ describe FactoryGirl::Factory do
 
     factory.run(FactoryGirl::Proxy::Build, {})
 
-    proxy.should have_received(:result).with(block)
+    proxy.should have_received(:result).with(instance_of(FactoryGirl::AttributeAssigner), block)
   end
 
   it "returns associations" do
@@ -246,7 +246,7 @@ describe FactoryGirl::Factory, "running a factory" do
   subject              { FactoryGirl::Factory.new(:user) }
   let(:attribute)      { FactoryGirl::Attribute::Static.new(:name, "value", false) }
   let(:declaration)    { FactoryGirl::Declaration::Static.new(:name, "value", false) }
-  let(:proxy)          { stub("proxy", :result => "result", :set => nil) }
+  let(:proxy)          { stub("proxy", :result => "result", :add_observer => true) }
   let(:attributes)     { [attribute] }
   let(:attribute_list) { stub('attribute-list', :declarations => [declaration], :to_a => attributes) }
 
@@ -254,29 +254,17 @@ describe FactoryGirl::Factory, "running a factory" do
     define_model("User", :name => :string)
     FactoryGirl::Declaration::Static.stubs(:new => declaration)
     declaration.stubs(:to_attributes => attributes)
-    proxy.stubs(:set)
     FactoryGirl::Proxy::Build.stubs(:new => proxy)
     subject.declare_attribute(declaration)
   end
 
   it "creates the right proxy using the build class when running" do
     subject.run(FactoryGirl::Proxy::Build, {})
-    FactoryGirl::Proxy::Build.should have_received(:new).with(subject.build_class, [])
-  end
-
-  it "adds the attribute to the proxy when running" do
-    subject.run(FactoryGirl::Proxy::Build, {})
-    proxy.should have_received(:set).with(attribute)
+    FactoryGirl::Proxy::Build.should have_received(:new).once
   end
 
   it "returns the result from the proxy when running" do
     subject.run(FactoryGirl::Proxy::Build, {}).should == "result"
-    proxy.should have_received(:result).with(subject.definition.to_create)
-  end
-
-  it "sets overrides once on the factory" do
-    subject.run(FactoryGirl::Proxy::Build, { :name => "John Doe" })
-    proxy.should have_received(:set).once
   end
 
   it "calls the block and returns the result" do

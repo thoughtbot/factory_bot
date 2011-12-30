@@ -57,12 +57,22 @@ describe FactoryGirl::AttributeList, "#apply_attributes" do
     subject.apply_attributes(list(city_attribute, email_attribute))
     subject.to_a.should == [full_name_attribute, login_attribute, city_attribute, email_attribute]
   end
+end
 
-  it "doesn't overwrite attributes that are already defined" do
+describe FactoryGirl::AttributeList, "#associations" do
+  let(:full_name_attribute) { FactoryGirl::Attribute::Static.new(:full_name, "value", false) }
+  let(:email_attribute)     { FactoryGirl::Attribute::Dynamic.new(:email, false, lambda {|u| "#{u.full_name}@example.com" }) }
+  let(:author_attribute)    { FactoryGirl::Attribute::Association.new(:author, :user, {}) }
+  let(:profile_attribute)   { FactoryGirl::Attribute::Association.new(:profile, :profile, {}) }
+
+  before do
     subject.define_attribute(full_name_attribute)
-    attribute_with_same_name = FactoryGirl::Attribute::Static.new(:full_name, "Benjamin Franklin", false)
+    subject.define_attribute(email_attribute)
+    subject.define_attribute(author_attribute)
+    subject.define_attribute(profile_attribute)
+  end
 
-    subject.apply_attributes(list(attribute_with_same_name))
-    subject.to_a.should == [full_name_attribute]
+  it "returns associations" do
+    subject.associations.should == [author_attribute, profile_attribute]
   end
 end

@@ -40,7 +40,8 @@ describe "a generated attributes hash" do
   end
 
   it "doesn't assign associations" do
-    subject[:user_id].should be_nil
+    subject.should_not have_key(:user_id)
+    subject.should_not have_key(:user)
   end
 end
 

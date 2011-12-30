@@ -35,17 +35,14 @@ module FactoryGirl
 
     def run(proxy_class, overrides, &block) #:nodoc:
       block ||= lambda {|result| result }
+      compile
 
-      runner_options = {
-        :attributes  => attributes,
-        :callbacks   => callbacks,
-        :to_create   => to_create,
-        :build_class => build_class,
-        :proxy_class => proxy_class,
-        :overrides   => overrides.dup
-      }
+      proxy = proxy_class.new
 
-      block[Runner.new(runner_options).run]
+      evaluator = evaluator_class_definer.evaluator_class.new(proxy, overrides.symbolize_keys, callbacks)
+      attribute_assigner = AttributeAssigner.new(build_class, evaluator, attributes)
+
+      block[proxy.result(attribute_assigner, to_create)]
     end
 
     def human_names
@@ -53,7 +50,7 @@ module FactoryGirl
     end
 
     def associations
-      attributes.select {|attribute| attribute.association? }
+      attributes.associations
     end
 
     # Names for this factory, including aliases.
@@ -101,26 +98,26 @@ module FactoryGirl
 
     def class_name #:nodoc:
       @class_name || parent.class_name || name
-
     end
 
     def attributes
       compile
       AttributeList.new(@name).tap do |list|
-        traits.each do |trait|
-          list.apply_attributes(trait.attributes)
+        processing_order.each do |factory|
+          list.apply_attributes factory.attributes
         end
-
-        list.apply_attributes(@definition.attributes)
-        list.apply_attributes(parent.attributes)
       end
     end
 
     def callbacks
-      [parent.callbacks, traits.map(&:callbacks).reverse, @definition.callbacks].flatten
+      processing_order.map {|factory| factory.callbacks }.flatten
     end
 
     private
+
+    def processing_order
+      [parent, traits.reverse, @definition].flatten
+    end
 
     def assert_valid_options(options)
       options.assert_valid_keys(:class, :parent, :default_strategy, :aliases, :traits)
@@ -145,61 +142,8 @@ module FactoryGirl
       @definition = @definition.clone
     end
 
-    class Runner
-      def initialize(options = {})
-        @attributes  = options[:attributes]
-        @callbacks   = options[:callbacks]
-        @to_create   = options[:to_create]
-        @build_class = options[:build_class]
-        @proxy_class = options[:proxy_class]
-        @overrides   = options[:overrides]
-      end
-
-      def run
-        apply_attributes
-        apply_remaining_overrides
-
-        proxy.result(@to_create)
-      end
-
-      private
-
-      def apply_attributes
-        @attributes.each do |attribute|
-          if overrides_for_attribute(attribute).any?
-            handle_attribute_with_overrides(attribute)
-          else
-            handle_attribute_without_overrides(attribute)
-          end
-        end
-      end
-
-      def apply_remaining_overrides
-        @overrides.each { |attr, val| add_static_attribute(attr, val) }
-      end
-
-      def overrides_for_attribute(attribute)
-        @overrides.select { |attr, val| attribute.alias_for?(attr) }
-      end
-
-      def handle_attribute_with_overrides(attribute)
-        overrides_for_attribute(attribute).each do |attr, val|
-          add_static_attribute(attr, val, attribute.ignored)
-          @overrides.delete(attr)
-        end
-      end
-
-      def add_static_attribute(attr, val, ignored = false)
-        proxy.set(Attribute::Static.new(attr, val, ignored))
-      end
-
-      def handle_attribute_without_overrides(attribute)
-        proxy.set(attribute)
-      end
-
-      def proxy
-        @proxy ||= @proxy_class.new(@build_class, @callbacks)
-      end
+    def evaluator_class_definer
+      @evaluator_class_definer ||= EvaluatorClassDefiner.new(attributes)
     end
   end
 end

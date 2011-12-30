@@ -3,23 +3,11 @@ require "factory_girl/proxy/build"
 require "factory_girl/proxy/create"
 require "factory_girl/proxy/attributes_for"
 require "factory_girl/proxy/stub"
+require "observer"
 
 module FactoryGirl
   class Proxy #:nodoc:
-    def initialize(klass, callbacks = [])
-      @callbacks = process_callbacks(callbacks)
-      @proxy     = ObjectWrapper.new(klass, self)
-    end
-
-    delegate :set, :to => :@proxy
-
-    def run_callbacks(name)
-      if @callbacks[name]
-        @callbacks[name].each do |callback|
-          callback.run(result_instance, @proxy.anonymous_instance)
-        end
-      end
-    end
+    include Observable
 
     # Generates an association using the current build strategy.
     #
@@ -56,7 +44,7 @@ module FactoryGirl
     def association(name, overrides = {})
     end
 
-    def result(to_create)
+    def result(attribute_assigner, to_create)
       raise NotImplementedError, "Strategies must return a result"
     end
 
@@ -68,65 +56,9 @@ module FactoryGirl
 
     private
 
-    def process_callbacks(callbacks)
-      callbacks.inject({}) do |result, callback|
-        result[callback.name] ||= []
-        result[callback.name] << callback
-        result
-      end
-    end
-
-    def result_instance
-      @proxy.object
-    end
-
-    def result_hash
-      @proxy.to_hash
-    end
-
-    class ObjectWrapper
-      def initialize(klass, proxy)
-        @klass      = klass
-        @proxy      = proxy
-        @assigned_attributes = []
-
-        @evaluator = AnonymousEvaluator.new
-        @evaluator.evaluator.send(:define_method, :association) { |*args|
-          proxy.association(*args)
-        }
-      end
-
-      delegate :set, :attributes, :to => :@evaluator
-
-      def to_hash
-        attributes.inject({}) do |result, attribute|
-          result[attribute] = get(attribute)
-          result
-        end
-      end
-
-      def object
-        @object ||= @klass.new
-        assign_object_attributes
-        @object
-      end
-
-      def anonymous_instance
-        @anonymous_instance ||= @evaluator.evaluator.new
-      end
-
-      private
-
-      def assign_object_attributes
-        (attributes - @assigned_attributes).each do |attribute|
-          @assigned_attributes << attribute
-          @object.send("#{attribute}=", get(attribute))
-        end
-      end
-
-      def get(attribute)
-        anonymous_instance.send(attribute)
-      end
+    def run_callbacks(name, result_instance)
+      changed
+      notify_observers(name, result_instance)
     end
   end
 end
