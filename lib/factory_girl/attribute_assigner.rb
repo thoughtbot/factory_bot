@@ -2,10 +2,10 @@ require "active_support/basic_object"
 
 module FactoryGirl
   class AttributeAssigner
-    def initialize(build_class, evaluator, attribute_list)
+    def initialize(build_class, evaluator)
       @build_class              = build_class
       @evaluator                = evaluator
-      @attribute_list           = attribute_list
+      @attribute_list           = evaluator.class.attribute_list
       @attribute_names_assigned = []
     end
 
