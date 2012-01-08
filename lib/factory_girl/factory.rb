@@ -13,6 +13,7 @@ module FactoryGirl
       @class_name       = options[:class]
       @default_strategy = options[:default_strategy]
       @definition       = Definition.new(@name)
+      @compiled         = false
 
       inherit_traits(options[:traits] || [])
     end
@@ -83,9 +84,12 @@ module FactoryGirl
     end
 
     def compile
-      parent.defined_traits.each {|trait| define_trait(trait) }
-      parent.compile
-      @definition.compile
+      unless @compiled
+        parent.defined_traits.each {|trait| define_trait(trait) }
+        parent.compile
+        @definition.compile
+        @compiled = true
+      end
     end
 
     def with_traits(traits)
