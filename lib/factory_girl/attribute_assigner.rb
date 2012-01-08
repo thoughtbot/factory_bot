@@ -1,3 +1,5 @@
+require "active_support/basic_object"
+
 module FactoryGirl
   class AttributeAssigner
     def initialize(build_class, evaluator, attribute_list)
@@ -33,7 +35,11 @@ module FactoryGirl
     end
 
     def null_object
-      Class.new(BasicObject) do
+      Class.new do
+        instance_methods.each do |m|
+          undef_method(m) if m.to_s !~ /(?:^__|^nil\?$|^send$|^object_id$)/
+        end
+
         def method_missing(*args)
           nil
         end
