@@ -8,6 +8,7 @@ module FactoryGirl
     end
 
     def object
+      @evaluator.instance = build_class_instance
       build_class_instance.tap do |instance|
         attributes_to_set_on_instance.each do |attribute|
           instance.send("#{attribute}=", get(attribute))
@@ -17,6 +18,8 @@ module FactoryGirl
     end
 
     def hash
+      @evaluator.instance = null_object.new
+
       attributes_to_set_on_hash.inject({}) do |result, attribute|
         result[attribute] = get(attribute)
         result
@@ -27,6 +30,14 @@ module FactoryGirl
 
     def build_class_instance
       @build_class_instance ||= @build_class.new
+    end
+
+    def null_object
+      Class.new(BasicObject) do
+        def method_missing(*args)
+          nil
+        end
+      end
     end
 
     def get(attribute_name)

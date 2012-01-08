@@ -12,11 +12,15 @@ module FactoryGirl
 
     delegate :association, :to => :@build_strategy
 
+    def instance=(object_instance)
+      @instance = object_instance
+    end
+
     def method_missing(method_name, *args, &block)
       if @cached_attributes.key?(method_name)
         @cached_attributes[method_name]
       else
-        super
+        @instance.send(method_name, *args, &block)
       end
     end
 
