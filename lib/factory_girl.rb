@@ -3,6 +3,7 @@ require "active_support/core_ext/module/delegation"
 require 'factory_girl/proxy'
 require 'factory_girl/registry'
 require 'factory_girl/null_factory'
+require 'factory_girl/null_object'
 require 'factory_girl/factory'
 require 'factory_girl/attribute_assigner'
 require 'factory_girl/evaluator'

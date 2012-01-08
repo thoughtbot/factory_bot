@@ -20,7 +20,7 @@ module FactoryGirl
     end
 
     def hash
-      @evaluator.instance = null_object.new
+      @evaluator.instance = NullObject.new
 
       attributes_to_set_on_hash.inject({}) do |result, attribute|
         result[attribute] = get(attribute)
@@ -32,18 +32,6 @@ module FactoryGirl
 
     def build_class_instance
       @build_class_instance ||= @build_class.new
-    end
-
-    def null_object
-      Class.new do
-        instance_methods.each do |m|
-          undef_method(m) if m.to_s !~ /(?:^__|^nil\?$|^send$|^object_id$)/
-        end
-
-        def method_missing(*args)
-          nil
-        end
-      end
     end
 
     def get(attribute_name)
