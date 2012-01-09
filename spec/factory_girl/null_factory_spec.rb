@@ -9,4 +9,5 @@ describe FactoryGirl::NullFactory do
   its(:class_name)       { should be_nil }
   its(:default_strategy) { should == :create }
   its(:attributes)       { should be_an_instance_of(FactoryGirl::AttributeList) }
+  its(:evaluator_class)  { should == FactoryGirl::Evaluator }
 end

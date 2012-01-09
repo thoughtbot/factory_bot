@@ -11,5 +11,6 @@ module FactoryGirl
     def compile; end
     def class_name; end
     def default_strategy; :create; end
+    def evaluator_class; FactoryGirl::Evaluator; end
   end
 end
