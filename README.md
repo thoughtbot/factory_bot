@@ -3,12 +3,12 @@
 factory_girl is a fixtures replacement with a straightforward definition syntax, support for multiple build strategies (saved instances, unsaved instances, attribute hashes, and stubbed objects), and support for multiple factories for the same class (user, admin_user, and so on), including factory inheritance.
 
 If you want to use factory_girl with Rails 3, see
-[factory_girl_rails](http://github.com/thoughtbot/factory_girl_rails).
+[factory_girl_rails](https://github.com/thoughtbot/factory_girl_rails).
 
 Documentation
 -------------
 
-You should find the documentation for your version of factory_girl on [Rubygems](http://rubygems.org/gems/factory_girl).
+You should find the documentation for your version of factory_girl on [Rubygems](https://rubygems.org/gems/factory_girl).
 
 See [GETTING_STARTED](https://github.com/thoughtbot/factory_girl/blob/master/GETTING_STARTED.md) for information on defining and using factories.
 
@@ -28,15 +28,15 @@ and run `bundle install` from your shell.
 More Information
 ----------------
 
-* [Rubygems](http://rubygems.org/gems/factory_girl)
+* [Rubygems](https://rubygems.org/gems/factory_girl)
 * [Mailing list](http://groups.google.com/group/factory_girl)
-* [Issues](http://github.com/thoughtbot/factory_girl/issues)
+* [Issues](https://github.com/thoughtbot/factory_girl/issues)
 * [GIANT ROBOTS SMASHING INTO OTHER GIANT ROBOTS](http://giantrobots.thoughtbot.com)
 
 Contributing
 ------------
 
-Please see the [contribution guidelines](http://github.com/thoughtbot/factory_girl/blob/master/CONTRIBUTION_GUIDELINES.md).
+Please see the [contribution guidelines](https://github.com/thoughtbot/factory_girl/blob/master/CONTRIBUTION_GUIDELINES.md).
 
 Credits
 -------
