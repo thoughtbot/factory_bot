@@ -15,6 +15,7 @@ Gem::Specification.new do |s|
     s.test_files    = all_files.select {|file| file =~ /^(spec|features|cucumber|gemfiles|Appraisals)/ }
 
     s.require_path = 'lib'
+    s.required_ruby_version = Gem::Requirement.new(">= 1.8.7")
 
     s.authors = ["Joe Ferris"]
     s.email   = %q{jferris@thoughtbot.com}
