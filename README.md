@@ -31,7 +31,7 @@ More Information
 * [Rubygems](https://rubygems.org/gems/factory_girl)
 * [Mailing list](http://groups.google.com/group/factory_girl)
 * [Issues](https://github.com/thoughtbot/factory_girl/issues)
-* [GIANT ROBOTS SMASHING INTO OTHER GIANT ROBOTS](http://giantrobots.thoughtbot.com)
+* [GIANT ROBOTS SMASHING INTO OTHER GIANT ROBOTS](http://robots.thoughtbot.com/)
 
 Contributing
 ------------
