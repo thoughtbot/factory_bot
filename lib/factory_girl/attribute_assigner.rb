@@ -1,5 +1,3 @@
-require "active_support/basic_object"
-
 module FactoryGirl
   class AttributeAssigner
     def initialize(build_class, evaluator)
