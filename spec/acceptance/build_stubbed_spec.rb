@@ -8,6 +8,7 @@ describe "a generated stub instance" do
 
     define_model('Post', :title   => :string,
                          :body    => :string,
+                         :age     => :integer,
                          :user_id => :integer) do
       belongs_to :user
     end
