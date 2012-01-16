@@ -109,7 +109,7 @@ module FactoryGirl
     end
 
     def evaluator_class
-      @evaluator_class ||= EvaluatorClassDefiner.new(attributes, callbacks, parent.evaluator_class).evaluator_class
+      EvaluatorClassDefiner.new(attributes, callbacks, parent.evaluator_class).evaluator_class
     end
 
     def attributes
