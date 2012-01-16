@@ -5,6 +5,10 @@ module FactoryGirl
       # can be individually overridden by passing in a Hash of attribute => value
       # pairs.
       #
+      # DEPRECATED
+      #
+      # Use build or create instead, calling attributes on the result
+      #
       # Arguments:
       # * name: +Symbol+ or +String+
       #   The name of the factory that should be used.
@@ -18,6 +22,7 @@ module FactoryGirl
       # A set of attributes that can be used to build an instance of the class
       # this factory generates.
       def attributes_for(name, *traits_and_overrides, &block)
+        $stderr.puts "DEPRECATION WARNING: FactoryGirl.attributes_for is deprecated; use FactoryGirl.build or FactoryGirl.create and call #attributes on the result instead."
         run_factory_girl_proxy(name, traits_and_overrides, Proxy::AttributesFor, &block)
       end
 
@@ -67,6 +72,10 @@ module FactoryGirl
       # stubbed out. Attributes can be individually overridden by passing in a Hash
       # of attribute => value pairs.
       #
+      # DEPRECATED
+      #
+      # Use build instead
+      #
       # Arguments:
       # * name: +Symbol+ or +String+
       #   The name of the factory that should be used.
@@ -79,6 +88,7 @@ module FactoryGirl
       # Returns: +Object+
       # An object with generated attributes stubbed out.
       def build_stubbed(name, *traits_and_overrides, &block)
+        $stderr.puts "DEPRECATION WARNING: FactoryGirl.build_stubbed is deprecated; use FactoryGirl.build instead."
         run_factory_girl_proxy(name, traits_and_overrides, Proxy::Stub, &block)
       end
 

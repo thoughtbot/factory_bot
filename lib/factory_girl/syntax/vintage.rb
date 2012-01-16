@@ -110,6 +110,10 @@ module FactoryGirl
         end
 
         # Alias for FactoryGirl.attributes_for
+        #
+        # DEPRECATED
+        #
+        # Use build or create instead, calling attributes on the result
         def self.attributes_for(name, overrides = {})
           FactoryGirl.attributes_for(name, overrides)
         end
@@ -125,6 +129,10 @@ module FactoryGirl
         end
 
         # Alias for FactoryGirl.build_stubbed.
+        #
+        # DEPRECATED
+        #
+        # Use build instead
         def self.stub(name, overrides = {})
           FactoryGirl.build_stubbed(name, overrides)
         end
