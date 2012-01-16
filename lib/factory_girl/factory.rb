@@ -152,6 +152,7 @@ module FactoryGirl
     def initialize_copy(source)
       super
       @definition = @definition.clone
+      @evaluator_class = nil
     end
   end
 end

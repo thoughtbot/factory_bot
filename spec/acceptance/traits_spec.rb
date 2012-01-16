@@ -286,3 +286,29 @@ describe "traits and dynamic attributes that are applied simultaneously" do
   its(:email)    { should == "John@example.com" }
   its(:combined) { should == "John <John@example.com>" }
 end
+
+describe "applying inline traits" do
+  before do
+    define_model("User") do
+      has_many :posts
+    end
+
+    define_model("Post", :user_id => :integer) do
+      belongs_to :user
+    end
+
+    FactoryGirl.define do
+      factory :user do
+        trait :with_post do
+          posts { [ Post.new ] }
+        end
+      end
+    end
+  end
+
+  it "applies traits only to the instance generated for that call" do
+    FactoryGirl.create(:user, :with_post).posts.should_not be_empty
+    FactoryGirl.create(:user).posts.should be_empty
+    FactoryGirl.create(:user, :with_post).posts.should_not be_empty
+  end
+end
