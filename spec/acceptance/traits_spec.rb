@@ -286,3 +286,35 @@ describe "traits and dynamic attributes that are applied simultaneously" do
   its(:email)    { should == "John@example.com" }
   its(:combined) { should == "John <John@example.com>" }
 end
+
+describe 'traits should work after calling Factory()' do
+  before do
+    define_model('User') do
+      has_many :posts
+    end
+
+    define_model('Post', :user_id => :integer) do
+      belongs_to :user
+    end
+
+    FactoryGirl.define do
+      factory :user do
+        trait :with_post do
+          posts { [Post.new] }
+        end
+      end
+    end
+
+  end
+
+  it "should work as well when Factory() was called" do
+    user = FactoryGirl.create(:user, :with_post)
+    user.posts.should_not be_empty
+
+    Factory(:user)
+
+    user = FactoryGirl.create(:user, :with_post)
+    user.posts.should_not be_empty
+  end
+
+end
