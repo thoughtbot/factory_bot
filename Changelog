@@ -1,3 +1,7 @@
+2.4.1 (January 17, 2012)
+  Deprecate build_stubbed and attributes_for
+  Fix inline traits
+
 2.4.0 (January 13, 2012)
   Refactor internals of Factory Girl to use anonymous class on which attributes
     get defined
