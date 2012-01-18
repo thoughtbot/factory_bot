@@ -64,24 +64,41 @@ describe FactoryGirl::Definition, "#to_create" do
   end
 end
 
-describe FactoryGirl::Definition, "#traits" do
-  let(:female_trait) { stub("female trait", :name => :female) }
-  let(:admin_trait)  { stub("admin trait", :name => :admin) }
+describe FactoryGirl::Definition, "#processing_order" do
+  let(:female_trait) { FactoryGirl::Trait.new(:female) }
+  let(:admin_trait)  { FactoryGirl::Trait.new(:admin) }
 
   before do
     subject.define_trait(female_trait)
     FactoryGirl.stubs(:trait_by_name => admin_trait)
   end
 
-  its(:traits) { should be_empty }
+  context "without base traits" do
+    it "returns the definition without any traits" do
+      subject.processing_order.should == [subject]
+    end
 
-  it "finds the correct traits after inheriting" do
-    subject.inherit_traits([:female])
-    subject.traits.should == [female_trait]
+    it "finds the correct traits after inheriting" do
+      subject.inherit_traits([:female])
+      subject.processing_order.should == [subject, female_trait]
+    end
+
+    it "looks for the trait on FactoryGirl" do
+      subject.inherit_traits([:female, :admin])
+      subject.processing_order.should == [subject, female_trait, admin_trait]
+    end
   end
 
-  it "looks for the trait on FactoryGirl" do
-    subject.inherit_traits([:female, :admin])
-    subject.traits.should == [admin_trait, female_trait]
+  context "with base traits" do
+    subject { FactoryGirl::Definition.new("my definition", [:female]) }
+
+    it "returns the base traits and definition" do
+      subject.processing_order.should == [female_trait, subject]
+    end
+
+    it "finds the correct traits after inheriting" do
+      subject.inherit_traits([:admin])
+      subject.processing_order.should == [female_trait, subject, admin_trait]
+    end
   end
 end

@@ -312,3 +312,51 @@ describe "applying inline traits" do
     FactoryGirl.create(:user, :with_post).posts.should_not be_empty
   end
 end
+
+describe "inline traits overriding existing attributes" do
+  before do
+    define_model("User", :status => :string)
+
+    FactoryGirl.define do
+      factory :user do
+        status "pending"
+
+        trait(:accepted) { status "accepted" }
+        trait(:declined) { status "declined" }
+
+        factory :declined_user, :traits => [:declined]
+        factory :extended_declined_user, :traits => [:declined] do
+          status "extended_declined"
+        end
+      end
+    end
+  end
+
+  it "returns the default status" do
+    FactoryGirl.build(:user).status.should == "pending"
+  end
+
+  it "prefers inline trait attributes over default attributes" do
+    FactoryGirl.build(:user, :accepted).status.should == "accepted"
+  end
+
+  it "prefers traits on a factory over default attributes" do
+    FactoryGirl.build(:declined_user).status.should == "declined"
+  end
+
+  it "prefers inline trait attributes over traits on a factory" do
+    FactoryGirl.build(:declined_user, :accepted).status.should == "accepted"
+  end
+
+  it "prefers attributes on factories over attributes from non-inline traits" do
+    FactoryGirl.build(:extended_declined_user).status.should == "extended_declined"
+  end
+
+  it "prefers inline traits over attributes on factories" do
+    FactoryGirl.build(:extended_declined_user, :accepted).status.should == "accepted"
+  end
+
+  it "prefers overridden attributes over attributes from traits, inline traits, or attributes on factories" do
+    FactoryGirl.build(:extended_declined_user, :accepted, :status => "completely overridden").status.should == "completely overridden"
+  end
+end

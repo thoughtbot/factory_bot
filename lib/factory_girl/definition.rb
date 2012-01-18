@@ -2,12 +2,13 @@ module FactoryGirl
   class Definition
     attr_reader :callbacks, :defined_traits, :declarations
 
-    def initialize(name = nil)
-      @declarations   = DeclarationList.new(name)
-      @callbacks      = []
-      @defined_traits = []
-      @to_create      = lambda {|instance| instance.save! }
-      @traits         = []
+    def initialize(name = nil, base_traits = [])
+      @declarations      = DeclarationList.new(name)
+      @callbacks         = []
+      @defined_traits    = []
+      @to_create         = lambda {|instance| instance.save! }
+      @base_traits       = base_traits
+      @additional_traits = []
     end
 
     delegate :declare_attribute, :to => :declarations
@@ -20,17 +21,17 @@ module FactoryGirl
       attributes
     end
 
+    def processing_order
+      base_traits + [self] + additional_traits
+    end
+
     def overridable
       declarations.overridable
       self
     end
 
-    def traits
-      @traits.reverse.map { |name| trait_by_name(name) }
-    end
-
     def inherit_traits(new_traits)
-      @traits += new_traits
+      @additional_traits += new_traits
     end
 
     def add_callback(callback)
@@ -50,6 +51,14 @@ module FactoryGirl
     end
 
     private
+
+    def base_traits
+      @base_traits.map { |name| trait_by_name(name) }
+    end
+
+    def additional_traits
+      @additional_traits.map { |name| trait_by_name(name) }
+    end
 
     def trait_by_name(name)
       trait_for(name) || FactoryGirl.trait_by_name(name)
