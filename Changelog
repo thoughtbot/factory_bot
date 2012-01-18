@@ -1,3 +1,6 @@
+2.4.2 (January 18, 2012)
+  Fix inline traits' interaction with defaults on the factory
+
 2.4.1 (January 17, 2012)
   Deprecate build_stubbed and attributes_for
   Fix inline traits
