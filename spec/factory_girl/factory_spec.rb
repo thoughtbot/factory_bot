@@ -305,11 +305,11 @@ describe FactoryGirl::Factory, "#with_traits" do
   end
 
   it "returns a factory with the correct traits" do
-    subject.with_traits([:admin, :female]).traits.should =~ [admin_trait, female_trait]
+    subject.with_traits([:admin, :female]).processing_order[1, 2].should == [admin_trait, female_trait]
   end
 
-  it "doesn't modify the original factory's traits" do
+  it "doesn't modify the original factory's processing order" do
     subject.with_traits([:admin, :female])
-    subject.traits.should be_empty
+    subject.processing_order.should == [subject.definition]
   end
 end

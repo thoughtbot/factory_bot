@@ -12,14 +12,12 @@ module FactoryGirl
       @aliases          = options[:aliases] || []
       @class_name       = options[:class]
       @default_strategy = options[:default_strategy]
-      @definition       = Definition.new(@name)
+      @definition       = Definition.new(@name, options[:traits] || [])
       @compiled         = false
-
-      inherit_traits(options[:traits] || [])
     end
 
     delegate :add_callback, :declare_attribute, :to_create, :define_trait,
-             :defined_traits, :traits, :inherit_traits, :to => :@definition
+             :defined_traits, :inherit_traits, :processing_order, :to => :@definition
 
     def factory_name
       $stderr.puts "DEPRECATION WARNING: factory.factory_name is deprecated; use factory.name instead."
@@ -126,10 +124,6 @@ module FactoryGirl
     end
 
     private
-
-    def processing_order
-      [traits.reverse, @definition].flatten
-    end
 
     def assert_valid_options(options)
       options.assert_valid_keys(:class, :parent, :default_strategy, :aliases, :traits)
