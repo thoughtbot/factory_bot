@@ -66,7 +66,6 @@ describe "initialize_with with FG attributes that are not ignored" do
     end
   end
 
-
   it "assigns each attribute even if the attribute has been used in the constructor" do
     build(:user).name.should == "Handsome Chap"
   end
