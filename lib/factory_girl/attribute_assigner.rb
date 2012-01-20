@@ -1,6 +1,6 @@
 module FactoryGirl
   class AttributeAssigner
-    def initialize(instance_builder, evaluator)
+    def initialize(evaluator, &instance_builder)
       @instance_builder         = instance_builder
       @evaluator                = evaluator
       @attribute_list           = evaluator.class.attribute_list
@@ -29,7 +29,7 @@ module FactoryGirl
     private
 
     def build_class_instance
-      @build_class_instance ||= @instance_builder.build(@evaluator)
+      @build_class_instance ||= @evaluator.instance_exec(&@instance_builder)
     end
 
     def get(attribute_name)

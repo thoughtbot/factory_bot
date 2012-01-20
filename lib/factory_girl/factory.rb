@@ -43,7 +43,7 @@ module FactoryGirl
       proxy = proxy_class.new
 
       evaluator = evaluator_class.new(proxy, overrides.symbolize_keys)
-      attribute_assigner = AttributeAssigner.new(instance_builder, evaluator)
+      attribute_assigner = AttributeAssigner.new(evaluator, &instance_builder)
 
       proxy.result(attribute_assigner, to_create).tap(&block)
     end
@@ -148,7 +148,8 @@ module FactoryGirl
     end
 
     def instance_builder
-      InstanceBuilder.new(build_class, &constructor)
+      build_class = self.build_class
+      constructor || lambda { build_class.new }
     end
 
     def initialize_copy(source)
