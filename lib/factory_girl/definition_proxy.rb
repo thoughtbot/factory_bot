@@ -161,5 +161,9 @@ module FactoryGirl
     def trait(name, &block)
       @definition.define_trait(Trait.new(name, &block))
     end
+
+    def initialize_with(&block)
+      @definition.define_constructor(&block)
+    end
   end
 end

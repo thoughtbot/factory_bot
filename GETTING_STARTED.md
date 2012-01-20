@@ -590,6 +590,42 @@ To set the attributes for each of the factories, you can pass in a hash as you n
 twenty_year_olds = FactoryGirl.build_list(:user, 25, :date_of_birth => 20.years.ago)
 ```
 
+Custom Construction
+-------------------
+
+Instantiating objects can be overridden in the case where you'd rather not
+call `new` on your build class or you have some other factory method that
+you'd prefer to use. Using custom construction also allows for your objects to
+be instantiated with any number of arguments.
+
+```ruby
+# user.rb
+class User
+  attr_accessor :name, :email
+
+  def initialize(name)
+    @name = name
+  end
+end
+
+# factories.rb
+sequence(:name) {|n| "person#{n}@example.com" }
+
+factory :user do
+  ignore do
+    name { Faker::Name.name }
+  end
+
+  email
+  initialize_with { User.new(name) }
+end
+
+FactoryGirl.build(:user).name # Bob Hope
+```
+
+Notice that I ignored the `name` attribute. If you don't want attributes
+reassigned after your object has been instantiated, you'll want to `ignore` them.
+
 Cucumber Integration
 --------------------
 

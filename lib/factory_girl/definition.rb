@@ -1,6 +1,6 @@
 module FactoryGirl
   class Definition
-    attr_reader :callbacks, :defined_traits, :declarations
+    attr_reader :callbacks, :defined_traits, :declarations, :constructor
 
     def initialize(name = nil, base_traits = [])
       @declarations      = DeclarationList.new(name)
@@ -9,6 +9,7 @@ module FactoryGirl
       @to_create         = lambda {|instance| instance.save! }
       @base_traits       = base_traits
       @additional_traits = []
+      @constructor       = nil
     end
 
     delegate :declare_attribute, :to => :declarations
@@ -48,6 +49,10 @@ module FactoryGirl
 
     def define_trait(trait)
       @defined_traits << trait
+    end
+
+    def define_constructor(&block)
+      @constructor = block
     end
 
     private

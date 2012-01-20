@@ -43,7 +43,7 @@ module FactoryGirl
       proxy = proxy_class.new
 
       evaluator = evaluator_class.new(proxy, overrides.symbolize_keys)
-      attribute_assigner = AttributeAssigner.new(build_class, evaluator)
+      attribute_assigner = AttributeAssigner.new(evaluator, &instance_builder)
 
       proxy.result(attribute_assigner, to_create).tap(&block)
     end
@@ -123,6 +123,10 @@ module FactoryGirl
       processing_order.map {|factory| factory.callbacks }.flatten
     end
 
+    def constructor
+      @constructor ||= @definition.constructor || parent.constructor
+    end
+
     private
 
     def assert_valid_options(options)
@@ -141,6 +145,11 @@ module FactoryGirl
       else
         NullFactory.new
       end
+    end
+
+    def instance_builder
+      build_class = self.build_class
+      constructor || lambda { build_class.new }
     end
 
     def initialize_copy(source)

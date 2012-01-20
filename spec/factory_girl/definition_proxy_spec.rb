@@ -184,3 +184,14 @@ describe FactoryGirl::DefinitionProxy, "#trait" do
     subject.should have_trait(:male).with_block(male_trait)
   end
 end
+
+describe FactoryGirl::DefinitionProxy, "#initialize_with" do
+  subject     { FactoryGirl::Definition.new }
+  let(:proxy) { FactoryGirl::DefinitionProxy.new(subject) }
+
+  it "defines the constructor on the definition" do
+    constructor = Proc.new { Array.new }
+    proxy.initialize_with(&constructor)
+    subject.constructor.should == constructor
+  end
+end
