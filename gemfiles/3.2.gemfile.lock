@@ -7,15 +7,15 @@ PATH
 GEM
   remote: http://rubygems.org/
   specs:
-    activemodel (3.2.0.rc2)
-      activesupport (= 3.2.0.rc2)
+    activemodel (3.2.0)
+      activesupport (= 3.2.0)
       builder (~> 3.0.0)
-    activerecord (3.2.0.rc2)
-      activemodel (= 3.2.0.rc2)
-      activesupport (= 3.2.0.rc2)
-      arel (~> 3.0.0.rc1)
+    activerecord (3.2.0)
+      activemodel (= 3.2.0)
+      activesupport (= 3.2.0)
+      arel (~> 3.0.0)
       tzinfo (~> 0.3.29)
-    activesupport (3.2.0.rc2)
+    activesupport (3.2.0)
       i18n (~> 0.6)
       multi_json (~> 1.0)
     appraisal (0.3.8)
@@ -34,7 +34,7 @@ GEM
     bourne (1.0)
       mocha (= 0.9.8)
     builder (3.0.0)
-    childprocess (0.2.9)
+    childprocess (0.3.0)
       ffi (~> 1.0.6)
     cucumber (1.0.6)
       builder (>= 2.1.2)
@@ -47,7 +47,7 @@ GEM
     gherkin (2.4.21)
       json (>= 1.4.6)
     i18n (0.6.0)
-    json (1.6.4)
+    json (1.6.5)
     mocha (0.9.8)
       rake
     multi_json (1.0.4)
@@ -75,7 +75,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  activerecord (~> 3.2.0.rc2)
+  activerecord (~> 3.2)
   appraisal (~> 0.3.8)
   aruba
   bluecloth
