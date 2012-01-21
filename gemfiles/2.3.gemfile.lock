@@ -1,7 +1,7 @@
 PATH
   remote: /Users/joshuaclayton/dev/gems/factory_girl
   specs:
-    factory_girl (2.4.2)
+    factory_girl (2.5.0)
       activesupport
 
 GEM

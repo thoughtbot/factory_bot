@@ -1,3 +1,8 @@
+2.5.0 (January 20, 2012)
+  Revert 'Deprecate build_stubbed and attributes_for'
+  Implement initialize_with to allow overriding object instantiation
+  Ensure FG runs against Rails 3.2.0
+
 2.4.2 (January 18, 2012)
   Fix inline traits' interaction with defaults on the factory
 
