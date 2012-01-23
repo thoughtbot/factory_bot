@@ -593,10 +593,10 @@ twenty_year_olds = FactoryGirl.build_list(:user, 25, :date_of_birth => 20.years.
 Custom Construction
 -------------------
 
-Instantiating objects can be overridden in the case where you'd rather not
-call `new` on your build class or you have some other factory method that
-you'd prefer to use. Using custom construction also allows for your objects to
-be instantiated with any number of arguments.
+If you want to use factory_girl to construct an object where some attributes
+are passed to `initialize` or if you want to do something other than simply
+calling `new` on your build class, you can override the default behavior by
+defining `to_initialize` on your factory. Example:
 
 ```ruby
 # user.rb
@@ -625,6 +625,19 @@ FactoryGirl.build(:user).name # Bob Hope
 
 Notice that I ignored the `name` attribute. If you don't want attributes
 reassigned after your object has been instantiated, you'll want to `ignore` them.
+
+Although factory_girl is written to work with ActiveRecord out of the box, it
+can also work with any Ruby class. For maximum compatibiltiy with ActiveRecord,
+the default initializer builds all instances by calling new on your build class
+without any arguments. It then calls attribute writer methods to assign all the
+attribute values. While that works fine for ActiveRecord, it actually doesn't
+work for almost any other Ruby class.
+
+You can override the initializer in order to:
+
+* Build non-ActiveRecord objects that require arguments to `initialize`
+* Use a method other than `new` to instantiate the instance
+* Do crazy things like decorate the instance after it's built
 
 Cucumber Integration
 --------------------
