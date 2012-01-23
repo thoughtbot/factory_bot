@@ -24,7 +24,8 @@ module FactoryGirl
           FactoryGirl.register_factory(factory)
 
           proxy.child_factories.each do |(child_name, child_options, child_block)|
-            factory(child_name, child_options.merge(:parent => name), &child_block)
+            parent_factory = child_options.delete(:parent) || name
+            factory(child_name, child_options.merge(:parent => parent_factory), &child_block)
           end
         end
 
