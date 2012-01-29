@@ -11,12 +11,20 @@ module FactoryGirl
         end
       end
     end
-    undef_method(:id) if method_defined?(:id)
+
+    private_instance_methods.each do |method|
+      undef_method(method) unless method =~ /^__|initialize/
+    end
 
     def initialize(build_strategy, overrides = {})
       @build_strategy    = build_strategy
       @overrides         = overrides
       @cached_attributes = overrides
+
+      singleton = class << self; self end
+      @overrides.each do |name, value|
+        singleton.send :define_method, name, lambda { value }
+      end
 
       @build_strategy.add_observer(CallbackRunner.new(self.class.callbacks, self))
     end
