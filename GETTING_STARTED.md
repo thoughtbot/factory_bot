@@ -487,7 +487,7 @@ factory\_girl makes available three callbacks for injecting some code:
 
 * after_build  - called after a factory is built   (via FactoryGirl.build)
 * after_create - called after a factory is saved   (via FactoryGirl.create)
-* after_stub   - called after a factory is stubbed (via FactoryGirl.stub)
+* after_stub   - called after a factory is stubbed (via FactoryGirl.build_stubbed)
 
 Examples:
 
