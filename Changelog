@@ -1,3 +1,12 @@
+2.5.1 (February 3, 2012)
+  Fix attribute evaluation when the attribute isn't defined in the factory but
+    is a private method on Object
+  Update rubygems on Travis before running tests
+  Fix spec name
+  Update GETTING_STARTED with correct usage of build_stubbed
+  Update README with more info on initialize_with
+  Honor :parent on factory over block nesting
+
 2.5.0 (January 20, 2012)
   Revert 'Deprecate build_stubbed and attributes_for'
   Implement initialize_with to allow overriding object instantiation
