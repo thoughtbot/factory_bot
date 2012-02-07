@@ -90,14 +90,15 @@ module FactoryGirl
       #   The name of the factory to be used.
       # * amount: +Integer+
       #   number of instances to be built.
-      # * overrides: +Hash+
-      #   Attributes to overwrite for each instance.
+      # * traits_and_overrides: +Array+
+      #   [+*Array+] Traits to be applied
+      #   [+Hash+] Attributes to overwrite for this instance.
       #
       # Returns: +Array+
       # An array of instances of the class this factory generates, with generated attributes
       # assigned.
-      def build_list(name, amount, overrides = {})
-        amount.times.map { build(name, overrides) }
+      def build_list(name, amount, *traits_and_overrides)
+        amount.times.map { build(name, *traits_and_overrides) }
       end
 
       # Creates and returns multiple instances from this factory as an array. Attributes can be
@@ -108,14 +109,15 @@ module FactoryGirl
       #   The name of the factory to be used.
       # * amount: +Integer+
       #   number of instances to be created.
-      # * overrides: +Hash+
-      #   Attributes to overwrite for each instance.
+      # * traits_and_overrides: +Array+
+      #   [+*Array+] Traits to be applied
+      #   [+Hash+] Attributes to overwrite for this instance.
       #
       # Returns: +Array+
       # An array of instances of the class this factory generates, with generated attributes
       # assigned.
-      def create_list(name, amount, overrides = {})
-        amount.times.map { create(name, overrides) }
+      def create_list(name, amount, *traits_and_overrides)
+        amount.times.map { create(name, *traits_and_overrides) }
       end
 
       # Generates and returns the next value in a sequence.
