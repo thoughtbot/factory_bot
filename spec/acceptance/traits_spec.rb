@@ -262,6 +262,32 @@ describe "traits added via proxy" do
     its(:admin) { should be_true }
     its(:name)  { should == "Jack" }
   end
+
+  context "adding traits in create_list" do
+    subject { FactoryGirl.create_list(:user, 2, :admin, :great, :name => "Joe") }
+
+    its(:length) { should == 2 }
+
+    it "creates all the records" do
+      subject.each do |record|
+        record.admin.should be_true
+        record.name.should == "JOE"
+      end
+    end
+  end
+
+  context "adding traits in build_list" do
+    subject { FactoryGirl.build_list(:user, 2, :admin, :great, :name => "Joe") }
+
+    its(:length) { should == 2 }
+
+    it "builds all the records" do
+      subject.each do |record|
+        record.admin.should be_true
+        record.name.should == "Joe"
+      end
+    end
+  end
 end
 
 describe "traits and dynamic attributes that are applied simultaneously" do
