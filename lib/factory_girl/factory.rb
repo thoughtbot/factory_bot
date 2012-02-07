@@ -53,7 +53,7 @@ module FactoryGirl
     end
 
     def associations
-      attributes.associations
+      attributes.associations + parent.associations
     end
 
     # Names for this factory, including aliases.
