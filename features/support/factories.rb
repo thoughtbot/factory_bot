@@ -99,6 +99,10 @@ FactoryGirl.define do
     category
   end
 
+  factory :titled_post, :parent => :post do
+    title 'A Post with a Title'
+  end
+
   factory :tag do
     post
   end
