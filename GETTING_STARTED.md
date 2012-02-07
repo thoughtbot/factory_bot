@@ -480,6 +480,24 @@ FactoryGirl.create(:user, :admin, :male, :name => "Jon Snow")
 
 This ability works with `build`, `build_stubbed`, `attributes_for`, and `create`.
 
+`create_list` and `build_list` methods are supported as well. Just remember to pass
+the number of instances to create/build as second parameter, as documented in the
+"Building or Creating Multiple Records" section of this file.
+
+```ruby
+factory :user do
+  name "Friendly User"
+
+  trait :admin do
+    admin true
+  end
+end
+
+# creates 3 admin users with gender "Male" and name "Jon Snow"
+FactoryGirl.create_list(:user, 3, :admin, :male, :name => "Jon Snow")
+```
+
+
 Callbacks
 ---------
 
