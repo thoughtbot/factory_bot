@@ -1,7 +1,7 @@
 require "active_support/core_ext/module/delegation"
 
 require 'factory_girl/errors'
-require 'factory_girl/proxy'
+require 'factory_girl/strategy'
 require 'factory_girl/registry'
 require 'factory_girl/null_factory'
 require 'factory_girl/null_object'

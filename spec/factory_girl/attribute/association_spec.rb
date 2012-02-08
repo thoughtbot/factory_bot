@@ -5,7 +5,6 @@ describe FactoryGirl::Attribute::Association do
   let(:factory)     { :user }
   let(:overrides)   { { :first_name => "John" } }
   let(:association) { stub("association") }
-  let(:proxy)       { stub("proxy", :association => association) }
 
   subject { FactoryGirl::Attribute::Association.new(name, factory, overrides) }
   before  { subject.stubs(:association => association) }

@@ -1,12 +1,12 @@
 require "active_support/core_ext/hash/except"
-require "factory_girl/proxy/build"
-require "factory_girl/proxy/create"
-require "factory_girl/proxy/attributes_for"
-require "factory_girl/proxy/stub"
+require "factory_girl/strategy/build"
+require "factory_girl/strategy/create"
+require "factory_girl/strategy/attributes_for"
+require "factory_girl/strategy/stub"
 require "observer"
 
 module FactoryGirl
-  class Proxy #:nodoc:
+  class Strategy #:nodoc:
     include Observable
 
     # Generates an association using the current build strategy.
@@ -49,7 +49,7 @@ module FactoryGirl
     end
 
     def self.ensure_strategy_exists!(strategy)
-      unless Proxy.const_defined? strategy.to_s.camelize
+      unless Strategy.const_defined? strategy.to_s.camelize
         raise ArgumentError, "Unknown strategy: #{strategy}"
       end
     end

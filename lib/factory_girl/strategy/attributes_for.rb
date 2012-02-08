@@ -1,6 +1,6 @@
 module FactoryGirl
-  class Proxy #:nodoc:
-    class AttributesFor < Proxy #:nodoc:
+  class Strategy #:nodoc:
+    class AttributesFor < Strategy #:nodoc:
       def result(attribute_assigner, to_create)
         attribute_assigner.hash
       end

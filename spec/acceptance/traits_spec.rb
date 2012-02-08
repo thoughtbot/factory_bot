@@ -210,7 +210,7 @@ describe "traits with callbacks" do
   end
 end
 
-describe "traits added via proxy" do
+describe "traits added via strategy" do
   before do
     define_model("User", :name => :string, :admin => :boolean)
 

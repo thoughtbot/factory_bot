@@ -165,7 +165,7 @@ end
 Dependent Attributes
 --------------------
 
-Attributes can be based on the values of other attributes using the proxy that is yielded to lazy attribute blocks:
+Attributes can be based on the values of other attributes using the evaluator that is yielded to lazy attribute blocks:
 
 ```ruby
 factory :user do
@@ -193,8 +193,8 @@ factory :user do
   name  { "John Doe#{" - Rockstar" if rockstar}" }
   email { "#{name.downcase}@example.com" }
 
-  after_create do |user, proxy|
-    user.name.upcase! if proxy.upcased
+  after_create do |user, evaluator|
+    user.name.upcase! if evaluator.upcased
   end
 end
 
@@ -207,8 +207,8 @@ within attributes\_for and won't be set on the model, even if the attribute
 exists or you attempt to override it.
 
 Within Factory Girl's dynamic attributes, you can access ignored attributes as
-you would expect. If you need to access the proxy in a Factory Girl callback,
-you'll need to declare a second block argument (for the proxy) and access
+you would expect. If you need to access the evaluator in a Factory Girl callback,
+you'll need to declare a second block argument (for the evaluator) and access
 ignored attributes from there.
 
 Associations

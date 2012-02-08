@@ -1,10 +1,10 @@
 require 'spec_helper'
 
-describe FactoryGirl::Proxy::AttributesFor do
+describe FactoryGirl::Strategy::AttributesFor do
   let(:result)             { { :name => "John Doe", :gender => "Male", :admin => false } }
   let(:attribute_assigner) { stub("attribute assigner", :hash => result) }
 
-  it_should_behave_like "proxy without association support"
+  it_should_behave_like "strategy without association support"
 
   it "returns the hash from the attribute assigner" do
     subject.result(attribute_assigner, lambda {|item| item }).should == result

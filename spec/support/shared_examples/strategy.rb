@@ -1,4 +1,4 @@
-shared_examples_for "proxy without association support" do
+shared_examples_for "strategy without association support" do
   let(:attribute) { FactoryGirl::Attribute::Association.new(:user, :user, {}) }
 
   it "returns nil when accessing an association" do
@@ -12,7 +12,7 @@ shared_examples_for "proxy without association support" do
   end
 end
 
-shared_examples_for "proxy with association support" do |factory_girl_proxy_class|
+shared_examples_for "strategy with association support" do |factory_girl_strategy_class|
   let(:factory)      { stub("associate_factory") }
   let(:overrides)    { { :great => "value" } }
   let(:factory_name) { :author }
@@ -24,7 +24,7 @@ shared_examples_for "proxy with association support" do |factory_girl_proxy_clas
 
   it "runs the factory with the correct overrides" do
     subject.association(factory_name, overrides)
-    factory.should have_received(:run).with(factory_girl_proxy_class, overrides)
+    factory.should have_received(:run).with(factory_girl_strategy_class, overrides)
   end
 
   it "finds the factory with the correct factory name" do
@@ -33,7 +33,7 @@ shared_examples_for "proxy with association support" do |factory_girl_proxy_clas
   end
 end
 
-shared_examples_for "proxy with :method => :build" do |factory_girl_proxy_class|
+shared_examples_for "strategy with :method => :build" do |factory_girl_strategy_class|
   let(:factory)      { stub("associate_factory") }
   let(:overrides)    { { :method => :build, :great => "value" } }
   let(:factory_name) { :author }
@@ -45,7 +45,7 @@ shared_examples_for "proxy with :method => :build" do |factory_girl_proxy_class|
 
   it "runs the factory with the correct overrides" do
     subject.association(factory_name, overrides)
-    factory.should have_received(:run).with(factory_girl_proxy_class, { :great => "value" })
+    factory.should have_received(:run).with(factory_girl_strategy_class, { :great => "value" })
   end
 
   it "finds the factory with the correct factory name" do
@@ -54,7 +54,7 @@ shared_examples_for "proxy with :method => :build" do |factory_girl_proxy_class|
   end
 end
 
-shared_examples_for "proxy with callbacks" do |*callback_names|
+shared_examples_for "strategy with callbacks" do |*callback_names|
   let(:callback_observer) do
     define_class("CallbackObserver") do
       attr_reader :callbacks_called

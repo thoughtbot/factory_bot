@@ -1,6 +1,6 @@
 module FactoryGirl
-  class Proxy #:nodoc:
-    class Build < Proxy #:nodoc:
+  class Strategy #:nodoc:
+    class Build < Strategy #:nodoc:
       def association(factory_name, overrides = {})
         factory = FactoryGirl.factory_by_name(factory_name)
         factory.run(get_method(overrides[:method]), overrides.except(:method))
@@ -16,9 +16,9 @@ module FactoryGirl
 
       def get_method(method)
         case method
-        when :build  then Proxy::Build
-        when :create then Proxy::Create
-        when nil     then Proxy::Create
+        when :build  then Strategy::Build
+        when :create then Strategy::Create
+        when nil     then Strategy::Create
         else raise "unrecognized method #{method}"
         end
       end

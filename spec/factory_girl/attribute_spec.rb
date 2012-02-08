@@ -2,7 +2,6 @@ require 'spec_helper'
 
 describe FactoryGirl::Attribute do
   let(:name)  { "user" }
-  let(:proxy) { stub("proxy") }
   subject     { FactoryGirl::Attribute.new(name, false) }
 
   its(:name) { should == name.to_sym }

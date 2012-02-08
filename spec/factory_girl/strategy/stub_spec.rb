@@ -1,9 +1,9 @@
 require 'spec_helper'
 
-describe FactoryGirl::Proxy::Stub do
-  it_should_behave_like "proxy with association support", FactoryGirl::Proxy::Stub
-  it_should_behave_like "proxy with callbacks", :after_stub
-  it_should_behave_like "proxy with :method => :build", FactoryGirl::Proxy::Stub
+describe FactoryGirl::Strategy::Stub do
+  it_should_behave_like "strategy with association support", FactoryGirl::Strategy::Stub
+  it_should_behave_like "strategy with callbacks", :after_stub
+  it_should_behave_like "strategy with :method => :build", FactoryGirl::Strategy::Stub
 
   context "asking for a result" do
     before { Timecop.freeze(Time.now) }
