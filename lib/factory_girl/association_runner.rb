@@ -1,3 +1,5 @@
+require "active_support/core_ext/hash/except"
+
 module FactoryGirl
   class AssociationRunner
     def initialize(factory_name)
