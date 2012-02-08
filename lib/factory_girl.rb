@@ -1,5 +1,6 @@
 require "active_support/core_ext/module/delegation"
 
+require 'factory_girl/errors'
 require 'factory_girl/proxy'
 require 'factory_girl/registry'
 require 'factory_girl/null_factory'
@@ -29,24 +30,6 @@ if defined?(Rails) && Rails::VERSION::MAJOR == 2
 end
 
 module FactoryGirl
-  # Raised when a factory is defined that attempts to instantiate itself.
-  class AssociationDefinitionError < RuntimeError; end
-
-  # Raised when a callback is defined that has an invalid name
-  class InvalidCallbackNameError < RuntimeError; end
-
-  # Raised when a factory is defined with the same name as a previously-defined factory.
-  class DuplicateDefinitionError < RuntimeError; end
-
-  # Raised when calling Factory.sequence from a dynamic attribute block
-  class SequenceAbuseError < RuntimeError; end
-
-  # Raised when defining an invalid attribute:
-  # * Defining an attribute which has a name ending in "="
-  # * Defining an attribute with both a static and lazy value
-  # * Defining an attribute twice in the same factory
-  class AttributeDefinitionError < RuntimeError; end
-
   def self.factories
     @factories ||= Registry.new("Factory")
   end
