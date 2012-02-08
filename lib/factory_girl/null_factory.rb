@@ -7,7 +7,6 @@ module FactoryGirl
     end
 
     delegate :defined_traits, :callbacks, :attributes, :constructor, :to => :definition
-    delegate :associations, :to => :attributes
 
     def compile; end
     def class_name; end
