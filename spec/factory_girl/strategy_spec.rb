@@ -1,10 +1,12 @@
 require 'spec_helper'
 
 describe FactoryGirl::Strategy do
-  it_should_behave_like "strategy without association support"
-
   it "raises an error when asking for the result" do
-    expect { subject.result(stub("assigner"), lambda {|instance| instance }) }.to raise_error(NotImplementedError)
+    expect { subject.result(stub("assigner"), lambda {|instance| instance }) }.to raise_error(NotImplementedError, "Strategies must return a result")
+  end
+
+  it "raises an error when asking for the association" do
+    expect { subject.association(stub("runner"), {}) }.to raise_error(NotImplementedError, "Strategies must return an association")
   end
 end
 

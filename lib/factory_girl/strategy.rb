@@ -42,6 +42,7 @@ module FactoryGirl
     #   FactoryGirl.create(:post)
     #
     def association(runner, overrides)
+      raise NotImplementedError, "Strategies must return an association"
     end
 
     def result(attribute_assigner, to_create)
