@@ -7,11 +7,11 @@ module FactoryGirl
     end
 
     delegate :defined_traits, :callbacks, :attributes, :constructor, :to => :definition
+    delegate :associations, :to => :attributes
 
     def compile; end
     def class_name; end
     def default_strategy; :create; end
     def evaluator_class; FactoryGirl::Evaluator; end
-    def associations; attributes.map(&:association?); end
   end
 end

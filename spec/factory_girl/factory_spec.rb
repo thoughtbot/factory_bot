@@ -49,12 +49,17 @@ describe FactoryGirl::Factory do
   end
 
   it "includes associations from the parent factory" do
+    association_on_parent = FactoryGirl::Declaration::Association.new(:association_on_parent, {})
+    association_on_child  = FactoryGirl::Declaration::Association.new(:association_on_child, {})
+
     factory = FactoryGirl::Factory.new(:post)
-    factory.declare_attribute(FactoryGirl::Declaration::Association.new(:author, {}))
+    factory.declare_attribute(association_on_parent)
     FactoryGirl.register_factory(factory)
+
     child_factory = FactoryGirl::Factory.new(:child_post, :parent => :post)
-    child_factory.declare_attribute(FactoryGirl::Declaration::Association.new(:editor, {}))
-    child_factory.associations.size.should == 2
+    child_factory.declare_attribute(association_on_child)
+
+    child_factory.associations.map(&:name).should == [:association_on_parent, :association_on_child]
   end
 
   describe "when overriding generated attributes with a hash" do
