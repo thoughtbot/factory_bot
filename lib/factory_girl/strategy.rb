@@ -1,4 +1,3 @@
-require "active_support/core_ext/hash/except"
 require "factory_girl/strategy/build"
 require "factory_girl/strategy/create"
 require "factory_girl/strategy/attributes_for"
