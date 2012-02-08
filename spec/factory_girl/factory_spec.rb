@@ -48,6 +48,15 @@ describe FactoryGirl::Factory do
     factory.associations.size.should == 3
   end
 
+  it "includes associations from the parent factory" do
+    factory = FactoryGirl::Factory.new(:post)
+    factory.declare_attribute(FactoryGirl::Declaration::Association.new(:author, {}))
+    FactoryGirl.register_factory(factory)
+    child_factory = FactoryGirl::Factory.new(:child_post, :parent => :post)
+    child_factory.declare_attribute(FactoryGirl::Declaration::Association.new(:editor, {}))
+    child_factory.associations.size.should == 2
+  end
+
   describe "when overriding generated attributes with a hash" do
     before do
       @name  = :name
