@@ -29,7 +29,10 @@ module FactoryGirl
       @build_strategy.add_observer(CallbackRunner.new(self.class.callbacks, self))
     end
 
-    delegate :association, :to => :@build_strategy
+    def association(factory_name, overrides = {})
+      runner = AssociationRunner.new(factory_name)
+      @build_strategy.association(runner, overrides)
+    end
 
     def instance=(object_instance)
       @instance = object_instance

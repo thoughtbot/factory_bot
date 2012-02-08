@@ -41,7 +41,7 @@ module FactoryGirl
     #   # author association, and saves the Post.
     #   FactoryGirl.create(:post)
     #
-    def association(name, overrides = {})
+    def association(runner, overrides)
     end
 
     def result(attribute_assigner, to_create)

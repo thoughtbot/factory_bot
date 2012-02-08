@@ -1,21 +1,29 @@
 shared_examples_for "strategy without association support" do
   let(:attribute) { FactoryGirl::Attribute::Association.new(:user, :user, {}) }
 
+  def association_named(name, overrides)
+    runner = FactoryGirl::AssociationRunner.new(name)
+    subject.association(runner, overrides)
+  end
+
   it "returns nil when accessing an association" do
-    subject.association(:user, {}).should be_nil
+    association_named(:user, {}).should be_nil
   end
 
   it "does not attempt to look up the factory when accessing the association" do
     FactoryGirl.stubs(:factory_by_name)
-    subject.association(:awesome)
+    association_named(:awesome, {})
     FactoryGirl.should have_received(:factory_by_name).never
   end
 end
 
 shared_examples_for "strategy with association support" do |factory_girl_strategy_class|
-  let(:factory)      { stub("associate_factory") }
-  let(:overrides)    { { :great => "value" } }
-  let(:factory_name) { :author }
+  let(:factory) { stub("associate_factory") }
+
+  def association_named(name, overrides)
+    runner = FactoryGirl::AssociationRunner.new(name)
+    subject.association(runner, overrides)
+  end
 
   before do
     FactoryGirl.stubs(:factory_by_name => factory)
@@ -23,20 +31,23 @@ shared_examples_for "strategy with association support" do |factory_girl_strateg
   end
 
   it "runs the factory with the correct overrides" do
-    subject.association(factory_name, overrides)
-    factory.should have_received(:run).with(factory_girl_strategy_class, overrides)
+    association_named(:author, :great => "value")
+    factory.should have_received(:run).with(factory_girl_strategy_class, :great => "value")
   end
 
   it "finds the factory with the correct factory name" do
-    subject.association(factory_name, overrides)
-    FactoryGirl.should have_received(:factory_by_name).with(factory_name)
+    association_named(:author, :great => "value")
+    FactoryGirl.should have_received(:factory_by_name).with(:author)
   end
 end
 
 shared_examples_for "strategy with :method => :build" do |factory_girl_strategy_class|
-  let(:factory)      { stub("associate_factory") }
-  let(:overrides)    { { :method => :build, :great => "value" } }
-  let(:factory_name) { :author }
+  let(:factory) { stub("associate_factory") }
+
+  def association_named(name, overrides)
+    runner = FactoryGirl::AssociationRunner.new(name)
+    subject.association(runner, overrides)
+  end
 
   before do
     FactoryGirl.stubs(:factory_by_name => factory)
@@ -44,13 +55,13 @@ shared_examples_for "strategy with :method => :build" do |factory_girl_strategy_
   end
 
   it "runs the factory with the correct overrides" do
-    subject.association(factory_name, overrides)
+    association_named(:author, :method => :build, :great => "value")
     factory.should have_received(:run).with(factory_girl_strategy_class, { :great => "value" })
   end
 
   it "finds the factory with the correct factory name" do
-    subject.association(factory_name, overrides)
-    FactoryGirl.should have_received(:factory_by_name).with(factory_name)
+    association_named(:author, :method => :build, :great => "value")
+    FactoryGirl.should have_received(:factory_by_name).with(:author)
   end
 end
 
