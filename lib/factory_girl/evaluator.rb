@@ -31,8 +31,7 @@ module FactoryGirl
     end
 
     def association(factory_name, overrides = {})
-      strategy_name = overrides.delete(:method)
-      runner = AssociationRunner.new(factory_name, strategy_name, overrides)
+      runner = AssociationRunner.new(factory_name, overrides[:method], overrides.except(:method))
       @build_strategy.association(runner)
     end
 
