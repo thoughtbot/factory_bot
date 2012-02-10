@@ -1,3 +1,9 @@
+2.5.2 (February 10, 2012)
+  Fix step definitions to use associations defined in parent factories
+  Add inline trait support to (build|create)_list
+  Update ActiveSupport dependency to >= 2.3.9, which introduced
+    class_attribute
+
 2.5.1 (February 3, 2012)
   Fix attribute evaluation when the attribute isn't defined in the factory but
     is a private method on Object
