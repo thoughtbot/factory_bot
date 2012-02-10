@@ -42,6 +42,10 @@ module FactoryGirl
       @build_strategy.association(runner)
     end
 
+    def association_list(factory_name, amount, overrides = {})
+      amount.times.map { association(factory_name, overrides) }
+    end
+
     def instance=(object_instance)
       @instance = object_instance
     end
