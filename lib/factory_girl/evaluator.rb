@@ -1,3 +1,4 @@
+require "active_support/core_ext/hash/except"
 require "active_support/core_ext/class/attribute"
 
 module FactoryGirl
@@ -30,8 +31,9 @@ module FactoryGirl
     end
 
     def association(factory_name, overrides = {})
-      runner = AssociationRunner.new(factory_name)
-      @build_strategy.association(runner, overrides)
+      strategy_name = overrides.delete(:method)
+      runner = AssociationRunner.new(factory_name, strategy_name, overrides)
+      @build_strategy.association(runner)
     end
 
     def instance=(object_instance)

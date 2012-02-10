@@ -1,7 +1,7 @@
 module FactoryGirl
   class Strategy #:nodoc:
     class AttributesFor < Strategy #:nodoc:
-      def association(runner, overrides)
+      def association(runner)
       end
 
       def result(attribute_assigner, to_create)

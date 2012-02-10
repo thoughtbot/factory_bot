@@ -1,8 +1,8 @@
 module FactoryGirl
   class Strategy #:nodoc:
     class Create < Strategy #:nodoc:
-      def association(runner, overrides)
-        runner.run(overrides[:method], overrides)
+      def association(runner)
+        runner.run
       end
 
       def result(attribute_assigner, to_create)

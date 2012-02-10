@@ -3,8 +3,8 @@ module FactoryGirl
     class Stub < Strategy #:nodoc:
       @@next_id = 1000
 
-      def association(runner, overrides)
-        runner.run(Strategy::Stub, overrides)
+      def association(runner)
+        runner.run(Strategy::Stub)
       end
 
       def result(attribute_assigner, to_create)

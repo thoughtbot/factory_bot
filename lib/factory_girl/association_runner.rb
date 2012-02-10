@@ -1,14 +1,15 @@
-require "active_support/core_ext/hash/except"
-
 module FactoryGirl
   class AssociationRunner
-    def initialize(factory_name)
-      @factory_name = factory_name
+    def initialize(factory_name, strategy_name_or_object, overrides)
+      @factory_name            = factory_name
+      @strategy_name_or_object = strategy_name_or_object
+      @overrides               = overrides
     end
 
-    def run(strategy_name_or_object, overrides)
+    def run(strategy_override = nil)
+      strategy_name_or_object = strategy_override || @strategy_name_or_object
       strategy = StrategyCalculator.new(strategy_name_or_object).strategy
-      factory.run(strategy, overrides.except(:method))
+      factory.run(strategy, @overrides)
     end
 
     private

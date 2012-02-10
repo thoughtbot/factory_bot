@@ -2,8 +2,8 @@ shared_examples_for "strategy without association support" do
   let(:attribute) { FactoryGirl::Attribute::Association.new(:user, :user, {}) }
 
   def association_named(name, overrides)
-    runner = FactoryGirl::AssociationRunner.new(name)
-    subject.association(runner, overrides)
+    runner = FactoryGirl::AssociationRunner.new(name, :build, overrides)
+    subject.association(runner)
   end
 
   it "returns nil when accessing an association" do
@@ -20,9 +20,9 @@ end
 shared_examples_for "strategy with association support" do |factory_girl_strategy_class|
   let(:factory) { stub("associate_factory") }
 
-  def association_named(name, overrides)
-    runner = FactoryGirl::AssociationRunner.new(name)
-    subject.association(runner, overrides)
+  def association_named(name, strategy, overrides)
+    runner = FactoryGirl::AssociationRunner.new(name, strategy, overrides)
+    subject.association(runner)
   end
 
   before do
@@ -31,12 +31,12 @@ shared_examples_for "strategy with association support" do |factory_girl_strateg
   end
 
   it "runs the factory with the correct overrides" do
-    association_named(:author, :great => "value")
+    association_named(:author, factory_girl_strategy_class, :great => "value")
     factory.should have_received(:run).with(factory_girl_strategy_class, :great => "value")
   end
 
   it "finds the factory with the correct factory name" do
-    association_named(:author, :great => "value")
+    association_named(:author, factory_girl_strategy_class, :great => "value")
     FactoryGirl.should have_received(:factory_by_name).with(:author)
   end
 end
@@ -45,8 +45,9 @@ shared_examples_for "strategy with :method => :build" do |factory_girl_strategy_
   let(:factory) { stub("associate_factory") }
 
   def association_named(name, overrides)
-    runner = FactoryGirl::AssociationRunner.new(name)
-    subject.association(runner, overrides)
+    strategy = overrides.delete(:method)
+    runner = FactoryGirl::AssociationRunner.new(name, strategy, overrides)
+    subject.association(runner)
   end
 
   before do
