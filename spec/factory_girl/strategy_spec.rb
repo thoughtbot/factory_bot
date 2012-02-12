@@ -6,7 +6,7 @@ describe FactoryGirl::Strategy do
   end
 
   it "raises an error when asking for the association" do
-    expect { subject.association(stub("runner"), {}) }.to raise_error(NotImplementedError, "Strategies must return an association")
+    expect { subject.association(stub("runner")) }.to raise_error(NotImplementedError, "Strategies must return an association")
   end
 end
 

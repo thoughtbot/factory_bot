@@ -8,7 +8,7 @@ module FactoryGirl
   class Strategy #:nodoc:
     include Observable
 
-    def association(runner, overrides)
+    def association(runner)
       raise NotImplementedError, "Strategies must return an association"
     end
 
