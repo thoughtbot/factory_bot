@@ -85,6 +85,8 @@ module FactoryGirl
         @definition.declare_attribute(Declaration::Implicit.new(name, @definition, @ignore))
       elsif args.first.is_a?(Hash) && args.first.has_key?(:factory)
         association(name, *args)
+      elsif FactoryGirl.callback_names.include?(name)
+        @definition.add_callback(Callback.new(name, block))
       else
         add_attribute(name, *args, &block)
       end
@@ -136,18 +138,6 @@ module FactoryGirl
     #    default use the "user" factory.
     def association(name, options = {})
       @definition.declare_attribute(Declaration::Association.new(name, options))
-    end
-
-    def after_build(&block)
-      @definition.add_callback(Callback.new(:after_build, block))
-    end
-
-    def after_create(&block)
-      @definition.add_callback(Callback.new(:after_create, block))
-    end
-
-    def after_stub(&block)
-      @definition.add_callback(Callback.new(:after_stub, block))
     end
 
     def to_create(&block)

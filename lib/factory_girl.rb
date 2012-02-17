@@ -66,4 +66,8 @@ module FactoryGirl
   def self.trait_by_name(name)
     traits.find(name)
   end
+
+  def self.callback_names
+    [:after_build, :after_create, :after_stub].freeze
+  end
 end
