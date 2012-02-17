@@ -1,8 +1,8 @@
 require 'spec_helper'
 
-describe FactoryGirl::Proxy::Create do
-  it_should_behave_like "proxy with association support", FactoryGirl::Proxy::Create
-  it_should_behave_like "proxy with callbacks", :after_build, :after_create
+describe FactoryGirl::Strategy::Create do
+  it_should_behave_like "strategy with association support", FactoryGirl::Strategy::Create
+  it_should_behave_like "strategy with callbacks", :after_build, :after_create
 
   it "runs a custom create block" do
     block_run = false

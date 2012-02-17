@@ -28,11 +28,11 @@ module FactoryGirl
         module ClassMethods #:nodoc:
 
           def make(overrides = {})
-            FactoryGirl.factory_by_name(name.underscore).run(Proxy::Build, overrides)
+            FactoryGirl.factory_by_name(name.underscore).run(Strategy::Build, overrides)
           end
 
           def make!(overrides = {})
-            FactoryGirl.factory_by_name(name.underscore).run(Proxy::Create, overrides)
+            FactoryGirl.factory_by_name(name.underscore).run(Strategy::Create, overrides)
           end
 
         end

@@ -2,7 +2,6 @@ require 'spec_helper'
 
 describe FactoryGirl::Declaration::Implicit do
   let(:name)        { :author }
-  let(:proxy)       { stub("proxy") }
   let(:declaration) { FactoryGirl::Declaration::Implicit.new(name) }
   subject           { declaration.to_attributes.first }
 

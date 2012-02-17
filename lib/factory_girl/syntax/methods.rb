@@ -18,7 +18,7 @@ module FactoryGirl
       # A set of attributes that can be used to build an instance of the class
       # this factory generates.
       def attributes_for(name, *traits_and_overrides, &block)
-        run_factory_girl_proxy(name, traits_and_overrides, Proxy::AttributesFor, &block)
+        run_factory_girl_strategy(name, traits_and_overrides, Strategy::AttributesFor, &block)
       end
 
       # Generates and returns an instance from this factory. Attributes can be
@@ -37,7 +37,7 @@ module FactoryGirl
       # An instance of the class this factory generates, with generated attributes
       # assigned.
       def build(name, *traits_and_overrides, &block)
-        run_factory_girl_proxy(name, traits_and_overrides, Proxy::Build, &block)
+        run_factory_girl_strategy(name, traits_and_overrides, Strategy::Build, &block)
       end
 
       # Generates, saves, and returns an instance from this factory. Attributes can
@@ -60,7 +60,7 @@ module FactoryGirl
       # A saved instance of the class this factory generates, with generated
       # attributes assigned.
       def create(name, *traits_and_overrides, &block)
-        run_factory_girl_proxy(name, traits_and_overrides, Proxy::Create, &block)
+        run_factory_girl_strategy(name, traits_and_overrides, Strategy::Create, &block)
       end
 
       # Generates and returns an object with all attributes from this factory
@@ -79,7 +79,7 @@ module FactoryGirl
       # Returns: +Object+
       # An object with generated attributes stubbed out.
       def build_stubbed(name, *traits_and_overrides, &block)
-        run_factory_girl_proxy(name, traits_and_overrides, Proxy::Stub, &block)
+        run_factory_girl_strategy(name, traits_and_overrides, Strategy::Stub, &block)
       end
 
       # Builds and returns multiple instances from this factory as an array. Attributes can be
@@ -134,7 +134,7 @@ module FactoryGirl
 
       private
 
-      def run_factory_girl_proxy(name, traits_and_overrides, proxy, &block)
+      def run_factory_girl_strategy(name, traits_and_overrides, strategy, &block)
         overrides = if traits_and_overrides.last.respond_to?(:has_key?)
                       traits_and_overrides.pop
                     else
@@ -147,7 +147,7 @@ module FactoryGirl
           factory = factory.with_traits(traits_and_overrides)
         end
 
-        factory.run(proxy, overrides, &block)
+        factory.run(strategy, overrides, &block)
       end
     end
   end

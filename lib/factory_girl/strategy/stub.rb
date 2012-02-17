@@ -1,11 +1,10 @@
 module FactoryGirl
-  class Proxy
-    class Stub < Proxy #:nodoc:
+  class Strategy
+    class Stub < Strategy #:nodoc:
       @@next_id = 1000
 
-      def association(factory_name, overrides = {})
-        factory = FactoryGirl.factory_by_name(factory_name)
-        factory.run(Proxy::Stub, overrides.except(:method))
+      def association(runner)
+        runner.run(Strategy::Stub)
       end
 
       def result(attribute_assigner, to_create)

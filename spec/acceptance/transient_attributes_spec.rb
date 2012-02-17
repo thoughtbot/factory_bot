@@ -17,8 +17,8 @@ describe "transient attributes" do
         name  { "#{FactoryGirl.generate(:name)}#{" - Rockstar" if rockstar}" }
         email { "#{name.downcase}#{four}@example.com" }
 
-        after_create do |user, proxy|
-          user.name.upcase! if proxy.upcased
+        after_create do |user, evaluator|
+          user.name.upcase! if evaluator.upcased
         end
       end
     end

@@ -1,3 +1,4 @@
+require "active_support/core_ext/hash/except"
 require "active_support/core_ext/class/attribute"
 
 module FactoryGirl
@@ -29,7 +30,17 @@ module FactoryGirl
       @build_strategy.add_observer(CallbackRunner.new(self.class.callbacks, self))
     end
 
-    delegate :association, :to => :@build_strategy
+    def association(factory_name, overrides = {})
+      build_strategy = if overrides.has_key?(:method)
+                         $stderr.puts "DEPRECATION WARNING: using :method to specify a build strategy is deprecated; use :strategy instead"
+                         overrides[:method]
+                       elsif overrides.has_key?(:strategy)
+                         overrides[:strategy]
+                       end
+
+      runner = AssociationRunner.new(factory_name, build_strategy, overrides.except(:method, :strategy))
+      @build_strategy.association(runner)
+    end
 
     def instance=(object_instance)
       @instance = object_instance

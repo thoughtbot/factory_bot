@@ -93,40 +93,40 @@ describe "after defining a factory" do
     FactoryGirl.register_factory(@factory)
   end
 
-  it "uses Proxy::AttributesFor for Factory.attributes_for" do
+  it "uses Strategy::AttributesFor for Factory.attributes_for" do
     @factory.stubs(:run => "result")
     Factory.attributes_for(@name, :attr => 'value').should == 'result'
-    @factory.should have_received(:run).with(FactoryGirl::Proxy::AttributesFor, :attr => 'value')
+    @factory.should have_received(:run).with(FactoryGirl::Strategy::AttributesFor, :attr => 'value')
   end
 
-  it "uses Proxy::Build for Factory.build" do
+  it "uses Strategy::Build for Factory.build" do
     @factory.stubs(:run => "result")
     Factory.build(@name, :attr => 'value').should == 'result'
-    @factory.should have_received(:run).with(FactoryGirl::Proxy::Build, :attr => 'value')
+    @factory.should have_received(:run).with(FactoryGirl::Strategy::Build, :attr => 'value')
   end
 
-  it "uses Proxy::Create for Factory.create" do
+  it "uses Strategy::Create for Factory.create" do
     @factory.stubs(:run => "result")
     Factory.create(@name, :attr => 'value').should == 'result'
-    @factory.should have_received(:run).with(FactoryGirl::Proxy::Create, :attr => 'value')
+    @factory.should have_received(:run).with(FactoryGirl::Strategy::Create, :attr => 'value')
   end
 
-  it "uses Proxy::Stub for Factory.stub" do
+  it "uses Strategy::Stub for Factory.stub" do
     @factory.stubs(:run => "result")
     Factory.stub(@name, :attr => 'value').should == 'result'
-    @factory.should have_received(:run).with(FactoryGirl::Proxy::Stub, :attr => 'value')
+    @factory.should have_received(:run).with(FactoryGirl::Strategy::Stub, :attr => 'value')
   end
 
   it "uses default strategy option as Factory.default_strategy" do
     @factory.stubs(:default_strategy => :create, :run => "result")
     Factory.default_strategy(@name, :attr => 'value').should == 'result'
-    @factory.should have_received(:run).with(FactoryGirl::Proxy::Create, :attr => 'value')
+    @factory.should have_received(:run).with(FactoryGirl::Strategy::Create, :attr => 'value')
   end
 
   it "uses the default strategy for the global Factory method" do
     @factory.stubs(:default_strategy => :create, :run => "result")
     Factory(@name, :attr => 'value').should == 'result'
-    @factory.should have_received(:run).with(FactoryGirl::Proxy::Create, :attr => 'value')
+    @factory.should have_received(:run).with(FactoryGirl::Strategy::Create, :attr => 'value')
   end
 
   [:build, :create, :attributes_for, :stub].each do |method|

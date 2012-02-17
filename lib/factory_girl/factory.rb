@@ -36,16 +36,16 @@ module FactoryGirl
       @default_strategy || parent.default_strategy
     end
 
-    def run(proxy_class, overrides, &block) #:nodoc:
+    def run(strategy_class, overrides, &block) #:nodoc:
       block ||= lambda {|result| result }
       compile
 
-      proxy = proxy_class.new
+      strategy = strategy_class.new
 
-      evaluator = evaluator_class.new(proxy, overrides.symbolize_keys)
+      evaluator = evaluator_class.new(strategy, overrides.symbolize_keys)
       attribute_assigner = AttributeAssigner.new(evaluator, &instance_builder)
 
-      proxy.result(attribute_assigner, to_create).tap(&block)
+      strategy.result(attribute_assigner, to_create).tap(&block)
     end
 
     def human_names
@@ -133,7 +133,7 @@ module FactoryGirl
       options.assert_valid_keys(:class, :parent, :default_strategy, :aliases, :traits)
 
       if options[:default_strategy]
-        Proxy.ensure_strategy_exists!(options[:default_strategy])
+        Strategy.ensure_strategy_exists!(options[:default_strategy])
         $stderr.puts "DEPRECATION WARNING: default_strategy is deprecated."
         $stderr.puts "Override to_create if you need to prevent a call to #save!."
       end

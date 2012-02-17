@@ -22,7 +22,7 @@ module FactoryGirl
     # instance is generated. Lazy attribute blocks will not be called if that
     # attribute is overridden for a specific instance.
     #
-    # When defining lazy attributes, an instance of FactoryGirl::Proxy will
+    # When defining lazy attributes, an instance of FactoryGirl::Strategy will
     # be yielded, allowing associations to be built using the correct build
     # strategy.
     #

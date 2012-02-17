@@ -43,7 +43,7 @@ module FactoryGirl
 
           def generate(overrides = {}, &block)
             factory = FactoryGirl.factory_by_name(name.underscore)
-            instance = factory.run(Proxy::Build, overrides)
+            instance = factory.run(Strategy::Build, overrides)
             instance.save
             yield(instance) if block_given?
             instance
@@ -51,14 +51,14 @@ module FactoryGirl
 
           def generate!(overrides = {}, &block)
             factory = FactoryGirl.factory_by_name(name.underscore)
-            instance = factory.run(Proxy::Create, overrides)
+            instance = factory.run(Strategy::Create, overrides)
             yield(instance) if block_given?
             instance
           end
 
           def spawn(overrides = {}, &block)
             factory = FactoryGirl.factory_by_name(name.underscore)
-            instance = factory.run(Proxy::Build, overrides)
+            instance = factory.run(Strategy::Build, overrides)
             yield(instance) if block_given?
             instance
           end

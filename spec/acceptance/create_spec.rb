@@ -31,16 +31,10 @@ describe "a created instance" do
   end
 end
 
-describe "a created instance, specifying :method => build" do
+describe "a created instance, specifying :strategy => build" do
   include FactoryGirl::Syntax::Methods
 
-  before do
-    define_model('User')
-
-    define_model('Post', :user_id => :integer) do
-      belongs_to :user
-    end
-
+  def define_factories_with_method
     FactoryGirl.define do
       factory :user
 
@@ -50,11 +44,46 @@ describe "a created instance, specifying :method => build" do
     end
   end
 
-  subject { create('post') }
+  def define_factories_with_strategy
+    FactoryGirl.define do
+      factory :user
 
-  it "still saves associations (:method => :build only affects build, not create)" do
-    subject.user.should be_kind_of(User)
-    subject.user.should_not be_new_record
+      factory :post do
+        association(:user, :strategy => :build)
+      end
+    end
+  end
+
+  before do
+    define_model('User')
+
+    define_model('Post', :user_id => :integer) do
+      belongs_to :user
+    end
+  end
+
+  context "associations declared with :strategy" do
+    before  { define_factories_with_strategy }
+    subject { build_stubbed(:post) }
+
+    subject { create('post') }
+
+    it "still saves associations (:strategy => :build only affects build, not create)" do
+      subject.user.should be_kind_of(User)
+      subject.user.should_not be_new_record
+    end
+  end
+
+  context "associations declared with :method" do
+    before  { define_factories_with_method }
+    subject { build_stubbed(:post) }
+
+    subject { create('post') }
+
+    it "still saves associations (:method => :build only affects build, not create)" do
+      subject.user.should be_kind_of(User)
+      subject.user.should_not be_new_record
+    end
   end
 end
 

@@ -25,15 +25,15 @@ describe FactoryGirl::Factory do
   end
 
   it "passes a custom creation block" do
-    proxy = stub("proxy", :result => nil, :add_observer => true)
-    FactoryGirl::Proxy::Build.stubs(:new => proxy)
+    strategy = stub("strategy", :result => nil, :add_observer => true)
+    FactoryGirl::Strategy::Build.stubs(:new => strategy)
     block = lambda {}
     factory = FactoryGirl::Factory.new(:object)
     factory.to_create(&block)
 
-    factory.run(FactoryGirl::Proxy::Build, {})
+    factory.run(FactoryGirl::Strategy::Build, {})
 
-    proxy.should have_received(:result).with(instance_of(FactoryGirl::AttributeAssigner), block)
+    strategy.should have_received(:result).with(instance_of(FactoryGirl::AttributeAssigner), block)
   end
 
   it "returns associations" do
@@ -72,21 +72,21 @@ describe FactoryGirl::Factory do
     it "returns the overridden value in the generated attributes" do
       declaration = FactoryGirl::Declaration::Static.new(@name, 'The price is wrong, Bob!')
       @factory.declare_attribute(declaration)
-      result = @factory.run(FactoryGirl::Proxy::AttributesFor, @hash)
+      result = @factory.run(FactoryGirl::Strategy::AttributesFor, @hash)
       result[@name].should == @value
     end
 
     it "does not call a lazy attribute block for an overridden attribute" do
       declaration = FactoryGirl::Declaration::Dynamic.new(@name, false, lambda { flunk })
       @factory.declare_attribute(declaration)
-      @factory.run(FactoryGirl::Proxy::AttributesFor, @hash)
+      @factory.run(FactoryGirl::Strategy::AttributesFor, @hash)
     end
 
     it "overrides a symbol parameter with a string parameter" do
       declaration = FactoryGirl::Declaration::Static.new(@name, 'The price is wrong, Bob!')
       @factory.declare_attribute(declaration)
       @hash = { @name.to_s => @value }
-      result = @factory.run(FactoryGirl::Proxy::AttributesFor, @hash)
+      result = @factory.run(FactoryGirl::Strategy::AttributesFor, @hash)
       result[@name].should == @value
     end
   end
@@ -95,7 +95,7 @@ describe FactoryGirl::Factory do
     before do
       @factory.declare_attribute(FactoryGirl::Declaration::Static.new(:test, 'original'))
       Factory.alias(/(.*)_alias/, '\1')
-      @result = @factory.run(FactoryGirl::Proxy::AttributesFor,
+      @result = @factory.run(FactoryGirl::Strategy::AttributesFor,
                              :test_alias => 'new')
     end
 
@@ -279,7 +279,7 @@ describe FactoryGirl::Factory, "running a factory" do
   subject              { FactoryGirl::Factory.new(:user) }
   let(:attribute)      { FactoryGirl::Attribute::Static.new(:name, "value", false) }
   let(:declaration)    { FactoryGirl::Declaration::Static.new(:name, "value", false) }
-  let(:proxy)          { stub("proxy", :result => "result", :add_observer => true) }
+  let(:strategy)       { stub("strategy", :result => "result", :add_observer => true) }
   let(:attributes)     { [attribute] }
   let(:attribute_list) { stub('attribute-list', :declarations => [declaration], :to_a => attributes) }
 
@@ -287,23 +287,23 @@ describe FactoryGirl::Factory, "running a factory" do
     define_model("User", :name => :string)
     FactoryGirl::Declaration::Static.stubs(:new => declaration)
     declaration.stubs(:to_attributes => attributes)
-    FactoryGirl::Proxy::Build.stubs(:new => proxy)
+    FactoryGirl::Strategy::Build.stubs(:new => strategy)
     subject.declare_attribute(declaration)
   end
 
-  it "creates the right proxy using the build class when running" do
-    subject.run(FactoryGirl::Proxy::Build, {})
-    FactoryGirl::Proxy::Build.should have_received(:new).once
+  it "creates the right strategy using the build class when running" do
+    subject.run(FactoryGirl::Strategy::Build, {})
+    FactoryGirl::Strategy::Build.should have_received(:new).once
   end
 
-  it "returns the result from the proxy when running" do
-    subject.run(FactoryGirl::Proxy::Build, {}).should == "result"
+  it "returns the result from the strategy when running" do
+    subject.run(FactoryGirl::Strategy::Build, {}).should == "result"
   end
 
   it "calls the block and returns the result" do
     block_run = nil
     block = lambda {|result| block_run = "changed" }
-    subject.run(FactoryGirl::Proxy::Build, { }, &block)
+    subject.run(FactoryGirl::Strategy::Build, { }, &block)
     block_run.should == "changed"
   end
 end
