@@ -18,8 +18,6 @@ RSpec.configure do |config|
   config.include DeclarationMatchers
 
   config.after do
-    FactoryGirl.factories.clear
-    FactoryGirl.sequences.clear
-    FactoryGirl.traits.clear
+    FactoryGirl.reload
   end
 end
