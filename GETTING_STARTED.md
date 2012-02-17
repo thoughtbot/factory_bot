@@ -246,12 +246,12 @@ post.new_record?        # => true
 post.author.new_record? # => false
 ```
 
-To not save the associated object, specify :method => :build in the factory:
+To not save the associated object, specify :strategy => :build in the factory:
 
 ```ruby
 factory :post do
   # ...
-  association :author, :factory => :user, :method => :build
+  association :author, :factory => :user, :strategy => :build
 end
 
 # Builds a User, and then builds a Post, but does not save either

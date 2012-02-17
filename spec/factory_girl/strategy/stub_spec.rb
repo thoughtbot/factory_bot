@@ -3,7 +3,7 @@ require 'spec_helper'
 describe FactoryGirl::Strategy::Stub do
   it_should_behave_like "strategy with association support", FactoryGirl::Strategy::Stub
   it_should_behave_like "strategy with callbacks", :after_stub
-  it_should_behave_like "strategy with :method => :build", FactoryGirl::Strategy::Stub
+  it_should_behave_like "strategy with :strategy => :build", FactoryGirl::Strategy::Stub
 
   context "asking for a result" do
     before { Timecop.freeze(Time.now) }

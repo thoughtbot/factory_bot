@@ -31,7 +31,7 @@ describe "a built instance" do
   end
 end
 
-describe "a built instance with :method => :build" do
+describe "a built instance with :strategy => :build" do
   include FactoryGirl::Syntax::Methods
 
   before do
@@ -45,7 +45,7 @@ describe "a built instance with :method => :build" do
       factory :user
 
       factory :post do
-        association(:user, :method => :build)
+        association(:user, :strategy => :build)
       end
     end
   end

@@ -31,7 +31,14 @@ module FactoryGirl
     end
 
     def association(factory_name, overrides = {})
-      runner = AssociationRunner.new(factory_name, overrides[:method], overrides.except(:method))
+      build_strategy = if overrides.has_key?(:method)
+                         $stderr.puts "DEPRECATION WARNING: using :method to specify a build strategy is deprecated; use :strategy instead"
+                         overrides[:method]
+                       elsif overrides.has_key?(:strategy)
+                         overrides[:strategy]
+                       end
+
+      runner = AssociationRunner.new(factory_name, build_strategy, overrides.except(:method, :strategy))
       @build_strategy.association(runner)
     end
 
