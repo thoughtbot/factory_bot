@@ -302,7 +302,7 @@ This allows us to do:
 ```ruby
 FactoryGirl.create(:user).posts.length # 0
 FactoryGirl.create(:user_with_posts).posts.length # 5
-FactoryGirl.create(:user_with_posts, :posts_length => 15).posts.length # 15
+FactoryGirl.create(:user_with_posts, :posts_count => 15).posts.length # 15
 ```
 
 Inheritance
