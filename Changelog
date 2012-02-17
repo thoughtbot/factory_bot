@@ -1,3 +1,9 @@
+2.6.0 (February 17, 2012)
+  Improve documentation of has_many associations in the GETTING_STARTED
+    document
+  Deprecate :method in favor of :strategy when overriding an association's
+    build strategy
+
 2.5.2 (February 10, 2012)
   Fix step definitions to use associations defined in parent factories
   Add inline trait support to (build|create)_list
