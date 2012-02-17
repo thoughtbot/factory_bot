@@ -260,6 +260,51 @@ post.new_record?        # => true
 post.author.new_record? # => true
 ```
 
+Generating data for a `has_many` relationship is a bit more involved,
+depending on the amount of flexibility desired, but here's a surefire example
+of generating associated data.
+
+```ruby
+FactoryGirl.define do
+
+  # post factory with a `belongs_to` association for the user
+  factory :post do
+    title "Through the Looking Glass"
+    user
+  end
+
+  # user factory without associated posts
+  factory :user do
+    name "John Doe"
+
+    # user_with_posts will create post data after the user has been created
+    factory :user_with_posts do
+      # posts_count is declared as an ignored attribute and available in
+      # attributes on the factory, as well as the callback via the evaluator
+      ignore do
+        posts_count 5
+      end
+
+      # the after_create yields two values; the user instance itself and the
+      # evaluator, which stores all values from the factory, including ignored
+      # attributes; `create_list`'s second argument is the number of records
+      # to create and we make sure the user is associated properly to the post
+      after_create do |user, evaluator|
+        FactoryGirl.create_list(:post, evaluator.posts_count, :user => user)
+      end
+    end
+  end
+end
+```
+
+This allows us to do:
+
+```ruby
+FactoryGirl.create(:user).posts.length # 0
+FactoryGirl.create(:user_with_posts).posts.length # 5
+FactoryGirl.create(:user_with_posts, :posts_length => 15).posts.length # 15
+```
+
 Inheritance
 -----------
 
