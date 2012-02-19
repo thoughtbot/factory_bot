@@ -139,7 +139,7 @@ module FactoryGirl
     end
 
     def association_list(name, amount, options = {})
-      @definition.declare_attribute(Declaration::AssociationList.new(name, amount, options))
+      @definition.declare_attribute(Declaration::AssociationList.new(@definition.declarations.name, name, amount, options))
     end
 
     def after_build(&block)

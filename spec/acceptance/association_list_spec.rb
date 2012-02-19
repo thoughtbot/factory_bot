@@ -18,7 +18,7 @@ describe "association lists to populate has many associations" do
 
       factory :user do
         name "John Doe"
-        association_list :posts, 5, :user => nil, :title => "Six Little Brooks"
+        association_list :posts, 5, :title => "Six Little Brooks"
       end
     end
   end

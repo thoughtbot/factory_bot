@@ -2,6 +2,8 @@ module FactoryGirl
   class DeclarationList
     include Enumerable
 
+    attr_reader :name
+
     def initialize(name = nil)
       @declarations = []
       @name         = name
