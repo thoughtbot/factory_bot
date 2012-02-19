@@ -12,6 +12,10 @@ module FactoryGirl
       raise NotImplementedError, "Strategies must return an association"
     end
 
+    def association_list(runner, amount)
+      amount.times.map { association(runner) }
+    end
+
     def result(attribute_assigner, to_create)
       raise NotImplementedError, "Strategies must return a result"
     end

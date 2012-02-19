@@ -18,7 +18,7 @@ describe "association lists to populate has many associations" do
 
       factory :user do
         name "John Doe"
-        posts { association_list :post, 5, :user => nil, :title => "Six Little Brooks" }
+        association_list :posts, 5, :user => nil, :title => "Six Little Brooks"
       end
     end
   end
@@ -44,8 +44,8 @@ describe "association lists to populate has many associations" do
   end
 
   describe "using the attributes for strategy" do
-    it "creates no posts or post attributes" do
-      FactoryGirl.attributes_for(:user)[:posts].compact.should be_empty
+    it "creates no posts" do
+      FactoryGirl.attributes_for(:user)[:posts].should be_nil
     end
   end
 end

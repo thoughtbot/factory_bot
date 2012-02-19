@@ -138,6 +138,10 @@ module FactoryGirl
       @definition.declare_attribute(Declaration::Association.new(name, options))
     end
 
+    def association_list(name, amount, options = {})
+      @definition.declare_attribute(Declaration::AssociationList.new(name, amount, options))
+    end
+
     def after_build(&block)
       @definition.add_callback(Callback.new(:after_build, block))
     end
