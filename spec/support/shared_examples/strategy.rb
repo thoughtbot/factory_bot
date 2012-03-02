@@ -2,7 +2,7 @@ shared_examples_for "strategy without association support" do
   let(:attribute) { FactoryGirl::Attribute::Association.new(:user, :user, {}) }
 
   def association_named(name, overrides)
-    runner = FactoryGirl::AssociationRunner.new(name, :build, overrides)
+    runner = FactoryGirl::FactoryRunner.new(name, FactoryGirl::Strategy::Build, [overrides])
     subject.association(runner)
   end
 
@@ -21,7 +21,7 @@ shared_examples_for "strategy with association support" do |factory_girl_strateg
   let(:factory) { stub("associate_factory") }
 
   def association_named(name, strategy, overrides)
-    runner = FactoryGirl::AssociationRunner.new(name, strategy, overrides)
+    runner = FactoryGirl::FactoryRunner.new(name, strategy, [overrides])
     subject.association(runner)
   end
 
@@ -45,8 +45,8 @@ shared_examples_for "strategy with :strategy => :build" do |factory_girl_strateg
   let(:factory) { stub("associate_factory") }
 
   def association_named(name, overrides)
-    strategy = overrides[:strategy] || overrides[:method]
-    runner = FactoryGirl::AssociationRunner.new(name, strategy, overrides.except(:strategy, :method))
+    strategy = FactoryGirl::StrategyCalculator.new(overrides[:strategy] || overrides[:method]).strategy
+    runner = FactoryGirl::FactoryRunner.new(name, strategy, [overrides.except(:strategy, :method)])
     subject.association(runner)
   end
 

@@ -42,23 +42,20 @@ module FactoryGirl
         module ClassMethods #:nodoc:
 
           def generate(overrides = {}, &block)
-            factory = FactoryGirl.factory_by_name(name.underscore)
-            instance = factory.run(Strategy::Build, overrides)
+            instance = FactoryRunner.new(name.underscore, Strategy::Build, [overrides]).run
             instance.save
             yield(instance) if block_given?
             instance
           end
 
           def generate!(overrides = {}, &block)
-            factory = FactoryGirl.factory_by_name(name.underscore)
-            instance = factory.run(Strategy::Create, overrides)
+            instance = FactoryRunner.new(name.underscore, Strategy::Create, [overrides]).run
             yield(instance) if block_given?
             instance
           end
 
           def spawn(overrides = {}, &block)
-            factory = FactoryGirl.factory_by_name(name.underscore)
-            instance = factory.run(Strategy::Build, overrides)
+            instance = FactoryRunner.new(name.underscore, Strategy::Build, [overrides]).run
             yield(instance) if block_given?
             instance
           end

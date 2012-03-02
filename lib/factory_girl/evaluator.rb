@@ -36,9 +36,12 @@ module FactoryGirl
                          overrides[:method]
                        elsif overrides.has_key?(:strategy)
                          overrides[:strategy]
+                       else
+                         Strategy::Create
                        end
 
-      runner = AssociationRunner.new(factory_name, build_strategy, overrides.except(:method, :strategy))
+      build_strategy = StrategyCalculator.new(build_strategy).strategy
+      runner = FactoryRunner.new(factory_name, build_strategy, [overrides.except(:method, :strategy)])
       @build_strategy.association(runner)
     end
 
