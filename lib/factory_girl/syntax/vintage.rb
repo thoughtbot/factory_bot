@@ -46,8 +46,9 @@ module FactoryGirl
         #
         # Returns: +Object+
         # The result of the default strategy.
-        def self.default_strategy(name, overrides = {})
-          FactoryGirl.send(FactoryGirl.factory_by_name(name).default_strategy, name, overrides)
+        def self.default_strategy(name, *traits_and_overrides)
+          traits_and_overrides.flatten!
+          FactoryGirl.send(FactoryGirl.factory_by_name(name).default_strategy, name, traits_and_overrides)
         end
 
         # Defines a new sequence that can be used to generate unique values in a specific format.
@@ -110,23 +111,23 @@ module FactoryGirl
         end
 
         # Alias for FactoryGirl.attributes_for
-        def self.attributes_for(name, overrides = {})
-          FactoryGirl.attributes_for(name, overrides)
+        def self.attributes_for(name, *traits_and_overrides)
+          FactoryGirl.attributes_for(name, traits_and_overrides.flatten)
         end
 
         # Alias for FactoryGirl.build
-        def self.build(name, overrides = {})
-          FactoryGirl.build(name, overrides)
+        def self.build(name, *traits_and_overrides)
+          FactoryGirl.build(name, traits_and_overrides.flatten)
         end
 
         # Alias for FactoryGirl.create
-        def self.create(name, overrides = {})
-          FactoryGirl.create(name, overrides)
+        def self.create(name, *traits_and_overrides)
+          FactoryGirl.create(name, traits_and_overrides.flatten)
         end
 
         # Alias for FactoryGirl.build_stubbed.
-        def self.stub(name, overrides = {})
-          FactoryGirl.build_stubbed(name, overrides)
+        def self.stub(name, *traits_and_overrides)
+          FactoryGirl.build_stubbed(name, traits_and_overrides.flatten)
         end
       end
 
@@ -139,8 +140,8 @@ module FactoryGirl
       #
       # Example:
       #   Factory(:user, :name => 'Joe')
-      def Factory(name, attrs = {})
-        Factory.default_strategy(name, attrs)
+      def Factory(name, *traits_and_overrides)
+        Factory.default_strategy(name, traits_and_overrides)
       end
     end
   end

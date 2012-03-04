@@ -18,6 +18,7 @@ module FactoryGirl
       # A set of attributes that can be used to build an instance of the class
       # this factory generates.
       def attributes_for(name, *traits_and_overrides, &block)
+        traits_and_overrides.flatten!
         FactoryRunner.new(name, Strategy::AttributesFor, traits_and_overrides).run(&block)
       end
 
@@ -37,6 +38,7 @@ module FactoryGirl
       # An instance of the class this factory generates, with generated attributes
       # assigned.
       def build(name, *traits_and_overrides, &block)
+        traits_and_overrides.flatten!
         FactoryRunner.new(name, Strategy::Build, traits_and_overrides).run(&block)
       end
 
@@ -60,6 +62,7 @@ module FactoryGirl
       # A saved instance of the class this factory generates, with generated
       # attributes assigned.
       def create(name, *traits_and_overrides, &block)
+        traits_and_overrides.flatten!
         FactoryRunner.new(name, Strategy::Create, traits_and_overrides).run(&block)
       end
 
@@ -79,6 +82,7 @@ module FactoryGirl
       # Returns: +Object+
       # An object with generated attributes stubbed out.
       def build_stubbed(name, *traits_and_overrides, &block)
+        traits_and_overrides.flatten!
         FactoryRunner.new(name, Strategy::Stub, traits_and_overrides).run(&block)
       end
 
@@ -98,6 +102,7 @@ module FactoryGirl
       # An array of instances of the class this factory generates, with generated attributes
       # assigned.
       def build_list(name, amount, *traits_and_overrides)
+        traits_and_overrides.flatten!
         amount.times.map { build(name, *traits_and_overrides) }
       end
 
@@ -117,6 +122,7 @@ module FactoryGirl
       # An array of instances of the class this factory generates, with generated attributes
       # assigned.
       def create_list(name, amount, *traits_and_overrides)
+        traits_and_overrides.flatten!
         amount.times.map { create(name, *traits_and_overrides) }
       end
 
