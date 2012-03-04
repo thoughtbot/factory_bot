@@ -87,8 +87,8 @@ module FactoryGirl
 
     def compile
       unless @compiled
-        parent.defined_traits.each {|trait| define_trait(trait) }
         parent.compile
+        parent.defined_traits.each {|trait| define_trait(trait) }
         @definition.compile
         @compiled = true
       end
