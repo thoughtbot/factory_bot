@@ -21,6 +21,7 @@ module FactoryGirl
         # Yields: +Factory+
         # The newly created factory.
         def self.define(name, options = {})
+          $stderr.puts "DEPRECATION WARNING: Factory.define is deprecated; use the FactoryGirl.define block syntax to declare your factory."
           factory = FactoryGirl::Factory.new(name, options)
           proxy = FactoryGirl::DefinitionProxy.new(factory)
           yield(proxy)
@@ -43,6 +44,7 @@ module FactoryGirl
         #
         #   Factory.sequence(:email) {|n| "somebody_#{n}@example.com" }
         def self.sequence(name, start_value = 1, &block)
+          $stderr.puts "DEPRECATION WARNING: Factory.sequence is deprecated; use the FactoryGirl.define block syntax to declare your sequence."
           FactoryGirl.register_sequence(Sequence.new(name, start_value, &block))
         end
 
@@ -55,6 +57,7 @@ module FactoryGirl
         # Returns:
         #   The next value in the sequence. (Object)
         def self.next(name)
+          $stderr.puts "DEPRECATION WARNING: Factory.next is deprecated; use FactoryGirl.generate instead."
           FactoryGirl.generate(name)
         end
 
@@ -83,26 +86,31 @@ module FactoryGirl
         #   # will be used instead.
         #   Factory(:post, user_id: 1)
         def self.alias(pattern, replace)
+          $stderr.puts "DEPRECATION WARNING: Factory.alias is deprecated; use FactoryGirl.aliases << [pattern, replace] instead."
           FactoryGirl.aliases << [pattern, replace]
         end
 
         # Alias for FactoryGirl.attributes_for
         def self.attributes_for(name, overrides = {})
+          $stderr.puts "DEPRECATION WARNING: Factory.attributes_for is deprecated; use FactoryGirl.attributes_for instead."
           FactoryGirl.attributes_for(name, overrides)
         end
 
         # Alias for FactoryGirl.build
         def self.build(name, overrides = {})
+          $stderr.puts "DEPRECATION WARNING: Factory.build is deprecated; use FactoryGirl.build instead."
           FactoryGirl.build(name, overrides)
         end
 
         # Alias for FactoryGirl.create
         def self.create(name, overrides = {})
+          $stderr.puts "DEPRECATION WARNING: Factory.create is deprecated; use FactoryGirl.create instead."
           FactoryGirl.create(name, overrides)
         end
 
         # Alias for FactoryGirl.build_stubbed.
         def self.stub(name, overrides = {})
+          $stderr.puts "DEPRECATION WARNING: Factory.stub is deprecated; use FactoryGirl.build_stubbed instead."
           FactoryGirl.build_stubbed(name, overrides)
         end
       end
@@ -112,7 +120,8 @@ module FactoryGirl
       # Example:
       #   Factory(:user, name: 'Joe')
       def Factory(name, attrs = {})
-        ::Factory.create(name, attrs)
+        $stderr.puts "DEPRECATION WARNING: Factory(:name) is deprecated; use FactoryGirl.create(:name) instead."
+        FactoryGirl.create(name, attrs)
       end
     end
   end

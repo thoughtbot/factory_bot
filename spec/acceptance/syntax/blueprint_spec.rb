@@ -6,7 +6,10 @@ describe "a blueprint" do
   before do
     define_model('User', first_name: :string, last_name: :string, email: :string)
 
-    Factory.sequence(:email) { |n| "somebody#{n}@example.com" }
+    FactoryGirl.define do
+      sequence(:email) { |n| "somebody#{n}@example.com" }
+    end
+
     User.blueprint do
       first_name { 'Bill'                       }
       last_name  { 'Nye'                        }

@@ -8,7 +8,7 @@ module FactoryGirl
   # Raised when a factory is defined with the same name as a previously-defined factory.
   class DuplicateDefinitionError < RuntimeError; end
 
-  # Raised when calling Factory.sequence from a dynamic attribute block
+  # Raised when attempting to register a sequence from a dynamic attribute block
   class SequenceAbuseError < RuntimeError; end
 
   # Raised when defining an invalid attribute:

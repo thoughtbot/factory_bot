@@ -21,7 +21,7 @@ end
 
 describe Factory, "after defining an alias" do
   before do
-    Factory.alias(/(.*)_suffix/, '\1')
+    FactoryGirl.aliases << [/(.*)_suffix/, '\1']
   end
 
   subject { FactoryGirl.aliases_for(:test_suffix) }

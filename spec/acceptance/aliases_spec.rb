@@ -2,7 +2,7 @@ require "spec_helper"
 
 describe "aliases and overrides" do
   before do
-    Factory.alias /one/, "two"
+    FactoryGirl.aliases << [/one/, "two"]
 
     define_model("User", two: :string, one: :string)
 

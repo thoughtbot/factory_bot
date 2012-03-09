@@ -86,7 +86,7 @@ describe FactoryGirl::Factory do
   describe "overriding an attribute with an alias" do
     before do
       @factory.declare_attribute(FactoryGirl::Declaration::Static.new(:test, 'original'))
-      Factory.alias(/(.*)_alias/, '\1')
+      FactoryGirl.aliases << [/(.*)_alias/, '\1']
       @result = @factory.run(FactoryGirl::Strategy::AttributesFor,
                              test_alias: 'new')
     end
