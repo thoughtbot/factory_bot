@@ -16,8 +16,9 @@ Gem::Specification.new do |s|
   s.require_paths = ['lib']
   s.required_ruby_version = Gem::Requirement.new(">= 1.8.7")
 
-  s.authors = ["Joe Ferris"]
-  s.email   = %q{jferris@thoughtbot.com}
+  s.authors = ["Josh Clayton", "Joe Ferris"]
+  s.email   = ["jclayton@thoughtbot.com", "jferris@thoughtbot.com"]
+
   s.homepage = "https://github.com/thoughtbot/factory_girl"
 
   s.add_dependency("activesupport", ">= 2.3.9")
