@@ -4,12 +4,8 @@ module FactoryGirl
       @name     = name
       @strategy = strategy
 
-      @overrides = if traits_and_overrides.last.respond_to?(:has_key?)
-                    traits_and_overrides.pop
-                  else
-                    {}
-                  end
-      @traits = traits_and_overrides
+      @overrides = traits_and_overrides.extract_options!
+      @traits    = traits_and_overrides
     end
 
     def run(strategy_override = nil, &block)
