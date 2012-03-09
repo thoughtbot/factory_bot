@@ -1,7 +1,7 @@
 module FactoryGirl
   module Syntax
     module Vintage
-      module Factory
+      module ::Factory
         # Defines a new factory that can be used by the build strategies (create and
         # build) to build new objects.
         #
@@ -140,7 +140,7 @@ module FactoryGirl
       # Example:
       #   Factory(:user, :name => 'Joe')
       def Factory(name, attrs = {})
-        Factory.default_strategy(name, attrs)
+        ::Factory.default_strategy(name, attrs)
       end
     end
   end
