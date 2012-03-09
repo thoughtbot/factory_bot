@@ -69,25 +69,6 @@ describe "transient attributes" do
   end
 end
 
-describe "deprecated way of ignoring attributes" do
-  before do
-    define_model("User", :name => :string)
-
-    FactoryGirl.define do
-      factory :user do
-        rockstar(false).ignore
-
-        name { "John Doe#{" Rockstar" if rockstar}" }
-      end
-    end
-  end
-
-  it "assigns attributes correctly" do
-    FactoryGirl.build(:user, :rockstar => true).name.should == "John Doe Rockstar"
-    FactoryGirl.build(:user).name.should == "John Doe"
-  end
-end
-
 describe "transient sequences" do
   before do
     define_model("User", :name => :string)

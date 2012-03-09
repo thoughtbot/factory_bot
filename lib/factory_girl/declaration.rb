@@ -12,11 +12,6 @@ module FactoryGirl
       @ignored = ignored
     end
 
-    def ignore
-      $stderr.puts "DEPRECATION WARNING: Use ignore block syntax instead of calling #ignore"
-      @ignored = true
-    end
-
     def to_attributes
       build
     end
