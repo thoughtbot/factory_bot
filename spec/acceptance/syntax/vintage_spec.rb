@@ -29,12 +29,6 @@ describe "vintage syntax" do
     end
   end
 
-  it "raises an ArgumentError when trying to use a non-existent strategy" do
-    expect {
-      Factory.define(:object, :default_strategy => :nonexistent) {}
-    }.to raise_error(ArgumentError)
-  end
-
   it "raises Factory::SequenceAbuseError" do
     Factory.define :sequence_abuser, :class => User do |factory|
       factory.first_name { Factory.sequence(:name) }
@@ -115,18 +109,6 @@ describe "after defining a factory" do
     @factory.stubs(:run => "result")
     Factory.stub(@name, :attr => 'value').should == 'result'
     @factory.should have_received(:run).with(FactoryGirl::Strategy::Stub, :attr => 'value')
-  end
-
-  it "uses default strategy option as Factory.default_strategy" do
-    @factory.stubs(:default_strategy => :create, :run => "result")
-    Factory.default_strategy(@name, :attr => 'value').should == 'result'
-    @factory.should have_received(:run).with(FactoryGirl::Strategy::Create, :attr => 'value')
-  end
-
-  it "uses the default strategy for the global Factory method" do
-    @factory.stubs(:default_strategy => :create, :run => "result")
-    Factory(@name, :attr => 'value').should == 'result'
-    @factory.should have_received(:run).with(FactoryGirl::Strategy::Create, :attr => 'value')
   end
 
   [:build, :create, :attributes_for, :stub].each do |method|

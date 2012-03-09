@@ -17,10 +17,6 @@ module FactoryGirl
       @value = @value.next
     end
 
-    def default_strategy
-      :create
-    end
-
     def names
       [@name]
     end

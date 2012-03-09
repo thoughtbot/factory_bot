@@ -20,10 +20,6 @@ describe FactoryGirl::Factory do
     @factory.build_class.should == @class
   end
 
-  it "has a default strategy" do
-    @factory.default_strategy.should == :create
-  end
-
   it "passes a custom creation block" do
     strategy = stub("strategy", :result => nil, :add_observer => true)
     FactoryGirl::Strategy::Build.stubs(:new => strategy)
@@ -203,48 +199,6 @@ describe FactoryGirl::Factory, "for namespaced class" do
 
     it "sets build_class correctly" do
       subject.build_class.should == settings_class
-    end
-  end
-end
-
-describe FactoryGirl::Factory do
-  let(:factory_with_non_existent_strategy) do
-    FactoryGirl::Factory.new(:object, :default_strategy => :nonexistent) { }
-  end
-
-  let(:factory_with_stub_strategy) do
-    FactoryGirl::Factory.new(:object, :default_strategy => :stub)
-  end
-
-  before do
-    define_class("User")
-    define_class("Admin", User)
-    FactoryGirl.register_factory(factory_with_stub_strategy)
-  end
-
-  it "raises when trying to use a non-existent strategy" do
-    expect { factory_with_non_existent_strategy }.to raise_error
-  end
-
-  it "creates a new factory with a specified default strategy" do
-    factory_with_stub_strategy.default_strategy.should == :stub
-  end
-
-  describe "defining a child factory without setting default strategy" do
-    subject { FactoryGirl::Factory.new(:other_object, :parent => factory_with_stub_strategy.name) }
-    before  { subject.compile }
-
-    it "inherits default strategy from its parent" do
-      subject.default_strategy.should == :stub
-    end
-  end
-
-  describe "defining a child factory with a default strategy" do
-    subject { FactoryGirl::Factory.new(:other_object, :default_strategy => :build, :parent => factory_with_stub_strategy.name) }
-    before  { subject.compile }
-
-    it "overrides the default strategy from parent" do
-      subject.default_strategy.should == :build
     end
   end
 end

@@ -17,10 +17,6 @@ module FactoryGirl
         #   The parent factory. If specified, the attributes from the parent
         #   factory will be copied to the current one with an ability to override
         #   them.
-        # * default_strategy: +Symbol+
-        #   DEPRECATED.
-        #   The strategy that will be used by the Factory shortcut method.
-        #   Defaults to :create.
         #
         # Yields: +Factory+
         # The newly created factory.
@@ -29,25 +25,6 @@ module FactoryGirl
           proxy = FactoryGirl::DefinitionProxy.new(factory)
           yield(proxy)
           FactoryGirl.register_factory(factory)
-        end
-
-        # Executes the default strategy for the given factory. This is usually create,
-        # but it can be overridden for each factory.
-        #
-        # DEPRECATED
-        #
-        # Use create instead.
-        #
-        # Arguments:
-        # * name: +Symbol+ or +String+
-        #   The name of the factory that should be used.
-        # * overrides: +Hash+
-        #   Attributes to overwrite for this instance.
-        #
-        # Returns: +Object+
-        # The result of the default strategy.
-        def self.default_strategy(name, overrides = {})
-          FactoryGirl.send(FactoryGirl.factory_by_name(name).default_strategy, name, overrides)
         end
 
         # Defines a new sequence that can be used to generate unique values in a specific format.
@@ -130,17 +107,12 @@ module FactoryGirl
         end
       end
 
-      # Shortcut for Factory.default_strategy.
-      #
-      # DEPRECATION WARNING:
-      #
-      # In a future release, default_strategy will be removed and this will
-      # simply call create instead.
+      # Shortcut for Factory.create.
       #
       # Example:
       #   Factory(:user, :name => 'Joe')
       def Factory(name, attrs = {})
-        ::Factory.default_strategy(name, attrs)
+        ::Factory.create(name, attrs)
       end
     end
   end

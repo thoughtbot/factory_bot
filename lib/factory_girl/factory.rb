@@ -11,7 +11,6 @@ module FactoryGirl
       @parent           = options[:parent]
       @aliases          = options[:aliases] || []
       @class_name       = options[:class]
-      @default_strategy = options[:default_strategy]
       @definition       = Definition.new(@name, options[:traits] || [])
       @compiled         = false
     end
@@ -30,10 +29,6 @@ module FactoryGirl
       else
         class_name.to_s.camelize.constantize
       end
-    end
-
-    def default_strategy #:nodoc:
-      @default_strategy || parent.default_strategy
     end
 
     def run(strategy_class, overrides, &block) #:nodoc:
@@ -130,13 +125,7 @@ module FactoryGirl
     private
 
     def assert_valid_options(options)
-      options.assert_valid_keys(:class, :parent, :default_strategy, :aliases, :traits)
-
-      if options[:default_strategy]
-        Strategy.ensure_strategy_exists!(options[:default_strategy])
-        $stderr.puts "DEPRECATION WARNING: default_strategy is deprecated."
-        $stderr.puts "Override to_create if you need to prevent a call to #save!."
-      end
+      options.assert_valid_keys(:class, :parent, :aliases, :traits)
     end
 
     def parent
