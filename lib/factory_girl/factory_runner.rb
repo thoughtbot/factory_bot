@@ -16,6 +16,8 @@ module FactoryGirl
       strategy_override ||= @strategy
       factory = FactoryGirl.factory_by_name(@name)
 
+      factory.compile
+
       if @traits.any?
         factory = factory.with_traits(@traits)
       end

@@ -27,6 +27,7 @@ shared_examples_for "strategy with association support" do |factory_girl_strateg
 
   before do
     FactoryGirl.stubs(:factory_by_name => factory)
+    factory.stubs(:compile)
     factory.stubs(:run)
   end
 
@@ -52,6 +53,7 @@ shared_examples_for "strategy with :strategy => :build" do |factory_girl_strateg
 
   before do
     FactoryGirl.stubs(:factory_by_name => factory)
+    factory.stubs(:compile)
     factory.stubs(:run)
   end
 
