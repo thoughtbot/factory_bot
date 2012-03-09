@@ -395,3 +395,27 @@ describe "inline traits overriding existing attributes" do
     FactoryGirl.build(:extended_declined_user, :accepted, :status => "completely overridden").status.should == "completely overridden"
   end
 end
+
+describe "making sure the factory is properly compiled the first time we want to instantiate it" do
+  before do
+    define_model("User", :role => :string, :gender => :string, :age => :integer)
+
+    FactoryGirl.define do
+      factory :user do
+        trait(:female) { gender "female" }
+        trait(:admin) { role "admin" }
+
+        factory :female_user do
+          female
+        end
+      end
+    end
+  end
+
+  it "can honor traits on the very first call" do
+    user = FactoryGirl.build(:female_user, :admin, :age => 30)
+    user.gender.should == 'female'
+    user.age.should == 30
+    user.role.should == 'admin'
+  end
+end
