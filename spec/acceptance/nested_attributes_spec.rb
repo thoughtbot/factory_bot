@@ -2,12 +2,12 @@ require "spec_helper"
 
 describe "association assignment from nested attributes" do
   before do
-    define_model("Post", :title => :string) do
+    define_model("Post", title: :string) do
       has_many :comments
       accepts_nested_attributes_for :comments
     end
 
-    define_model("Comment", :post_id => :integer, :body => :text) do
+    define_model("Comment", post_id: :integer, body: :text) do
       belongs_to :post
     end
 

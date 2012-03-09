@@ -6,7 +6,7 @@ describe "a built instance" do
   before do
     define_model('User')
 
-    define_model('Post', :user_id => :integer) do
+    define_model('Post', user_id: :integer) do
       belongs_to :user
     end
 
@@ -31,13 +31,13 @@ describe "a built instance" do
   end
 end
 
-describe "a built instance with :strategy => :build" do
+describe "a built instance with strategy: :build" do
   include FactoryGirl::Syntax::Methods
 
   before do
     define_model('User')
 
-    define_model('Post', :user_id => :integer) do
+    define_model('Post', user_id: :integer) do
       belongs_to :user
     end
 
@@ -45,7 +45,7 @@ describe "a built instance with :strategy => :build" do
       factory :user
 
       factory :post do
-        association(:user, :strategy => :build)
+        association(:user, strategy: :build)
       end
     end
   end
@@ -66,7 +66,7 @@ describe "calling `build` with a block" do
   include FactoryGirl::Syntax::Methods
 
   before do
-    define_model('Company', :name => :string)
+    define_model('Company', name: :string)
 
     FactoryGirl.define do
       factory :company
@@ -74,7 +74,7 @@ describe "calling `build` with a block" do
   end
 
   it "passes the built instance" do
-    build(:company, :name => 'thoughtbot') do |company|
+    build(:company, name: 'thoughtbot') do |company|
       company.name.should eq('thoughtbot')
     end
   end

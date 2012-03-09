@@ -29,7 +29,7 @@ describe FactoryGirl::Attribute::Dynamic do
     let(:result) { "other attribute value" }
 
     before do
-      subject.stubs(:attribute_defined_on_attribute => result)
+      subject.stubs(attribute_defined_on_attribute: result)
     end
 
     it "evaluates the attribute from the attribute" do

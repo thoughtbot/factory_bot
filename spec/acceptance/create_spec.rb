@@ -6,7 +6,7 @@ describe "a created instance" do
   before do
     define_model('User')
 
-    define_model('Post', :user_id => :integer) do
+    define_model('Post', user_id: :integer) do
       belongs_to :user
     end
 
@@ -31,13 +31,13 @@ describe "a created instance" do
   end
 end
 
-describe "a created instance, specifying :strategy => :build" do
+describe "a created instance, specifying strategy: :build" do
   include FactoryGirl::Syntax::Methods
 
   before do
     define_model('User')
 
-    define_model('Post', :user_id => :integer) do
+    define_model('Post', user_id: :integer) do
       belongs_to :user
     end
 
@@ -45,14 +45,14 @@ describe "a created instance, specifying :strategy => :build" do
       factory :user
 
       factory :post do
-        association(:user, :strategy => :build)
+        association(:user, strategy: :build)
       end
     end
   end
 
   subject { create(:post) }
 
-  it "saves associations (:strategy => :build only affects build, not create)" do
+  it "saves associations (strategy: :build only affects build, not create)" do
     subject.user.should be_kind_of(User)
     subject.user.should_not be_new_record
   end
@@ -94,7 +94,7 @@ describe "calling `create` with a block" do
   include FactoryGirl::Syntax::Methods
 
   before do
-    define_model('Company', :name => :string)
+    define_model('Company', name: :string)
 
     FactoryGirl.define do
       factory :company
@@ -102,7 +102,7 @@ describe "calling `create` with a block" do
   end
 
   it "passes the created instance" do
-    create(:company, :name => 'thoughtbot') do |company|
+    create(:company, name: 'thoughtbot') do |company|
       company.name.should eq('thoughtbot')
     end
   end

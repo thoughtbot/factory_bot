@@ -17,8 +17,8 @@ describe FactoryGirl::Factory do
   end
 
   it "passes a custom creation block" do
-    strategy = stub("strategy", :result => nil, :add_observer => true)
-    FactoryGirl::Strategy::Build.stubs(:new => strategy)
+    strategy = stub("strategy", result: nil, add_observer: true)
+    FactoryGirl::Strategy::Build.stubs(new: strategy)
     block = lambda {}
     factory = FactoryGirl::Factory.new(:object)
     factory.to_create(&block)
@@ -48,7 +48,7 @@ describe FactoryGirl::Factory do
     factory.declare_attribute(association_on_parent)
     FactoryGirl.register_factory(factory)
 
-    child_factory = FactoryGirl::Factory.new(:child_post, :parent => :post)
+    child_factory = FactoryGirl::Factory.new(:child_post, parent: :post)
     child_factory.declare_attribute(association_on_child)
 
     child_factory.associations.map(&:name).should == [:association_on_parent, :association_on_child]
@@ -88,7 +88,7 @@ describe FactoryGirl::Factory do
       @factory.declare_attribute(FactoryGirl::Declaration::Static.new(:test, 'original'))
       Factory.alias(/(.*)_alias/, '\1')
       @result = @factory.run(FactoryGirl::Strategy::AttributesFor,
-                             :test_alias => 'new')
+                             test_alias: 'new')
     end
 
     it "uses the passed in value for the alias" do
@@ -105,20 +105,20 @@ describe FactoryGirl::Factory do
   end
 
   it "creates a new factory using the class of the parent" do
-    child = FactoryGirl::Factory.new(:child, :parent => @factory.name)
+    child = FactoryGirl::Factory.new(:child, parent: @factory.name)
     child.compile
     child.build_class.should == @factory.build_class
   end
 
   it "creates a new factory while overriding the parent class" do
-    child = FactoryGirl::Factory.new(:child, :class => String, :parent => @factory.name)
+    child = FactoryGirl::Factory.new(:child, class: String, parent: @factory.name)
     child.compile
     child.build_class.should == String
   end
 end
 
 describe FactoryGirl::Factory, "when defined with a custom class" do
-  subject           { FactoryGirl::Factory.new(:author, :class => Float) }
+  subject           { FactoryGirl::Factory.new(:author, class: Float) }
   its(:build_class) { should == Float }
 end
 
@@ -134,7 +134,7 @@ describe FactoryGirl::Factory, "when given a class that overrides #to_s" do
     end
   end
 
-  subject { FactoryGirl::Factory.new(:overriding_class, :class => Overriding::Class) }
+  subject { FactoryGirl::Factory.new(:overriding_class, class: Overriding::Class) }
 
   it "sets build_class correctly" do
     subject.build_class.should == overriding_class
@@ -152,7 +152,7 @@ describe FactoryGirl::Factory, "when defined with a class instead of a name" do
 end
 
 describe FactoryGirl::Factory, "when defined with a custom class name" do
-  subject           { FactoryGirl::Factory.new(:author, :class => :argument_error) }
+  subject           { FactoryGirl::Factory.new(:author, class: :argument_error) }
   its(:build_class) { should == ArgumentError }
 end
 
@@ -183,7 +183,7 @@ describe FactoryGirl::Factory, "for namespaced class" do
   end
 
   context "with a namespaced class with Namespace::Class syntax" do
-    subject { FactoryGirl::Factory.new(name, :class => "Admin::Settings") }
+    subject { FactoryGirl::Factory.new(name, class: "Admin::Settings") }
 
     it "sets build_class correctly" do
       subject.build_class.should == settings_class
@@ -191,7 +191,7 @@ describe FactoryGirl::Factory, "for namespaced class" do
   end
 
   context "with a namespaced class with namespace/class syntax" do
-    subject { FactoryGirl::Factory.new(name, :class => "admin/settings") }
+    subject { FactoryGirl::Factory.new(name, class: "admin/settings") }
 
     it "sets build_class correctly" do
       subject.build_class.should == settings_class
@@ -219,7 +219,7 @@ describe FactoryGirl::Factory, "human names" do
   end
 
   context "factory name with aliases" do
-    subject           { FactoryGirl::Factory.new(:happy_user, :aliases => [:gleeful_user, :person]) }
+    subject           { FactoryGirl::Factory.new(:happy_user, aliases: [:gleeful_user, :person]) }
     its(:names)       { should == [:happy_user, :gleeful_user, :person] }
     its(:human_names) { should == ["happy user", "gleeful user", "person"] }
   end
@@ -229,15 +229,15 @@ describe FactoryGirl::Factory, "running a factory" do
   subject              { FactoryGirl::Factory.new(:user) }
   let(:attribute)      { FactoryGirl::Attribute::Static.new(:name, "value", false) }
   let(:declaration)    { FactoryGirl::Declaration::Static.new(:name, "value", false) }
-  let(:strategy)       { stub("strategy", :result => "result", :add_observer => true) }
+  let(:strategy)       { stub("strategy", result: "result", add_observer: true) }
   let(:attributes)     { [attribute] }
-  let(:attribute_list) { stub('attribute-list', :declarations => [declaration], :to_a => attributes) }
+  let(:attribute_list) { stub('attribute-list', declarations: [declaration], to_a: attributes) }
 
   before do
-    define_model("User", :name => :string)
-    FactoryGirl::Declaration::Static.stubs(:new => declaration)
-    declaration.stubs(:to_attributes => attributes)
-    FactoryGirl::Strategy::Build.stubs(:new => strategy)
+    define_model("User", name: :string)
+    FactoryGirl::Declaration::Static.stubs(new: declaration)
+    declaration.stubs(to_attributes: attributes)
+    FactoryGirl::Strategy::Build.stubs(new: strategy)
     subject.declare_attribute(declaration)
   end
 

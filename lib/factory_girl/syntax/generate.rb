@@ -16,7 +16,7 @@ module FactoryGirl
     #
     #   # Creates a saved instance without raising (same as saving the result
     #   # of FactoryGirl.build)
-    #   User.generate(:name => 'Johnny')
+    #   User.generate(name: 'Johnny')
     #
     #   # Creates a saved instance and raises when invalid (same as
     #   # FactoryGirl.create)

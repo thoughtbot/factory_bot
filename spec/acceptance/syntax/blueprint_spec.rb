@@ -4,7 +4,7 @@ require 'factory_girl/syntax/blueprint'
 
 describe "a blueprint" do
   before do
-    define_model('User', :first_name => :string, :last_name => :string, :email => :string)
+    define_model('User', first_name: :string, last_name: :string, email: :string)
 
     Factory.sequence(:email) { |n| "somebody#{n}@example.com" }
     User.blueprint do
@@ -16,7 +16,7 @@ describe "a blueprint" do
 
   describe "after making an instance" do
     before do
-      @instance = FactoryGirl.create(:user, :last_name => 'Rye')
+      @instance = FactoryGirl.create(:user, last_name: 'Rye')
     end
 
     it "uses attributes from the blueprint" do

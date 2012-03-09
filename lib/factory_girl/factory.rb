@@ -16,7 +16,7 @@ module FactoryGirl
     end
 
     delegate :add_callback, :declare_attribute, :to_create, :define_trait,
-             :defined_traits, :inherit_traits, :processing_order, :to => :@definition
+             :defined_traits, :inherit_traits, :processing_order, to: :@definition
 
     def build_class #:nodoc:
       @build_class ||= if class_name.is_a? Class
@@ -50,7 +50,7 @@ module FactoryGirl
     #
     # Example:
     #
-    #   factory :user, :aliases => [:author] do
+    #   factory :user, aliases: [:author] do
     #     # ...
     #   end
     #
@@ -61,7 +61,7 @@ module FactoryGirl
     # association with the same name, this allows associations to be defined
     # without factories, such as:
     #
-    #   factory :user, :aliases => [:author] do
+    #   factory :user, aliases: [:author] do
     #     # ...
     #   end
     #

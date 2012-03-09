@@ -2,9 +2,9 @@ require 'spec_helper'
 
 describe "attribute aliases" do
   before do
-    define_model('User', :name => :string, :age => :integer)
+    define_model('User', name: :string, age: :integer)
 
-    define_model('Post', :user_id => :integer) do
+    define_model('Post', user_id: :integer) do
       belongs_to :user
     end
 
@@ -19,14 +19,14 @@ describe "attribute aliases" do
         user
       end
 
-      factory :post_with_named_user, :class => Post do
-        user :factory => :user_with_name, :age => 20
+      factory :post_with_named_user, class: Post do
+        user factory: :user_with_name, age: 20
       end
     end
   end
 
   context "assigning an association by foreign key" do
-    subject { FactoryGirl.build(:post, :user_id => 1) }
+    subject { FactoryGirl.build(:post, user_id: 1) }
 
     it "doesn't assign both an association and its foreign key" do
       subject.user_id.should == 1

@@ -40,7 +40,7 @@ module FactoryGirlStepHelpers
         return unless association
 
         if attributes_hash = nested_attribute_hash
-          factory.build_class.first(:conditions => attributes_hash.attributes(FindAttributes)) or
+          factory.build_class.first(conditions: attributes_hash.attributes(FindAttributes)) or
           FactoryGirl.create(association.factory, attributes_hash.attributes)
         end
       end

@@ -5,7 +5,7 @@ describe FactoryGirl::Registry do
   let(:sequence)             { FactoryGirl::Sequence.new(:email) { |n| "somebody#{n}@example.com" } }
   let(:factory)              { FactoryGirl::Factory.new(:object) }
   let(:other_factory)        { FactoryGirl::Factory.new(:string) }
-  let(:factory_with_aliases) { FactoryGirl::Factory.new(:string, :aliases => aliases) }
+  let(:factory_with_aliases) { FactoryGirl::Factory.new(:string, aliases: aliases) }
   let(:registry_name)        { "Factory" }
 
   subject { FactoryGirl::Registry.new(registry_name) }

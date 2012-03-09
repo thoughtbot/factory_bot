@@ -26,23 +26,23 @@ shared_examples_for "strategy with association support" do |factory_girl_strateg
   end
 
   before do
-    FactoryGirl.stubs(:factory_by_name => factory)
+    FactoryGirl.stubs(factory_by_name: factory)
     factory.stubs(:compile)
     factory.stubs(:run)
   end
 
   it "runs the factory with the correct overrides" do
-    association_named(:author, factory_girl_strategy_class, :great => "value")
-    factory.should have_received(:run).with(factory_girl_strategy_class, :great => "value")
+    association_named(:author, factory_girl_strategy_class, great: "value")
+    factory.should have_received(:run).with(factory_girl_strategy_class, great: "value")
   end
 
   it "finds the factory with the correct factory name" do
-    association_named(:author, factory_girl_strategy_class, :great => "value")
+    association_named(:author, factory_girl_strategy_class, great: "value")
     FactoryGirl.should have_received(:factory_by_name).with(:author)
   end
 end
 
-shared_examples_for "strategy with :strategy => :build" do |factory_girl_strategy_class|
+shared_examples_for "strategy with strategy: :build" do |factory_girl_strategy_class|
   let(:factory) { stub("associate_factory") }
 
   def association_named(name, overrides)
@@ -52,18 +52,18 @@ shared_examples_for "strategy with :strategy => :build" do |factory_girl_strateg
   end
 
   before do
-    FactoryGirl.stubs(:factory_by_name => factory)
+    FactoryGirl.stubs(factory_by_name: factory)
     factory.stubs(:compile)
     factory.stubs(:run)
   end
 
   it "runs the factory with the correct overrides" do
-    association_named(:author, :strategy => :build, :great => "value")
-    factory.should have_received(:run).with(factory_girl_strategy_class, { :great => "value" })
+    association_named(:author, strategy: :build, great: "value")
+    factory.should have_received(:run).with(factory_girl_strategy_class, { great: "value" })
   end
 
   it "finds the factory with the correct factory name" do
-    association_named(:author, :strategy => :build, :great => "value")
+    association_named(:author, strategy: :build, great: "value")
     FactoryGirl.should have_received(:factory_by_name).with(:author)
   end
 end
@@ -89,7 +89,7 @@ shared_examples_for "strategy with callbacks" do |*callback_names|
     end.new
   end
 
-  let(:assigner) { stub("attribute assigner", :object => result_instance) }
+  let(:assigner) { stub("attribute assigner", object: result_instance) }
 
   before { subject.add_observer(callback_observer) }
 

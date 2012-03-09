@@ -15,7 +15,7 @@ module FactoryGirl
     #     end
     #   end
     #
-    #   User.make(:name => 'Johnny')
+    #   User.make(name: 'Johnny')
     #
     # This syntax was derived from Pete Yandell's machinist.
     module Make

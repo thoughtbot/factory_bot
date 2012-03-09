@@ -4,7 +4,7 @@ describe "aliases and overrides" do
   before do
     Factory.alias /one/, "two"
 
-    define_model("User", :two => :string, :one => :string)
+    define_model("User", two: :string, one: :string)
 
     FactoryGirl.define do
       factory :user do
@@ -13,7 +13,7 @@ describe "aliases and overrides" do
     end
   end
 
-  subject { FactoryGirl.create(:user, :one => "override") }
+  subject { FactoryGirl.create(:user, one: "override") }
   its(:one) { should == "override" }
   its(:two) { should be_nil }
 end

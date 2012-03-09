@@ -81,7 +81,7 @@ module FactoryGirl
         #
         #   # The user association will not be built in this example. The user_id
         #   # will be used instead.
-        #   Factory(:post, :user_id => 1)
+        #   Factory(:post, user_id: 1)
         def self.alias(pattern, replace)
           FactoryGirl.aliases << [pattern, replace]
         end
@@ -110,7 +110,7 @@ module FactoryGirl
       # Shortcut for Factory.create.
       #
       # Example:
-      #   Factory(:user, :name => 'Joe')
+      #   Factory(:user, name: 'Joe')
       def Factory(name, attrs = {})
         ::Factory.create(name, attrs)
       end

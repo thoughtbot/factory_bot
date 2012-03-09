@@ -17,8 +17,8 @@ describe FactoryGirl::Definition, "with a name" do
 end
 
 describe FactoryGirl::Definition, "#overridable" do
-  let(:list) { stub("declaration list", :overridable => true) }
-  before { FactoryGirl::DeclarationList.stubs(:new => list) }
+  let(:list) { stub("declaration list", overridable: true) }
+  before { FactoryGirl::DeclarationList.stubs(new: list) }
 
   it "sets the declaration list as overridable" do
     subject.overridable.should == subject
@@ -70,7 +70,7 @@ describe FactoryGirl::Definition, "#processing_order" do
 
   before do
     subject.define_trait(female_trait)
-    FactoryGirl.stubs(:trait_by_name => admin_trait)
+    FactoryGirl.stubs(trait_by_name: admin_trait)
   end
 
   context "without base traits" do
