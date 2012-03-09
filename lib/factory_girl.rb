@@ -24,7 +24,6 @@ require 'factory_girl/definition_proxy'
 require 'factory_girl/syntax'
 require 'factory_girl/find_definitions'
 require 'factory_girl/reload'
-require 'factory_girl/deprecated'
 require 'factory_girl/version'
 
 if defined?(Rails) && Rails::VERSION::MAJOR == 2
