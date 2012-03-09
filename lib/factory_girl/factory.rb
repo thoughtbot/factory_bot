@@ -18,11 +18,6 @@ module FactoryGirl
     delegate :add_callback, :declare_attribute, :to_create, :define_trait,
              :defined_traits, :inherit_traits, :processing_order, :to => :@definition
 
-    def factory_name
-      $stderr.puts "DEPRECATION WARNING: factory.factory_name is deprecated; use factory.name instead."
-      name
-    end
-
     def build_class #:nodoc:
       @build_class ||= if class_name.is_a? Class
         class_name

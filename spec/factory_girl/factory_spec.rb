@@ -12,10 +12,6 @@ describe FactoryGirl::Factory do
     @factory.name.should == @name
   end
 
-  it "responds to factory_name" do
-    @factory.factory_name.should == @name
-  end
-
   it "has a build class" do
     @factory.build_class.should == @class
   end
