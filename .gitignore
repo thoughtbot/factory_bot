@@ -6,3 +6,4 @@ doc
 coverage
 .bundle
 tmp
+bin
