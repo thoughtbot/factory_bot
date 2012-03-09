@@ -26,10 +26,6 @@ require 'factory_girl/find_definitions'
 require 'factory_girl/reload'
 require 'factory_girl/version'
 
-if defined?(Rails) && Rails::VERSION::MAJOR == 2
-  require 'factory_girl/rails2'
-end
-
 module FactoryGirl
   def self.factories
     @factories ||= Registry.new("Factory")
