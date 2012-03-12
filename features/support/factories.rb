@@ -73,6 +73,23 @@ class SimpleColumn
   end
 end
 
+class NamedAttributeModel
+  def self.attribute_names
+    %w(title)
+  end
+
+  attr_accessor :title
+
+  def save!
+    @@count ||= 0
+    @@count += 1
+  end
+
+  def self.count
+    @@count
+  end
+end
+
 FactoryGirl.define do
   # To make sure the step defs work with an email
   sequence :email do |n|
@@ -112,6 +129,9 @@ FactoryGirl.define do
 
   # This is here to make FG work with ORMs that have `columns => [:name, :admin, :etc]` on the class (Neo4j)
   factory :simple_column do
+  end
+
+  factory :named_attribute_model do
   end
 end
 

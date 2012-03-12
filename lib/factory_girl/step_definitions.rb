@@ -112,17 +112,24 @@ FactoryGirl.factories.each do |factory|
       FactoryGirl.create_list(factory.name, count.to_i)
     end
 
-    if factory.build_class.respond_to?(:columns)
-      factory.build_class.columns.each do |column|
-        name = column.respond_to?(:name) ? column.name : column.to_s
-        human_column_name = name.downcase.gsub('_', ' ')
-        Given /^an? #{human_name} exists with an? #{human_column_name} of "([^"]*)"$/i do |value|
-          FactoryGirl.create(factory.name, name => value)
-        end
+    attribute_names = if factory.build_class.respond_to?(:attribute_names)
+      factory.build_class.attribute_names
+    elsif factory.build_class.respond_to?(:columns)
+      factory.build_class.columns.map do |column|
+        column.respond_to?(:name) ? column.name : column.to_s
+      end
+    else
+      []
+    end
 
-        Given /^(\d+) #{human_name.pluralize} exist with an? #{human_column_name} of "([^"]*)"$/i do |count, value|
-          FactoryGirl.create_list(factory.name, count.to_i, name => value)
-        end
+    attribute_names.each do |attribute_name|
+      human_column_name = attribute_name.downcase.gsub('_', ' ')
+      Given /^an? #{human_name} exists with an? #{human_column_name} of "([^"]*)"$/i do |value|
+        FactoryGirl.create(factory.name, attribute_name => value)
+      end
+
+      Given /^(\d+) #{human_name.pluralize} exist with an? #{human_column_name} of "([^"]*)"$/i do |count, value|
+        FactoryGirl.create_list(factory.name, count.to_i, attribute_name => value)
       end
     end
   end
