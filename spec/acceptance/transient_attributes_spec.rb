@@ -108,3 +108,36 @@ describe "transient sequences" do
     FactoryGirl.build(:user).name.should == "John Doe 2"
   end
 end
+
+describe "assigning values from a transient attribute" do
+  before do
+    define_class("User") do
+      attr_accessor :foo_id, :foo_name
+    end
+
+    define_class("Foo") do
+      attr_accessor :id, :name
+      def initialize(id, name)
+        @id = id
+        @name = name
+      end
+    end
+
+    FactoryGirl.define do
+      factory :user do
+        ignore do
+          foo { Foo.new('id-of-foo', 'name-of-foo')}
+        end
+
+        foo_id   { foo.id }
+        foo_name { foo.name }
+      end
+    end
+  end
+
+  it "does not ignore an _id attribute that is an alias for a transient attribute" do
+    user = FactoryGirl.build(:user, :foo => Foo.new('passed-in-id-of-foo', 'passed-in-name-of-foo'))
+    user.foo_id.should == 'passed-in-id-of-foo'
+    user.foo_name.should == 'passed-in-name-of-foo'
+  end
+end
