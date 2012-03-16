@@ -6,10 +6,10 @@ describe "a generated attributes hash" do
   before do
     define_model('User')
 
-    define_model('Post', :title   => :string,
-                         :body    => :string,
-                         :summary => :string,
-                         :user_id => :integer) do
+    define_model('Post', title:   :string,
+                         body:    :string,
+                         summary: :string,
+                         user_id: :integer) do
       belongs_to :user
     end
 
@@ -25,7 +25,7 @@ describe "a generated attributes hash" do
     end
   end
 
-  subject { attributes_for(:post, :title => 'overridden title') }
+  subject { attributes_for(:post, title: 'overridden title') }
 
   it "assigns an overridden value" do
     subject[:title].should == "overridden title"
@@ -49,7 +49,7 @@ describe "calling `attributes_for` with a block" do
   include FactoryGirl::Syntax::Methods
 
   before do
-    define_model('Company', :name => :string)
+    define_model('Company', name: :string)
 
     FactoryGirl.define do
       factory :company
@@ -57,7 +57,7 @@ describe "calling `attributes_for` with a block" do
   end
 
   it "passes the hash of attributes" do
-    attributes_for(:company, :name => 'thoughtbot') do |attributes|
+    attributes_for(:company, name: 'thoughtbot') do |attributes|
       attributes[:name].should eq('thoughtbot')
     end
   end
@@ -73,7 +73,7 @@ end
 
 describe "`attributes_for` for a class whose constructor has required params" do
   before do
-    define_model("User", :name => :string) do
+    define_model("User", name: :string) do
       def initialize(arg1, arg2); end
     end
 

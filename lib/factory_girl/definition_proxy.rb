@@ -122,7 +122,7 @@ module FactoryGirl
     #   end
     #
     #   factory :post do
-    #     association :author, :factory => :user
+    #     association :author, factory: :user
     #   end
     #
     # Arguments:

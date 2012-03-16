@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe "build multiple instances" do
   before do
-    define_model('Post', :title => :string)
+    define_model('Post', title: :string)
 
     FactoryGirl.define do
       factory(:post) do |post|
@@ -30,7 +30,7 @@ describe "build multiple instances" do
   end
 
   context "with default attributes" do
-    subject { FactoryGirl.build_list(:post, 20, :title => "The Hunting of the Snark") }
+    subject { FactoryGirl.build_list(:post, 20, title: "The Hunting of the Snark") }
 
     it "overrides the default values" do
       subject.each do |record|

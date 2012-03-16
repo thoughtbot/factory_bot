@@ -2,10 +2,10 @@ require "spec_helper"
 
 describe "defining a child factory before a parent" do
   before do
-    define_model("User", :name => :string, :admin => :boolean, :email => :string, :upper_email => :string, :login => :string)
+    define_model("User", name: :string, admin: :boolean, email: :string, upper_email: :string, login: :string)
 
     FactoryGirl.define do
-      factory :admin, :parent => :user do
+      factory :admin, parent: :user do
         admin true
       end
 

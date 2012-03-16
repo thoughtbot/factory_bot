@@ -11,18 +11,12 @@ module FactoryGirl
       @parent           = options[:parent]
       @aliases          = options[:aliases] || []
       @class_name       = options[:class]
-      @default_strategy = options[:default_strategy]
       @definition       = Definition.new(@name, options[:traits] || [])
       @compiled         = false
     end
 
     delegate :add_callback, :declare_attribute, :to_create, :define_trait,
-             :defined_traits, :inherit_traits, :processing_order, :to => :@definition
-
-    def factory_name
-      $stderr.puts "DEPRECATION WARNING: factory.factory_name is deprecated; use factory.name instead."
-      name
-    end
+             :defined_traits, :inherit_traits, :processing_order, to: :@definition
 
     def build_class #:nodoc:
       @build_class ||= if class_name.is_a? Class
@@ -30,10 +24,6 @@ module FactoryGirl
       else
         class_name.to_s.camelize.constantize
       end
-    end
-
-    def default_strategy #:nodoc:
-      @default_strategy || parent.default_strategy
     end
 
     def run(strategy_class, overrides, &block) #:nodoc:
@@ -60,7 +50,7 @@ module FactoryGirl
     #
     # Example:
     #
-    #   factory :user, :aliases => [:author] do
+    #   factory :user, aliases: [:author] do
     #     # ...
     #   end
     #
@@ -71,7 +61,7 @@ module FactoryGirl
     # association with the same name, this allows associations to be defined
     # without factories, such as:
     #
-    #   factory :user, :aliases => [:author] do
+    #   factory :user, aliases: [:author] do
     #     # ...
     #   end
     #
@@ -130,13 +120,7 @@ module FactoryGirl
     private
 
     def assert_valid_options(options)
-      options.assert_valid_keys(:class, :parent, :default_strategy, :aliases, :traits)
-
-      if options[:default_strategy]
-        Strategy.ensure_strategy_exists!(options[:default_strategy])
-        $stderr.puts "DEPRECATION WARNING: default_strategy is deprecated."
-        $stderr.puts "Override to_create if you need to prevent a call to #save!."
-      end
+      options.assert_valid_keys(:class, :parent, :aliases, :traits)
     end
 
     def parent

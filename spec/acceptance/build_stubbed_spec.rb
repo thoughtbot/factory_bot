@@ -6,10 +6,10 @@ describe "a generated stub instance" do
   before do
     define_model('User')
 
-    define_model('Post', :title   => :string,
-                         :body    => :string,
-                         :age     => :integer,
-                         :user_id => :integer) do
+    define_model('Post', title:   :string,
+                         body:    :string,
+                         age:     :integer,
+                         user_id: :integer) do
       belongs_to :user
     end
 
@@ -24,7 +24,7 @@ describe "a generated stub instance" do
     end
   end
 
-  subject { build_stubbed(:post, :title => 'overridden title') }
+  subject { build_stubbed(:post, title: 'overridden title') }
 
   it "assigns a default attribute" do
     subject.body.should == 'default body'
@@ -80,7 +80,7 @@ describe "calling `build_stubbed` with a block" do
   include FactoryGirl::Syntax::Methods
 
   before do
-    define_model('Company', :name => :string)
+    define_model('Company', name: :string)
 
     FactoryGirl.define do
       factory :company
@@ -88,7 +88,7 @@ describe "calling `build_stubbed` with a block" do
   end
 
   it "passes the stub instance" do
-    build_stubbed(:company, :name => 'thoughtbot') do |company|
+    build_stubbed(:company, name: 'thoughtbot') do |company|
       company.name.should eq('thoughtbot')
       expect { company.save }.to raise_error(RuntimeError)
     end

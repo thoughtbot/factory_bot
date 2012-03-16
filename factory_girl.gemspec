@@ -14,19 +14,19 @@ Gem::Specification.new do |s|
   s.test_files    = `git ls-files -- Appraisals {spec,features,gemfiles}/*`.split("\n")
 
   s.require_paths = ['lib']
-  s.required_ruby_version = Gem::Requirement.new(">= 1.8.7")
+  s.required_ruby_version = Gem::Requirement.new(">= 1.9.2")
 
   s.authors = ["Josh Clayton", "Joe Ferris"]
   s.email   = ["jclayton@thoughtbot.com", "jferris@thoughtbot.com"]
 
   s.homepage = "https://github.com/thoughtbot/factory_girl"
 
-  s.add_dependency("activesupport", ">= 2.3.9")
+  s.add_dependency("activesupport", ">= 3.0.0")
 
   s.add_development_dependency("rspec",    "~> 2.0")
   s.add_development_dependency("cucumber", "~> 1.0.0")
   s.add_development_dependency("timecop")
-  s.add_development_dependency("rcov")
+  s.add_development_dependency("simplecov")
   s.add_development_dependency("aruba")
   s.add_development_dependency("mocha")
   s.add_development_dependency("bourne")

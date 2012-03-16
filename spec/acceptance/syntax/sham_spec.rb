@@ -4,10 +4,10 @@ require 'factory_girl/syntax/sham'
 
 describe "a factory using sham syntax" do
   before do
-    define_model('User', :first_name => :string,
-                         :last_name  => :string,
-                         :email      => :string,
-                         :username   => :string)
+    define_model('User', first_name: :string,
+                         last_name:  :string,
+                         email:      :string,
+                         username:   :string)
 
     Sham.name        { "Name" }
     Sham.email       { "somebody#{rand(5)}@example.com" }
@@ -25,7 +25,7 @@ describe "a factory using sham syntax" do
 
   describe "after making an instance" do
     before do
-      @instance = FactoryGirl.create(:user, :last_name => 'Rye')
+      @instance = FactoryGirl.create(:user, last_name: 'Rye')
     end
 
     it "supports a sham called 'name'" do

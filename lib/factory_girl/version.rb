@@ -1,4 +1,4 @@
 module FactoryGirl
-  VERSION = "2.6.4"
+  VERSION = "3.0.0.rc1"
 end
 

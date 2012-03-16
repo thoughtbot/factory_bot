@@ -17,37 +17,15 @@ module FactoryGirl
         #   The parent factory. If specified, the attributes from the parent
         #   factory will be copied to the current one with an ability to override
         #   them.
-        # * default_strategy: +Symbol+
-        #   DEPRECATED.
-        #   The strategy that will be used by the Factory shortcut method.
-        #   Defaults to :create.
         #
         # Yields: +Factory+
         # The newly created factory.
         def self.define(name, options = {})
+          $stderr.puts "DEPRECATION WARNING: Factory.define is deprecated; use the FactoryGirl.define block syntax to declare your factory."
           factory = FactoryGirl::Factory.new(name, options)
           proxy = FactoryGirl::DefinitionProxy.new(factory)
           yield(proxy)
           FactoryGirl.register_factory(factory)
-        end
-
-        # Executes the default strategy for the given factory. This is usually create,
-        # but it can be overridden for each factory.
-        #
-        # DEPRECATED
-        #
-        # Use create instead.
-        #
-        # Arguments:
-        # * name: +Symbol+ or +String+
-        #   The name of the factory that should be used.
-        # * overrides: +Hash+
-        #   Attributes to overwrite for this instance.
-        #
-        # Returns: +Object+
-        # The result of the default strategy.
-        def self.default_strategy(name, overrides = {})
-          FactoryGirl.send(FactoryGirl.factory_by_name(name).default_strategy, name, overrides)
         end
 
         # Defines a new sequence that can be used to generate unique values in a specific format.
@@ -66,6 +44,7 @@ module FactoryGirl
         #
         #   Factory.sequence(:email) {|n| "somebody_#{n}@example.com" }
         def self.sequence(name, start_value = 1, &block)
+          $stderr.puts "DEPRECATION WARNING: Factory.sequence is deprecated; use the FactoryGirl.define block syntax to declare your sequence."
           FactoryGirl.register_sequence(Sequence.new(name, start_value, &block))
         end
 
@@ -78,6 +57,7 @@ module FactoryGirl
         # Returns:
         #   The next value in the sequence. (Object)
         def self.next(name)
+          $stderr.puts "DEPRECATION WARNING: Factory.next is deprecated; use FactoryGirl.generate instead."
           FactoryGirl.generate(name)
         end
 
@@ -104,43 +84,44 @@ module FactoryGirl
         #
         #   # The user association will not be built in this example. The user_id
         #   # will be used instead.
-        #   Factory(:post, :user_id => 1)
+        #   Factory(:post, user_id: 1)
         def self.alias(pattern, replace)
+          $stderr.puts "DEPRECATION WARNING: Factory.alias is deprecated; use FactoryGirl.aliases << [pattern, replace] instead."
           FactoryGirl.aliases << [pattern, replace]
         end
 
         # Alias for FactoryGirl.attributes_for
         def self.attributes_for(name, overrides = {})
+          $stderr.puts "DEPRECATION WARNING: Factory.attributes_for is deprecated; use FactoryGirl.attributes_for instead."
           FactoryGirl.attributes_for(name, overrides)
         end
 
         # Alias for FactoryGirl.build
         def self.build(name, overrides = {})
+          $stderr.puts "DEPRECATION WARNING: Factory.build is deprecated; use FactoryGirl.build instead."
           FactoryGirl.build(name, overrides)
         end
 
         # Alias for FactoryGirl.create
         def self.create(name, overrides = {})
+          $stderr.puts "DEPRECATION WARNING: Factory.create is deprecated; use FactoryGirl.create instead."
           FactoryGirl.create(name, overrides)
         end
 
         # Alias for FactoryGirl.build_stubbed.
         def self.stub(name, overrides = {})
+          $stderr.puts "DEPRECATION WARNING: Factory.stub is deprecated; use FactoryGirl.build_stubbed instead."
           FactoryGirl.build_stubbed(name, overrides)
         end
       end
 
-      # Shortcut for Factory.default_strategy.
-      #
-      # DEPRECATION WARNING:
-      #
-      # In a future release, default_strategy will be removed and this will
-      # simply call create instead.
+      # Shortcut for Factory.create.
       #
       # Example:
-      #   Factory(:user, :name => 'Joe')
+      #   Factory(:user, name: 'Joe')
       def Factory(name, attrs = {})
-        ::Factory.default_strategy(name, attrs)
+        $stderr.puts "DEPRECATION WARNING: Factory(:name) is deprecated; use FactoryGirl.create(:name) instead."
+        FactoryGirl.create(name, attrs)
       end
     end
   end

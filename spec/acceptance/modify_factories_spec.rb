@@ -4,7 +4,7 @@ describe "modifying factories" do
   include FactoryGirl::Syntax::Methods
 
   before do
-    define_model('User', :name => :string, :admin => :boolean, :email => :string, :login => :string)
+    define_model('User', name: :string, admin: :boolean, email: :string, login: :string)
 
     FactoryGirl.define do
       sequence(:email) {|n| "user#{n}@example.com" }
@@ -114,14 +114,14 @@ describe "modifying factories" do
       end
 
       context "overriding dynamic attributes" do
-        subject     { create(:user, :email => "perfect@example.com") }
+        subject     { create(:user, email: "perfect@example.com") }
 
         its(:name)  { should == "Great User" }
         its(:email) { should == "perfect@example.com" }
       end
 
       context "overriding static attributes" do
-        subject     { create(:user, :name => "wonderful") }
+        subject     { create(:user, name: "wonderful") }
 
         its(:name)  { should == "wonderful" }
         its(:email) { should == "wonderful-modified@example.com" }
@@ -138,7 +138,7 @@ describe "modifying factories" do
       end
 
       context "overriding dynamic attributes" do
-        subject     { create(:admin, :email => "perfect@example.com") }
+        subject     { create(:admin, email: "perfect@example.com") }
 
         its(:name)  { should == "Great User" }
         its(:email) { should == "perfect@example.com" }
@@ -146,7 +146,7 @@ describe "modifying factories" do
       end
 
       context "overriding static attributes" do
-        subject     { create(:admin, :name => "wonderful") }
+        subject     { create(:admin, name: "wonderful") }
 
         its(:name)  { should == "wonderful" }
         its(:email) { should == "wonderful-modified@example.com" }

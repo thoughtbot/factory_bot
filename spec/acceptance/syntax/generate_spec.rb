@@ -4,7 +4,7 @@ require 'factory_girl/syntax/generate'
 
 describe "a factory using generate syntax" do
   before do
-    define_model('User', :first_name => :string, :last_name => :string, :email => :string) do
+    define_model('User', first_name: :string, last_name: :string, email: :string) do
       validates_presence_of :first_name
     end
 
@@ -18,11 +18,11 @@ describe "a factory using generate syntax" do
   end
 
   it "does not raise an error when generating an invalid instance" do
-    expect { User.generate(:first_name => nil) }.to_not raise_error
+    expect { User.generate(first_name: nil) }.to_not raise_error
   end
 
   it "raises an error when forcefully generating an invalid instance" do
-    expect { User.generate!(:first_name => nil) }.to raise_error(ActiveRecord::RecordInvalid)
+    expect { User.generate!(first_name: nil) }.to raise_error(ActiveRecord::RecordInvalid)
   end
 
   %w(generate generate! spawn).each do |method|
@@ -34,7 +34,7 @@ describe "a factory using generate syntax" do
 
     describe "after generating an instance using #{method}" do
       before do
-        @instance = User.send(method, :last_name => 'Rye')
+        @instance = User.send(method, last_name: 'Rye')
       end
 
       it "uses attributes from the factory" do

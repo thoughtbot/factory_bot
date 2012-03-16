@@ -5,10 +5,9 @@ describe FactoryGirl::Sequence do
     let(:name) { :test }
     subject    { FactoryGirl::Sequence.new(name) {|n| "=#{n}" } }
 
-    its(:name)             { should == name }
-    its(:names)            { should == [name] }
-    its(:next)             { should == "=1" }
-    its(:default_strategy) { should == :create }
+    its(:name)  { should == name }
+    its(:names) { should == [name] }
+    its(:next)  { should == "=1" }
 
     describe "when incrementing" do
       before     { subject.next }

@@ -7,7 +7,7 @@ describe FactoryGirl::Strategy::Create do
   it "runs a custom create block" do
     block_run = false
     block = lambda {|instance| block_run = true }
-    subject.result(stub("assigner", :object => stub("result instance")), block)
+    subject.result(stub("assigner", object: stub("result instance")), block)
     block_run.should be_true
   end
 end

@@ -12,7 +12,7 @@ module FactoryGirl
       @constructor       = nil
     end
 
-    delegate :declare_attribute, :to => :declarations
+    delegate :declare_attribute, to: :declarations
 
     def attributes
       @attributes ||= declarations.attribute_list

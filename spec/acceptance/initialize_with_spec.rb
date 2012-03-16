@@ -4,9 +4,9 @@ describe "initialize_with with non-FG attributes" do
   include FactoryGirl::Syntax::Methods
 
   before do
-    define_model("User", :name => :string, :age => :integer) do
+    define_model("User", name: :string, age: :integer) do
       def self.construct(name, age)
-        new(:name => name, :age => age)
+        new(name: name, age: age)
       end
     end
 
@@ -26,9 +26,9 @@ describe "initialize_with with FG attributes that are ignored" do
   include FactoryGirl::Syntax::Methods
 
   before do
-    define_model("User", :name => :string) do
+    define_model("User", name: :string) do
       def self.construct(name)
-        new(:name => "#{name} from .construct")
+        new(name: "#{name} from .construct")
       end
     end
 
@@ -51,9 +51,9 @@ describe "initialize_with with FG attributes that are not ignored" do
   include FactoryGirl::Syntax::Methods
 
   before do
-    define_model("User", :name => :string) do
+    define_model("User", name: :string) do
       def self.construct(name)
-        new(:name => "#{name} from .construct")
+        new(name: "#{name} from .construct")
       end
     end
 
@@ -98,7 +98,7 @@ describe "initialize_with non-ORM-backed objects" do
   end
 
   it "allows for overrides" do
-    build(:report_generator, :name => "Overridden").name.should == "Overridden"
+    build(:report_generator, name: "Overridden").name.should == "Overridden"
   end
 
   it "generates random data" do

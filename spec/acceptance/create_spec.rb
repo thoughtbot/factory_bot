@@ -6,7 +6,7 @@ describe "a created instance" do
   before do
     define_model('User')
 
-    define_model('Post', :user_id => :integer) do
+    define_model('Post', user_id: :integer) do
       belongs_to :user
     end
 
@@ -31,59 +31,30 @@ describe "a created instance" do
   end
 end
 
-describe "a created instance, specifying :strategy => build" do
+describe "a created instance, specifying strategy: :build" do
   include FactoryGirl::Syntax::Methods
-
-  def define_factories_with_method
-    FactoryGirl.define do
-      factory :user
-
-      factory :post do
-        association(:user, :method => :build)
-      end
-    end
-  end
-
-  def define_factories_with_strategy
-    FactoryGirl.define do
-      factory :user
-
-      factory :post do
-        association(:user, :strategy => :build)
-      end
-    end
-  end
 
   before do
     define_model('User')
 
-    define_model('Post', :user_id => :integer) do
+    define_model('Post', user_id: :integer) do
       belongs_to :user
     end
-  end
 
-  context "associations declared with :strategy" do
-    before  { define_factories_with_strategy }
-    subject { build_stubbed(:post) }
+    FactoryGirl.define do
+      factory :user
 
-    subject { create('post') }
-
-    it "still saves associations (:strategy => :build only affects build, not create)" do
-      subject.user.should be_kind_of(User)
-      subject.user.should_not be_new_record
+      factory :post do
+        association(:user, strategy: :build)
+      end
     end
   end
 
-  context "associations declared with :method" do
-    before  { define_factories_with_method }
-    subject { build_stubbed(:post) }
+  subject { create(:post) }
 
-    subject { create('post') }
-
-    it "still saves associations (:method => :build only affects build, not create)" do
-      subject.user.should be_kind_of(User)
-      subject.user.should_not be_new_record
-    end
+  it "saves associations (strategy: :build only affects build, not create)" do
+    subject.user.should be_kind_of(User)
+    subject.user.should_not be_new_record
   end
 end
 
@@ -123,7 +94,7 @@ describe "calling `create` with a block" do
   include FactoryGirl::Syntax::Methods
 
   before do
-    define_model('Company', :name => :string)
+    define_model('Company', name: :string)
 
     FactoryGirl.define do
       factory :company
@@ -131,7 +102,7 @@ describe "calling `create` with a block" do
   end
 
   it "passes the created instance" do
-    create(:company, :name => 'thoughtbot') do |company|
+    create(:company, name: 'thoughtbot') do |company|
       company.name.should eq('thoughtbot')
     end
   end

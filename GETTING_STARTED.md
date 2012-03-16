@@ -7,13 +7,13 @@ Update Your Gemfile
 If you're using Rails, you'll need to change the required version of `factory_girl_rails`:
 
 ```ruby
-gem "factory_girl_rails", "~> 1.2"
+gem "factory_girl_rails", "~> 2.0"
 ```
 
 If you're *not* using Rails, you'll just have to change the required version of `factory_girl`:
 
 ```ruby
-gem "factory_girl", "~> 2.1.0"
+gem "factory_girl", "~> 3.0"
 ```
 
 Once your Gemfile is updated, you'll want to update your bundle.

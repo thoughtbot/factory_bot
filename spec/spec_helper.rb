@@ -5,6 +5,9 @@ require 'rubygems'
 require 'rspec'
 require 'rspec/autorun'
 
+require "simplecov"
+SimpleCov.start
+
 require 'factory_girl'
 require "mocha"
 require "bourne"

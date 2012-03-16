@@ -1,12 +1,11 @@
 require 'spec_helper'
-require 'active_support/ordered_hash'
 
 describe "attribute overrides" do
   before do
-    define_model('User', :admin    => :boolean)
-    define_model('Post', :title    => :string,
-                         :secure   => :boolean,
-                         :user_id  => :integer) do
+    define_model('User', admin:   :boolean)
+    define_model('Post', title:   :string,
+                         secure:  :boolean,
+                         user_id: :integer) do
       belongs_to :user
 
       def secure=(value)
@@ -32,9 +31,7 @@ describe "attribute overrides" do
   let(:admin) { FactoryGirl.create(:admin) }
 
   let(:post_attributes) do
-    attributes = ActiveSupport::OrderedHash.new
-    attributes[:secure] = false
-    attributes
+    { secure: false }
   end
 
   let(:non_admin_post_attributes) do

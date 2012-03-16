@@ -4,7 +4,7 @@ require 'factory_girl/syntax/make'
 
 describe "a factory using make syntax" do
   before do
-    define_model('User', :first_name => :string, :last_name => :string)
+    define_model('User', first_name: :string, last_name: :string)
 
     FactoryGirl.define do
       factory :user do
@@ -16,7 +16,7 @@ describe "a factory using make syntax" do
 
   describe "after make" do
     before do
-      @instance = User.make(:last_name => 'Rye')
+      @instance = User.make(last_name: 'Rye')
     end
 
     it "uses attributes from the factory" do
@@ -34,7 +34,7 @@ describe "a factory using make syntax" do
 
   describe "after make!" do
     before do
-      @instance = User.make!(:last_name => 'Rye')
+      @instance = User.make!(last_name: 'Rye')
     end
 
     it "uses attributes from the factory" do

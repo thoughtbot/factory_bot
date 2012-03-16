@@ -4,10 +4,10 @@ describe "a generated attributes hash where order matters" do
   include FactoryGirl::Syntax::Methods
 
   before do
-    define_model('ParentModel', :static           => :integer,
-                                :evaluates_first  => :integer,
-                                :evaluates_second => :integer,
-                                :evaluates_third  => :integer)
+    define_model('ParentModel', static:           :integer,
+                                evaluates_first:  :integer,
+                                evaluates_second: :integer,
+                                evaluates_third:  :integer)
 
     FactoryGirl.define do
       factory :parent_model do
@@ -20,7 +20,7 @@ describe "a generated attributes hash where order matters" do
         end
       end
 
-      factory :without_parent, :class => ParentModel do
+      factory :without_parent, class: ParentModel do
         evaluates_first   { static }
         evaluates_second  { evaluates_first }
         evaluates_third   { evaluates_second }

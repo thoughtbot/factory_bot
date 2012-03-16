@@ -3,11 +3,11 @@ require 'spec_helper'
 describe FactoryGirl::Attribute::Association do
   let(:name)        { :author }
   let(:factory)     { :user }
-  let(:overrides)   { { :first_name => "John" } }
+  let(:overrides)   { { first_name: "John" } }
   let(:association) { stub("association") }
 
   subject { FactoryGirl::Attribute::Association.new(name, factory, overrides) }
-  before  { subject.stubs(:association => association) }
+  before  { subject.stubs(association: association) }
 
   it         { should be_association }
   its(:name) { should == name }

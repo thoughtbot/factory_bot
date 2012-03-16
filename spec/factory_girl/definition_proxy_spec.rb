@@ -67,8 +67,8 @@ describe FactoryGirl::DefinitionProxy, "#method_missing" do
   end
 
   it "declares an association when :factory is passed" do
-    proxy.author :factory => :user
-    subject.should have_association_declaration(:author).with_options(:factory => :user)
+    proxy.author factory: :user
+    subject.should have_association_declaration(:author).with_options(factory: :user)
   end
 
   it "declares a static attribute" do
@@ -116,8 +116,8 @@ describe FactoryGirl::DefinitionProxy, "#association" do
   end
 
   it "declares an association with options" do
-    proxy.association(:association_name, { :name => "Awesome" })
-    subject.should have_association_declaration(:association_name).with_options(:name => "Awesome")
+    proxy.association(:association_name, { name: "Awesome" })
+    subject.should have_association_declaration(:association_name).with_options(name: "Awesome")
   end
 end
 
@@ -163,8 +163,8 @@ describe FactoryGirl::DefinitionProxy, "#factory" do
   end
 
   it "with options" do
-    proxy.factory(:child, { :awesome => true })
-    proxy.child_factories.should include([:child, { :awesome => true }, nil])
+    proxy.factory(:child, { awesome: true })
+    proxy.child_factories.should include([:child, { awesome: true }, nil])
   end
 
   it "with a block" do
