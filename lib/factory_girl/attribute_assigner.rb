@@ -37,7 +37,7 @@ module FactoryGirl
     end
 
     def attributes_to_set_on_instance
-      attribute_names_to_assign - @attribute_names_assigned
+      (attribute_names_to_assign - @attribute_names_assigned).uniq
     end
 
     def attributes_to_set_on_hash
