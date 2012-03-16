@@ -1,3 +1,7 @@
+2.6.4 (March 16, 2012)
+  Do not ignore names of transient attributes
+  Ensure attributes set on instance are calculated uniquely
+
 2.6.3 (March 9, 2012)
   Fix issue with traits not being present the first time a factory is accessed
   Update available Cucumber step definitions to not require a trialing colon
