@@ -2,13 +2,20 @@ require 'spec_helper'
 
 describe "callbacks" do
   before do
-    define_model("User", :first_name => :string, :last_name => :string)
+    define_model("User", :first_name => :string, :middle_name => :string, :last_name => :string)
 
     FactoryGirl.define do
       factory :user_with_callbacks, :class => :user do
-        after_stub   { |user| user.first_name = 'Stubby' }
-        after_build  { |user| user.first_name = 'Buildy' }
-        after_create { |user| user.last_name  = 'Createy' }
+        after_stub    { |user|
+                        user.first_name = 'Stubby'
+                        user.middle_name = 'Stubby'
+                      }
+        after_build   { |user|
+                        user.first_name = 'Buildy'
+                        user.middle_name = 'Buildy'
+                      }
+        before_create { |user| user.middle_name = 'Createy' }
+        after_create  { |user| user.last_name  = 'Createy' }
       end
 
       factory :user_with_inherited_callbacks, :parent => :user_with_callbacks do
@@ -28,9 +35,10 @@ describe "callbacks" do
     user.first_name.should == 'Buildy'
   end
 
-  it "runs both the after_build and after_create callbacks when creating" do
+  it "runs both the after_build, before_create and after_create callbacks when creating" do
     user = FactoryGirl.create(:user_with_callbacks)
     user.first_name.should == 'Buildy'
+    user.middle_name.should == 'Createy'
     user.last_name.should == 'Createy'
   end
 
