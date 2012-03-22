@@ -69,6 +69,6 @@ module FactoryGirl
   end
 
   def self.callback_names
-    [:after_build, :after_create, :after_stub].freeze
+    [:after_build, :before_create, :after_create, :after_stub].freeze
   end
 end
