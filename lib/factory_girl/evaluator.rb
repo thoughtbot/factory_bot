@@ -22,9 +22,8 @@ module FactoryGirl
       @overrides         = overrides
       @cached_attributes = overrides
 
-      singleton = class << self; self end
       @overrides.each do |name, value|
-        singleton.send :define_method, name, lambda { value }
+        singleton_class.send :define_method, name, lambda { value }
       end
 
       @build_strategy.add_observer(CallbackRunner.new(self.class.callbacks, self))
