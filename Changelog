@@ -1,3 +1,11 @@
+3.0.0 (March 23, 2012)
+  Deprecate the vintage syntax
+  Remove Rails 2.x support
+  Remove Ruby 1.8 support
+  Remove deprecated features, including default_strategy, factory_name,
+    :method for defining default strategy, ignore on individual attributes, and
+    interacting with Factory the way you would FactoryGirl
+
 2.6.4 (March 16, 2012)
   Do not ignore names of transient attributes
   Ensure attributes set on instance are calculated uniquely
