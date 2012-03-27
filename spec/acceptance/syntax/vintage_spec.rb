@@ -2,6 +2,8 @@ require 'spec_helper'
 
 describe "vintage syntax" do
   before do
+    ActiveSupport::Deprecation.silenced = true
+
     define_model('User', first_name: :string,
                          last_name:  :string,
                          email:      :string)
