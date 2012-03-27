@@ -103,7 +103,7 @@ end
 
 # Test::Unit
 class Test::Unit::TestCase
-  include Factory::Syntax::Methods
+  include FactoryGirl::Syntax::Methods
 end
 ```
 
