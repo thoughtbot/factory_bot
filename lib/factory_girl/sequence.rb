@@ -3,12 +3,14 @@ module FactoryGirl
   # Sequences are defined using sequence within a FactoryGirl.define block.
   # Sequence values are generated using next.
   class Sequence
-    attr_reader :name
+    attr_reader :name, :names, :value
 
-    def initialize(name, value = 1, &proc) #:nodoc:
-      @name  = name
-      @proc  = proc
-      @value = value
+    def initialize(*names, &proc) #:nodoc:
+      names.flatten!
+      @value  = value?(names.last) ? names.slice!(-1) : 1
+      @names  = names
+      @name   = names.first
+      @proc   = proc      
     end
 
     def next
@@ -17,8 +19,10 @@ module FactoryGirl
       @value = @value.next
     end
 
-    def names
-      [@name]
+    private
+
+    def value? item
+      item.is_a?(Numeric) || item.is_a?(String)
     end
   end
 end

@@ -3,6 +3,8 @@ require 'spec_helper'
 describe FactoryGirl::Registry do
   let(:aliases)              { [:thing, :widget] }
   let(:sequence)             { FactoryGirl::Sequence.new(:email) { |n| "somebody#{n}@example.com" } }
+  let(:sequences)            { FactoryGirl::Sequence.new(:email, :sender, :receiver) { |n| "some_one_else#{n}@example.com" } }
+
   let(:factory)              { FactoryGirl::Factory.new(:object) }
   let(:other_factory)        { FactoryGirl::Factory.new(:string) }
   let(:factory_with_aliases) { FactoryGirl::Factory.new(:string, aliases: aliases) }
@@ -59,6 +61,13 @@ describe FactoryGirl::Registry do
   it "registers an sequence" do
     subject.add(sequence)
     subject.find(:email).should == sequence
+  end
+
+  it "registers a multi sequences" do
+    subject.add(sequences)
+    subject.find(:email).should == sequences
+    subject.find(:sender).should == sequences
+    subject.find(:receiver).should == sequences
   end
 
   it "doesn't allow a duplicate name" do
