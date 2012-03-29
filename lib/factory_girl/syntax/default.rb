@@ -36,9 +36,7 @@ module FactoryGirl
         # define aliased sequence 
         # - register multiple sequences with same logic but different identifying names
         def sequences(*names, &block)                    
-          names.each do |name|
-            FactoryGirl.register_sequence(Sequence.new(names, &block))
-          end
+          FactoryGirl.register_sequence(Sequence.new(names, &block))
         end
 
         def trait(name, &block)
