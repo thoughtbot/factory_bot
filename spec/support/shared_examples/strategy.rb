@@ -1,4 +1,5 @@
 shared_examples_for "strategy without association support" do
+  let(:factory)   { stub("associate_factory") }
   let(:attribute) { FactoryGirl::Attribute::Association.new(:user, :user, {}) }
 
   def association_named(name, overrides)
@@ -6,14 +7,14 @@ shared_examples_for "strategy without association support" do
     subject.association(runner)
   end
 
-  it "returns nil when accessing an association" do
-    association_named(:user, {}).should be_nil
+  before do
+    FactoryGirl.stubs(factory_by_name: factory)
+    factory.stubs(:compile)
+    factory.stubs(:run)
   end
 
-  it "does not attempt to look up the factory when accessing the association" do
-    FactoryGirl.stubs(:factory_by_name)
-    association_named(:awesome, {})
-    FactoryGirl.should have_received(:factory_by_name).never
+  it "returns nil when accessing an association" do
+    association_named(:user, {}).should be_nil
   end
 end
 

@@ -2,6 +2,7 @@ require "factory_girl/strategy/build"
 require "factory_girl/strategy/create"
 require "factory_girl/strategy/attributes_for"
 require "factory_girl/strategy/stub"
+require "factory_girl/strategy/null"
 require "observer"
 
 module FactoryGirl
