@@ -97,6 +97,16 @@ World(FactoryGirlStepHelpers)
 FactoryGirl.factories.each do |factory|
   factory.compile
   factory.human_names.each do |human_name|
+    attribute_names_for_model = if factory.build_class.respond_to?(:attribute_names)
+      factory.build_class.attribute_names
+    elsif factory.build_class.respond_to?(:columns)
+      factory.build_class.columns.map do |column|
+        column.respond_to?(:name) ? column.name : column.to_s
+      end
+    else
+      []
+    end
+
     Given /^the following (?:#{human_name}|#{human_name.pluralize}) exists?:?$/i do |table|
       table.hashes.each do |human_hash|
         attributes = convert_human_hash_to_attribute_hash(human_hash, factory.associations)
@@ -112,18 +122,9 @@ FactoryGirl.factories.each do |factory|
       FactoryGirl.create_list(factory.name, count.to_i)
     end
 
-    attribute_names = if factory.build_class.respond_to?(:attribute_names)
-      factory.build_class.attribute_names
-    elsif factory.build_class.respond_to?(:columns)
-      factory.build_class.columns.map do |column|
-        column.respond_to?(:name) ? column.name : column.to_s
-      end
-    else
-      []
-    end
-
-    attribute_names.each do |attribute_name|
+    attribute_names_for_model.each do |attribute_name|
       human_column_name = attribute_name.downcase.gsub('_', ' ')
+
       Given /^an? #{human_name} exists with an? #{human_column_name} of "([^"]*)"$/i do |value|
         FactoryGirl.create(factory.name, attribute_name => value)
       end
