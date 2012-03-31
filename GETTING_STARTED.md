@@ -27,23 +27,16 @@ Each factory has a name and a set of attributes. The name is used to guess the c
 # This will guess the User class
 FactoryGirl.define do
   factory :user do
-    first_name 'John'
-    last_name  'Doe'
+    first_name "John"
+    last_name  "Doe"
     admin false
   end
 
   # This will use the User class (Admin would have been guessed)
-  factory :admin, :class => User do
-    first_name 'Admin'
-    last_name  'User'
-    admin true
-  end
-
-  # The same, but using a string instead of class constant
-  factory :admin, :class => 'user' do
-    first_name 'Admin'
-    last_name  'User'
-    admin true
+  factory :admin, class: User do
+    first_name "Admin"
+    last_name  "User"
+    admin      true
   end
 end
 ```
@@ -88,7 +81,7 @@ No matter which strategy is used, it's possible to override the defined attribut
 
 ```ruby
 # Build a User instance and override the first_name property
-user = FactoryGirl.build(:user, :first_name => 'Joe')
+user = FactoryGirl.build(:user, first_name: "Joe")
 user.first_name
 # => "Joe"
 ```
@@ -105,13 +98,16 @@ end
 class Test::Unit::TestCase
   include FactoryGirl::Syntax::Methods
 end
+
+# Cucumber
+World(FactoryGirl::Syntax::Methods)
 ```
 
 This would allow you to write:
 
 ```ruby
 describe User, "#full_name" do
-  subject { create(:user, :first_name => "John", :last_name => "Doe") }
+  subject { create(:user, first_name: "John", last_name: "Doe") }
 
   its(:full_name) { should == "John Doe" }
 end
@@ -140,7 +136,7 @@ Aliases
 Aliases allow you to use named associations more easily.
 
 ```ruby
-factory :user, :aliases => [:author, :commenter] do
+factory :user, aliases: [:author, :commenter] do
   first_name    "John"
   last_name     "Doe"
   date_of_birth { 18.years.ago }
@@ -149,7 +145,7 @@ end
 factory :post do
   author
   # instead of
-  # association :author, :factory => :user
+  # association :author, factory: :user
   title "How to read a book effectively"
   body  "There are five steps involved."
 end
@@ -157,7 +153,7 @@ end
 factory :comment do
   commenter
   # instead of
-  # association :commenter, :factory => :user
+  # association :commenter, factory: :user
   body "Great article!"
 end
 ```
@@ -169,12 +165,12 @@ Attributes can be based on the values of other attributes using the evaluator th
 
 ```ruby
 factory :user do
-  first_name 'Joe'
-  last_name  'Blow'
+  first_name "Joe"
+  last_name  "Blow"
   email { "#{first_name}.#{last_name}@example.com".downcase }
 end
 
-FactoryGirl.create(:user, :last_name => 'Doe').email
+FactoryGirl.create(:user, last_name: "Doe").email
 # => "joe.doe@example.com"
 ```
 
@@ -187,7 +183,7 @@ There may be times where your code can be DRYed up by passing in transient attri
 factory :user do
   ignore do
     rockstar true
-    upcased { false }
+    upcased  false
   end
 
   name  { "John Doe#{" - Rockstar" if rockstar}" }
@@ -198,7 +194,7 @@ factory :user do
   end
 end
 
-FactoryGirl.create(:user, :upcased => true).name
+FactoryGirl.create(:user, upcased: true).name
 #=> "JOHN DOE - ROCKSTAR"
 ```
 
@@ -228,7 +224,7 @@ You can also specify a different factory or override attributes:
 ```ruby
 factory :post do
   # ...
-  association :author, :factory => :user, :last_name => 'Writely'
+  association :author, factory: :user, last_name: "Writely"
 end
 ```
 
@@ -246,12 +242,12 @@ post.new_record?        # => true
 post.author.new_record? # => false
 ```
 
-To not save the associated object, specify :strategy => :build in the factory:
+To not save the associated object, specify strategy: :build in the factory:
 
 ```ruby
 factory :post do
   # ...
-  association :author, :factory => :user, :strategy => :build
+  association :author, factory: :user, strategy: :build
 end
 
 # Builds a User, and then builds a Post, but does not save either
@@ -290,7 +286,7 @@ FactoryGirl.define do
       # attributes; `create_list`'s second argument is the number of records
       # to create and we make sure the user is associated properly to the post
       after_create do |user, evaluator|
-        FactoryGirl.create_list(:post, evaluator.posts_count, :user => user)
+        FactoryGirl.create_list(:post, evaluator.posts_count, user: user)
       end
     end
   end
@@ -302,7 +298,7 @@ This allows us to do:
 ```ruby
 FactoryGirl.create(:user).posts.length # 0
 FactoryGirl.create(:user_with_posts).posts.length # 5
-FactoryGirl.create(:user_with_posts, :posts_count => 15).posts.length # 15
+FactoryGirl.create(:user_with_posts, posts_count: 15).posts.length # 15
 ```
 
 Inheritance
@@ -312,7 +308,7 @@ You can easily create multiple factories for the same class without repeating co
 
 ```ruby
 factory :post do
-  title 'A title'
+  title "A title"
 
   factory :approved_post do
     approved true
@@ -320,7 +316,7 @@ factory :post do
 end
 
 approved_post = FactoryGirl.create(:approved_post)
-approved_post.title # => 'A title'
+approved_post.title    # => "A title"
 approved_post.approved # => true
 ```
 
@@ -328,10 +324,10 @@ You can also assign the parent explicitly:
 
 ```ruby
 factory :post do
-  title 'A title'
+  title "A title"
 end
 
-factory :approved_post, :parent => :post do
+factory :approved_post, parent: :post do
   approved true
 end
 ```
@@ -412,7 +408,7 @@ Traits allow you to group attributes together and then apply them
 to any factory.
 
 ```ruby
-factory :user, :aliases => [:author]
+factory :user, aliases: [:author]
 
 factory :story do
   title "My awesome story"
@@ -436,17 +432,17 @@ factory :story do
     end_at   { Time.now }
   end
 
-  factory :week_long_published_story,    :traits => [:published, :week_long_publishing]
-  factory :month_long_published_story,   :traits => [:published, :month_long_publishing]
-  factory :week_long_unpublished_story,  :traits => [:unpublished, :week_long_publishing]
-  factory :month_long_unpublished_story, :traits => [:unpublished, :month_long_publishing]
+  factory :week_long_published_story,    traits: [:published, :week_long_publishing]
+  factory :month_long_published_story,   traits: [:published, :month_long_publishing]
+  factory :week_long_unpublished_story,  traits: [:unpublished, :week_long_publishing]
+  factory :month_long_unpublished_story, traits: [:unpublished, :month_long_publishing]
 end
 ```
 
 Traits can be used as attributes:
 
 ```ruby
-factory :week_long_published_story_with_title, :parent => :story do
+factory :week_long_published_story_with_title, parent: :story do
   published
   week_long_publishing
   title { "Publishing that was started at {start_at}" }
@@ -478,8 +474,8 @@ factory :user do
     login { "admin-#{name}" }
   end
 
-  factory :male_admin,   :traits => [:male, :admin]   # login will be "admin-John Doe"
-  factory :female_admin, :traits => [:admin, :female] # login will be "Jane Doe (F)"
+  factory :male_admin,   traits: [:male, :admin]   # login will be "admin-John Doe"
+  factory :female_admin, traits: [:admin, :female] # login will be "Jane Doe (F)"
 end
 ```
 
@@ -520,7 +516,7 @@ factory :user do
 end
 
 # creates an admin user with gender "Male" and name "Jon Snow"
-FactoryGirl.create(:user, :admin, :male, :name => "Jon Snow")
+FactoryGirl.create(:user, :admin, :male, name: "Jon Snow")
 ```
 
 This ability works with `build`, `build_stubbed`, `attributes_for`, and `create`.
@@ -539,7 +535,7 @@ factory :user do
 end
 
 # creates 3 admin users with gender "Male" and name "Jon Snow"
-FactoryGirl.create_list(:user, 3, :admin, :male, :name => "Jon Snow")
+FactoryGirl.create_list(:user, 3, :admin, :male, name: "Jon Snow")
 ```
 
 
@@ -607,7 +603,7 @@ Instead of creating a child factory that added additional attributes:
 
 ```ruby
 FactoryGirl.define do
-  factory :application_user, :parent => :user do
+  factory :application_user, parent: :user do
     full_name     { Faker::Name.name }
     date_of_birth { 21.years.ago }
     gender        "Female"
@@ -650,7 +646,7 @@ These methods will build or create a specific amount of factories and return the
 To set the attributes for each of the factories, you can pass in a hash as you normally would.
 
 ```ruby
-twenty_year_olds = FactoryGirl.build_list(:user, 25, :date_of_birth => 20.years.ago)
+twenty_year_olds = FactoryGirl.build_list(:user, 25, date_of_birth: 20.years.ago)
 ```
 
 Custom Construction
@@ -708,7 +704,7 @@ Cucumber Integration
 factory\_girl ships with step definitions that make calling factories from Cucumber easier. To use them, add the following to features/support/env.rb:
 
 ```ruby
-require 'factory_girl/step_definitions'
+require "factory_girl/step_definitions"
 ```
 
 Alternate Syntaxes
@@ -720,16 +716,16 @@ provide alternate interfaces. See Factory::Syntax for information about the
 various layers available. For example, the Machinist-style syntax is popular:
 
 ```ruby
-require 'factory_girl/syntax/blueprint'
-require 'factory_girl/syntax/make'
-require 'factory_girl/syntax/sham'
+require "factory_girl/syntax/blueprint"
+require "factory_girl/syntax/make"
+require "factory_girl/syntax/sham"
 
 Sham.email {|n| "#{n}@example.com" }
 
 User.blueprint do
-  name  { 'Billy Bob' }
+  name  { "Billy Bob" }
   email { Sham.email  }
 end
 
-User.make(:name => 'Johnny')
+User.make(name: "Johnny")
 ```
