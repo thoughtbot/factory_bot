@@ -29,14 +29,8 @@ module FactoryGirl
           end
         end
 
-        def sequence(name, start_value = 1, &block)
-          FactoryGirl.register_sequence(Sequence.new(name, start_value, &block))
-        end
-
-        # define aliased sequence 
-        # - register multiple sequences with same logic but different identifying names
-        def sequences(*names, &block)                    
-          FactoryGirl.register_sequence(Sequence.new(names, &block))
+        def sequence(name, start_value = 1, options = {}, &block)
+          FactoryGirl.register_sequence(Sequence.new(name, start_value, options, &block))
         end
 
         def trait(name, &block)

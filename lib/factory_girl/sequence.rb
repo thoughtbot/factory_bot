@@ -5,14 +5,18 @@ module FactoryGirl
   class Sequence
     attr_reader :name, :names, :value
 
-    def initialize(*names, &proc) #:nodoc:
-      names.flatten!
-      @value  = value?(names.last) ? names.slice!(-1) : 1
-      @names  = names
-      @name   = names.first
-      @proc   = proc      
+    def initialize(name, value = 1, options = {}, &proc) #:nodoc:
+      @value  = value
+      if value.kind_of?(Hash)
+        options = value
+        @value = options[:value] || 1
+      end      
+      @name   = name
+      @names  = ([name] + (options[:aliases] || [])).flatten
+      @proc   = proc     
     end
 
+    # aliased sequences share the same sequence counter
     def next
       @proc ? @proc.call(@value) : @value
     ensure
