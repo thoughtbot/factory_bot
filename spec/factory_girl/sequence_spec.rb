@@ -25,11 +25,27 @@ describe FactoryGirl::Sequence do
     end
   end
 
-  describe "a sequence with multiple names (aliases)" do
+  describe "a sequence with aliases using default value" do
+    let(:name) { :test }
+    let(:aliases) { [:alias, :other] }
+    subject    { FactoryGirl::Sequence.new(name, :aliases => aliases) {|n| "=#{n}" } }
+
+    its(:name)  { should == name }
+    its(:value) { should == 1 }
+    its(:names) { should == ([name] + aliases) }
+    its(:next)  { should == "=1" }
+
+    describe "when incrementing" do
+      before     { subject.next }
+      its(:next) { should == "=2" }
+    end
+  end
+
+  describe "a sequence with custom value and aliases" do
     let(:name) { :test }
     let(:value) { 3 }
     let(:aliases) { [:alias, :other] }
-    subject    { FactoryGirl::Sequence.new(name, :alias, :other, value) {|n| "=#{n}" } }
+    subject    { FactoryGirl::Sequence.new(name, value, :aliases => aliases) {|n| "=#{n}" } }
 
     its(:name)  { should == name }
     its(:value) { should == value }
