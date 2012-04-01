@@ -22,11 +22,5 @@ module FactoryGirl
     ensure
       @value = @value.next
     end
-
-    private
-
-    def value? item
-      item.is_a?(Numeric) || item.is_a?(String)
-    end
   end
 end

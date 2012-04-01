@@ -109,7 +109,7 @@ module FactoryGirl
     #
     # Except that no globally available sequence will be defined.
     def sequence(name, start_value = 1, options = {}, &block)
-      sequence = Sequence.new(name, start_value, options, &block)
+      sequence = options.empty? ? Sequence.new(name, start_value, &block) : Sequence.new(name, start_value, options, &block)
       add_attribute(name) { sequence.next }
     end
 
