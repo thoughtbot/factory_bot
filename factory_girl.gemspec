@@ -30,7 +30,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency("aruba")
   s.add_development_dependency("mocha")
   s.add_development_dependency("bourne")
-  s.add_development_dependency("appraisal", "~> 0.3.8")
+  s.add_development_dependency("appraisal", "~> 0.4")
   s.add_development_dependency("sqlite3-ruby")
   s.add_development_dependency("yard")
   s.add_development_dependency("bluecloth")

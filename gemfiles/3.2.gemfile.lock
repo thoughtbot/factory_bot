@@ -18,7 +18,7 @@ GEM
     activesupport (3.2.3)
       i18n (~> 0.6)
       multi_json (~> 1.0)
-    appraisal (0.3.8)
+    appraisal (0.4.1)
       bundler
       rake
     arel (3.0.2)
@@ -75,7 +75,7 @@ PLATFORMS
 
 DEPENDENCIES
   activerecord (~> 3.2)
-  appraisal (~> 0.3.8)
+  appraisal (~> 0.4)
   aruba
   bluecloth
   bourne
