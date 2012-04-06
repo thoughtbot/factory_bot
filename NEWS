@@ -1,3 +1,10 @@
+3.1.0 (April 6, 2012)
+  Sequences support aliases, which reference the same block
+  Update documentation
+  Add before_create callback
+  Support use of #attribute_names method to determine available attributes for steps
+  Use ActiveSupport::Deprecation for all deprecations
+
 3.0.0 (March 23, 2012)
   Deprecate the vintage syntax
   Remove Rails 2.x support
