@@ -12,7 +12,7 @@ When /^"([^"]*)" is added to Factory Girl's file definitions path$/ do |file_nam
 
   append_file_to_factory_girl_definitions_path(new_factory_file)
 
-  When %{I find definitions}
+  step %{I find definitions}
 end
 
 When /^"([^"]*)" is added to Factory Girl's file definitions path as an absolute path$/ do |file_name|
@@ -20,7 +20,7 @@ When /^"([^"]*)" is added to Factory Girl's file definitions path as an absolute
 
   append_file_to_factory_girl_definitions_path(new_factory_file)
 
-  When %{I find definitions}
+  step %{I find definitions}
 end
 
 When /^I create a "([^"]*)" instance from Factory Girl$/ do |factory_name|
@@ -31,7 +31,7 @@ Given /^these super users exist:$/ do |table|
   headers = table.headers + ["admin"]
   rows    = table.rows.map { |row| row + [true] }
   new_table = Cucumber::Ast::Table.new([headers] + rows)
-  Given %{the following person exists:}, new_table
+  step %{the following person exists:}, new_table
 end
 
 When /^I find definitions$/ do
