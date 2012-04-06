@@ -26,14 +26,8 @@ describe FactoryGirl::Sequence do
   end
 
   describe "a sequence with aliases using default value" do
-    let(:name) { :test }
-    let(:aliases) { [:alias, :other] }
-    subject    { FactoryGirl::Sequence.new(name, :aliases => aliases) {|n| "=#{n}" } }
-
-    its(:name)  { should == name }
-    its(:value) { should == 1 }
-    its(:names) { should == ([name] + aliases) }
-    its(:next)  { should == "=1" }
+    subject    { FactoryGirl::Sequence.new(:test, aliases: [:alias, :other]) { |n| "=#{n}" } }
+    its(:next) { should == "=1" }
 
     describe "when incrementing" do
       before     { subject.next }
@@ -42,15 +36,8 @@ describe FactoryGirl::Sequence do
   end
 
   describe "a sequence with custom value and aliases" do
-    let(:name) { :test }
-    let(:value) { 3 }
-    let(:aliases) { [:alias, :other] }
-    subject    { FactoryGirl::Sequence.new(name, value, :aliases => aliases) {|n| "=#{n}" } }
-
-    its(:name)  { should == name }
-    its(:value) { should == value }
-    its(:names) { should == ([name] + aliases) }
-    its(:next)  { should == "=3" }
+    subject    { FactoryGirl::Sequence.new(:test, 3, aliases: [:alias, :other]) { |n| "=#{n}" } }
+    its(:next) { should == "=3" }
 
     describe "when incrementing" do
       before     { subject.next }

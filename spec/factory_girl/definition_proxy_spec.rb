@@ -91,7 +91,7 @@ describe FactoryGirl::DefinitionProxy, "#sequence" do
 
   it "creates a new sequence starting at 1" do
     proxy.sequence(:great)
-    FactoryGirl::Sequence.should have_received(:new).with(:great, 1)
+    FactoryGirl::Sequence.should have_received(:new).with(:great)
   end
 
   it "creates a new sequence with an overridden starting vaue" do

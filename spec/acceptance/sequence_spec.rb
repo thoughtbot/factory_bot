@@ -30,4 +30,32 @@ describe "sequences" do
     another_value.should == 2
     first_value.should_not == another_value
   end
+
+  it "generates aliases for the sequence that reference the same block" do
+    FactoryGirl.define do
+      sequence(:size, aliases: [:count, :length]) {|n| "called-#{n}" }
+    end
+
+    first_value  = generate(:size)
+    second_value = generate(:count)
+    third_value  = generate(:length)
+
+    first_value.should  == "called-1"
+    second_value.should == "called-2"
+    third_value.should  == "called-3"
+  end
+
+  it "generates aliases for the sequence that reference the same block and retains value" do
+    FactoryGirl.define do
+      sequence(:size, "a", aliases: [:count, :length]) {|n| "called-#{n}" }
+    end
+
+    first_value  = generate(:size)
+    second_value = generate(:count)
+    third_value  = generate(:length)
+
+    first_value.should  == "called-a"
+    second_value.should == "called-b"
+    third_value.should  == "called-c"
+  end
 end

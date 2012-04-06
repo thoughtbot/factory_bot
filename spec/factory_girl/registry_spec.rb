@@ -2,9 +2,6 @@ require 'spec_helper'
 
 describe FactoryGirl::Registry do
   let(:aliases)              { [:thing, :widget] }
-  let(:sequence)             { FactoryGirl::Sequence.new(:email) { |n| "somebody#{n}@example.com" } }
-  let(:sequences)            { FactoryGirl::Sequence.new(:email, :aliases => [:sender, :receiver]) { |n| "some_one_else#{n}@example.com" } }
-
   let(:factory)              { FactoryGirl::Factory.new(:object) }
   let(:other_factory)        { FactoryGirl::Factory.new(:string) }
   let(:factory_with_aliases) { FactoryGirl::Factory.new(:string, aliases: aliases) }
@@ -58,18 +55,6 @@ describe FactoryGirl::Registry do
     subject.to_a.should =~ [factory, factory_with_aliases]
   end
 
-  it "registers an sequence" do
-    subject.add(sequence)
-    subject.find(:email).should == sequence
-  end
-
-  it "registers a multi sequences" do
-    subject.add(sequences)
-    subject.find(:email).should == sequences
-    subject.find(:sender).should == sequences
-    subject.find(:receiver).should == sequences
-  end
-
   it "doesn't allow a duplicate name" do
     expect { 2.times { subject.add(factory) } }.
       to raise_error(FactoryGirl::DuplicateDefinitionError, "Factory already registered: object")
@@ -86,5 +71,32 @@ describe FactoryGirl::Registry do
     subject.add(factory)
     subject.clear
     subject.count.should be_zero
+  end
+end
+
+describe FactoryGirl::Registry, "with sequences" do
+  let(:aliases)               { [:sender, :receiver] }
+  let(:sequence)              { FactoryGirl::Sequence.new(:email) { |n| "somebody#{n}@example.com" } }
+  let(:sequence_with_aliases) { FactoryGirl::Sequence.new(:email, aliases: aliases) { |n| "someone_else#{n}@example.com" } }
+  let(:registry_name)         { "Sequence" }
+
+  subject { FactoryGirl::Registry.new(registry_name) }
+
+  it "registers an sequence" do
+    subject.add(sequence)
+    subject.find(:email).should == sequence
+  end
+
+  it "registers a sequence with aliases" do
+    subject.add(sequence_with_aliases)
+
+    subject.find(:email).should    == sequence_with_aliases
+    subject.find(:sender).should   == sequence_with_aliases
+    subject.find(:receiver).should == sequence_with_aliases
+  end
+
+  it "doesn't allow a duplicate name" do
+    expect { 2.times { subject.add(sequence_with_aliases) } }.
+      to raise_error(FactoryGirl::DuplicateDefinitionError, "Sequence already registered: email")
   end
 end
