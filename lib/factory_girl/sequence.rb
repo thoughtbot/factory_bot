@@ -5,10 +5,13 @@ module FactoryGirl
   class Sequence
     attr_reader :name
 
-    def initialize(name, value = 1, &proc) #:nodoc:
-      @name  = name
-      @proc  = proc
-      @value = value
+    def initialize(name, *args, &proc) #:nodoc:
+      @name    = name
+      @proc    = proc
+
+      options  = args.extract_options!
+      @value   = args.first || 1
+      @aliases = options[:aliases] || []
     end
 
     def next
@@ -18,7 +21,7 @@ module FactoryGirl
     end
 
     def names
-      [@name]
+      [@name] + @aliases
     end
   end
 end
