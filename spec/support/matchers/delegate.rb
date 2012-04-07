@@ -27,7 +27,7 @@ RSpec::Matchers.define :delegate do |delegated_method|
     end
   end
 
-  failure_message do
+  failure_message_for_should do
     if Class === @instance
       message = "expected #{@instance.name} "
       prefix = '.'
