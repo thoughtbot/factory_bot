@@ -16,12 +16,34 @@ describe FactoryGirl::Sequence do
   end
 
   describe "a custom sequence" do
-    subject    { FactoryGirl::Sequence.new(:name, "A") {|n| "=#{n}" } }
-    its(:next) { should == "=A" }
+    context "a character sequence" do
+      subject    { FactoryGirl::Sequence.new(:name, "A") {|n| "=#{n}" } }
+      its(:next) { should == "=A" }
 
-    describe "when incrementing" do
-      before     { subject.next }
-      its(:next) { should == "=B" }
+      describe "when incrementing" do
+        before     { subject.next }
+        its(:next) { should == "=B" }
+      end
+    end
+
+    context "an array" do
+      subject    { FactoryGirl::Sequence.new(:name, ["foo","bar","baz"]) {|n| "=#{n}" } }
+      its(:next) { should == "=foo" }
+
+      describe "when incrementing" do
+        before     { subject.next }
+        its(:next) { should == "=bar" }
+      end
+    end
+
+    context "an enumerator" do
+      subject    { FactoryGirl::Sequence.new(:name, (0..30).step(10)) {|n| "=#{n}" } }
+      its(:next) { should == "=0" }
+
+      describe "when incrementing" do
+        before     { subject.next }
+        its(:next) { should == "=10" }
+      end
     end
   end
 
@@ -36,12 +58,34 @@ describe FactoryGirl::Sequence do
   end
 
   describe "a custom sequence without a block" do
-    subject    { FactoryGirl::Sequence.new(:name, "A") }
-    its(:next) { should == "A" }
+    context "a character sequence" do
+      subject    { FactoryGirl::Sequence.new(:name, "A") }
+      its(:next) { should == "A" }
 
-    describe "when incrementing" do
-      before     { subject.next }
-      its(:next) { should == "B" }
+      describe "when incrementing" do
+        before     { subject.next }
+        its(:next) { should == "B" }
+      end
+    end
+
+    context "an array" do
+      subject    { FactoryGirl::Sequence.new(:name, ["foo","bar","baz"]) }
+      its(:next) { should == "foo" }
+
+      describe "when incrementing" do
+        before     { subject.next }
+        its(:next) { should == "bar" }
+      end
+    end
+
+    context "an enumerator" do
+      subject    { FactoryGirl::Sequence.new(:name, (0..30).step(10)) }
+      its(:next) { should == 0 }
+
+      describe "when incrementing" do
+        before     { subject.next }
+        its(:next) { should == 10 }
+      end
     end
   end
 end

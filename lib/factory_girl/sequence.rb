@@ -8,13 +8,14 @@ module FactoryGirl
     def initialize(name, value = 1, &proc) #:nodoc:
       @name  = name
       @proc  = proc
-      @value = value
+      @value = [Array, Range].any? {|klass| value.is_a? klass } ? value.to_enum : value
     end
 
     def next
-      @proc ? @proc.call(@value) : @value
+      value = @value.is_a?(Enumerator) ? @value.next : @value
+      @proc ? @proc.call(value) : value
     ensure
-      @value = @value.next
+      @value = @value.next unless @value.is_a?(Enumerator)
     end
 
     def names
