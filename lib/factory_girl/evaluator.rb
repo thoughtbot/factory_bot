@@ -3,7 +3,7 @@ require "active_support/core_ext/class/attribute"
 
 module FactoryGirl
   class Evaluator
-    class_attribute :callbacks, :attribute_lists
+    class_attribute :attribute_lists
 
     def self.attribute_list
       AttributeList.new.tap do |list|
@@ -25,8 +25,6 @@ module FactoryGirl
       @overrides.each do |name, value|
         singleton_class.send :define_method, name, lambda { value }
       end
-
-      @build_strategy.add_observer(CallbackRunner.new(self.class.callbacks, self))
     end
 
     def association(factory_name, overrides = {})
@@ -55,21 +53,6 @@ module FactoryGirl
 
     def __overrides
       @overrides
-    end
-
-    private
-
-    class CallbackRunner
-      def initialize(callbacks, evaluator)
-        @callbacks = callbacks
-        @evaluator = evaluator
-      end
-
-      def update(name, result_instance)
-        @callbacks.select {|callback| callback.name == name }.each do |callback|
-          callback.run(result_instance, @evaluator)
-        end
-      end
     end
   end
 end

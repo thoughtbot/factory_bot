@@ -1,16 +1,16 @@
 module FactoryGirl
-  class Strategy #:nodoc:
-    class Create < Strategy #:nodoc:
+  module Strategy
+    class Create
       def association(runner)
         runner.run
       end
 
-      def result(attribute_assigner, to_create)
-        attribute_assigner.object.tap do |result_instance|
-          run_callbacks(:after_build, result_instance)
-          run_callbacks(:before_create, result_instance)
-          to_create[result_instance]
-          run_callbacks(:after_create, result_instance)
+      def result(evaluation)
+        evaluation.object.tap do |instance|
+          evaluation.notify(:after_build, instance)
+          evaluation.notify(:before_create, instance)
+          evaluation.create(instance)
+          evaluation.notify(:after_create, instance)
         end
       end
     end

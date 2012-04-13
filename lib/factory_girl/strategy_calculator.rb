@@ -15,7 +15,7 @@ module FactoryGirl
     private
 
     def strategy_is_object?
-      @name_or_object.is_a?(Class) && @name_or_object.ancestors.include?(::FactoryGirl::Strategy)
+      @name_or_object.is_a?(Class)
     end
 
     def strategy_name_to_object

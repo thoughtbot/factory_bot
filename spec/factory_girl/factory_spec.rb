@@ -25,7 +25,7 @@ describe FactoryGirl::Factory do
 
     factory.run(FactoryGirl::Strategy::Build, {})
 
-    strategy.should have_received(:result).with(instance_of(FactoryGirl::AttributeAssigner), block)
+    strategy.should have_received(:result).with(instance_of(FactoryGirl::Evaluation))
   end
 
   it "returns associations" do
