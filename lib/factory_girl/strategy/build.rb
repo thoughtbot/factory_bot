@@ -1,13 +1,13 @@
 module FactoryGirl
-  class Strategy #:nodoc:
-    class Build < Strategy #:nodoc:
+  module Strategy
+    class Build
       def association(runner)
         runner.run
       end
 
-      def result(attribute_assigner, to_create)
-        attribute_assigner.object.tap do |result_instance|
-          run_callbacks(:after_build, result_instance)
+      def result(evaluation)
+        evaluation.object.tap do |instance|
+          evaluation.notify(:after_build, instance)
         end
       end
     end

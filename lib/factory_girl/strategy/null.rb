@@ -1,10 +1,10 @@
 module FactoryGirl
-  class Strategy
+  module Strategy
     class Null
       def association(runner)
       end
 
-      def result(attribute_assigner, to_create)
+      def result(evaluation)
       end
     end
   end

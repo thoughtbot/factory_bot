@@ -5,9 +5,21 @@ describe FactoryGirl::Strategy::Create do
   it_should_behave_like "strategy with callbacks", :after_build, :before_create, :after_create
 
   it "runs a custom create block" do
-    block_run = false
-    block = lambda {|instance| block_run = true }
-    subject.result(stub("assigner", object: stub("result instance")), block)
-    block_run.should be_true
+    evaluation_class = Class.new do
+      def initialize
+        @block_run = false
+      end
+
+      attr_reader :block_run
+
+      def create(*instance)
+        @block_run = true
+      end
+    end
+
+    evaluation = evaluation_class.new
+    evaluation.stubs(object: nil, notify: nil)
+    subject.result(evaluation)
+    evaluation.block_run.should be_true
   end
 end

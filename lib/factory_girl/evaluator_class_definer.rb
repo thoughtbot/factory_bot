@@ -1,8 +1,7 @@
 module FactoryGirl
   class EvaluatorClassDefiner
-    def initialize(attributes, callbacks, parent_class)
+    def initialize(attributes, parent_class)
       @parent_class = parent_class
-      @callbacks    = callbacks
       @attributes   = attributes
 
       attributes.each do |attribute|
@@ -12,8 +11,6 @@ module FactoryGirl
 
     def evaluator_class
       @evaluator_class ||= Class.new(@parent_class).tap do |klass|
-        klass.callbacks ||= []
-        klass.callbacks += @callbacks
         klass.attribute_lists ||= []
         klass.attribute_lists += [@attributes]
       end

@@ -1,12 +1,12 @@
 module FactoryGirl
-  class Strategy #:nodoc:
-    class AttributesFor < Strategy #:nodoc:
+  module Strategy
+    class AttributesFor
       def association(runner)
         runner.run(Strategy::Null)
       end
 
-      def result(attribute_assigner, to_create)
-        attribute_assigner.hash
+      def result(evaluation)
+        evaluation.hash
       end
     end
   end

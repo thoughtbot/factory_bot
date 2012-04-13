@@ -8,16 +8,6 @@ describe FactoryGirl::StrategyCalculator, "with a FactoryGirl::Strategy object" 
   end
 end
 
-describe FactoryGirl::StrategyCalculator, "with a non-FactoryGirl::Strategy object" do
-  before { define_class "MyAwesomeStrategy" }
-
-  let(:strategy) { MyAwesomeStrategy }
-
-  it "returns the strategy object" do
-    expect { FactoryGirl::StrategyCalculator.new(strategy).strategy }.to raise_error "unrecognized method MyAwesomeStrategy"
-  end
-end
-
 describe FactoryGirl::StrategyCalculator do
   it "returns the correct strategy object for :build" do
     FactoryGirl::StrategyCalculator.new(:build).strategy.should == FactoryGirl::Strategy::Build

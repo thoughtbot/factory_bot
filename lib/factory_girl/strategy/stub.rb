@@ -1,16 +1,16 @@
 module FactoryGirl
-  class Strategy
-    class Stub < Strategy #:nodoc:
+  module Strategy
+    class Stub
       @@next_id = 1000
 
       def association(runner)
         runner.run(Strategy::Stub)
       end
 
-      def result(attribute_assigner, to_create)
-        attribute_assigner.object.tap do |result_instance|
-          stub_database_interaction_on_result(result_instance)
-          run_callbacks(:after_stub, result_instance)
+      def result(evaluation)
+        evaluation.object.tap do |instance|
+          stub_database_interaction_on_result(instance)
+          evaluation.notify(:after_stub, instance)
         end
       end
 

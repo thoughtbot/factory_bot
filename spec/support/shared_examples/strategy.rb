@@ -70,36 +70,22 @@ shared_examples_for "strategy with strategy: :build" do |factory_girl_strategy_c
 end
 
 shared_examples_for "strategy with callbacks" do |*callback_names|
-  let(:callback_observer) do
-    define_class("CallbackObserver") do
-      attr_reader :callbacks_called
-
-      def initialize
-        @callbacks_called = []
-      end
-
-      def update(callback_name, assigner)
-        @callbacks_called << [callback_name, assigner]
-      end
-    end.new
-  end
-
   let(:result_instance) do
     define_class("ResultInstance") do
       attr_accessor :id
     end.new
   end
 
-  let(:assigner) { stub("attribute assigner", object: result_instance) }
+  let(:evaluation) { stub("evaluation", object: result_instance, notify: true, create: nil) }
 
-  before { subject.add_observer(callback_observer) }
-
-  it "runs the callbacks #{callback_names} with the assigner's object" do
-    subject.result(assigner, lambda {|instance| instance })
-    callback_observer.callbacks_called.should == callback_names.map {|name| [name, assigner.object] }
+  it "runs the callbacks #{callback_names} with the evaluation's object" do
+    subject.result(evaluation)
+    callback_names.each do |name|
+      evaluation.should have_received(:notify).with(name, evaluation.object)
+    end
   end
 
-  it "returns the object from the assigner" do
-    subject.result(assigner, lambda {|instance| instance }).should == assigner.object
+  it "returns the object from the evaluation" do
+    subject.result(evaluation).should == evaluation.object
   end
 end

@@ -14,25 +14,24 @@ describe FactoryGirl::Strategy::Stub do
       end.new
     end
 
-    let(:assigner)  { stub("attribute assigner", object: result_instance) }
-    let(:to_create) { lambda {|instance| instance } }
+    let(:evaluation)  { stub("evaluation", object: result_instance, notify: true) }
 
-    it { subject.result(assigner, to_create).should_not be_new_record }
-    it { subject.result(assigner, to_create).should be_persisted }
+    it { subject.result(evaluation).should_not be_new_record }
+    it { subject.result(evaluation).should be_persisted }
 
     it "assigns created_at" do
-      created_at = subject.result(assigner, to_create).created_at
+      created_at = subject.result(evaluation).created_at
       created_at.should == Time.now
 
       Timecop.travel(150000)
 
-      subject.result(assigner, to_create).created_at.should == created_at
+      subject.result(evaluation).created_at.should == created_at
     end
 
     [:save, :destroy, :connection, :reload, :update_attribute].each do |database_method|
       it "raises when attempting to connect to the database by calling #{database_method}" do
         expect do
-          subject.result(assigner, to_create).send(database_method)
+          subject.result(evaluation).send(database_method)
         end.to raise_error(RuntimeError, "stubbed models are not allowed to access the database")
       end
     end

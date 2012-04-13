@@ -35,7 +35,10 @@ module FactoryGirl
       evaluator = evaluator_class.new(strategy, overrides.symbolize_keys)
       attribute_assigner = AttributeAssigner.new(evaluator, &instance_builder)
 
-      strategy.result(attribute_assigner, to_create).tap(&block)
+      evaluation = Evaluation.new(attribute_assigner, to_create)
+      evaluation.add_observer(CallbackRunner.new(callbacks, evaluator))
+
+      strategy.result(evaluation).tap(&block)
     end
 
     def human_names
@@ -97,7 +100,7 @@ module FactoryGirl
     end
 
     def evaluator_class
-      @evaluator_class ||= EvaluatorClassDefiner.new(attributes, callbacks, parent.evaluator_class).evaluator_class
+      @evaluator_class ||= EvaluatorClassDefiner.new(attributes, parent.evaluator_class).evaluator_class
     end
 
     def attributes
@@ -110,7 +113,7 @@ module FactoryGirl
     end
 
     def callbacks
-      processing_order.map {|factory| factory.callbacks }.flatten
+      parent.callbacks + processing_order.map {|factory| factory.callbacks }.flatten
     end
 
     def constructor
