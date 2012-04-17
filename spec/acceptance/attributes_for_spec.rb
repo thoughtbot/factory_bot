@@ -5,22 +5,28 @@ describe "a generated attributes hash" do
 
   before do
     define_model('User')
+    define_model('Comment')
 
     define_model('Post', title:   :string,
                          body:    :string,
                          summary: :string,
                          user_id: :integer) do
       belongs_to :user
+      has_many :comments
     end
 
     FactoryGirl.define do
       factory :user
+      factory :comment
 
       factory :post do
         title { "default title" }
         body { "default body" }
         summary { title }
         user
+        comments do |c|
+          [c.association(:comment)]
+        end
       end
     end
   end
