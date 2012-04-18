@@ -4,6 +4,26 @@ describe 'FactoryGirlStepHelpers::HumanHashToAttributeHash' do
   before do
     Object.any_instance.stubs(:World)
     require "factory_girl/step_definitions"
+
+    define_model('User', name: :string) do
+      has_many :posts
+    end
+
+    define_model('Post', title: :string, user_id: :integer) do
+      belongs_to :user
+    end
+
+    FactoryGirl.define do
+      factory :post do
+        title "Through the Looking Glass"
+        user
+      end
+
+      factory :user do
+        name "John Doe"
+      end
+
+    end
   end
 
   describe "#attributes" do

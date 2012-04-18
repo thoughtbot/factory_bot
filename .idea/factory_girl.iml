@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="RUBY_MODULE" version="4">
+  <component name="NewModuleRootManager">
+    <content url="file://$MODULE_DIR$" />
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" scope="PROVIDED" name="activesupport (v3.1.0.rc3, RVM: ruby-1.8.7-p334 [current_user]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="builder (v3.0.0, RVM: ruby-1.8.7-p334 [current_user]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="bundler (v1.0.14, RVM: ruby-1.8.7-p334 [current_user]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="ffi (v1.0.9, RVM: ruby-1.8.7-p334 [current_user]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="i18n (v0.6.0, RVM: ruby-1.8.7-p334 [current_user]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="multi_json (v1.0.3, RVM: ruby-1.8.7-p334 [current_user]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="sqlite3-ruby (v1.3.3, RVM: ruby-1.8.7-p334 [current_user]) [gem]" level="application" />
+  </component>
+</module>
+
