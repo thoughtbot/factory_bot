@@ -684,7 +684,7 @@ Custom Construction
 If you want to use factory_girl to construct an object where some attributes
 are passed to `initialize` or if you want to do something other than simply
 calling `new` on your build class, you can override the default behavior by
-defining `to_initialize` on your factory. Example:
+defining `initialize_with` on your factory. Example:
 
 ```ruby
 # user.rb
