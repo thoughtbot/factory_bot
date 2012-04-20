@@ -80,7 +80,34 @@ module FactoryGirl
     traits.find(name)
   end
 
+  def self.strategies
+    @strategies ||= Registry.new("Strategy")
+  end
+
+  def self.register_strategy(strategy_name, strategy_class)
+    strategies.register(strategy_name, strategy_class)
+
+    FactoryGirl::Syntax::Methods.module_exec do
+      define_method(strategy_name) do |name, *traits_and_overrides, &block|
+        FactoryRunner.new(name, strategy_class, traits_and_overrides).run(&block)
+      end
+    end
+  end
+
+  def self.strategy_by_name(name)
+    strategies.find(name)
+  end
+
+  def self.register_default_strategies
+    FactoryGirl.register_strategy(:build,          FactoryGirl::Strategy::Build)
+    FactoryGirl.register_strategy(:create,         FactoryGirl::Strategy::Create)
+    FactoryGirl.register_strategy(:attributes_for, FactoryGirl::Strategy::AttributesFor)
+    FactoryGirl.register_strategy(:build_stubbed,  FactoryGirl::Strategy::Stub)
+  end
+
   def self.callback_names
     [:after_build, :after_create, :after_stub, :before_create].freeze
   end
 end
+
+FactoryGirl.register_default_strategies

@@ -3,6 +3,8 @@ module FactoryGirl
     self.factories.clear
     self.sequences.clear
     self.traits.clear
+    self.strategies.clear
+    self.register_default_strategies
     self.find_definitions
   end
 end
