@@ -130,6 +130,24 @@ factory :user do
 end
 ```
 
+In addition to running other methods dynamically, you can use FactoryGirl's
+syntax methods (like `build`, `create`, and `generate`) within dynamic
+attributes without having to prefix the call with `FactoryGirl.`. This allows
+you to do:
+
+```ruby
+sequence(:random_string) {|n| LoremIpsum.generate }
+
+factory :post do
+  title { generate(:random_string) } # instead of FactoryGirl.generate(:random_string)
+end
+
+factory :comment do
+  post
+  body { generate(:random_string) }  # instead of FactoryGirl.generate(:random_string)
+end
+```
+
 Aliases
 -------
 
@@ -372,7 +390,7 @@ Or in lazy attributes:
 
 ```ruby
 factory :invite do
-  invitee { FactoryGirl.generate(:email) }
+  invitee { generate(:email) }
 end
 ```
 
