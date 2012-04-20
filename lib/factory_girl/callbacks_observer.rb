@@ -1,5 +1,5 @@
 module FactoryGirl
-  class CallbackRunner
+  class CallbacksObserver
     def initialize(callbacks, evaluator)
       @callbacks = callbacks
       @evaluator = evaluator

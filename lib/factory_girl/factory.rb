@@ -36,7 +36,7 @@ module FactoryGirl
       attribute_assigner = AttributeAssigner.new(evaluator, build_class, &instance_builder)
 
       evaluation = Evaluation.new(attribute_assigner, to_create)
-      evaluation.add_observer(CallbackRunner.new(callbacks, evaluator))
+      evaluation.add_observer(CallbacksObserver.new(callbacks, evaluator))
 
       strategy.result(evaluation).tap(&block)
     end
