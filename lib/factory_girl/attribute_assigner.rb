@@ -1,6 +1,7 @@
 module FactoryGirl
   class AttributeAssigner
-    def initialize(evaluator, &instance_builder)
+    def initialize(evaluator, build_class, &instance_builder)
+      @build_class = build_class
       @instance_builder         = instance_builder
       @evaluator                = evaluator
       @attribute_list           = evaluator.class.attribute_list
@@ -18,7 +19,7 @@ module FactoryGirl
     end
 
     def hash
-      @evaluator.instance = NullObject.new
+      @evaluator.instance = build_hash
 
       attributes_to_set_on_hash.inject({}) do |result, attribute|
         result[attribute] = get(attribute)
@@ -30,6 +31,10 @@ module FactoryGirl
 
     def build_class_instance
       @build_class_instance ||= @evaluator.instance_exec(&@instance_builder)
+    end
+
+    def build_hash
+      @build_hash ||= NullObject.new(hash_instance_methods_to_respond_to)
     end
 
     def get(attribute_name)
@@ -62,6 +67,10 @@ module FactoryGirl
 
     def override_names
       @evaluator.__overrides.keys
+    end
+
+    def hash_instance_methods_to_respond_to
+      @attribute_list.map(&:name) + override_names + @build_class.instance_methods
     end
 
     def alias_names_to_ignore

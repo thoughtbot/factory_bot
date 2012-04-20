@@ -47,7 +47,11 @@ module FactoryGirl
       if @cached_attributes.key?(method_name)
         @cached_attributes[method_name]
       else
-        @instance.send(method_name, *args, &block)
+        if @instance.respond_to?(method_name)
+          @instance.send(method_name, *args, &block)
+        else
+          SyntaxRunner.new.send(method_name, *args, &block)
+        end
       end
     end
 
