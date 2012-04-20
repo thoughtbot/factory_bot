@@ -19,11 +19,8 @@ module FactoryGirl
     end
 
     def strategy_name_to_object
-      case @name_or_object
-      when :build  then Strategy::Build
-      when :create then Strategy::Create
-      else raise "unrecognized method #{@name_or_object}"
-      end
+      FactoryGirl.strategy_by_name(@name_or_object) ||
+        raise("unrecognized method #{@name_or_object}")
     end
   end
 end

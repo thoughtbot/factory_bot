@@ -745,6 +745,49 @@ You can override the initializer in order to:
 * Use a method other than `new` to instantiate the instance
 * Do crazy things like decorate the instance after it's built
 
+Custom Strategies
+-----------------
+
+There are times where you may want to extend behavior of factory\_girl by
+adding a custom build strategy.
+
+Strategies define two methods: `association` and `result`. `association`
+receives a `FactoryGirl::FactoryRunner` instance, upon which you can call
+`run`, overriding the strategy if you want. The second method, `result`,
+receives a `FactoryGirl::Evaluation` instance. It provides a way to trigger
+callbacks (with `notify`), `object` or `hash` (to get the result instance or a
+hash based on the attributes defined in the factory), and `create`, which
+executes the `to_create` callback defined on the factory.
+
+To understand how factory\_girl uses strategies internally, it's probably
+easiest to just view the source for each of the four default strategies.
+
+Inheritance can occasionally be useful; here's an example of inheriting from
+`FactoryGirl::Strategy::Create` to build a JSON representation of your model.
+
+```ruby
+class JsonStrategy < FactoryGirl::Strategy::Create
+  def result(evaluation)
+    super.to_json
+  end
+end
+```
+
+For factory\_girl to recognize the new strategy, you can register it:
+
+```ruby
+FactoryGirl.register_strategy(:json, JsonStrategy)
+```
+
+This allows you to call
+
+```ruby
+FactoryGirl.json(:user)
+```
+
+Finally, you can override factory\_girl's own strategies if you'd like by
+registering a new object in place of the strategies.
+
 Cucumber Integration
 --------------------
 
