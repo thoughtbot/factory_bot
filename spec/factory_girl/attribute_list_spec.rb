@@ -2,7 +2,7 @@ require "spec_helper"
 
 describe FactoryGirl::AttributeList, "#define_attribute" do
   let(:static_attribute)  { FactoryGirl::Attribute::Static.new(:full_name, "value", false) }
-  let(:dynamic_attribute) { FactoryGirl::Attribute::Dynamic.new(:email, false, lambda {|u| "#{u.full_name}@example.com" }) }
+  let(:dynamic_attribute) { FactoryGirl::Attribute::Dynamic.new(:email, false, ->(u) { "#{u.full_name}@example.com" }) }
 
   it "maintains a list of attributes" do
     subject.define_attribute(static_attribute)
@@ -42,8 +42,8 @@ end
 describe FactoryGirl::AttributeList, "#apply_attributes" do
   let(:full_name_attribute) { FactoryGirl::Attribute::Static.new(:full_name, "John Adams", false) }
   let(:city_attribute)      { FactoryGirl::Attribute::Static.new(:city, "Boston", false) }
-  let(:email_attribute)     { FactoryGirl::Attribute::Dynamic.new(:email, false, lambda {|model| "#{model.full_name}@example.com" }) }
-  let(:login_attribute)     { FactoryGirl::Attribute::Dynamic.new(:login, false, lambda {|model| "username-#{model.full_name}" }) }
+  let(:email_attribute)     { FactoryGirl::Attribute::Dynamic.new(:email, false, ->(model) { "#{model.full_name}@example.com" }) }
+  let(:login_attribute)     { FactoryGirl::Attribute::Dynamic.new(:login, false, ->(model) { "username-#{model.full_name}" }) }
 
   def list(*attributes)
     FactoryGirl::AttributeList.new.tap do |list|
@@ -61,7 +61,7 @@ end
 
 describe FactoryGirl::AttributeList, "#associations" do
   let(:full_name_attribute) { FactoryGirl::Attribute::Static.new(:full_name, "value", false) }
-  let(:email_attribute)     { FactoryGirl::Attribute::Dynamic.new(:email, false, lambda {|u| "#{u.full_name}@example.com" }) }
+  let(:email_attribute)     { FactoryGirl::Attribute::Dynamic.new(:email, false, ->(u) { "#{u.full_name}@example.com" }) }
   let(:author_attribute)    { FactoryGirl::Attribute::Association.new(:author, :user, {}) }
   let(:profile_attribute)   { FactoryGirl::Attribute::Association.new(:profile, :profile, {}) }
 

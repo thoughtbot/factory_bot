@@ -15,7 +15,7 @@ module FactoryGirl
     end
 
     def to_proc
-      lambda { }
+      -> { }
     end
 
     def association?

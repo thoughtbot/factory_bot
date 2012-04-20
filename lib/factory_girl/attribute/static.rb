@@ -8,7 +8,7 @@ module FactoryGirl
 
       def to_proc
         value = @value
-        lambda { value }
+        -> { value }
       end
     end
   end

@@ -19,7 +19,7 @@ describe FactoryGirl::Factory do
   it "passes a custom creation block" do
     strategy = stub("strategy", result: nil, add_observer: true)
     FactoryGirl::Strategy::Build.stubs(new: strategy)
-    block = lambda {}
+    block = -> {}
     factory = FactoryGirl::Factory.new(:object)
     factory.to_create(&block)
 
@@ -69,7 +69,7 @@ describe FactoryGirl::Factory do
     end
 
     it "does not call a lazy attribute block for an overridden attribute" do
-      declaration = FactoryGirl::Declaration::Dynamic.new(@name, false, lambda { flunk })
+      declaration = FactoryGirl::Declaration::Dynamic.new(@name, false, -> { flunk })
       @factory.declare_attribute(declaration)
       @factory.run(FactoryGirl::Strategy::AttributesFor, @hash)
     end
@@ -252,7 +252,7 @@ describe FactoryGirl::Factory, "running a factory" do
 
   it "calls the block and returns the result" do
     block_run = nil
-    block = lambda {|result| block_run = "changed" }
+    block = ->(result) { block_run = "changed" }
     subject.run(FactoryGirl::Strategy::Build, { }, &block)
     block_run.should == "changed"
   end

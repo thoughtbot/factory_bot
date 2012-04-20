@@ -9,7 +9,7 @@ module FactoryGirl
       def to_proc
         block = @block
 
-        lambda {
+        -> {
           value = block.arity == 1 ? block.call(self) : instance_exec(&block)
           raise SequenceAbuseError if FactoryGirl::Sequence === value
           value

@@ -12,7 +12,7 @@ module FactoryGirl
       def to_proc
         factory   = @factory
         overrides = @overrides
-        lambda { association(factory, overrides) }
+        -> { association(factory, overrides) }
       end
 
       def association?

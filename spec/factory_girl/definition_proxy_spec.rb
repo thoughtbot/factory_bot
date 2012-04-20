@@ -16,7 +16,7 @@ describe FactoryGirl::DefinitionProxy, "#add_attribute" do
   end
 
   it "declares a dynamic attribute on the factory" do
-    attribute_value = lambda { "dynamic attribute" }
+    attribute_value = -> { "dynamic attribute" }
     proxy.add_attribute(:attribute_name, &attribute_value)
     subject.should have_dynamic_declaration(:attribute_name).with_value(attribute_value)
   end
@@ -38,7 +38,7 @@ describe FactoryGirl::DefinitionProxy, "#add_attribute when the proxy ignores at
   end
 
   it "declares a dynamic attribute on the factory" do
-    attribute_value = lambda { "dynamic attribute" }
+    attribute_value = -> { "dynamic attribute" }
     proxy.add_attribute(:attribute_name, &attribute_value)
     subject.should have_dynamic_declaration(:attribute_name).ignored.with_value(attribute_value)
   end
@@ -77,7 +77,7 @@ describe FactoryGirl::DefinitionProxy, "#method_missing" do
   end
 
   it "declares a dynamic attribute" do
-    attribute_value = lambda { "dynamic attribute" }
+    attribute_value = -> { "dynamic attribute" }
     proxy.attribute_name &attribute_value
     subject.should have_dynamic_declaration(:attribute_name).with_value(attribute_value)
   end
@@ -124,7 +124,7 @@ end
 describe FactoryGirl::DefinitionProxy, "adding callbacks" do
   subject        { FactoryGirl::Definition.new }
   let(:proxy)    { FactoryGirl::DefinitionProxy.new(subject) }
-  let(:callback) { lambda { "my awesome callback!" } }
+  let(:callback) { -> { "my awesome callback!" } }
 
   context "#after_build" do
     before { proxy.after_build(&callback) }
@@ -147,7 +147,7 @@ describe FactoryGirl::DefinitionProxy, "#to_create" do
   let(:proxy) { FactoryGirl::DefinitionProxy.new(subject) }
 
   it "accepts a block to run in place of #save!" do
-    to_create_block = lambda {|record| record.persist }
+    to_create_block = ->(record) { record.persist }
     proxy.to_create(&to_create_block)
     subject.to_create.should == to_create_block
   end
@@ -168,7 +168,7 @@ describe FactoryGirl::DefinitionProxy, "#factory" do
   end
 
   it "with a block" do
-    child_block = lambda { }
+    child_block = -> { }
     proxy.factory(:child, {}, &child_block)
     proxy.child_factories.should include([:child, {}, child_block])
   end

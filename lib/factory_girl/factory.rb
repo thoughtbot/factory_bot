@@ -27,7 +27,7 @@ module FactoryGirl
     end
 
     def run(strategy_class, overrides, &block) #:nodoc:
-      block ||= lambda {|result| result }
+      block ||= ->(result) { result }
       compile
 
       strategy = strategy_class.new
@@ -136,7 +136,7 @@ module FactoryGirl
 
     def instance_builder
       build_class = self.build_class
-      constructor || lambda { build_class.new }
+      constructor || -> { build_class.new }
     end
 
     def initialize_copy(source)

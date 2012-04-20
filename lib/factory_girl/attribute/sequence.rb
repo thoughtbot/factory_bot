@@ -9,7 +9,7 @@ module FactoryGirl
 
       def to_proc
         sequence = @sequence
-        lambda { FactoryGirl.generate(sequence) }
+        -> { FactoryGirl.generate(sequence) }
       end
     end
 

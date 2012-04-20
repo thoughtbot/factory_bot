@@ -23,7 +23,7 @@ module FactoryGirl
       @cached_attributes = overrides
 
       @overrides.each do |name, value|
-        singleton_class.send :define_method, name, lambda { value }
+        singleton_class.send :define_method, name, -> { value }
       end
     end
 

@@ -1,9 +1,9 @@
 require "spec_helper"
 
 describe FactoryGirl::EvaluatorClassDefiner do
-  let(:simple_attribute)                    { stub("simple attribute",   name: :simple, to_proc: lambda { 1 }) }
-  let(:relative_attribute)                  { stub("relative attribute", name: :relative, to_proc: lambda { simple + 1 }) }
-  let(:attribute_that_raises_a_second_time) { stub("attribute that would raise without a cache", name: :raises_without_proper_cache, to_proc: lambda { raise "failed" if @run; @run = true; nil }) }
+  let(:simple_attribute)                    { stub("simple attribute",   name: :simple, to_proc: -> { 1 }) }
+  let(:relative_attribute)                  { stub("relative attribute", name: :relative, to_proc: -> { simple + 1 }) }
+  let(:attribute_that_raises_a_second_time) { stub("attribute that would raise without a cache", name: :raises_without_proper_cache, to_proc: -> { raise "failed" if @run; @run = true; nil }) }
 
   let(:attributes)    { [simple_attribute, relative_attribute, attribute_that_raises_a_second_time] }
   let(:class_definer) { FactoryGirl::EvaluatorClassDefiner.new(attributes, FactoryGirl::Evaluator) }
@@ -32,7 +32,7 @@ describe FactoryGirl::EvaluatorClassDefiner do
   end
 
   context "with a custom evaluator as a parent class" do
-    let(:child_attributes) { [stub("child attribute", name: :simple, to_proc: lambda { 1 })] }
+    let(:child_attributes) { [stub("child attribute", name: :simple, to_proc: -> { 1 })] }
     let(:child_definer)    { FactoryGirl::EvaluatorClassDefiner.new(child_attributes, class_definer.evaluator_class) }
 
     subject { child_definer.evaluator_class }
