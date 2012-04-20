@@ -120,8 +120,8 @@ describe "after defining a factory" do
 
     it "recognizes either 'name' or :name for Factory.#{method}" do
       @factory.stubs(:run)
-      lambda { Factory.send(method, @name.to_s) }.should_not raise_error
-      lambda { Factory.send(method, @name.to_sym) }.should_not raise_error
+      expect { Factory.send(method, @name.to_s) }.to_not raise_error
+      expect { Factory.send(method, @name.to_sym) }.to_not raise_error
     end
   end
 end

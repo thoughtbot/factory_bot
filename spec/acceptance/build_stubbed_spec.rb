@@ -52,27 +52,27 @@ describe "a generated stub instance" do
   end
 
   it "disables connection" do
-    lambda { subject.connection }.should raise_error(RuntimeError)
+    expect { subject.connection }.to raise_error(RuntimeError)
   end
 
   it "disables update_attribute" do
-    lambda { subject.update_attribute(:title, "value") }.should raise_error(RuntimeError)
+    expect { subject.update_attribute(:title, "value") }.to raise_error(RuntimeError)
   end
 
   it "disables reload" do
-    lambda { subject.reload }.should raise_error(RuntimeError)
+    expect { subject.reload }.to raise_error(RuntimeError)
   end
 
   it "disables destroy" do
-    lambda { subject.destroy }.should raise_error(RuntimeError)
+    expect { subject.destroy }.to raise_error(RuntimeError)
   end
 
   it "disables save" do
-    lambda { subject.save }.should raise_error(RuntimeError)
+    expect { subject.save }.to raise_error(RuntimeError)
   end
 
   it "disables increment" do
-    lambda { subject.increment!(:age) }.should raise_error(RuntimeError)
+    expect { subject.increment!(:age) }.to raise_error(RuntimeError)
   end
 end
 

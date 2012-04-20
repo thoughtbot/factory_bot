@@ -175,10 +175,10 @@ describe "modifying factories" do
   end
 
   it "raises an exception if the factory was not defined before" do
-    lambda {
+    expect {
       FactoryGirl.modify do
         factory :unknown_factory
       end
-    }.should raise_error(ArgumentError)
+    }.to raise_error(ArgumentError)
   end
 end
