@@ -2,29 +2,23 @@ module FactoryGirl
   class Registry
     include Enumerable
 
+    attr_reader :name
+
     def initialize(name)
       @name  = name
       @items = {}
     end
 
     def register(name, item)
-      if registered?(name)
-        raise DuplicateDefinitionError, "#{@name} already registered: #{name}"
-      else
-        @items[name.to_sym] = item
-      end
+      @items[name.to_sym] = item
     end
 
     def find(name)
-      @items[name.to_sym] or raise ArgumentError.new("#{@name} not registered: #{name.to_s}")
+      @items[name.to_sym]
     end
 
     def each(&block)
       @items.values.uniq.each(&block)
-    end
-
-    def [](name)
-      find(name)
     end
 
     def registered?(name)

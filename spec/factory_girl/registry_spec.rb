@@ -13,10 +13,6 @@ describe FactoryGirl::Registry do
     subject.find(:object_name).should == registered_object
   end
 
-  it "raises when trying to find an unregistered object" do
-    expect { subject.find(:bogus) }.to raise_error(ArgumentError, "Great thing not registered: bogus")
-  end
-
   it "adds and returns the object registered" do
     subject.register(:object_name, registered_object).should == registered_object
   end
@@ -35,11 +31,6 @@ describe FactoryGirl::Registry do
     subject.should_not be_registered("bogus")
   end
 
-  it "can be accessed like a hash" do
-    subject.register(:object_name, registered_object)
-    subject[:object_name].should == registered_object
-  end
-
   it "iterates registered objects" do
     subject.register(:first_object, registered_object)
     subject.register(:second_object, second_registered_object)
@@ -50,11 +41,6 @@ describe FactoryGirl::Registry do
     subject.register(:first_object, registered_object)
     subject.register(:second_object, registered_object)
     subject.to_a.should == [registered_object]
-  end
-
-  it "doesn't allow a duplicate name" do
-    expect { 2.times { subject.register(:same_name, registered_object) } }.
-      to raise_error(FactoryGirl::DuplicateDefinitionError, "Great thing already registered: same_name")
   end
 
   it "clears registered factories" do
