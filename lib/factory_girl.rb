@@ -39,7 +39,10 @@ module FactoryGirl
   end
 
   def self.register_factory(factory)
-    factories.add(factory)
+    factory.names.each do |name|
+      factories.register(name, factory)
+    end
+    factory
   end
 
   def self.factory_by_name(name)
@@ -51,7 +54,10 @@ module FactoryGirl
   end
 
   def self.register_sequence(sequence)
-    sequences.add(sequence)
+    sequence.names.each do |name|
+      sequences.register(name, sequence)
+    end
+    sequence
   end
 
   def self.sequence_by_name(name)
@@ -63,7 +69,10 @@ module FactoryGirl
   end
 
   def self.register_trait(trait)
-    traits.add(trait)
+    trait.names.each do |name|
+      traits.register(name, trait)
+    end
+    trait
   end
 
   def self.trait_by_name(name)

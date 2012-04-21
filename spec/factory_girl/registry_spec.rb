@@ -1,102 +1,65 @@
 require 'spec_helper'
 
 describe FactoryGirl::Registry do
-  let(:aliases)              { [:thing, :widget] }
-  let(:factory)              { FactoryGirl::Factory.new(:object) }
-  let(:other_factory)        { FactoryGirl::Factory.new(:string) }
-  let(:factory_with_aliases) { FactoryGirl::Factory.new(:string, aliases: aliases) }
-  let(:registry_name)        { "Factory" }
+  let(:registered_object)        { stub("registered object") }
+  let(:second_registered_object) { stub("second registered object") }
 
-  subject { FactoryGirl::Registry.new(registry_name) }
+  subject { FactoryGirl::Registry.new("Great thing") }
 
   it { should be_kind_of(Enumerable) }
 
-  it "finds a registered a factory" do
-    subject.add(factory)
-    subject.find(factory.name).should == factory
+  it "finds a registered object" do
+    subject.register(:object_name, registered_object)
+    subject.find(:object_name).should == registered_object
   end
 
-  it "raises when finding an unregistered factory" do
-    expect { subject.find(:bogus) }.to raise_error(ArgumentError, "Factory not registered: bogus")
+  it "raises when trying to find an unregistered object" do
+    expect { subject.find(:bogus) }.to raise_error(ArgumentError, "Great thing not registered: bogus")
   end
 
-  it "adds and returns a factory" do
-    subject.add(factory).should == factory
+  it "adds and returns the object registered" do
+    subject.register(:object_name, registered_object).should == registered_object
   end
 
-  it "knows that a factory is registered by symbol" do
-    subject.add(factory)
-    subject.should be_registered(factory.name.to_sym)
+  it "knows that an object is registered by symbol" do
+    subject.register(:object_name, registered_object)
+    subject.should be_registered(:object_name)
   end
 
-  it "knows that a factory is registered by string" do
-    subject.add(factory)
-    subject.should be_registered(factory.name.to_s)
+  it "knows that an object is registered by string" do
+    subject.register(:object_name, registered_object)
+    subject.should be_registered("object_name")
   end
 
-  it "knows that a factory isn't registered" do
+  it "knows when an object is not registered" do
     subject.should_not be_registered("bogus")
   end
 
   it "can be accessed like a hash" do
-    subject.add(factory)
-    subject[factory.name].should == factory
+    subject.register(:object_name, registered_object)
+    subject[:object_name].should == registered_object
   end
 
-  it "iterates registered factories" do
-    subject.add(factory)
-    subject.add(other_factory)
-    subject.to_a.should =~ [factory, other_factory]
+  it "iterates registered objects" do
+    subject.register(:first_object, registered_object)
+    subject.register(:second_object, second_registered_object)
+    subject.to_a.should == [registered_object, second_registered_object]
   end
 
-  it "iterates registered factories uniquely with aliases" do
-    subject.add(factory)
-    subject.add(factory_with_aliases)
-    subject.to_a.should =~ [factory, factory_with_aliases]
+  it "does not include duplicate objects with registered under different names" do
+    subject.register(:first_object, registered_object)
+    subject.register(:second_object, registered_object)
+    subject.to_a.should == [registered_object]
   end
 
   it "doesn't allow a duplicate name" do
-    expect { 2.times { subject.add(factory) } }.
-      to raise_error(FactoryGirl::DuplicateDefinitionError, "Factory already registered: object")
-  end
-
-  it "registers aliases" do
-    subject.add(factory_with_aliases)
-    aliases.each do |name|
-      subject.find(name).should == factory_with_aliases
-    end
+    expect { 2.times { subject.register(:same_name, registered_object) } }.
+      to raise_error(FactoryGirl::DuplicateDefinitionError, "Great thing already registered: same_name")
   end
 
   it "clears registered factories" do
-    subject.add(factory)
+    subject.register(:object_name, registered_object)
     subject.clear
     subject.count.should be_zero
-  end
-end
-
-describe FactoryGirl::Registry, "with sequences" do
-  let(:aliases)               { [:sender, :receiver] }
-  let(:sequence)              { FactoryGirl::Sequence.new(:email) { |n| "somebody#{n}@example.com" } }
-  let(:sequence_with_aliases) { FactoryGirl::Sequence.new(:email, aliases: aliases) { |n| "someone_else#{n}@example.com" } }
-  let(:registry_name)         { "Sequence" }
-
-  subject { FactoryGirl::Registry.new(registry_name) }
-
-  it "registers an sequence" do
-    subject.add(sequence)
-    subject.find(:email).should == sequence
-  end
-
-  it "registers a sequence with aliases" do
-    subject.add(sequence_with_aliases)
-
-    subject.find(:email).should    == sequence_with_aliases
-    subject.find(:sender).should   == sequence_with_aliases
-    subject.find(:receiver).should == sequence_with_aliases
-  end
-
-  it "doesn't allow a duplicate name" do
-    expect { 2.times { subject.add(sequence_with_aliases) } }.
-      to raise_error(FactoryGirl::DuplicateDefinitionError, "Sequence already registered: email")
   end
 end

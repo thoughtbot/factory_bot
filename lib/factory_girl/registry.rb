@@ -7,9 +7,12 @@ module FactoryGirl
       @items = {}
     end
 
-    def add(item)
-      item.names.each { |name| add_as(name, item) }
-      item
+    def register(name, item)
+      if registered?(name)
+        raise DuplicateDefinitionError, "#{@name} already registered: #{name}"
+      else
+        @items[name.to_sym] = item
+      end
     end
 
     def find(name)
@@ -31,16 +34,5 @@ module FactoryGirl
     def clear
       @items.clear
     end
-
-    private
-
-    def add_as(name, item)
-      if registered?(name)
-        raise DuplicateDefinitionError, "#{@name} already registered: #{name}"
-      else
-        @items[name.to_sym] = item
-      end
-    end
   end
 end
-
