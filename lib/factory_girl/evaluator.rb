@@ -51,8 +51,8 @@ module FactoryGirl
       end
     end
 
-    def __overrides
-      @overrides
+    def __override_names__
+      @overrides.keys
     end
   end
 end

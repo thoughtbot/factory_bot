@@ -66,7 +66,7 @@ module FactoryGirl
     end
 
     def override_names
-      @evaluator.__overrides.keys
+      @evaluator.__override_names__
     end
 
     def hash_instance_methods_to_respond_to
