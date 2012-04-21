@@ -26,8 +26,9 @@ describe FactoryGirl::Sequence do
   end
 
   describe "a sequence with aliases using default value" do
-    subject    { FactoryGirl::Sequence.new(:test, aliases: [:alias, :other]) { |n| "=#{n}" } }
-    its(:next) { should == "=1" }
+    subject     { FactoryGirl::Sequence.new(:test, aliases: [:alias, :other]) { |n| "=#{n}" } }
+    its(:next)  { should == "=1" }
+    its(:names) { should == [:test, :alias, :other] }
 
     describe "when incrementing" do
       before     { subject.next }
