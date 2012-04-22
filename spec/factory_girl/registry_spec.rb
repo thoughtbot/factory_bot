@@ -18,6 +18,10 @@ describe FactoryGirl::Registry do
     subject[:object_name].should == registered_object
   end
 
+  it "raises when an object cannot be found" do
+    expect { subject.find(:object_name) }.to raise_error(ArgumentError, "Great thing not registered: object_name")
+  end
+
   it "adds and returns the object registered" do
     subject.register(:object_name, registered_object).should == registered_object
   end
