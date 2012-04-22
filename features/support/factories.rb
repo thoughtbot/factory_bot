@@ -103,7 +103,10 @@ FactoryGirl.define do
   end
 
   factory :category do
-    name "programming"
+    ignore do
+      important false
+    end
+    name  { "programming#{" [IMPORTANT]" if !!important}" }
     category_group
   end
 
