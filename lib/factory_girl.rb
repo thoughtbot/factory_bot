@@ -8,7 +8,7 @@ require "factory_girl/strategy/create"
 require "factory_girl/strategy/attributes_for"
 require "factory_girl/strategy/stub"
 require "factory_girl/strategy/null"
-require 'factory_girl/strict_registry'
+require 'factory_girl/disallows_duplicates_registry'
 require 'factory_girl/registry'
 require 'factory_girl/null_factory'
 require 'factory_girl/null_object'
@@ -36,7 +36,7 @@ require 'factory_girl/version'
 
 module FactoryGirl
   def self.factories
-    @factories ||= StrictRegistry.new(Registry.new("Factory"))
+    @factories ||= DisallowsDuplicatesRegistry.new(Registry.new("Factory"))
   end
 
   def self.register_factory(factory)
@@ -51,7 +51,7 @@ module FactoryGirl
   end
 
   def self.sequences
-    @sequences ||= StrictRegistry.new(Registry.new("Sequence"))
+    @sequences ||= DisallowsDuplicatesRegistry.new(Registry.new("Sequence"))
   end
 
   def self.register_sequence(sequence)
@@ -66,7 +66,7 @@ module FactoryGirl
   end
 
   def self.traits
-    @traits ||= StrictRegistry.new(Registry.new("Trait"))
+    @traits ||= DisallowsDuplicatesRegistry.new(Registry.new("Trait"))
   end
 
   def self.register_trait(trait)

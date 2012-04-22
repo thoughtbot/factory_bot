@@ -19,8 +19,7 @@ module FactoryGirl
     end
 
     def strategy_name_to_object
-      FactoryGirl.strategy_by_name(@name_or_object) ||
-        raise("unrecognized method #{@name_or_object}")
+      FactoryGirl.strategy_by_name(@name_or_object)
     end
   end
 end
