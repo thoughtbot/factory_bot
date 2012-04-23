@@ -17,6 +17,8 @@ module FactoryGirl
       @items[name.to_sym]
     end
 
+    alias :[] :find
+
     def each(&block)
       @items.values.uniq.each(&block)
     end

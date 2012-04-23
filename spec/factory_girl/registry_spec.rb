@@ -13,6 +13,11 @@ describe FactoryGirl::Registry do
     subject.find(:object_name).should == registered_object
   end
 
+  it "finds a registered object with square brackets" do
+    subject.register(:object_name, registered_object)
+    subject[:object_name].should == registered_object
+  end
+
   it "adds and returns the object registered" do
     subject.register(:object_name, registered_object).should == registered_object
   end
