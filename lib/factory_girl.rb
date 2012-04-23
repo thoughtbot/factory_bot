@@ -8,7 +8,7 @@ require "factory_girl/strategy/create"
 require "factory_girl/strategy/attributes_for"
 require "factory_girl/strategy/stub"
 require "factory_girl/strategy/null"
-require 'factory_girl/strict_registry'
+require 'factory_girl/disallows_duplicates_registry'
 require 'factory_girl/registry'
 require 'factory_girl/null_factory'
 require 'factory_girl/null_object'
@@ -36,7 +36,7 @@ require 'factory_girl/version'
 
 module FactoryGirl
   def self.factories
-    @factories ||= StrictRegistry.new(Registry.new("Factory"))
+    @factories ||= DisallowsDuplicatesRegistry.new(Registry.new("Factory"))
   end
 
   def self.register_factory(factory)
@@ -51,7 +51,7 @@ module FactoryGirl
   end
 
   def self.sequences
-    @sequences ||= StrictRegistry.new(Registry.new("Sequence"))
+    @sequences ||= DisallowsDuplicatesRegistry.new(Registry.new("Sequence"))
   end
 
   def self.register_sequence(sequence)
@@ -66,7 +66,7 @@ module FactoryGirl
   end
 
   def self.traits
-    @traits ||= StrictRegistry.new(Registry.new("Trait"))
+    @traits ||= DisallowsDuplicatesRegistry.new(Registry.new("Trait"))
   end
 
   def self.register_trait(trait)
@@ -80,7 +80,34 @@ module FactoryGirl
     traits.find(name)
   end
 
+  def self.strategies
+    @strategies ||= Registry.new("Strategy")
+  end
+
+  def self.register_strategy(strategy_name, strategy_class)
+    strategies.register(strategy_name, strategy_class)
+
+    FactoryGirl::Syntax::Methods.module_exec do
+      define_method(strategy_name) do |name, *traits_and_overrides, &block|
+        FactoryRunner.new(name, strategy_class, traits_and_overrides).run(&block)
+      end
+    end
+  end
+
+  def self.strategy_by_name(name)
+    strategies.find(name)
+  end
+
+  def self.register_default_strategies
+    FactoryGirl.register_strategy(:build,          FactoryGirl::Strategy::Build)
+    FactoryGirl.register_strategy(:create,         FactoryGirl::Strategy::Create)
+    FactoryGirl.register_strategy(:attributes_for, FactoryGirl::Strategy::AttributesFor)
+    FactoryGirl.register_strategy(:build_stubbed,  FactoryGirl::Strategy::Stub)
+  end
+
   def self.callback_names
     [:after_build, :after_create, :after_stub, :before_create].freeze
   end
 end
+
+FactoryGirl.register_default_strategies

@@ -28,7 +28,7 @@ module FactoryGirl
     end
 
     def association(factory_name, overrides = {})
-      strategy_override = overrides.fetch(:strategy) { Strategy::Create }
+      strategy_override = overrides.fetch(:strategy) { FactoryGirl.strategy_by_name(:create) }
 
       build_strategy = StrategyCalculator.new(strategy_override).strategy
       runner = FactoryRunner.new(factory_name, build_strategy, [overrides.except(:strategy)])

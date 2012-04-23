@@ -18,6 +18,6 @@ describe FactoryGirl::StrategyCalculator do
   end
 
   it "raises when passing a bogus strategy" do
-    expect { FactoryGirl::StrategyCalculator.new(:bogus_strategy).strategy }.to raise_error "unrecognized method bogus_strategy"
+    expect { FactoryGirl::StrategyCalculator.new(:bogus_strategy).strategy }.to raise_error(ArgumentError, /bogus_strategy/)
   end
 end
