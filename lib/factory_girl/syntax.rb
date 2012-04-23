@@ -1,3 +1,4 @@
+require "active_support/deprecation"
 require "factory_girl/syntax/methods"
 require "factory_girl/syntax/default"
 require "factory_girl/syntax/vintage"

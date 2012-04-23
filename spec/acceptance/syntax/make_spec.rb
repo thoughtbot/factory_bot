@@ -4,6 +4,8 @@ require 'factory_girl/syntax/make'
 
 describe "a factory using make syntax" do
   before do
+    ActiveSupport::Deprecation.silenced = true
+
     define_model('User', first_name: :string, last_name: :string)
 
     FactoryGirl.define do

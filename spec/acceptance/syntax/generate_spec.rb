@@ -4,6 +4,8 @@ require 'factory_girl/syntax/generate'
 
 describe "a factory using generate syntax" do
   before do
+    ActiveSupport::Deprecation.silenced = true
+
     define_model('User', first_name: :string, last_name: :string, email: :string) do
       validates_presence_of :first_name
     end

@@ -1,5 +1,3 @@
-require "active_support/deprecation"
-
 module FactoryGirl
   module Syntax
     module Vintage

@@ -4,6 +4,8 @@ require 'factory_girl/syntax/blueprint'
 
 describe "a blueprint" do
   before do
+    ActiveSupport::Deprecation.silenced = true
+
     define_model('User', first_name: :string, last_name: :string, email: :string)
 
     FactoryGirl.define do

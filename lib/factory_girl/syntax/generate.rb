@@ -42,6 +42,7 @@ module FactoryGirl
         module ClassMethods #:nodoc:
 
           def generate(overrides = {}, &block)
+            ActiveSupport::Deprecation.warn "Model.generate is deprecated; use the FactoryGirl.define syntax instead", caller
             instance = FactoryRunner.new(name.underscore, Strategy::Build, [overrides]).run
             instance.save
             yield(instance) if block_given?
@@ -49,12 +50,14 @@ module FactoryGirl
           end
 
           def generate!(overrides = {}, &block)
+            ActiveSupport::Deprecation.warn "Model.generate! is deprecated; use the FactoryGirl.define syntax instead", caller
             instance = FactoryRunner.new(name.underscore, Strategy::Create, [overrides]).run
             yield(instance) if block_given?
             instance
           end
 
           def spawn(overrides = {}, &block)
+            ActiveSupport::Deprecation.warn "Model.spawn is deprecated; use the FactoryGirl.define syntax instead", caller
             instance = FactoryRunner.new(name.underscore, Strategy::Build, [overrides]).run
             yield(instance) if block_given?
             instance

@@ -26,6 +26,7 @@ module FactoryGirl
         module ClassMethods #:nodoc:
 
           def blueprint(&block)
+            ActiveSupport::Deprecation.warn "Model.blueprint is deprecated; use the FactoryGirl.define syntax instead", caller
             instance = Factory.new(name.underscore, class: self)
             proxy = FactoryGirl::DefinitionProxy.new(instance)
             proxy.instance_eval(&block)
