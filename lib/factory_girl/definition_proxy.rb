@@ -144,6 +144,10 @@ module FactoryGirl
       @definition.to_create(&block)
     end
 
+    def skip_create
+      @definition.to_create {|instance| }
+    end
+
     def factory(name, options = {}, &block)
       @child_factories << [name, options, block]
     end
