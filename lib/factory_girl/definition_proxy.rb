@@ -83,7 +83,7 @@ module FactoryGirl
     def method_missing(name, *args, &block)
       if args.empty? && block.nil?
         @definition.declare_attribute(Declaration::Implicit.new(name, @definition, @ignore))
-      elsif args.first.is_a?(Hash) && args.first.has_key?(:factory)
+      elsif args.first.respond_to?(:has_key?) && args.first.has_key?(:factory)
         association(name, *args)
       elsif FactoryGirl.callback_names.include?(name)
         @definition.add_callback(Callback.new(name, block))
