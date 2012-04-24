@@ -782,9 +782,15 @@ Inheritance can occasionally be useful; here's an example of inheriting from
 `FactoryGirl::Strategy::Create` to build a JSON representation of your model.
 
 ```ruby
-class JsonStrategy < FactoryGirl::Strategy::Create
+class JsonStrategy
+  def initialize
+    @strategy = FactoryGirl.strategy_by_name(:create).new
+  end
+
+  delegate :association, to: :@strategy
+
   def result(evaluation)
-    super.to_json
+    @strategy.result(evaluation).to_json
   end
 end
 ```
