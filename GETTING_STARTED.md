@@ -805,7 +805,7 @@ Finally, you can override factory\_girl's own strategies if you'd like by
 registering a new object in place of the strategies.
 
 Custom Methods to Persist Objects
-------------------------------
+---------------------------------
 
 By default, creating a record will call `save!` on the instance; since this
 may not always be ideal, you can override that behavior by defining
