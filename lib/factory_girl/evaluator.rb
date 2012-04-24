@@ -17,7 +17,8 @@ module FactoryGirl
       undef_method(method) unless method =~ /^__|initialize/
     end
 
-    def initialize(build_strategy, overrides = {})
+    def initialize(build_class, build_strategy, overrides = {})
+      @build_class       = build_class
       @build_strategy    = build_strategy
       @overrides         = overrides
       @cached_attributes = overrides
@@ -26,6 +27,8 @@ module FactoryGirl
         singleton_class.send :define_method, name, -> { value }
       end
     end
+
+    delegate :new, to: :@build_class
 
     def association(factory_name, overrides = {})
       strategy_override = overrides.fetch(:strategy) { FactoryGirl.strategy_by_name(:create) }

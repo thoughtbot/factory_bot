@@ -32,7 +32,7 @@ module FactoryGirl
 
       strategy = strategy_class.new
 
-      evaluator = evaluator_class.new(strategy, overrides.symbolize_keys)
+      evaluator = evaluator_class.new(build_class, strategy, overrides.symbolize_keys)
       attribute_assigner = AttributeAssigner.new(evaluator, build_class, &instance_builder)
 
       evaluation = Evaluation.new(attribute_assigner, to_create)

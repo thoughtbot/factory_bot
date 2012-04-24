@@ -145,3 +145,29 @@ describe "initialize_with parent and child factories" do
     FactoryGirl.build(:super_awesome).name.should == "Super"
   end
 end
+
+describe "initialize_with implicit constructor" do
+  before do
+    define_class("Awesome") do
+      attr_reader :name
+
+      def initialize(name)
+        @name = name
+      end
+    end
+
+    FactoryGirl.define do
+      factory :awesome do
+        ignore do
+          name "Great"
+        end
+
+        initialize_with { new(name) }
+      end
+    end
+  end
+
+  it "instantiates the correct object" do
+    FactoryGirl.build(:awesome, name: "Awesome name").name.should == "Awesome name"
+  end
+end

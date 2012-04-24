@@ -723,7 +723,7 @@ factory :user do
   end
 
   email
-  initialize_with { User.new(name) }
+  initialize_with { new(name) }
 end
 
 FactoryGirl.build(:user).name # Bob Hope
@@ -744,6 +744,22 @@ You can override the initializer in order to:
 * Build non-ActiveRecord objects that require arguments to `initialize`
 * Use a method other than `new` to instantiate the instance
 * Do crazy things like decorate the instance after it's built
+
+When using `initialize_with`, you don't have to declare the class itself when
+calling `new`; however, any other class methods you want to call will have to
+be called on the class explicitly.
+
+For example:
+
+```ruby
+factory :user do
+  ignore do
+    name { Faker::Name.name }
+  end
+
+  initialize_with { User.build_with_name(name) }
+end
+```
 
 Custom Strategies
 -----------------
