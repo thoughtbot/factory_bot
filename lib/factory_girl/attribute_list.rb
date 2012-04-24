@@ -22,6 +22,14 @@ module FactoryGirl
       @attributes.select(&:association?)
     end
 
+    def ignored
+      select(&:ignored)
+    end
+
+    def non_ignored
+      reject(&:ignored)
+    end
+
     def apply_attributes(attributes_to_apply)
       attributes_to_apply.each {|attribute| add_attribute(attribute) }
     end

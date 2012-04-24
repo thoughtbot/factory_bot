@@ -54,11 +54,11 @@ module FactoryGirl
     end
 
     def non_ignored_attribute_names
-      @attribute_list.reject(&:ignored).map(&:name)
+      @attribute_list.non_ignored.map(&:name)
     end
 
     def ignored_attribute_names
-      @attribute_list.select(&:ignored).map(&:name)
+      @attribute_list.ignored.map(&:name)
     end
 
     def association_names
@@ -74,7 +74,7 @@ module FactoryGirl
     end
 
     def alias_names_to_ignore
-      @attribute_list.reject(&:ignored).map do |attribute|
+      @attribute_list.non_ignored.map do |attribute|
         override_names.map {|override| attribute.name if attribute.alias_for?(override) && attribute.name != override && !ignored_attribute_names.include?(override) }
       end.flatten.compact
     end
