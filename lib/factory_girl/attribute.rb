@@ -4,7 +4,6 @@ require "factory_girl/attribute/association"
 require "factory_girl/attribute/sequence"
 
 module FactoryGirl
-
   class Attribute #:nodoc:
     attr_reader :name, :ignored
 
