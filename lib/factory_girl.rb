@@ -1,4 +1,5 @@
 require "active_support/core_ext/module/delegation"
+require "active_support/notifications"
 
 require 'factory_girl/errors'
 require 'factory_girl/factory_runner'
@@ -89,7 +90,11 @@ module FactoryGirl
 
     FactoryGirl::Syntax::Methods.module_exec do
       define_method(strategy_name) do |name, *traits_and_overrides, &block|
-        FactoryRunner.new(name, strategy_class, traits_and_overrides).run(&block)
+        instrumentation_payload = { name: name, strategy: strategy_name }
+
+        ActiveSupport::Notifications.instrument("factory_girl.run_factory", instrumentation_payload) do
+          FactoryRunner.new(name, strategy_class, traits_and_overrides).run(&block)
+        end
       end
     end
   end
