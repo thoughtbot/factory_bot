@@ -1,6 +1,6 @@
 module FactoryGirl
   class Callback
-    attr_reader :name, :block
+    attr_reader :name
 
     def initialize(name, block)
       @name  = name.to_sym
@@ -20,6 +20,9 @@ module FactoryGirl
       name == other.name &&
         block == other.block
     end
+
+    protected
+    attr_reader :block
 
     private
 
