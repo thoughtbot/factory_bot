@@ -54,15 +54,15 @@ module FactoryGirl
     end
 
     def non_ignored_attribute_names
-      @attribute_list.non_ignored.map(&:name)
+      @attribute_list.non_ignored.names
     end
 
     def ignored_attribute_names
-      @attribute_list.ignored.map(&:name)
+      @attribute_list.ignored.names
     end
 
     def association_names
-      @attribute_list.associations.map(&:name)
+      @attribute_list.associations.names
     end
 
     def override_names
@@ -70,7 +70,7 @@ module FactoryGirl
     end
 
     def hash_instance_methods_to_respond_to
-      @attribute_list.map(&:name) + override_names + @build_class.instance_methods
+      @attribute_list.names + override_names + @build_class.instance_methods
     end
 
     def alias_names_to_ignore

@@ -37,7 +37,7 @@ describe FactoryGirl::Factory do
     factory.associations.each do |association|
       association.should be_association
     end
-    factory.associations.size.should == 3
+    factory.associations.to_a.length.should == 3
   end
 
   it "includes associations from the parent factory" do

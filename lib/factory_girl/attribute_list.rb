@@ -2,9 +2,9 @@ module FactoryGirl
   class AttributeList
     include Enumerable
 
-    def initialize(name = nil)
+    def initialize(name = nil, attributes = [])
       @name       = name
-      @attributes = []
+      @attributes = attributes
     end
 
     def define_attribute(attribute)
@@ -18,16 +18,20 @@ module FactoryGirl
       @attributes.each(&block)
     end
 
+    def names
+      map(&:name)
+    end
+
     def associations
-      @attributes.select(&:association?)
+      AttributeList.new(@name, select(&:association?))
     end
 
     def ignored
-      select(&:ignored)
+      AttributeList.new(@name, select(&:ignored))
     end
 
     def non_ignored
-      reject(&:ignored)
+      AttributeList.new(@name, reject(&:ignored))
     end
 
     def apply_attributes(attributes_to_apply)

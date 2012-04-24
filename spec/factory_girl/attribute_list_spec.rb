@@ -73,7 +73,7 @@ describe FactoryGirl::AttributeList, "#associations" do
   end
 
   it "returns associations" do
-    subject.associations.should == [author_attribute, profile_attribute]
+    subject.associations.to_a.should == [author_attribute, profile_attribute]
   end
 end
 
@@ -100,5 +100,44 @@ describe FactoryGirl::AttributeList, "filter based on ignored attributes" do
 
   it "filters #non_ignored attributes" do
     subject.non_ignored.map(&:name).should == [:email, :first_name, :last_name]
+  end
+end
+
+describe FactoryGirl::AttributeList, "generating names" do
+  def build_ignored_attribute(name)
+    FactoryGirl::Attribute::Static.new(name, "value", true)
+  end
+
+  def build_non_ignored_attribute(name)
+    FactoryGirl::Attribute::Static.new(name, "value", false)
+  end
+
+  def build_association(name)
+    FactoryGirl::Attribute::Association.new(name, :user, {})
+  end
+
+  before do
+    subject.define_attribute(build_ignored_attribute(:comments_count))
+    subject.define_attribute(build_ignored_attribute(:posts_count))
+    subject.define_attribute(build_non_ignored_attribute(:email))
+    subject.define_attribute(build_non_ignored_attribute(:first_name))
+    subject.define_attribute(build_non_ignored_attribute(:last_name))
+    subject.define_attribute(build_association(:avatar))
+  end
+
+  it "knows all its #names" do
+    subject.names.should == [:comments_count, :posts_count, :email, :first_name, :last_name, :avatar]
+  end
+
+  it "knows all its #names for #ignored attributes" do
+    subject.ignored.names.should == [:comments_count, :posts_count]
+  end
+
+  it "knows all its #names for #non_ignored attributes" do
+    subject.non_ignored.names.should == [:email, :first_name, :last_name, :avatar]
+  end
+
+  it "knows all its #names for #associations" do
+    subject.associations.names.should == [:avatar]
   end
 end
