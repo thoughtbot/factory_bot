@@ -1,3 +1,11 @@
+3.2.0 (April 24, 2012)
+  Use AS::Notifications for pub/sub to track running factories
+  Call new within initialize_with implicitly on the build class
+  Skip to_create with skip_create
+  Allow registration of custom strategies
+  Deprecate alternate syntaxes
+  Implicitly call factory_girl's syntax methods from dynamic attributes
+
 3.1.0 (April 6, 2012)
   Sequences support aliases, which reference the same block
   Update documentation
