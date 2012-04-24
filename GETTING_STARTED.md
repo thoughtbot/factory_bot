@@ -778,7 +778,7 @@ executes the `to_create` callback defined on the factory.
 To understand how factory\_girl uses strategies internally, it's probably
 easiest to just view the source for each of the four default strategies.
 
-Inheritance can occasionally be useful; here's an example of inheriting from
+Here's an example of composing a strategy using
 `FactoryGirl::Strategy::Create` to build a JSON representation of your model.
 
 ```ruby
