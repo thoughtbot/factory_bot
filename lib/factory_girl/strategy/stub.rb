@@ -4,7 +4,7 @@ module FactoryGirl
       @@next_id = 1000
 
       def association(runner)
-        runner.run(Strategy::Stub)
+        runner.run(:build_stubbed)
       end
 
       def result(evaluation)

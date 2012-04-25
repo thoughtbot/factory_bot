@@ -108,6 +108,7 @@ module FactoryGirl
     FactoryGirl.register_strategy(:create,         FactoryGirl::Strategy::Create)
     FactoryGirl.register_strategy(:attributes_for, FactoryGirl::Strategy::AttributesFor)
     FactoryGirl.register_strategy(:build_stubbed,  FactoryGirl::Strategy::Stub)
+    FactoryGirl.register_strategy(:null,           FactoryGirl::Strategy::Null)
   end
 
   def self.callback_names

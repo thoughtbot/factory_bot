@@ -2,7 +2,7 @@ module FactoryGirl
   module Strategy
     class AttributesFor
       def association(runner)
-        runner.run(Strategy::Null)
+        runner.run(:null)
       end
 
       def result(evaluation)

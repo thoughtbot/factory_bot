@@ -8,8 +8,7 @@ module FactoryGirl
       @traits    = traits_and_overrides
     end
 
-    def run(strategy_override = nil, &block)
-      strategy_override ||= @strategy
+    def run(runner_strategy = @strategy, &block)
       factory = FactoryGirl.factory_by_name(@name)
 
       factory.compile
@@ -18,7 +17,8 @@ module FactoryGirl
         factory = factory.with_traits(@traits)
       end
 
-      factory.run(strategy_override, @overrides, &block)
+      strategy = StrategyCalculator.new(runner_strategy).strategy
+      factory.run(strategy, @overrides, &block)
     end
   end
 end
