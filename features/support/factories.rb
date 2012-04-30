@@ -123,6 +123,7 @@ FactoryGirl.define do
   factory :tag do
     post
   end
+  
   # This is here to ensure that factory step definitions don't raise for a non-AR factory
   factory :non_active_record do
   end
