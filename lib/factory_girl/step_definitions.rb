@@ -18,9 +18,11 @@ module FactoryGirlStepHelpers
   def update_instance_variable(instance_variable_name, value)
     if FactoryGirl::StepDefinitions.create_instance_variables
       begin
+        puts "setting instance variable \"@#{instance_variable_name}\" to #{value.inspect}"
         instance_variable_set("@#{instance_variable_name}", value)
       rescue NameError => e
         warn "Could not create an instance variable named \"@#{instance_variable_name}\" because \"#{e.message}\". If you need access to this instance variable you will need to create your own step definition and set it manually."
+        puts "Could not create an instance variable named \"@#{instance_variable_name}\" because \"#{e.message}\". If you need access to this instance variable you will need to create your own step definition and set it manually."
       end
     end
   end
