@@ -18,11 +18,11 @@ module FactoryGirlStepHelpers
   def update_instance_variable(instance_variable_name, value)
     if FactoryGirl::StepDefinitions.create_instance_variables
       begin
-        puts "setting instance variable \"@#{instance_variable_name}\" to #{value.inspect}"
+        puts "setting instance variable named \"#{instance_variable_name}\" to #{value.inspect}"
         instance_variable_set("@#{instance_variable_name}", value)
       rescue NameError => e
-        warn "Could not create an instance variable named \"@#{instance_variable_name}\" because \"#{e.message}\". If you need access to this instance variable you will need to create your own step definition and set it manually."
-        puts "Could not create an instance variable named \"@#{instance_variable_name}\" because \"#{e.message}\". If you need access to this instance variable you will need to create your own step definition and set it manually."
+        warn "Could not create an instance variable named \"#{instance_variable_name}\" because \"#{e.message}\". If you need access to this instance variable you will need to create your own step definition and set it manually."
+        puts "Could not create an instance variable named \"#{instance_variable_name}\" because \"#{e.message}\". If you need access to this instance variable you will need to create your own step definition and set it manually."
       end
     end
   end
@@ -141,22 +141,22 @@ FactoryGirl.factories.each do |factory|
     end
 
     Given /^an? #{human_name} exists$/i do
-      update_instance_variable(human_name, FactoryGirl.create(factory.name))
+      update_instance_variable(dehumanize_factory_name(human_name), FactoryGirl.create(factory.name))
     end
 
     Given /^(\d+) #{human_name.pluralize} exist$/i do |count|
-      update_instance_variable(human_name.pluralize, FactoryGirl.create_list(factory.name, count.to_i))
+      update_instance_variable(dehumanize_factory_name(human_name.pluralize), FactoryGirl.create_list(factory.name, count.to_i))
     end
 
     attribute_names_for_model.each do |attribute_name|
       human_column_name = attribute_name.downcase.gsub('_', ' ')
 
       Given /^an? #{human_name} exists with an? #{human_column_name} of "([^"]*)"$/i do |value|
-        update_instance_variable(human_name, FactoryGirl.create(factory.name, attribute_name => value))
+        update_instance_variable(dehumanize_factory_name(human_name), FactoryGirl.create(factory.name, attribute_name => value))
       end
 
       Given /^(\d+) #{human_name.pluralize} exist with an? #{human_column_name} of "([^"]*)"$/i do |count, value|
-        update_instance_variable(human_name.pluralize, FactoryGirl.create_list(factory.name, count.to_i, attribute_name => value))
+        update_instance_variable(dehumanize_factory_name(human_name.pluralize), FactoryGirl.create_list(factory.name, count.to_i, attribute_name => value))
       end
     end
   end
