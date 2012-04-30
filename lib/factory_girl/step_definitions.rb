@@ -141,22 +141,22 @@ FactoryGirl.factories.each do |factory|
     end
 
     Given /^an? #{human_name} exists$/i do
-      update_instance_variable(factory.name.to_s, FactoryGirl.create(factory.name))
+      update_instance_variable(human_name, FactoryGirl.create(factory.name))
     end
 
     Given /^(\d+) #{human_name.pluralize} exist$/i do |count|
-      update_instance_variable(factory.name.to_s.pluralize, FactoryGirl.create_list(factory.name, count.to_i))
+      update_instance_variable(human_name.pluralize, FactoryGirl.create_list(factory.name, count.to_i))
     end
 
     attribute_names_for_model.each do |attribute_name|
       human_column_name = attribute_name.downcase.gsub('_', ' ')
 
       Given /^an? #{human_name} exists with an? #{human_column_name} of "([^"]*)"$/i do |value|
-        update_instance_variable(factory.name.to_s, FactoryGirl.create(factory.name, attribute_name => value))
+        update_instance_variable(human_name, FactoryGirl.create(factory.name, attribute_name => value))
       end
 
       Given /^(\d+) #{human_name.pluralize} exist with an? #{human_column_name} of "([^"]*)"$/i do |count, value|
-        update_instance_variable(factory.name.to_s.pluralize, FactoryGirl.create_list(factory.name, count.to_i, attribute_name => value))
+        update_instance_variable(human_name.pluralize, FactoryGirl.create_list(factory.name, count.to_i, attribute_name => value))
       end
     end
   end
