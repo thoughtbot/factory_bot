@@ -45,3 +45,34 @@ describe "callbacks" do
     user.first_name.should == 'Child-Buildy'
   end
 end
+
+describe "callbacks using syntax methods without referencing FactoryGirl explicitly" do
+  before do
+    define_model("User", first_name: :string, last_name: :string)
+
+    FactoryGirl.define do
+      sequence(:sequence_1)
+      sequence(:sequence_2)
+      sequence(:sequence_3)
+
+      factory :user do
+        after_stub   { generate(:sequence_3) }
+        after_build  {|user| user.first_name = generate(:sequence_1) }
+        after_create {|user, evaluator| user.last_name = generate(:sequence_2) }
+      end
+    end
+  end
+
+  it "works when the callback has no variables" do
+    FactoryGirl.build_stubbed(:user)
+    FactoryGirl.generate(:sequence_3).should == 2
+  end
+
+  it "works when the callback has one variable" do
+    FactoryGirl.build(:user).first_name.should == 1
+  end
+
+  it "works when the callback has two variables" do
+    FactoryGirl.create(:user).last_name.should == 1
+  end
+end
