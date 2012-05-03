@@ -1,5 +1,18 @@
 require "spec_helper"
 
+unless ActiveSupport::Notifications.respond_to?(:subscribed)
+  module SubscribedBehavior
+    def subscribed(callback, *args, &block)
+      subscriber = subscribe(*args, &callback)
+      yield
+    ensure
+      unsubscribe(subscriber)
+    end
+  end
+
+  ActiveSupport::Notifications.extend SubscribedBehavior
+end
+
 describe "using ActiveSupport::Instrumentation to track factory interaction" do
   before do
     define_model("User", email: :string)
