@@ -1,3 +1,4 @@
+require "set"
 require "active_support/core_ext/module/delegation"
 require "active_support/notifications"
 
@@ -103,9 +104,26 @@ module FactoryGirl
     FactoryGirl.register_strategy(:null,           FactoryGirl::Strategy::Null)
   end
 
+  def self.callbacks
+    @callbacks ||= Set.new
+  end
+
+  def self.register_default_callbacks
+    register_callback(:after_build)
+    register_callback(:after_create)
+    register_callback(:after_stub)
+    register_callback(:before_create)
+  end
+
   def self.callback_names
-    [:after_build, :after_create, :after_stub, :before_create].freeze
+    callbacks
+  end
+
+  def self.register_callback(name)
+    name = name.to_sym
+    callbacks << name
   end
 end
 
 FactoryGirl.register_default_strategies
+FactoryGirl.register_default_callbacks

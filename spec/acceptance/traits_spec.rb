@@ -187,11 +187,11 @@ describe "traits with callbacks" do
         name "John"
 
         trait :great do
-          after_create {|user| user.name.upcase! }
+          after(:create) {|user| user.name.upcase! }
         end
 
         trait :awesome do
-          after_create {|user| user.name = "awesome" }
+          after(:create) {|user| user.name = "awesome" }
         end
 
         factory :caps_user, traits: [:great]
@@ -232,7 +232,7 @@ describe "traits added via strategy" do
         end
 
         trait :great do
-          after_create {|user| user.name.upcase! }
+          after(:create) {|user| user.name.upcase! }
         end
       end
     end

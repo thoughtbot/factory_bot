@@ -78,7 +78,7 @@ describe "nested factories with different parents" do
         end
 
         factory :uppercase_male_user, parent: :male_user do
-          after_build {|user| user.name = user.name.upcase }
+          after(:build) {|user| user.name = user.name.upcase }
         end
       end
     end

@@ -12,7 +12,7 @@ describe "modifying factories" do
       factory :user do
         email
 
-        after_create do |user|
+        after(:create) do |user|
           user.login = user.name.upcase if user.name
         end
 
@@ -58,7 +58,7 @@ describe "modifying factories" do
       FactoryGirl.modify do
         factory :user do
           name "Great User"
-          after_create do |user|
+          after(:create) do |user|
             user.name = user.name.downcase
             user.login = nil
           end

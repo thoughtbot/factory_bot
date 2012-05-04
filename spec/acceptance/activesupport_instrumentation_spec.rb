@@ -21,7 +21,7 @@ describe "using ActiveSupport::Instrumentation to track factory interaction" do
         email "john@example.com"
 
         factory :slow_user do
-          after_build { Kernel.sleep(0.1) }
+          after(:build) { Kernel.sleep(0.1) }
         end
       end
 

@@ -159,5 +159,18 @@ module FactoryGirl
     def initialize_with(&block)
       @definition.define_constructor(&block)
     end
+
+    def before(name, &block)
+      callback("before_#{name}", &block)
+    end
+
+    def after(name, &block)
+      callback("after_#{name}", &block)
+    end
+
+    def callback(name, &block)
+      FactoryGirl.register_callback(name)
+      @definition.add_callback(Callback.new(name, block))
+    end
   end
 end

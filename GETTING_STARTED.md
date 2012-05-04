@@ -207,7 +207,7 @@ factory :user do
   name  { "John Doe#{" - Rockstar" if rockstar}" }
   email { "#{name.downcase}@example.com" }
 
-  after_create do |user, evaluator|
+  after(:create) do |user, evaluator|
     user.name.upcase! if evaluator.upcased
   end
 end
@@ -299,11 +299,11 @@ FactoryGirl.define do
         posts_count 5
       end
 
-      # the after_create yields two values; the user instance itself and the
+      # the after(:create) yields two values; the user instance itself and the
       # evaluator, which stores all values from the factory, including ignored
       # attributes; `create_list`'s second argument is the number of records
       # to create and we make sure the user is associated properly to the post
-      after_create do |user, evaluator|
+      after(:create) do |user, evaluator|
         FactoryGirl.create_list(:post, evaluator.posts_count, user: user)
       end
     end
@@ -589,18 +589,19 @@ FactoryGirl.create_list(:user, 3, :admin, :male, name: "Jon Snow")
 Callbacks
 ---------
 
-factory\_girl makes available three callbacks for injecting some code:
+factory\_girl makes available four callbacks for injecting some code:
 
-* after_build  - called after a factory is built   (via FactoryGirl.build)
-* after_create - called after a factory is saved   (via FactoryGirl.create)
-* after_stub   - called after a factory is stubbed (via FactoryGirl.build_stubbed)
+* after(:build)   - called after a factory is built   (via `FactoryGirl.build`, `FactoryGirl.create`)
+* before(:create) - called before a factory is saved  (via `FactoryGirl.create`)
+* after(:create)  - called after a factory is saved   (via `FactoryGirl.create`)
+* after(:stub)    - called after a factory is stubbed (via `FactoryGirl.build_stubbed`)
 
 Examples:
 
 ```ruby
 # Define a factory that calls the generate_hashed_password method after it is built
 factory :user do
-  after_build { |user| generate_hashed_password(user) }
+  after(:build) { |user| generate_hashed_password(user) }
 end
 ```
 
@@ -610,8 +611,8 @@ You can also define multiple types of callbacks on the same factory:
 
 ```ruby
 factory :user do
-  after_build  { |user| do_something_to(user) }
-  after_create { |user| do_something_else_to(user) }
+  after(:build)  { |user| do_something_to(user) }
+  after(:create) { |user| do_something_else_to(user) }
 end
 ```
 
@@ -619,12 +620,12 @@ Factories can also define any number of the same kind of callback.  These callba
 
 ```ruby
 factory :user do
-  after_create { this_runs_first }
-  after_create { then_this }
+  after(:create) { this_runs_first }
+  after(:create) { then_this }
 end
 ```
 
-Calling FactoryGirl.create will invoke both after\_build and after\_create callbacks.
+Calling FactoryGirl.create will invoke both `after_build` and `after_create` callbacks.
 
 Also, like standard attributes, child factories will inherit (and can also define) callbacks from their parent factory.
 
@@ -677,7 +678,7 @@ When modifying a factory, you can change any of the attributes you want (aside f
 `FactoryGirl.modify` must be called outside of a `FactoryGirl.define` block as it operates on factories differently.
 
 A caveat: you can only modify factories (not sequences or traits) and callbacks *still compound as they normally would*. So, if
-the factory you're modifying defines an `after_create` callback, you defining an `after_create` won't override it, it'll just get run after the first callback.
+the factory you're modifying defines an `after(:create)` callback, you defining an `after(:create)` won't override it, it'll just get run after the first callback.
 
 Building or Creating Multiple Records
 -------------------------------------
@@ -809,6 +810,41 @@ FactoryGirl.json(:user)
 
 Finally, you can override factory\_girl's own strategies if you'd like by
 registering a new object in place of the strategies.
+
+Custom Callbacks
+----------------
+
+Custom callbacks can be defined if you're using custom strategies:
+
+```ruby
+class JsonStrategy
+  def initialize
+    @strategy = FactoryGirl.strategy_by_name(:create).new
+  end
+
+  delegate :association, to: :@strategy
+
+  def result(evaluation)
+    result = @strategy.result(evaluation)
+    evaluation.notify(:before_json, result)
+
+    result.to_json.tap do |json|
+      evaluation.notify(:after_json, json)
+      evaluation.notify(:make_json_awesome, json)
+    end
+  end
+end
+
+FactoryGirl.register_strategy(:json, JsonStrategy)
+
+FactoryGirl.define do
+  factory :user do
+    before(:json)                {|user| do_something_to(user) }
+    after(:json)                 {|user_json| do_something_to(user_json) }
+    callback(:make_json_awesome) {|user_json| do_something_to(user_json) }
+  end
+end
+```
 
 Custom Methods to Persist Objects
 ---------------------------------

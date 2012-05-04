@@ -64,7 +64,7 @@ describe "multiple creates and ignored attributes to dynamically build attribute
             posts_count 5
           end
 
-          after_create do |user, evaluator|
+          after(:create) do |user, evaluator|
             FactoryGirl.create_list(:post, evaluator.posts_count, user: user)
           end
         end

@@ -6,35 +6,35 @@ describe "callbacks" do
 
     FactoryGirl.define do
       factory :user_with_callbacks, class: :user do
-        after_stub   { |user| user.first_name = 'Stubby' }
-        after_build  { |user| user.first_name = 'Buildy' }
-        after_create { |user| user.last_name  = 'Createy' }
+        after(:stub)   { |user| user.first_name = 'Stubby' }
+        after(:build)  { |user| user.first_name = 'Buildy' }
+        after(:create) { |user| user.last_name  = 'Createy' }
       end
 
       factory :user_with_inherited_callbacks, parent: :user_with_callbacks do
-        after_stub  { |user| user.last_name  = 'Double-Stubby' }
-        after_build { |user| user.first_name = 'Child-Buildy' }
+        after(:stub)  { |user| user.last_name  = 'Double-Stubby' }
+        after(:build) { |user| user.first_name = 'Child-Buildy' }
       end
     end
   end
 
-  it "runs the after_stub callback when stubbing" do
+  it "runs the after(:stub) callback when stubbing" do
     user = FactoryGirl.build_stubbed(:user_with_callbacks)
     user.first_name.should == 'Stubby'
   end
 
-  it "runs the after_build callback when building" do
+  it "runs the after(:build) callback when building" do
     user = FactoryGirl.build(:user_with_callbacks)
     user.first_name.should == 'Buildy'
   end
 
-  it "runs both the after_build and after_create callbacks when creating" do
+  it "runs both the after(:build) and after(:create) callbacks when creating" do
     user = FactoryGirl.create(:user_with_callbacks)
     user.first_name.should == 'Buildy'
     user.last_name.should == 'Createy'
   end
 
-  it "runs both the after_stub callback on the factory and the inherited after_stub callback" do
+  it "runs both the after(:stub) callback on the factory and the inherited after(:stub) callback" do
     user = FactoryGirl.build_stubbed(:user_with_inherited_callbacks)
     user.first_name.should == 'Stubby'
     user.last_name.should == 'Double-Stubby'
@@ -56,9 +56,9 @@ describe "callbacks using syntax methods without referencing FactoryGirl explici
       sequence(:sequence_3)
 
       factory :user do
-        after_stub   { generate(:sequence_3) }
-        after_build  {|user| user.first_name = generate(:sequence_1) }
-        after_create {|user, evaluator| user.last_name = generate(:sequence_2) }
+        after(:stub)   { generate(:sequence_3) }
+        after(:build)  {|user| user.first_name = generate(:sequence_1) }
+        after(:create) {|user, evaluator| user.last_name = generate(:sequence_2) }
       end
     end
   end
@@ -74,5 +74,78 @@ describe "callbacks using syntax methods without referencing FactoryGirl explici
 
   it "works when the callback has two variables" do
     FactoryGirl.create(:user).last_name.should == 1
+  end
+end
+
+describe "custom callbacks" do
+  let(:custom_before) do
+    Class.new do
+      def result(evaluation)
+        evaluation.object.tap do |instance|
+          evaluation.notify(:before_custom, instance)
+        end
+      end
+    end
+  end
+
+  let(:custom_after) do
+    Class.new do
+      def result(evaluation)
+        evaluation.object.tap do |instance|
+          evaluation.notify(:after_custom, instance)
+        end
+      end
+    end
+  end
+
+  let(:totally_custom) do
+    Class.new do
+      def result(evaluation)
+        evaluation.object.tap do |instance|
+          evaluation.notify(:totally_custom, instance)
+        end
+      end
+    end
+  end
+
+  before do
+    define_model("User", first_name: :string, last_name: :string) do
+      def name
+        [first_name, last_name].join(" ")
+      end
+    end
+
+    FactoryGirl.register_strategy(:custom_before, custom_before)
+    FactoryGirl.register_strategy(:custom_after, custom_after)
+    FactoryGirl.register_strategy(:totally_custom, totally_custom)
+
+    FactoryGirl.define do
+      factory :user do
+        first_name "John"
+        last_name  "Doe"
+
+        before(:custom) {|instance| instance.first_name = "Overridden First" }
+        after(:custom)  {|instance| instance.last_name  = "Overridden Last" }
+        callback(:totally_custom) do |instance|
+          instance.first_name = "Totally"
+          instance.last_name  = "Custom"
+        end
+      end
+    end
+  end
+
+  it "runs a custom before callback when the proper strategy executes" do
+    FactoryGirl.build(:user).name.should == "John Doe"
+    FactoryGirl.custom_before(:user).name.should == "Overridden First Doe"
+  end
+
+  it "runs a custom after callback when the proper strategy executes" do
+    FactoryGirl.build(:user).name.should == "John Doe"
+    FactoryGirl.custom_after(:user).name.should == "John Overridden Last"
+  end
+
+  it "runs a custom callback without prepending before or after when the proper strategy executes" do
+    FactoryGirl.build(:user).name.should == "John Doe"
+    FactoryGirl.totally_custom(:user).name.should == "Totally Custom"
   end
 end
