@@ -3,7 +3,7 @@ shared_examples_for "strategy without association support" do
   let(:attribute) { FactoryGirl::Attribute::Association.new(:user, :user, {}) }
 
   def association_named(name, overrides)
-    runner = FactoryGirl::FactoryRunner.new(name, FactoryGirl::Strategy::Build, [overrides])
+    runner = FactoryGirl::FactoryRunner.new(name, :build, [overrides])
     subject.association(runner)
   end
 
@@ -18,7 +18,7 @@ shared_examples_for "strategy without association support" do
   end
 end
 
-shared_examples_for "strategy with association support" do |factory_girl_strategy_class|
+shared_examples_for "strategy with association support" do |factory_girl_strategy_name|
   let(:factory) { stub("associate_factory") }
 
   def association_named(name, strategy, overrides)
@@ -33,22 +33,21 @@ shared_examples_for "strategy with association support" do |factory_girl_strateg
   end
 
   it "runs the factory with the correct overrides" do
-    association_named(:author, factory_girl_strategy_class, great: "value")
-    factory.should have_received(:run).with(factory_girl_strategy_class, great: "value")
+    association_named(:author, factory_girl_strategy_name, great: "value")
+    factory.should have_received(:run).with(factory_girl_strategy_name, great: "value")
   end
 
   it "finds the factory with the correct factory name" do
-    association_named(:author, factory_girl_strategy_class, great: "value")
+    association_named(:author, factory_girl_strategy_name, great: "value")
     FactoryGirl.should have_received(:factory_by_name).with(:author)
   end
 end
 
-shared_examples_for "strategy with strategy: :build" do |factory_girl_strategy_class|
+shared_examples_for "strategy with strategy: :build" do |factory_girl_strategy_name|
   let(:factory) { stub("associate_factory") }
 
   def association_named(name, overrides)
-    strategy = FactoryGirl::StrategyCalculator.new(overrides[:strategy]).strategy
-    runner = FactoryGirl::FactoryRunner.new(name, strategy, [overrides.except(:strategy)])
+    runner = FactoryGirl::FactoryRunner.new(name, overrides[:strategy], [overrides.except(:strategy)])
     subject.association(runner)
   end
 
@@ -60,7 +59,7 @@ shared_examples_for "strategy with strategy: :build" do |factory_girl_strategy_c
 
   it "runs the factory with the correct overrides" do
     association_named(:author, strategy: :build, great: "value")
-    factory.should have_received(:run).with(factory_girl_strategy_class, { great: "value" })
+    factory.should have_received(:run).with(factory_girl_strategy_name, { great: "value" })
   end
 
   it "finds the factory with the correct factory name" do

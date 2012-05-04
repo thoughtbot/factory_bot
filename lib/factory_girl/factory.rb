@@ -26,11 +26,11 @@ module FactoryGirl
       end
     end
 
-    def run(strategy_class, overrides, &block) #:nodoc:
+    def run(build_strategy, overrides, &block) #:nodoc:
       block ||= ->(result) { result }
       compile
 
-      strategy = strategy_class.new
+      strategy = StrategyCalculator.new(build_strategy).strategy.new
 
       evaluator = evaluator_class.new(build_class, strategy, overrides.symbolize_keys)
       attribute_assigner = AttributeAssigner.new(evaluator, build_class, &instance_builder)

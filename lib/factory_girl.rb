@@ -93,7 +93,7 @@ module FactoryGirl
         instrumentation_payload = { name: name, strategy: strategy_name }
 
         ActiveSupport::Notifications.instrument("factory_girl.run_factory", instrumentation_payload) do
-          FactoryRunner.new(name, strategy_class, traits_and_overrides).run(&block)
+          FactoryRunner.new(name, strategy_name, traits_and_overrides).run(&block)
         end
       end
     end

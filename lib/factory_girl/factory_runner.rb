@@ -17,8 +17,7 @@ module FactoryGirl
         factory = factory.with_traits(@traits)
       end
 
-      strategy = StrategyCalculator.new(runner_strategy).strategy
-      factory.run(strategy, @overrides, &block)
+      factory.run(runner_strategy, @overrides, &block)
     end
   end
 end

@@ -1,23 +1,29 @@
 require "spec_helper"
 
-describe FactoryGirl::StrategyCalculator, "with a FactoryGirl::Strategy object" do
-  let(:strategy) { FactoryGirl::Strategy::Build }
-
-  it "returns the strategy object" do
-    FactoryGirl::StrategyCalculator.new(strategy).strategy.should == strategy
-  end
-end
-
 describe FactoryGirl::StrategyCalculator do
-  it "returns the correct strategy object for :build" do
-    FactoryGirl::StrategyCalculator.new(:build).strategy.should == FactoryGirl::Strategy::Build
+  let(:strategy) do
+    define_class("MyAwesomeClass")
   end
 
-  it "returns the correct strategy object for :create" do
-    FactoryGirl::StrategyCalculator.new(:create).strategy.should == FactoryGirl::Strategy::Create
+  context "when a class" do
+    subject { FactoryGirl::StrategyCalculator.new(strategy).strategy }
+
+    it "returns the class passed" do
+      subject.should == strategy
+    end
   end
 
-  it "raises when passing a bogus strategy" do
-    expect { FactoryGirl::StrategyCalculator.new(:bogus_strategy).strategy }.to raise_error(ArgumentError, /bogus_strategy/)
+  context "when a symbol" do
+    before  { FactoryGirl.stubs(:strategy_by_name).returns(strategy) }
+    subject { FactoryGirl::StrategyCalculator.new(:build).strategy }
+
+    it "finds the strategy by name" do
+      subject
+      FactoryGirl.should have_received(:strategy_by_name).with(:build)
+    end
+
+    it "returns the strategy found" do
+      subject.should == strategy
+    end
   end
 end

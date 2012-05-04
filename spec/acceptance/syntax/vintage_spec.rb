@@ -89,28 +89,28 @@ describe "after defining a factory" do
     FactoryGirl.register_factory(@factory)
   end
 
-  it "uses Strategy::AttributesFor for Factory.attributes_for" do
+  it "uses the attributes_for strategy for Factory.attributes_for" do
     @factory.stubs(run: "result")
     Factory.attributes_for(@name, attr: 'value').should == 'result'
-    @factory.should have_received(:run).with(FactoryGirl::Strategy::AttributesFor, attr: 'value')
+    @factory.should have_received(:run).with(:attributes_for, attr: 'value')
   end
 
-  it "uses Strategy::Build for Factory.build" do
+  it "uses the build strategy for Factory.build" do
     @factory.stubs(run: "result")
     Factory.build(@name, attr: 'value').should == 'result'
-    @factory.should have_received(:run).with(FactoryGirl::Strategy::Build, attr: 'value')
+    @factory.should have_received(:run).with(:build, attr: 'value')
   end
 
-  it "uses Strategy::Create for Factory.create" do
+  it "uses the create strategy for Factory.create" do
     @factory.stubs(run: "result")
     Factory.create(@name, attr: 'value').should == 'result'
-    @factory.should have_received(:run).with(FactoryGirl::Strategy::Create, attr: 'value')
+    @factory.should have_received(:run).with(:create, attr: 'value')
   end
 
-  it "uses Strategy::Stub for Factory.stub" do
+  it "uses the build_stubbed strategy for Factory.stub" do
     @factory.stubs(run: "result")
     Factory.stub(@name, attr: 'value').should == 'result'
-    @factory.should have_received(:run).with(FactoryGirl::Strategy::Stub, attr: 'value')
+    @factory.should have_received(:run).with(:build_stubbed, attr: 'value')
   end
 
   [:build, :create, :attributes_for, :stub].each do |method|
