@@ -1,6 +1,6 @@
 module FactoryGirl
   class DefinitionProxy
-    UNPROXIED_METHODS = %w(__send__ __id__ nil? send object_id extend instance_eval initialize block_given? raise)
+    UNPROXIED_METHODS = %w(__send__ __id__ nil? send object_id extend instance_eval initialize block_given? raise caller)
 
     (instance_methods + private_instance_methods).each do |method|
       undef_method(method) unless UNPROXIED_METHODS.include?(method.to_s)
@@ -86,6 +86,8 @@ module FactoryGirl
       elsif args.first.respond_to?(:has_key?) && args.first.has_key?(:factory)
         association(name, *args)
       elsif FactoryGirl.callback_names.include?(name)
+        callback_when, callback_name = name.to_s.split("_", 2)
+        ActiveSupport::Deprecation.warn "Calling #{name} is deprecated; use the syntax #{callback_when}(:#{callback_name}) {}", caller
         @definition.add_callback(Callback.new(name, block))
       else
         add_attribute(name, *args, &block)
