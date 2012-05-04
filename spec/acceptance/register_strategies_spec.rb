@@ -41,6 +41,14 @@ describe "register custom strategies" do
     FactoryGirl.build(:named_object).name.should == "Great"
     FactoryGirl.insert(:named_object).name.should == "Custom strategy"
   end
+
+  it "allows using the *_list method to build a list using a custom strategy" do
+    FactoryGirl.register_strategy(:insert, custom_strategy)
+
+    inserted_items = FactoryGirl.insert_list(:named_object, 2)
+    inserted_items.length.should == 2
+    inserted_items.map(&:name).should == ["Custom strategy", "Custom strategy"]
+  end
 end
 
 describe "including FactoryGirl::Syntax::Methods when custom strategies have been declared" do

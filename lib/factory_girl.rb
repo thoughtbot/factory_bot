@@ -3,6 +3,7 @@ require "active_support/notifications"
 
 require 'factory_girl/errors'
 require 'factory_girl/factory_runner'
+require 'factory_girl/strategy_syntax_method_registrar'
 require 'factory_girl/strategy_calculator'
 require "factory_girl/strategy/build"
 require "factory_girl/strategy/create"
@@ -87,16 +88,7 @@ module FactoryGirl
 
   def self.register_strategy(strategy_name, strategy_class)
     strategies.register(strategy_name, strategy_class)
-
-    FactoryGirl::Syntax::Methods.module_exec do
-      define_method(strategy_name) do |name, *traits_and_overrides, &block|
-        instrumentation_payload = { name: name, strategy: strategy_name }
-
-        ActiveSupport::Notifications.instrument("factory_girl.run_factory", instrumentation_payload) do
-          FactoryRunner.new(name, strategy_name, traits_and_overrides).run(&block)
-        end
-      end
-    end
+    StrategySyntaxMethodRegistrar.new(strategy_name).define_strategy_methods
   end
 
   def self.strategy_by_name(name)
