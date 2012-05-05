@@ -1,6 +1,7 @@
 module FactoryGirl
-  class Attribute #:nodoc:
-    class Dynamic < Attribute  #:nodoc:
+  class Attribute
+    # @api private
+    class Dynamic < Attribute
       def initialize(name, ignored, block)
         super(name, ignored)
         @block = block

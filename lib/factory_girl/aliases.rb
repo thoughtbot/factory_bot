@@ -1,6 +1,6 @@
 module FactoryGirl
   class << self
-    attr_accessor :aliases #:nodoc:
+    attr_accessor :aliases
   end
 
   self.aliases = [
@@ -8,7 +8,7 @@ module FactoryGirl
     [/(.*)/, '\1_id']
   ]
 
-  def self.aliases_for(attribute) #:nodoc:
+  def self.aliases_for(attribute)
     aliases.collect do |params|
       pattern, replace = *params
       if pattern.match(attribute.to_s)

@@ -1,5 +1,6 @@
 module FactoryGirl
   class Attribute
+    # @api private
     class Sequence < Attribute
       def initialize(name, sequence, ignored)
         super(name, ignored)

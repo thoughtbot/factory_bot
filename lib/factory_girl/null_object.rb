@@ -1,4 +1,5 @@
 module FactoryGirl
+  # @api private
   class NullObject < ::BasicObject
     def initialize(methods_to_respond_to)
       @methods_to_respond_to = methods_to_respond_to.map(&:to_s)

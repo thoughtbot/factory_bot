@@ -1,6 +1,7 @@
 module FactoryGirl
-  class Attribute #:nodoc:
-    class Association < Attribute  #:nodoc:
+  class Attribute
+    # @api private
+    class Association < Attribute
       attr_reader :factory
 
       def initialize(name, factory, overrides)

@@ -1,4 +1,5 @@
 module FactoryGirl
+  # @api private
   class AttributeAssigner
     def initialize(evaluator, build_class, &instance_builder)
       @build_class = build_class

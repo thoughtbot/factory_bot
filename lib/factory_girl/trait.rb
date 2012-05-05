@@ -1,8 +1,9 @@
 module FactoryGirl
+  # @api private
   class Trait
     attr_reader :name
 
-    def initialize(name, &block) #:nodoc:
+    def initialize(name, &block)
       @name = name
       @block = block
       @definition = Definition.new

@@ -32,13 +32,14 @@ module FactoryGirl
     #
     # This syntax was derived from Rick Bradley and Yossef Mendelssohn's
     # object_daddy.
+    # @api private
     module Generate
-      module ActiveRecord #:nodoc:
-        def self.included(base) # :nodoc:
+      module ActiveRecord
+        def self.included(base)
           base.extend ClassMethods
         end
 
-        module ClassMethods #:nodoc:
+        module ClassMethods
           def generate(overrides = {}, &block)
             ActiveSupport::Deprecation.warn 'Model.generate is deprecated; use the FactoryGirl.define syntax instead', caller
             instance = FactoryRunner.new(name.underscore, :build, [overrides]).run

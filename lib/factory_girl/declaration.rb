@@ -4,6 +4,7 @@ require 'factory_girl/declaration/association'
 require 'factory_girl/declaration/implicit'
 
 module FactoryGirl
+  # @api private
   class Declaration
     attr_reader :name
 

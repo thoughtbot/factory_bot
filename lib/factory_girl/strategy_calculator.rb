@@ -1,4 +1,5 @@
 module FactoryGirl
+  # @api private
   class StrategyCalculator
     def initialize(name_or_object)
       @name_or_object = name_or_object

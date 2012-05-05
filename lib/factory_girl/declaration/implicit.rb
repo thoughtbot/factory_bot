@@ -1,5 +1,6 @@
 module FactoryGirl
   class Declaration
+    # @api private
     class Implicit < Declaration
       def initialize(name, factory = nil, ignored = false)
         super(name, ignored)

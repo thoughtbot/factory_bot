@@ -18,13 +18,14 @@ module FactoryGirl
     #   User.make(name: 'Johnny')
     #
     # This syntax was derived from Pete Yandell's machinist.
+    # @api private
     module Make
-      module ActiveRecord #:nodoc:
-        def self.included(base) # :nodoc:
+      module ActiveRecord
+        def self.included(base)
           base.extend ClassMethods
         end
 
-        module ClassMethods #:nodoc:
+        module ClassMethods
           def make(overrides = {})
             ActiveSupport::Deprecation.warn 'Model.make is deprecated; use the FactoryGirl.define syntax instead', caller
             FactoryRunner.new(name.underscore, :build, [overrides]).run

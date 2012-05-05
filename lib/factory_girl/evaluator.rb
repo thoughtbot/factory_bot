@@ -2,6 +2,7 @@ require "active_support/core_ext/hash/except"
 require "active_support/core_ext/class/attribute"
 
 module FactoryGirl
+  # @api private
   class Evaluator
     class_attribute :attribute_lists
 

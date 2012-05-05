@@ -1,4 +1,5 @@
 module FactoryGirl
+  # @api private
   class StrategySyntaxMethodRegistrar
     def initialize(strategy_name)
       @strategy_name = strategy_name

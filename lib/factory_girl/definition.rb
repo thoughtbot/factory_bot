@@ -1,4 +1,5 @@
 module FactoryGirl
+  # @api private
   class Definition
     attr_reader :callbacks, :defined_traits, :declarations, :constructor
 

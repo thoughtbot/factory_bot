@@ -1,5 +1,6 @@
 module FactoryGirl
   class Declaration
+    # @api private
     class Dynamic < Declaration
       def initialize(name, ignored = false, block = nil)
         super(name, ignored)

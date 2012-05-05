@@ -1,4 +1,5 @@
 module FactoryGirl
+  # @api private
   class EvaluatorClassDefiner
     def initialize(attributes, parent_class)
       @parent_class = parent_class

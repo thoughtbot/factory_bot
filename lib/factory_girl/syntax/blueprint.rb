@@ -16,13 +16,14 @@ module FactoryGirl
     #   FactoryGirl.create(:user, name: 'Johnny')
     #
     # This syntax was derived from Pete Yandell's machinist.
+    # @api private
     module Blueprint
-      module ActiveRecord #:nodoc:
-        def self.included(base) # :nodoc:
+      module ActiveRecord
+        def self.included(base)
           base.extend ClassMethods
         end
 
-        module ClassMethods #:nodoc:
+        module ClassMethods
           def blueprint(&block)
             ActiveSupport::Deprecation.warn 'Model.blueprint is deprecated; use the FactoryGirl.define syntax instead', caller
             instance = Factory.new(name.underscore, class: self)

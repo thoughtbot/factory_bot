@@ -1,5 +1,6 @@
 module FactoryGirl
   class Declaration
+    # @api private
     class Static < Declaration
       def initialize(name, value, ignored = false)
         super(name, ignored)

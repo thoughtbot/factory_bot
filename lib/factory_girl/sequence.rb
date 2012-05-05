@@ -2,10 +2,11 @@ module FactoryGirl
 
   # Sequences are defined using sequence within a FactoryGirl.define block.
   # Sequence values are generated using next.
+  # @api private
   class Sequence
     attr_reader :name
 
-    def initialize(name, *args, &proc) #:nodoc:
+    def initialize(name, *args, &proc)
       @name    = name
       @proc    = proc
 

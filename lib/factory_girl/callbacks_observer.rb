@@ -1,4 +1,5 @@
 module FactoryGirl
+  # @api private
   class CallbacksObserver
     def initialize(callbacks, evaluator)
       @callbacks = callbacks

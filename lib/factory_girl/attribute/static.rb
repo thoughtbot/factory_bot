@@ -1,6 +1,7 @@
 module FactoryGirl
-  class Attribute #:nodoc:
-    class Static < Attribute  #:nodoc:
+  class Attribute
+    # @api private
+    class Static < Attribute
       def initialize(name, value, ignored)
         super(name, ignored)
         @value = value

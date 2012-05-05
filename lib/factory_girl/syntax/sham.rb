@@ -22,8 +22,9 @@ module FactoryGirl
     # value does not provide any tangible benefits over an ascending sequence.
     #
     # This syntax was derived from Pete Yandell's machinist.
+    # @api private
     module Sham
-      module Sham #:nodoc:
+      module Sham
         def self.method_missing(name, *args, &block)
           if block_given?
             ActiveSupport::Deprecation.warn 'Sham.sequence is deprecated; use the FactoryGirl.define syntax instead', caller

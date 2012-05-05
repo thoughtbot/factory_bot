@@ -4,7 +4,8 @@ require 'factory_girl/attribute/association'
 require 'factory_girl/attribute/sequence'
 
 module FactoryGirl
-  class Attribute #:nodoc:
+  # @api private
+  class Attribute
     attr_reader :name, :ignored
 
     def initialize(name, ignored)

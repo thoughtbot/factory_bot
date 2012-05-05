@@ -9,7 +9,7 @@ module FactoryGirl
 
   self.definition_file_paths = %w(factories test/factories spec/factories)
 
-  def self.find_definitions #:nodoc:
+  def self.find_definitions
     absolute_definition_file_paths = definition_file_paths.map {|path| File.expand_path(path) }
 
     absolute_definition_file_paths.uniq.each do |path|

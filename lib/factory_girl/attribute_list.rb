@@ -1,4 +1,5 @@
 module FactoryGirl
+  # @api private
   class AttributeList
     include Enumerable
 

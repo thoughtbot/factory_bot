@@ -1,3 +1,4 @@
+# @api private
 module FactoryGirlStepHelpers
   def convert_human_hash_to_attribute_hash(human_hash, associations = [])
     HumanHashToAttributeHash.new(human_hash, associations).attributes

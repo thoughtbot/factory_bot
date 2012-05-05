@@ -2,10 +2,11 @@ require 'active_support/core_ext/hash/keys'
 require 'active_support/inflector'
 
 module FactoryGirl
+  # @api private
   class Factory
-    attr_reader :name, :definition #:nodoc:
+    attr_reader :name, :definition
 
-    def initialize(name, options = {}) #:nodoc:
+    def initialize(name, options = {})
       assert_valid_options(options)
       @name             = name.is_a?(Symbol) ? name : name.to_s.underscore.to_sym
       @parent           = options[:parent]
@@ -18,7 +19,7 @@ module FactoryGirl
     delegate :add_callback, :declare_attribute, :to_create, :define_trait,
              :defined_traits, :inherit_traits, :processing_order, to: :@definition
 
-    def build_class #:nodoc:
+    def build_class
       @build_class ||= if class_name.is_a? Class
         class_name
       else
@@ -26,7 +27,7 @@ module FactoryGirl
       end
     end
 
-    def run(build_strategy, overrides, &block) #:nodoc:
+    def run(build_strategy, overrides, &block)
       block ||= ->(result) { result }
       compile
 
@@ -95,7 +96,7 @@ module FactoryGirl
 
     protected
 
-    def class_name #:nodoc:
+    def class_name
       @class_name || parent.class_name || name
     end
 

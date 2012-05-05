@@ -1,5 +1,6 @@
 module FactoryGirl
   class Declaration
+    # @api private
     class Association < Declaration
       def initialize(name, options)
         super(name, false)
