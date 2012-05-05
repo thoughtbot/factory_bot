@@ -12,10 +12,6 @@ module FactoryGirl
       end
 
       class DSL
-        def self.run(block)
-          new.instance_eval(&block)
-        end
-
         def factory(name, options = {}, &block)
           factory = Factory.new(name, options)
           proxy = FactoryGirl::DefinitionProxy.new(factory.definition)
@@ -36,17 +32,21 @@ module FactoryGirl
         def trait(name, &block)
           FactoryGirl.register_trait(Trait.new(name, &block))
         end
-      end
 
-      class ModifyDSL
         def self.run(block)
           new.instance_eval(&block)
         end
+      end
 
+      class ModifyDSL
         def factory(name, options = {}, &block)
           factory = FactoryGirl.factory_by_name(name)
           proxy = FactoryGirl::DefinitionProxy.new(factory.definition.overridable)
           proxy.instance_eval(&block)
+        end
+
+        def self.run(block)
+          new.instance_eval(&block)
         end
       end
     end
