@@ -1,7 +1,8 @@
-require "active_support/deprecation"
-require "factory_girl/syntax/methods"
-require "factory_girl/syntax/default"
-require "factory_girl/syntax/vintage"
+require 'active_support/deprecation'
+
+require 'factory_girl/syntax/methods'
+require 'factory_girl/syntax/default'
+require 'factory_girl/syntax/vintage'
 
 module FactoryGirl
   # Provides alternate syntaxes for factory_girl. If you don't like the default

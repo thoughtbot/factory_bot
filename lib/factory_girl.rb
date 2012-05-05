@@ -1,16 +1,16 @@
-require "set"
-require "active_support/core_ext/module/delegation"
-require "active_support/notifications"
+require 'set'
+require 'active_support/core_ext/module/delegation'
+require 'active_support/notifications'
 
 require 'factory_girl/errors'
 require 'factory_girl/factory_runner'
 require 'factory_girl/strategy_syntax_method_registrar'
 require 'factory_girl/strategy_calculator'
-require "factory_girl/strategy/build"
-require "factory_girl/strategy/create"
-require "factory_girl/strategy/attributes_for"
-require "factory_girl/strategy/stub"
-require "factory_girl/strategy/null"
+require 'factory_girl/strategy/build'
+require 'factory_girl/strategy/create'
+require 'factory_girl/strategy/attributes_for'
+require 'factory_girl/strategy/stub'
+require 'factory_girl/strategy/null'
 require 'factory_girl/disallows_duplicates_registry'
 require 'factory_girl/registry'
 require 'factory_girl/null_factory'
@@ -39,7 +39,7 @@ require 'factory_girl/version'
 
 module FactoryGirl
   def self.factories
-    @factories ||= DisallowsDuplicatesRegistry.new(Registry.new("Factory"))
+    @factories ||= DisallowsDuplicatesRegistry.new(Registry.new('Factory'))
   end
 
   def self.register_factory(factory)
@@ -54,7 +54,7 @@ module FactoryGirl
   end
 
   def self.sequences
-    @sequences ||= DisallowsDuplicatesRegistry.new(Registry.new("Sequence"))
+    @sequences ||= DisallowsDuplicatesRegistry.new(Registry.new('Sequence'))
   end
 
   def self.register_sequence(sequence)
@@ -69,7 +69,7 @@ module FactoryGirl
   end
 
   def self.traits
-    @traits ||= DisallowsDuplicatesRegistry.new(Registry.new("Trait"))
+    @traits ||= DisallowsDuplicatesRegistry.new(Registry.new('Trait'))
   end
 
   def self.register_trait(trait)
@@ -84,7 +84,7 @@ module FactoryGirl
   end
 
   def self.strategies
-    @strategies ||= Registry.new("Strategy")
+    @strategies ||= Registry.new('Strategy')
   end
 
   def self.register_strategy(strategy_name, strategy_class)

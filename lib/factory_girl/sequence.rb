@@ -11,7 +11,7 @@ module FactoryGirl
 
       options  = args.extract_options!
       @value   = args.first || 1
-      @aliases = options[:aliases] || []
+      @aliases = options.fetch(:aliases) { [] }
     end
 
     def next

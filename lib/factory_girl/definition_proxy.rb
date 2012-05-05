@@ -33,7 +33,7 @@ module FactoryGirl
     # * value: +Object+
     #   If no block is given, this value will be used for this attribute.
     def add_attribute(name, value = nil, &block)
-      raise AttributeDefinitionError, "Both value and block given" if value && block_given?
+      raise AttributeDefinitionError, 'Both value and block given' if value && block_given?
 
       declaration = if block_given?
         Declaration::Dynamic.new(name, @ignore, block)
@@ -86,7 +86,7 @@ module FactoryGirl
       elsif args.first.respond_to?(:has_key?) && args.first.has_key?(:factory)
         association(name, *args)
       elsif FactoryGirl.callback_names.include?(name)
-        callback_when, callback_name = name.to_s.split("_", 2)
+        callback_when, callback_name = name.to_s.split('_', 2)
         ActiveSupport::Deprecation.warn "Calling #{name} is deprecated; use the syntax #{callback_when}(:#{callback_name}) {}", caller
         @definition.add_callback(Callback.new(name, block))
       else

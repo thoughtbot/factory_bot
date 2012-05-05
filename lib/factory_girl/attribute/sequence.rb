@@ -1,6 +1,5 @@
 module FactoryGirl
   class Attribute
-
     class Sequence < Attribute
       def initialize(name, sequence, ignored)
         super(name, ignored)
@@ -12,6 +11,5 @@ module FactoryGirl
         -> { FactoryGirl.generate(sequence) }
       end
     end
-
   end
 end

@@ -1,7 +1,7 @@
-require "factory_girl/attribute/static"
-require "factory_girl/attribute/dynamic"
-require "factory_girl/attribute/association"
-require "factory_girl/attribute/sequence"
+require 'factory_girl/attribute/static'
+require 'factory_girl/attribute/dynamic'
+require 'factory_girl/attribute/association'
+require 'factory_girl/attribute/sequence'
 
 module FactoryGirl
   class Attribute #:nodoc:

@@ -1,4 +1,4 @@
-require "observer"
+require 'observer'
 
 module FactoryGirl
   class Evaluation
@@ -9,11 +9,11 @@ module FactoryGirl
       @to_create = to_create
     end
 
+    delegate :object, :hash, to: :@attribute_assigner
+
     def create(result_instance)
       @to_create[result_instance]
     end
-
-    delegate :object, :hash, to: :@attribute_assigner
 
     def notify(name, result_instance)
       changed

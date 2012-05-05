@@ -26,7 +26,7 @@ module FactoryGirl
       module Sham #:nodoc:
         def self.method_missing(name, *args, &block)
           if block_given?
-            ActiveSupport::Deprecation.warn "Sham.sequence is deprecated; use the FactoryGirl.define syntax instead", caller
+            ActiveSupport::Deprecation.warn 'Sham.sequence is deprecated; use the FactoryGirl.define syntax instead', caller
             start_value = args.first
             FactoryGirl.register_sequence(Sequence.new(name, start_value || 1, &block))
           else
