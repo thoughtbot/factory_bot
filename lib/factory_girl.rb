@@ -104,10 +104,6 @@ module FactoryGirl
     FactoryGirl.register_strategy(:null,           FactoryGirl::Strategy::Null)
   end
 
-  def self.callbacks
-    @callbacks ||= Set.new
-  end
-
   def self.register_default_callbacks
     register_callback(:after_build)
     register_callback(:after_create)
@@ -116,12 +112,12 @@ module FactoryGirl
   end
 
   def self.callback_names
-    callbacks
+    @callback_names ||= Set.new
   end
 
   def self.register_callback(name)
     name = name.to_sym
-    callbacks << name
+    callback_names << name
   end
 end
 
