@@ -5,7 +5,7 @@ module FactoryGirl
       @attributes   = attributes
 
       attributes.each do |attribute|
-        evaluator_class.define_cached_attribute(attribute.name, &attribute.to_proc)
+        evaluator_class.define_attribute(attribute.name, &attribute.to_proc)
       end
     end
 

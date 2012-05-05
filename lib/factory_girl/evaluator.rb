@@ -13,7 +13,7 @@ module FactoryGirl
       end
     end
 
-    def self.define_cached_attribute(name, &block)
+    def self.define_attribute(name, &block)
       define_method(name) do
         if @cached_attributes.key?(name)
           @cached_attributes[name]
@@ -34,7 +34,7 @@ module FactoryGirl
       @cached_attributes = overrides
 
       @overrides.each do |name, value|
-        singleton_class.define_cached_attribute(name) { value }
+        singleton_class.define_attribute(name) { value }
       end
     end
 
