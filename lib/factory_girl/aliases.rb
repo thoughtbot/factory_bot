@@ -9,8 +9,7 @@ module FactoryGirl
   ]
 
   def self.aliases_for(attribute)
-    aliases.collect do |params|
-      pattern, replace = *params
+    aliases.map do |(pattern, replace)|
       if pattern.match(attribute.to_s)
         attribute.to_s.sub(pattern, replace).to_sym
       end
