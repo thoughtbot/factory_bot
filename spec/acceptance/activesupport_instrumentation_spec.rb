@@ -35,7 +35,7 @@ describe "using ActiveSupport::Instrumentation to track factory interaction" do
       FactoryGirl.build(:slow_user)
     end
 
-    time_to_execute.should be_within(0.03).of(0.1)
+    time_to_execute.should >= 0.1
   end
 
   it "builds the correct payload" do
