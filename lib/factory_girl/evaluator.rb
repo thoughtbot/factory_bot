@@ -13,6 +13,16 @@ module FactoryGirl
       end
     end
 
+    def self.define_cached_attribute(name, &block)
+      define_method(name) do
+        if @cached_attributes.key?(name)
+          @cached_attributes[name]
+        else
+          @cached_attributes[name] = instance_exec(&block)
+        end
+      end
+    end
+
     private_instance_methods.each do |method|
       undef_method(method) unless method =~ /^__|initialize/
     end
@@ -24,7 +34,7 @@ module FactoryGirl
       @cached_attributes = overrides
 
       @overrides.each do |name, value|
-        singleton_class.send :define_method, name, -> { value }
+        singleton_class.define_cached_attribute(name) { value }
       end
     end
 

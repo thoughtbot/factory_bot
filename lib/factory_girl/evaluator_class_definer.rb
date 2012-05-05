@@ -5,7 +5,7 @@ module FactoryGirl
       @attributes   = attributes
 
       attributes.each do |attribute|
-        define_attribute(attribute.name, attribute.to_proc)
+        evaluator_class.define_cached_attribute(attribute.name, &attribute.to_proc)
       end
     end
 
@@ -13,18 +13,6 @@ module FactoryGirl
       @evaluator_class ||= Class.new(@parent_class).tap do |klass|
         klass.attribute_lists ||= []
         klass.attribute_lists += [@attributes]
-      end
-    end
-
-    private
-
-    def define_attribute(attribute_name, attribute_proc)
-      evaluator_class.send(:define_method, attribute_name) do
-        if @cached_attributes.key?(attribute_name)
-          @cached_attributes[attribute_name]
-        else
-          @cached_attributes[attribute_name] = instance_exec(&attribute_proc)
-        end
       end
     end
   end
