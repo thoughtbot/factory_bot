@@ -7,7 +7,7 @@ module FactoryGirl
       @declarations      = DeclarationList.new(name)
       @callbacks         = []
       @defined_traits    = []
-      @to_create         = default_to_create
+      @to_create         = nil
       @base_traits       = base_traits
       @additional_traits = []
       @constructor       = default_constructor
@@ -23,8 +23,10 @@ module FactoryGirl
       attributes
     end
 
-    def processing_order
-      base_traits + [self] + additional_traits
+    def definition_list
+      DefinitionList.new(
+        base_traits.map(&:definition) + [self] + additional_traits.map(&:definition)
+      )
     end
 
     def overridable
@@ -33,11 +35,19 @@ module FactoryGirl
     end
 
     def inherit_traits(new_traits)
+      @base_traits += new_traits
+    end
+
+    def append_traits(new_traits)
       @additional_traits += new_traits
     end
 
     def add_callback(callback)
       @callbacks << callback
+    end
+
+    def compiled_to_create
+      definition_list.to_create
     end
 
     def to_create(&block)
@@ -60,18 +70,10 @@ module FactoryGirl
       @constructor != default_constructor
     end
 
-    def custom_to_create?
-      @to_create != default_to_create
-    end
-
     private
 
     def default_constructor
       @default_constructor ||= -> { new }
-    end
-
-    def default_to_create
-      @default_to_create ||= ->(instance) { instance.save! }
     end
 
     def base_traits

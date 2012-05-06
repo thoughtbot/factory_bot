@@ -419,3 +419,71 @@ describe "making sure the factory is properly compiled the first time we want to
     user.role.should == 'admin'
   end
 end
+
+describe "traits with other than attributes or callbacks defined" do
+  before do
+    define_model("User", name: :string)
+
+    FactoryGirl.define do
+      factory :user do
+        trait :with_to_create do
+          to_create {|instance| instance.name = "to_create" }
+        end
+
+        factory :sub_user do
+          to_create {|instance| instance.name = "sub" }
+
+          factory :child_user
+        end
+
+        factory :sub_user_with_trait do
+          with_to_create
+
+          factory :child_user_with_trait
+        end
+
+        factory :sub_user_with_trait_and_override do
+          with_to_create
+          to_create {|instance| instance.name = "sub with trait and override" }
+
+          factory :child_user_with_trait_and_override
+        end
+      end
+    end
+  end
+
+  it "can apply to_create from traits" do
+    FactoryGirl.create(:user, :with_to_create).name.should == "to_create"
+  end
+
+  it "can apply to_create from the definition" do
+    FactoryGirl.create(:sub_user).name.should == "sub"
+    FactoryGirl.create(:child_user).name.should == "sub"
+  end
+
+  it "gives additional traits higher priority than to_create from the definition" do
+    FactoryGirl.create(:sub_user, :with_to_create).name.should == "to_create"
+    FactoryGirl.create(:child_user, :with_to_create).name.should == "to_create"
+  end
+
+  it "gives base traits normal priority" do
+    FactoryGirl.create(:sub_user_with_trait).name.should == "to_create"
+    FactoryGirl.create(:child_user_with_trait).name.should == "to_create"
+  end
+
+  it "gives base traits lower priority than overrides" do
+    FactoryGirl.create(:sub_user_with_trait_and_override).name.should == "sub with trait and override"
+    FactoryGirl.create(:child_user_with_trait_and_override).name.should == "sub with trait and override"
+  end
+
+  it "gives additional traits higher priority than base traits and factory definition" do
+    FactoryGirl.define do
+      trait :overridden do
+        to_create {|instance| instance.name = "completely overridden" }
+      end
+    end
+
+    FactoryGirl.create(:sub_user_with_trait_and_override, :overridden).name.should == "completely overridden"
+    FactoryGirl.create(:child_user_with_trait_and_override, :overridden).name.should == "completely overridden"
+  end
+end

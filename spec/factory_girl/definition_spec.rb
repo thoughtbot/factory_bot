@@ -49,13 +49,7 @@ describe FactoryGirl::Definition, "adding callbacks" do
 end
 
 describe FactoryGirl::Definition, "#to_create" do
-  its(:to_create) { should be_a(Proc) }
-
-  it "calls save! on the object when run" do
-    instance = stub("model instance", :save! => true)
-    subject.to_create[instance]
-    instance.should have_received(:save!).once
-  end
+  its(:to_create) { should be_nil }
 
   it "returns the assigned value when given a block" do
     block = proc { nil }
@@ -64,9 +58,11 @@ describe FactoryGirl::Definition, "#to_create" do
   end
 end
 
-describe FactoryGirl::Definition, "#processing_order" do
+describe FactoryGirl::Definition, "#definition_list" do
   let(:female_trait) { FactoryGirl::Trait.new(:female) }
   let(:admin_trait)  { FactoryGirl::Trait.new(:admin) }
+  let(:female_definition) { female_trait.definition }
+  let(:admin_definition) { admin_trait.definition }
 
   before do
     subject.define_trait(female_trait)
@@ -75,17 +71,22 @@ describe FactoryGirl::Definition, "#processing_order" do
 
   context "without base traits" do
     it "returns the definition without any traits" do
-      subject.processing_order.should == [subject]
+      subject.definition_list.should == [subject]
     end
 
-    it "finds the correct traits after inheriting" do
+    it "finds the correct definitions after appending" do
+      subject.append_traits([:female])
+      subject.definition_list.should == [subject, female_definition]
+    end
+
+    it "finds the correct definitions after inheriting" do
       subject.inherit_traits([:female])
-      subject.processing_order.should == [subject, female_trait]
+      subject.definition_list.should == [female_definition, subject]
     end
 
     it "looks for the trait on FactoryGirl" do
-      subject.inherit_traits([:female, :admin])
-      subject.processing_order.should == [subject, female_trait, admin_trait]
+      subject.append_traits([:female, :admin])
+      subject.definition_list.should == [subject, female_definition, admin_definition]
     end
   end
 
@@ -93,12 +94,17 @@ describe FactoryGirl::Definition, "#processing_order" do
     subject { FactoryGirl::Definition.new("my definition", [:female]) }
 
     it "returns the base traits and definition" do
-      subject.processing_order.should == [female_trait, subject]
+      subject.definition_list.should == [female_definition, subject]
     end
 
-    it "finds the correct traits after inheriting" do
+    it "finds the correct definitions after appending" do
+      subject.append_traits([:admin])
+      subject.definition_list.should == [female_definition, subject, admin_definition]
+    end
+
+    it "finds the correct definitions after inheriting" do
       subject.inherit_traits([:admin])
-      subject.processing_order.should == [female_trait, subject, admin_trait]
+      subject.definition_list.should == [female_definition, admin_definition, subject]
     end
   end
 end
