@@ -262,18 +262,20 @@ describe FactoryGirl::Factory, "#with_traits" do
   subject            { FactoryGirl::Factory.new(:user) }
   let(:admin_trait)  { FactoryGirl::Trait.new(:admin) }
   let(:female_trait) { FactoryGirl::Trait.new(:female) }
+  let(:admin_definition) { admin_trait.definition }
+  let(:female_definition) { female_trait.definition }
 
   before do
     FactoryGirl.register_trait(admin_trait)
     FactoryGirl.register_trait(female_trait)
   end
 
-  it "returns a factory with the correct traits" do
-    subject.with_traits([:admin, :female]).processing_order[1, 2].should == [admin_trait, female_trait]
+  it "returns a factory with the correct definitions" do
+    subject.with_traits([:admin, :female]).definition_list[1, 2].should == [admin_definition, female_definition]
   end
 
   it "doesn't modify the original factory's processing order" do
     subject.with_traits([:admin, :female])
-    subject.processing_order.should == [subject.definition]
+    subject.definition_list.should == [subject.definition]
   end
 end

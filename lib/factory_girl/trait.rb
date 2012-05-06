@@ -1,7 +1,7 @@
 module FactoryGirl
   # @api private
   class Trait
-    attr_reader :name
+    attr_reader :name, :definition
 
     def initialize(name, &block)
       @name = name
