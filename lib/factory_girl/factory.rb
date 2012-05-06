@@ -34,7 +34,7 @@ module FactoryGirl
       strategy = StrategyCalculator.new(build_strategy).strategy.new
 
       evaluator = evaluator_class.new(build_class, strategy, overrides.symbolize_keys)
-      attribute_assigner = AttributeAssigner.new(evaluator, build_class, &instance_builder)
+      attribute_assigner = AttributeAssigner.new(evaluator, build_class, &constructor)
 
       evaluation = Evaluation.new(attribute_assigner, to_create)
       evaluation.add_observer(CallbacksObserver.new(callbacks, evaluator))
@@ -118,7 +118,12 @@ module FactoryGirl
     end
 
     def constructor
-      @constructor ||= @definition.constructor || parent.constructor
+      @constructor ||=
+        if @definition.custom_constructor?
+          @definition.constructor
+        else
+          parent.constructor
+        end
     end
 
     private
@@ -133,11 +138,6 @@ module FactoryGirl
       else
         NullFactory.new
       end
-    end
-
-    def instance_builder
-      build_class = self.build_class
-      constructor || -> { build_class.new }
     end
 
     def initialize_copy(source)
