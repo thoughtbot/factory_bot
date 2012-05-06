@@ -7,7 +7,7 @@ module FactoryGirl
       @declarations      = DeclarationList.new(name)
       @callbacks         = []
       @defined_traits    = []
-      @to_create         = ->(instance) { instance.save! }
+      @to_create         = default_to_create
       @base_traits       = base_traits
       @additional_traits = []
       @constructor       = default_constructor
@@ -60,10 +60,18 @@ module FactoryGirl
       @constructor != default_constructor
     end
 
+    def custom_to_create?
+      @to_create != default_to_create
+    end
+
     private
 
     def default_constructor
       @default_constructor ||= -> { new }
+    end
+
+    def default_to_create
+      @default_to_create ||= ->(instance) { instance.save! }
     end
 
     def base_traits
