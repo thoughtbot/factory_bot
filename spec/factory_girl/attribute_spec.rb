@@ -8,7 +8,7 @@ describe FactoryGirl::Attribute do
   it { should_not be_association }
 
   it "raises an error when defining an attribute writer" do
-    error_message = %{factory_girl uses 'f.test value' syntax rather than 'f.test = value'}
+    error_message = %{factory_girl uses 'test value' syntax rather than 'test = value'}
     expect {
       FactoryGirl::Attribute.new('test=', false)
     }.to raise_error(FactoryGirl::AttributeDefinitionError, error_message)

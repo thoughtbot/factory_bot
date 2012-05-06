@@ -29,11 +29,33 @@ module FactoryGirl
     private
 
     def ensure_non_attribute_writer!
-      if @name.to_s =~ /=$/
-        attribute_name = $`
-        raise AttributeDefinitionError,
-          "factory_girl uses 'f.#{attribute_name} value' syntax " +
-          "rather than 'f.#{attribute_name} = value'"
+      NonAttributeWriterValidator.new(@name).validate!
+    end
+
+    class NonAttributeWriterValidator
+      def initialize(method_name)
+        @method_name = method_name.to_s
+        @method_name_setter_match = @method_name.match(/(.*)=$/)
+      end
+
+      def validate!
+        if method_is_writer?
+          raise AttributeDefinitionError, error_message
+        end
+      end
+
+      private
+
+      def method_is_writer?
+        !!@method_name_setter_match
+      end
+
+      def attribute_name
+        @method_name_setter_match[1]
+      end
+
+      def error_message
+        "factory_girl uses '#{attribute_name} value' syntax rather than '#{attribute_name} = value'"
       end
     end
   end
