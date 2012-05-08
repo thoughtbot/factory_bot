@@ -37,7 +37,6 @@ module FactoryGirlStepHelpers
         @human_hash_to_attributes_hash.associations.detect {|association| association.name == @key }
       end
 
-
       def association_instance
         return unless association
 
