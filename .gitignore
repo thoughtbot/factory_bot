@@ -1,5 +1,4 @@
 *.swp
-.idea/
 test.db
 factory_girl-*.gem
 doc
