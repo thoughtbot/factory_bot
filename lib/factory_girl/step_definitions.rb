@@ -41,8 +41,7 @@ module FactoryGirlStepHelpers
         return unless association
 
         if attributes_hash = nested_attribute_hash
-          factory.build_class.first(conditions: attributes_hash.attributes(FindAttributes)) or
-          FactoryGirl.create(association.factory, attributes_hash.attributes)
+          find_association_instance(attributes_hash) or create_association_instance(attributes_hash)
         end
       end
 
@@ -57,6 +56,16 @@ module FactoryGirlStepHelpers
         return if value.blank?
 
         HumanHashToAttributeHash.new({ attribute => value }, factory.associations)
+      end
+
+      def find_association_instance(attributes_hash)
+        factory.build_class.first(conditions: attributes_hash.attributes(FindAttributes))
+      rescue ActiveRecord::StatementInvalid
+        # Do nothing. Ignore ignored attribute(s).
+      end
+
+      def create_association_instance(attributes_hash)
+        FactoryGirl.create(association.factory, attributes_hash.attributes)
       end
     end
 
@@ -136,4 +145,3 @@ FactoryGirl.factories.each do |factory|
     end
   end
 end
-
