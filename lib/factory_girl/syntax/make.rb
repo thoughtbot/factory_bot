@@ -27,12 +27,12 @@ module FactoryGirl
 
         module ClassMethods
           def make(overrides = {})
-            ActiveSupport::Deprecation.warn 'Model.make is deprecated; use the FactoryGirl.define syntax instead', caller
+            ActiveSupport::Deprecation.warn 'Model.make is deprecated; use FactoryGirl.build(:model) instead.', caller
             FactoryRunner.new(name.underscore, :build, [overrides]).run
           end
 
           def make!(overrides = {})
-            ActiveSupport::Deprecation.warn 'Model.make! is deprecated; use the FactoryGirl.define syntax instead', caller
+            ActiveSupport::Deprecation.warn 'Model.make! is deprecated; use FactoryGirl.create(:model) instead.', caller
             FactoryRunner.new(name.underscore, :create, [overrides]).run
           end
         end
