@@ -16,7 +16,7 @@ module FactoryGirl
       @compiled         = false
     end
 
-    delegate :add_callback, :declare_attribute, :to_create, :define_trait,
+    delegate :add_callback, :declare_attribute, :to_create, :define_trait, :constructor,
              :defined_traits, :inherit_traits, :append_traits, :definition_list, to: :@definition
 
     def build_class
@@ -34,6 +34,7 @@ module FactoryGirl
       strategy = StrategyCalculator.new(build_strategy).strategy.new
 
       evaluator = evaluator_class.new(build_class, strategy, overrides.symbolize_keys)
+      constructor = compiled_constructor || -> { new }
       attribute_assigner = AttributeAssigner.new(evaluator, build_class, &constructor)
 
       evaluation = Evaluation.new(attribute_assigner, compiled_to_create)
@@ -119,13 +120,12 @@ module FactoryGirl
       parent.callbacks + definition_list.callbacks
     end
 
-    def constructor
-      @constructor ||=
-        if @definition.custom_constructor?
-          @definition.constructor
-        else
-          parent.constructor
-        end
+    def compiled_to_create
+      @definition.compiled_to_create || parent.compiled_to_create
+    end
+
+    def compiled_constructor
+      @definition.compiled_constructor || parent.compiled_constructor
     end
 
     private
