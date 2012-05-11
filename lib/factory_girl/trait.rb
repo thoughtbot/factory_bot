@@ -6,13 +6,13 @@ module FactoryGirl
     def initialize(name, &block)
       @name = name
       @block = block
-      @definition = Definition.new
+      @definition = Definition.new(@name)
 
       proxy = FactoryGirl::DefinitionProxy.new(@definition)
       proxy.instance_eval(&@block) if block_given?
     end
 
-    delegate :add_callback, :declare_attribute, :to_create, :define_trait,
+    delegate :add_callback, :declare_attribute, :to_create, :define_trait, :constructor,
              :callbacks, :attributes, to: :@definition
 
     def names

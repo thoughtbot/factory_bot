@@ -7,7 +7,8 @@ module FactoryGirl
       @definition = Definition.new
     end
 
-    delegate :defined_traits, :callbacks, :attributes, :constructor, :compiled_to_create, to: :definition
+    delegate :defined_traits, :callbacks, :attributes, :constructor,
+      :compiled_to_create, :compiled_constructor, to: :definition
 
     def compile; end
     def class_name; end

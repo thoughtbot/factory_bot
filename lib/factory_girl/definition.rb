@@ -10,7 +10,7 @@ module FactoryGirl
       @to_create         = nil
       @base_traits       = base_traits
       @additional_traits = []
-      @constructor       = default_constructor
+      @constructor       = nil
     end
 
     delegate :declare_attribute, to: :declarations
@@ -50,6 +50,10 @@ module FactoryGirl
       definition_list.to_create
     end
 
+    def compiled_constructor
+      definition_list.constructor
+    end
+
     def to_create(&block)
       if block_given?
         @to_create = block
@@ -66,15 +70,7 @@ module FactoryGirl
       @constructor = block
     end
 
-    def custom_constructor?
-      @constructor != default_constructor
-    end
-
     private
-
-    def default_constructor
-      @default_constructor ||= -> { new }
-    end
 
     def base_traits
       @base_traits.map { |name| trait_by_name(name) }

@@ -420,7 +420,7 @@ describe "making sure the factory is properly compiled the first time we want to
   end
 end
 
-describe "traits with other than attributes or callbacks defined" do
+describe "traits with to_create" do
   before do
     define_model("User", name: :string)
 
@@ -485,5 +485,79 @@ describe "traits with other than attributes or callbacks defined" do
 
     FactoryGirl.create(:sub_user_with_trait_and_override, :overridden).name.should == "completely overridden"
     FactoryGirl.create(:child_user_with_trait_and_override, :overridden).name.should == "completely overridden"
+  end
+end
+
+describe "traits with initialize_with" do
+  before do
+    define_class("User") do
+      attr_reader :name
+
+      def initialize(name)
+        @name = name
+      end
+    end
+
+    FactoryGirl.define do
+      factory :user do
+        trait :with_initialize_with do
+          initialize_with { new("initialize_with") }
+        end
+
+        factory :sub_user do
+          initialize_with { new("sub") }
+
+          factory :child_user
+        end
+
+        factory :sub_user_with_trait do
+          with_initialize_with
+
+          factory :child_user_with_trait
+        end
+
+        factory :sub_user_with_trait_and_override do
+          with_initialize_with
+          initialize_with { new("sub with trait and override") }
+
+          factory :child_user_with_trait_and_override
+        end
+      end
+    end
+  end
+
+  it "can apply initialize_with from traits" do
+    FactoryGirl.build(:user, :with_initialize_with).name.should == "initialize_with"
+  end
+
+  it "can apply initialize_with from the definition" do
+    FactoryGirl.build(:sub_user).name.should == "sub"
+    FactoryGirl.build(:child_user).name.should == "sub"
+  end
+
+  it "gives additional traits higher priority than initialize_with from the definition" do
+    FactoryGirl.build(:sub_user, :with_initialize_with).name.should == "initialize_with"
+    FactoryGirl.build(:child_user, :with_initialize_with).name.should == "initialize_with"
+  end
+
+  it "gives base traits normal priority" do
+    FactoryGirl.build(:sub_user_with_trait).name.should == "initialize_with"
+    FactoryGirl.build(:child_user_with_trait).name.should == "initialize_with"
+  end
+
+  it "gives base traits lower priority than overrides" do
+    FactoryGirl.build(:sub_user_with_trait_and_override).name.should == "sub with trait and override"
+    FactoryGirl.build(:child_user_with_trait_and_override).name.should == "sub with trait and override"
+  end
+
+  it "gives additional traits higher priority than base traits and factory definition" do
+    FactoryGirl.define do
+      trait :overridden do
+        initialize_with { new("completely overridden") }
+      end
+    end
+
+    FactoryGirl.build(:sub_user_with_trait_and_override, :overridden).name.should == "completely overridden"
+    FactoryGirl.build(:child_user_with_trait_and_override, :overridden).name.should == "completely overridden"
   end
 end

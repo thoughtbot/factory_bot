@@ -22,6 +22,10 @@ module FactoryGirl
       map(&:to_create).compact.last
     end
 
+    def constructor
+      map(&:constructor).compact.last
+    end
+
     delegate :[], :==, to: :@definitions
   end
 end
