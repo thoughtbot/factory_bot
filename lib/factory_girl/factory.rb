@@ -97,10 +97,6 @@ module FactoryGirl
 
     protected
 
-    def compiled_to_create
-      @definition.compiled_to_create || parent.compiled_to_create
-    end
-
     def class_name
       @class_name || parent.class_name || name
     end
