@@ -16,13 +16,27 @@ module FactoryGirl
     end
 
     def next
-      @proc ? @proc.call(@value) : @value
+      @proc ? @proc.call(current_value) : current_value
     ensure
-      @value = @value.next
+      increment_value
     end
 
     def names
       [@name] + @aliases
+    end
+
+    private
+
+    def current_value
+      @value.is_a?(Enumerator) ? @value.peek : @value
+    end
+
+    def increment_value
+      if @value.is_a?(Enumerator)
+        @value.next
+      else
+        @value = @value.next
+      end
     end
   end
 end
