@@ -34,8 +34,7 @@ module FactoryGirl
       strategy = StrategyCalculator.new(build_strategy).strategy.new
 
       evaluator = evaluator_class.new(build_class, strategy, overrides.symbolize_keys)
-      constructor = compiled_constructor || -> { new }
-      attribute_assigner = AttributeAssigner.new(evaluator, build_class, &constructor)
+      attribute_assigner = AttributeAssigner.new(evaluator, build_class, &compiled_constructor)
 
       evaluation = Evaluation.new(attribute_assigner, compiled_to_create)
       evaluation.add_observer(CallbacksObserver.new(callbacks, evaluator))
@@ -121,7 +120,7 @@ module FactoryGirl
     end
 
     def compiled_constructor
-      @definition.compiled_constructor || parent.compiled_constructor
+      @definition.compiled_constructor || parent.compiled_constructor || FactoryGirl.constructor
     end
 
     private

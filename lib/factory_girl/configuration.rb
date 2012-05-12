@@ -12,8 +12,13 @@ module FactoryGirl
       @definition     = Definition.new
 
       to_create {|instance| instance.save! }
+      initialize_with { new }
     end
 
-    delegate :to_create, :skip_create, to: :@definition
+    delegate :to_create, :skip_create, :constructor, to: :@definition
+
+    def initialize_with(&block)
+      @definition.define_constructor(&block)
+    end
   end
 end

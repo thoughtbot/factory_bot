@@ -41,6 +41,10 @@ module FactoryGirl
           FactoryGirl.skip_create
         end
 
+        def initialize_with(&block)
+          FactoryGirl.initialize_with(&block)
+        end
+
         def self.run(block)
           new.instance_eval(&block)
         end

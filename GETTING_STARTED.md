@@ -762,6 +762,15 @@ factory :user do
 end
 ```
 
+You can define `initialize_with` for all factories by including it in the
+`FactoryGirl.define` block:
+
+```ruby
+FactoryGirl.define do
+  initialize_with { new("Awesome first argument") }
+end
+```
+
 Custom Strategies
 -----------------
 

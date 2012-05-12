@@ -50,7 +50,7 @@ module FactoryGirl
 
   class << self
     delegate :factories, :sequences, :traits, :strategies, :callback_names,
-      :to_create, :skip_create, to: :configuration
+      :to_create, :skip_create, :initialize_with, :constructor, to: :configuration
   end
 
   def self.register_factory(factory)
