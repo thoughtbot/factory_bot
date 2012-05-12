@@ -96,11 +96,11 @@ module FactoryGirl
   end
 
   def self.register_default_strategies
-    FactoryGirl.register_strategy(:build,          FactoryGirl::Strategy::Build)
-    FactoryGirl.register_strategy(:create,         FactoryGirl::Strategy::Create)
-    FactoryGirl.register_strategy(:attributes_for, FactoryGirl::Strategy::AttributesFor)
-    FactoryGirl.register_strategy(:build_stubbed,  FactoryGirl::Strategy::Stub)
-    FactoryGirl.register_strategy(:null,           FactoryGirl::Strategy::Null)
+    register_strategy(:build,          FactoryGirl::Strategy::Build)
+    register_strategy(:create,         FactoryGirl::Strategy::Create)
+    register_strategy(:attributes_for, FactoryGirl::Strategy::AttributesFor)
+    register_strategy(:build_stubbed,  FactoryGirl::Strategy::Stub)
+    register_strategy(:null,           FactoryGirl::Strategy::Null)
   end
 
   def self.register_default_callbacks
