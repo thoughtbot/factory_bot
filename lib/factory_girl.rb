@@ -48,8 +48,9 @@ module FactoryGirl
     @configuration = nil
   end
 
-  def self.factories
-    configuration.factories
+  class << self
+    delegate :factories, :sequences, :traits, :strategies, :callback_names,
+      :to_create, :skip_create, to: :configuration
   end
 
   def self.register_factory(factory)
@@ -63,10 +64,6 @@ module FactoryGirl
     factories.find(name)
   end
 
-  def self.sequences
-    configuration.sequences
-  end
-
   def self.register_sequence(sequence)
     sequence.names.each do |name|
       sequences.register(name, sequence)
@@ -78,10 +75,6 @@ module FactoryGirl
     sequences.find(name)
   end
 
-  def self.traits
-    configuration.traits
-  end
-
   def self.register_trait(trait)
     trait.names.each do |name|
       traits.register(name, trait)
@@ -91,10 +84,6 @@ module FactoryGirl
 
   def self.trait_by_name(name)
     traits.find(name)
-  end
-
-  def self.strategies
-    configuration.strategies
   end
 
   def self.register_strategy(strategy_name, strategy_class)
@@ -119,10 +108,6 @@ module FactoryGirl
     register_callback(:after_create)
     register_callback(:after_stub)
     register_callback(:before_create)
-  end
-
-  def self.callback_names
-    configuration.callback_names
   end
 
   def self.register_callback(name)

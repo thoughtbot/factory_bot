@@ -868,6 +868,20 @@ factory :user_without_database do
 end
 ```
 
+To override `to_create` for all factories, define it within the
+`FactoryGirl.define` block:
+
+```ruby
+FactoryGirl.define do
+  to_create {|instance| instance.persist! }
+
+
+  factory :user do
+    name "John Doe"
+  end
+end
+```
+
 ActiveSupport Instrumentation
 -----------------------------
 

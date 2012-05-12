@@ -117,7 +117,7 @@ module FactoryGirl
     end
 
     def compiled_to_create
-      @definition.compiled_to_create || parent.compiled_to_create
+      @definition.compiled_to_create || parent.compiled_to_create || FactoryGirl.to_create
     end
 
     def compiled_constructor

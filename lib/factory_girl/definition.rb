@@ -62,6 +62,10 @@ module FactoryGirl
       end
     end
 
+    def skip_create
+      @to_create = ->(instance) { }
+    end
+
     def define_trait(trait)
       @defined_traits << trait
     end

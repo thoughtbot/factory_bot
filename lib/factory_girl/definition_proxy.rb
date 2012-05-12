@@ -147,7 +147,7 @@ module FactoryGirl
     end
 
     def skip_create
-      @definition.to_create {|instance| }
+      @definition.skip_create
     end
 
     def factory(name, options = {}, &block)

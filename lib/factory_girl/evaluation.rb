@@ -6,7 +6,7 @@ module FactoryGirl
 
     def initialize(attribute_assigner, to_create)
       @attribute_assigner = attribute_assigner
-      @to_create = to_create || ->(instance) { instance.save! }
+      @to_create = to_create
     end
 
     delegate :object, :hash, to: :@attribute_assigner
