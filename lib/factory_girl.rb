@@ -2,6 +2,7 @@ require 'set'
 require 'active_support/core_ext/module/delegation'
 require 'active_support/notifications'
 
+require 'factory_girl/configuration'
 require 'factory_girl/errors'
 require 'factory_girl/factory_runner'
 require 'factory_girl/strategy_syntax_method_registrar'
@@ -39,8 +40,16 @@ require 'factory_girl/reload'
 require 'factory_girl/version'
 
 module FactoryGirl
+  def self.configuration
+    @configuration ||= Configuration.new
+  end
+
+  def self.reset_configuration
+    @configuration = nil
+  end
+
   def self.factories
-    @factories ||= DisallowsDuplicatesRegistry.new(Registry.new('Factory'))
+    configuration.factories
   end
 
   def self.register_factory(factory)
@@ -55,7 +64,7 @@ module FactoryGirl
   end
 
   def self.sequences
-    @sequences ||= DisallowsDuplicatesRegistry.new(Registry.new('Sequence'))
+    configuration.sequences
   end
 
   def self.register_sequence(sequence)
@@ -70,7 +79,7 @@ module FactoryGirl
   end
 
   def self.traits
-    @traits ||= DisallowsDuplicatesRegistry.new(Registry.new('Trait'))
+    configuration.traits
   end
 
   def self.register_trait(trait)
@@ -85,7 +94,7 @@ module FactoryGirl
   end
 
   def self.strategies
-    @strategies ||= Registry.new('Strategy')
+    configuration.strategies
   end
 
   def self.register_strategy(strategy_name, strategy_class)
@@ -113,7 +122,7 @@ module FactoryGirl
   end
 
   def self.callback_names
-    @callback_names ||= Set.new
+    configuration.callback_names
   end
 
   def self.register_callback(name)
