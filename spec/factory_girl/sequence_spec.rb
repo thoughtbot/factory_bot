@@ -15,13 +15,25 @@ describe FactoryGirl::Sequence do
     end
   end
 
-  describe "a custom sequence" do
+  describe "a custom sequence with string elements" do
     subject    { FactoryGirl::Sequence.new(:name, "A") {|n| "=#{n}" } }
     its(:next) { should == "=A" }
 
     describe "when incrementing" do
       before     { subject.next }
       its(:next) { should == "=B" }
+    end
+  end
+
+  describe "a custom sequence with an Enumerator" do
+    subject    { FactoryGirl::Sequence.new(:name, %w{foo bar baz}.cycle) {|n| "=#{n}" } }
+    its(:next) { should == "=foo" }
+
+    it "should enumerate properly" do
+      subject.next.should == "=foo"
+      subject.next.should == "=bar"
+      subject.next.should == "=baz"
+      subject.next.should == "=foo"
     end
   end
 
