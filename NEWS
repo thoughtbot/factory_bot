@@ -1,3 +1,15 @@
+3.3.0 (May 13, 2012)
+  Allow to_create, skip_create, and initialize_with to be defined globally
+  Allow to_create, skip_create, and initialize_with to be defined within traits
+  Fix deprecation messages for alternate syntaxes (make, generate, etc.)
+  Improve library documentation
+  Deprecate after_build, after_create, before_create, after_stub in favor of new callbacks
+  Introduce new callback syntax: after(:build) {}, after(:custom) {}, or callback(:different) {}
+    This allows for declaring any callback, usable with custom strategies
+  Add attributes_for_list and build_stubbed_list with the StrategySyntaxMethodRegistrar
+  Allow use of syntax methods (build, create, generate, etc) implicitly in callbacks
+  Internal refactoring of a handful of components
+
 3.2.0 (April 24, 2012)
   Use AS::Notifications for pub/sub to track running factories
   Call new within initialize_with implicitly on the build class
