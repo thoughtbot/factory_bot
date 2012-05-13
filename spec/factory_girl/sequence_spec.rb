@@ -65,4 +65,14 @@ describe FactoryGirl::Sequence do
       its(:next) { should == "B" }
     end
   end
+
+  describe "iterating over items in an enumerator" do
+    subject { FactoryGirl::Sequence.new(:name, %w[foo bar].to_enum) {|n| "=#{n}" } }
+
+    it "navigates to the next items until no items remain" do
+      subject.next.should == "=foo"
+      subject.next.should == "=bar"
+      expect { subject.next }.to raise_error(StopIteration)
+    end
+  end
 end
