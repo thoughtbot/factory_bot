@@ -9,7 +9,7 @@ module FactoryGirl
       @to_create = to_create
     end
 
-    delegate :object, :hash, to: :@attribute_assigner
+    delegate :object, :hash, :association_and_attribute_names, to: :@attribute_assigner
 
     def create(result_instance)
       @to_create[result_instance]
