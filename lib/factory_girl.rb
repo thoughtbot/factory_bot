@@ -12,6 +12,7 @@ require 'factory_girl/strategy/create'
 require 'factory_girl/strategy/attributes_for'
 require 'factory_girl/strategy/stub'
 require 'factory_girl/strategy/null'
+require 'factory_girl/strategy/xml'
 require 'factory_girl/disallows_duplicates_registry'
 require 'factory_girl/registry'
 require 'factory_girl/null_factory'
@@ -101,6 +102,7 @@ module FactoryGirl
     register_strategy(:attributes_for, FactoryGirl::Strategy::AttributesFor)
     register_strategy(:build_stubbed,  FactoryGirl::Strategy::Stub)
     register_strategy(:null,           FactoryGirl::Strategy::Null)
+    register_strategy(:xml,            FactoryGirl::Strategy::Xml)
   end
 
   def self.register_default_callbacks

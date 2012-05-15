@@ -28,6 +28,10 @@ module FactoryGirl
       end
     end
 
+    def association_and_attribute_names
+      association_names + hash.keys
+    end
+
     private
 
     def build_class_instance
