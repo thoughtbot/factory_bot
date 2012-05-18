@@ -771,6 +771,15 @@ FactoryGirl.define do
 end
 ```
 
+When using `initialize_with`, attributes accessed from the `initialize_with`
+block are assigned a second time to the instance. Duplicate assignment can be
+disabled by configuring FactoryGirl as such:
+
+    FactoryGirl.duplicate_attribute_assignment_from_initialize_with = false
+
+This would allow for attributes declared as ignored to not be ignored, since
+it won't assign them for a second time.
+
 Custom Strategies
 -----------------
 

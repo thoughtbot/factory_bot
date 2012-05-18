@@ -3,6 +3,8 @@ module FactoryGirl
   class Configuration
     attr_reader :factories, :sequences, :traits, :strategies, :callback_names
 
+    attr_accessor :duplicate_attribute_assignment_from_initialize_with
+
     def initialize
       @factories      = DisallowsDuplicatesRegistry.new(Registry.new('Factory'))
       @sequences      = DisallowsDuplicatesRegistry.new(Registry.new('Sequence'))
@@ -10,6 +12,8 @@ module FactoryGirl
       @strategies     = Registry.new('Strategy')
       @callback_names = Set.new
       @definition     = Definition.new
+
+      @duplicate_attribute_assignment_from_initialize_with = true
 
       to_create {|instance| instance.save! }
       initialize_with { new }

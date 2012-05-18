@@ -490,6 +490,8 @@ end
 
 describe "traits with initialize_with" do
   before do
+    ActiveSupport::Deprecation.silenced = true
+
     define_class("User") do
       attr_reader :name
 

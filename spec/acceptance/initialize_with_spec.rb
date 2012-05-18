@@ -4,6 +4,8 @@ describe "initialize_with with non-FG attributes" do
   include FactoryGirl::Syntax::Methods
 
   before do
+    ActiveSupport::Deprecation.silenced = true
+
     define_model("User", name: :string, age: :integer) do
       def self.construct(name, age)
         new(name: name, age: age)
@@ -26,6 +28,8 @@ describe "initialize_with with FG attributes that are ignored" do
   include FactoryGirl::Syntax::Methods
 
   before do
+    ActiveSupport::Deprecation.silenced = true
+
     define_model("User", name: :string) do
       def self.construct(name)
         new(name: "#{name} from .construct")
@@ -51,6 +55,8 @@ describe "initialize_with with FG attributes that are not ignored" do
   include FactoryGirl::Syntax::Methods
 
   before do
+    ActiveSupport::Deprecation.silenced = true
+
     define_model("User", name: :string) do
       def self.construct(name)
         new(name: "#{name} from .construct")
@@ -75,6 +81,8 @@ describe "initialize_with non-ORM-backed objects" do
   include FactoryGirl::Syntax::Methods
 
   before do
+    ActiveSupport::Deprecation.silenced = true
+
     define_class("ReportGenerator") do
       attr_reader :name, :data
 
@@ -108,6 +116,8 @@ end
 
 describe "initialize_with parent and child factories" do
   before do
+    ActiveSupport::Deprecation.silenced = true
+
     define_class("Awesome") do
       attr_reader :name
 
@@ -148,6 +158,8 @@ end
 
 describe "initialize_with implicit constructor" do
   before do
+    ActiveSupport::Deprecation.silenced = true
+
     define_class("Awesome") do
       attr_reader :name
 
@@ -169,5 +181,40 @@ describe "initialize_with implicit constructor" do
 
   it "instantiates the correct object" do
     FactoryGirl.build(:awesome, name: "Awesome name").name.should == "Awesome name"
+  end
+end
+
+describe "initialize_with doesn't duplicate assignment on attributes accessed from initialize_with" do
+  before do
+    ActiveSupport::Deprecation.silenced = true
+
+    define_class("User") do
+      attr_reader :name
+      attr_accessor :email
+
+      def initialize(name)
+        @name = name
+      end
+    end
+
+    FactoryGirl.define do
+      sequence(:email) {|n| "person#{n}@example.com" }
+
+      factory :user do
+        email
+
+        name { email.gsub(/\@.+/, "") }
+
+        initialize_with { new(name) }
+      end
+    end
+  end
+
+  it "instantiates the correct object" do
+    FactoryGirl.duplicate_attribute_assignment_from_initialize_with = false
+
+    built_user = FactoryGirl.build(:user)
+    built_user.name.should == "person1"
+    built_user.email.should == "person1@example.com"
   end
 end
