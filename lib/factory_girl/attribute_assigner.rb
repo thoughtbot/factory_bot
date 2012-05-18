@@ -30,8 +30,28 @@ module FactoryGirl
 
     private
 
+    def method_tracking_evaluator
+      @method_tracking_evaluator ||= invocation_decorator.new(@evaluator)
+    end
+
+    def invocation_decorator
+      if FactoryGirl.duplicate_attribute_assignment_from_initialize_with
+        Decorator::InvocationIgnorer
+      else
+        Decorator::InvocationTracker
+      end
+    end
+
+    def methods_invoked_on_evaluator
+      @method_tracking_evaluator.__invoked_methods__
+    end
+
     def build_class_instance
-      @build_class_instance ||= @evaluator.instance_exec(&@instance_builder)
+      @build_class_instance ||= method_tracking_evaluator.instance_exec(&@instance_builder).tap do
+        if @instance_builder != FactoryGirl.constructor && FactoryGirl.duplicate_attribute_assignment_from_initialize_with
+          ActiveSupport::Deprecation.warn 'Accessing attributes from initialize_with when duplicate assignment is enabled is deprecated; use FactoryGirl.duplicate_attribute_assignment_from_initialize_with = false.', caller
+        end
+      end
     end
 
     def build_hash
@@ -43,7 +63,7 @@ module FactoryGirl
     end
 
     def attributes_to_set_on_instance
-      (attribute_names_to_assign - @attribute_names_assigned).uniq
+      (attribute_names_to_assign - @attribute_names_assigned - methods_invoked_on_evaluator).uniq
     end
 
     def attributes_to_set_on_hash

@@ -37,6 +37,9 @@ require 'factory_girl/syntax'
 require 'factory_girl/syntax_runner'
 require 'factory_girl/find_definitions'
 require 'factory_girl/reload'
+require 'factory_girl/decorator'
+require 'factory_girl/decorator/invocation_tracker'
+require 'factory_girl/decorator/invocation_ignorer'
 require 'factory_girl/version'
 
 module FactoryGirl
@@ -50,7 +53,8 @@ module FactoryGirl
 
   class << self
     delegate :factories, :sequences, :traits, :strategies, :callback_names,
-      :to_create, :skip_create, :initialize_with, :constructor, to: :configuration
+      :to_create, :skip_create, :initialize_with, :constructor, :duplicate_attribute_assignment_from_initialize_with,
+      :duplicate_attribute_assignment_from_initialize_with=, to: :configuration
   end
 
   def self.register_factory(factory)
