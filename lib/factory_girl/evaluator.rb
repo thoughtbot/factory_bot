@@ -35,14 +35,10 @@ module FactoryGirl
     end
 
     def method_missing(method_name, *args, &block)
-      if @cached_attributes.key?(method_name)
-        @cached_attributes[method_name]
+      if @instance.respond_to?(method_name)
+        @instance.send(method_name, *args, &block)
       else
-        if @instance.respond_to?(method_name)
-          @instance.send(method_name, *args, &block)
-        else
-          SyntaxRunner.new.send(method_name, *args, &block)
-        end
+        SyntaxRunner.new.send(method_name, *args, &block)
       end
     end
 
