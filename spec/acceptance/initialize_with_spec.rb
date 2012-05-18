@@ -14,7 +14,7 @@ describe "initialize_with with non-FG attributes" do
 
     FactoryGirl.define do
       factory :user do
-        initialize_with { User.construct("John Doe", 21) }
+        initialize_with { ::User.construct("John Doe", 21) }
       end
     end
   end
@@ -42,7 +42,7 @@ describe "initialize_with with FG attributes that are ignored" do
           name { "Handsome Chap" }
         end
 
-        initialize_with { User.construct(name) }
+        initialize_with { ::User.construct(name) }
       end
     end
   end
@@ -67,7 +67,7 @@ describe "initialize_with with FG attributes that are not ignored" do
       factory :user do
         name { "Handsome Chap" }
 
-        initialize_with { User.construct(name) }
+        initialize_with { ::User.construct(name) }
       end
     end
   end
@@ -100,7 +100,7 @@ describe "initialize_with non-ORM-backed objects" do
           name "My Awesome Report"
         end
 
-        initialize_with { ReportGenerator.new(name, FactoryGirl.generate(:random_data)) }
+        initialize_with { ::ReportGenerator.new(name, ::FactoryGirl.generate(:random_data)) }
       end
     end
   end
@@ -132,7 +132,7 @@ describe "initialize_with parent and child factories" do
           name "Great"
         end
 
-        initialize_with { Awesome.new(name) }
+        initialize_with { ::Awesome.new(name) }
 
         factory :sub_awesome do
           ignore do
@@ -141,7 +141,7 @@ describe "initialize_with parent and child factories" do
         end
 
         factory :super_awesome do
-          initialize_with { Awesome.new("Super") }
+          initialize_with { ::Awesome.new("Super") }
         end
       end
     end
