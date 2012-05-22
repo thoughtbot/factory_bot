@@ -65,6 +65,7 @@ module FactoryGirl
   end
 
   def self.factory_by_name(name)
+    name = name.to_s.underscore unless name.class.in? String, Symbol # looks like AR object
     factories.find(name)
   end
 

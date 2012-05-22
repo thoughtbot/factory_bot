@@ -10,6 +10,13 @@ describe FactoryGirl do
     FactoryGirl.factory_by_name(factory.name).should == factory
   end
 
+  it "finds registered factory by object name" do
+    class MultiWordClass < ActiveRecord::Base; end
+    fact = FactoryGirl::Factory.new :multi_word_class
+    FactoryGirl.register_factory(fact)
+    FactoryGirl.factory_by_name(MultiWordClass).should == fact
+  end
+
   it "finds a registered sequence" do
     FactoryGirl.register_sequence(sequence)
     FactoryGirl.sequence_by_name(sequence.name).should == sequence
