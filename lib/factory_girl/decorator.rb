@@ -13,5 +13,9 @@ module FactoryGirl
     def send(symbol, *args)
       __send__(symbol, *args)
     end
+
+    def self.const_missing(name)
+      ::Object.const_get(name)
+    end
   end
 end
