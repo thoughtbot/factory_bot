@@ -31,7 +31,7 @@ module FactoryGirl
     private
 
     def method_tracking_evaluator
-      @method_tracking_evaluator ||= invocation_decorator.new(@evaluator)
+      @method_tracking_evaluator ||= Decorator::AttributeHash.new(invocation_decorator.new(@evaluator), attribute_names_to_assign)
     end
 
     def invocation_decorator

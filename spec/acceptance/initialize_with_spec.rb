@@ -218,3 +218,44 @@ describe "initialize_with doesn't duplicate assignment on attributes accessed fr
     built_user.email.should == "person1@example.com"
   end
 end
+
+describe "initialize_with has access to all attributes for construction" do
+  before do
+    ActiveSupport::Deprecation.silenced = true
+
+    define_class("User") do
+      attr_reader :name, :email, :ignored
+
+      def initialize(attributes = {})
+        @name = attributes[:name]
+        @email = attributes[:email]
+        @ignored = attributes[:ignored]
+      end
+    end
+
+    FactoryGirl.define do
+      sequence(:email) {|n| "person#{n}@example.com" }
+
+      factory :user do
+        ignore do
+          ignored "of course!"
+        end
+
+        email
+
+        name { email.gsub(/\@.+/, "") }
+
+        initialize_with { new(attributes) }
+      end
+    end
+  end
+
+  it "assigns attributes correctly" do
+    FactoryGirl.duplicate_attribute_assignment_from_initialize_with = false
+
+    user_with_attributes = FactoryGirl.build(:user)
+    user_with_attributes.email.should == "person1@example.com"
+    user_with_attributes.name.should  == "person1"
+    user_with_attributes.ignored.should be_nil
+  end
+end

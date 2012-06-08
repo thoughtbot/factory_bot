@@ -762,6 +762,25 @@ factory :user do
 end
 ```
 
+You can also access all public attributes within the `initialize_with` block
+by calling `attributes`:
+
+```ruby
+factory :user do
+  ignore do
+    comments_count 5
+  end
+
+  name { Faker::Name.name }
+
+  initialize_with { new(attributes) }
+end
+```
+
+This will build a hash of all attributes to be passed to `new`. It won't
+include ignored attributes, but everything else defined in the factory will be
+passed (associations, evalued sequences, etc.)
+
 You can define `initialize_with` for all factories by including it in the
 `FactoryGirl.define` block:
 
