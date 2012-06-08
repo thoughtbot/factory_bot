@@ -6,9 +6,9 @@ module FactoryGirl
     attr_accessor :duplicate_attribute_assignment_from_initialize_with
 
     def initialize
-      @factories      = DisallowsDuplicatesRegistry.new(Registry.new('Factory'))
-      @sequences      = DisallowsDuplicatesRegistry.new(Registry.new('Sequence'))
-      @traits         = DisallowsDuplicatesRegistry.new(Registry.new('Trait'))
+      @factories      = Decorator::DisallowsDuplicatesRegistry.new(Registry.new('Factory'))
+      @sequences      = Decorator::DisallowsDuplicatesRegistry.new(Registry.new('Sequence'))
+      @traits         = Decorator::DisallowsDuplicatesRegistry.new(Registry.new('Trait'))
       @strategies     = Registry.new('Strategy')
       @callback_names = Set.new
       @definition     = Definition.new
