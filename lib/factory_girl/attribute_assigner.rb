@@ -43,7 +43,7 @@ module FactoryGirl
     end
 
     def methods_invoked_on_evaluator
-      @method_tracking_evaluator.__invoked_methods__
+      method_tracking_evaluator.__invoked_methods__
     end
 
     def build_class_instance
