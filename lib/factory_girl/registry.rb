@@ -6,7 +6,7 @@ module FactoryGirl
 
     def initialize(name)
       @name  = name
-      @items = {}
+      @items = Decorator::ClassKeyHash.new({})
     end
 
     def clear
@@ -19,7 +19,7 @@ module FactoryGirl
 
     def find(name)
       if registered?(name)
-        @items[name.to_sym]
+        @items[name]
       else
         raise ArgumentError, "#{@name} not registered: #{name}"
       end
@@ -28,11 +28,11 @@ module FactoryGirl
     alias :[] :find
 
     def register(name, item)
-      @items[name.to_sym] = item
+      @items[name] = item
     end
 
     def registered?(name)
-      @items.key?(name.to_sym)
+      @items.key?(name)
     end
   end
 end

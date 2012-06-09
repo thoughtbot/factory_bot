@@ -57,4 +57,12 @@ describe FactoryGirl::Registry do
     subject.clear
     subject.count.should be_zero
   end
+
+  it "registers classes" do
+    define_class("User")
+    subject.register(User, registered_object)
+    subject.to_a.should == [registered_object]
+    subject.find(:user).should == registered_object
+    subject.find(User).should == registered_object
+  end
 end
