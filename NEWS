@@ -1,3 +1,9 @@
+3.4.0 (June 11, 2012)
+  Sequences support Enumerators
+  Optionally disable duplicate assignment of attributes in initialize_with
+  Make hash of public attributes available in initialize_with
+  Support referring to a factory based on class name
+
 3.3.0 (May 13, 2012)
   Allow to_create, skip_create, and initialize_with to be defined globally
   Allow to_create, skip_create, and initialize_with to be defined within traits
