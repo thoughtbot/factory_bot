@@ -20,7 +20,7 @@ module FactoryGirl
       @overridable = true
     end
 
-    def attribute_list
+    def attributes
       AttributeList.new(@name).tap do |list|
         to_attributes.each do |attribute|
           list.define_attribute(attribute)

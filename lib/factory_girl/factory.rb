@@ -17,7 +17,7 @@ module FactoryGirl
     end
 
     delegate :add_callback, :declare_attribute, :to_create, :define_trait, :constructor,
-             :defined_traits, :inherit_traits, :append_traits, :definition_list, to: :@definition
+             :defined_traits, :inherit_traits, :append_traits, to: :@definition
 
     def build_class
       @build_class ||= if class_name.is_a? Class
@@ -107,20 +107,20 @@ module FactoryGirl
     def attributes
       compile
       AttributeList.new(@name).tap do |list|
-        list.apply_attributes definition_list.attributes
+        list.apply_attributes definition.attributes
       end
     end
 
     def callbacks
-      parent.callbacks + definition_list.callbacks
+      parent.callbacks + definition.callbacks
     end
 
     def compiled_to_create
-      @definition.compiled_to_create || parent.compiled_to_create || FactoryGirl.to_create
+      @definition.to_create || parent.compiled_to_create || FactoryGirl.to_create
     end
 
     def compiled_constructor
-      @definition.compiled_constructor || parent.compiled_constructor || FactoryGirl.constructor
+      @definition.constructor || parent.compiled_constructor || FactoryGirl.constructor
     end
 
     private

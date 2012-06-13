@@ -563,3 +563,85 @@ describe "traits with initialize_with" do
     FactoryGirl.build(:child_user_with_trait_and_override, :overridden).name.should == "completely overridden"
   end
 end
+
+describe "nested implicit traits" do
+  before do
+    define_class("User") do
+      attr_accessor :gender, :role
+      attr_reader :name
+
+      def initialize(name)
+        @name = name
+      end
+    end
+  end
+
+  shared_examples_for "assigning data from traits" do
+    it "assigns the correct values" do
+      user = FactoryGirl.create(:user, :female_admin)
+      user.gender.should == "FEMALE"
+      user.role.should == "ADMIN"
+      user.name.should == "Jane Doe"
+    end
+  end
+
+  context "defined outside the factory" do
+    before do
+      FactoryGirl.define do
+        trait :female do
+          gender "female"
+          to_create {|instance| instance.gender = instance.gender.upcase }
+        end
+
+        trait :jane_doe do
+          initialize_with { new("Jane Doe") }
+        end
+
+        trait :admin do
+          role "admin"
+          after(:build) {|instance| instance.role = instance.role.upcase }
+        end
+
+        trait :female_admin do
+          female
+          admin
+          jane_doe
+        end
+
+        factory :user
+      end
+    end
+
+    it_should_behave_like "assigning data from traits"
+  end
+
+  context "defined inside the factory" do
+    before do
+      FactoryGirl.define do
+        factory :user do
+          trait :female do
+            gender "female"
+            to_create {|instance| instance.gender = instance.gender.upcase }
+          end
+
+          trait :jane_doe do
+            initialize_with { new("Jane Doe") }
+          end
+
+          trait :admin do
+            role "admin"
+            after(:build) {|instance| instance.role = instance.role.upcase }
+          end
+
+          trait :female_admin do
+            female
+            admin
+            jane_doe
+          end
+        end
+      end
+    end
+
+    it_should_behave_like "assigning data from traits"
+  end
+end

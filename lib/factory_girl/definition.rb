@@ -1,7 +1,7 @@
 module FactoryGirl
   # @api private
   class Definition
-    attr_reader :callbacks, :defined_traits, :declarations, :constructor
+    attr_reader :defined_traits, :declarations
 
     def initialize(name = nil, base_traits = [])
       @declarations      = DeclarationList.new(name)
@@ -11,22 +11,48 @@ module FactoryGirl
       @base_traits       = base_traits
       @additional_traits = []
       @constructor       = nil
+      @attributes        = nil
+      @compiled          = false
     end
 
     delegate :declare_attribute, to: :declarations
 
     def attributes
-      @attributes ||= declarations.attribute_list
+      @attributes ||= AttributeList.new.tap do |attribute_list|
+        attribute_lists = aggregate_from_traits_and_self(:attributes) { declarations.attributes }
+        attribute_lists.each do |attributes|
+          attribute_list.apply_attributes attributes
+        end
+      end
+    end
+
+    def to_create(&block)
+      if block_given?
+        @to_create = block
+      else
+        aggregate_from_traits_and_self(:to_create) { @to_create }.last
+      end
+    end
+
+    def constructor
+      aggregate_from_traits_and_self(:constructor) { @constructor }.last
+    end
+
+    def callbacks
+      aggregate_from_traits_and_self(:callbacks) { @callbacks }
     end
 
     def compile
-      attributes
-    end
+      unless @compiled
+        declarations.attributes
 
-    def definition_list
-      DefinitionList.new(
-        base_traits.map(&:definition) + [self] + additional_traits.map(&:definition)
-      )
+        defined_traits.each do |defined_trait|
+          base_traits.each       {|bt| bt.define_trait defined_trait }
+          additional_traits.each {|bt| bt.define_trait defined_trait }
+        end
+
+        @compiled = true
+      end
     end
 
     def overridable
@@ -44,22 +70,6 @@ module FactoryGirl
 
     def add_callback(callback)
       @callbacks << callback
-    end
-
-    def compiled_to_create
-      definition_list.to_create
-    end
-
-    def compiled_constructor
-      definition_list.constructor
-    end
-
-    def to_create(&block)
-      if block_given?
-        @to_create = block
-      else
-        @to_create
-      end
     end
 
     def skip_create
@@ -90,6 +100,27 @@ module FactoryGirl
 
     def trait_for(name)
       defined_traits.detect {|trait| trait.name == name }
+    end
+
+    def initialize_copy(source)
+      super
+      @attributes = nil
+      @compiled   = false
+    end
+
+    def aggregate_from_traits_and_self(method_name, &block)
+      compile
+      [].tap do |list|
+        base_traits.each do |trait|
+          list << trait.send(method_name)
+        end
+
+        list << instance_exec(&block)
+
+        additional_traits.each do |trait|
+          list << trait.send(method_name)
+        end
+      end.flatten.compact
     end
   end
 end

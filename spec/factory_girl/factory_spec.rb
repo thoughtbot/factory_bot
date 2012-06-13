@@ -257,25 +257,3 @@ describe FactoryGirl::Factory, "running a factory" do
     block_run.should == "changed"
   end
 end
-
-describe FactoryGirl::Factory, "#with_traits" do
-  subject            { FactoryGirl::Factory.new(:user) }
-  let(:admin_trait)  { FactoryGirl::Trait.new(:admin) }
-  let(:female_trait) { FactoryGirl::Trait.new(:female) }
-  let(:admin_definition) { admin_trait.definition }
-  let(:female_definition) { female_trait.definition }
-
-  before do
-    FactoryGirl.register_trait(admin_trait)
-    FactoryGirl.register_trait(female_trait)
-  end
-
-  it "returns a factory with the correct definitions" do
-    subject.with_traits([:admin, :female]).definition_list[1, 2].should == [admin_definition, female_definition]
-  end
-
-  it "doesn't modify the original factory's processing order" do
-    subject.with_traits([:admin, :female])
-    subject.definition_list.should == [subject.definition]
-  end
-end
