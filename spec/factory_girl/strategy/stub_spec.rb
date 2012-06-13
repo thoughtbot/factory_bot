@@ -11,6 +11,10 @@ describe FactoryGirl::Strategy::Stub do
     let(:result_instance) do
       define_class("ResultInstance") do
         attr_accessor :id
+
+        def read_attribute(attr_name)
+          instance_variable_get(:"@#{attr_name}")
+        end
       end.new
     end
 

@@ -28,7 +28,7 @@ module FactoryGirl
           end
 
           def created_at
-            @created_at ||= Time.now
+            @created_at ||= (read_attribute(:created_at) || Time.now)
           end
 
           def new_record?

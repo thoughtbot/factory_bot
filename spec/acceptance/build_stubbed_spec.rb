@@ -6,10 +6,11 @@ describe "a generated stub instance" do
   before do
     define_model('User')
 
-    define_model('Post', :title   => :string,
-                         :body    => :string,
-                         :age     => :integer,
-                         :user_id => :integer) do
+    define_model('Post', :title      => :string,
+                         :body       => :string,
+                         :age        => :integer,
+                         :user_id    => :integer,
+                         :created_at => :datetime) do
       belongs_to :user
     end
 
@@ -73,6 +74,13 @@ describe "a generated stub instance" do
 
   it "disables increment" do
     lambda { subject.increment!(:age) }.should raise_error(RuntimeError)
+  end
+
+  it "allows created_at to be set" do
+    created_at = Time.mktime(2012, 4, 1, 14)
+    subject = build_stubbed(:post, :created_at => created_at)
+
+    subject.created_at.should == created_at
   end
 end
 
