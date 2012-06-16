@@ -78,9 +78,9 @@ describe "a generated stub instance" do
 
   it "allows created_at to be set" do
     created_at = Time.mktime(2012, 4, 1, 14)
-    subject = build_stubbed(:post, :created_at => created_at)
+    post = build_stubbed(:post, :created_at => created_at)
 
-    subject.created_at.should == created_at
+    post.created_at.should == created_at
   end
 end
 
