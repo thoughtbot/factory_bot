@@ -27,7 +27,7 @@ module FactoryGirl
             !new_record?
           end
 
-          unless result_instance.respond_to?(:created_at)
+          unless result_instance.respond_to?(:created_at) && result_instance.created_at
             def created_at
               @created_at ||= Time.now
             end

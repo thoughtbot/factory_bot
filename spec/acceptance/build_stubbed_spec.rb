@@ -82,6 +82,14 @@ describe "a generated stub instance" do
 
     post.created_at.should == created_at
   end
+
+  it "defaults created_at to now" do
+    Timecop.freeze do
+      post = build_stubbed(:post)
+
+      post.created_at.should == Time.now
+    end
+  end
 end
 
 describe "calling `build_stubbed` with a block" do
