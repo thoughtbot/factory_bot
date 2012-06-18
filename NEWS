@@ -1,3 +1,6 @@
+3.4.1 (June 18, 2012)
+  Fix traits so they can be nested and referred to from other traits
+
 3.4.0 (June 11, 2012)
   Sequences support Enumerators
   Optionally disable duplicate assignment of attributes in initialize_with
