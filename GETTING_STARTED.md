@@ -18,6 +18,44 @@ gem "factory_girl", "~> 3.0"
 
 Once your Gemfile is updated, you'll want to update your bundle.
 
+Using Without Bundler
+---------------------
+
+If you're not using Bundler, be sure to have the gem installed and call:
+
+```
+require 'factory_girl'
+```
+
+Once required, assuming you have a directory structure of `spec/factories` or
+`test/factories`, all you'll need to do is run
+
+```ruby
+FactoryGirl.find_definitions
+```
+
+If you're using a separate directory structure for your factories, you can
+change the definition file paths before trying to find definitions:
+
+```ruby
+FactoryGirl.definition_file_paths = %w(custom_factories_directory)
+FactoryGirl.find_definitions
+```
+
+If you don't have a separate directory of factories and would like to define
+them inline, that's possible as well:
+
+```ruby
+require 'factory_girl'
+
+FactoryGirl.define do
+  factory :user do
+    name 'John Doe'
+    date_of_birth { 21.years.ago }
+  end
+end
+```
+
 Defining factories
 ------------------
 
