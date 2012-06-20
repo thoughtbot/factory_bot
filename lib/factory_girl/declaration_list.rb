@@ -21,7 +21,7 @@ module FactoryGirl
     end
 
     def attributes
-      AttributeList.new(@name).tap do |list|
+      @attributes ||= AttributeList.new(@name).tap do |list|
         to_attributes.each do |attribute|
           list.define_attribute(attribute)
         end

@@ -645,3 +645,27 @@ describe "nested implicit traits" do
     it_should_behave_like "assigning data from traits"
   end
 end
+
+describe "implicit traits containing callbacks" do
+  before do
+    define_model("User", value: :integer)
+
+    FactoryGirl.define do
+      factory :user do
+        value 0
+
+        trait :trait_with_callback do
+          after(:build) {|user| user.value += 1 }
+        end
+
+        factory :user_with_trait_with_callback do
+          trait_with_callback
+        end
+      end
+    end
+  end
+
+  it "only runs the callback once" do
+    FactoryGirl.build(:user_with_trait_with_callback).value.should == 1
+  end
+end

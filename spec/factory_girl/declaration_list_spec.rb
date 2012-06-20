@@ -25,10 +25,6 @@ describe FactoryGirl::DeclarationList, "#attributes" do
     attribute_list.should have_received(:define_attribute).with(static_attribute_2)
     attribute_list.should have_received(:define_attribute).with(dynamic_attribute_1)
   end
-
-  it "creates a new attribute list upon every invocation" do
-    subject.attributes.should_not == subject.attributes
-  end
 end
 
 describe FactoryGirl::DeclarationList, "#declare_attribute" do
