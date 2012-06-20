@@ -1,4 +1,4 @@
-3.4.2 (June 12, 2012)
+3.4.2 (June 19, 2012)
   Fix bug in traits with callbacks called implicitly in factories whose
     callbacks trigger multiple times
 
