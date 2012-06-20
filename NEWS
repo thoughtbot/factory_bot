@@ -1,3 +1,7 @@
+3.4.2 (June 12, 2012)
+  Fix bug in traits with callbacks called implicitly in factories whose
+    callbacks trigger multiple times
+
 3.4.1 (June 18, 2012)
   Fix traits so they can be nested and referred to from other traits
 
