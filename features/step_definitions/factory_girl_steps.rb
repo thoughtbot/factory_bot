@@ -41,3 +41,12 @@ end
 When /^I reload factories$/ do
   FactoryGirl.reload
 end
+
+Then /^I should find the following in the instance variable "(.*?)":$/ do |var, table|
+  data = table.hashes
+  factories = instance_variable_get("#{var}")
+
+  data.each do |row|
+    are_equal?(factories.pop, row).should == true
+  end
+end

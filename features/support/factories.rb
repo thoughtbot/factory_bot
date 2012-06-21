@@ -90,6 +90,11 @@ class NamedAttributeModel
   end
 end
 
+class Train
+  attr_accessor :name, :base_station
+end
+
+
 FactoryGirl.define do
   # To make sure the step defs work with an email
   sequence :email do |n|
@@ -132,6 +137,12 @@ FactoryGirl.define do
   end
 
   factory :named_attribute_model do
+  end
+
+  factory :train do
+    name 'red_flash'
+    base_station 'new york'
+    skip_create
   end
 end
 
