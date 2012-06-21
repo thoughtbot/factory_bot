@@ -8,3 +8,6 @@ require 'active_record'
 require 'factory_girl'
 
 require 'aruba/cucumber'
+
+require 'factory_girl/helper/testing'
+include FactoryGirl::TestingHelper

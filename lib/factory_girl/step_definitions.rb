@@ -109,29 +109,31 @@ FactoryGirl.factories.each do |factory|
     end
 
     Given /^the following (?:#{human_name}|#{human_name.pluralize}) exists?:?$/i do |table|
+      @factories = []  
+
       table.hashes.each do |human_hash|
         attributes = convert_human_hash_to_attribute_hash(human_hash, factory.associations)
-        FactoryGirl.create(factory.name, attributes)
+        @factories << FactoryGirl.create(factory.name, attributes)
       end
     end
 
     Given /^an? #{human_name} exists$/i do
-      FactoryGirl.create(factory.name)
+      @factory = FactoryGirl.create(factory.name)
     end
 
     Given /^(\d+) #{human_name.pluralize} exist$/i do |count|
-      FactoryGirl.create_list(factory.name, count.to_i)
+       @factories = FactoryGirl.create_list(factory.name, count.to_i)
     end
 
     attribute_names_for_model.each do |attribute_name|
       human_column_name = attribute_name.downcase.gsub('_', ' ')
 
       Given /^an? #{human_name} exists with an? #{human_column_name} of "([^"]*)"$/i do |value|
-        FactoryGirl.create(factory.name, attribute_name => value)
+       @factory = FactoryGirl.create(factory.name, attribute_name => value)
       end
 
       Given /^(\d+) #{human_name.pluralize} exist with an? #{human_column_name} of "([^"]*)"$/i do |count, value|
-        FactoryGirl.create_list(factory.name, count.to_i, attribute_name => value)
+        @factories = FactoryGirl.create_list(factory.name, count.to_i, attribute_name => value)
       end
     end
   end

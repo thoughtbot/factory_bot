@@ -12,12 +12,15 @@ require "mocha"
 require "bourne"
 require "timecop"
 
+require 'factory_girl/helper/testing'
+
 Dir["spec/support/**/*.rb"].each { |f| require File.expand_path(f) }
 
 RSpec.configure do |config|
   config.mock_framework = :mocha
 
   config.include DeclarationMatchers
+  config.include FactoryGirl::TestingHelper
 
   config.after do
     FactoryGirl.reload
