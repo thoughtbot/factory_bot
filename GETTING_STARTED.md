@@ -75,6 +75,7 @@ FactoryGirl.define do
   factory :user do
     name 'John Doe'
     date_of_birth { 21.years.ago }
+    skip_create
   end
 end
 ```
@@ -98,6 +99,7 @@ FactoryGirl.define do
   factory :user do
     name 'John Doe'
     date_of_birth { 21.years.ago }
+    skip_create
   end
 end
 ```
