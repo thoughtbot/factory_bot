@@ -12,7 +12,7 @@ module FactoryGirl
 
       begin
         hash.each do |key,value|
-          if object.instance_variable_get("@#{key}") != value 
+          if object.public_send(key.to_sym) != value 
             raise
           end
         end
