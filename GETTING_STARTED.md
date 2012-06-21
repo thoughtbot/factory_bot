@@ -55,6 +55,52 @@ FactoryGirl.define do
   end
 end
 ```
+Using Without Active Record
+---------------------------
+
+If you're not using active record it's neccessary that define a model class
+before you can use factory girl. Please see the section "Custom Contruction"
+for other information about that topic.
+
+```ruby
+require 'factory_girl'
+
+# defining the model before defining
+# the factory. 
+class User
+  attr_accessor :name, :date_of_birth
+end
+
+FactoryGirl.define do
+  factory :user do
+    name 'John Doe'
+    date_of_birth { 21.years.ago }
+  end
+end
+```
+
+If you chose to put the model in a separate file, e.g. called 
+`models/user.rb`. Please require it before defining the factory.
+
+```ruby
+# defining the model before defining
+# the factory. 
+class User
+  attr_accessor :name, :date_of_birth
+end
+```
+
+```ruby
+require 'factory_girl'
+require 'models/user'
+
+FactoryGirl.define do
+  factory :user do
+    name 'John Doe'
+    date_of_birth { 21.years.ago }
+  end
+end
+```
 
 Defining factories
 ------------------
@@ -1003,6 +1049,17 @@ factory\_girl ships with step definitions that make calling factories from Cucum
 
 ```ruby
 require "factory_girl/step_definitions"
+```
+
+To get access to created factories, when you're not using `activerecord`, you
+can use a instance variable within your step definitions. It is named
+`@factory` if you have created a single factory or `@factories` if you have
+created multiple factories.
+
+```ruby
+Then /^I should find the person named "([^"]+)"$/ |name|
+  @factory.name.should == name
+end
 ```
 
 Alternate Syntaxes
