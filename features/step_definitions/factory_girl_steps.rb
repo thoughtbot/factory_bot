@@ -44,7 +44,13 @@ end
 
 Then /^I should find the following in the instance variable "(.*?)":$/ do |var, table|
   data = table.hashes
-  factories = instance_variable_get("#{var}")
+  var = instance_variable_get("#{var}")
+
+  if var.respond_to?(:each)
+    factories = var
+  else
+    factories = [ var ]
+  end
 
   data.each do |row|
     are_equal?(factories.pop, row).should == true
