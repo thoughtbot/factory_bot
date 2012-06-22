@@ -22,13 +22,10 @@ module FactoryGirl
 
       def stub_database_interaction_on_result(result_instance)
         result_instance.id = next_id
+
         result_instance.instance_eval do
           def persisted?
             !new_record?
-          end
-
-          def created_at
-            @created_at ||= Time.now
           end
 
           def new_record?
@@ -53,6 +50,17 @@ module FactoryGirl
 
           def update_attribute(*args)
             raise 'stubbed models are not allowed to access the database'
+          end
+        end
+
+        created_at_missing_default = result_instance.respond_to?(:created_at) && !result_instance.created_at
+        result_instance_missing_created_at = !result_instance.respond_to?(:created_at)
+
+        if created_at_missing_default || result_instance_missing_created_at
+          result_instance.instance_eval do
+            def created_at
+              @created_at ||= Time.now
+            end
           end
         end
       end

@@ -102,3 +102,38 @@ describe "calling `build_stubbed` with a block" do
     end.should == expected
   end
 end
+
+describe "defaulting `created_at`" do
+  include FactoryGirl::Syntax::Methods
+
+  before do
+    define_model('ThingWithTimestamp', created_at: :datetime)
+    define_model('ThingWithoutTimestamp')
+
+    FactoryGirl.define do
+      factory :thing_with_timestamp
+      factory :thing_without_timestamp
+    end
+
+    Timecop.freeze Time.now
+  end
+
+  after { Timecop.return }
+
+  it "defaults created_at for objects with created_at" do
+    build_stubbed(:thing_with_timestamp).created_at.should == Time.now
+  end
+
+  it "adds created_at to objects who don't have the method" do
+    build_stubbed(:thing_without_timestamp).should respond_to(:created_at)
+  end
+
+  it "allows overriding created_at for objects with created_at" do
+    build_stubbed(:thing_with_timestamp, created_at: 3.days.ago).created_at.should == 3.days.ago
+  end
+
+  it "doesn't allow setting created_at on an object that doesn't define it" do
+    expect { build_stubbed(:thing_without_timestamp, :created_at => Time.now) }.to
+      raise_error(NoMethodError, /created_at=/)
+  end
+end
