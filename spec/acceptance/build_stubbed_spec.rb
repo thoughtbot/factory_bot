@@ -118,8 +118,6 @@ describe "defaulting `created_at`" do
     Timecop.freeze Time.now
   end
 
-  after { Timecop.return }
-
   it "defaults created_at for objects with created_at" do
     build_stubbed(:thing_with_timestamp).created_at.should == Time.now
   end

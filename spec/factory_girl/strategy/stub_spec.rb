@@ -7,7 +7,6 @@ describe FactoryGirl::Strategy::Stub do
 
   context "asking for a result" do
     before { Timecop.freeze(Time.now) }
-    after  { Timecop.return }
     let(:result_instance) do
       define_class("ResultInstance") do
         attr_accessor :id
