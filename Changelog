@@ -1,3 +1,6 @@
+2.6.5 (June 22, 2012)
+  Allow created_at to be set when using build_stubbed
+
 2.6.4 (March 16, 2012)
   Do not ignore names of transient attributes
   Ensure attributes set on instance are calculated uniquely
