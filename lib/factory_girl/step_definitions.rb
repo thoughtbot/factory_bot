@@ -1,3 +1,5 @@
+require 'active_support/deprecation'
+
 # @api private
 module FactoryGirlStepHelpers
   def convert_human_hash_to_attribute_hash(human_hash, associations = [])
@@ -109,6 +111,8 @@ FactoryGirl.factories.each do |factory|
     end
 
     Given /^the following (?:#{human_name}|#{human_name.pluralize}) exists?:?$/i do |table|
+      ActiveSupport::Deprecation.warn %{The step 'Given the following #{human_name} exists:' is deprecated and will be removed in 4.0}
+
       table.hashes.each do |human_hash|
         attributes = convert_human_hash_to_attribute_hash(human_hash, factory.associations)
         FactoryGirl.create(factory.name, attributes)
@@ -116,10 +120,14 @@ FactoryGirl.factories.each do |factory|
     end
 
     Given /^an? #{human_name} exists$/i do
+      ActiveSupport::Deprecation.warn %{The step 'Given a #{human_name} exists' is deprecated and will be removed in 4.0}
+
       FactoryGirl.create(factory.name)
     end
 
     Given /^(\d+) #{human_name.pluralize} exist$/i do |count|
+      ActiveSupport::Deprecation.warn %{The step 'Given #{count} #{human_name.pluralize} exist' is deprecated and will be removed in 4.0}
+
       FactoryGirl.create_list(factory.name, count.to_i)
     end
 
@@ -127,10 +135,14 @@ FactoryGirl.factories.each do |factory|
       human_column_name = attribute_name.downcase.gsub('_', ' ')
 
       Given /^an? #{human_name} exists with an? #{human_column_name} of "([^"]*)"$/i do |value|
+        ActiveSupport::Deprecation.warn %{The step 'Given a #{human_name} exists with a #{human_column_name} of "#{value}"' is deprecated and will be removed in 4.0}
+
         FactoryGirl.create(factory.name, attribute_name => value)
       end
 
       Given /^(\d+) #{human_name.pluralize} exist with an? #{human_column_name} of "([^"]*)"$/i do |count, value|
+        ActiveSupport::Deprecation.warn %{The step 'Given #{count} #{human_name.pluralize} exists with a #{human_column_name} of "#{value}"' is deprecated and will be removed in 4.0}
+
         FactoryGirl.create_list(factory.name, count.to_i, attribute_name => value)
       end
     end
