@@ -1005,6 +1005,9 @@ factory\_girl ships with step definitions that make calling factories from Cucum
 require "factory_girl/step_definitions"
 ```
 
+Note: These step definitions are _deprecated_. Read why here:
+http://robots.thoughtbot.com/post/25650434584/writing-better-cucumber-scenarios-or-why-were
+
 Alternate Syntaxes
 ------------------
 
