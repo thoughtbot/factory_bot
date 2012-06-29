@@ -669,3 +669,32 @@ describe "implicit traits containing callbacks" do
     FactoryGirl.build(:user_with_trait_with_callback).value.should == 1
   end
 end
+
+describe "traits used in associations" do
+  before do
+    define_model("User", admin: :boolean, name: :string)
+    define_model("Post", author_id: :integer) do
+      belongs_to :author, class_name: 'User'
+    end
+
+    FactoryGirl.define do
+      factory :user do
+        admin false
+
+        trait :admin do
+          admin true
+        end
+      end
+
+      factory :post do
+        association :author, factory: [:user, :admin], name: 'John Doe'
+      end
+    end
+  end
+
+  it "allows assigning traits for the factory of an association" do
+    author = FactoryGirl.create(:post).author
+    author.should be_admin
+    author.name.should == 'John Doe'
+  end
+end

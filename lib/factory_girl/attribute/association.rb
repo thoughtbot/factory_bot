@@ -13,7 +13,10 @@ module FactoryGirl
       def to_proc
         factory   = @factory
         overrides = @overrides
-        -> { association(factory, overrides) }
+        traits_and_overrides = [factory, overrides].flatten
+        factory_name = traits_and_overrides.shift
+
+        -> { association(factory_name, *traits_and_overrides) }
       end
 
       def association?

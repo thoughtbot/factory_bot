@@ -23,10 +23,13 @@ module FactoryGirl
 
     delegate :new, to: :@build_class
 
-    def association(factory_name, overrides = {})
+    def association(factory_name, *traits_and_overrides)
+      overrides = traits_and_overrides.extract_options!
       strategy_override = overrides.fetch(:strategy) { :create }
 
-      runner = FactoryRunner.new(factory_name, strategy_override, [overrides.except(:strategy)])
+      traits_and_overrides += [overrides.except(:strategy)]
+
+      runner = FactoryRunner.new(factory_name, strategy_override, traits_and_overrides)
       @build_strategy.association(runner)
     end
 
