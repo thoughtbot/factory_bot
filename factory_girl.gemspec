@@ -31,7 +31,14 @@ Gem::Specification.new do |s|
   s.add_development_dependency("mocha")
   s.add_development_dependency("bourne")
   s.add_development_dependency("appraisal", "~> 0.4")
-  s.add_development_dependency("sqlite3-ruby")
+
+  if RUBY_PLATFORM == "java"
+    s.add_development_dependency("activerecord-jdbcsqlite3-adapter")
+    s.add_development_dependency("jdbc-sqlite3")
+  else
+    s.add_development_dependency("sqlite3-ruby")
+  end
+
   s.add_development_dependency("yard")
 end
 
