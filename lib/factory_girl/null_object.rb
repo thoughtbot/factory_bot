@@ -16,5 +16,16 @@ module FactoryGirl
     def respond_to?(method, include_private=false)
       @methods_to_respond_to.include? method.to_s
     end
+
+    # JRuby users are affected by incorrect caching behavior of caching
+    # stable 1.7 release closes that issue, please refer http://jira.codehaus.org/browse/JRUBY-6740
+    # for further details.
+    if ::RUBY_PLATFORM == "java"
+      private
+
+      def respond_to_missing?(*args)
+        false
+      end
+    end
   end
 end
