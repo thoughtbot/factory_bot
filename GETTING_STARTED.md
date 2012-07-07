@@ -690,7 +690,7 @@ Instead of creating a child factory that added additional attributes:
 ```ruby
 FactoryGirl.define do
   factory :application_user, parent: :user do
-    full_name     { Faker::Name.name }
+    full_name     "Jane Doe"
     date_of_birth { 21.years.ago }
     gender        "Female"
     health        90
@@ -703,7 +703,7 @@ You could modify that factory instead.
 ```ruby
 FactoryGirl.modify do
   factory :user do
-    full_name     { Faker::Name.name }
+    full_name     "Jane Doe"
     date_of_birth { 21.years.ago }
     gender        "Female"
     health        90
@@ -758,14 +758,14 @@ sequence(:name) {|n| "person#{n}@example.com" }
 
 factory :user do
   ignore do
-    name { Faker::Name.name }
+    name "Jane Doe"
   end
 
   email
   initialize_with { new(name) }
 end
 
-FactoryGirl.build(:user).name # Bob Hope
+FactoryGirl.build(:user).name # Jane Doe
 ```
 
 Notice that I ignored the `name` attribute. If you don't want attributes
@@ -793,7 +793,7 @@ For example:
 ```ruby
 factory :user do
   ignore do
-    name { Faker::Name.name }
+    name "John Doe"
   end
 
   initialize_with { User.build_with_name(name) }
@@ -809,7 +809,7 @@ factory :user do
     comments_count 5
   end
 
-  name { Faker::Name.name }
+  name "John Doe"
 
   initialize_with { new(attributes) }
 end
