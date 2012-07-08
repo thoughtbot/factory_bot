@@ -16,6 +16,13 @@ If you're *not* using Rails, you'll just have to change the required version of 
 gem "factory_girl", "~> 3.0"
 ```
 
+JRuby users: FactoryGirl works with JRuby starting with 1.6.7.2 (latest stable, as per July 2012).
+JRuby has to be used in 1.9 mode, for that, use JRUBY_OPTS environment variable:
+
+```
+export JRUBY_OPTS=--1.9
+```
+
 Once your Gemfile is updated, you'll want to update your bundle.
 
 Using Without Bundler
