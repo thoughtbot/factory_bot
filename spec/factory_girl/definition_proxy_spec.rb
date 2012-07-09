@@ -119,6 +119,11 @@ describe FactoryGirl::DefinitionProxy, "#association" do
     proxy.association(:association_name, { name: "Awesome" })
     subject.should have_association_declaration(:association_name).with_options(name: "Awesome")
   end
+
+  it "declares an association with traits" do
+    proxy.association(:association_name, { traits: [:trait_one, :trait_two] })
+    subject.should have_association_declaration(:association_name).with_traits(:trait_one, :trait_two)
+  end
 end
 
 describe FactoryGirl::DefinitionProxy, "adding callbacks" do
