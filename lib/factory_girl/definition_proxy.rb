@@ -124,7 +124,7 @@ module FactoryGirl
     #   end
     #
     #   factory :post do
-    #     association :author, factory: :user
+    #     association :author, factory: :user, traits: [:active]
     #   end
     #
     # Arguments:
@@ -138,6 +138,8 @@ module FactoryGirl
     #    If no name is given, the name of the attribute is assumed to be the
     #    name of the factory. For example, a "user" association will by
     #    default use the "user" factory.
+    # * traits: +Symbol+ or +Enumerable+
+    #    Traits to be applied on the association.
     def association(name, options = {})
       @definition.declare_attribute(Declaration::Association.new(name, options))
     end

@@ -49,6 +49,11 @@ module DeclarationMatchers
       self
     end
 
+    def with_traits(*traits)
+      @traits = traits
+      self
+    end
+
     private
 
     def expected_declaration
@@ -65,7 +70,9 @@ module DeclarationMatchers
     end
 
     def options
-      @options || {}
+      options = @options || {}
+      options[:traits] = @traits if @traits
+      options
     end
   end
 end

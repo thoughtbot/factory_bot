@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe "attribute aliases" do
   before do
-    define_model('User', name: :string, age: :integer)
+    define_model('User', name: :string, age: :integer, active: :boolean)
 
     define_model('Post', user_id: :integer) do
       belongs_to :user
@@ -12,6 +12,10 @@ describe "attribute aliases" do
       factory :user do
         factory :user_with_name do
           name "John Doe"
+
+          trait :active do
+            active true
+          end
         end
       end
 
@@ -20,7 +24,7 @@ describe "attribute aliases" do
       end
 
       factory :post_with_named_user, class: Post do
-        user factory: :user_with_name, age: 20
+        user factory: :user_with_name, traits: :active, age: 20
       end
     end
   end
@@ -39,6 +43,7 @@ describe "attribute aliases" do
     it "assigns attributes correctly" do
       subject.name.should == "John Doe"
       subject.age.should == 20
+      subject.active.should be_true
     end
   end
 end
