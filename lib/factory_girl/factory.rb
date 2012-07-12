@@ -84,6 +84,7 @@ module FactoryGirl
         parent.compile
         parent.defined_traits.each {|trait| define_trait(trait) }
         @definition.compile
+        build_hierarchy
         @compiled = true
       end
     end
@@ -111,16 +112,30 @@ module FactoryGirl
       end
     end
 
+    def hierarchy_class
+      @hierarchy_class ||= Class.new(parent.hierarchy_class)
+    end
+
+    def hierarchy_instance
+      @hierarchy_instance ||= hierarchy_class.new
+    end
+
+    def build_hierarchy
+      hierarchy_class.build_to_create &definition.to_create
+      hierarchy_class.build_constructor &definition.constructor
+      hierarchy_class.add_callbacks definition.callbacks
+    end
+
     def callbacks
-      parent.callbacks + definition.callbacks
+      hierarchy_instance.callbacks
     end
 
     def compiled_to_create
-      @definition.to_create || parent.compiled_to_create || FactoryGirl.to_create
+      hierarchy_instance.to_create
     end
 
     def compiled_constructor
-      @definition.constructor || parent.compiled_constructor || FactoryGirl.constructor
+      hierarchy_instance.constructor
     end
 
     private
@@ -141,6 +156,9 @@ module FactoryGirl
       super
       @definition = @definition.clone
       @evaluator_class = nil
+      @hierarchy_class = nil
+      @hierarchy_instance = nil
+      @compiled = false
     end
   end
 end

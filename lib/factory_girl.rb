@@ -2,6 +2,7 @@ require 'set'
 require 'active_support/core_ext/module/delegation'
 require 'active_support/notifications'
 
+require 'factory_girl/definition_hierarchy'
 require 'factory_girl/configuration'
 require 'factory_girl/errors'
 require 'factory_girl/factory_runner'

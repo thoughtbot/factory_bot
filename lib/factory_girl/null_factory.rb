@@ -10,10 +10,9 @@ module FactoryGirl
     delegate :defined_traits, :callbacks, :attributes, :constructor,
       :to_create, to: :definition
 
-    def compiled_to_create; to_create; end
-    def compiled_constructor; constructor; end
     def compile; end
     def class_name; end
     def evaluator_class; FactoryGirl::Evaluator; end
+    def hierarchy_class; FactoryGirl::DefinitionHierarchy; end
   end
 end
