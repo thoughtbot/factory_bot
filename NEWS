@@ -104,14 +104,14 @@
   Fix inline traits
 
 2.4.0 (January 13, 2012)
-  Refactor internals of Factory Girl to use anonymous class on which attributes
+  Refactor internals of FactoryGirl to use anonymous class on which attributes
     get defined
   Explicitly require Ruby 1.8.7 or higher in gemspec
   Fix documentation
   Add Gemnasium status to documentation
   Supplying a Class to a factory that overrides to_s no longer results in
     getting the wrong Class constructed
-  Be more agnostic about ORMs when using columns in Factory Girl step
+  Be more agnostic about ORMs when using columns in FactoryGirl step
     definitions
   Test against Active Record 3.2.0.rc2
   Update GETTING_STARTED to use Ruby syntax highlighting

@@ -28,9 +28,9 @@ and run `bundle install` from your shell.
 Supported Ruby versions
 -----------------------
 
-The Factory Girl 3.x series supports Ruby 1.9.x.
+The FactoryGirl 3.x series supports Ruby 1.9.x.
 
-For older versions of Ruby, please use the Factory Girl 2.x series.
+For older versions of Ruby, please use the FactoryGirl 2.x series.
 
 More Information
 ----------------
