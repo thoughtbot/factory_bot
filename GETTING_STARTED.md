@@ -258,8 +258,8 @@ Static and dynamic attributes can be ignored. Ignored attributes will be ignored
 within attributes\_for and won't be set on the model, even if the attribute
 exists or you attempt to override it.
 
-Within Factory Girl's dynamic attributes, you can access ignored attributes as
-you would expect. If you need to access the evaluator in a Factory Girl callback,
+Within FactoryGirl's dynamic attributes, you can access ignored attributes as
+you would expect. If you need to access the evaluator in a FactoryGirl callback,
 you'll need to declare a second block argument (for the evaluator) and access
 ignored attributes from there.
 
