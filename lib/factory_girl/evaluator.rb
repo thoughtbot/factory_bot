@@ -10,8 +10,7 @@ module FactoryGirl
       undef_method(method) unless method =~ /^__|initialize/
     end
 
-    def initialize(build_class, build_strategy, overrides = {})
-      @build_class       = build_class
+    def initialize(build_strategy, overrides = {})
       @build_strategy    = build_strategy
       @overrides         = overrides
       @cached_attributes = overrides
@@ -20,8 +19,6 @@ module FactoryGirl
         singleton_class.define_attribute(name) { value }
       end
     end
-
-    delegate :new, to: :@build_class
 
     def association(factory_name, *traits_and_overrides)
       overrides = traits_and_overrides.extract_options!

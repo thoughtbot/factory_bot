@@ -33,7 +33,7 @@ module FactoryGirl
 
       strategy = StrategyCalculator.new(build_strategy).strategy.new
 
-      evaluator = evaluator_class.new(build_class, strategy, overrides.symbolize_keys)
+      evaluator = evaluator_class.new(strategy, overrides.symbolize_keys)
       attribute_assigner = AttributeAssigner.new(evaluator, build_class, &compiled_constructor)
 
       evaluation = Evaluation.new(attribute_assigner, compiled_to_create)
