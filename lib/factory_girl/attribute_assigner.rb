@@ -77,7 +77,7 @@ module FactoryGirl
     end
 
     def attribute_names_to_assign
-      non_ignored_attribute_names + override_names - ignored_attribute_names - alias_names_to_ignore
+      @attribute_names_to_assign ||= non_ignored_attribute_names + override_names - ignored_attribute_names - alias_names_to_ignore
     end
 
     def non_ignored_attribute_names
