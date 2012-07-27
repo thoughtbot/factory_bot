@@ -148,7 +148,9 @@ end
 World(FactoryGirl::Syntax::Methods)
 ```
 
-This would allow you to write:
+This allows you to use the core set of syntax methods (`build`,
+`build_stubbed`, `create`, `attributes_for`, and their `*_list` counterparts)
+without having to call them on FactoryGirl directly:
 
 ```ruby
 describe User, "#full_name" do
