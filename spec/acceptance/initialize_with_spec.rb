@@ -4,8 +4,6 @@ describe "initialize_with with non-FG attributes" do
   include FactoryGirl::Syntax::Methods
 
   before do
-    ActiveSupport::Deprecation.silenced = true
-
     define_model("User", name: :string, age: :integer) do
       def self.construct(name, age)
         new(name: name, age: age)
@@ -28,8 +26,6 @@ describe "initialize_with with FG attributes that are ignored" do
   include FactoryGirl::Syntax::Methods
 
   before do
-    ActiveSupport::Deprecation.silenced = true
-
     define_model("User", name: :string) do
       def self.construct(name)
         new(name: "#{name} from .construct")
@@ -51,38 +47,10 @@ describe "initialize_with with FG attributes that are ignored" do
   its(:name) { should == "Handsome Chap from .construct" }
 end
 
-describe "initialize_with with FG attributes that are not ignored" do
-  include FactoryGirl::Syntax::Methods
-
-  before do
-    ActiveSupport::Deprecation.silenced = true
-
-    define_model("User", name: :string) do
-      def self.construct(name)
-        new(name: "#{name} from .construct")
-      end
-    end
-
-    FactoryGirl.define do
-      factory :user do
-        name { "Handsome Chap" }
-
-        initialize_with { User.construct(name) }
-      end
-    end
-  end
-
-  it "assigns each attribute even if the attribute has been used in the constructor" do
-    build(:user).name.should == "Handsome Chap"
-  end
-end
-
 describe "initialize_with non-ORM-backed objects" do
   include FactoryGirl::Syntax::Methods
 
   before do
-    ActiveSupport::Deprecation.silenced = true
-
     define_class("ReportGenerator") do
       attr_reader :name, :data
 
@@ -116,8 +84,6 @@ end
 
 describe "initialize_with parent and child factories" do
   before do
-    ActiveSupport::Deprecation.silenced = true
-
     define_class("Awesome") do
       attr_reader :name
 
@@ -158,8 +124,6 @@ end
 
 describe "initialize_with implicit constructor" do
   before do
-    ActiveSupport::Deprecation.silenced = true
-
     define_class("Awesome") do
       attr_reader :name
 
@@ -186,8 +150,6 @@ end
 
 describe "initialize_with doesn't duplicate assignment on attributes accessed from initialize_with" do
   before do
-    ActiveSupport::Deprecation.silenced = true
-
     define_class("User") do
       attr_reader :name
       attr_accessor :email
@@ -211,8 +173,6 @@ describe "initialize_with doesn't duplicate assignment on attributes accessed fr
   end
 
   it "instantiates the correct object" do
-    FactoryGirl.duplicate_attribute_assignment_from_initialize_with = false
-
     built_user = FactoryGirl.build(:user)
     built_user.name.should == "person1"
     built_user.email.should == "person1@example.com"
@@ -221,8 +181,6 @@ end
 
 describe "initialize_with has access to all attributes for construction" do
   before do
-    ActiveSupport::Deprecation.silenced = true
-
     define_class("User") do
       attr_reader :name, :email, :ignored
 
@@ -251,8 +209,6 @@ describe "initialize_with has access to all attributes for construction" do
   end
 
   it "assigns attributes correctly" do
-    FactoryGirl.duplicate_attribute_assignment_from_initialize_with = false
-
     user_with_attributes = FactoryGirl.build(:user)
     user_with_attributes.email.should == "person1@example.com"
     user_with_attributes.name.should  == "person1"

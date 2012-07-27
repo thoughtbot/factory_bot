@@ -7,13 +7,13 @@ Update Your Gemfile
 If you're using Rails, you'll need to change the required version of `factory_girl_rails`:
 
 ```ruby
-gem "factory_girl_rails", "~> 3.0"
+gem "factory_girl_rails", "~> 4.0"
 ```
 
 If you're *not* using Rails, you'll just have to change the required version of `factory_girl`:
 
 ```ruby
-gem "factory_girl", "~> 3.0"
+gem "factory_girl", "~> 4.0"
 ```
 
 JRuby users: FactoryGirl works with JRuby starting with 1.6.7.2 (latest stable, as per July 2012).
@@ -875,14 +875,41 @@ FactoryGirl.define do
 end
 ```
 
-When using `initialize_with`, attributes accessed from the `initialize_with`
-block are assigned a second time to the instance. Duplicate assignment can be
-disabled by configuring FactoryGirl as such:
+When using `initialize_with`, attributes accessed from within the `initialize_with`
+block are assigned *only* in the constructor; this equates to roughly the
+following code:
 
-    FactoryGirl.duplicate_attribute_assignment_from_initialize_with = false
+```ruby
+FactoryGirl.define do
+  factory :user do
+    initialize_with { new(name) }
 
-This would allow for attributes declared as ignored to not be ignored, since
-it won't assign them for a second time.
+    name { 'value' }
+  end
+end
+
+FactoryGirl.build(:user)
+# runs
+User.new('value')
+```
+
+This prevents duplicate assignment; in versions of FactoryGirl before 4.0, it
+would run this:
+
+```ruby
+FactoryGirl.define do
+  factory :user do
+    initialize_with { new(name) }
+
+    name { 'value' }
+  end
+end
+
+FactoryGirl.build(:user)
+# runs
+user = User.new('value')
+user.name = 'value'
+```
 
 Custom Strategies
 -----------------
@@ -1041,39 +1068,4 @@ end
 config.after(:suite) do
   puts @factory_girl_results
 end
-```
-
-Cucumber Integration
---------------------
-
-factory\_girl ships with step definitions that make calling factories from Cucumber easier. To use them, add the following to features/support/env.rb:
-
-```ruby
-require "factory_girl/step_definitions"
-```
-
-Note: These step definitions are _deprecated_. Read why here:
-http://robots.thoughtbot.com/post/25650434584/writing-better-cucumber-scenarios-or-why-were
-
-Alternate Syntaxes
-------------------
-
-Users' tastes for syntax vary dramatically, but most users are looking for a
-common feature set. Because of this factory\_girl supports "syntax layers" which
-provide alternate interfaces. See Factory::Syntax for information about the
-various layers available. For example, the Machinist-style syntax is popular:
-
-```ruby
-require "factory_girl/syntax/blueprint"
-require "factory_girl/syntax/make"
-require "factory_girl/syntax/sham"
-
-Sham.email {|n| "#{n}@example.com" }
-
-User.blueprint do
-  name  { "Billy Bob" }
-  email { Sham.email  }
-end
-
-User.make(name: "Johnny")
 ```

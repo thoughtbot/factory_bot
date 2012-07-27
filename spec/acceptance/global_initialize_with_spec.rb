@@ -2,8 +2,6 @@ require 'spec_helper'
 
 describe 'global initialize_with' do
   before do
-    ActiveSupport::Deprecation.silenced = true
-
     define_class('User') do
       attr_accessor:name
 
