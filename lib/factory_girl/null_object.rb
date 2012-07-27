@@ -16,5 +16,9 @@ module FactoryGirl
     def respond_to?(method, include_private=false)
       @methods_to_respond_to.include? method.to_s
     end
+
+    def respond_to_missing?(*args)
+      false
+    end
   end
 end
