@@ -1,3 +1,12 @@
+3.6.0 (July 27, 2012)
+  Code/spec cleanup
+  Allow factories with traits to be used in associations
+  Refactor Factory to use DefinitionHierarchy to handle managing callbacks,
+    custom constructor, and custom to_create
+  Add memoization to speed up factories providing attribute overrides
+  Add initial support of JRuby when running in 1.9 mode
+  Improve docs on what happens when including FactoryGirl::Syntax::Methods
+
 3.5.0 (June 22, 2012)
   Allow created_at to be set when using build_stubbed
   Deprecate FactoryGirl step definitions
