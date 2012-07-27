@@ -157,6 +157,7 @@ describe User, "#full_name" do
   its(:full_name) { should == "John Doe" }
 end
 ```
+As well as: build, build_list, create_list etc. 
 
 Lazy Attributes
 ---------------
