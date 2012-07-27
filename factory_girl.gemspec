@@ -33,6 +33,5 @@ Gem::Specification.new do |s|
   s.add_development_dependency("appraisal", "~> 0.4")
   s.add_development_dependency("sqlite3-ruby")
   s.add_development_dependency("yard")
-  s.add_development_dependency("bluecloth")
 end
 
