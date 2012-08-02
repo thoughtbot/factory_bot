@@ -28,9 +28,12 @@ and run `bundle install` from your shell.
 Supported Ruby versions
 -----------------------
 
-The FactoryGirl 3.x series supports Ruby 1.9.x.
+The FactoryGirl 3.x+ series supports MRI Ruby 1.9. Additionally, FactoryGirl
+3.6+ supports JRuby 1.6.7.2+ while running in 1.9 mode. See
+[GETTING_STARTED](https://github.com/thoughtbot/factory_girl/blob/master/GETTING_STARTED.md)
+for more information on configuring the JRuby environment.
 
-For older versions of Ruby, please use the FactoryGirl 2.x series.
+For versions of Ruby prior to 1.9, please use FactoryGirl 2.x.
 
 More Information
 ----------------
