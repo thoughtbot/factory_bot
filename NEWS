@@ -1,3 +1,9 @@
+3.6.1 (August 2, 2012)
+  Update README to include info about running with JRuby
+  Update dependencies on RSpec and tiny versions of Rails in Appraisal
+  Improve flexibility of using traits with associations and add documentation
+  Stub update_column to raise to mirror ActiveRecord's change from update_attribute
+
 3.6.0 (July 27, 2012)
   Code/spec cleanup
   Allow factories with traits to be used in associations
