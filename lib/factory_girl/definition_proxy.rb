@@ -85,10 +85,6 @@ module FactoryGirl
         @definition.declare_attribute(Declaration::Implicit.new(name, @definition, @ignore))
       elsif args.first.respond_to?(:has_key?) && args.first.has_key?(:factory)
         association(name, *args)
-      elsif FactoryGirl.callback_names.include?(name)
-        callback_when, callback_name = name.to_s.split('_', 2)
-        ActiveSupport::Deprecation.warn "Calling #{name} is deprecated; use the syntax #{callback_when}(:#{callback_name}) {}", caller
-        @definition.add_callback(Callback.new(name, block))
       else
         add_attribute(name, *args, &block)
       end

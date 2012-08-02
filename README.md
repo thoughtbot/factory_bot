@@ -62,12 +62,6 @@ factory_girl was written by Joe Ferris with contributions from several authors, 
 * Josh Clayton
 * Thomas Walpole
 
-The syntax layers are derived from software written by the following authors:
-
-* Pete Yandell
-* Rick Bradley
-* Yossef Mendelssohn
-
 ![thoughtbot](http://thoughtbot.com/images/tm/logo.png)
 
 factory_girl is maintained and funded by [thoughtbot, inc](http://thoughtbot.com/community)

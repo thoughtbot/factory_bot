@@ -35,17 +35,9 @@ module FactoryGirl
     end
 
     def decorated_evaluator
-      invocation_decorator.new(
+      Decorator::InvocationTracker.new(
         Decorator::NewConstructor.new(@evaluator, @build_class)
       )
-    end
-
-    def invocation_decorator
-      if FactoryGirl.duplicate_attribute_assignment_from_initialize_with
-        Decorator::InvocationIgnorer
-      else
-        Decorator::InvocationTracker
-      end
     end
 
     def methods_invoked_on_evaluator
@@ -53,11 +45,7 @@ module FactoryGirl
     end
 
     def build_class_instance
-      @build_class_instance ||= method_tracking_evaluator.instance_exec(&@instance_builder).tap do
-        if @instance_builder != FactoryGirl.constructor && FactoryGirl.duplicate_attribute_assignment_from_initialize_with
-          ActiveSupport::Deprecation.warn 'Accessing attributes from initialize_with when duplicate assignment is enabled is deprecated; use FactoryGirl.duplicate_attribute_assignment_from_initialize_with = false.', caller
-        end
-      end
+      @build_class_instance ||= method_tracking_evaluator.instance_exec(&@instance_builder)
     end
 
     def build_hash

@@ -19,7 +19,7 @@ describe FactoryGirl, "aliases" do
   end
 end
 
-describe Factory, "after defining an alias" do
+describe FactoryGirl, "after defining an alias" do
   before do
     FactoryGirl.aliases << [/(.*)_suffix/, '\1']
   end

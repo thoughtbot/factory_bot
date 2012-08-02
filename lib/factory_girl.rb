@@ -1,5 +1,6 @@
 require 'set'
 require 'active_support/core_ext/module/delegation'
+require 'active_support/deprecation'
 require 'active_support/notifications'
 
 require 'factory_girl/definition_hierarchy'
@@ -41,7 +42,6 @@ require 'factory_girl/decorator/attribute_hash'
 require 'factory_girl/decorator/class_key_hash'
 require 'factory_girl/decorator/disallows_duplicates_registry'
 require 'factory_girl/decorator/invocation_tracker'
-require 'factory_girl/decorator/invocation_ignorer'
 require 'factory_girl/decorator/new_constructor'
 require 'factory_girl/version'
 

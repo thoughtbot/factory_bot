@@ -27,13 +27,6 @@ When /^I create a "([^"]*)" instance from FactoryGirl$/ do |factory_name|
   FactoryGirl.create(factory_name)
 end
 
-Given /^these super users exist:$/ do |table|
-  headers = table.headers + ["admin"]
-  rows    = table.rows.map { |row| row + [true] }
-  new_table = Cucumber::Ast::Table.new([headers] + rows)
-  step %{the following person exists:}, new_table
-end
-
 When /^I find definitions$/ do
   FactoryGirl.find_definitions
 end
