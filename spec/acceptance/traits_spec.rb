@@ -673,6 +673,15 @@ end
 describe "traits used in associations" do
   before do
     define_model("User", admin: :boolean, name: :string)
+
+    define_model("Comment", user_id: :integer) do
+      belongs_to :user
+    end
+
+    define_model("Order", creator_id: :integer) do
+      belongs_to :creator, class_name: 'User'
+    end
+
     define_model("Post", author_id: :integer) do
       belongs_to :author, class_name: 'User'
     end
@@ -689,6 +698,14 @@ describe "traits used in associations" do
       factory :post do
         association :author, factory: [:user, :admin], name: 'John Doe'
       end
+
+      factory :comment do
+        association :user, :admin, name: 'Joe Slick'
+      end
+
+      factory :order do
+        association :creator, :admin, factory: :user, name: 'Joe Creator'
+      end
     end
   end
 
@@ -696,5 +713,17 @@ describe "traits used in associations" do
     author = FactoryGirl.create(:post).author
     author.should be_admin
     author.name.should == 'John Doe'
+  end
+
+  it "allows inline traits with the default association" do
+    user = FactoryGirl.create(:comment).user
+    user.should be_admin
+    user.name.should == 'Joe Slick'
+  end
+
+  it "allows inline traits with a specific factory for an association" do
+    creator = FactoryGirl.create(:order).creator
+    creator.should be_admin
+    creator.name.should == 'Joe Creator'
   end
 end

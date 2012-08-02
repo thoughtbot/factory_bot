@@ -2,9 +2,11 @@ module FactoryGirl
   class Declaration
     # @api private
     class Association < Declaration
-      def initialize(name, options)
+      def initialize(name, *options)
         super(name, false)
-        @options = options
+        @options = options.dup
+        @overrides = options.extract_options!
+        @traits = options
       end
 
       def ==(other)
@@ -18,8 +20,8 @@ module FactoryGirl
       private
 
       def build
-        factory_name = @options[:factory] || name
-        [Attribute::Association.new(name, factory_name, @options.except(:factory))]
+        factory_name = @overrides[:factory] || name
+        [Attribute::Association.new(name, factory_name, [@traits, @overrides.except(:factory)].flatten)]
       end
     end
   end
