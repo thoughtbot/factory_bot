@@ -49,6 +49,13 @@ module DeclarationMatchers
       self
     end
 
+    def failure_message
+      [
+        "expected declarations to include declaration of type #{@declaration_type}",
+        @options ? "with options #{options}" : nil
+      ].compact.join ' '
+    end
+
     private
 
     def expected_declaration
@@ -56,7 +63,12 @@ module DeclarationMatchers
       when :static      then FactoryGirl::Declaration::Static.new(@name, @value, ignored?)
       when :dynamic     then FactoryGirl::Declaration::Dynamic.new(@name, ignored?, @value)
       when :implicit    then FactoryGirl::Declaration::Implicit.new(@name, @factory, ignored?)
-      when :association then FactoryGirl::Declaration::Association.new(@name, options)
+      when :association
+        if @options
+          FactoryGirl::Declaration::Association.new(@name, options)
+        else
+          FactoryGirl::Declaration::Association.new(@name)
+        end
       end
     end
 
