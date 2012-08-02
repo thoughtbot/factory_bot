@@ -51,6 +51,10 @@ module FactoryGirl
           def update_attribute(*args)
             raise 'stubbed models are not allowed to access the database'
           end
+
+          def update_column(*args)
+            raise 'stubbed models are not allowed to access the database'
+          end
         end
 
         created_at_missing_default = result_instance.respond_to?(:created_at) && !result_instance.created_at
