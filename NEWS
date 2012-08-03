@@ -1,3 +1,9 @@
+4.0.0 (August 3, 2012)
+  Remove deprecated cucumber_steps
+  Remove deprecated alternate syntaxes
+  Deprecate duplicate_attribute_assignment_from_initialize_with, which is now unused
+    as attributes assigned within initialize_with are not subsequently assigned
+
 3.6.1 (August 2, 2012)
   Update README to include info about running with JRuby
   Update dependencies on RSpec and tiny versions of Rails in Appraisal
