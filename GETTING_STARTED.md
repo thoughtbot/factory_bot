@@ -101,7 +101,7 @@ are defined in files at the following locations:
 Using factories
 ---------------
 
-factory\_girl supports several different build strategies: build, create, attributes\_for and stub:
+factory\_girl supports several different build strategies: build, create, attributes\_for and build\_stubbed:
 
 ```ruby
 # Returns a User instance that's not saved
