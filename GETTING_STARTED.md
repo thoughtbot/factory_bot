@@ -336,6 +336,15 @@ post.new_record?        # => true
 post.author.new_record? # => true
 ```
 
+Please note that the `strategy: :build` option must be passed to an explicit call to `association`,
+and cannot be used with implicit associations:
+
+```ruby
+factory :post do
+  # ...
+  author strategy: :build    # <<< this does *not* work; causes author_id to be nil
+```
+
 Generating data for a `has_many` relationship is a bit more involved,
 depending on the amount of flexibility desired, but here's a surefire example
 of generating associated data.
