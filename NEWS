@@ -1,3 +1,7 @@
+4.1.0 (September 11, 2012)
+  Allow multiple callbacks to bind to the same block
+  Fix documentation surrounding the stub strategy
+
 4.0.0 (August 3, 2012)
   Remove deprecated cucumber_steps
   Remove deprecated alternate syntaxes
