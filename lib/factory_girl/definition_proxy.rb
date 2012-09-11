@@ -158,17 +158,19 @@ module FactoryGirl
       @definition.define_constructor(&block)
     end
 
-    def before(name, &block)
-      callback("before_#{name}", &block)
+    def before(*names, &block)
+      callback(*names.map {|name| "before_#{name}" }, &block)
     end
 
-    def after(name, &block)
-      callback("after_#{name}", &block)
+    def after(*names, &block)
+      callback(*names.map {|name| "after_#{name}" }, &block)
     end
 
-    def callback(name, &block)
-      FactoryGirl.register_callback(name)
-      @definition.add_callback(Callback.new(name, block))
+    def callback(*names, &block)
+      names.each do |name|
+        FactoryGirl.register_callback(name)
+        @definition.add_callback(Callback.new(name, block))
+      end
     end
   end
 end

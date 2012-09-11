@@ -140,6 +140,24 @@ describe FactoryGirl::DefinitionProxy, "adding callbacks" do
     before { proxy.after(:stub, &callback) }
     it     { should have_callback(:after_stub).with_block(callback) }
   end
+
+  context "#after(:stub, :create)" do
+    before { proxy.after(:stub, :create, &callback) }
+    it     { should have_callback(:after_stub).with_block(callback) }
+    it     { should have_callback(:after_create).with_block(callback) }
+  end
+
+  context "#before(:stub, :create)" do
+    before { proxy.before(:stub, :create, &callback) }
+    it     { should have_callback(:before_stub).with_block(callback) }
+    it     { should have_callback(:before_create).with_block(callback) }
+  end
+
+  context "#callback(:after_stub, :before_create)" do
+    before { proxy.callback(:after_stub, :before_create, &callback) }
+    it     { should have_callback(:after_stub).with_block(callback) }
+    it     { should have_callback(:before_create).with_block(callback) }
+  end
 end
 
 describe FactoryGirl::DefinitionProxy, "#to_create" do
