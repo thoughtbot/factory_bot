@@ -149,3 +149,29 @@ describe "custom callbacks" do
     FactoryGirl.totally_custom(:user).name.should == "Totally Custom"
   end
 end
+
+describe 'binding a callback to multiple callbacks' do
+  before do
+    define_model('User', name: :string)
+
+    FactoryGirl.define do
+      factory :user do
+        callback(:before_create, :after_stub) do |instance|
+          instance.name = instance.name.upcase
+        end
+      end
+    end
+  end
+
+  it 'binds the callback to creation' do
+    FactoryGirl.create(:user, name: 'John Doe').name.should == 'JOHN DOE'
+  end
+
+  it 'does not bind the callback to building' do
+    FactoryGirl.build(:user, name: 'John Doe').name.should == 'John Doe'
+  end
+
+  it 'binds the callback to stubbing' do
+    FactoryGirl.build_stubbed(:user, name: 'John Doe').name.should == 'JOHN DOE'
+  end
+end
