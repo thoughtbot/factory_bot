@@ -714,6 +714,16 @@ Calling FactoryGirl.create will invoke both `after_build` and `after_create` cal
 
 Also, like standard attributes, child factories will inherit (and can also define) callbacks from their parent factory.
 
+Multiple callbacks can be assigned to run a block; this is useful when building various strategies that run the same code (since there are no callbacks that are shared across all strategies).
+
+```ruby
+factory :user do
+  callback(:after_stub, :before_create) { do_something }
+  after(:stub, :create) { do_something_else }
+  before(:create, :custom) { do_a_third_thing }
+end
+```
+
 Modifying factories
 -------------------
 
