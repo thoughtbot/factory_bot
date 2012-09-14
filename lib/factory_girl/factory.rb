@@ -121,9 +121,7 @@ module FactoryGirl
     end
 
     def build_hierarchy
-      hierarchy_class.build_to_create &definition.to_create
-      hierarchy_class.build_constructor &definition.constructor
-      hierarchy_class.add_callbacks definition.callbacks
+      hierarchy_class.build_from_definition definition
     end
 
     def callbacks
