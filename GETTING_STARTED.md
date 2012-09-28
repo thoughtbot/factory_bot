@@ -146,6 +146,21 @@ end
 
 # Cucumber
 World(FactoryGirl::Syntax::Methods)
+
+# MiniTest
+class MiniTest::Unit::TestCase
+  include FactoryGirl::Syntax::Methods
+end
+
+# MiniTest::Spec
+class MiniTest::Spec
+  include FactoryGirl::Syntax::Methods
+end
+
+# minitest-rails
+class MiniTest::Rails::ActiveSupport::TestCase
+  include FactoryGirl::Syntax::Methods
+end
 ```
 
 This allows you to use the core set of syntax methods (`build`,
