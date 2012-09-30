@@ -10,4 +10,12 @@ describe "autogenerate" do
       autogenerate("nickname#N@email.com").should == "nickname3@email.com"
     end
   end
+
+  context 'passing string without #N' do
+    it "puts #N in string end" do
+      autogenerate("nickname").should == "nickname1"
+      autogenerate("nickname").should == "nickname2"
+      autogenerate("nickname").should == "nickname3"
+    end
+  end
 end

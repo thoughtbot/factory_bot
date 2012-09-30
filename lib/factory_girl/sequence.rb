@@ -22,6 +22,7 @@ module FactoryGirl
     end
 
     def self.simple(name, string)
+      string += SIMPLE_REPLACEMENT unless string.include? SIMPLE_REPLACEMENT
       Sequence.new(name){|n| string.gsub(SIMPLE_REPLACEMENT, n.to_s)}
     end
 
