@@ -97,10 +97,7 @@ module FactoryGirl
         begin
           sequence = FactoryGirl.sequence_by_name(name)
         rescue Exception => e
-          FactoryGirl.define do
-            sequence(name) {|n| string.gsub("#N", n.to_s)}
-          end
-          sequence = FactoryGirl.sequence_by_name(name)
+          sequence = FactoryGirl.create_simple_sequence(name, string)
         end
 
         sequence.next

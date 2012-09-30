@@ -78,6 +78,11 @@ module FactoryGirl
     sequence
   end
 
+  def self.create_simple_sequence(name, string)
+    sequence = Sequence.simple(name, string)
+    FactoryGirl.register_sequence(sequence)
+  end
+
   def self.sequence_by_name(name)
     sequences.find(name)
   end

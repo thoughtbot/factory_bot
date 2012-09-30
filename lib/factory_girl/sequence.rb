@@ -6,6 +6,8 @@ module FactoryGirl
   class Sequence
     attr_reader :name
 
+    SIMPLE_REPLACEMENT = "#N"
+
     def initialize(name, *args, &proc)
       @name    = name
       @proc    = proc
@@ -17,6 +19,10 @@ module FactoryGirl
       if !@value.respond_to?(:peek)
         @value = EnumeratorAdapter.new(@value)
       end
+    end
+
+    def self.simple(name, string)
+      Sequence.new(name){|n| string.gsub(SIMPLE_REPLACEMENT, n.to_s)}
     end
 
     def next
