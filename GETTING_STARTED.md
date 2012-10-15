@@ -662,7 +662,7 @@ factory :post do
   association :user, :admin, name: 'John Doe'
 end
 
-# creates an admin user with named "John Doe"
+# creates an admin user with name "John Doe"
 FactoryGirl.create(:post).user
 ```
 
@@ -683,7 +683,7 @@ factory :post do
   association :author, factory: [:user, :admin], name: 'John Doe'
 end
 
-# creates an admin user with named "John Doe"
+# creates an admin user with name "John Doe"
 FactoryGirl.create(:post).user
 ```
 Callbacks
