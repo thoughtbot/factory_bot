@@ -23,8 +23,8 @@ module FactoryGirl
     def define_list_strategy_method
       strategy_name = @strategy_name
 
-      define_syntax_method("#{strategy_name}_list") do |name, amount, *traits_and_overrides|
-        amount.times.map { send(strategy_name, name, *traits_and_overrides) }
+      define_syntax_method("#{strategy_name}_list") do |name, amount, *traits_and_overrides, &block|
+        amount.times.map { send(strategy_name, name, *traits_and_overrides, &block) }
       end
     end
 

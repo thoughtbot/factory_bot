@@ -2,11 +2,12 @@ require 'spec_helper'
 
 describe "create multiple instances" do
   before do
-    define_model('Post', title: :string)
+    define_model('Post', title: :string, position: :integer)
 
     FactoryGirl.define do
       factory(:post) do |post|
         post.title "Through the Looking Glass"
+        post.position { rand(10**4) }
       end
     end
   end
@@ -35,6 +36,20 @@ describe "create multiple instances" do
     it "overrides the default values" do
       subject.each do |record|
         record.title.should == "The Hunting of the Snark"
+      end
+    end
+  end
+
+  context "with a block" do
+    subject do
+      FactoryGirl.create_list(:post, 20, title: "The Listing of the Block") do |post|
+        post.position = post.id
+      end
+    end
+
+    it "uses the new values" do
+      subject.each_with_index do |record, index|
+        record.position.should == record.id
       end
     end
   end
