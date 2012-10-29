@@ -684,7 +684,7 @@ factory :post do
 end
 
 # creates an admin user with name "John Doe"
-FactoryGirl.create(:post).user
+FactoryGirl.create(:post).author
 ```
 Callbacks
 ---------
