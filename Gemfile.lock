@@ -66,8 +66,6 @@ GEM
       simplecov-html (~> 0.5.3)
     simplecov-html (0.5.3)
     sqlite3 (1.3.6)
-    sqlite3-ruby (1.3.3)
-      sqlite3 (>= 1.3.3)
     term-ansicolor (1.0.7)
     timecop (0.3.5)
     tzinfo (0.3.33)
@@ -87,6 +85,6 @@ DEPENDENCIES
   mocha
   rspec (~> 2.0)
   simplecov
-  sqlite3-ruby
+  sqlite3
   timecop
   yard
