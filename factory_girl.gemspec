@@ -23,14 +23,14 @@ Gem::Specification.new do |s|
 
   s.add_dependency("activesupport", ">= 3.0.0")
 
-  s.add_development_dependency("rspec",    "~> 2.0")
-  s.add_development_dependency("cucumber", "~> 1.1")
+  s.add_development_dependency("rspec",    "~> 2.11.0")
+  s.add_development_dependency("cucumber", "~> 1.2.1")
   s.add_development_dependency("timecop")
   s.add_development_dependency("simplecov")
   s.add_development_dependency("aruba")
   s.add_development_dependency("mocha")
   s.add_development_dependency("bourne")
-  s.add_development_dependency("appraisal", "~> 0.4")
+  s.add_development_dependency("appraisal", "~> 0.5.0")
 
   if RUBY_PLATFORM == "java"
     s.add_development_dependency("activerecord-jdbcsqlite3-adapter")
