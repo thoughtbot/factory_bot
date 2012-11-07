@@ -21,7 +21,7 @@ module FactoryGirl
       end
 
       def stub_database_interaction_on_result(result_instance)
-        result_instance.id = next_id
+        result_instance.id ||= next_id
 
         result_instance.instance_eval do
           def persisted?

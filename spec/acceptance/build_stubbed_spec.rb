@@ -134,3 +134,17 @@ describe "defaulting `created_at`" do
     expect { build_stubbed(:thing_without_timestamp, :created_at => Time.now) }.to raise_error(NoMethodError, /created_at=/)
   end
 end
+
+describe 'defaulting `id`' do
+  before do
+    define_model('Post')
+
+    FactoryGirl.define do
+      factory :post
+    end
+  end
+
+  it 'allows overriding id' do
+    FactoryGirl.build_stubbed(:post, id: 12).id.should eq 12
+  end
+end
