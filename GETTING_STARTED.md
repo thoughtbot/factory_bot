@@ -1103,3 +1103,34 @@ config.after(:suite) do
   puts @factory_girl_results
 end
 ```
+
+Use FactoryGirl to generate seed data
+------------------------------------------
+
+Your `spec/factories/companies.rb` might include:
+```ruby
+FactoryGirl.define do
+  factory :company do
+    name "My company"
+    location "Washington, DC"
+  end
+end
+```
+To populate your `db/seeds/companies.rb`, enter the following:
+```ruby
+@company = FactoryGirl.create(:company)
+```
+
+Don't forget to add `require File.expand_path('../seeds/companies.rb', __FILE__)` to your `seeds.rb` file.
+
+Use association to create associated entries:
+
+```ruby
+FactoryGirl.define do
+  factory :employee do
+    association :company
+    first_name "John"
+    last_name "Doe"
+    department "accounting"
+  end
+```
