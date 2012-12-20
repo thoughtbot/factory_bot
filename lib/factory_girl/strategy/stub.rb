@@ -63,7 +63,8 @@ module FactoryGirl
         if created_at_missing_default || result_instance_missing_created_at
           result_instance.instance_eval do
             def created_at
-              @created_at ||= Time.now
+              Time.zone ||= ENV['TZ'] || 'UTC'
+              @created_at ||= Time.zone.now
             end
           end
         end
