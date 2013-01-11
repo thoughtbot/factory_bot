@@ -75,4 +75,21 @@ describe FactoryGirl::Sequence do
       expect { subject.next }.to raise_error(StopIteration)
     end
   end
+
+  describe "a custom sequence and scope" do
+    subject { FactoryGirl::Sequence.new(:name, 'A') {|n| "=#{n}#{foo}" } }
+    let(:scope) { stub('scope', foo: 'attribute') }
+
+    it 'increments within the correct scope' do
+      subject.next(scope).should == '=Aattribute'
+    end
+
+    describe 'when incrementing' do
+      before { subject.next(scope) }
+
+      it 'increments within the correct scope' do
+        subject.next(scope).should == '=Battribute'
+      end
+    end
+  end
 end
