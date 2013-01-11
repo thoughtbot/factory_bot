@@ -42,8 +42,16 @@ module FactoryGirl
       end
     end
 
+    def respond_to_missing?(method_name, include_private = false)
+      @instance.respond_to?(method_name) || SyntaxRunner.new.respond_to?(method_name)
+    end
+
     def __override_names__
       @overrides.keys
+    end
+
+    def increment_sequence(sequence)
+      sequence.next(self)
     end
 
     def self.attribute_list

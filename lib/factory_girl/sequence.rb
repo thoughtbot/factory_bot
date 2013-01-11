@@ -19,10 +19,16 @@ module FactoryGirl
       end
     end
 
-    def next
-      @proc ? @proc.call(@value.peek) : @value.peek
+    def next(scope = nil)
+      if @proc && scope
+        scope.instance_exec(value, &@proc)
+      elsif @proc
+        @proc.call(value)
+      else
+        value
+      end
     ensure
-      @value.next
+      increment_value
     end
 
     def names
@@ -30,6 +36,14 @@ module FactoryGirl
     end
 
     private
+
+    def value
+      @value.peek
+    end
+
+    def increment_value
+      @value.next
+    end
 
     class EnumeratorAdapter
       def initialize(value)
