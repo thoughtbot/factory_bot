@@ -27,28 +27,28 @@ describe "a generated stub instance" do
   subject { build_stubbed(:post, title: 'overridden title') }
 
   it "assigns a default attribute" do
-    subject.body.should == 'default body'
+    expect(subject.body).to eq 'default body'
   end
 
   it "assigns an overridden attribute" do
-    subject.title.should == 'overridden title'
+    expect(subject.title).to eq 'overridden title'
   end
 
   it "assigns associations" do
-    subject.user.should_not be_nil
+    expect(subject.user).not_to be_nil
   end
 
   it "has an id" do
-    subject.id.should > 0
+    expect(subject.id).to be > 0
   end
 
   it "generates unique ids" do
     other_stub = build_stubbed(:post)
-    subject.id.should_not == other_stub.id
+    expect(subject.id).not_to eq other_stub.id
   end
 
   it "isn't a new record" do
-    should_not be_new_record
+    expect(subject).not_to be_new_record
   end
 
   it "disables connection" do
@@ -89,17 +89,18 @@ describe "calling `build_stubbed` with a block" do
 
   it "passes the stub instance" do
     build_stubbed(:company, name: 'thoughtbot') do |company|
-      company.name.should eq('thoughtbot')
+      expect(company.name).to eq('thoughtbot')
       expect { company.save }.to raise_error(RuntimeError)
     end
   end
 
   it "returns the stub instance" do
     expected = nil
-    build_stubbed(:company) do |company|
+    result = build_stubbed(:company) do |company|
       expected = company
       "hello!"
-    end.should == expected
+    end
+    expect(result).to eq expected
   end
 end
 
@@ -119,7 +120,7 @@ describe "defaulting `created_at`" do
   end
 
   it "defaults created_at for objects with created_at" do
-    build_stubbed(:thing_with_timestamp).created_at.should == Time.now
+    expect(build_stubbed(:thing_with_timestamp).created_at).to eq Time.now
   end
 
   it "defaults created_at for objects with created_at to the correct time with zone" do
@@ -127,17 +128,17 @@ describe "defaulting `created_at`" do
     ENV['TZ'] = 'UTC'
     Time.zone = 'Eastern Time (US & Canada)'
 
-    build_stubbed(:thing_with_timestamp).created_at.zone.should == 'EST'
+    expect(build_stubbed(:thing_with_timestamp).created_at.zone).to eq 'EST'
 
     ENV['TZ'] = original_timezone
   end
 
   it "adds created_at to objects who don't have the method" do
-    build_stubbed(:thing_without_timestamp).should respond_to(:created_at)
+    expect(build_stubbed(:thing_without_timestamp)).to respond_to(:created_at)
   end
 
   it "allows overriding created_at for objects with created_at" do
-    build_stubbed(:thing_with_timestamp, created_at: 3.days.ago).created_at.should == 3.days.ago
+    expect(build_stubbed(:thing_with_timestamp, created_at: 3.days.ago).created_at).to eq 3.days.ago
   end
 
   it "doesn't allow setting created_at on an object that doesn't define it" do
@@ -155,6 +156,6 @@ describe 'defaulting `id`' do
   end
 
   it 'allows overriding id' do
-    FactoryGirl.build_stubbed(:post, id: 12).id.should eq 12
+    expect(FactoryGirl.build_stubbed(:post, id: 12).id).to eq 12
   end
 end

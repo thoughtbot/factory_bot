@@ -13,9 +13,9 @@ describe "sequences" do
     first_value = generate(:email)
     another_value = generate(:email)
 
-    first_value.should =~ /^somebody\d+@example\.com$/
-    another_value.should =~ /^somebody\d+@example\.com$/
-    first_value.should_not == another_value
+    expect(first_value).to match /^somebody\d+@example\.com$/
+    expect(another_value).to match /^somebody\d+@example\.com$/
+    expect(first_value).not_to eq another_value
   end
 
   it "generates sequential numbers if no block is given" do
@@ -26,9 +26,9 @@ describe "sequences" do
     first_value = generate(:order)
     another_value = generate(:order)
 
-    first_value.should == 1
-    another_value.should == 2
-    first_value.should_not == another_value
+    expect(first_value).to eq 1
+    expect(another_value).to eq 2
+    expect(first_value).not_to eq another_value
   end
 
   it "generates aliases for the sequence that reference the same block" do
@@ -40,9 +40,9 @@ describe "sequences" do
     second_value = generate(:count)
     third_value  = generate(:length)
 
-    first_value.should  == "called-1"
-    second_value.should == "called-2"
-    third_value.should  == "called-3"
+    expect(first_value).to eq "called-1"
+    expect(second_value).to eq "called-2"
+    expect(third_value).to eq "called-3"
   end
 
   it "generates aliases for the sequence that reference the same block and retains value" do
@@ -54,8 +54,8 @@ describe "sequences" do
     second_value = generate(:count)
     third_value  = generate(:length)
 
-    first_value.should  == "called-a"
-    second_value.should == "called-b"
-    third_value.should  == "called-c"
+    expect(first_value).to eq "called-a"
+    expect(second_value).to eq "called-b"
+    expect(third_value).to eq "called-c"
   end
 end

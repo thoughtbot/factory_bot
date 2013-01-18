@@ -35,7 +35,7 @@ describe "using ActiveSupport::Instrumentation to track factory interaction" do
       FactoryGirl.build(:slow_user)
     end
 
-    time_to_execute.should >= 0.1
+    expect(time_to_execute).to be >= 0.1
   end
 
   it "builds the correct payload" do
@@ -56,7 +56,7 @@ describe "using ActiveSupport::Instrumentation to track factory interaction" do
       FactoryGirl.attributes_for(:slow_user)
     end
 
-    tracked_invocations[:slow_user].should == { build: 2, attributes_for: 1 }
-    tracked_invocations[:user].should == { build: 5, create: 2 }
+    expect(tracked_invocations[:slow_user]).to eq(build: 2, attributes_for: 1)
+    expect(tracked_invocations[:user]).to eq(build: 5, create: 2)
   end
 end

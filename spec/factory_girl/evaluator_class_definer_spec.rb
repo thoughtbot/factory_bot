@@ -4,14 +4,14 @@ describe FactoryGirl::EvaluatorClassDefiner do
   it "returns an evaluator when accessing the evaluator class" do
     evaluator = define_evaluator(parent_class: FactoryGirl::Evaluator)
 
-    evaluator.should be_a(FactoryGirl::Evaluator)
+    expect(evaluator).to be_a(FactoryGirl::Evaluator)
   end
 
   it "adds each attribute to the evaluator" do
     attribute = stub_attribute(:attribute) { 1 }
     evaluator = define_evaluator(attributes: [attribute])
 
-    evaluator.attribute.should == 1
+    expect(evaluator.attribute).to eq 1
   end
 
   it "evaluates the block in the context of the evaluator" do
@@ -20,7 +20,7 @@ describe FactoryGirl::EvaluatorClassDefiner do
     attribute = stub_attribute(:attribute) { dependency + 1 }
     evaluator = define_evaluator(attributes: [dependency_attribute, attribute])
 
-    evaluator.attribute.should == 2
+    expect(evaluator.attribute).to eq 2
   end
 
   it "only instance_execs the block once even when returning nil" do
@@ -33,14 +33,14 @@ describe FactoryGirl::EvaluatorClassDefiner do
 
     2.times { evaluator.attribute }
 
-    count.should == 1
+    expect(count).to eq 1
   end
 
   it "sets attributes on the evaluator class" do
     attributes = [stub_attribute, stub_attribute]
     evaluator = define_evaluator(attributes: attributes)
 
-    evaluator.attribute_lists.should == [attributes]
+    expect(evaluator.attribute_lists).to eq [attributes]
   end
 
   context "with a custom evaluator as a parent class" do
@@ -53,8 +53,7 @@ describe FactoryGirl::EvaluatorClassDefiner do
         parent_class: parent_evaluator_class
       )
 
-      child_evaluator.attribute_lists.
-        should == [parent_attributes, child_attributes]
+      expect(child_evaluator.attribute_lists).to eq [parent_attributes, child_attributes]
     end
   end
 

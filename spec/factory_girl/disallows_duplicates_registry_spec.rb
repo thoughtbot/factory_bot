@@ -8,7 +8,7 @@ describe FactoryGirl::Decorator::DisallowsDuplicatesRegistry do
   it "delegates #register to the registry when not registered" do
     registry.stubs(registered?: false)
     subject.register(:awesome, {})
-    registry.should have_received(:register).with(:awesome, {})
+    expect(registry).to have_received(:register).with(:awesome, {})
   end
 
   it "raises when attempting to #register a previously registered strategy" do

@@ -26,16 +26,16 @@ describe "syntax methods within dynamic attributes" do
   end
 
   it "can access syntax methods from dynamic attributes" do
-    FactoryGirl.build(:user).email.should == "person-1@example.com"
-    FactoryGirl.attributes_for(:user)[:email].should == "person-2@example.com"
+    expect(FactoryGirl.build(:user).email).to eq "person-1@example.com"
+    expect(FactoryGirl.attributes_for(:user)[:email]).to eq "person-2@example.com"
   end
 
   it "can access syntax methods from dynamic attributes" do
-    FactoryGirl.build(:post).user.should be_instance_of(User)
+    expect(FactoryGirl.build(:post).user).to be_instance_of(User)
   end
 
   it "can access methods already existing on the class" do
-    FactoryGirl.build(:post).title.should == "generate result"
-    FactoryGirl.attributes_for(:post)[:title].should be_nil
+    expect(FactoryGirl.build(:post).title).to eq "generate result"
+    expect(FactoryGirl.attributes_for(:post)[:title]).to be_nil
   end
 end

@@ -171,7 +171,7 @@ without having to call them on FactoryGirl directly:
 describe User, "#full_name" do
   subject { create(:user, first_name: "John", last_name: "Doe") }
 
-  its(:full_name) { should == "John Doe" }
+  its(:full_name) { should eq "John Doe" }
 end
 ```
 

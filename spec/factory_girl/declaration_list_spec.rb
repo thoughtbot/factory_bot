@@ -8,7 +8,7 @@ describe FactoryGirl::DeclarationList, "#attributes" do
   let(:dynamic_declaration) { stub("static declaration", to_attributes: [dynamic_attribute_1]) }
 
   it "returns an AttributeList" do
-    subject.attributes.should be_a(FactoryGirl::AttributeList)
+    expect(subject.attributes).to be_a(FactoryGirl::AttributeList)
   end
 
   let(:attribute_list) { stub("attribute list", define_attribute: true) }
@@ -21,9 +21,9 @@ describe FactoryGirl::DeclarationList, "#attributes" do
 
     subject.attributes
 
-    attribute_list.should have_received(:define_attribute).with(static_attribute_1)
-    attribute_list.should have_received(:define_attribute).with(static_attribute_2)
-    attribute_list.should have_received(:define_attribute).with(dynamic_attribute_1)
+    expect(attribute_list).to have_received(:define_attribute).with(static_attribute_1)
+    expect(attribute_list).to have_received(:define_attribute).with(static_attribute_2)
+    expect(attribute_list).to have_received(:define_attribute).with(dynamic_attribute_1)
   end
 end
 
@@ -35,10 +35,10 @@ describe FactoryGirl::DeclarationList, "#declare_attribute" do
   context "when not overridable" do
     it "adds the declaration to the list" do
       subject.declare_attribute(declaration_1)
-      subject.to_a.should == [declaration_1]
+      expect(subject.to_a).to eq [declaration_1]
 
       subject.declare_attribute(declaration_2)
-      subject.to_a.should == [declaration_1, declaration_2]
+      expect(subject.to_a).to eq [declaration_1, declaration_2]
     end
   end
 
@@ -47,21 +47,21 @@ describe FactoryGirl::DeclarationList, "#declare_attribute" do
 
     it "adds the declaration to the list" do
       subject.declare_attribute(declaration_1)
-      subject.to_a.should == [declaration_1]
+      expect(subject.to_a).to eq [declaration_1]
 
       subject.declare_attribute(declaration_2)
-      subject.to_a.should == [declaration_1, declaration_2]
+      expect(subject.to_a).to eq [declaration_1, declaration_2]
     end
 
     it "deletes declarations with the same name" do
       subject.declare_attribute(declaration_1)
-      subject.to_a.should == [declaration_1]
+      expect(subject.to_a).to eq [declaration_1]
 
       subject.declare_attribute(declaration_2)
-      subject.to_a.should == [declaration_1, declaration_2]
+      expect(subject.to_a).to eq [declaration_1, declaration_2]
 
       subject.declare_attribute(declaration_with_same_name)
-      subject.to_a.should == [declaration_2, declaration_with_same_name]
+      expect(subject.to_a).to eq [declaration_2, declaration_with_same_name]
     end
   end
 end

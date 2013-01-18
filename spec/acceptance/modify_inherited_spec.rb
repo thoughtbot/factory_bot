@@ -29,13 +29,13 @@ describe "modifying inherited factories with traits" do
   end
 
   it "returns the correct value for overridden attributes from traits" do
-    FactoryGirl.build(:male_user).gender.should == "Male"
+    expect(FactoryGirl.build(:male_user).gender).to eq "Male"
   end
 
   it "returns the correct value for overridden attributes from traits defining multiple attributes" do
-    FactoryGirl.build(:female_user).gender.should == "Female"
-    FactoryGirl.build(:female_user).age.should == 25
-    FactoryGirl.build(:female_user).admin.should == true
+    expect(FactoryGirl.build(:female_user).gender).to eq "Female"
+    expect(FactoryGirl.build(:female_user).age).to eq 25
+    expect(FactoryGirl.build(:female_user).admin).to eq true
   end
 
   it "allows modification of attributes created via traits" do
@@ -45,8 +45,8 @@ describe "modifying inherited factories with traits" do
       end
     end
 
-    FactoryGirl.build(:male_user).gender.should == "Male"
-    FactoryGirl.build(:male_user).age.should == 20
-    FactoryGirl.build(:male_user).admin.should == true
+    expect(FactoryGirl.build(:male_user).gender).to eq "Male"
+    expect(FactoryGirl.build(:male_user).age).to eq 20
+    expect(FactoryGirl.build(:male_user).admin).to eq true
   end
 end

@@ -26,8 +26,8 @@ describe "a stubbed instance" do
   end
 
   it "assigns associations and acts as if it is saved" do
-    subject.user.should be_kind_of(User)
-    subject.user.should_not be_new_record
+    expect(subject.user).to be_kind_of(User)
+    expect(subject.user).not_to be_new_record
   end
 end
 
@@ -56,7 +56,7 @@ describe "a stubbed instance overriding strategy" do
   end
 
   it "assigns associations and acts as if it is saved" do
-    subject.user.should be_kind_of(User)
-    subject.user.should_not be_new_record
+    expect(subject.user).to be_kind_of(User)
+    expect(subject.user).not_to be_new_record
   end
 end

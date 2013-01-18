@@ -46,7 +46,7 @@ describe "attribute overrides" do
 
   context "with an admin posting" do
     subject      { FactoryGirl.create(:post, admin_post_attributes) }
-    its(:secure) { should == false }
+    its(:secure) { should eq false }
   end
 
   context "with a non-admin posting" do

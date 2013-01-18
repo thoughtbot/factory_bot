@@ -8,9 +8,9 @@ describe FactoryGirl::Attribute::Sequence do
   subject { FactoryGirl::Attribute::Sequence.new(name, sequence_name, false) }
   before  { FactoryGirl.register_sequence(sequence) }
 
-  its(:name) { should == name }
+  its(:name) { should eq name }
 
   it "assigns the next value in the sequence" do
-    subject.to_proc.call.should == "Name 5"
+    expect(subject.to_proc.call).to eq "Name 5"
   end
 end

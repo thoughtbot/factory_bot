@@ -29,7 +29,7 @@ describe "attribute aliases" do
     subject { FactoryGirl.build(:post, user_id: 1) }
 
     it "doesn't assign both an association and its foreign key" do
-      subject.user_id.should == 1
+      expect(subject.user_id).to eq 1
     end
   end
 
@@ -37,8 +37,8 @@ describe "attribute aliases" do
     subject { FactoryGirl.create(:post_with_named_user).user }
 
     it "assigns attributes correctly" do
-      subject.name.should == "John Doe"
-      subject.age.should == 20
+      expect(subject.name).to eq "John Doe"
+      expect(subject.age).to eq 20
     end
   end
 end

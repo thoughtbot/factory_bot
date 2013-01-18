@@ -11,9 +11,10 @@ module FactoryGirl
     end
 
     def initialize(build_strategy, overrides = {})
-      @build_strategy    = build_strategy
-      @overrides         = overrides
+      @build_strategy = build_strategy
+      @overrides = overrides
       @cached_attributes = overrides
+      @instance = nil
 
       @overrides.each do |name, value|
         singleton_class.define_attribute(name) { value }

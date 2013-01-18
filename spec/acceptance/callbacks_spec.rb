@@ -20,29 +20,29 @@ describe "callbacks" do
 
   it "runs the after(:stub) callback when stubbing" do
     user = FactoryGirl.build_stubbed(:user_with_callbacks)
-    user.first_name.should == 'Stubby'
+    expect(user.first_name).to eq 'Stubby'
   end
 
   it "runs the after(:build) callback when building" do
     user = FactoryGirl.build(:user_with_callbacks)
-    user.first_name.should == 'Buildy'
+    expect(user.first_name).to eq 'Buildy'
   end
 
   it "runs both the after(:build) and after(:create) callbacks when creating" do
     user = FactoryGirl.create(:user_with_callbacks)
-    user.first_name.should == 'Buildy'
-    user.last_name.should == 'Createy'
+    expect(user.first_name).to eq 'Buildy'
+    expect(user.last_name).to eq 'Createy'
   end
 
   it "runs both the after(:stub) callback on the factory and the inherited after(:stub) callback" do
     user = FactoryGirl.build_stubbed(:user_with_inherited_callbacks)
-    user.first_name.should == 'Stubby'
-    user.last_name.should == 'Double-Stubby'
+    expect(user.first_name).to eq 'Stubby'
+    expect(user.last_name).to eq 'Double-Stubby'
   end
 
   it "runs child callback after parent callback" do
     user = FactoryGirl.build(:user_with_inherited_callbacks)
-    user.first_name.should == 'Child-Buildy'
+    expect(user.first_name).to eq 'Child-Buildy'
   end
 end
 
@@ -65,15 +65,15 @@ describe "callbacks using syntax methods without referencing FactoryGirl explici
 
   it "works when the callback has no variables" do
     FactoryGirl.build_stubbed(:user)
-    FactoryGirl.generate(:sequence_3).should == 2
+    expect(FactoryGirl.generate(:sequence_3)).to eq 2
   end
 
   it "works when the callback has one variable" do
-    FactoryGirl.build(:user).first_name.should == 1
+    expect(FactoryGirl.build(:user).first_name).to eq 1
   end
 
   it "works when the callback has two variables" do
-    FactoryGirl.create(:user).last_name.should == 1
+    expect(FactoryGirl.create(:user).last_name).to eq 1
   end
 end
 
@@ -135,18 +135,18 @@ describe "custom callbacks" do
   end
 
   it "runs a custom before callback when the proper strategy executes" do
-    FactoryGirl.build(:user).name.should == "John Doe"
-    FactoryGirl.custom_before(:user).name.should == "Overridden First Doe"
+    expect(FactoryGirl.build(:user).name).to eq "John Doe"
+    expect(FactoryGirl.custom_before(:user).name).to eq "Overridden First Doe"
   end
 
   it "runs a custom after callback when the proper strategy executes" do
-    FactoryGirl.build(:user).name.should == "John Doe"
-    FactoryGirl.custom_after(:user).name.should == "John Overridden Last"
+    expect(FactoryGirl.build(:user).name).to eq "John Doe"
+    expect(FactoryGirl.custom_after(:user).name).to eq "John Overridden Last"
   end
 
   it "runs a custom callback without prepending before or after when the proper strategy executes" do
-    FactoryGirl.build(:user).name.should == "John Doe"
-    FactoryGirl.totally_custom(:user).name.should == "Totally Custom"
+    expect(FactoryGirl.build(:user).name).to eq "John Doe"
+    expect(FactoryGirl.totally_custom(:user).name).to eq "Totally Custom"
   end
 end
 
@@ -164,14 +164,14 @@ describe 'binding a callback to multiple callbacks' do
   end
 
   it 'binds the callback to creation' do
-    FactoryGirl.create(:user, name: 'John Doe').name.should == 'JOHN DOE'
+    expect(FactoryGirl.create(:user, name: 'John Doe').name).to eq 'JOHN DOE'
   end
 
   it 'does not bind the callback to building' do
-    FactoryGirl.build(:user, name: 'John Doe').name.should == 'John Doe'
+    expect(FactoryGirl.build(:user, name: 'John Doe').name).to eq 'John Doe'
   end
 
   it 'binds the callback to stubbing' do
-    FactoryGirl.build_stubbed(:user, name: 'John Doe').name.should == 'JOHN DOE'
+    expect(FactoryGirl.build_stubbed(:user, name: 'John Doe').name).to eq 'JOHN DOE'
   end
 end

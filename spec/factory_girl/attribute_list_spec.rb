@@ -6,15 +6,15 @@ describe FactoryGirl::AttributeList, "#define_attribute" do
 
   it "maintains a list of attributes" do
     subject.define_attribute(static_attribute)
-    subject.to_a.should == [static_attribute]
+    expect(subject.to_a).to eq [static_attribute]
 
     subject.define_attribute(dynamic_attribute)
-    subject.to_a.should == [static_attribute, dynamic_attribute]
+    expect(subject.to_a).to eq [static_attribute, dynamic_attribute]
   end
 
   it "returns the attribute" do
-    subject.define_attribute(static_attribute).should == static_attribute
-    subject.define_attribute(dynamic_attribute).should == dynamic_attribute
+    expect(subject.define_attribute(static_attribute)).to eq static_attribute
+    expect(subject.define_attribute(dynamic_attribute)).to eq dynamic_attribute
   end
 
   it "raises if an attribute has already been defined" do
@@ -55,7 +55,7 @@ describe FactoryGirl::AttributeList, "#apply_attributes" do
     subject.define_attribute(full_name_attribute)
     subject.define_attribute(login_attribute)
     subject.apply_attributes(list(city_attribute, email_attribute))
-    subject.to_a.should == [full_name_attribute, login_attribute, city_attribute, email_attribute]
+    expect(subject.to_a).to eq [full_name_attribute, login_attribute, city_attribute, email_attribute]
   end
 end
 
@@ -73,7 +73,7 @@ describe FactoryGirl::AttributeList, "#associations" do
   end
 
   it "returns associations" do
-    subject.associations.to_a.should == [author_attribute, profile_attribute]
+    expect(subject.associations.to_a).to eq [author_attribute, profile_attribute]
   end
 end
 
@@ -95,11 +95,11 @@ describe FactoryGirl::AttributeList, "filter based on ignored attributes" do
   end
 
   it "filters #ignored attributes" do
-    subject.ignored.map(&:name).should == [:comments_count, :posts_count]
+    expect(subject.ignored.map(&:name)).to eq [:comments_count, :posts_count]
   end
 
   it "filters #non_ignored attributes" do
-    subject.non_ignored.map(&:name).should == [:email, :first_name, :last_name]
+    expect(subject.non_ignored.map(&:name)).to eq [:email, :first_name, :last_name]
   end
 end
 
@@ -126,18 +126,18 @@ describe FactoryGirl::AttributeList, "generating names" do
   end
 
   it "knows all its #names" do
-    subject.names.should == [:comments_count, :posts_count, :email, :first_name, :last_name, :avatar]
+    expect(subject.names).to eq [:comments_count, :posts_count, :email, :first_name, :last_name, :avatar]
   end
 
   it "knows all its #names for #ignored attributes" do
-    subject.ignored.names.should == [:comments_count, :posts_count]
+    expect(subject.ignored.names).to eq [:comments_count, :posts_count]
   end
 
   it "knows all its #names for #non_ignored attributes" do
-    subject.non_ignored.names.should == [:email, :first_name, :last_name, :avatar]
+    expect(subject.non_ignored.names).to eq [:email, :first_name, :last_name, :avatar]
   end
 
   it "knows all its #names for #associations" do
-    subject.associations.names.should == [:avatar]
+    expect(subject.associations.names).to eq [:avatar]
   end
 end

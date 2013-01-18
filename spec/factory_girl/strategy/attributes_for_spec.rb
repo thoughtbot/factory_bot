@@ -7,7 +7,7 @@ describe FactoryGirl::Strategy::AttributesFor do
   it_should_behave_like "strategy without association support"
 
   it "returns the hash from the evaluation" do
-    subject.result(evaluation).should == result
+    expect(subject.result(evaluation)).to eq result
   end
 
   it "does not run the to_create block" do

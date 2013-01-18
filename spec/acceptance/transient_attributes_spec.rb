@@ -40,23 +40,23 @@ describe "transient attributes" do
     let(:groupie)            { FactoryGirl.create(:user, rockstar: false) }
 
     it "generates the correct attributes on a rockstar" do
-      rockstar.name.should  == "John 1 - Rockstar"
-      rockstar.email.should == "john 1 - rockstar1234@example.com"
+      expect(rockstar.name).to eq "John 1 - Rockstar"
+      expect(rockstar.email).to eq "john 1 - rockstar1234@example.com"
     end
 
     it "generates the correct attributes on an upcased rockstar" do
-      upcased_rockstar.name.should  == "JOHN 1 - ROCKSTAR"
-      upcased_rockstar.email.should == "john 1 - rockstar4@example.com"
+      expect(upcased_rockstar.name).to eq "JOHN 1 - ROCKSTAR"
+      expect(upcased_rockstar.email).to eq "john 1 - rockstar4@example.com"
     end
 
     it "generates the correct attributes on a groupie" do
-      groupie.name.should  == "John 1"
-      groupie.email.should == "john 14@example.com"
+      expect(groupie.name).to eq "John 1"
+      expect(groupie.email).to eq "john 14@example.com"
     end
 
     it "generates the correct attributes on a rockstar with a name" do
-      rockstar_with_name.name.should  == "Jane Doe"
-      rockstar_with_name.email.should == "jane doe4@example.com"
+      expect(rockstar_with_name.name).to eq "Jane Doe"
+      expect(rockstar_with_name.email).to eq "jane doe4@example.com"
     end
   end
 
@@ -64,7 +64,7 @@ describe "transient attributes" do
     let(:rockstar) { FactoryGirl.create(:user) }
 
     it "uses the default value of the attribute" do
-      rockstar.name.should == "John 1 - Rockstar"
+      expect(rockstar.name).to eq "John 1 - Rockstar"
     end
   end
 end
@@ -85,8 +85,8 @@ describe "transient sequences" do
   end
 
   it "increments sequences correctly" do
-    FactoryGirl.build(:user).name.should == "John Doe 1"
-    FactoryGirl.build(:user).name.should == "John Doe 2"
+    expect(FactoryGirl.build(:user).name).to eq "John Doe 1"
+    expect(FactoryGirl.build(:user).name).to eq "John Doe 2"
   end
 end
 
@@ -118,7 +118,7 @@ describe "assigning values from a transient attribute" do
 
   it "does not ignore an _id attribute that is an alias for a transient attribute" do
     user = FactoryGirl.build(:user, :foo => Foo.new('passed-in-id-of-foo', 'passed-in-name-of-foo'))
-    user.foo_id.should == 'passed-in-id-of-foo'
-    user.foo_name.should == 'passed-in-name-of-foo'
+    expect(user.foo_id).to eq 'passed-in-id-of-foo'
+    expect(user.foo_name).to eq 'passed-in-name-of-foo'
   end
 end

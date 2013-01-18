@@ -44,23 +44,23 @@ describe 'global initialize_with' do
   end
 
   it 'handles base initialize_with' do
-    FactoryGirl.build(:user).name.should == 'initialize_with'
-    FactoryGirl.build(:post).name.should == 'initialize_with'
+    expect(FactoryGirl.build(:user).name).to eq 'initialize_with'
+    expect(FactoryGirl.build(:post).name).to eq 'initialize_with'
   end
 
   it 'handles child initialize_with' do
-    FactoryGirl.build(:child_user).name.should == 'initialize_with'
-    FactoryGirl.build(:child_post).name.should == 'initialize_with'
+    expect(FactoryGirl.build(:child_user).name).to eq 'initialize_with'
+    expect(FactoryGirl.build(:child_post).name).to eq 'initialize_with'
   end
 
   it 'handles child initialize_with with trait' do
-    FactoryGirl.build(:child_user_with_trait).name.should == 'trait initialize_with'
-    FactoryGirl.build(:child_post_with_trait).name.should == 'trait initialize_with'
+    expect(FactoryGirl.build(:child_user_with_trait).name).to eq 'trait initialize_with'
+    expect(FactoryGirl.build(:child_post_with_trait).name).to eq 'trait initialize_with'
   end
 
   it 'handles inline trait override' do
-    FactoryGirl.build(:child_user, :with_initialize_with).name.should == 'trait initialize_with'
-    FactoryGirl.build(:child_post, :with_initialize_with).name.should == 'trait initialize_with'
+    expect(FactoryGirl.build(:child_user, :with_initialize_with).name).to eq 'trait initialize_with'
+    expect(FactoryGirl.build(:child_post, :with_initialize_with).name).to eq 'trait initialize_with'
   end
 
   it 'uses initialize_with globally across FactoryGirl.define' do
@@ -76,7 +76,7 @@ describe 'global initialize_with' do
       factory :company
     end
 
-    FactoryGirl.build(:company).name.should == 'initialize_with'
-    FactoryGirl.build(:company, :with_initialize_with).name.should == 'trait initialize_with'
+    expect(FactoryGirl.build(:company).name).to eq 'initialize_with'
+    expect(FactoryGirl.build(:company, :with_initialize_with).name).to eq 'trait initialize_with'
   end
 end

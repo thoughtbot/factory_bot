@@ -16,7 +16,7 @@ describe 'finding factories keyed by class instead of symbol' do
 
   it 'allows interaction based on class name' do
     user = FactoryGirl.create User, email: 'person@example.com'
-    user.email.should == 'person@example.com'
-    user.name.should == 'John Doe'
+    expect(user.email).to eq 'person@example.com'
+    expect(user.name).to eq 'John Doe'
   end
 end

@@ -6,14 +6,14 @@ describe FactoryGirl::Attribute::Static do
 
   subject { FactoryGirl::Attribute::Static.new(name, value, false) }
 
-  its(:name) { should == name }
+  its(:name) { should eq name }
 
   it "returns the value when executing the proc" do
-    subject.to_proc.call.should == value
+    expect(subject.to_proc.call).to eq value
   end
 end
 
 describe FactoryGirl::Attribute::Static, "with a string name" do
   subject    { FactoryGirl::Attribute::Static.new("name", nil, false) }
-  its(:name) { should == :name }
+  its(:name) { should eq :name }
 end

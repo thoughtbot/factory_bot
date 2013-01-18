@@ -34,20 +34,20 @@ describe "a generated attributes hash" do
   subject { attributes_for(:post, title: 'overridden title') }
 
   it "assigns an overridden value" do
-    subject[:title].should == "overridden title"
+    expect(subject[:title]).to eq "overridden title"
   end
 
   it "assigns a default value" do
-    subject[:body].should == "default body"
+    expect(subject[:body]).to eq "default body"
   end
 
   it "assigns a lazy, dependent attribute" do
-    subject[:summary].should == "overridden title"
+    expect(subject[:summary]).to eq "overridden title"
   end
 
   it "doesn't assign associations" do
-    subject.should_not have_key(:user_id)
-    subject.should_not have_key(:user)
+    expect(subject).not_to have_key(:user_id)
+    expect(subject).not_to have_key(:user)
   end
 end
 
@@ -64,16 +64,18 @@ describe "calling `attributes_for` with a block" do
 
   it "passes the hash of attributes" do
     attributes_for(:company, name: 'thoughtbot') do |attributes|
-      attributes[:name].should eq('thoughtbot')
+      expect(attributes[:name]).to eq('thoughtbot')
     end
   end
 
   it "returns the hash of attributes" do
     expected = nil
-    attributes_for(:company) do |attributes|
+
+    result = attributes_for(:company) do |attributes|
       expected = attributes
       "hello!"
-    end.should == expected
+    end
+    expect(result).to eq expected
   end
 end
 
@@ -91,5 +93,5 @@ describe "`attributes_for` for a class whose constructor has required params" do
   end
 
   subject      { FactoryGirl.attributes_for(:user) }
-  its([:name]) { should == "John Doe" }
+  its([:name]) { should eq "John Doe" }
 end

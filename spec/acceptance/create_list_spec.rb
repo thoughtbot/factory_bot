@@ -15,17 +15,17 @@ describe "create multiple instances" do
   context "without default attributes" do
     subject { FactoryGirl.create_list(:post, 20) }
 
-    its(:length) { should == 20 }
+    its(:length) { should eq 20 }
 
     it "creates all the posts" do
       subject.each do |record|
-        record.should_not be_new_record
+        expect(record).not_to be_new_record
       end
     end
 
     it "uses the default factory values" do
       subject.each do |record|
-        record.title.should == "Through the Looking Glass"
+        expect(record.title).to eq "Through the Looking Glass"
       end
     end
   end
@@ -35,7 +35,7 @@ describe "create multiple instances" do
 
     it "overrides the default values" do
       subject.each do |record|
-        record.title.should == "The Hunting of the Snark"
+        expect(record.title).to eq "The Hunting of the Snark"
       end
     end
   end
@@ -49,7 +49,7 @@ describe "create multiple instances" do
 
     it "uses the new values" do
       subject.each_with_index do |record, index|
-        record.position.should == record.id
+        expect(record.position).to eq record.id
       end
     end
   end
@@ -88,10 +88,10 @@ describe "multiple creates and ignored attributes to dynamically build attribute
   end
 
   it "generates the correct number of posts" do
-    FactoryGirl.create(:user_with_posts).posts.length.should == 5
+    expect(FactoryGirl.create(:user_with_posts).posts.length).to eq 5
   end
 
   it "allows the number of posts to be modified" do
-    FactoryGirl.create(:user_with_posts, posts_count: 2).posts.length.should == 2
+    expect(FactoryGirl.create(:user_with_posts, posts_count: 2).posts.length).to eq 2
   end
 end

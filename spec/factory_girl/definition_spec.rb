@@ -11,7 +11,7 @@ describe FactoryGirl::Definition, "with a name" do
   it "creates a new attribute list with the name passed" do
     FactoryGirl::DeclarationList.stubs(:new)
     subject
-    FactoryGirl::DeclarationList.should have_received(:new).with(name)
+    expect(FactoryGirl::DeclarationList).to have_received(:new).with(name)
   end
 end
 
@@ -20,8 +20,8 @@ describe FactoryGirl::Definition, "#overridable" do
   before { FactoryGirl::DeclarationList.stubs(new: list) }
 
   it "sets the declaration list as overridable" do
-    subject.overridable.should == subject
-    list.should have_received(:overridable).once
+    expect(subject.overridable).to eq subject
+    expect(list).to have_received(:overridable).once
   end
 end
 
@@ -32,7 +32,7 @@ describe FactoryGirl::Definition, "defining traits" do
   it "maintains a list of traits" do
     subject.define_trait(trait_1)
     subject.define_trait(trait_2)
-    subject.defined_traits.should == [trait_1, trait_2]
+    expect(subject.defined_traits).to eq [trait_1, trait_2]
   end
 end
 
@@ -43,7 +43,7 @@ describe FactoryGirl::Definition, "adding callbacks" do
   it "maintains a list of callbacks" do
     subject.add_callback(callback_1)
     subject.add_callback(callback_2)
-    subject.callbacks.should == [callback_1, callback_2]
+    expect(subject.callbacks).to eq [callback_1, callback_2]
   end
 end
 
@@ -53,6 +53,6 @@ describe FactoryGirl::Definition, "#to_create" do
   it "returns the assigned value when given a block" do
     block = proc { nil }
     subject.to_create(&block)
-    subject.to_create.should == block
+    expect(subject.to_create).to eq block
   end
 end

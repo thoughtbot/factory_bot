@@ -21,13 +21,11 @@ describe "a created instance" do
 
   subject { create('post') }
 
-  it "saves" do
-    should_not be_new_record
-  end
+  it { should_not be_new_record }
 
   it "assigns and saves associations" do
-    subject.user.should be_kind_of(User)
-    subject.user.should_not be_new_record
+    expect(subject.user).to be_kind_of(User)
+    expect(subject.user).not_to be_new_record
   end
 end
 
@@ -53,8 +51,8 @@ describe "a created instance, specifying strategy: :build" do
   subject { create(:post) }
 
   it "saves associations (strategy: :build only affects build, not create)" do
-    subject.user.should be_kind_of(User)
-    subject.user.should_not be_new_record
+    expect(subject.user).to be_kind_of(User)
+    expect(subject.user).not_to be_new_record
   end
 end
 
@@ -86,7 +84,7 @@ describe "a custom create" do
   end
 
   it "uses the custom create block instead of save" do
-    FactoryGirl.create(:user).should be_persisted
+    expect(FactoryGirl.create(:user)).to be_persisted
   end
 end
 
@@ -103,15 +101,16 @@ describe "calling `create` with a block" do
 
   it "passes the created instance" do
     create(:company, name: 'thoughtbot') do |company|
-      company.name.should eq('thoughtbot')
+      expect(company.name).to eq('thoughtbot')
     end
   end
 
   it "returns the created instance" do
     expected = nil
-    create(:company) do |company|
+    result = create(:company) do |company|
       expected = company
       "hello!"
-    end.should == expected
+    end
+    expect(result).to eq expected
   end
 end

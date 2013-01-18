@@ -16,6 +16,6 @@ describe "defining a child factory before a parent" do
   end
 
   it "creates admin factories correctly" do
-    FactoryGirl.create(:admin).should be_admin
+    expect(FactoryGirl.create(:admin)).to be_admin
   end
 end

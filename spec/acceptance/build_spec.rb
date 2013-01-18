@@ -21,13 +21,11 @@ describe "a built instance" do
 
   subject { build(:post) }
 
-  it "isn't saved" do
-    should be_new_record
-  end
+  it { should be_new_record }
 
   it "assigns and saves associations" do
-    subject.user.should be_kind_of(User)
-    subject.user.should_not be_new_record
+    expect(subject.user).to be_kind_of(User)
+    expect(subject.user).not_to be_new_record
   end
 end
 
@@ -52,13 +50,11 @@ describe "a built instance with strategy: :build" do
 
   subject { build(:post) }
 
-  it "isn't saved" do
-    should be_new_record
-  end
+  it { should be_new_record }
 
   it "assigns but does not save associations" do
-    subject.user.should be_kind_of(User)
-    subject.user.should be_new_record
+    expect(subject.user).to be_kind_of(User)
+    expect(subject.user).to be_new_record
   end
 end
 
@@ -75,15 +71,16 @@ describe "calling `build` with a block" do
 
   it "passes the built instance" do
     build(:company, name: 'thoughtbot') do |company|
-      company.name.should eq('thoughtbot')
+      expect(company.name).to eq('thoughtbot')
     end
   end
 
   it "returns the built instance" do
     expected = nil
-    build(:company) do |company|
+    result = build(:company) do |company|
       expected = company
       "hello!"
-    end.should == expected
+    end
+    expect(result).to eq expected
   end
 end
