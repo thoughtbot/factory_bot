@@ -78,7 +78,7 @@ describe FactoryGirl::DefinitionProxy, "#method_missing" do
 
   it "declares a dynamic attribute" do
     attribute_value = -> { "dynamic attribute" }
-    proxy.attribute_name &attribute_value
+    proxy.attribute_name(&attribute_value)
     subject.should have_dynamic_declaration(:attribute_name).with_value(attribute_value)
   end
 end

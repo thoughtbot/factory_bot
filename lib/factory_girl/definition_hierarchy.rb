@@ -13,8 +13,8 @@ module FactoryGirl
     end
 
     def self.build_from_definition(definition)
-      build_to_create &definition.to_create
-      build_constructor &definition.constructor
+      build_to_create(&definition.to_create)
+      build_constructor(&definition.constructor)
       add_callbacks definition.callbacks
     end
 

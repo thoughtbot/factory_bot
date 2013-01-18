@@ -13,8 +13,8 @@ module DefineConstantMacros
   def define_model(name, columns = {}, &block)
     model = define_class(name, ActiveRecord::Base, &block)
     create_table(model.table_name) do |table|
-      columns.each do |name, type|
-        table.column name, type
+      columns.each do |column_name, type|
+        table.column column_name, type
       end
     end
     model
