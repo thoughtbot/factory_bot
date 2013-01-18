@@ -15,16 +15,16 @@ describe FactoryGirl::Strategy::Stub do
 
     let(:evaluation)  { stub("evaluation", object: result_instance, notify: true) }
 
-    it { subject.result(evaluation).should_not be_new_record }
-    it { subject.result(evaluation).should be_persisted }
+    it { expect(subject.result(evaluation)).not_to be_new_record }
+    it { expect(subject.result(evaluation)).to be_persisted }
 
     it "assigns created_at" do
       created_at = subject.result(evaluation).created_at
-      created_at.should == Time.now
+      expect(created_at).to eq Time.now
 
       Timecop.travel(150000)
 
-      subject.result(evaluation).created_at.should == created_at
+      expect(subject.result(evaluation).created_at).to eq created_at
     end
 
     [:save, :destroy, :connection, :reload, :update_attribute].each do |database_method|

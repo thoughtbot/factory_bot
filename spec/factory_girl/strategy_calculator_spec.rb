@@ -9,7 +9,7 @@ describe FactoryGirl::StrategyCalculator do
     subject { FactoryGirl::StrategyCalculator.new(strategy).strategy }
 
     it "returns the class passed" do
-      subject.should == strategy
+      expect(subject).to eq strategy
     end
   end
 
@@ -19,11 +19,11 @@ describe FactoryGirl::StrategyCalculator do
 
     it "finds the strategy by name" do
       subject
-      FactoryGirl.should have_received(:strategy_by_name).with(:build)
+      expect(FactoryGirl).to have_received(:strategy_by_name).with(:build)
     end
 
     it "returns the strategy found" do
-      subject.should == strategy
+      expect(subject).to eq strategy
     end
   end
 end

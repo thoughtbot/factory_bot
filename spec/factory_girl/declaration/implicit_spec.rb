@@ -11,7 +11,7 @@ describe FactoryGirl::Declaration::Implicit do
     end
 
     it { should be_association }
-    its(:factory) { should == name }
+    its(:factory) { should eq name }
   end
 
   context "with a known sequence" do

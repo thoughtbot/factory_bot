@@ -30,24 +30,24 @@ describe "register custom strategies" do
   end
 
   it "allows overriding default strategies" do
-    FactoryGirl.build(:named_object).name.should == "Great"
+    expect(FactoryGirl.build(:named_object).name).to eq "Great"
     FactoryGirl.register_strategy(:build, custom_strategy)
-    FactoryGirl.build(:named_object).name.should == "Custom strategy"
+    expect(FactoryGirl.build(:named_object).name).to eq "Custom strategy"
   end
 
   it "allows adding additional strategies" do
     FactoryGirl.register_strategy(:insert, custom_strategy)
 
-    FactoryGirl.build(:named_object).name.should == "Great"
-    FactoryGirl.insert(:named_object).name.should == "Custom strategy"
+    expect(FactoryGirl.build(:named_object).name).to eq "Great"
+    expect(FactoryGirl.insert(:named_object).name).to eq "Custom strategy"
   end
 
   it "allows using the *_list method to build a list using a custom strategy" do
     FactoryGirl.register_strategy(:insert, custom_strategy)
 
     inserted_items = FactoryGirl.insert_list(:named_object, 2)
-    inserted_items.length.should == 2
-    inserted_items.map(&:name).should == ["Custom strategy", "Custom strategy"]
+    expect(inserted_items.length).to eq 2
+    expect(inserted_items.map(&:name)).to eq ["Custom strategy", "Custom strategy"]
   end
 end
 
@@ -67,7 +67,7 @@ describe "including FactoryGirl::Syntax::Methods when custom strategies have bee
   it "allows adding additional strategies" do
     FactoryGirl.register_strategy(:insert, custom_strategy)
 
-    insert(:named_object).name.should == "Custom strategy"
+    expect(insert(:named_object).name).to eq "Custom strategy"
   end
 end
 
@@ -95,7 +95,7 @@ describe "associations without overriding :strategy" do
   it "uses the overridden create strategy to create the association" do
     FactoryGirl.register_strategy(:create, custom_strategy)
     post = FactoryGirl.build(:post)
-    post.user.name.should == "Custom strategy"
+    expect(post.user.name).to eq "Custom strategy"
   end
 end
 
@@ -123,6 +123,6 @@ describe "associations overriding :strategy" do
   it "uses the overridden create strategy to create the association" do
     FactoryGirl.register_strategy(:insert, custom_strategy)
     post = FactoryGirl.build(:post)
-    post.user.name.should == "Custom strategy"
+    expect(post.user.name).to eq "Custom strategy"
   end
 end

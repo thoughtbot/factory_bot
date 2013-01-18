@@ -14,7 +14,7 @@ shared_examples_for "strategy without association support" do
   end
 
   it "returns nil when accessing an association" do
-    association_named(:user, {}).should be_nil
+    expect(association_named(:user, {})).to be_nil
   end
 end
 
@@ -34,12 +34,12 @@ shared_examples_for "strategy with association support" do |factory_girl_strateg
 
   it "runs the factory with the correct overrides" do
     association_named(:author, factory_girl_strategy_name, great: "value")
-    factory.should have_received(:run).with(factory_girl_strategy_name, great: "value")
+    expect(factory).to have_received(:run).with(factory_girl_strategy_name, great: "value")
   end
 
   it "finds the factory with the correct factory name" do
     association_named(:author, factory_girl_strategy_name, great: "value")
-    FactoryGirl.should have_received(:factory_by_name).with(:author)
+    expect(FactoryGirl).to have_received(:factory_by_name).with(:author)
   end
 end
 
@@ -59,12 +59,12 @@ shared_examples_for "strategy with strategy: :build" do |factory_girl_strategy_n
 
   it "runs the factory with the correct overrides" do
     association_named(:author, strategy: :build, great: "value")
-    factory.should have_received(:run).with(factory_girl_strategy_name, { great: "value" })
+    expect(factory).to have_received(:run).with(factory_girl_strategy_name, { great: "value" })
   end
 
   it "finds the factory with the correct factory name" do
     association_named(:author, strategy: :build, great: "value")
-    FactoryGirl.should have_received(:factory_by_name).with(:author)
+    expect(FactoryGirl).to have_received(:factory_by_name).with(:author)
   end
 end
 
@@ -80,11 +80,11 @@ shared_examples_for "strategy with callbacks" do |*callback_names|
   it "runs the callbacks #{callback_names} with the evaluation's object" do
     subject.result(evaluation)
     callback_names.each do |name|
-      evaluation.should have_received(:notify).with(name, evaluation.object)
+      expect(evaluation).to have_received(:notify).with(name, evaluation.object)
     end
   end
 
   it "returns the object from the evaluation" do
-    subject.result(evaluation).should == evaluation.object
+    expect(subject.result(evaluation)).to eq evaluation.object
   end
 end

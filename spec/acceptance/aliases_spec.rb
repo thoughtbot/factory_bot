@@ -14,6 +14,6 @@ describe "aliases and overrides" do
   end
 
   subject { FactoryGirl.create(:user, one: "override") }
-  its(:one) { should == "override" }
+  its(:one) { should eq "override" }
   its(:two) { should be_nil }
 end

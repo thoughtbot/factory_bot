@@ -10,19 +10,19 @@ describe FactoryGirl::Attribute::Association do
   before  { subject.stubs(association: association) }
 
   it         { should be_association }
-  its(:name) { should == name }
+  its(:name) { should eq name }
 
   it "builds the association when calling the proc" do
-    subject.to_proc.call.should == association
+    expect(subject.to_proc.call).to eq association
   end
 
   it "builds the association when calling the proc" do
     subject.to_proc.call
-    subject.should have_received(:association).with(factory, overrides)
+    expect(subject).to have_received(:association).with(factory, overrides)
   end
 end
 
 describe FactoryGirl::Attribute::Association, "with a string name" do
   subject    { FactoryGirl::Attribute::Association.new("name", :user, {}) }
-  its(:name) { should == :name }
+  its(:name) { should eq :name }
 end

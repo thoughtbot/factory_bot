@@ -2,29 +2,29 @@ require 'spec_helper'
 
 describe FactoryGirl::Callback do
   it "has a name" do
-    FactoryGirl::Callback.new(:after_create, -> {}).name.should == :after_create
+    expect(FactoryGirl::Callback.new(:after_create, -> {}).name).to eq :after_create
   end
 
   it "converts strings to symbols" do
-    FactoryGirl::Callback.new("after_create", -> {}).name.should == :after_create
+    expect(FactoryGirl::Callback.new("after_create", -> {}).name).to eq :after_create
   end
 
   it "runs its block with no parameters" do
     ran_with = nil
     FactoryGirl::Callback.new(:after_create, -> { ran_with = [] }).run(:one, :two)
-    ran_with.should == []
+    expect(ran_with).to eq []
   end
 
   it "runs its block with one parameter" do
     ran_with = nil
     FactoryGirl::Callback.new(:after_create, ->(one) { ran_with = [one] }).run(:one, :two)
-    ran_with.should == [:one]
+    expect(ran_with).to eq [:one]
   end
 
   it "runs its block with two parameters" do
     ran_with = nil
     FactoryGirl::Callback.new(:after_create, ->(one, two) { ran_with = [one, two] }).run(:one, :two)
-    ran_with.should == [:one, :two]
+    expect(ran_with).to eq [:one, :two]
   end
 
   it "allows valid callback names to be assigned" do

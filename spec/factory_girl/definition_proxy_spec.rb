@@ -12,13 +12,13 @@ describe FactoryGirl::DefinitionProxy, "#add_attribute" do
 
   it "declares a static attribute on the factory" do
     proxy.add_attribute(:attribute_name, "attribute value")
-    subject.should have_static_declaration(:attribute_name).with_value("attribute value")
+    expect(subject).to have_static_declaration(:attribute_name).with_value("attribute value")
   end
 
   it "declares a dynamic attribute on the factory" do
     attribute_value = -> { "dynamic attribute" }
     proxy.add_attribute(:attribute_name, &attribute_value)
-    subject.should have_dynamic_declaration(:attribute_name).with_value(attribute_value)
+    expect(subject).to have_dynamic_declaration(:attribute_name).with_value(attribute_value)
   end
 end
 
@@ -34,13 +34,13 @@ describe FactoryGirl::DefinitionProxy, "#add_attribute when the proxy ignores at
 
   it "declares a static attribute on the factory" do
     proxy.add_attribute(:attribute_name, "attribute value")
-    subject.should have_static_declaration(:attribute_name).ignored.with_value("attribute value")
+    expect(subject).to have_static_declaration(:attribute_name).ignored.with_value("attribute value")
   end
 
   it "declares a dynamic attribute on the factory" do
     attribute_value = -> { "dynamic attribute" }
     proxy.add_attribute(:attribute_name, &attribute_value)
-    subject.should have_dynamic_declaration(:attribute_name).ignored.with_value(attribute_value)
+    expect(subject).to have_dynamic_declaration(:attribute_name).ignored.with_value(attribute_value)
   end
 end
 
@@ -53,7 +53,7 @@ describe FactoryGirl::DefinitionProxy, "#ignore" do
       add_attribute(:attribute_name, "attribute value")
     end
 
-    subject.should have_static_declaration(:attribute_name).ignored.with_value("attribute value")
+    expect(subject).to have_static_declaration(:attribute_name).ignored.with_value("attribute value")
   end
 end
 
@@ -63,23 +63,23 @@ describe FactoryGirl::DefinitionProxy, "#method_missing" do
 
   it "declares an implicit declaration without args or a block" do
     proxy.bogus
-    subject.should have_implicit_declaration(:bogus).with_factory(subject)
+    expect(subject).to have_implicit_declaration(:bogus).with_factory(subject)
   end
 
   it "declares an association when :factory is passed" do
     proxy.author factory: :user
-    subject.should have_association_declaration(:author).with_options(factory: :user)
+    expect(subject).to have_association_declaration(:author).with_options(factory: :user)
   end
 
   it "declares a static attribute" do
     proxy.attribute_name "attribute value"
-    subject.should have_static_declaration(:attribute_name).with_value("attribute value")
+    expect(subject).to have_static_declaration(:attribute_name).with_value("attribute value")
   end
 
   it "declares a dynamic attribute" do
     attribute_value = -> { "dynamic attribute" }
     proxy.attribute_name(&attribute_value)
-    subject.should have_dynamic_declaration(:attribute_name).with_value(attribute_value)
+    expect(subject).to have_dynamic_declaration(:attribute_name).with_value(attribute_value)
   end
 end
 
@@ -91,18 +91,18 @@ describe FactoryGirl::DefinitionProxy, "#sequence" do
 
   it "creates a new sequence starting at 1" do
     proxy.sequence(:great)
-    FactoryGirl::Sequence.should have_received(:new).with(:great)
+    expect(FactoryGirl::Sequence).to have_received(:new).with(:great)
   end
 
   it "creates a new sequence with an overridden starting vaue" do
     proxy.sequence(:great, "C")
-    FactoryGirl::Sequence.should have_received(:new).with(:great, "C")
+    expect(FactoryGirl::Sequence).to have_received(:new).with(:great, "C")
   end
 
   it "creates a new sequence with a block" do
     sequence_block = Proc.new {|n| "user+#{n}@example.com" }
     proxy.sequence(:great, 1, &sequence_block)
-    FactoryGirl::Sequence.should have_received(:new).with(:great, 1, &sequence_block)
+    expect(FactoryGirl::Sequence).to have_received(:new).with(:great, 1, &sequence_block)
   end
 end
 
@@ -112,12 +112,12 @@ describe FactoryGirl::DefinitionProxy, "#association" do
 
   it "declares an association" do
     proxy.association(:association_name)
-    subject.should have_association_declaration(:association_name)
+    expect(subject).to have_association_declaration(:association_name)
   end
 
   it "declares an association with options" do
     proxy.association(:association_name, { name: "Awesome" })
-    subject.should have_association_declaration(:association_name).with_options(name: "Awesome")
+    expect(subject).to have_association_declaration(:association_name).with_options(name: "Awesome")
   end
 end
 
@@ -167,7 +167,7 @@ describe FactoryGirl::DefinitionProxy, "#to_create" do
   it "accepts a block to run in place of #save!" do
     to_create_block = ->(record) { record.persist }
     proxy.to_create(&to_create_block)
-    subject.to_create.should == to_create_block
+    expect(subject.to_create).to eq to_create_block
   end
 end
 
@@ -177,18 +177,18 @@ describe FactoryGirl::DefinitionProxy, "#factory" do
 
   it "without options" do
     proxy.factory(:child)
-    proxy.child_factories.should include([:child, {}, nil])
+    expect(proxy.child_factories).to include([:child, {}, nil])
   end
 
   it "with options" do
     proxy.factory(:child, { awesome: true })
-    proxy.child_factories.should include([:child, { awesome: true }, nil])
+    expect(proxy.child_factories).to include([:child, { awesome: true }, nil])
   end
 
   it "with a block" do
     child_block = -> { }
     proxy.factory(:child, {}, &child_block)
-    proxy.child_factories.should include([:child, {}, child_block])
+    expect(proxy.child_factories).to include([:child, {}, child_block])
   end
 end
 
@@ -199,7 +199,7 @@ describe FactoryGirl::DefinitionProxy, "#trait" do
   it "declares a trait" do
     male_trait = Proc.new { gender("Male") }
     proxy.trait(:male, &male_trait)
-    subject.should have_trait(:male).with_block(male_trait)
+    expect(subject).to have_trait(:male).with_block(male_trait)
   end
 end
 
@@ -210,6 +210,6 @@ describe FactoryGirl::DefinitionProxy, "#initialize_with" do
   it "defines the constructor on the definition" do
     constructor = Proc.new { Array.new }
     proxy.initialize_with(&constructor)
-    subject.constructor.should == constructor
+    expect(subject.constructor).to eq constructor
   end
 end

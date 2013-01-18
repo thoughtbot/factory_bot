@@ -14,6 +14,6 @@ describe "skipping the default create" do
   end
 
   it "doesn't execute anything when creating the instance" do
-    FactoryGirl.create(:user).should_not be_persisted
+    expect(FactoryGirl.create(:user)).not_to be_persisted
   end
 end

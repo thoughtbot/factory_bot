@@ -15,17 +15,17 @@ describe "build multiple instances" do
   context "without default attributes" do
     subject { FactoryGirl.build_list(:post, 20) }
 
-    its(:length) { should == 20 }
+    its(:length) { should eq 20 }
 
     it "builds (but doesn't save) all the posts" do
       subject.each do |record|
-        record.should be_new_record
+        expect(record).to be_new_record
       end
     end
 
     it "uses the default factory values" do
       subject.each do |record|
-        record.title.should == "Through the Looking Glass"
+        expect(record.title).to eq "Through the Looking Glass"
       end
     end
   end
@@ -35,7 +35,7 @@ describe "build multiple instances" do
 
     it "overrides the default values" do
       subject.each do |record|
-        record.title.should == "The Hunting of the Snark"
+        expect(record.title).to eq "The Hunting of the Snark"
       end
     end
   end
@@ -49,7 +49,7 @@ describe "build multiple instances" do
 
     it "correctly uses the set value" do
       subject.each_with_index do |record, index|
-        record.position.should == record.id
+        expect(record.position).to eq record.id
       end
     end
   end

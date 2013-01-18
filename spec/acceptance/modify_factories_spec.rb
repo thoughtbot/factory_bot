@@ -33,8 +33,8 @@ describe "modifying factories" do
     end
 
     subject     { create(:user) }
-    its(:name)  { should == "Great User" }
-    its(:login) { should == "GREAT USER" }
+    its(:name)  { should eq "Great User" }
+    its(:login) { should eq "GREAT USER" }
 
     it "doesn't allow the factory to be subsequently defined" do
       expect do
@@ -49,7 +49,7 @@ describe "modifying factories" do
         end
       end
 
-      create(:user).name.should == "Overridden again!"
+      expect(create(:user).name).to eq "Overridden again!"
     end
   end
 
@@ -68,7 +68,7 @@ describe "modifying factories" do
 
     subject { create(:user) }
 
-    its(:name)  { should == "great user" }
+    its(:name)  { should eq "great user" }
     its(:login) { should be_nil }
   end
 
@@ -90,9 +90,9 @@ describe "modifying factories" do
 
     subject     { create(:user) }
 
-    its(:name)  { should == "Johnny Rockstar!!!" }
-    its(:email) { should == "Johnny Rockstar!!!@example.com" }
-    its(:login) { should == "JOHNNY ROCKSTAR!!!" }
+    its(:name)  { should eq "Johnny Rockstar!!!" }
+    its(:email) { should eq "Johnny Rockstar!!!@example.com" }
+    its(:login) { should eq "JOHNNY ROCKSTAR!!!" }
   end
 
   context "redefining attributes" do
@@ -109,22 +109,22 @@ describe "modifying factories" do
       context "without overrides" do
         subject     { create(:user) }
 
-        its(:name)  { should == "Great User" }
-        its(:email) { should == "Great User-modified@example.com" }
+        its(:name)  { should eq "Great User" }
+        its(:email) { should eq "Great User-modified@example.com" }
       end
 
       context "overriding dynamic attributes" do
         subject     { create(:user, email: "perfect@example.com") }
 
-        its(:name)  { should == "Great User" }
-        its(:email) { should == "perfect@example.com" }
+        its(:name)  { should eq "Great User" }
+        its(:email) { should eq "perfect@example.com" }
       end
 
       context "overriding static attributes" do
         subject     { create(:user, name: "wonderful") }
 
-        its(:name)  { should == "wonderful" }
-        its(:email) { should == "wonderful-modified@example.com" }
+        its(:name)  { should eq "wonderful" }
+        its(:email) { should eq "wonderful-modified@example.com" }
       end
     end
 
@@ -132,24 +132,24 @@ describe "modifying factories" do
       context "without overrides" do
         subject     { create(:admin) }
 
-        its(:name)  { should == "Great User" }
-        its(:email) { should == "Great User-modified@example.com" }
+        its(:name)  { should eq "Great User" }
+        its(:email) { should eq "Great User-modified@example.com" }
         its(:admin) { should be_true }
       end
 
       context "overriding dynamic attributes" do
         subject     { create(:admin, email: "perfect@example.com") }
 
-        its(:name)  { should == "Great User" }
-        its(:email) { should == "perfect@example.com" }
+        its(:name)  { should eq "Great User" }
+        its(:email) { should eq "perfect@example.com" }
         its(:admin) { should be_true }
       end
 
       context "overriding static attributes" do
         subject     { create(:admin, name: "wonderful") }
 
-        its(:name)  { should == "wonderful" }
-        its(:email) { should == "wonderful-modified@example.com" }
+        its(:name)  { should eq "wonderful" }
+        its(:email) { should eq "wonderful-modified@example.com" }
         its(:admin) { should be_true }
       end
     end
@@ -161,7 +161,7 @@ describe "modifying factories" do
         admin false
       end
     end
-    create(:admin).should be_admin
+    expect(create(:admin)).to be_admin
   end
 
   it "allows for overriding child classes" do
@@ -171,7 +171,7 @@ describe "modifying factories" do
       end
     end
 
-    create(:admin).should_not be_admin
+    expect(create(:admin)).not_to be_admin
   end
 
   it "raises an exception if the factory was not defined before" do

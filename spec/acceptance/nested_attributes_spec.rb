@@ -23,10 +23,10 @@ describe "association assignment from nested attributes" do
   end
 
   it "assigns the correct amount of comments" do
-    FactoryGirl.create(:post).comments.count.should == 2
+    expect(FactoryGirl.create(:post).comments.count).to eq 2
   end
 
   it "assigns the correct amount of comments when overridden" do
-    FactoryGirl.create(:post, :comments_attributes => [FactoryGirl.attributes_for(:comment)]).comments.count.should == 1
+    expect(FactoryGirl.create(:post, :comments_attributes => [FactoryGirl.attributes_for(:comment)]).comments.count).to eq 1
   end
 end

@@ -15,9 +15,9 @@ describe "declaring attributes on a Factory that are private methods on Object" 
 
   subject { FactoryGirl.build(:website, sleep: -5) }
 
-  its(:system) { should == false }
-  its(:link)   { should == "http://example.com" }
-  its(:sleep)  { should == -5 }
+  its(:system) { should eq false }
+  its(:link)   { should eq "http://example.com" }
+  its(:sleep)  { should eq -5 }
 end
 
 describe "assigning overrides that are also private methods on object" do
@@ -42,10 +42,10 @@ describe "assigning overrides that are also private methods on object" do
   end
 
   subject { FactoryGirl.build(:website, format: "Great", y: 12345, some_funky_method: "foobar!") }
-  its(:format)            { should == "Great" }
-  its(:y)                 { should == 12345 }
-  its(:more_format)       { should == "format: Great" }
-  its(:some_funky_method) { should == "foobar!" }
+  its(:format)            { should eq "Great" }
+  its(:y)                 { should eq 12345 }
+  its(:more_format)       { should eq "format: Great" }
+  its(:some_funky_method) { should eq "foobar!" }
 end
 
 describe "accessing methods from the instance within a dynamic attribute that is also a private method on object" do
@@ -64,5 +64,5 @@ describe "accessing methods from the instance within a dynamic attribute that is
   end
 
   subject           { FactoryGirl.build(:website) }
-  its(:more_format) { should == "format: This is an awesome format" }
+  its(:more_format) { should eq "format: This is an awesome format" }
 end

@@ -9,11 +9,11 @@ describe FactoryGirl::Factory do
   end
 
   it "has a factory name" do
-    @factory.name.should == @name
+    expect(@factory.name).to eq @name
   end
 
   it "has a build class" do
-    @factory.build_class.should == @class
+    expect(@factory.build_class).to eq @class
   end
 
   it "passes a custom creation block" do
@@ -25,7 +25,7 @@ describe FactoryGirl::Factory do
 
     factory.run(FactoryGirl::Strategy::Build, {})
 
-    strategy.should have_received(:result).with(instance_of(FactoryGirl::Evaluation))
+    expect(strategy).to have_received(:result).with(instance_of(FactoryGirl::Evaluation))
   end
 
   it "returns associations" do
@@ -35,9 +35,9 @@ describe FactoryGirl::Factory do
     factory.declare_attribute(FactoryGirl::Declaration::Association.new(:editor, {}))
     factory.declare_attribute(FactoryGirl::Declaration::Implicit.new(:admin, factory))
     factory.associations.each do |association|
-      association.should be_association
+      expect(association).to be_association
     end
-    factory.associations.to_a.length.should == 3
+    expect(factory.associations.to_a.length).to eq 3
   end
 
   it "includes associations from the parent factory" do
@@ -51,7 +51,7 @@ describe FactoryGirl::Factory do
     child_factory = FactoryGirl::Factory.new(:child_post, parent: :post)
     child_factory.declare_attribute(association_on_child)
 
-    child_factory.associations.map(&:name).should == [:association_on_parent, :association_on_child]
+    expect(child_factory.associations.map(&:name)).to eq [:association_on_parent, :association_on_child]
   end
 
   describe "when overriding generated attributes with a hash" do
@@ -65,7 +65,7 @@ describe FactoryGirl::Factory do
       declaration = FactoryGirl::Declaration::Static.new(@name, 'The price is wrong, Bob!')
       @factory.declare_attribute(declaration)
       result = @factory.run(FactoryGirl::Strategy::AttributesFor, @hash)
-      result[@name].should == @value
+      expect(result[@name]).to eq @value
     end
 
     it "does not call a lazy attribute block for an overridden attribute" do
@@ -79,7 +79,7 @@ describe FactoryGirl::Factory do
       @factory.declare_attribute(declaration)
       @hash = { @name.to_s => @value }
       result = @factory.run(FactoryGirl::Strategy::AttributesFor, @hash)
-      result[@name].should == @value
+      expect(result[@name]).to eq @value
     end
   end
 
@@ -92,34 +92,34 @@ describe FactoryGirl::Factory do
     end
 
     it "uses the passed in value for the alias" do
-      @result[:test_alias].should == 'new'
+      expect(@result[:test_alias]).to eq 'new'
     end
 
     it "discards the predefined value for the attribute" do
-      @result[:test].should be_nil
+      expect(@result[:test]).to be_nil
     end
   end
 
   it "guesses the build class from the factory name" do
-    @factory.build_class.should == User
+    expect(@factory.build_class).to eq User
   end
 
   it "creates a new factory using the class of the parent" do
     child = FactoryGirl::Factory.new(:child, parent: @factory.name)
     child.compile
-    child.build_class.should == @factory.build_class
+    expect(child.build_class).to eq @factory.build_class
   end
 
   it "creates a new factory while overriding the parent class" do
     child = FactoryGirl::Factory.new(:child, class: String, parent: @factory.name)
     child.compile
-    child.build_class.should == String
+    expect(child.build_class).to eq String
   end
 end
 
 describe FactoryGirl::Factory, "when defined with a custom class" do
   subject           { FactoryGirl::Factory.new(:author, class: Float) }
-  its(:build_class) { should == Float }
+  its(:build_class) { should eq Float }
 end
 
 describe FactoryGirl::Factory, "when given a class that overrides #to_s" do
@@ -137,7 +137,7 @@ describe FactoryGirl::Factory, "when given a class that overrides #to_s" do
   subject { FactoryGirl::Factory.new(:overriding_class, class: Overriding::Class) }
 
   it "sets build_class correctly" do
-    subject.build_class.should == overriding_class
+    expect(subject.build_class).to eq overriding_class
   end
 end
 
@@ -147,13 +147,13 @@ describe FactoryGirl::Factory, "when defined with a class instead of a name" do
 
   subject { FactoryGirl::Factory.new(factory_class) }
 
-  its(:name)        { should == name }
-  its(:build_class) { should == factory_class }
+  its(:name)        { should eq name }
+  its(:build_class) { should eq factory_class }
 end
 
 describe FactoryGirl::Factory, "when defined with a custom class name" do
   subject           { FactoryGirl::Factory.new(:author, class: :argument_error) }
-  its(:build_class) { should == ArgumentError }
+  its(:build_class) { should eq ArgumentError }
 end
 
 describe FactoryGirl::Factory, "with a name ending in s" do
@@ -163,14 +163,14 @@ describe FactoryGirl::Factory, "with a name ending in s" do
   before  { define_class('Business') }
   subject { FactoryGirl::Factory.new(name) }
 
-  its(:name)        { should == name }
-  its(:build_class) { should == business_class }
+  its(:name)        { should eq name }
+  its(:build_class) { should eq business_class }
 end
 
 describe FactoryGirl::Factory, "with a string for a name" do
   let(:name) { :string }
   subject    { FactoryGirl::Factory.new(name.to_s) }
-  its(:name) { should == name }
+  its(:name) { should eq name }
 end
 
 describe FactoryGirl::Factory, "for namespaced class" do
@@ -186,7 +186,7 @@ describe FactoryGirl::Factory, "for namespaced class" do
     subject { FactoryGirl::Factory.new(name, class: "Admin::Settings") }
 
     it "sets build_class correctly" do
-      subject.build_class.should == settings_class
+      expect(subject.build_class).to eq settings_class
     end
   end
 
@@ -194,7 +194,7 @@ describe FactoryGirl::Factory, "for namespaced class" do
     subject { FactoryGirl::Factory.new(name, class: "admin/settings") }
 
     it "sets build_class correctly" do
-      subject.build_class.should == settings_class
+      expect(subject.build_class).to eq settings_class
     end
   end
 end
@@ -202,26 +202,26 @@ end
 describe FactoryGirl::Factory, "human names" do
   context "factory name without underscores" do
     subject           { FactoryGirl::Factory.new(:user) }
-    its(:names)       { should == [:user] }
-    its(:human_names) { should == ["user"] }
+    its(:names)       { should eq [:user] }
+    its(:human_names) { should eq ["user"] }
   end
 
   context "factory name with underscores" do
     subject           { FactoryGirl::Factory.new(:happy_user) }
-    its(:names)       { should == [:happy_user] }
-    its(:human_names) { should == ["happy user"] }
+    its(:names)       { should eq [:happy_user] }
+    its(:human_names) { should eq ["happy user"] }
   end
 
   context "factory name with big letters" do
     subject           { FactoryGirl::Factory.new(:LoL) }
-    its(:names)       { should == [:LoL] }
-    its(:human_names) { should == ["lol"] }
+    its(:names)       { should eq [:LoL] }
+    its(:human_names) { should eq ["lol"] }
   end
 
   context "factory name with aliases" do
     subject           { FactoryGirl::Factory.new(:happy_user, aliases: [:gleeful_user, :person]) }
-    its(:names)       { should == [:happy_user, :gleeful_user, :person] }
-    its(:human_names) { should == ["happy user", "gleeful user", "person"] }
+    its(:names)       { should eq [:happy_user, :gleeful_user, :person] }
+    its(:human_names) { should eq ["happy user", "gleeful user", "person"] }
   end
 end
 
@@ -243,17 +243,17 @@ describe FactoryGirl::Factory, "running a factory" do
 
   it "creates the right strategy using the build class when running" do
     subject.run(FactoryGirl::Strategy::Build, {})
-    FactoryGirl::Strategy::Build.should have_received(:new).once
+    expect(FactoryGirl::Strategy::Build).to have_received(:new).once
   end
 
   it "returns the result from the strategy when running" do
-    subject.run(FactoryGirl::Strategy::Build, {}).should == "result"
+    expect(subject.run(FactoryGirl::Strategy::Build, {})).to eq "result"
   end
 
   it "calls the block and returns the result" do
     block_run = nil
     block = ->(result) { block_run = "changed" }
     subject.run(FactoryGirl::Strategy::Build, { }, &block)
-    block_run.should == "changed"
+    expect(block_run).to eq "changed"
   end
 end

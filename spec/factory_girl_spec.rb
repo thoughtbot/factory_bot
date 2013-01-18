@@ -7,16 +7,16 @@ describe FactoryGirl do
 
   it "finds a registered factory" do
     FactoryGirl.register_factory(factory)
-    FactoryGirl.factory_by_name(factory.name).should == factory
+    expect(FactoryGirl.factory_by_name(factory.name)).to eq factory
   end
 
   it "finds a registered sequence" do
     FactoryGirl.register_sequence(sequence)
-    FactoryGirl.sequence_by_name(sequence.name).should == sequence
+    expect(FactoryGirl.sequence_by_name(sequence.name)).to eq sequence
   end
 
   it "finds a registered trait" do
     FactoryGirl.register_trait(trait)
-    FactoryGirl.trait_by_name(trait.name).should == trait
+    expect(FactoryGirl.trait_by_name(trait.name)).to eq trait
   end
 end

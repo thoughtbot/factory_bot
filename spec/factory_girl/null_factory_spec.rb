@@ -9,5 +9,5 @@ describe FactoryGirl::NullFactory do
   its(:compile)         { should be_nil }
   its(:class_name)      { should be_nil }
   its(:attributes)      { should be_an_instance_of(FactoryGirl::AttributeList) }
-  its(:evaluator_class) { should == FactoryGirl::Evaluator }
+  its(:evaluator_class) { should eq FactoryGirl::Evaluator }
 end

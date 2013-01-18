@@ -33,9 +33,9 @@ describe "a generated attributes hash where order matters" do
     subject { FactoryGirl.build(:child_model) }
 
     it "assigns attributes in the order they're defined with preference to static attributes" do
-      subject[:evaluates_first].should  == 1
-      subject[:evaluates_second].should == 1
-      subject[:evaluates_third].should  == 1
+      expect(subject[:evaluates_first]).to eq 1
+      expect(subject[:evaluates_second]).to eq 1
+      expect(subject[:evaluates_third]).to eq 1
     end
   end
 
@@ -43,9 +43,9 @@ describe "a generated attributes hash where order matters" do
     subject { FactoryGirl.build(:without_parent) }
 
     it "assigns attributes in the order they're defined with preference to static attributes without a parent class" do
-      subject[:evaluates_first].should  == 1
-      subject[:evaluates_second].should == 1
-      subject[:evaluates_third].should  == 1
+      expect(subject[:evaluates_first]).to eq 1
+      expect(subject[:evaluates_second]).to eq 1
+      expect(subject[:evaluates_third]).to eq 1
     end
   end
 end

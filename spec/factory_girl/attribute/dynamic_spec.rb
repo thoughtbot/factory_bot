@@ -6,13 +6,13 @@ describe FactoryGirl::Attribute::Dynamic do
 
   subject { FactoryGirl::Attribute::Dynamic.new(name, false, block) }
 
-  its(:name) { should == name }
+  its(:name) { should eq name }
 
   context "with a block returning a static value" do
     let(:block) { -> { "value" } }
 
     it "returns the value when executing the proc" do
-      subject.to_proc.call.should == "value"
+      expect(subject.to_proc.call).to eq "value"
     end
   end
 
@@ -20,7 +20,7 @@ describe FactoryGirl::Attribute::Dynamic do
     let(:block) { ->(thing) { thing } }
 
     it "returns self when executing the proc" do
-      subject.to_proc.call.should == subject
+      expect(subject.to_proc.call).to eq subject
     end
   end
 
@@ -33,7 +33,7 @@ describe FactoryGirl::Attribute::Dynamic do
     end
 
     it "evaluates the attribute from the attribute" do
-      subject.to_proc.call.should == result
+      expect(subject.to_proc.call).to eq result
     end
   end
 
@@ -48,5 +48,5 @@ end
 
 describe FactoryGirl::Attribute::Dynamic, "with a string name" do
   subject    { FactoryGirl::Attribute::Dynamic.new("name", false, -> { } ) }
-  its(:name) { should == :name }
+  its(:name) { should eq :name }
 end

@@ -8,15 +8,15 @@ describe FactoryGirl::NullObject do
 
   it "responds to the given methods" do
     methods_to_respond_to.each do |method_name|
-      subject.__send__(method_name).should be_nil
-      subject.respond_to?(method_name).should be_true
+      expect(subject.__send__(method_name)).to be_nil
+      expect(subject).to respond_to(method_name)
     end
   end
 
   it "does not respond to other methods" do
     methods_to_not_respond_to.each do |method_name|
       expect { subject.__send__(method_name) }.to raise_error(NoMethodError)
-      subject.respond_to?(method_name).should be_false
+      expect(subject).not_to respond_to(method_name)
     end
   end
 end

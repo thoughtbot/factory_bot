@@ -18,8 +18,8 @@ describe "initialize_with with non-FG attributes" do
   end
 
   subject    { build(:user) }
-  its(:name) { should == "John Doe" }
-  its(:age)  { should == 21 }
+  its(:name) { should eq "John Doe" }
+  its(:age)  { should eq 21 }
 end
 
 describe "initialize_with with FG attributes that are ignored" do
@@ -44,7 +44,7 @@ describe "initialize_with with FG attributes that are ignored" do
   end
 
   subject    { build(:user) }
-  its(:name) { should == "Handsome Chap from .construct" }
+  its(:name) { should eq "Handsome Chap from .construct" }
 end
 
 describe "initialize_with non-ORM-backed objects" do
@@ -74,11 +74,11 @@ describe "initialize_with non-ORM-backed objects" do
   end
 
   it "allows for overrides" do
-    build(:report_generator, name: "Overridden").name.should == "Overridden"
+    expect(build(:report_generator, name: "Overridden").name).to eq "Overridden"
   end
 
   it "generates random data" do
-    build(:report_generator).data.length.should == 5
+    expect(build(:report_generator).data.length).to eq 5
   end
 end
 
@@ -114,11 +114,11 @@ describe "initialize_with parent and child factories" do
   end
 
   it "uses the parent's constructor when the child factory doesn't assign it" do
-    FactoryGirl.build(:sub_awesome).name.should == "Sub"
+    expect(FactoryGirl.build(:sub_awesome).name).to eq "Sub"
   end
 
   it "allows child factories to override initialize_with" do
-    FactoryGirl.build(:super_awesome).name.should == "Super"
+    expect(FactoryGirl.build(:super_awesome).name).to eq "Super"
   end
 end
 
@@ -144,7 +144,7 @@ describe "initialize_with implicit constructor" do
   end
 
   it "instantiates the correct object" do
-    FactoryGirl.build(:awesome, name: "Awesome name").name.should == "Awesome name"
+    expect(FactoryGirl.build(:awesome, name: "Awesome name").name).to eq "Awesome name"
   end
 end
 
@@ -174,8 +174,8 @@ describe "initialize_with doesn't duplicate assignment on attributes accessed fr
 
   it "instantiates the correct object" do
     built_user = FactoryGirl.build(:user)
-    built_user.name.should == "person1"
-    built_user.email.should == "person1@example.com"
+    expect(built_user.name).to eq "person1"
+    expect(built_user.email).to eq "person1@example.com"
   end
 end
 
@@ -210,8 +210,8 @@ describe "initialize_with has access to all attributes for construction" do
 
   it "assigns attributes correctly" do
     user_with_attributes = FactoryGirl.build(:user)
-    user_with_attributes.email.should == "person1@example.com"
-    user_with_attributes.name.should  == "person1"
-    user_with_attributes.ignored.should be_nil
+    expect(user_with_attributes.email).to eq "person1@example.com"
+    expect(user_with_attributes.name).to eq "person1"
+    expect(user_with_attributes.ignored).to be_nil
   end
 end
