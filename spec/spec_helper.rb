@@ -8,7 +8,7 @@ require 'rspec/autorun'
 require "simplecov"
 
 require 'factory_girl'
-require "mocha"
+require "mocha/api"
 require "bourne"
 require "timecop"
 

@@ -23,12 +23,12 @@ Gem::Specification.new do |s|
 
   s.add_dependency("activesupport", ">= 3.0.0")
 
-  s.add_development_dependency("rspec",    "~> 2.11.0")
+  s.add_development_dependency("rspec",    "~> 2.12.0")
   s.add_development_dependency("cucumber", "~> 1.2.1")
   s.add_development_dependency("timecop")
   s.add_development_dependency("simplecov")
   s.add_development_dependency("aruba")
-  s.add_development_dependency("mocha")
+  s.add_development_dependency("mocha", ">= 0.12.8")
   s.add_development_dependency("bourne")
   s.add_development_dependency("appraisal", "~> 0.5.1")
 
