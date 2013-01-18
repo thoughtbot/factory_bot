@@ -20,7 +20,7 @@ GIT
 PATH
   remote: /Users/joshuaclayton/dev/gems/factory_girl
   specs:
-    factory_girl (4.1.0)
+    factory_girl (4.2.0)
       activesupport (>= 3.0.0)
 
 GEM

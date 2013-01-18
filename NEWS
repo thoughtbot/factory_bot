@@ -1,3 +1,14 @@
+4.2.0 (January 18, 2013)
+  Improve documentation
+  Allow *_list syntax methods to accept a block
+  Update gem dependencies
+  Allow setting id for objects created with `build_stubbed`
+  Fix Stub strategy to mimic ActiveRecord regarding `created_at`
+  Evaluate sequences within the context of an Evaluator
+  Fix Mocha deprecation warning
+  Fix some warnings when running RUBYOPT=-w rake
+  Convert test suite to RSpec's "expect" syntax
+
 4.1.0 (September 11, 2012)
   Allow multiple callbacks to bind to the same block
   Fix documentation surrounding the stub strategy
