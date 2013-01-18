@@ -67,7 +67,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  activerecord (~> 3.0.18)
+  activerecord (~> 3.0.19)
   appraisal (~> 0.5.1)
   aruba
   bourne
