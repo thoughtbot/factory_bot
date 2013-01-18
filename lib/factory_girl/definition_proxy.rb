@@ -108,7 +108,7 @@ module FactoryGirl
     # Except that no globally available sequence will be defined.
     def sequence(name, *args, &block)
       sequence = Sequence.new(name, *args, &block)
-      add_attribute(name) { sequence.next }
+      add_attribute(name) { increment_sequence(sequence) }
     end
 
     # Adds an attribute that builds an association. The associated instance will
