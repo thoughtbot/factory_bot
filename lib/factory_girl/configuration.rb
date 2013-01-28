@@ -1,7 +1,7 @@
 module FactoryGirl
   # @api private
   class Configuration
-    attr_reader :factories, :sequences, :traits, :strategies, :callback_names
+    attr_reader :factories, :sequences, :traits, :strategies, :callback_names, :definition
 
     def initialize
       @factories      = Decorator::DisallowsDuplicatesRegistry.new(Registry.new('Factory'))

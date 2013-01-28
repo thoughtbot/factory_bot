@@ -57,7 +57,7 @@ module FactoryGirl
   class << self
     delegate :factories, :sequences, :traits, :strategies, :callback_names,
       :to_create, :skip_create, :initialize_with, :constructor, :duplicate_attribute_assignment_from_initialize_with,
-      :duplicate_attribute_assignment_from_initialize_with=, to: :configuration
+      :duplicate_attribute_assignment_from_initialize_with=, :definition, to: :configuration
   end
 
   def self.register_factory(factory)
