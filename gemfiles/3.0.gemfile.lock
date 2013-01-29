@@ -1,5 +1,5 @@
 PATH
-  remote: /Users/joshuaclayton/dev/gems/factory_girl
+  remote: /Users/mjankowski/Development/OpenSource/factory_girl
   specs:
     factory_girl (4.2.0)
       activesupport (>= 3.0.0)
@@ -7,16 +7,16 @@ PATH
 GEM
   remote: http://rubygems.org/
   specs:
-    activemodel (3.0.19)
-      activesupport (= 3.0.19)
+    activemodel (3.0.20)
+      activesupport (= 3.0.20)
       builder (~> 2.1.2)
       i18n (~> 0.5.0)
-    activerecord (3.0.19)
-      activemodel (= 3.0.19)
-      activesupport (= 3.0.19)
+    activerecord (3.0.20)
+      activemodel (= 3.0.20)
+      activesupport (= 3.0.20)
       arel (~> 2.0.10)
       tzinfo (~> 0.3.23)
-    activesupport (3.0.19)
+    activesupport (3.0.20)
     appraisal (0.5.1)
       bundler
       rake
@@ -67,7 +67,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  activerecord (~> 3.0.19)
+  activerecord (~> 3.0.20)
   appraisal (~> 0.5.1)
   aruba
   bourne
