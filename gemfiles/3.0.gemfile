@@ -2,6 +2,6 @@
 
 source "http://rubygems.org"
 
-gem "activerecord", "~> 3.0.19"
+gem "activerecord", "~> 3.0.20"
 
 gemspec :path=>"../"
