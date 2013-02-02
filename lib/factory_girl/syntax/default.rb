@@ -33,6 +33,21 @@ module FactoryGirl
           FactoryGirl.register_trait(Trait.new(name, &block))
         end
 
+        def before(*names, &block)
+          callback(*names.map {|name| "before_#{name}" }, &block)
+        end
+
+        def after(*names, &block)
+          callback(*names.map {|name| "after_#{name}" }, &block)
+        end
+
+        def callback(*names, &block)
+          names.each do |name|
+            FactoryGirl.register_callback(name)
+            FactoryGirl.add_callback(Callback.new(name, block))
+          end
+        end
+        
         def to_create(&block)
           FactoryGirl.to_create(&block)
         end
@@ -45,20 +60,6 @@ module FactoryGirl
           FactoryGirl.initialize_with(&block)
         end
 
-        def before(*names, &block)
-          callback(*names.map {|name| "before_#{name}" }, &block)
-        end
-
-        def after(*names, &block)
-          callback(*names.map {|name| "after_#{name}" }, &block)
-        end
-
-        def callback(*names, &block)
-          names.each do |name|
-            FactoryGirl.register_callback(name)
-            FactoryGirl.definition.add_callback(Callback.new(name, block))
-          end
-        end
 
         def self.run(block)
           new.instance_eval(&block)

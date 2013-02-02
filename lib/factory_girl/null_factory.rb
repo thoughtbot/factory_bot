@@ -16,7 +16,7 @@ module FactoryGirl
     def hierarchy_class
       Class.new(FactoryGirl::DefinitionHierarchy) do
         def callbacks
-          FactoryGirl.definition.callbacks
+          FactoryGirl.callbacks
         end
       end
     end
