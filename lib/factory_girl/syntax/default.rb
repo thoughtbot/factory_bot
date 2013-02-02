@@ -60,7 +60,6 @@ module FactoryGirl
           FactoryGirl.initialize_with(&block)
         end
 
-
         def self.run(block)
           new.instance_eval(&block)
         end
