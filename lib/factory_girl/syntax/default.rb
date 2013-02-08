@@ -48,6 +48,14 @@ module FactoryGirl
         def self.run(block)
           new.instance_eval(&block)
         end
+
+        delegate :before, :after, :callback, to: :configuration
+
+        private
+
+        def configuration
+          FactoryGirl.configuration
+        end
       end
 
       class ModifyDSL

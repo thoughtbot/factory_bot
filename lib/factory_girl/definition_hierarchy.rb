@@ -1,7 +1,7 @@
 module FactoryGirl
   class DefinitionHierarchy
     def callbacks
-      []
+      FactoryGirl.callbacks
     end
 
     def constructor

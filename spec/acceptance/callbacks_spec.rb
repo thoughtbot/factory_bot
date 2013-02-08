@@ -175,3 +175,54 @@ describe 'binding a callback to multiple callbacks' do
     expect(FactoryGirl.build_stubbed(:user, name: 'John Doe').name).to eq 'JOHN DOE'
   end
 end
+
+describe 'global callbacks' do
+  include FactoryGirl::Syntax::Methods
+
+  before do
+    define_model('User', name: :string)
+    define_model('Company', name: :string)
+
+    FactoryGirl.define do
+      after :build do |object|
+        object.name = case object.class.to_s
+                      when 'User' then 'John Doe'
+                      when 'Company' then 'Acme Suppliers'
+                      end
+      end
+
+      after :create do |object|
+        object.name = "#{object.name}!!!"
+      end
+
+      trait :awesome do
+        after :build do |object|
+          object.name = "___#{object.name}___"
+        end
+
+        after :create do |object|
+          object.name = "A#{object.name}Z"
+        end
+      end
+
+      factory :user do
+        after :build do |user|
+          user.name = user.name.downcase
+        end
+      end
+
+      factory :company do
+        after :build do |company|
+          company.name = company.name.upcase
+        end
+      end
+    end
+  end
+
+  it 'triggers after build callbacks for all factories' do
+    expect(build(:user).name).to eq 'john doe'
+    expect(create(:user).name).to eq 'john doe!!!'
+    expect(create(:user, :awesome).name).to eq 'A___john doe___!!!Z'
+    expect(build(:company).name).to eq 'ACME SUPPLIERS'
+  end
+end

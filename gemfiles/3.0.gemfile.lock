@@ -1,5 +1,5 @@
 PATH
-  remote: /Users/mjankowski/Development/OpenSource/factory_girl
+  remote: /Users/joshuaclayton/dev/gems/factory_girl
   specs:
     factory_girl (4.2.0)
       activesupport (>= 3.0.0)
