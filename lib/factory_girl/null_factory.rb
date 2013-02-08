@@ -13,6 +13,12 @@ module FactoryGirl
     def compile; end
     def class_name; end
     def evaluator_class; FactoryGirl::Evaluator; end
-    def hierarchy_class; FactoryGirl::DefinitionHierarchy; end
+    def hierarchy_class
+      Class.new(FactoryGirl::DefinitionHierarchy) do
+        def callbacks
+          FactoryGirl.callbacks
+        end
+      end
+    end
   end
 end

@@ -175,3 +175,25 @@ describe 'binding a callback to multiple callbacks' do
     expect(FactoryGirl.build_stubbed(:user, name: 'John Doe').name).to eq 'JOHN DOE'
   end
 end
+
+describe 'global callbacks' do
+  before do
+    FactoryGirl.reload
+    define_model('User', name: :string)
+    define_model('Cat', name: :string)
+
+    FactoryGirl.define do
+      after :build do |obj|
+        obj.name = obj.is_a?(Cat) ? "Kitty" : "John"
+      end
+
+      factory :user
+      factory :cat
+    end
+  end
+
+  it "bind callback to building" do
+    expect(FactoryGirl.build(:user).name).to eq "John"
+    expect(FactoryGirl.build(:cat).name).to eq "Kitty"
+  end
+end

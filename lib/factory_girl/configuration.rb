@@ -1,7 +1,7 @@
 module FactoryGirl
   # @api private
   class Configuration
-    attr_reader :factories, :sequences, :traits, :strategies, :callback_names
+    attr_reader :factories, :sequences, :traits, :strategies, :callback_names, :definition
 
     def initialize
       @factories      = Decorator::DisallowsDuplicatesRegistry.new(Registry.new('Factory'))
@@ -15,7 +15,7 @@ module FactoryGirl
       initialize_with { new }
     end
 
-    delegate :to_create, :skip_create, :constructor, to: :@definition
+    delegate :to_create, :skip_create, :constructor, :add_callback, :callbacks, to: :@definition
 
     def initialize_with(&block)
       @definition.define_constructor(&block)
