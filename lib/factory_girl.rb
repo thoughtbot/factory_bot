@@ -55,7 +55,7 @@ module FactoryGirl
   end
 
   class << self
-    delegate :factories, :sequences, :traits, :strategies, :callback_names,
+    delegate :factories, :sequences, :traits, :callbacks, :strategies, :callback_names,
       :to_create, :skip_create, :initialize_with, :constructor, :duplicate_attribute_assignment_from_initialize_with,
       :duplicate_attribute_assignment_from_initialize_with=, to: :configuration
   end

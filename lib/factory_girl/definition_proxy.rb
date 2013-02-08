@@ -6,6 +6,8 @@ module FactoryGirl
       undef_method(method) unless UNPROXIED_METHODS.include?(method.to_s)
     end
 
+    delegate :before, :after, :callback, to: :@definition
+
     attr_reader :child_factories
 
     def initialize(definition, ignore = false)
@@ -156,21 +158,6 @@ module FactoryGirl
 
     def initialize_with(&block)
       @definition.define_constructor(&block)
-    end
-
-    def before(*names, &block)
-      callback(*names.map {|name| "before_#{name}" }, &block)
-    end
-
-    def after(*names, &block)
-      callback(*names.map {|name| "after_#{name}" }, &block)
-    end
-
-    def callback(*names, &block)
-      names.each do |name|
-        FactoryGirl.register_callback(name)
-        @definition.add_callback(Callback.new(name, block))
-      end
     end
   end
 end

@@ -84,6 +84,21 @@ module FactoryGirl
       @constructor = block
     end
 
+    def before(*names, &block)
+      callback(*names.map {|name| "before_#{name}" }, &block)
+    end
+
+    def after(*names, &block)
+      callback(*names.map {|name| "after_#{name}" }, &block)
+    end
+
+    def callback(*names, &block)
+      names.each do |name|
+        FactoryGirl.register_callback(name)
+        add_callback(Callback.new(name, block))
+      end
+    end
+
     private
 
     def base_traits

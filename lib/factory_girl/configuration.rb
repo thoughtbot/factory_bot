@@ -15,7 +15,8 @@ module FactoryGirl
       initialize_with { new }
     end
 
-    delegate :to_create, :skip_create, :constructor, to: :@definition
+    delegate :to_create, :skip_create, :constructor, :before, :after,
+      :callback, :callbacks, to: :@definition
 
     def initialize_with(&block)
       @definition.define_constructor(&block)

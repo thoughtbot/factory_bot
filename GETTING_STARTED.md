@@ -748,6 +748,20 @@ factory :user do
 end
 ```
 
+To override callbacks for all factories, define them within the
+`FactoryGirl.define` block:
+
+```ruby
+FactoryGirl.define do
+  after(:build) {|object| puts "Built #{object}" }
+  after(:create) {|object| AuditLog.create(attrs: object.attributes) }
+
+  factory :user do
+    name "John Doe"
+  end
+end
+```
+
 Modifying factories
 -------------------
 
