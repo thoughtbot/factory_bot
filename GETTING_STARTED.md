@@ -563,7 +563,7 @@ Traits can be used as attributes:
 factory :week_long_published_story_with_title, parent: :story do
   published
   week_long_publishing
-  title { "Publishing that was started at {start_at}" }
+  title { "Publishing that was started at #{start_at}" }
 end
 ```
 
