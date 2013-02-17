@@ -498,7 +498,7 @@ factory :user do
 end
 
 # will increase value counter for :email which is shared by :sender and :receiver
-FactoryGirl.next(:sender)
+FactoryGirl.generate(:sender)
 ```
 
 Define aliases and use default value (1) for the counter
