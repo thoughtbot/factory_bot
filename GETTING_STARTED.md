@@ -375,7 +375,7 @@ FactoryGirl.define do
       # attributes; `create_list`'s second argument is the number of records
       # to create and we make sure the user is associated properly to the post
       after(:create) do |user, evaluator|
-        FactoryGirl.create_list(:post, evaluator.posts_count, user: user)
+        user.posts = FactoryGirl.create_list(:post, evaluator.posts_count, user: user)
       end
     end
   end
