@@ -849,7 +849,7 @@ class User
 end
 
 # factories.rb
-sequence(:name) {|n| "person#{n}@example.com" }
+sequence(:email) {|n| "person#{n}@example.com" }
 
 factory :user do
   ignore do
