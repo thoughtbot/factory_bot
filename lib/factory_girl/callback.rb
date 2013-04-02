@@ -10,7 +10,7 @@ module FactoryGirl
 
     def run(instance, evaluator)
       case block.arity
-      when 1 then syntax_runner.instance_exec(instance, &block)
+      when 1, -1 then syntax_runner.instance_exec(instance, &block)
       when 2 then syntax_runner.instance_exec(instance, evaluator, &block)
       else        syntax_runner.instance_exec(&block)
       end
