@@ -46,6 +46,31 @@ describe "callbacks" do
   end
 end
 
+describe 'callbacks using Symbol#to_proc' do
+  before do
+    define_model('User') do
+      def confirmed?
+        !!@confirmed
+      end
+
+      def confirm!
+        @confirmed = true
+      end
+    end
+
+    FactoryGirl.define do
+      factory :user do
+        after :build, &:confirm!
+      end
+    end
+  end
+
+  it 'runs the callback correctly' do
+    user = FactoryGirl.build(:user)
+    expect(user).to be_confirmed
+  end
+end
+
 describe "callbacks using syntax methods without referencing FactoryGirl explicitly" do
   before do
     define_model("User", first_name: :string, last_name: :string)
