@@ -695,6 +695,24 @@ end
 # creates an admin user with name "John Doe"
 FactoryGirl.create(:post).author
 ```
+
+Finally, traits can be used within other traits to mix in their attributes.
+
+```
+FactoryGirl.define do
+  factory :order do
+    trait :completed do
+      completed_at { 3.days.ago }
+    end
+
+    trait :refunded do
+      completed
+      refunded_at { 1.day.ago }
+    end
+  end
+end
+```
+
 Callbacks
 ---------
 
