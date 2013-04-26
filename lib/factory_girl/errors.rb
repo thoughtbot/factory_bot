@@ -16,4 +16,7 @@ module FactoryGirl
   # * Defining an attribute with both a static and lazy value
   # * Defining an attribute twice in the same factory
   class AttributeDefinitionError < RuntimeError; end
+
+  # Raised when a method is defined in a factory or trait with arguments
+  class MethodDefinitionError < RuntimeError; end
 end

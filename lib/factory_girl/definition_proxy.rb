@@ -1,6 +1,6 @@
 module FactoryGirl
   class DefinitionProxy
-    UNPROXIED_METHODS = %w(__send__ __id__ nil? send object_id extend instance_eval initialize block_given? raise caller)
+    UNPROXIED_METHODS = %w(__send__ __id__ nil? send object_id extend instance_eval initialize block_given? raise caller method)
 
     (instance_methods + private_instance_methods).each do |method|
       undef_method(method) unless UNPROXIED_METHODS.include?(method.to_s)
@@ -14,6 +14,11 @@ module FactoryGirl
       @definition      = definition
       @ignore          = ignore
       @child_factories = []
+    end
+
+    def singleton_method_added(name)
+      message = "Defining methods in blocks (trait or factory) is not supported (#{name})"
+      raise FactoryGirl::MethodDefinitionError, message
     end
 
     # Adds an attribute that should be assigned on generated instances for this
