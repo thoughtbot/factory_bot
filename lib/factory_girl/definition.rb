@@ -62,6 +62,53 @@ module FactoryGirl
       modules.compact.flatten
     end
 
+    def modules
+      compile
+      mods = []
+      base_traits.each do |trait|
+        mods << trait.modules
+      end
+
+      if @constructor
+        mod = Module.new
+        tc = @constructor
+
+        mod.send :define_method, :constructor do
+          tc
+        end
+
+        mods << mod
+      end
+
+      if @callbacks.any?
+        mod = Module.new
+        callbacks = @callbacks
+
+        mod.send :define_method, :callbacks do
+          super() + callbacks
+        end
+
+        mods << mod
+      end
+
+      if @to_create
+        mod = Module.new
+        tc = @to_create
+
+        mod.send :define_method, :to_create do
+          tc
+        end
+
+        mods << mod
+      end
+
+      additional_traits.each do |trait|
+        mods << trait.modules
+      end
+      mods.compact.flatten
+      # [constructor_modules + callback_modules + to_create_modules].compact.flatten
+    end
+
     def constructor_modules
       compile
       modules = []
