@@ -1,3 +1,6 @@
+require 'pry'
+require 'pry-debugger'
+
 module FactoryGirl
   # @api private
   class Definition
@@ -32,6 +35,81 @@ module FactoryGirl
       else
         aggregate_from_traits_and_self(:to_create) { @to_create }.last
       end
+    end
+
+    def to_create_modules
+      compile
+      modules = []
+      base_traits.each do |trait|
+        modules << trait.to_create_modules
+      end
+
+      if @to_create
+        mod = Module.new
+        tc = @to_create
+
+        mod.send :define_method, :to_create do
+          tc
+        end
+
+        modules << mod
+      end
+
+      additional_traits.each do |trait|
+        modules << trait.to_create_modules
+      end
+
+      modules.compact.flatten
+    end
+
+    def constructor_modules
+      compile
+      modules = []
+      base_traits.each do |trait|
+        modules << trait.constructor_modules
+      end
+
+      if @constructor
+        mod = Module.new
+        tc = @constructor
+
+        mod.send :define_method, :constructor do
+          tc
+        end
+
+        modules << mod
+      end
+
+      additional_traits.each do |trait|
+        modules << trait.constructor_modules
+      end
+
+      modules.compact.flatten
+    end
+
+    def callback_modules
+      compile
+      modules = []
+      base_traits.each do |trait|
+        modules << trait.callback_modules
+      end
+
+      if @callbacks.any?
+        mod = Module.new
+        callbacks = @callbacks
+
+        mod.send :define_method, :callbacks do
+          super() + callbacks
+        end
+
+        modules << mod
+      end
+
+      additional_traits.each do |trait|
+        modules << trait.callback_modules
+      end
+
+      modules.compact.flatten
     end
 
     def constructor

@@ -12,7 +12,7 @@ module FactoryGirl
     delegate :object, :hash, to: :@attribute_assigner
 
     def create(result_instance)
-      @to_create[result_instance]
+      @to_create.call(result_instance)
     end
 
     def notify(name, result_instance)
