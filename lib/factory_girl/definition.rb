@@ -4,7 +4,7 @@ require 'pry-debugger'
 module FactoryGirl
   # @api private
   class Definition
-    attr_reader :defined_traits, :declarations
+    attr_reader :defined_traits, :declarations, :callbacks, :constructor
 
     def initialize(name = nil, base_traits = [])
       @declarations      = DeclarationList.new(name)
@@ -16,6 +16,7 @@ module FactoryGirl
       @constructor       = nil
       @attributes        = nil
       @compiled          = false
+      @base_module       = Module.new
     end
 
     delegate :declare_attribute, to: :declarations
@@ -33,62 +34,27 @@ module FactoryGirl
       if block_given?
         @to_create = block
       else
-        aggregate_from_traits_and_self(:to_create) { @to_create }.last
+        @to_create
       end
     end
 
     def modules
       compile
+
       mods = []
       base_traits.each do |trait|
         mods << trait.modules
       end
 
-      if @constructor
-        mod = Module.new
-        tc = @constructor
-
-        mod.send :define_method, :constructor do
-          tc
-        end
-
-        mods << mod
-      end
-
-      if @callbacks.any?
-        mod = Module.new
-        callbacks = @callbacks
-
-        mod.send :define_method, :callbacks do
-          super() + callbacks
-        end
-
-        mods << mod
-      end
-
-      if @to_create
-        mod = Module.new
-        tc = @to_create
-
-        mod.send :define_method, :to_create do
-          tc
-        end
-
-        mods << mod
-      end
+      generate_constructor_module
+      generate_callbacks_module
+      generate_to_create_module
+      mods << @base_module
 
       additional_traits.each do |trait|
         mods << trait.modules
       end
       mods.compact.flatten
-    end
-
-    def constructor
-      aggregate_from_traits_and_self(:constructor) { @constructor }.last
-    end
-
-    def callbacks
-      aggregate_from_traits_and_self(:callbacks) { @callbacks }
     end
 
     def compile
@@ -185,6 +151,36 @@ module FactoryGirl
           list << trait.send(method_name)
         end
       end.flatten.compact
+    end
+
+    def generate_constructor_module
+      if @constructor
+        constructor = @constructor
+
+        @base_module.send :define_method, :constructor do
+          constructor
+        end
+      end
+    end
+
+    def generate_callbacks_module
+      if @callbacks.any?
+        callbacks = @callbacks
+
+        @base_module.send :define_method, :callbacks do
+          super() + callbacks
+        end
+      end
+    end
+
+    def generate_to_create_module
+      if @to_create
+        to_create = @to_create
+
+        @base_module.send :define_method, :to_create do
+          to_create
+        end
+      end
     end
   end
 end
