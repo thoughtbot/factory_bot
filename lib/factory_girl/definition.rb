@@ -17,13 +17,18 @@ module FactoryGirl
       @attributes        = nil
       @compiled          = false
       @base_module       = Module.new
+      @base_attributes   = Class.new do
+        def attributes
+          AttributeList.new
+        end
+      end
     end
 
     delegate :declare_attribute, to: :declarations
 
     def attributes
       @attributes ||= AttributeList.new.tap do |attribute_list|
-        attribute_lists = aggregate_from_traits_and_self(:attributes) { declarations.attributes }
+        attribute_lists = base_attributes.new.attributes
         attribute_lists.each do |attributes|
           attribute_list.apply_attributes attributes
         end
@@ -41,21 +46,43 @@ module FactoryGirl
     def modules
       compile
 
-      mods = []
-      base_traits.each do |trait|
-        mods << trait.modules
-      end
+      [].tap do |mods|
+        base_traits.each do |trait|
+          mods << trait.modules
+        end
 
-      generate_constructor_module
-      generate_callbacks_module
-      generate_to_create_module
-      mods << @base_module
+        mods << base_module
 
-      additional_traits.each do |trait|
-        mods << trait.modules
-      end
-      mods.compact.flatten
+        additional_traits.each do |trait|
+          mods << trait.modules
+        end
+      end.compact.flatten
     end
+
+    def base_attributes
+      attribute_modules.each do |mod|
+        @base_attributes.send :include, mod
+      end
+
+      @base_attributes
+    end
+
+    def attribute_modules
+      compile
+
+      [].tap do |mods|
+        base_traits.each do |trait|
+          mods << trait.attributes_module
+        end
+
+        mods << attributes_module
+
+        additional_traits.each do |trait|
+          mods << trait.attributes_module
+        end
+      end.compact.flatten
+    end
+
 
     def compile
       unless @compiled
@@ -67,6 +94,18 @@ module FactoryGirl
         end
 
         @compiled = true
+      end
+    end
+
+    def attributes_module
+      if declarations.attributes.any?
+        Module.new.tap do |mod|
+          attributes = declarations.attributes
+
+          mod.send :define_method, :attributes do
+            super() + attributes
+          end
+        end
       end
     end
 
@@ -138,19 +177,11 @@ module FactoryGirl
       @compiled   = false
     end
 
-    def aggregate_from_traits_and_self(method_name, &block)
-      compile
-      [].tap do |list|
-        base_traits.each do |trait|
-          list << trait.send(method_name)
-        end
-
-        list << instance_exec(&block)
-
-        additional_traits.each do |trait|
-          list << trait.send(method_name)
-        end
-      end.flatten.compact
+    def base_module
+      generate_constructor_module
+      generate_callbacks_module
+      generate_to_create_module
+      @base_module
     end
 
     def generate_constructor_module

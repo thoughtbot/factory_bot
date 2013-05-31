@@ -13,7 +13,7 @@ module FactoryGirl
     end
 
     delegate :add_callback, :declare_attribute, :to_create, :define_trait, :constructor,
-             :callbacks, :attributes, :modules, to: :@definition
+             :callbacks, :attributes, :modules, :attributes_module, to: :@definition
 
     def names
       [@name]
