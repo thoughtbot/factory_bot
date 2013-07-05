@@ -11,5 +11,5 @@ appraise "3.2" do
 end
 
 appraise '4.0' do
-  gem 'activerecord', github: 'rails/rails'
+  gem 'activerecord', "~> 4.0.0"
 end
