@@ -19,7 +19,7 @@ gem "factory_girl", "~> 4.0"
 JRuby users: FactoryGirl works with JRuby starting with 1.6.7.2 (latest stable, as per July 2012).
 JRuby has to be used in 1.9 mode, for that, use JRUBY_OPTS environment variable:
 
-```
+```bash
 export JRUBY_OPTS=--1.9
 ```
 
@@ -30,7 +30,7 @@ Using Without Bundler
 
 If you're not using Bundler, be sure to have the gem installed and call:
 
-```
+```ruby
 require 'factory_girl'
 ```
 
@@ -698,7 +698,7 @@ FactoryGirl.create(:post).author
 
 Finally, traits can be used within other traits to mix in their attributes.
 
-```
+```ruby
 FactoryGirl.define do
   factory :order do
     trait :completed do
