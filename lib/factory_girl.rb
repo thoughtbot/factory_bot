@@ -1,51 +1,61 @@
 require 'set'
+
+require 'active_support'
+require 'active_support/dependencies'
 require 'active_support/core_ext/module/delegation'
 require 'active_support/deprecation'
 require 'active_support/notifications'
 
-require 'factory_girl/definition_hierarchy'
-require 'factory_girl/configuration'
 require 'factory_girl/errors'
-require 'factory_girl/factory_runner'
-require 'factory_girl/strategy_syntax_method_registrar'
-require 'factory_girl/strategy_calculator'
-require 'factory_girl/strategy/build'
-require 'factory_girl/strategy/create'
-require 'factory_girl/strategy/attributes_for'
-require 'factory_girl/strategy/stub'
-require 'factory_girl/strategy/null'
-require 'factory_girl/registry'
-require 'factory_girl/null_factory'
-require 'factory_girl/null_object'
-require 'factory_girl/evaluation'
-require 'factory_girl/factory'
-require 'factory_girl/attribute_assigner'
-require 'factory_girl/evaluator'
-require 'factory_girl/evaluator_class_definer'
-require 'factory_girl/attribute'
-require 'factory_girl/callback'
-require 'factory_girl/callbacks_observer'
-require 'factory_girl/declaration_list'
-require 'factory_girl/declaration'
-require 'factory_girl/sequence'
-require 'factory_girl/attribute_list'
-require 'factory_girl/trait'
 require 'factory_girl/aliases'
-require 'factory_girl/definition'
-require 'factory_girl/definition_proxy'
-require 'factory_girl/syntax'
-require 'factory_girl/syntax_runner'
+
 require 'factory_girl/find_definitions'
 require 'factory_girl/reload'
-require 'factory_girl/decorator'
-require 'factory_girl/decorator/attribute_hash'
-require 'factory_girl/decorator/class_key_hash'
-require 'factory_girl/decorator/disallows_duplicates_registry'
-require 'factory_girl/decorator/invocation_tracker'
-require 'factory_girl/decorator/new_constructor'
-require 'factory_girl/version'
 
 module FactoryGirl
+
+  extend ActiveSupport::Autoload
+
+  autoload :DefinitionHierarchy
+  autoload :Configuration
+  autoload :FactoryRunner
+  autoload :StrategySyntaxMethodRegistrar
+  autoload :StrategyCalculator
+  autoload :Registry
+  autoload :NullFactory
+  autoload :NullObject
+  autoload :Evaluation
+  autoload :Factory
+  autoload :AttributeAssigner
+  autoload :Evaluator
+  autoload :EvaluatorClassDefiner
+  autoload :Attribute
+  autoload :Callback
+  autoload :CallbacksObserver
+  autoload :DeclarationList
+  autoload :Declaration
+  autoload :Sequence
+  autoload :AttributeList
+  autoload :Trait
+  autoload :Definition
+  autoload :DefinitionProxy
+  autoload :Syntax
+  autoload :SyntaxRunner
+
+  autoload :Strategy
+  Strategy.autoload :Build, 'factory_girl/strategy/build'
+  Strategy.autoload :Create, 'factory_girl/strategy/create'
+  Strategy.autoload :AttributesFor, 'factory_girl/strategy/attributes_for'
+  Strategy.autoload :Stub, 'factory_girl/strategy/stub'
+  Strategy.autoload :Null, 'factory_girl/strategy/null'
+
+  autoload :Decorator
+  Decorator.autoload :AttributeHash, 'factory_girl/decorator/attribute_hash'
+  Decorator.autoload :ClassKeyHash, 'factory_girl/decorator/class_key_hash'
+  Decorator.autoload :DisallowsDuplicatesRegistry, 'factory_girl/decorator/disallows_duplicates_registry'
+  Decorator.autoload :InvocationTracker, 'factory_girl/decorator/invocation_tracker'
+  Decorator.autoload :NewConstructor, 'factory_girl/decorator/new_constructor'
+
   def self.configuration
     @configuration ||= Configuration.new
   end

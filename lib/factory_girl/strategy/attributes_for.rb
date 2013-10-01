@@ -1,5 +1,5 @@
 module FactoryGirl
-  module Strategy
+  class Strategy
     class AttributesFor
       def association(runner)
         runner.run(:null)

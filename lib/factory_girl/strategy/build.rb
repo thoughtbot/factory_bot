@@ -1,5 +1,5 @@
 module FactoryGirl
-  module Strategy
+  class Strategy
     class Build
       def association(runner)
         runner.run
