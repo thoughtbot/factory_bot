@@ -41,20 +41,8 @@ module FactoryGirl
   autoload :DefinitionProxy
   autoload :Syntax
   autoload :SyntaxRunner
-
   autoload :Strategy
-  Strategy.autoload :Build, 'factory_girl/strategy/build'
-  Strategy.autoload :Create, 'factory_girl/strategy/create'
-  Strategy.autoload :AttributesFor, 'factory_girl/strategy/attributes_for'
-  Strategy.autoload :Stub, 'factory_girl/strategy/stub'
-  Strategy.autoload :Null, 'factory_girl/strategy/null'
-
   autoload :Decorator
-  Decorator.autoload :AttributeHash, 'factory_girl/decorator/attribute_hash'
-  Decorator.autoload :ClassKeyHash, 'factory_girl/decorator/class_key_hash'
-  Decorator.autoload :DisallowsDuplicatesRegistry, 'factory_girl/decorator/disallows_duplicates_registry'
-  Decorator.autoload :InvocationTracker, 'factory_girl/decorator/invocation_tracker'
-  Decorator.autoload :NewConstructor, 'factory_girl/decorator/new_constructor'
 
   def self.configuration
     @configuration ||= Configuration.new
