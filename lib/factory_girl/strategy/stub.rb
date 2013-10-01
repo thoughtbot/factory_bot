@@ -1,5 +1,5 @@
 module FactoryGirl
-  module Strategy
+  class Strategy
     class Stub
       @@next_id = 1000
 
