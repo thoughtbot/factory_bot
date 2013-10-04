@@ -30,7 +30,7 @@ describe FactoryGirl::Callback do
   it "allows valid callback names to be assigned" do
     FactoryGirl.callback_names.each do |callback_name|
       expect { FactoryGirl::Callback.new(callback_name, -> {}) }.
-        to_not raise_error(FactoryGirl::InvalidCallbackNameError)
+        to_not raise_error
     end
   end
 
