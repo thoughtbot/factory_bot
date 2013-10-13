@@ -51,16 +51,9 @@ Please see the [contribution guidelines](https://github.com/thoughtbot/factory_g
 Credits
 -------
 
-factory_girl was written by Joe Ferris with contributions from several authors, including:
-
-* Alex Sharp
-* Eugene Bolshakov
-* Jon Yurek
-* Josh Nichols
-* Josh Owens
-* Nate Sutton
-* Josh Clayton
-* Thomas Walpole
+factory_girl was originally written by Joe Ferris and is now maintained by Josh
+Clayton. Many improvements and bugfixes were contributed by the [open source
+community](https://github.com/thoughtbot/factory_girl/graphs/contributors).
 
 ![thoughtbot](http://thoughtbot.com/assets/tm/logo.png)
 
