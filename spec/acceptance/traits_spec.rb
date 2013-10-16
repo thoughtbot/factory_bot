@@ -725,3 +725,23 @@ describe "traits used in associations" do
     expect(creator.name).to eq 'Joe Creator'
   end
 end
+
+describe "testing" do
+  before do
+    define_model("User", admin: :boolean)
+
+    FactoryGirl.define do
+      factory :user do
+        admin false
+
+        trait :admin do
+          admin true
+        end
+      end
+    end
+  end
+
+  it "works" do
+    FactoryGirl.create(:user, :admin)
+  end
+end

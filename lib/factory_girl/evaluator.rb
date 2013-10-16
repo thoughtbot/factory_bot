@@ -16,9 +16,7 @@ module FactoryGirl
       @cached_attributes = overrides
       @instance = nil
 
-      @overrides.each do |name, value|
-        singleton_class.define_attribute(name) { value }
-      end
+      extend HashModuleGenerator.new(@overrides).to_module
     end
 
     def association(factory_name, *traits_and_overrides)
@@ -59,16 +57,6 @@ module FactoryGirl
       AttributeList.new.tap do |list|
         attribute_lists.each do |attribute_list|
           list.apply_attributes attribute_list.to_a
-        end
-      end
-    end
-
-    def self.define_attribute(name, &block)
-      define_method(name) do
-        if @cached_attributes.key?(name)
-          @cached_attributes[name]
-        else
-          @cached_attributes[name] = instance_exec(&block)
         end
       end
     end

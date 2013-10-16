@@ -5,9 +5,7 @@ module FactoryGirl
       @parent_class = parent_class
       @attributes   = attributes
 
-      attributes.each do |attribute|
-        evaluator_class.define_attribute(attribute.name, &attribute.to_proc)
-      end
+      evaluator_class.send :include, AttributesModuleGenerator.new(attributes).to_module
     end
 
     def evaluator_class
