@@ -1159,8 +1159,8 @@ end
 Rails Preloaders and RSpec
 --------------------------
 
-When running RSpec with a rails preloader such as `spring` or `zeus`, it's possible
-to encounter an `ActiveRecord::AssocitionTypeMismatch` error when creating a factory
+When running RSpec with a Rails preloader such as `spring` or `zeus`, it's possible
+to encounter an `ActiveRecord::AssociationTypeMismatch` error when creating a factory
 with associations, as below:
 
 ```ruby
