@@ -868,6 +868,13 @@ To set the attributes for each of the factories, you can pass in a hash as you n
 twenty_year_olds = FactoryGirl.build_list(:user, 25, date_of_birth: 20.years.ago)
 ```
 
+There's also a set of `*_pair` methods for creating two records at a time:
+
+```ruby
+built_users   = FactoryGirl.build_pair(:user) # array of two built users
+created_users = FactoryGirl.create_pair(:user) # array of two created users
+```
+
 Custom Construction
 -------------------
 
