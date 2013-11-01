@@ -49,6 +49,14 @@ describe "register custom strategies" do
     expect(inserted_items.length).to eq 2
     expect(inserted_items.map(&:name)).to eq ["Custom strategy", "Custom strategy"]
   end
+
+  it "allows using the *_pair method to build a list using a custom strategy" do
+    FactoryGirl.register_strategy(:insert, custom_strategy)
+
+    inserted_items = FactoryGirl.insert_pair(:named_object)
+    expect(inserted_items.length).to eq 2
+    expect(inserted_items.map(&:name)).to eq ["Custom strategy", "Custom strategy"]
+  end
 end
 
 describe "including FactoryGirl::Syntax::Methods when custom strategies have been declared" do

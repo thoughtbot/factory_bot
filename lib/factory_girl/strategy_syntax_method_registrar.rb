@@ -8,6 +8,7 @@ module FactoryGirl
     def define_strategy_methods
       define_singular_strategy_method
       define_list_strategy_method
+      define_pair_strategy_method
     end
 
     private
@@ -25,6 +26,14 @@ module FactoryGirl
 
       define_syntax_method("#{strategy_name}_list") do |name, amount, *traits_and_overrides, &block|
         amount.times.map { send(strategy_name, name, *traits_and_overrides, &block) }
+      end
+    end
+
+    def define_pair_strategy_method
+      strategy_name = @strategy_name
+
+      define_syntax_method("#{strategy_name}_pair") do |name, *traits_and_overrides, &block|
+        2.times.map { send(strategy_name, name, *traits_and_overrides, &block) }
       end
     end
 
