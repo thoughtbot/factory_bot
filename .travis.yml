@@ -9,7 +9,6 @@ script: "bundle exec rake spec:unit spec:acceptance features"
 jdk:
   - openjdk6
 gemfile:
-  - gemfiles/3.0.gemfile
   - gemfiles/3.1.gemfile
   - gemfiles/3.2.gemfile
 branches:
