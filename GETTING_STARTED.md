@@ -771,8 +771,8 @@ To override callbacks for all factories, define them within the
 
 ```ruby
 FactoryGirl.define do
-  after(:build) {|object| puts "Built #{object}" }
-  after(:create) {|object| AuditLog.create(attrs: object.attributes) }
+  after(:build) { |object| puts "Built #{object}" }
+  after(:create) { |object| AuditLog.create(attrs: object.attributes) }
 
   factory :user do
     name "John Doe"
@@ -812,7 +812,7 @@ If a gem were to give you a User factory:
 FactoryGirl.define do
   factory :user do
     full_name "John Doe"
-    sequence(:username) {|n| "user#{n}" }
+    sequence(:username) { |n| "user#{ n }" }
     password "password"
   end
 end
@@ -894,7 +894,7 @@ class User
 end
 
 # factories.rb
-sequence(:email) {|n| "person#{n}@example.com" }
+sequence(:email) { |n| "person#{ n }@example.com" }
 
 factory :user do
   ignore do
@@ -1081,9 +1081,9 @@ FactoryGirl.register_strategy(:json, JsonStrategy)
 
 FactoryGirl.define do
   factory :user do
-    before(:json)                {|user| do_something_to(user) }
-    after(:json)                 {|user_json| do_something_to(user_json) }
-    callback(:make_json_awesome) {|user_json| do_something_to(user_json) }
+    before(:json)                { |user| do_something_to(user) }
+    after(:json)                 { |user_json| do_something_to(user_json) }
+    callback(:make_json_awesome) { |user_json| do_something_to(user_json) }
   end
 end
 ```
@@ -1097,7 +1097,7 @@ may not always be ideal, you can override that behavior by defining
 
 ```ruby
 factory :different_orm_model do
-  to_create {|instance| instance.persist! }
+  to_create { |instance| instance.persist! }
 end
 ```
 
@@ -1115,7 +1115,7 @@ To override `to_create` for all factories, define it within the
 
 ```ruby
 FactoryGirl.define do
-  to_create {|instance| instance.persist! }
+  to_create { |instance| instance.persist! }
 
 
   factory :user do
@@ -1137,7 +1137,7 @@ ActiveSupport::Notifications.subscribe("factory_girl.run_factory") do |name, sta
   execution_time_in_seconds = finish - start
 
   if execution_time_in_seconds >= 0.5
-    $stderr.puts "Slow factory: #{payload[:name]} using strategy #{payload[:strategy]}"
+    $stderr.puts "Slow factory: #{ payload[:name] } using strategy #{ payload[:strategy] }"
   end
 end
 ```
