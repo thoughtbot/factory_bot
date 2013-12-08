@@ -266,7 +266,7 @@ factory :user do
     upcased  false
   end
 
-  name  { "John Doe#{ " - Rockstar" if rockstar}" }
+  name  { "John Doe#{ " - Rockstar" if rockstar }" }
   email { "#{ name.downcase }@example.com" }
 
   after(:create) do |user, evaluator|
@@ -470,7 +470,7 @@ a particular factory:
 
 ```ruby
 factory :user do
-  sequence(:email) {|n| "person#{n}@example.com" }
+  sequence(:email) { |n| "person#{ n }@example.com" }
 end
 ```
 
@@ -478,7 +478,7 @@ You can also override the initial value:
 
 ```ruby
 factory :user do
-  sequence(:email, 1000) {|n| "person#{n}@example.com" }
+  sequence(:email, 1000) { |n| "person#{ n }@example.com" }
 end
 ```
 
@@ -607,7 +607,7 @@ factory :user do
   trait :male do
     name   "John Doe"
     gender "Male"
-    login { "#{name} (M)" }
+    login { "#{ name } (M)" }
   end
 
   factory :brandon do
