@@ -34,6 +34,12 @@ describe FactoryGirl::Definition, "defining traits" do
     subject.define_trait(trait_2)
     expect(subject.defined_traits).to eq [trait_1, trait_2]
   end
+
+  it "should add only unique traits" do
+    subject.define_trait(trait_1)
+    subject.define_trait(trait_1)
+    expect(subject.defined_traits).to eq [trait_1]
+  end
 end
 
 describe FactoryGirl::Definition, "adding callbacks" do

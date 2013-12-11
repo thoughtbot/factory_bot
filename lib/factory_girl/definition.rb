@@ -77,7 +77,7 @@ module FactoryGirl
     end
 
     def define_trait(trait)
-      @defined_traits << trait
+      @defined_traits << trait unless @defined_traits.include?(trait)
     end
 
     def define_constructor(&block)
