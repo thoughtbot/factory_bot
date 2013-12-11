@@ -32,7 +32,13 @@ describe FactoryGirl::Definition, "defining traits" do
   it "maintains a list of traits" do
     subject.define_trait(trait_1)
     subject.define_trait(trait_2)
-    expect(subject.defined_traits).to eq [trait_1, trait_2]
+    expect(subject.defined_traits).to include(trait_1, trait_2)
+  end
+
+  it "adds only unique traits" do
+    subject.define_trait(trait_1)
+    subject.define_trait(trait_1)
+    expect(subject.defined_traits.size).to eq 1
   end
 end
 

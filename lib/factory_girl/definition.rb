@@ -6,7 +6,7 @@ module FactoryGirl
     def initialize(name = nil, base_traits = [])
       @declarations      = DeclarationList.new(name)
       @callbacks         = []
-      @defined_traits    = []
+      @defined_traits    = Set.new
       @to_create         = nil
       @base_traits       = base_traits
       @additional_traits = []
@@ -77,7 +77,7 @@ module FactoryGirl
     end
 
     def define_trait(trait)
-      @defined_traits << trait
+      @defined_traits.add(trait)
     end
 
     def define_constructor(&block)
