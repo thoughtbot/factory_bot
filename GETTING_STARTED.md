@@ -198,7 +198,7 @@ attributes without having to prefix the call with `FactoryGirl.`. This allows
 you to do:
 
 ```ruby
-sequence(:random_string) {|n| LoremIpsum.generate }
+sequence(:random_string) { |n| LoremIpsum.generate }
 
 factory :post do
   title { generate(:random_string) } # instead of FactoryGirl.generate(:random_string)
@@ -470,7 +470,7 @@ a particular factory:
 
 ```ruby
 factory :user do
-  sequence(:email) {|n| "person#{n}@example.com" }
+  sequence(:email) { |n| "person#{n}@example.com" }
 end
 ```
 
@@ -478,7 +478,7 @@ You can also override the initial value:
 
 ```ruby
 factory :user do
-  sequence(:email, 1000) {|n| "person#{n}@example.com" }
+  sequence(:email, 1000) { |n| "person#{n}@example.com" }
 end
 ```
 
@@ -494,7 +494,7 @@ Sequences can also have aliases. The sequence aliases share the same counter:
 
 ```ruby
 factory :user do
-  sequence(:email, 1000, aliases: [:sender, :receiver]) {|n| "person#{n}@example.com" }
+  sequence(:email, 1000, aliases: [:sender, :receiver]) { |n| "person#{n}@example.com" }
 end
 
 # will increase value counter for :email which is shared by :sender and :receiver
@@ -505,7 +505,7 @@ Define aliases and use default value (1) for the counter
 
 ```ruby
 factory :user do
-  sequence(:email, aliases: [:sender, :receiver]) {|n| "person#{n}@example.com" }
+  sequence(:email, aliases: [:sender, :receiver]) { |n| "person#{n}@example.com" }
 end
 ```
 
@@ -513,7 +513,7 @@ Setting the value:
 
 ```ruby
 factory :user do
-  sequence(:email, 'a', aliases: [:sender, :receiver]) {|n| "person#{n}@example.com" }
+  sequence(:email, 'a', aliases: [:sender, :receiver]) { |n| "person#{n}@example.com" }
 end
 ```
 
@@ -771,8 +771,8 @@ To override callbacks for all factories, define them within the
 
 ```ruby
 FactoryGirl.define do
-  after(:build) {|object| puts "Built #{object}" }
-  after(:create) {|object| AuditLog.create(attrs: object.attributes) }
+  after(:build) { |object| puts "Built #{object}" }
+  after(:create) { |object| AuditLog.create(attrs: object.attributes) }
 
   factory :user do
     name "John Doe"
@@ -812,7 +812,7 @@ If a gem were to give you a User factory:
 FactoryGirl.define do
   factory :user do
     full_name "John Doe"
-    sequence(:username) {|n| "user#{n}" }
+    sequence(:username) { |n| "user#{n}" }
     password "password"
   end
 end
@@ -894,7 +894,7 @@ class User
 end
 
 # factories.rb
-sequence(:email) {|n| "person#{n}@example.com" }
+sequence(:email) { |n| "person#{n}@example.com" }
 
 factory :user do
   ignore do
@@ -1081,9 +1081,9 @@ FactoryGirl.register_strategy(:json, JsonStrategy)
 
 FactoryGirl.define do
   factory :user do
-    before(:json)                {|user| do_something_to(user) }
-    after(:json)                 {|user_json| do_something_to(user_json) }
-    callback(:make_json_awesome) {|user_json| do_something_to(user_json) }
+    before(:json)                { |user| do_something_to(user) }
+    after(:json)                 { |user_json| do_something_to(user_json) }
+    callback(:make_json_awesome) { |user_json| do_something_to(user_json) }
   end
 end
 ```
@@ -1097,7 +1097,7 @@ may not always be ideal, you can override that behavior by defining
 
 ```ruby
 factory :different_orm_model do
-  to_create {|instance| instance.persist! }
+  to_create { |instance| instance.persist! }
 end
 ```
 
@@ -1115,7 +1115,7 @@ To override `to_create` for all factories, define it within the
 
 ```ruby
 FactoryGirl.define do
-  to_create {|instance| instance.persist! }
+  to_create { |instance| instance.persist! }
 
 
   factory :user do
