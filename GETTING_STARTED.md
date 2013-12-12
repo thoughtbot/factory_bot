@@ -247,7 +247,7 @@ Attributes can be based on the values of other attributes using the evaluator th
 factory :user do
   first_name "Joe"
   last_name  "Blow"
-  email { "#{ first_name }.#{ last_name }@example.com".downcase }
+  email { "#{first_name}.#{last_name}@example.com".downcase }
 end
 
 FactoryGirl.create(:user, last_name: "Doe").email
@@ -266,8 +266,8 @@ factory :user do
     upcased  false
   end
 
-  name  { "John Doe#{ " - Rockstar" if rockstar }" }
-  email { "#{ name.downcase }@example.com" }
+  name  { "John Doe#{" - Rockstar" if rockstar}" }
+  email { "#{name.downcase}@example.com" }
 
   after(:create) do |user, evaluator|
     user.name.upcase! if evaluator.upcased
@@ -470,7 +470,7 @@ a particular factory:
 
 ```ruby
 factory :user do
-  sequence(:email) { |n| "person#{ n }@example.com" }
+  sequence(:email) { |n| "person#{n}@example.com" }
 end
 ```
 
@@ -478,7 +478,7 @@ You can also override the initial value:
 
 ```ruby
 factory :user do
-  sequence(:email, 1000) { |n| "person#{ n }@example.com" }
+  sequence(:email, 1000) { |n| "person#{n}@example.com" }
 end
 ```
 
@@ -494,7 +494,7 @@ Sequences can also have aliases. The sequence aliases share the same counter:
 
 ```ruby
 factory :user do
-  sequence(:email, 1000, aliases: [:sender, :receiver]) { |n| "person#{ n }@example.com" }
+  sequence(:email, 1000, aliases: [:sender, :receiver]) { |n| "person#{n}@example.com" }
 end
 
 # will increase value counter for :email which is shared by :sender and :receiver
@@ -505,7 +505,7 @@ Define aliases and use default value (1) for the counter
 
 ```ruby
 factory :user do
-  sequence(:email, aliases: [:sender, :receiver]) { |n| "person#{ n }@example.com" }
+  sequence(:email, aliases: [:sender, :receiver]) { |n| "person#{n}@example.com" }
 end
 ```
 
@@ -513,7 +513,7 @@ Setting the value:
 
 ```ruby
 factory :user do
-  sequence(:email, 'a', aliases: [:sender, :receiver]) { |n| "person#{ n }@example.com" }
+  sequence(:email, 'a', aliases: [:sender, :receiver]) { |n| "person#{n}@example.com" }
 end
 ```
 
@@ -563,7 +563,7 @@ Traits can be used as attributes:
 factory :week_long_published_story_with_title, parent: :story do
   published
   week_long_publishing
-  title { "Publishing that was started at #{ start_at }" }
+  title { "Publishing that was started at #{start_at}" }
 end
 ```
 
@@ -578,18 +578,18 @@ factory :user do
   trait :male do
     name   "John Doe"
     gender "Male"
-    login { "#{ name } (M)" }
+    login { "#{name} (M)" }
   end
 
   trait :female do
     name   "Jane Doe"
     gender "Female"
-    login { "#{ name } (F)" }
+    login { "#{name} (F)" }
   end
 
   trait :admin do
     admin true
-    login { "admin-#{ name }" }
+    login { "admin-#{name}" }
   end
 
   factory :male_admin,   traits: [:male, :admin]   # login will be "admin-John Doe"
@@ -607,7 +607,7 @@ factory :user do
   trait :male do
     name   "John Doe"
     gender "Male"
-    login { "#{ name } (M)" }
+    login { "#{name} (M)" }
   end
 
   factory :brandon do
@@ -812,7 +812,7 @@ If a gem were to give you a User factory:
 FactoryGirl.define do
   factory :user do
     full_name "John Doe"
-    sequence(:username) { |n| "user#{ n }" }
+    sequence(:username) { |n| "user#{n}" }
     password "password"
   end
 end
@@ -894,7 +894,7 @@ class User
 end
 
 # factories.rb
-sequence(:email) { |n| "person#{ n }@example.com" }
+sequence(:email) { |n| "person#{n}@example.com" }
 
 factory :user do
   ignore do
@@ -1137,7 +1137,7 @@ ActiveSupport::Notifications.subscribe("factory_girl.run_factory") do |name, sta
   execution_time_in_seconds = finish - start
 
   if execution_time_in_seconds >= 0.5
-    $stderr.puts "Slow factory: #{ payload[:name] } using strategy #{ payload[:strategy] }"
+    $stderr.puts "Slow factory: #{payload[:name]} using strategy #{payload[:strategy]}"
   end
 end
 ```
