@@ -25,43 +25,40 @@ export JRUBY_OPTS=--1.9
 
 Once your Gemfile is updated, you'll want to update your bundle.
 
-Using Without Bundler
----------------------
-
-If you're not using Bundler, be sure to have the gem installed and call:
+Configure your test suite
+-------------------------
 
 ```ruby
-require 'factory_girl'
-```
+# rspec
+RSpec.configure do |config|
+  config.include FactoryGirl::Syntax::Methods
+end
 
-Once required, assuming you have a directory structure of `spec/factories` or
-`test/factories`, all you'll need to do is run
+# Test::Unit
+class Test::Unit::TestCase
+  include FactoryGirl::Syntax::Methods
+end
 
-```ruby
-FactoryGirl.find_definitions
-```
+# Cucumber
+World(FactoryGirl::Syntax::Methods)
 
-If you're using a separate directory structure for your factories, you can
-change the definition file paths before trying to find definitions:
+# MiniTest
+class MiniTest::Unit::TestCase
+  include FactoryGirl::Syntax::Methods
+end
 
-```ruby
-FactoryGirl.definition_file_paths = %w(custom_factories_directory)
-FactoryGirl.find_definitions
-```
+# MiniTest::Spec
+class MiniTest::Spec
+  include FactoryGirl::Syntax::Methods
+end
 
-If you don't have a separate directory of factories and would like to define
-them inline, that's possible as well:
-
-```ruby
-require 'factory_girl'
-
-FactoryGirl.define do
-  factory :user do
-    name 'John Doe'
-    date_of_birth { 21.years.ago }
-  end
+# minitest-rails
+class MiniTest::Rails::ActiveSupport::TestCase
+  include FactoryGirl::Syntax::Methods
 end
 ```
+
+If you do not include `FactoryGirl::Syntax::Methods` in your test suite, then all FactoryGirl methods will need to be prefaced with `FactoryGirl`.
 
 Defining factories
 ------------------
@@ -105,19 +102,19 @@ factory\_girl supports several different build strategies: build, create, attrib
 
 ```ruby
 # Returns a User instance that's not saved
-user = FactoryGirl.build(:user)
+user = build(:user)
 
 # Returns a saved User instance
-user = FactoryGirl.create(:user)
+user = create(:user)
 
 # Returns a hash of attributes that can be used to build a User instance
-attrs = FactoryGirl.attributes_for(:user)
+attrs = attributes_for(:user)
 
 # Returns an object with all defined attributes stubbed out
-stub = FactoryGirl.build_stubbed(:user)
+stub = build_stubbed(:user)
 
 # Passing a block to any of the methods above will yield the return object
-FactoryGirl.create(:user) do |user|
+create(:user) do |user|
   user.posts.create(attributes_for(:post))
 end
 ```
@@ -126,53 +123,9 @@ No matter which strategy is used, it's possible to override the defined attribut
 
 ```ruby
 # Build a User instance and override the first_name property
-user = FactoryGirl.build(:user, first_name: "Joe")
+user = build(:user, first_name: "Joe")
 user.first_name
 # => "Joe"
-```
-
-If repeating "FactoryGirl" is too verbose for you, you can mix the syntax methods in:
-
-```ruby
-# rspec
-RSpec.configure do |config|
-  config.include FactoryGirl::Syntax::Methods
-end
-
-# Test::Unit
-class Test::Unit::TestCase
-  include FactoryGirl::Syntax::Methods
-end
-
-# Cucumber
-World(FactoryGirl::Syntax::Methods)
-
-# MiniTest
-class MiniTest::Unit::TestCase
-  include FactoryGirl::Syntax::Methods
-end
-
-# MiniTest::Spec
-class MiniTest::Spec
-  include FactoryGirl::Syntax::Methods
-end
-
-# minitest-rails
-class MiniTest::Rails::ActiveSupport::TestCase
-  include FactoryGirl::Syntax::Methods
-end
-```
-
-This allows you to use the core set of syntax methods (`build`,
-`build_stubbed`, `create`, `attributes_for`, and their `*_list` counterparts)
-without having to call them on FactoryGirl directly:
-
-```ruby
-describe User, "#full_name" do
-  subject { create(:user, first_name: "John", last_name: "Doe") }
-
-  its(:full_name) { should eq "John Doe" }
-end
 ```
 
 Lazy Attributes
@@ -189,24 +142,6 @@ factory :user do
   # ...
   activation_code { User.generate_activation_code }
   date_of_birth   { 21.years.ago }
-end
-```
-
-In addition to running other methods dynamically, you can use FactoryGirl's
-syntax methods (like `build`, `create`, and `generate`) within dynamic
-attributes without having to prefix the call with `FactoryGirl.`. This allows
-you to do:
-
-```ruby
-sequence(:random_string) {|n| LoremIpsum.generate }
-
-factory :post do
-  title { generate(:random_string) } # instead of FactoryGirl.generate(:random_string)
-end
-
-factory :comment do
-  post
-  body { generate(:random_string) }  # instead of FactoryGirl.generate(:random_string)
 end
 ```
 
@@ -250,7 +185,7 @@ factory :user do
   email { "#{first_name}.#{last_name}@example.com".downcase }
 end
 
-FactoryGirl.create(:user, last_name: "Doe").email
+create(:user, last_name: "Doe").email
 # => "joe.doe@example.com"
 ```
 
@@ -274,7 +209,7 @@ factory :user do
   end
 end
 
-FactoryGirl.create(:user, upcased: true).name
+create(:user, upcased: true).name
 #=> "JOHN DOE - ROCKSTAR"
 ```
 
@@ -312,12 +247,12 @@ The behavior of the association method varies depending on the build strategy us
 
 ```ruby
 # Builds and saves a User and a Post
-post = FactoryGirl.create(:post)
+post = create(:post)
 post.new_record?        # => false
 post.author.new_record? # => false
 
 # Builds and saves a User, and then builds but does not save a Post
-post = FactoryGirl.build(:post)
+post = build(:post)
 post.new_record?        # => true
 post.author.new_record? # => false
 ```
@@ -331,7 +266,7 @@ factory :post do
 end
 
 # Builds a User, and then builds a Post, but does not save either
-post = FactoryGirl.build(:post)
+post = build(:post)
 post.new_record?        # => true
 post.author.new_record? # => true
 ```
@@ -375,7 +310,7 @@ FactoryGirl.define do
       # attributes; `create_list`'s second argument is the number of records
       # to create and we make sure the user is associated properly to the post
       after(:create) do |user, evaluator|
-        FactoryGirl.create_list(:post, evaluator.posts_count, user: user)
+        create_list(:post, evaluator.posts_count, user: user)
       end
     end
   end
@@ -385,9 +320,9 @@ end
 This allows us to do:
 
 ```ruby
-FactoryGirl.create(:user).posts.length # 0
-FactoryGirl.create(:user_with_posts).posts.length # 5
-FactoryGirl.create(:user_with_posts, posts_count: 15).posts.length # 15
+create(:user).posts.length # 0
+create(:user_with_posts).posts.length # 5
+create(:user_with_posts, posts_count: 15).posts.length # 15
 ```
 
 Inheritance
@@ -404,7 +339,7 @@ factory :post do
   end
 end
 
-approved_post = FactoryGirl.create(:approved_post)
+approved_post = create(:approved_post)
 approved_post.title    # => "A title"
 approved_post.approved # => true
 ```
@@ -432,7 +367,7 @@ Sequences
 Unique values in a specific format (for example, e-mail addresses) can be
 generated using sequences. Sequences are defined by calling sequence in a
 definition block, and values in a sequence are generated by calling
-FactoryGirl.generate:
+`generate`:
 
 ```ruby
 # Defines a new sequence
@@ -442,10 +377,10 @@ FactoryGirl.define do
   end
 end
 
-FactoryGirl.generate :email
+generate :email
 # => "person1@example.com"
 
-FactoryGirl.generate :email
+generate :email
 # => "person2@example.com"
 ```
 
@@ -498,7 +433,7 @@ factory :user do
 end
 
 # will increase value counter for :email which is shared by :sender and :receiver
-FactoryGirl.generate(:sender)
+generate(:sender)
 ```
 
 Define aliases and use default value (1) for the counter
@@ -634,7 +569,7 @@ factory :user do
 end
 
 # creates an admin user with gender "Male" and name "Jon Snow"
-FactoryGirl.create(:user, :admin, :male, name: "Jon Snow")
+create(:user, :admin, :male, name: "Jon Snow")
 ```
 
 This ability works with `build`, `build_stubbed`, `attributes_for`, and `create`.
@@ -653,7 +588,7 @@ factory :user do
 end
 
 # creates 3 admin users with gender "Male" and name "Jon Snow"
-FactoryGirl.create_list(:user, 3, :admin, :male, name: "Jon Snow")
+create_list(:user, 3, :admin, :male, name: "Jon Snow")
 ```
 
 Traits can be used with associations easily too:
@@ -672,7 +607,7 @@ factory :post do
 end
 
 # creates an admin user with name "John Doe"
-FactoryGirl.create(:post).user
+create(:post).user
 ```
 
 When you're using association names that're different than the factory:
@@ -693,7 +628,7 @@ factory :post do
 end
 
 # creates an admin user with name "John Doe"
-FactoryGirl.create(:post).author
+create(:post).author
 ```
 
 Finally, traits can be used within other traits to mix in their attributes.
@@ -752,7 +687,7 @@ factory :user do
 end
 ```
 
-Calling FactoryGirl.create will invoke both `after_build` and `after_create` callbacks.
+Calling `create` will invoke both `after_build` and `after_create` callbacks.
 
 Also, like standard attributes, child factories will inherit (and can also define) callbacks from their parent factory.
 
@@ -797,7 +732,7 @@ FactoryGirl.define do
   end
 end
 
-FactoryGirl.create(:user) # creates the user and confirms it
+create(:user) # creates the user and confirms it
 ```
 
 Modifying factories
@@ -857,22 +792,22 @@ Building or Creating Multiple Records
 Sometimes, you'll want to create or build multiple instances of a factory at once.
 
 ```ruby
-built_users   = FactoryGirl.build_list(:user, 25)
-created_users = FactoryGirl.create_list(:user, 25)
+built_users   = build_list(:user, 25)
+created_users = create_list(:user, 25)
 ```
 
 These methods will build or create a specific amount of factories and return them as an array.
 To set the attributes for each of the factories, you can pass in a hash as you normally would.
 
 ```ruby
-twenty_year_olds = FactoryGirl.build_list(:user, 25, date_of_birth: 20.years.ago)
+twenty_year_olds = build_list(:user, 25, date_of_birth: 20.years.ago)
 ```
 
 There's also a set of `*_pair` methods for creating two records at a time:
 
 ```ruby
-built_users   = FactoryGirl.build_pair(:user) # array of two built users
-created_users = FactoryGirl.create_pair(:user) # array of two created users
+built_users   = build_pair(:user) # array of two built users
+created_users = create_pair(:user) # array of two created users
 ```
 
 Custom Construction
@@ -905,7 +840,7 @@ factory :user do
   initialize_with { new(name) }
 end
 
-FactoryGirl.build(:user).name # Jane Doe
+build(:user).name # Jane Doe
 ```
 
 Notice that I ignored the `name` attribute. If you don't want attributes
@@ -981,7 +916,7 @@ FactoryGirl.define do
   end
 end
 
-FactoryGirl.build(:user)
+build(:user)
 # runs
 User.new('value')
 ```
@@ -998,7 +933,7 @@ FactoryGirl.define do
   end
 end
 
-FactoryGirl.build(:user)
+build(:user)
 # runs
 user = User.new('value')
 user.name = 'value'
@@ -1186,7 +1121,7 @@ end
 The error occurs during the run of the test suite:
 
 ```
-Failure/Error: united_states = FactoryGirl.create(:united_states)
+Failure/Error: united_states = create(:united_states)
 ActiveRecord::AssociationTypeMismatch:
   LocationGroup(#70251250797320) expected, got LocationGroup(#70251200725840)
 ```
@@ -1197,5 +1132,43 @@ to add `FactoryGirl.reload` to the RSpec configuration, like so:
 ```ruby
 RSpec.configure do |config|
   config.before(:suite) { FactoryGirl.reload }
+end
+```
+
+Using Without Bundler
+---------------------
+
+If you're not using Bundler, be sure to have the gem installed and call:
+
+```ruby
+require 'factory_girl'
+```
+
+Once required, assuming you have a directory structure of `spec/factories` or
+`test/factories`, all you'll need to do is run
+
+```ruby
+FactoryGirl.find_definitions
+```
+
+If you're using a separate directory structure for your factories, you can
+change the definition file paths before trying to find definitions:
+
+```ruby
+FactoryGirl.definition_file_paths = %w(custom_factories_directory)
+FactoryGirl.find_definitions
+```
+
+If you don't have a separate directory of factories and would like to define
+them inline, that's possible as well:
+
+```ruby
+require 'factory_girl'
+
+FactoryGirl.define do
+  factory :user do
+    name 'John Doe'
+    date_of_birth { 21.years.ago }
+  end
 end
 ```
