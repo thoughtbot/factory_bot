@@ -11,7 +11,7 @@ module FactoryGirl
       @callback_names = Set.new
       @definition     = Definition.new
 
-      to_create {|instance| instance.save! }
+      to_create { |instance| instance.save! }
       initialize_with { new }
     end
 

@@ -160,7 +160,7 @@ describe "initialize_with doesn't duplicate assignment on attributes accessed fr
     end
 
     FactoryGirl.define do
-      sequence(:email) {|n| "person#{n}@example.com" }
+      sequence(:email) { |n| "person#{n}@example.com" }
 
       factory :user do
         email
@@ -192,7 +192,7 @@ describe "initialize_with has access to all attributes for construction" do
     end
 
     FactoryGirl.define do
-      sequence(:email) {|n| "person#{n}@example.com" }
+      sequence(:email) { |n| "person#{n}@example.com" }
 
       factory :user do
         ignore do

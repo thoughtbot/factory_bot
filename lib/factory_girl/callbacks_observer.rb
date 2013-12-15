@@ -15,7 +15,7 @@ module FactoryGirl
     private
 
     def callbacks_by_name(name)
-      @callbacks.select {|callback| callback.name == name }
+      @callbacks.select { |callback| callback.name == name }
     end
   end
 end

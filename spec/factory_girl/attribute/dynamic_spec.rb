@@ -38,7 +38,7 @@ describe FactoryGirl::Attribute::Dynamic do
   end
 
   context "with a block returning a sequence" do
-    let(:block) { -> { FactoryGirl.register_sequence(FactoryGirl::Sequence.new(:email, 1) {|n| "foo#{n}" }) } }
+    let(:block) { -> { FactoryGirl.register_sequence(FactoryGirl::Sequence.new(:email, 1) { |n| "foo#{n}" }) } }
 
     it "raises a sequence abuse error" do
       expect { subject.to_proc.call }.to raise_error(FactoryGirl::SequenceAbuseError)

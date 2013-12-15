@@ -187,11 +187,11 @@ describe "traits with callbacks" do
         name "John"
 
         trait :great do
-          after(:create) {|user| user.name.upcase! }
+          after(:create) { |user| user.name.upcase! }
         end
 
         trait :awesome do
-          after(:create) {|user| user.name = "awesome" }
+          after(:create) { |user| user.name = "awesome" }
         end
 
         factory :caps_user, traits: [:great]
@@ -232,7 +232,7 @@ describe "traits added via strategy" do
         end
 
         trait :great do
-          after(:create) {|user| user.name.upcase! }
+          after(:create) { |user| user.name.upcase! }
         end
       end
     end
@@ -427,11 +427,11 @@ describe "traits with to_create" do
     FactoryGirl.define do
       factory :user do
         trait :with_to_create do
-          to_create {|instance| instance.name = "to_create" }
+          to_create { |instance| instance.name = "to_create" }
         end
 
         factory :sub_user do
-          to_create {|instance| instance.name = "sub" }
+          to_create { |instance| instance.name = "sub" }
 
           factory :child_user
         end
@@ -444,7 +444,7 @@ describe "traits with to_create" do
 
         factory :sub_user_with_trait_and_override do
           with_to_create
-          to_create {|instance| instance.name = "sub with trait and override" }
+          to_create { |instance| instance.name = "sub with trait and override" }
 
           factory :child_user_with_trait_and_override
         end
@@ -479,7 +479,7 @@ describe "traits with to_create" do
   it "gives additional traits higher priority than base traits and factory definition" do
     FactoryGirl.define do
       trait :overridden do
-        to_create {|instance| instance.name = "completely overridden" }
+        to_create { |instance| instance.name = "completely overridden" }
       end
     end
 
@@ -588,7 +588,7 @@ describe "nested implicit traits" do
       FactoryGirl.define do
         trait :female do
           gender "female"
-          to_create {|instance| instance.gender = instance.gender.upcase }
+          to_create { |instance| instance.gender = instance.gender.upcase }
         end
 
         trait :jane_doe do
@@ -597,7 +597,7 @@ describe "nested implicit traits" do
 
         trait :admin do
           role "admin"
-          after(:build) {|instance| instance.role = instance.role.upcase }
+          after(:build) { |instance| instance.role = instance.role.upcase }
         end
 
         trait :female_admin do
@@ -619,7 +619,7 @@ describe "nested implicit traits" do
         factory :user do
           trait :female do
             gender "female"
-            to_create {|instance| instance.gender = instance.gender.upcase }
+            to_create { |instance| instance.gender = instance.gender.upcase }
           end
 
           trait :jane_doe do
@@ -628,7 +628,7 @@ describe "nested implicit traits" do
 
           trait :admin do
             role "admin"
-            after(:build) {|instance| instance.role = instance.role.upcase }
+            after(:build) { |instance| instance.role = instance.role.upcase }
           end
 
           trait :female_admin do
@@ -653,7 +653,7 @@ describe "implicit traits containing callbacks" do
         value 0
 
         trait :trait_with_callback do
-          after(:build) {|user| user.value += 1 }
+          after(:build) { |user| user.value += 1 }
         end
 
         factory :user_with_trait_with_callback do

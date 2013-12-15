@@ -9,7 +9,7 @@ describe 'finding factories keyed by class instead of symbol' do
     FactoryGirl.define do
       factory :user do
         name 'John Doe'
-        sequence(:email) {|n| "person#{n}@example.com" }
+        sequence(:email) { |n| "person#{n}@example.com" }
       end
     end
   end

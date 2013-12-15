@@ -3,7 +3,7 @@ require 'spec_helper'
 describe FactoryGirl::Sequence do
   describe "a basic sequence" do
     let(:name) { :test }
-    subject    { FactoryGirl::Sequence.new(name) {|n| "=#{n}" } }
+    subject    { FactoryGirl::Sequence.new(name) { |n| "=#{n}" } }
 
     its(:name)  { should eq name }
     its(:names) { should eq [name] }
@@ -16,7 +16,7 @@ describe FactoryGirl::Sequence do
   end
 
   describe "a custom sequence" do
-    subject    { FactoryGirl::Sequence.new(:name, "A") {|n| "=#{n}" } }
+    subject    { FactoryGirl::Sequence.new(:name, "A") { |n| "=#{n}" } }
     its(:next) { should eq "=A" }
 
     describe "when incrementing" do
@@ -67,7 +67,7 @@ describe FactoryGirl::Sequence do
   end
 
   describe "iterating over items in an enumerator" do
-    subject { FactoryGirl::Sequence.new(:name, %w[foo bar].to_enum) {|n| "=#{n}" } }
+    subject { FactoryGirl::Sequence.new(:name, %w[foo bar].to_enum) { |n| "=#{n}" } }
 
     it "navigates to the next items until no items remain" do
       expect(subject.next).to eq "=foo"
@@ -77,7 +77,7 @@ describe FactoryGirl::Sequence do
   end
 
   describe "a custom sequence and scope" do
-    subject { FactoryGirl::Sequence.new(:name, 'A') {|n| "=#{n}#{foo}" } }
+    subject { FactoryGirl::Sequence.new(:name, 'A') { |n| "=#{n}#{foo}" } }
     let(:scope) { stub('scope', foo: 'attribute') }
 
     it 'increments within the correct scope' do

@@ -35,11 +35,11 @@ module FactoryGirl
     private
 
     def delete_declaration(declaration)
-      @declarations.delete_if {|decl| decl.name == declaration.name }
+      @declarations.delete_if { |decl| decl.name == declaration.name }
     end
 
     def to_attributes
-      @declarations.inject([]) {|result, declaration| result += declaration.to_attributes }
+      @declarations.inject([]) { |result, declaration| result += declaration.to_attributes }
     end
 
     def overridable?

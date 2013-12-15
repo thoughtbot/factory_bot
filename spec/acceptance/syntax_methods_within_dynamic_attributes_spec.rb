@@ -12,7 +12,7 @@ describe "syntax methods within dynamic attributes" do
     define_model("User", email: :string)
 
     FactoryGirl.define do
-      sequence(:email_address) {|n| "person-#{n}@example.com" }
+      sequence(:email_address) { |n| "person-#{n}@example.com" }
 
       factory :user do
         email { generate(:email_address) }
@@ -42,7 +42,7 @@ describe "syntax methods within dynamic attributes" do
   it 'allows syntax methods to be used when the block has an arity of 1' do
     FactoryGirl.define do
       factory :post_using_block_with_variable, parent: :post do
-        user {|_| build(:user) }
+        user { |_| build(:user) }
       end
     end
 

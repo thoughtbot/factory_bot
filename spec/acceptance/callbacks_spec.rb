@@ -82,8 +82,8 @@ describe "callbacks using syntax methods without referencing FactoryGirl explici
 
       factory :user do
         after(:stub)   { generate(:sequence_3) }
-        after(:build)  {|user| user.first_name = generate(:sequence_1) }
-        after(:create) {|user, evaluator| user.last_name = generate(:sequence_2) }
+        after(:build)  { |user| user.first_name = generate(:sequence_1) }
+        after(:create) { |user, evaluator| user.last_name = generate(:sequence_2) }
       end
     end
   end
@@ -149,8 +149,8 @@ describe "custom callbacks" do
         first_name "John"
         last_name  "Doe"
 
-        before(:custom) {|instance| instance.first_name = "Overridden First" }
-        after(:custom)  {|instance| instance.last_name  = "Overridden Last" }
+        before(:custom) { |instance| instance.first_name = "Overridden First" }
+        after(:custom)  { |instance| instance.last_name  = "Overridden Last" }
         callback(:totally_custom) do |instance|
           instance.first_name = "Totally"
           instance.last_name  = "Custom"

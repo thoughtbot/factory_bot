@@ -47,8 +47,8 @@ module FactoryGirl
         declarations.attributes
 
         defined_traits.each do |defined_trait|
-          base_traits.each       {|bt| bt.define_trait defined_trait }
-          additional_traits.each {|bt| bt.define_trait defined_trait }
+          base_traits.each       { |bt| bt.define_trait defined_trait }
+          additional_traits.each { |bt| bt.define_trait defined_trait }
         end
 
         @compiled = true
@@ -85,11 +85,11 @@ module FactoryGirl
     end
 
     def before(*names, &block)
-      callback(*names.map {|name| "before_#{name}" }, &block)
+      callback(*names.map { |name| "before_#{name}" }, &block)
     end
 
     def after(*names, &block)
-      callback(*names.map {|name| "after_#{name}" }, &block)
+      callback(*names.map { |name| "after_#{name}" }, &block)
     end
 
     def callback(*names, &block)
@@ -114,7 +114,7 @@ module FactoryGirl
     end
 
     def trait_for(name)
-      defined_traits.detect {|trait| trait.name == name }
+      defined_traits.detect { |trait| trait.name == name }
     end
 
     def initialize_copy(source)

@@ -5,7 +5,7 @@ describe "transient attributes" do
     define_model("User", name: :string, email: :string)
 
     FactoryGirl.define do
-      sequence(:name) {|n| "John #{n}" }
+      sequence(:name) { |n| "John #{n}" }
 
       factory :user do
         ignore do

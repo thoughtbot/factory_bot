@@ -33,7 +33,7 @@ describe "sequences" do
 
   it "generates aliases for the sequence that reference the same block" do
     FactoryGirl.define do
-      sequence(:size, aliases: [:count, :length]) {|n| "called-#{n}" }
+      sequence(:size, aliases: [:count, :length]) { |n| "called-#{n}" }
     end
 
     first_value  = generate(:size)
@@ -47,7 +47,7 @@ describe "sequences" do
 
   it "generates aliases for the sequence that reference the same block and retains value" do
     FactoryGirl.define do
-      sequence(:size, "a", aliases: [:count, :length]) {|n| "called-#{n}" }
+      sequence(:size, "a", aliases: [:count, :length]) { |n| "called-#{n}" }
     end
 
     first_value  = generate(:size)

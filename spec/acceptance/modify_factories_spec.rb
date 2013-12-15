@@ -7,7 +7,7 @@ describe "modifying factories" do
     define_model('User', name: :string, admin: :boolean, email: :string, login: :string)
 
     FactoryGirl.define do
-      sequence(:email) {|n| "user#{n}@example.com" }
+      sequence(:email) { |n| "user#{n}@example.com" }
 
       factory :user do
         email

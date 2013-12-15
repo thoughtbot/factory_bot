@@ -100,7 +100,7 @@ describe FactoryGirl::DefinitionProxy, "#sequence" do
   end
 
   it "creates a new sequence with a block" do
-    sequence_block = Proc.new {|n| "user+#{n}@example.com" }
+    sequence_block = Proc.new { |n| "user+#{n}@example.com" }
     proxy.sequence(:great, 1, &sequence_block)
     expect(FactoryGirl::Sequence).to have_received(:new).with(:great, 1, &sequence_block)
   end

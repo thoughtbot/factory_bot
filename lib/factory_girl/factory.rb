@@ -43,7 +43,7 @@ module FactoryGirl
     end
 
     def human_names
-      names.map {|name| name.to_s.humanize.downcase }
+      names.map { |name| name.to_s.humanize.downcase }
     end
 
     def associations
@@ -82,7 +82,7 @@ module FactoryGirl
     def compile
       unless @compiled
         parent.compile
-        parent.defined_traits.each {|trait| define_trait(trait) }
+        parent.defined_traits.each { |trait| define_trait(trait) }
         @definition.compile
         build_hierarchy
         @compiled = true

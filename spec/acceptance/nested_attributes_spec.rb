@@ -17,7 +17,7 @@ describe "association assignment from nested attributes" do
       end
 
       factory :comment do
-        sequence(:body) {|n| "Body #{n}" }
+        sequence(:body) { |n| "Body #{n}" }
       end
     end
   end
