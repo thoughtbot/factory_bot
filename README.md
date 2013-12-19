@@ -39,7 +39,7 @@ More Information
 ----------------
 
 * [Rubygems](https://rubygems.org/gems/factory_girl)
-* [Mailing list](http://groups.google.com/group/factory_girl)
+* [Stack Overflow](http://stackoverflow.com/questions/tagged/factory-girl)
 * [Issues](https://github.com/thoughtbot/factory_girl/issues)
 * [GIANT ROBOTS SMASHING INTO OTHER GIANT ROBOTS](http://robots.thoughtbot.com/)
 
