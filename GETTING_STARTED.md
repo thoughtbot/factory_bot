@@ -1078,8 +1078,10 @@ end
 ```
 
 Another example would be tracking all factories and how they're used
-throughout your test suite. If you're using RSpec, it's as simple as adding a
-`before(:suite)` and `after(:suite)`:
+throughout your test suite. This can be helpful quickly identifying circular
+references causing `SystemStackError: stack level too deep`'s.
+
+If you're using RSpec, it's as simple as adding a `before(:suite)` and `after(:suite)`:
 
 ```ruby
 config.before(:suite) do
@@ -1095,6 +1097,35 @@ end
 
 config.after(:suite) do
   puts @factory_girl_results
+end
+```
+
+Or, if you're using MiniTest:
+
+```ruby
+require 'minitest/unit'
+
+module OutputFactoryGirlRunFactories
+  def before_setup
+    @factory_girl_results = {}
+    ActiveSupport::Notifications.subscribe("factory_girl.run_factory") do |name, start, finish, id, payload|
+      factory_name = payload[:name]
+      strategy_name = payload[:strategy]
+      @factory_girl_results[factory_name] ||= {}
+      @factory_girl_results[factory_name][strategy_name] ||= 0
+      @factory_girl_results[factory_name][strategy_name] += 1
+    end
+    super if defined?(super)
+  end
+
+  def after_teardown
+    super if defined?(super)
+    puts @factory_girl_results
+  end
+end
+
+class MiniTest::Unit::TestCase
+  include OutputFactoryGirlRunFactories
 end
 ```
 
