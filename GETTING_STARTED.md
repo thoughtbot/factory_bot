@@ -16,7 +16,7 @@ If you're *not* using Rails, you'll just have to change the required version of 
 gem "factory_girl", "~> 4.0"
 ```
 
-JRuby users: FactoryGirl works with JRuby starting with 1.6.7.2 (latest stable, as per July 2012).
+JRuby users: factory_girl works with JRuby starting with 1.6.7.2 (latest stable, as per July 2012).
 JRuby has to be used in 1.9 mode, for that, use JRUBY_OPTS environment variable:
 
 ```bash
@@ -58,7 +58,7 @@ class MiniTest::Rails::ActiveSupport::TestCase
 end
 ```
 
-If you do not include `FactoryGirl::Syntax::Methods` in your test suite, then all FactoryGirl methods will need to be prefaced with `FactoryGirl`.
+If you do not include `FactoryGirl::Syntax::Methods` in your test suite, then all factory_girl methods will need to be prefaced with `FactoryGirl`.
 
 Defining factories
 ------------------
@@ -217,8 +217,8 @@ Static and dynamic attributes can be ignored. Ignored attributes will be ignored
 within attributes\_for and won't be set on the model, even if the attribute
 exists or you attempt to override it.
 
-Within FactoryGirl's dynamic attributes, you can access ignored attributes as
-you would expect. If you need to access the evaluator in a FactoryGirl callback,
+Within factory_girl's dynamic attributes, you can access ignored attributes as
+you would expect. If you need to access the evaluator in a factory_girl callback,
 you'll need to declare a second block argument (for the evaluator) and access
 ignored attributes from there.
 
@@ -552,7 +552,7 @@ factory :user do
 end
 ```
 
-Traits can also be passed in as a list of symbols when you construct an instance from FactoryGirl.
+Traits can also be passed in as a list of symbols when you construct an instance from factory_girl.
 
 ```ruby
 factory :user do
@@ -921,7 +921,7 @@ build(:user)
 User.new('value')
 ```
 
-This prevents duplicate assignment; in versions of FactoryGirl before 4.0, it
+This prevents duplicate assignment; in versions of factory_girl before 4.0, it
 would run this:
 
 ```ruby
