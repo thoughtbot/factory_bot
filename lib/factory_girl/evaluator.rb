@@ -10,6 +10,8 @@ module FactoryGirl
       undef_method(method) unless method =~ /^__|initialize/
     end
 
+    attr_reader :instance
+
     def initialize(build_strategy, overrides = {})
       @build_strategy = build_strategy
       @overrides = overrides
