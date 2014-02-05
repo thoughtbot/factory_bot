@@ -42,6 +42,11 @@ end
 # Cucumber
 World(FactoryGirl::Syntax::Methods)
 
+# Spinach
+class Spinach::FeatureSteps
+  include FactoryGirl::Syntax::Methods
+end
+
 # MiniTest
 class MiniTest::Unit::TestCase
   include FactoryGirl::Syntax::Methods
