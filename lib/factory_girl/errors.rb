@@ -19,4 +19,7 @@ module FactoryGirl
 
   # Raised when a method is defined in a factory or trait with arguments
   class MethodDefinitionError < RuntimeError; end
+
+  # Raised when any factory is considered invalid
+  class InvalidFactoryError < RuntimeError; end
 end
