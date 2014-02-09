@@ -1,3 +1,12 @@
+4.3.0 (November 3, 2013)
+  Start testing against Rails 4.0 and Ruby 2.0.0
+  Stop testing against Rails 3.0 and Ruby 1.9.2
+  Add *_pair methods to only build two objects
+  Raise if a method is defined with a FactoryGirl block (factory or trait)
+  Allow use of Symbol#to_proc in callbacks
+  Add global callbacks
+  Improve GETTING_STARTED and README
+
 4.2.0 (January 18, 2013)
   Improve documentation
   Allow *_list syntax methods to accept a block
