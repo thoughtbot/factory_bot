@@ -60,6 +60,34 @@ end
 
 If you do not include `FactoryGirl::Syntax::Methods` in your test suite, then all factory_girl methods will need to be prefaced with `FactoryGirl`.
 
+Linting Factories
+-----------------
+
+factory_girl allows for linting known factories:
+
+```ruby
+FactoryGirl.lint
+```
+
+`FactoryGirl.lint` builds each factory and subsequently calls `#valid?` on it
+(if `#valid?` is defined); if any calls to `#valid?` return `false`,
+`FactoryGirl::InvalidFactoryError` is raised with a list of the offending
+factories. Recommended usage of `FactoryGirl.lint` is to invoke this once
+before the test suite is run.
+
+With RSpec:
+
+```ruby
+# spec/support/factory_girl.rb
+RSpec.configure do |config|
+  # additional factory_girl configuration
+
+  config.before(:suite) do
+    FactoryGirl.lint
+  end
+end
+```
+
 Defining factories
 ------------------
 
