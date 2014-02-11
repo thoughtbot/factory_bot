@@ -1,3 +1,8 @@
+4.4.0 (February 10, 2014)
+  Add FactoryGirl.lint
+  Fix memory leak in duplicate traits
+  Update documentation
+
 4.3.0 (November 3, 2013)
   Start testing against Rails 4.0 and Ruby 2.0.0
   Stop testing against Rails 3.0 and Ruby 1.9.2
