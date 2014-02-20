@@ -93,6 +93,17 @@ RSpec.configure do |config|
 end
 ```
 
+Note: if any of your factory builds persist changes directly/indirectly, you may need to rollback those changes after running lint. An easy way to do that is to use [DatabaseCleaner](http://rubygems.org/gems/database_cleaner), e.g.:
+
+```ruby
+begin
+  DatabaseCleaner.start
+  FactoryGirl.lint
+ensure
+  DatabaseCleaner.clean
+end
+```
+
 Defining factories
 ------------------
 
