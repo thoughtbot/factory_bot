@@ -873,19 +873,14 @@ end
 sequence(:email) { |n| "person#{n}@example.com" }
 
 factory :user do
-  ignore do
-    name "Jane Doe"
-  end
-
+  name "Jane Doe"
   email
+
   initialize_with { new(name) }
 end
 
 build(:user).name # Jane Doe
 ```
-
-Notice that I ignored the `name` attribute. If you don't want attributes
-reassigned after your object has been instantiated, you'll want to `ignore` them.
 
 Although factory_girl is written to work with ActiveRecord out of the box, it
 can also work with any Ruby class. For maximum compatibiltiy with ActiveRecord,
@@ -908,9 +903,7 @@ For example:
 
 ```ruby
 factory :user do
-  ignore do
-    name "John Doe"
-  end
+  name "John Doe"
 
   initialize_with { User.build_with_name(name) }
 end
