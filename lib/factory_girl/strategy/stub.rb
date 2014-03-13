@@ -33,27 +33,27 @@ module FactoryGirl
           end
 
           def save(*args)
-            raise 'stubbed models are not allowed to access the database'
+            raise "stubbed models are not allowed to access the database - #{self.class.to_s}#save(#{args.join(",")})"
           end
 
           def destroy(*args)
-            raise 'stubbed models are not allowed to access the database'
+            raise "stubbed models are not allowed to access the database - #{self.class.to_s}#destroy(#{args.join(",")})"
           end
 
           def connection
-            raise 'stubbed models are not allowed to access the database'
+            raise "stubbed models are not allowed to access the database - #{self.class.to_s}#connection()"
           end
 
           def reload
-            raise 'stubbed models are not allowed to access the database'
+            raise "stubbed models are not allowed to access the database - #{self.class.to_s}#reload()"
           end
 
           def update_attribute(*args)
-            raise 'stubbed models are not allowed to access the database'
+            raise "stubbed models are not allowed to access the database - #{self.class.to_s}#update_attribute(#{args.join(",")})"
           end
 
           def update_column(*args)
-            raise 'stubbed models are not allowed to access the database'
+            raise "stubbed models are not allowed to access the database - #{self.class.to_s}#update_column(#{args.join(",")})"
           end
         end
 
