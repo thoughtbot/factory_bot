@@ -27,11 +27,11 @@ describe FactoryGirl::Strategy::Stub do
       expect(subject.result(evaluation).created_at).to eq created_at
     end
 
-    [:save, :destroy, :connection, :reload, :update_attribute].each do |database_method|
+    [:save, :destroy, :connection, :reload, :update_attribute, :update_column].each do |database_method|
       it "raises when attempting to connect to the database by calling #{database_method}" do
         expect do
           subject.result(evaluation).send(database_method)
-        end.to raise_error(RuntimeError, "stubbed models are not allowed to access the database")
+        end.to raise_error(RuntimeError, "stubbed models are not allowed to access the database - #{subject.result(evaluation).class}##{database_method}()")
       end
     end
   end
