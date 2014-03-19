@@ -1119,19 +1119,19 @@ throughout your test suite. If you're using RSpec, it's as simple as adding a
 `before(:suite)` and `after(:suite)`:
 
 ```ruby
+factory_girl_results = {}
 config.before(:suite) do
-  @factory_girl_results = {}
   ActiveSupport::Notifications.subscribe("factory_girl.run_factory") do |name, start, finish, id, payload|
     factory_name = payload[:name]
     strategy_name = payload[:strategy]
-    @factory_girl_results[factory_name] ||= {}
-    @factory_girl_results[factory_name][strategy_name] ||= 0
-    @factory_girl_results[factory_name][strategy_name] += 1
+    factory_girl_results[factory_name] ||= {}
+    factory_girl_results[factory_name][strategy_name] ||= 0
+    factory_girl_results[factory_name][strategy_name] += 1
   end
 end
 
 config.after(:suite) do
-  puts @factory_girl_results
+  puts factory_girl_results
 end
 ```
 
