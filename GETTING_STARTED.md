@@ -342,6 +342,57 @@ create(:user_with_posts).posts.length # 5
 create(:user_with_posts, posts_count: 15).posts.length # 15
 ```
 
+Generating data for a `has_and_belongs_to_many` relationship is very similar 
+to the above `has_many` relationship, with a small change, you need to pass an 
+array of objects to the model's pluralized attribute name rather than a single 
+object to the singular version of the attribute name.
+
+Here's an example with two models that are related via
+ `has_and_belongs_to_many`: 
+
+```ruby
+FactoryGirl.define do
+
+  # language factory with a `belongs_to` association for the profile
+  factory :language do
+    title "Through the Looking Glass"
+    profile
+  end
+
+  # profile factory without associated languages
+  factory :profile do
+    name "John Doe"
+
+    # profile_with_languages will create language data after the profile has 
+    # been created
+    factory :profile_with_languages do
+      # languages_count is declared as an ignored attribute and available in
+      # attributes on the factory, as well as the callback via the evaluator
+      ignore do
+        languages_count 5
+      end
+
+      # the after(:create) yields two values; the profile instance itself and 
+      # the evaluator, which stores all values from the factory, including 
+      # ignored attributes; `create_list`'s second argument is the number of 
+      # records to create and we make sure the profile is associated properly 
+      # to the language
+      after(:create) do |profile, evaluator|
+        create_list(:language, evaluator.languages_count, profiles: [profile])
+      end
+    end
+  end
+end
+```
+
+This allows us to do:
+
+```ruby
+create(:profile).languages.length # 0
+create(:profile_with_languages).languages.length # 5
+create(:profile_with_languages, languages_count: 15).languages.length # 15
+```
+
 Inheritance
 -----------
 
