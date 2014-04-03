@@ -14,7 +14,6 @@ module FactoryGirl
       def to_proc
         factory   = @factory
         overrides = @overrides
-        class_override = @class_override
         traits_and_overrides = [factory, overrides].flatten
         factory_name = traits_and_overrides.shift
 
