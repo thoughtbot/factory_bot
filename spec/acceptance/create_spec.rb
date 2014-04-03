@@ -114,3 +114,40 @@ describe "calling `create` with a block" do
     expect(result).to eq expected
   end
 end
+
+describe "creating with specific associated class" do
+  include FactoryGirl::Syntax::Methods
+
+  before do
+    define_model('User')
+
+    define_class('User::User', User) do
+      if respond_to?(:table_name=)
+        self.table_name = 'users'
+      else
+        set_table_name 'users'
+      end
+    end
+
+    define_model('Post', user_id: :integer) do
+      belongs_to :user, class_name: 'User::User'
+    end
+
+    FactoryGirl.define do
+      factory :user
+
+      factory :post do
+        user classname: User::User
+      end
+    end
+  end
+
+  subject { create('post') }
+
+  it { should_not be_new_record }
+
+  it "assigns and saves associations" do
+    expect(subject.user).to be_kind_of(User::User)
+    expect(subject.user).not_to be_new_record
+  end
+end
