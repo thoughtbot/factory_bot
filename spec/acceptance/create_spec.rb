@@ -137,7 +137,7 @@ describe "creating with specific associated class" do
       factory :user
 
       factory :post do
-        user class_name: User::User
+        user class: User::User
       end
     end
   end

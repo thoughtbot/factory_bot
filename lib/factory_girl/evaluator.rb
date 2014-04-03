@@ -63,13 +63,19 @@ module FactoryGirl
       end
     end
 
-    def self.define_attribute(name, &block)
+    def self.define_attribute(name, class_override=nil, &block)
+      unless method_defined? "#{name}_class_override" || class_override.nil?
+        define_method("#{name}_class_override") { class_override }
+      end
       define_method(name) do
-        if @cached_attributes.key?(name)
+        class_override = send("#{name}_class_override")
+
+        value = if @cached_attributes.key?(name)
           @cached_attributes[name]
         else
           @cached_attributes[name] = instance_exec(&block)
         end
+        class_override ? value.becomes(class_override) : value
       end
     end
   end

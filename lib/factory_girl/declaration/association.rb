@@ -21,8 +21,8 @@ module FactoryGirl
 
       def build
         factory_name = @overrides[:factory] || name
-        class_name = @overrides[:class_name]
-        [Attribute::Association.new(name, factory_name, [@traits, @overrides.except(:factory, :class_name)].flatten, class_name)]
+        class_override = @overrides[:class]
+        [Attribute::Association.new(name, factory_name, [@traits, @overrides.except(:factory, :class)].flatten, class_override)]
       end
     end
   end

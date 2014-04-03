@@ -22,21 +22,6 @@ describe FactoryGirl::Attribute::Association do
   end
 end
 
-describe FactoryGirl::Attribute::Association, "with an override class" do
-  let(:name)        { :author }
-  let(:factory)     { :user }
-  let(:association) { stub("association", becomes: true) }
-  let(:override_class) { stub("override_class") }
-
-  subject { FactoryGirl::Attribute::Association.new(name, factory, {}, override_class) }
-  before  { subject.stubs(association: association) }
-
-  it "built assoication is converted to override_class" do
-    subject.to_proc.call
-    expect(association).to have_received(:becomes).with(override_class)
-  end
-end
-
 describe FactoryGirl::Attribute::Association, "with a string name" do
   subject    { FactoryGirl::Attribute::Association.new("name", :user, {}) }
   its(:name) { should eq :name }

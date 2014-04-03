@@ -6,7 +6,11 @@ module FactoryGirl
       @attributes   = attributes
 
       attributes.each do |attribute|
-        evaluator_class.define_attribute(attribute.name, &attribute.to_proc)
+        if attribute.respond_to? :class_override
+          evaluator_class.define_attribute(attribute.name, attribute.class_override, &attribute.to_proc)
+        else
+          evaluator_class.define_attribute(attribute.name, &attribute.to_proc)
+        end
       end
     end
 

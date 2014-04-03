@@ -2,7 +2,7 @@ module FactoryGirl
   class Attribute
     # @api private
     class Association < Attribute
-      attr_reader :factory
+      attr_reader :factory, :class_override
 
       def initialize(name, factory, overrides, class_override=nil)
         super(name, false)
@@ -19,8 +19,7 @@ module FactoryGirl
         factory_name = traits_and_overrides.shift
 
         -> {
-          instance = association(factory_name, *traits_and_overrides)
-          class_override ? instance.becomes(class_override) : instance
+          association(factory_name, *traits_and_overrides)
         }
       end
 
