@@ -63,12 +63,23 @@ module FactoryGirl
       end
     end
 
-    def self.define_attribute(name, &block)
+    def self.define_attribute(name, class_override=nil, &block)
+      # need to do this way to ensure persistence between instances
+      # creation, but also allow reset to work correctly.
+      unless method_defined?("#{name}_class_override") || class_override.nil?
+        define_method("#{name}_class_override") { class_override }
+      end
       define_method(name) do
-        if @cached_attributes.key?(name)
+        value = if @cached_attributes.key?(name)
           @cached_attributes[name]
         else
           @cached_attributes[name] = instance_exec(&block)
+        end
+        if respond_to?("#{name}_class_override")
+          class_override = send("#{name}_class_override")
+          value.becomes(class_override)
+        else
+          value
         end
       end
     end

@@ -2,12 +2,13 @@ module FactoryGirl
   class Attribute
     # @api private
     class Association < Attribute
-      attr_reader :factory
+      attr_reader :factory, :class_override
 
-      def initialize(name, factory, overrides)
+      def initialize(name, factory, overrides, class_override=nil)
         super(name, false)
         @factory   = factory
         @overrides = overrides
+        @class_override = class_override
       end
 
       def to_proc

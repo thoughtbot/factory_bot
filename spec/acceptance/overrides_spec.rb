@@ -59,3 +59,39 @@ describe "attribute overrides" do
     its(:secure) { should be_nil }
   end
 end
+
+describe "association override is forced to required class" do
+  before do
+    define_model('User')
+    define_class('User::User', User)
+    define_model('Post', user_id: :integer) do
+      belongs_to :user, class_name: 'User::User'
+    end
+
+    FactoryGirl.define do
+      factory :user
+
+      factory :user_user, class: User::User
+
+      factory :post do
+        user class: User::User
+      end
+    end
+  end
+
+
+  context "with non matching class" do
+    let(:user) { FactoryGirl.create(:user) }
+
+    subject      { FactoryGirl.create(:post, user: user) }
+    its(:user) { should be_a(User::User) }
+  end
+
+  context "with matching class" do
+    let(:user) { FactoryGirl.create(:user_user) }
+
+    subject      { FactoryGirl.create(:post, user: user) }
+    its(:user) { should be_a(User::User) }
+  end
+
+end
