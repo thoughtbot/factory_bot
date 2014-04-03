@@ -18,9 +18,7 @@ module FactoryGirl
         traits_and_overrides = [factory, overrides].flatten
         factory_name = traits_and_overrides.shift
 
-        -> {
-          association(factory_name, *traits_and_overrides)
-        }
+        -> { association(factory_name, *traits_and_overrides) }
       end
 
       def association?
