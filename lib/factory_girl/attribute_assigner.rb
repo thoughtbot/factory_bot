@@ -13,7 +13,7 @@ module FactoryGirl
       @evaluator.instance = build_class_instance
       build_class_instance.tap do |instance|
         attributes_to_set_on_instance.each do |attribute|
-          instance.send("#{attribute}=", get(attribute))
+          instance.public_send("#{attribute}=", get(attribute))
           @attribute_names_assigned << attribute
         end
       end
