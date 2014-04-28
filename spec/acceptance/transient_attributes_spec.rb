@@ -8,7 +8,7 @@ describe "transient attributes" do
       sequence(:name) { |n| "John #{n}" }
 
       factory :user do
-        ignore do
+        transient do
           four     { 2 + 2 }
           rockstar true
           upcased  false
@@ -67,6 +67,33 @@ describe "transient attributes" do
       expect(rockstar.name).to eq "John 1 - Rockstar"
     end
   end
+
+  context "using aliased 'ignore' method name" do
+    around do |example|
+      cached_silenced = ActiveSupport::Deprecation.silenced
+      ActiveSupport::Deprecation.silenced = true
+      example.run
+      ActiveSupport::Deprecation.silenced = cached_silenced
+    end
+
+    before do
+      FactoryGirl.define do
+        factory :user_using_ignore, class: User do
+          ignore do
+            honorific "Esteemed"
+          end
+
+          name { "#{honorific} Jane Doe" }
+        end
+      end
+    end
+
+    let(:esteemed) { FactoryGirl.create(:user_using_ignore) }
+
+    it "uses the default value of the attribute" do
+      expect(esteemed.name).to eq "Esteemed Jane Doe"
+    end
+  end
 end
 
 describe "transient sequences" do
@@ -75,7 +102,7 @@ describe "transient sequences" do
 
     FactoryGirl.define do
       factory :user do
-        ignore do
+        transient do
           sequence(:counter)
         end
 
@@ -106,7 +133,7 @@ describe "assigning values from a transient attribute" do
 
     FactoryGirl.define do
       factory :user do
-        ignore do
+        transient do
           foo { Foo.new('id-of-foo', 'name-of-foo')}
         end
 

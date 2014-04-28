@@ -22,7 +22,7 @@ describe "initialize_with with non-FG attributes" do
   its(:age)  { should eq 21 }
 end
 
-describe "initialize_with with FG attributes that are ignored" do
+describe "initialize_with with FG attributes that are transient" do
   include FactoryGirl::Syntax::Methods
 
   before do
@@ -34,7 +34,7 @@ describe "initialize_with with FG attributes that are ignored" do
 
     FactoryGirl.define do
       factory :user do
-        ignore do
+        transient do
           name { "Handsome Chap" }
         end
 
@@ -64,7 +64,7 @@ describe "initialize_with non-ORM-backed objects" do
       sequence(:random_data) { 5.times.map { Kernel.rand(200) } }
 
       factory :report_generator do
-        ignore do
+        transient do
           name "My Awesome Report"
         end
 
@@ -94,14 +94,14 @@ describe "initialize_with parent and child factories" do
 
     FactoryGirl.define do
       factory :awesome do
-        ignore do
+        transient do
           name "Great"
         end
 
         initialize_with { Awesome.new(name) }
 
         factory :sub_awesome do
-          ignore do
+          transient do
             name "Sub"
           end
         end
@@ -134,7 +134,7 @@ describe "initialize_with implicit constructor" do
 
     FactoryGirl.define do
       factory :awesome do
-        ignore do
+        transient do
           name "Great"
         end
 
@@ -195,7 +195,7 @@ describe "initialize_with has access to all attributes for construction" do
       sequence(:email) { |n| "person#{n}@example.com" }
 
       factory :user do
-        ignore do
+        transient do
           ignored "of course!"
         end
 

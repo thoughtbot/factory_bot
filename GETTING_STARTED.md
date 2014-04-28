@@ -237,7 +237,7 @@ There may be times where your code can be DRYed up by passing in transient attri
 
 ```ruby
 factory :user do
-  ignore do
+  transient do
     rockstar true
     upcased  false
   end
@@ -254,14 +254,14 @@ create(:user, upcased: true).name
 #=> "JOHN DOE - ROCKSTAR"
 ```
 
-Static and dynamic attributes can be ignored. Ignored attributes will be ignored
-within attributes\_for and won't be set on the model, even if the attribute
-exists or you attempt to override it.
+Static and dynamic attributes can be created as transient attributes. Transient
+attributes will be ignored within attributes\_for and won't be set on the model,
+even if the attribute exists or you attempt to override it.
 
-Within factory_girl's dynamic attributes, you can access ignored attributes as
+Within factory_girl's dynamic attributes, you can access transient attributes as
 you would expect. If you need to access the evaluator in a factory_girl callback,
 you'll need to declare a second block argument (for the evaluator) and access
-ignored attributes from there.
+transient attributes from there.
 
 Associations
 ------------
@@ -340,14 +340,14 @@ FactoryGirl.define do
 
     # user_with_posts will create post data after the user has been created
     factory :user_with_posts do
-      # posts_count is declared as an ignored attribute and available in
+      # posts_count is declared as a transient attribute and available in
       # attributes on the factory, as well as the callback via the evaluator
-      ignore do
+      transient do
         posts_count 5
       end
 
       # the after(:create) yields two values; the user instance itself and the
-      # evaluator, which stores all values from the factory, including ignored
+      # evaluator, which stores all values from the factory, including transient
       # attributes; `create_list`'s second argument is the number of records
       # to create and we make sure the user is associated properly to the post
       after(:create) do |user, evaluator|
@@ -914,7 +914,7 @@ by calling `attributes`:
 
 ```ruby
 factory :user do
-  ignore do
+  transient do
     comments_count 5
   end
 
@@ -925,7 +925,7 @@ end
 ```
 
 This will build a hash of all attributes to be passed to `new`. It won't
-include ignored attributes, but everything else defined in the factory will be
+include transient attributes, but everything else defined in the factory will be
 passed (associations, evalued sequences, etc.)
 
 You can define `initialize_with` for all factories by including it in the

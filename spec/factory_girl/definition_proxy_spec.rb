@@ -44,12 +44,12 @@ describe FactoryGirl::DefinitionProxy, "#add_attribute when the proxy ignores at
   end
 end
 
-describe FactoryGirl::DefinitionProxy, "#ignore" do
+describe FactoryGirl::DefinitionProxy, "#transient" do
   subject     { FactoryGirl::Definition.new }
   let(:proxy) { FactoryGirl::DefinitionProxy.new(subject) }
 
   it "makes all attributes added ignored" do
-    proxy.ignore do
+    proxy.transient do
       add_attribute(:attribute_name, "attribute value")
     end
 

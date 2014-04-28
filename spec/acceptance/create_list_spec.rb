@@ -55,7 +55,7 @@ describe "create multiple instances" do
   end
 end
 
-describe "multiple creates and ignored attributes to dynamically build attribute lists" do
+describe "multiple creates and transient attributes to dynamically build attribute lists" do
   before do
     define_model('User', name: :string) do
       has_many :posts
@@ -75,7 +75,7 @@ describe "multiple creates and ignored attributes to dynamically build attribute
         name "John Doe"
 
         factory :user_with_posts do
-          ignore do
+          transient do
             posts_count 5
           end
 
