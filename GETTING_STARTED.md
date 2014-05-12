@@ -366,7 +366,7 @@ create(:user_with_posts).posts.length # 5
 create(:user_with_posts, posts_count: 15).posts.length # 15
 ```
 
-Generating data for a `has__and_belongs_to_many` relationship is very similar to the above `has_many` relationship, with a small change, you need to pass an array of objects to the model's pluralized attribute name rather than a single object to the singular version of the attribute name.
+Generating data for a `has_and_belongs_to_many` relationship is very similar to the above `has_many` relationship, with a small change, you need to pass an array of objects to the model's pluralized attribute name rather than a single object to the singular version of the attribute name.
 
 Here's an example with two models that are related via `has_and_belongs_to_many`: 
 
