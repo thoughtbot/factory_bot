@@ -53,6 +53,13 @@ describe "create multiple instances" do
       end
     end
   end
+
+  context "with a range of lengths" do
+    subject { FactoryGirl.create_list(:post, 5..10) }
+
+    its(:length) { should be >= 5 }
+    its(:length) { should be <= 10 }
+  end
 end
 
 describe "multiple creates and ignored attributes to dynamically build attribute lists" do
@@ -70,28 +77,68 @@ describe "multiple creates and ignored attributes to dynamically build attribute
         title "Through the Looking Glass"
         user
       end
+    end
+  end
 
-      factory :user do
-        name "John Doe"
+  context "with a fixed length" do
+    before do
+      FactoryGirl.define do
+        factory :user do
+          name "John Doe"
 
-        factory :user_with_posts do
-          ignore do
-            posts_count 5
-          end
+          factory :user_with_posts do
+            ignore do
+              posts_count 5
+            end
 
-          after(:create) do |user, evaluator|
-            FactoryGirl.create_list(:post, evaluator.posts_count, user: user)
+            after(:create) do |user, evaluator|
+              FactoryGirl.create_list(:post, evaluator.posts_count, user: user)
+            end
           end
         end
       end
     end
+
+    it "generates the correct number of posts" do
+      expect(FactoryGirl.create(:user_with_posts).posts.length).to eq 5
+    end
+
+    it "allows the number of posts to be modified" do
+      expect(FactoryGirl.create(:user_with_posts, posts_count: 2).posts.length).to eq 2
+    end
+
+    context "overridden with a range" do
+      subject { FactoryGirl.create(:user_with_posts, posts_count: (2..4)).posts }
+      its(:length) { should be >= 2 }
+      its(:length) { should be <= 4 }
+    end
   end
 
-  it "generates the correct number of posts" do
-    expect(FactoryGirl.create(:user_with_posts).posts.length).to eq 5
-  end
+  context "with a range of lengths" do
+    before do
+      FactoryGirl.define do
+        factory :user do
+          name "John Doe"
 
-  it "allows the number of posts to be modified" do
-    expect(FactoryGirl.create(:user_with_posts, posts_count: 2).posts.length).to eq 2
+          factory :user_with_posts do
+            ignore do
+              posts_count 3..5
+            end
+
+            after(:create) do |user, evaluator|
+              FactoryGirl.create_list(:post, evaluator.posts_count, user: user)
+            end
+          end
+        end
+      end
+    end
+
+    subject { FactoryGirl.create(:user_with_posts).posts }
+    its(:length) { should be >= 3 }
+    its(:length) { should be <= 5 }
+
+    it "allows the number of posts to be modified" do
+      expect(FactoryGirl.create(:user_with_posts, posts_count: 2).posts.length).to eq 2
+    end
   end
 end

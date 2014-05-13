@@ -844,6 +844,13 @@ To set the attributes for each of the factories, you can pass in a hash as you n
 twenty_year_olds = build_list(:user, 25, date_of_birth: 20.years.ago)
 ```
 
+A range of lengths can also be specified, from which a value will be randomly chosen.
+
+```ruby
+some_folks    = build_list(:user, 4..8)
+less_than_six = create_list(:user, 0...6)
+```
+
 There's also a set of `*_pair` methods for creating two records at a time:
 
 ```ruby
@@ -1145,7 +1152,7 @@ FactoryGirl.define do
     name 'United States'
     association :location_group, factory: :north_america
   end
-  
+
   factory :north_america, class: LocationGroup do
     name 'North America'
   end
