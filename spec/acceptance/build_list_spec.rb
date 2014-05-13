@@ -53,4 +53,11 @@ describe "build multiple instances" do
       end
     end
   end
+
+  context "with a range of lengths" do
+    subject { FactoryGirl.build_list(:post, 5..10) }
+
+    its(:length) { should be >= 5 }
+    its(:length) { should be <= 10 }
+  end
 end

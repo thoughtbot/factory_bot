@@ -25,6 +25,7 @@ module FactoryGirl
       strategy_name = @strategy_name
 
       define_syntax_method("#{strategy_name}_list") do |name, amount, *traits_and_overrides, &block|
+        amount = amount.to_a.sample  if amount.respond_to?(:to_a)
         amount.times.map { send(strategy_name, name, *traits_and_overrides, &block) }
       end
     end
