@@ -28,6 +28,38 @@ The following factories are invalid:
     end.to raise_error FactoryGirl::InvalidFactoryError, error_message
   end
 
+  it 'raises InvalidFactoryError containing factory name when a factory build raises RuntimeError' do
+    define_model 'LintBuildFailOnRuntimeError', name: :string do
+    end
+
+    FactoryGirl.define do
+      factory :lint_build_fail_on_runtime_error do
+      end
+    end
+
+    FactoryGirl.stubs(:build).raises(RuntimeError)
+
+    expect do
+      FactoryGirl.lint
+    end.to raise_error FactoryGirl::InvalidFactoryError, /lint_build_fail_on_runtime_error/
+  end
+
+  it 'raises InvalidFactoryError containing factory name when a factory build raises StandardError' do
+    define_model 'LintBuildFailOnStandardError', name: :string do
+    end
+
+    FactoryGirl.define do
+      factory :lint_build_fail_on_standard_error do
+      end
+    end
+
+    FactoryGirl.stubs(:build).raises(StandardError)
+
+    expect do
+      FactoryGirl.lint
+    end.to raise_error FactoryGirl::InvalidFactoryError, /lint_build_fail_on_standard_error/
+  end
+
   it 'does not raise when all factories are valid' do
     define_model 'User', name: :string do
       validates :name, presence: true

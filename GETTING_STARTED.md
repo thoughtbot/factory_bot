@@ -75,8 +75,9 @@ FactoryGirl.lint
 ```
 
 `FactoryGirl.lint` builds each factory and subsequently calls `#valid?` on it
-(if `#valid?` is defined); if any calls to `#valid?` return `false`,
-`FactoryGirl::InvalidFactoryError` is raised with a list of the offending
+(if `#valid?` is defined). If a factory build fails or any calls to `#valid?`
+on the factories return `false`, `FactoryGirl::InvalidFactoryError` is raised
+with with the reason for the build failure or a list of the invalid
 factories. Recommended usage of `FactoryGirl.lint` is to invoke this once
 before the test suite is run.
 

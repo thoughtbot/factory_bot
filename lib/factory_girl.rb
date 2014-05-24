@@ -56,7 +56,11 @@ module FactoryGirl
 
   def self.lint
     invalid_factories = FactoryGirl.factories.select do |factory|
-      built_factory = FactoryGirl.build(factory.name)
+      begin
+        built_factory = FactoryGirl.build(factory.name)
+      rescue StandardError, RuntimeError => e
+        raise InvalidFactoryError, "FactoryGirl.build(#{factory.name.inspect}) failed:\n---\n#{e.class}: #{e.message}\n  #{e.backtrace.join("\n  ")}\n---\n"
+      end
 
       if built_factory.respond_to?(:valid?)
         !built_factory.valid?
