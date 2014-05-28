@@ -60,7 +60,7 @@ The following factories are invalid:
 
       FactoryGirl.define do
         factory :wrong do
-          fail_with { raise 'This factory is wrong' }
+          this_attribute_will_fail { raise 'This factory is wrong' }
         end
       end
     end
