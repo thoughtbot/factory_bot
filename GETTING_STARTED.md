@@ -29,7 +29,7 @@ Configure your test suite
 -------------------------
 
 ```ruby
-# rspec
+# RSpec in spec/spec_helper.rb
 RSpec.configure do |config|
   config.include FactoryGirl::Syntax::Methods
 end
