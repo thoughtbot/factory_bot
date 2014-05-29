@@ -46,7 +46,7 @@ More Information
 Contributing
 ------------
 
-Please see the [contribution guidelines](https://github.com/thoughtbot/factory_girl/blob/master/CONTRIBUTION_GUIDELINES.md).
+Please see [CONTRIBUTING.md](https://github.com/thoughtbot/factory_girl/blob/master/CONTRIBUTING.md).
 
 Credits
 -------
