@@ -52,4 +52,25 @@ The following factories are invalid:
     expect(Thing.new).not_to respond_to(:valid?)
     expect { FactoryGirl.lint }.not_to raise_error
   end
+
+  context 'selective lint' do
+
+    before do
+      define_class 'Wrong'
+
+      FactoryGirl.define do
+        factory :wrong do
+          this_attribute_will_fail { raise 'This factory is wrong' }
+        end
+      end
+    end
+
+    it 'proves our test right' do
+      expect { FactoryGirl.lint }.to raise_error RuntimeError, 'This factory is wrong'
+    end
+
+    it 'skips explicitly declared factories' do
+      expect { FactoryGirl.lint except: [:wrong] }.not_to raise_error
+    end
+  end
 end

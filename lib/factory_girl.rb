@@ -54,8 +54,18 @@ module FactoryGirl
     @configuration = nil
   end
 
-  def self.lint
-    invalid_factories = FactoryGirl.factories.select do |factory|
+  def self.lint(options = {})
+    except = options[:except]
+    factories = if except
+      FactoryGirl.factories.reject do |factory|
+        factory.names.any? do |name|
+          except.include? name
+        end
+      end
+    else
+      FactoryGirl.factories
+    end
+    invalid_factories = factories.select do |factory|
       built_factory = FactoryGirl.build(factory.name)
 
       if built_factory.respond_to?(:valid?)
