@@ -52,4 +52,31 @@ The following factories are invalid:
     expect(Thing.new).not_to respond_to(:valid?)
     expect { FactoryGirl.lint }.not_to raise_error
   end
+
+  it 'allows for selective linting' do
+    define_class 'InvalidThing' do
+      def valid?
+        false
+      end
+    end
+
+    define_class 'ValidThing' do
+      def valid?
+        true
+      end
+    end
+
+    FactoryGirl.define do
+      factory :valid_thing
+      factory :invalid_thing
+    end
+
+    expect do
+      only_valid_factories = FactoryGirl.factories.reject do |factory|
+        factory.name =~ /invalid/
+      end
+
+      FactoryGirl.lint only_valid_factories
+    end.not_to raise_error
+  end
 end

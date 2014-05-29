@@ -104,6 +104,18 @@ database, as built factories will create associated records. The provided
 example above uses the database_cleaner gem to clear out the database; be sure
 to add the gem to your Gemfile under the appropriate groups.
 
+You can lint factories selectively by passing only factories you want linted:
+
+```ruby
+factories_to_lint = FactoryGirl.factories.reject do |factory|
+  factory.name =~ /^old_/
+end
+
+FactoryGirl.lint factories_to_lint
+```
+
+This would lint all factories that aren't prefixed with `old_`.
+
 Defining factories
 ------------------
 
