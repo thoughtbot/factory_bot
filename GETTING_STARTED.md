@@ -88,18 +88,35 @@ RSpec.configure do |config|
   # additional factory_girl configuration
 
   config.before(:suite) do
-    begin
-      DatabaseCleaner.start
-      FactoryGirl.lint
-    ensure
-      DatabaseCleaner.clean
-    end
+    FactoryGirl.lint
   end
 end
 ```
 
 After calling `FactoryGirl.lint`, you'll likely want to clear out the
-database, as built factories will create associated records.
+database, as built factories will create associated records. To do this,
+you can use the `database_cleaner` gem. After adding `database_cleaner` to your
+gemfile, we can expand on the previous example to lint the factories once before
+the test suite is ran, and clearing out the database in between RSpec examples.
+
+```ruby
+# spec/support/factory_girl.rb
+RSpec.configure do |config|
+  config.before(:suite) do
+    DatabaseCleaner.strategy = :transaction    
+    DatabaseCleaner.clean_with(:truncation)
+    FactoryGirl.lint
+  end
+
+  config.before(:each) do
+    DatabaseCleaner.start
+  end
+
+  config.after(:each) do
+    DatabaseCleaner.clean
+  end
+end
+```
 
 Defining factories
 ------------------
