@@ -10,7 +10,7 @@ Documentation
 
 You should find the documentation for your version of factory_girl on [Rubygems](https://rubygems.org/gems/factory_girl).
 
-See [GETTING_STARTED](https://github.com/thoughtbot/factory_girl/blob/master/GETTING_STARTED.md) for information on defining and using factories.
+See [GETTING_STARTED] for information on defining and using factories.
 
 Install
 --------
@@ -29,8 +29,7 @@ Supported Ruby versions
 -----------------------
 
 The factory_girl 3.x+ series supports MRI Ruby 1.9. Additionally, factory_girl
-3.6+ supports JRuby 1.6.7.2+ while running in 1.9 mode. See
-[GETTING_STARTED](https://github.com/thoughtbot/factory_girl/blob/master/GETTING_STARTED.md)
+3.6+ supports JRuby 1.6.7.2+ while running in 1.9 mode. See [GETTING_STARTED]
 for more information on configuring the JRuby environment.
 
 For versions of Ruby prior to 1.9, please use factory_girl 2.x.
@@ -42,6 +41,8 @@ More Information
 * [Stack Overflow](http://stackoverflow.com/questions/tagged/factory-girl)
 * [Issues](https://github.com/thoughtbot/factory_girl/issues)
 * [GIANT ROBOTS SMASHING INTO OTHER GIANT ROBOTS](http://robots.thoughtbot.com/)
+
+[GETTING_STARTED]: http://rubydoc.info/gems/factory_girl/file/GETTING_STARTED.md
 
 Contributing
 ------------
