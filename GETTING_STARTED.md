@@ -278,6 +278,8 @@ you would expect. If you need to access the evaluator in a factory_girl callback
 you'll need to declare a second block argument (for the evaluator) and access
 transient attributes from there.
 
+If you are using the factory_girl gem `<= 4.4.0`, you will need to use the `#ignore` method instead of the `#transient` method.  `#ignore` will be depreicated in version `5.0.0`
+
 Associations
 ------------
 
