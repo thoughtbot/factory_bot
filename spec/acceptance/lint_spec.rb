@@ -19,8 +19,8 @@ describe 'FactoryGirl.lint' do
     error_message = <<-ERROR_MESSAGE.strip
 The following factories are invalid:
 
-* user
-* admin_user
+* user - ["Name can't be blank"]
+* admin_user - ["Name can't be blank"]
     ERROR_MESSAGE
 
     expect do

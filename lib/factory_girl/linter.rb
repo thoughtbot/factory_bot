@@ -1,4 +1,8 @@
 module FactoryGirl
+  module ErrorList
+    attr_accessor :errors
+  end
+
   class Linter
     def self.lint!(factories_to_lint)
       new(factories_to_lint).lint!
@@ -24,7 +28,12 @@ module FactoryGirl
         built_factory = FactoryGirl.build(factory.name)
 
         if built_factory.respond_to?(:valid?)
-          !built_factory.valid?
+          invalid = !built_factory.valid?
+          if(invalid)
+            factory.extend(ErrorList)
+            factory.errors = built_factory.errors.full_messages
+          end
+          invalid
         end
       end
     end
@@ -33,7 +42,7 @@ module FactoryGirl
       <<-ERROR_MESSAGE.strip
 The following factories are invalid:
 
-#{invalid_factories.map {|factory| "* #{factory.name}" }.join("\n")}
+#{invalid_factories.map {|factory| "* #{factory.name} - #{factory.errors}" }.join("\n")}
       ERROR_MESSAGE
     end
   end
