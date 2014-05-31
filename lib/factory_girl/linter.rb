@@ -1,9 +1,9 @@
 module FactoryGirl
-  module ErrorList
-    attr_accessor :errors
-  end
-
   class Linter
+    module ErrorList
+      attr_accessor :errors
+    end
+
     def self.lint!(factories_to_lint)
       new(factories_to_lint).lint!
     end
