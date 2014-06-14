@@ -13,7 +13,7 @@ module FactoryGirl
     absolute_definition_file_paths = definition_file_paths.map { |path| File.expand_path(path) }
 
     absolute_definition_file_paths.uniq.each do |path|
-      load("#{path}.rb") if File.exists?("#{path}.rb")
+      load("#{path}.rb") if File.exist?("#{path}.rb")
 
       if File.directory? path
         Dir[File.join(path, '**', '*.rb')].sort.each do |file|
