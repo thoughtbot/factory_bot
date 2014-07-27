@@ -19,8 +19,30 @@ describe 'FactoryGirl.lint' do
     error_message = <<-ERROR_MESSAGE.strip
 The following factories are invalid:
 
-* user - ["Name can't be blank"]
-* admin_user - ["Name can't be blank"]
+* user: Name can't be blank
+* admin_user: Name can't be blank
+    ERROR_MESSAGE
+
+    expect do
+      FactoryGirl.lint
+    end.to raise_error FactoryGirl::InvalidFactoryError, error_message
+  end
+
+  it 'show default behavior if object dont respond to errors.full_message' do
+    define_class 'Another' do
+      def valid?
+        false
+      end
+    end
+
+    FactoryGirl.define do
+      factory :another
+    end
+
+    error_message = <<-ERROR_MESSAGE.strip
+The following factories are invalid:
+
+* another
     ERROR_MESSAGE
 
     expect do
