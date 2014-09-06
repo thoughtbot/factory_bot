@@ -6,34 +6,34 @@ module FactoryGirl
 
     def initialize(factories_to_lint)
       @factories_to_lint = factories_to_lint
-      @invalid_factories = calculate_invalid_factories
+      @invalid_factory_messages = calculate_invalid_factory_messages
     end
 
     def lint!
-      if invalid_factories.any?
+      if invalid_factory_messages.any?
         raise InvalidFactoryError, error_message
       end
     end
 
     private
 
-    attr_reader :factories_to_lint, :invalid_factories
+    attr_reader :factories_to_lint, :invalid_factory_messages
 
-    def calculate_invalid_factories
-      factories_to_lint.select do |factory|
+    def calculate_invalid_factory_messages
+      factories_to_lint.map do |factory|
         built_factory = FactoryGirl.build(factory.name)
 
-        if built_factory.respond_to?(:valid?)
-          !built_factory.valid?
+        if built_factory.respond_to?(:valid?) && !built_factory.valid?
+          "* #{factory.name} -- #{built_factory.errors.full_messages.join('; ')}"
         end
-      end
+      end.compact
     end
 
     def error_message
       <<-ERROR_MESSAGE.strip
 The following factories are invalid:
 
-#{invalid_factories.map {|factory| "* #{factory.name}" }.join("\n")}
+#{invalid_factory_messages.join("\n")}
       ERROR_MESSAGE
     end
   end
