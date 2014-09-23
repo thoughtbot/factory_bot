@@ -898,7 +898,7 @@ build(:user).name # Jane Doe
 ```
 
 Although factory_girl is written to work with ActiveRecord out of the box, it
-can also work with any Ruby class. For maximum compatibiltiy with ActiveRecord,
+can also work with any Ruby class. For maximum compatibility with ActiveRecord,
 the default initializer builds all instances by calling `new` on your build class
 without any arguments. It then calls attribute writer methods to assign all the
 attribute values. While that works fine for ActiveRecord, it actually doesn't
