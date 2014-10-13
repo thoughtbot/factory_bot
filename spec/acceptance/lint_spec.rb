@@ -19,8 +19,30 @@ describe 'FactoryGirl.lint' do
     error_message = <<-ERROR_MESSAGE.strip
 The following factories are invalid:
 
-* user
-* admin_user
+* user -- Name can't be blank
+* admin_user -- Name can't be blank
+    ERROR_MESSAGE
+
+    expect do
+      FactoryGirl.lint
+    end.to raise_error FactoryGirl::InvalidFactoryError, error_message
+  end
+
+  it 'lists all errors when multiple are present' do
+    define_model 'Person', first_name: :string, last_name: :string do
+      validates :first_name, presence: true
+      validates :last_name, presence: true
+    end
+
+    FactoryGirl.define do
+      factory :person do
+      end
+    end
+
+    error_message = <<-ERROR_MESSAGE.strip
+The following factories are invalid:
+
+* person -- First name can't be blank; Last name can't be blank
     ERROR_MESSAGE
 
     expect do
