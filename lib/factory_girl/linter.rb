@@ -22,9 +22,13 @@ module FactoryGirl
     def calculate_invalid_factories
       factories_to_lint.select do |factory|
         built_factory = FactoryGirl.build(factory.name)
-
-        if built_factory.respond_to?(:valid?)
-          !built_factory.valid?
+        begin
+          built_factory = FactoryGirl.build(factory.name)
+          if built_factory.respond_to?(:valid?)
+            !built_factory.valid?
+          end
+        rescue
+          true
         end
       end
     end
