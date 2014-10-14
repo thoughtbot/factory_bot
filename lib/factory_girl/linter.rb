@@ -6,7 +6,7 @@ module FactoryGirl
 
     def initialize(factories_to_lint)
       @factories_to_lint = factories_to_lint.map do |factory|
-        ErroringModel.new(factory)
+        PossibleErroringModel.new(factory)
       end
 
       @invalid_factories = calculate_invalid_factories
@@ -30,11 +30,11 @@ module FactoryGirl
       <<-ERROR_MESSAGE.strip
 The following factories are invalid:
 
-#{invalid_factories.map {|factory| "* #{factory.name}: #{factory.errors}" }.join("\n")}
+#{invalid_factories.map {|factory| "* #{factory}" }.join("\n")}
       ERROR_MESSAGE
     end
 
-    class ErroringModel
+    class PossibleErroringModel
       def initialize(factory)
         @factory = factory
         @built_factory = FactoryGirl.build(factory.name)
@@ -48,17 +48,21 @@ The following factories are invalid:
         end
       end
 
-      def errors
-        error_list.to_sentence
-      end
-
-      def name
-        factory.name
+      def to_s
+        "#{name}: #{errors}"
       end
 
       protected
 
       attr_reader :factory, :built_factory
+
+      def errors
+        error_list.join ", "
+      end
+
+      def name
+        factory.name
+      end
 
       def error_list
         if built_factory.respond_to?(:errors) && built_factory.errors.respond_to?(:full_messages)
@@ -68,6 +72,5 @@ The following factories are invalid:
         end
       end
     end
-
   end
 end

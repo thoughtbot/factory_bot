@@ -2,8 +2,8 @@ require 'spec_helper'
 
 describe 'FactoryGirl.lint' do
   it 'raises when a factory is invalid' do
-    define_model 'User', name: :string do
-      validates :name, presence: true
+    define_model 'User', name: :string, email: :string do
+      validates :name, :email, presence: true
     end
 
     define_model 'AlwaysValid'
@@ -19,8 +19,8 @@ describe 'FactoryGirl.lint' do
     error_message = <<-ERROR_MESSAGE.strip
 The following factories are invalid:
 
-* user: Name can't be blank
-* admin_user: Name can't be blank
+* user: Name can't be blank, Email can't be blank
+* admin_user: Name can't be blank, Email can't be blank
     ERROR_MESSAGE
 
     expect do
