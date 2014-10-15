@@ -29,8 +29,6 @@ The following factories are invalid:
   end
 
   it 'allows for custom linting validators' do
-    define_model 'User'
-
     validator_with_errors_class = Class.new do
       def initialize(factory)
         @factory = factory
@@ -46,6 +44,8 @@ The following factories are invalid:
     end
 
     FactoryGirl.configuration.linting_factory_validator = validator_with_errors_class
+
+    define_model 'User'
 
     FactoryGirl.define do
       factory :user do
