@@ -19,8 +19,45 @@ describe 'FactoryGirl.lint' do
     error_message = <<-ERROR_MESSAGE.strip
 The following factories are invalid:
 
-* user: Name can't be blank, Email can't be blank
-* admin_user: Name can't be blank, Email can't be blank
+* user
+* admin_user
+    ERROR_MESSAGE
+
+    expect do
+      FactoryGirl.lint
+    end.to raise_error FactoryGirl::InvalidFactoryError, error_message
+  end
+
+  it 'allows for custom linting validators' do
+    define_model 'User'
+
+    validator_with_errors_class = Class.new do
+      def initialize(factory)
+        @factory = factory
+      end
+
+      def valid?
+        false
+      end
+
+      def to_s
+        "#{@factory.name}: foo, bar, baz"
+      end
+    end
+
+    FactoryGirl.configuration.linting_factory_validator = validator_with_errors_class
+
+    FactoryGirl.define do
+      factory :user do
+        factory :admin_user
+      end
+    end
+
+    error_message = <<-ERROR_MESSAGE.strip
+The following factories are invalid:
+
+* user: foo, bar, baz
+* admin_user: foo, bar, baz
     ERROR_MESSAGE
 
     expect do
