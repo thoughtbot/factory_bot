@@ -2,8 +2,8 @@ require 'spec_helper'
 
 describe 'FactoryGirl.lint' do
   it 'raises when a factory is invalid' do
-    define_model 'User', name: :string, email: :string do
-      validates :name, :email, presence: true
+    define_model 'User', name: :string do
+      validates :name, presence: true
     end
 
     define_model 'AlwaysValid'
