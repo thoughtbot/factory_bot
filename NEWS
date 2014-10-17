@@ -1,3 +1,10 @@
+4.5.0 (October 17, 2014)
+  Improve FactoryGirl.lint by including exception and message in output
+  Allow selective linting
+  Use more explicit #public_send when doing attribute assignment
+  Improve documentation around FactoryGirl.lint and initialize_with
+  Deprecate #ignore in favor of #transient
+
 4.4.0 (February 10, 2014)
   Add FactoryGirl.lint
   Fix memory leak in duplicate traits
