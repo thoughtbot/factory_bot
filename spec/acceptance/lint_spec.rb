@@ -116,4 +116,71 @@ The following factories are invalid:
       FactoryGirl.lint only_valid_factories
     end.not_to raise_error
   end
+
+  it 'raises when a factory is invalid' do
+    class SlowFactoryLinter
+      THRESHOLD = 1
+
+      def initialize(factory)
+        @factory = factory
+        @generated_factory = time_factory_generation
+      end
+
+      def valid?
+        factory_valid? && within_time_threshold?
+      end
+
+      def to_s
+        "#{factory.name.to_s} (took #{generation_time}s to build)"
+      end
+
+      private
+
+      def factory_valid?
+        if generated_factory.respond_to?(:valid?)
+          generated_factory.valid?
+        else
+          true
+        end
+      end
+
+      def within_time_threshold?
+        generation_time < THRESHOLD
+      end
+
+      attr_reader :factory, :generated_factory, :generation_time
+
+      def time_factory_generation
+        start_time = Time.now
+        generated_factory = FactoryGirl.create(factory.name)
+        end_time = Time.now
+        @generation_time = end_time - start_time
+
+        generated_factory
+      end
+    end
+
+    FactoryGirl.configuration.factory_linter = SlowFactoryLinter
+
+    Timecop.freeze Time.now
+    define_model 'User', name: :string do
+      before_save do
+        Timecop.freeze 1.second.from_now
+      end
+    end
+
+    FactoryGirl.define do
+      factory :user
+    end
+
+    error_message = <<-ERROR_MESSAGE.strip
+The following factories are invalid:
+
+* user (took 1.0s to build)
+    ERROR_MESSAGE
+
+    expect do
+      FactoryGirl.lint
+    end.to raise_error FactoryGirl::InvalidFactoryError, error_message
+  end
 end

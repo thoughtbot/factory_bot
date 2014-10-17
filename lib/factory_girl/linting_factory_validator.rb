@@ -5,9 +5,11 @@ module FactoryGirl
       @built_factory = FactoryGirl.build(factory.name)
     end
 
+    attr_reader :factory, :generated_factory
+
     def valid?
-      if built_factory.respond_to?(:valid?)
-        built_factory.valid?
+      if generated_factory.respond_to?(:valid?)
+        generated_factory.valid?
       else
         true
       end
@@ -16,9 +18,5 @@ module FactoryGirl
     def to_s
       factory.name.to_s
     end
-
-    protected
-
-    attr_reader :factory, :built_factory
   end
 end
