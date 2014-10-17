@@ -284,6 +284,23 @@ describe "traits added via strategy" do
       end
     end
   end
+  
+  context "adding traits in create_detailed_list" do
+    subject { FactoryGirl.create_detailed_list(:user, 4, :great, :admin, name: ["Ford", "Arthur"]) }
+
+    its(:length) { should eq 4 }
+    
+    it "creates all records" do
+      subject.each do |record|
+        expect(record.admin).to be_true
+      end
+    end
+
+    it "sets the attributes for the specified records" do
+      expect(subject.first.name).to eq "FORD"
+      expect(subject.second.name).to eq "ARTHUR"
+    end
+  end
 
   context "adding traits in build_list" do
     subject { FactoryGirl.build_list(:user, 2, :admin, :great, name: "Joe") }

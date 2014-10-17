@@ -18,7 +18,7 @@ module FactoryGirl
       strategy_name = @strategy_name
 
       define_syntax_method(strategy_name) do |name, *traits_and_overrides, &block|
-        FactoryRunner.new(name, strategy_name, traits_and_overrides).run(&block)
+        FactoryRunner.new(name, strategy_name, traits_and_overrides.flatten).run(&block)
       end
     end
 
@@ -32,11 +32,18 @@ module FactoryGirl
 
     def define_detailed_list_strategy_method
       strategy_name = @strategy_name
-      define_syntax_method("#{strategy_name}_detailed_list") do |name, amount, details, &block|
+      define_syntax_method("#{strategy_name}_detailed_list") do |name, amount, *traits, **overrides, &block|
         amount.times.map.with_index { |i|
-          overrides = {}
-          details.map{ |key, value| overrides[key] = value[i] unless value[i].nil?  } 
-          send(strategy_name, name, overrides, &block)
+          values, result = {}, traits.dup
+          overrides.map { |key, value| 
+            if value.is_a? Array 
+              values[key] = value[i] unless value[i].nil? 
+            else
+              values[key] = value
+            end
+          }
+          result << values if values.length > 0
+          send(strategy_name, name, result, &block) 
         }
       end   
     end
