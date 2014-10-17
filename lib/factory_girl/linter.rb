@@ -6,7 +6,7 @@ module FactoryGirl
 
     def initialize(factories_to_lint)
       @factories_to_lint = factories_to_lint.map do |factory|
-        FactoryGirl.configuration.linting_factory_validator.new(factory)
+        FactoryGirl.configuration.factory_linter.new(factory)
       end
 
       @invalid_factories = calculate_invalid_factories

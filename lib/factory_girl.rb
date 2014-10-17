@@ -43,7 +43,7 @@ require 'factory_girl/decorator/class_key_hash'
 require 'factory_girl/decorator/disallows_duplicates_registry'
 require 'factory_girl/decorator/invocation_tracker'
 require 'factory_girl/decorator/new_constructor'
-require 'factory_girl/linting_factory_validator'
+require 'factory_girl/factory_linter'
 require 'factory_girl/linter'
 require 'factory_girl/version'
 

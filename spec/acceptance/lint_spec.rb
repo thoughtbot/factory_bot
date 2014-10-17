@@ -43,7 +43,7 @@ The following factories are invalid:
       end
     end
 
-    FactoryGirl.configuration.linting_factory_validator = validator_with_errors_class
+    FactoryGirl.configuration.factory_linter = validator_with_errors_class
 
     define_model 'User'
 
