@@ -8,6 +8,7 @@ module FactoryGirl
     def define_strategy_methods
       define_singular_strategy_method
       define_list_strategy_method
+      define_detailed_list_strategy_method
       define_pair_strategy_method
     end
 
