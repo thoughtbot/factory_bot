@@ -29,6 +29,17 @@ module FactoryGirl
       end
     end
 
+    def define_detailed_list_strategy_method
+      strategy_name = @strategy_name
+      define_syntax_method("#{strategy_name}_detailed_list") do |name, amount, details, &block|
+        amount.times.map.with_index { |i|
+          overrides = {}
+          details.map{ |key, value| overrides[key] = value[i] unless value[i].nil?  } 
+          send(strategy_name, name, overrides, &block)
+        }
+      end   
+    end
+
     def define_pair_strategy_method
       strategy_name = @strategy_name
 
