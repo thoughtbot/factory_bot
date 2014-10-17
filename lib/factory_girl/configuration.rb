@@ -2,6 +2,7 @@ module FactoryGirl
   # @api private
   class Configuration
     attr_reader :factories, :sequences, :traits, :strategies, :callback_names
+    attr_accessor :factory_linter
 
     def initialize
       @factories      = Decorator::DisallowsDuplicatesRegistry.new(Registry.new('Factory'))
@@ -10,6 +11,7 @@ module FactoryGirl
       @strategies     = Registry.new('Strategy')
       @callback_names = Set.new
       @definition     = Definition.new
+      @factory_linter = FactoryLinter
 
       to_create { |instance| instance.save! }
       initialize_with { new }

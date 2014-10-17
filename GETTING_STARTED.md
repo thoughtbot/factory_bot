@@ -75,11 +75,11 @@ factory_girl allows for linting known factories:
 FactoryGirl.lint
 ```
 
-`FactoryGirl.lint` builds each factory and subsequently calls `#valid?` on it
-(if `#valid?` is defined); if any calls to `#valid?` return `false`,
-`FactoryGirl::InvalidFactoryError` is raised with a list of the offending
-factories. Recommended usage of `FactoryGirl.lint` is to invoke this once
-before the test suite is run.
+By default, `FactoryGirl.lint` builds each factory and subsequently calls
+`#valid?` on it (if `#valid?` is defined); if any calls to `#valid?` return
+`false`, `FactoryGirl::InvalidFactoryError` is raised with a list of the
+offending factories. Recommended usage of `FactoryGirl.lint` is to invoke this
+once before the test suite is run.
 
 With RSpec:
 
@@ -115,6 +115,59 @@ FactoryGirl.lint factories_to_lint
 ```
 
 This would lint all factories that aren't prefixed with `old_`.
+
+You can also replace the default factory linter by configuring Factory Girl to
+use a different class. The class will be instantiated with a
+`FactoryGirl::Factory` instance and must respond to `#to_s` and `#valid?`.
+
+One example of overriding the default factory linter would be to mark a
+factory invalid if it takes too long to build:
+
+```ruby
+class SlowFactoryLinter
+  THRESHOLD = 1
+
+  def initialize(factory)
+    @factory = factory
+    @generated_factory = time_factory_generation
+  end
+
+  def valid?
+    factory_valid? && within_time_threshold?
+  end
+
+  def to_s
+    "#{factory.name.to_s} (took #{generation_time}s to build)"
+  end
+
+  private
+
+  def factory_valid?
+    if generated_factory.respond_to?(:valid?)
+      generated_factory.valid?
+    else
+      true
+    end
+  end
+
+  def within_time_threshold?
+    generation_time < THRESHOLD
+  end
+
+  attr_reader :factory, :generated_factory, :generation_time
+
+  def time_factory_generation
+    start_time = Time.now
+    generated_factory = FactoryGirl.create(factory.name)
+    end_time = Time.now
+    @generation_time = end_time - start_time
+
+    generated_factory
+  end
+end
+
+FactoryGirl.configuration.factory_linter = SlowFactoryLinter
+```
 
 Defining factories
 ------------------
