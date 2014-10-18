@@ -34,16 +34,15 @@ module FactoryGirl
       strategy_name = @strategy_name
       define_syntax_method("#{strategy_name}_detailed_list") do |name, amount, *traits, **overrides, &block|
         amount.times.map.with_index { |i|
-          values, result = {}, traits.dup
+          values = {}
           overrides.map { |key, value| 
-            if value.is_a? Array 
+            if value.is_a? Array
               values[key] = value[i] unless value[i].nil? 
             else
               values[key] = value
             end
           }
-          result << values if values.length > 0
-          send(strategy_name, name, result, &block) 
+          send(strategy_name, name, traits.dup << values, &block) 
         }
       end   
     end
