@@ -866,6 +866,23 @@ built_users   = build_pair(:user) # array of two built users
 created_users = create_pair(:user) # array of two created users
 ```
 
+If you need to specify certain attributes for *some* of the records, you can supply an array
+in the hash of attributes instead of a single value - though be sure to pluralize the name!
+
+```ruby
+built_users   = build_detailed_list(:user, 25, names: ['Arthur', 'Ford', 'Marvin'] 
+created_users = create_detailed_list(:user, 25, names: ['Arthur', 'Ford', 'Marvin'] 
+# User.first.name => "Arthur", User.second.name => "Ford"
+```
+
+This approach also works with traits and attributes you wish to override for *every* record.
+
+```ruby
+created_users = create_detailed_list(:user, 25, names: ['Arthur', 'Ford'], name: 'Marvin') 
+# User.first.name => Arthur, User.second.name = "Ford", User.last.name = "Marvin"
+```
+
+
 Custom Construction
 -------------------
 

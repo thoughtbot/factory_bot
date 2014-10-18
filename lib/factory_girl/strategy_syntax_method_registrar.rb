@@ -37,7 +37,7 @@ module FactoryGirl
           values = {}
           overrides.map { |key, value| 
             if value.is_a? Array
-              values[key] = value[i] unless value[i].nil? 
+              values[key.to_s.singularize] = value[i] unless value[i].nil? 
             else
               values[key] = value
             end

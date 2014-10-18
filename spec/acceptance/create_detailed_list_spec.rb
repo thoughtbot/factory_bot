@@ -16,7 +16,7 @@ describe "create multiple detailed instances" do
 
   context "with singular value for details" do
     subject { FactoryGirl.create_detailed_list(:post, 5, 
-                                               title: ["Into the White Yonder"]) }
+                                               titles: ["Into the White Yonder"]) }
     
     its(:length) { should eq 5 }
 
@@ -43,7 +43,7 @@ describe "create multiple detailed instances" do
 
   context "with multiple values for details" do
     subject { FactoryGirl.create_detailed_list(:post, 20, 
-                                 title: [ "Into the White Yonder", 
+                                 titles: [ "Into the White Yonder", 
                                           "Into the Yellow Yonder", 
                                           "Into the ... I don't know - Purple? Yonder"]) }
     
@@ -62,12 +62,26 @@ describe "create multiple detailed instances" do
     end
   end
 
+  context "with both an array and a normal value" do
+    subject { FactoryGirl.create_detailed_list(:post, 20, title: "Into the Yellow Yonder", titles: [ "Into the Black Yonder"]) }
+
+    it "overrides the first post" do
+      expect(subject.first.title).to eq "Into the Black Yonder"
+    end
+
+    it "overrides the value of the remaining posts" do
+      subject[1..-1].each do |record|
+        expect(record.title).to eq "Into the Yellow Yonder"
+      end
+    end
+  end
+
   context "with multiple attributes and singular values" do
     subject { FactoryGirl.create_detailed_list(:post, 20, 
-                                  title: [ "Into the White Yonder", 
+                                  titles: [ "Into the White Yonder", 
                                            "Into the Yellow Yonder", 
                                            "Into the ... I don't know - Purple? Yonder"],
-                                  author: [ "Frank's distant cousin", 
+                                  authors: [ "Frank's distant cousin", 
                                             "James the Third, or Fourth" ]) }
   
     it "overrides all provided attributes" do
@@ -83,7 +97,7 @@ describe "create multiple detailed instances" do
 
   context "with a block" do
     subject do
-      FactoryGirl.create_detailed_list(:post, 20, title: ["Into the Block"]) do |post|
+      FactoryGirl.create_detailed_list(:post, 20, titles: ["Into the Block"]) do |post|
         post.position = post.id
       end
     end
@@ -98,7 +112,7 @@ describe "create multiple detailed instances" do
   context "with override for all values" do
     subject do
       FactoryGirl.create_detailed_list( :post, 5, 
-                                        title: ["Into the Black Yonder"] , 
+                                        titles: ["Into the Black Yonder"] , 
                                         author: "Frank")
     end
     
