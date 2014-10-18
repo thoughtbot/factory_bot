@@ -860,7 +860,8 @@ twenty_year_olds = build_list(:user, 25, date_of_birth: 20.years.ago)
 ```
 
 If you need to specify certain attributes for *some* of the records, you can supply an array
-in the hash of attributes instead of a single value - though be sure to pluralize the name!
+in the hash of attributes instead of a single value - be sure to pluralize the name when providing
+an array!
 
 ```ruby
 built_users   = build_detailed_list(:user, 25, names: ['Arthur', 'Ford', 'Marvin']) 
@@ -872,7 +873,7 @@ This approach also works with traits and attributes you wish to override for *ev
 
 ```ruby
 created_users = create_detailed_list(:user, 25, names: ['Arthur', 'Ford'], name: 'Marvin')
-# User.first.name => Arthur, User.second.name = "Ford", User.last.name = "Marvin"
+# User.first.name => Arthur, User.second.name => "Ford", User.last.name => "Marvin"
 ```
 
 
