@@ -32,17 +32,18 @@ module FactoryGirl
 
     def define_detailed_list_strategy_method
       strategy_name = @strategy_name
-      define_syntax_method("#{strategy_name}_detailed_list") do |name, amount, *traits, **overrides, &block|
+      define_syntax_method("#{strategy_name}_detailed_list") do |name, amount, *traits_and_overrides, &block|
+        overrides = traits_and_overrides.extract_options!  
         amount.times.map.with_index { |i|
           values = {}
-          overrides.map { |key, value| 
+          overrides.map { |key, value|    
             if value.is_a? Array
               values[key.to_s.singularize] = value[i] unless value[i].nil? 
             else
               values[key] = value
             end
           }
-          send(strategy_name, name, traits.dup << values, &block) 
+          send(strategy_name, name, traits_and_overrides.dup << values, &block) 
         }
       end   
     end
