@@ -32,9 +32,10 @@ module FactoryGirl
     end
 
     def error_message
-      lines = invalid_factories.map do |factory, exception|
-        "* #{factory.name} - #{exception.message} (#{exception.class.name})"
-      end
+       lines = invalid_factories.map do |factory, exception|
+       %Q[* #{factory.name} (#{exception.class.name})\n
+          #{exception.backtrace.join("\n")} ]
+       end
 
       <<-ERROR_MESSAGE.strip
 The following factories are invalid:
