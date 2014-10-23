@@ -75,10 +75,10 @@ factory_girl allows for linting known factories:
 FactoryGirl.lint
 ```
 
-`FactoryGirl.lint` builds each factory and subsequently calls `#valid?` on it
-(if `#valid?` is defined); if any calls to `#valid?` return `false`,
-`FactoryGirl::InvalidFactoryError` is raised with a list of the offending
-factories. Recommended usage of `FactoryGirl.lint` is to invoke this once
+`FactoryGirl.lint` creates each factory and catches any exceptions raised
+during the creation process. `FactoryGirl::InvalidFactoryError` is raised with
+a list of factories (and corresponding exceptions) for factories which could
+not be created. Recommended usage of `FactoryGirl.lint` is to invoke this once
 before the test suite is run.
 
 With RSpec:
@@ -100,9 +100,9 @@ end
 ```
 
 After calling `FactoryGirl.lint`, you'll likely want to clear out the
-database, as built factories will create associated records. The provided
-example above uses the database_cleaner gem to clear out the database; be sure
-to add the gem to your Gemfile under the appropriate groups.
+database, as records will most likely be created. The provided example above
+uses the database_cleaner gem to clear out the database; be sure to add the
+gem to your Gemfile under the appropriate groups.
 
 You can lint factories selectively by passing only factories you want linted:
 
