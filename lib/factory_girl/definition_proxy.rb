@@ -115,7 +115,7 @@ module FactoryGirl
     #   sequence(:email) { |n| "person#{n}@example.com" }
     #
     #   factory :user do
-    #     email { FactoryGirl.create(:email) }
+    #     email { FactoryGirl.generate(:email) }
     #   end
     #
     # Except that no globally available sequence will be defined.
