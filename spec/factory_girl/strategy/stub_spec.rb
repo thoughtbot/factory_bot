@@ -34,5 +34,12 @@ describe FactoryGirl::Strategy::Stub do
         end.to raise_error(RuntimeError, "stubbed models are not allowed to access the database - #{subject.result(evaluation).class}##{database_method}()")
       end
     end
+
+    it "raises when attempting to connect to the database by calling reload with optional lock:true" do
+      expect do
+        subject.result(evaluation).reload(lock: true)
+      end.to raise_error(RuntimeError, "stubbed models are not allowed to access the database - #{subject.result(evaluation).class}#reload()")
+    end
+
   end
 end

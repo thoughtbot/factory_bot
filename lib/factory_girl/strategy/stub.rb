@@ -44,7 +44,7 @@ module FactoryGirl
             raise "stubbed models are not allowed to access the database - #{self.class.to_s}#connection()"
           end
 
-          def reload
+          def reload(*args)
             raise "stubbed models are not allowed to access the database - #{self.class.to_s}#reload()"
           end
 
