@@ -76,6 +76,16 @@ describe "create multiple detailed instances" do
     end
   end
 
+  context "with a higher number specified than the actual number of records" do
+    subject { FactoryGirl.create_detailed_list(:post, 1, titles: [ "Into the Black Yonder", "Into the Maroon Yonder"]) }
+  
+    its(:length) { should eq 1 }
+
+    it "overrides the first post" do
+      expect(subject.first.title).to eq "Into the Black Yonder"
+    end
+  end
+
   context "with multiple attributes and singular values" do
     subject { FactoryGirl.create_detailed_list(:post, 20, 
                                   titles: [ "Into the White Yonder", 
@@ -168,3 +178,4 @@ describe "multiple creates and transient attributes to dynamically build attribu
     expect(FactoryGirl.create(:user_with_posts, posts_count: 2).posts.length).to eq 2
   end
 end
+
