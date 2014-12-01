@@ -19,8 +19,8 @@ describe 'FactoryGirl.lint' do
     error_message = <<-ERROR_MESSAGE.strip
 The following factories are invalid:
 
-* user
-* admin_user
+* user - Validation failed: Name can't be blank (ActiveRecord::RecordInvalid)
+* admin_user - Validation failed: Name can't be blank (ActiveRecord::RecordInvalid)
     ERROR_MESSAGE
 
     expect do
@@ -42,29 +42,12 @@ The following factories are invalid:
     expect { FactoryGirl.lint }.not_to raise_error
   end
 
-  it 'supports models which do not respond to #valid?' do
-    define_class 'Thing'
-
-    FactoryGirl.define do
-      factory :thing
-    end
-
-    expect(Thing.new).not_to respond_to(:valid?)
-    expect { FactoryGirl.lint }.not_to raise_error
-  end
-
   it 'allows for selective linting' do
-    define_class 'InvalidThing' do
-      def valid?
-        false
-      end
+    define_model 'InvalidThing', name: :string do
+      validates :name, presence: true
     end
 
-    define_class 'ValidThing' do
-      def valid?
-        true
-      end
-    end
+    define_model 'ValidThing', name: :string
 
     FactoryGirl.define do
       factory :valid_thing
