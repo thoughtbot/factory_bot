@@ -2,7 +2,7 @@ module FactoryGirl
   class << self
     # An Array of strings specifying locations that should be searched for
     # factory definitions. By default, factory_girl will attempt to require
-    # "factories," "test/factories," and "spec/factories." Only the first
+    # "factories", "test/factories" and "spec/factories". Only the first
     # existing file will be loaded.
     attr_accessor :definition_file_paths
   end
