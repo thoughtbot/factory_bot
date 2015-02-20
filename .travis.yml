@@ -17,3 +17,6 @@ gemfile:
 branches:
   only:
     - master
+
+sudo: false
+cache: bundler
