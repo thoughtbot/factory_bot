@@ -49,20 +49,28 @@ Contributing
 
 Please see [CONTRIBUTING.md](https://github.com/thoughtbot/factory_girl/blob/master/CONTRIBUTING.md).
 
-Credits
--------
-
 factory_girl was originally written by Joe Ferris and is now maintained by Josh
 Clayton. Many improvements and bugfixes were contributed by the [open source
 community](https://github.com/thoughtbot/factory_girl/graphs/contributors).
 
-![thoughtbot](http://thoughtbot.com/assets/tm/logo.png)
-
-factory_girl is maintained and funded by [thoughtbot, inc](http://thoughtbot.com/community)
-
-The names and logos for thoughtbot are trademarks of thoughtbot, inc.
-
 License
 -------
 
-factory_girl is Copyright © 2008-2014 Joe Ferris and thoughtbot. It is free software, and may be redistributed under the terms specified in the [LICENSE](https://github.com/thoughtbot/factory_girl/blob/master/LICENSE) file.
+factory_girl is Copyright © 2008-2015 Joe Ferris and thoughtbot. It is free
+software, and may be redistributed under the terms specified in the
+[LICENSE](/LICENSE) file.
+
+About thoughtbot
+----------------
+
+![thoughtbot](https://thoughtbot.com/logo.png)
+
+factory_girl is maintained and funded by thoughtbot, inc.
+The names and logos for thoughtbot are trademarks of thoughtbot, inc.
+
+We love open source software!
+See [our other projects][community] or
+[hire us][hire] to design, develop, and grow your product.
+
+[community]: https://thoughtbot.com/community?utm_source=github
+[hire]: https://thoughtbot.com?utm_source=github
