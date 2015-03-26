@@ -14,18 +14,18 @@ task :default do
 end
 
 namespace :spec do
-  desc "Run unit specs"
+  desc 'Run unit specs'
   RSpec::Core::RakeTask.new('unit') do |t|
     t.pattern = 'spec/{*_spec.rb,factory_girl/**/*_spec.rb}'
   end
 
-  desc "Run acceptance specs"
+  desc 'Run acceptance specs'
   RSpec::Core::RakeTask.new('acceptance') do |t|
     t.pattern = 'spec/acceptance/**/*_spec.rb'
   end
 end
 
-desc "Run the unit and acceptance specs"
+desc 'Run the unit and acceptance specs'
 task :spec => ['spec:unit', 'spec:acceptance']
 
 Cucumber::Rake::Task.new(:features) do |t|
