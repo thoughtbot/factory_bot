@@ -1,5 +1,5 @@
 $LOAD_PATH << File.expand_path("../lib", __FILE__)
-require 'factory_girl/version'
+require "factory_girl/version"
 
 Gem::Specification.new do |s|
   s.name        = %q{factory_girl}
@@ -10,11 +10,10 @@ Gem::Specification.new do |s|
                       using factories - less error-prone, more explicit, and
                       all-around easier to work with than fixtures.}
 
-  s.files         = `git ls-files`.split("\n")
-  s.test_files    = `git ls-files -- Appraisals {spec,features,gemfiles}/*`.split("\n")
+  s.files = Dir["*.md", "NEWS", "LICENSE", "lib/**/*"]
 
-  s.require_paths = ['lib']
-  s.required_ruby_version = Gem::Requirement.new(">= 1.9.2")
+  s.require_path = "lib"
+  s.required_ruby_version = ">= 1.9.2"
 
   s.authors = ["Josh Clayton", "Joe Ferris"]
   s.email   = ["jclayton@thoughtbot.com", "jferris@thoughtbot.com"]
@@ -32,6 +31,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency("bourne")
   s.add_development_dependency("appraisal", "~> 1.0.0")
   s.add_development_dependency("activerecord", ">= 3.0.0")
+  s.add_development_dependency("yard")
 
   if RUBY_PLATFORM == "java"
     s.add_development_dependency("activerecord-jdbcsqlite3-adapter")
@@ -40,7 +40,5 @@ Gem::Specification.new do |s|
     s.add_development_dependency("sqlite3")
   end
 
-  s.add_development_dependency("yard")
   s.license = "MIT"
 end
-
