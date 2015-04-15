@@ -1,9 +1,5 @@
-appraise "3.1" do
-  gem "activerecord", "~> 3.1.12"
-end
-
 appraise "3.2" do
-  gem "activerecord", "~> 3.2.15"
+  gem "activerecord", git: 'https://github.com/rails/rails.git', branch: '3-2-stable'
 end
 
 appraise '4.0' do

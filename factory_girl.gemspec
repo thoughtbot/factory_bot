@@ -33,13 +33,6 @@ Gem::Specification.new do |s|
   s.add_development_dependency("appraisal", "~> 1.0.0")
   s.add_development_dependency("activerecord", ">= 3.0.0")
 
-  if RUBY_PLATFORM == "java"
-    s.add_development_dependency("activerecord-jdbcsqlite3-adapter")
-    s.add_development_dependency("jdbc-sqlite3")
-  else
-    s.add_development_dependency("sqlite3")
-  end
-
   s.add_development_dependency("yard")
   s.license = "MIT"
 end

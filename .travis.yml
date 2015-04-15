@@ -2,6 +2,7 @@ rvm:
   - 1.9.3
   - 2.0.0
   - 2.1.0
+  - 2.2.2
   - jruby-19mode
 before_install:
   - gem update --system
@@ -10,7 +11,6 @@ script: "bundle exec rake spec:unit spec:acceptance features"
 jdk:
   - openjdk6
 gemfile:
-  - gemfiles/3.1.gemfile
   - gemfiles/3.2.gemfile
   - gemfiles/4.0.gemfile
   - gemfiles/4.1.gemfile
