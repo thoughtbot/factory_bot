@@ -73,7 +73,7 @@ end
 
 describe "callbacks using syntax methods without referencing FactoryGirl explicitly" do
   before do
-    define_model("User", first_name: :string, last_name: :string)
+    define_model("User", first_number: :integer, last_number: :integer)
 
     FactoryGirl.define do
       sequence(:sequence_1)
@@ -82,8 +82,8 @@ describe "callbacks using syntax methods without referencing FactoryGirl explici
 
       factory :user do
         after(:stub)   { generate(:sequence_3) }
-        after(:build)  { |user| user.first_name = generate(:sequence_1) }
-        after(:create) { |user, evaluator| user.last_name = generate(:sequence_2) }
+        after(:build)  { |user| user.first_number = generate(:sequence_1) }
+        after(:create) { |user, evaluator| user.last_number = generate(:sequence_2) }
       end
     end
   end
@@ -94,11 +94,11 @@ describe "callbacks using syntax methods without referencing FactoryGirl explici
   end
 
   it "works when the callback has one variable" do
-    expect(FactoryGirl.build(:user).first_name).to eq 1
+    expect(FactoryGirl.build(:user).first_number).to eq 1
   end
 
   it "works when the callback has two variables" do
-    expect(FactoryGirl.create(:user).last_name).to eq 1
+    expect(FactoryGirl.create(:user).last_number).to eq 1
   end
 end
 

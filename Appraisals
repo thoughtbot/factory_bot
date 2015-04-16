@@ -9,3 +9,7 @@ end
 appraise '4.1' do
   gem 'activerecord', "~> 4.1.1"
 end
+
+appraise '4.2' do
+  gem 'activerecord', "~> 4.2.1"
+end
