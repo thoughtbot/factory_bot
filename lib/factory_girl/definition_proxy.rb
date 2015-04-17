@@ -1,8 +1,9 @@
 module FactoryGirl
   class DefinitionProxy
-    UNPROXIED_METHODS = %w(__send__ __id__ nil? send object_id extend instance_eval initialize block_given? raise caller method)
+    UNPROXIED_METHODS = %w(__send__ __id__ nil? send object_id extend instance_eval initialize block_given? raise caller caller_locations method methods respond_to? puts)
 
     (instance_methods + private_instance_methods).each do |method|
+      alias_method(("__orig__" + method.to_s).to_sym, method)
       undef_method(method) unless UNPROXIED_METHODS.include?(method.to_s)
     end
 
@@ -94,6 +95,16 @@ module FactoryGirl
     #
     # are equivalent.
     def method_missing(name, *args, &block)
+      # If methods are called from debugger, original method should be called
+      if ['eval', 'process_commands', 'build_compact_name', 'build_compact_value_attr', 'print_element'].include?(caller_locations[1].base_label) ||
+          caller_locations[1].path == "(eval)" then
+          if methods.include?(("__orig__" + name.to_s).to_sym)
+              m = method(("__orig__" + name.to_s).to_sym)
+              return block ? m.call(*args, block) : m.call(*args)
+          end
+          return
+      end
+      
       if args.empty? && block.nil?
         @definition.declare_attribute(Declaration::Implicit.new(name, @definition, @ignore))
       elsif args.first.respond_to?(:has_key?) && args.first.has_key?(:factory)
