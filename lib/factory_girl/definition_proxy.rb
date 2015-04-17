@@ -96,9 +96,9 @@ module FactoryGirl
     # are equivalent.
     def method_missing(name, *args, &block)
       # If methods are called from debugger, original method should be called
-      if defined?(caller_locations) &&
+      if defined?(caller_locations) && (
         ['eval', 'process_commands', 'build_compact_name','build_compact_value_attr', 'print_element'].include?(caller_locations[1].base_label) ||
-        caller_locations[1].path == "(eval)"
+        caller_locations[1].path == "(eval)" )
         if methods.include?(("__orig__" + name.to_s).to_sym)
           m = method(("__orig__" + name.to_s).to_sym)
           return block ? m.call(*args, block) : m.call(*args)
