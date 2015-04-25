@@ -23,6 +23,9 @@ module FactoryGirl
       factories_to_lint.inject({}) do |result, factory|
         begin
           FactoryGirl.create(factory.name)
+          factory.defined_traits.each do |trait|
+            FactoryGirl.create(factory.name, trait.name)
+          end
         rescue => error
           result[factory] = error
         end
