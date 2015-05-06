@@ -81,7 +81,7 @@ The following factories are invalid:
     error_message = <<-ERROR_MESSAGE.strip
 The following factories are invalid:
 
-* user - Validation failed: Name can't be blank (ActiveRecord::RecordInvalid)
+* user with trait: invalid_no_name - Validation failed: Name can't be blank (ActiveRecord::RecordInvalid)
     ERROR_MESSAGE
 
     expect do

@@ -22,12 +22,14 @@ module FactoryGirl
     def calculate_invalid_factories
       factories_to_lint.inject({}) do |result, factory|
         begin
+          name = factory.name
           FactoryGirl.create(factory.name)
           factory.defined_traits.each do |trait|
+            name = "#{factory.name} with trait: #{trait.name}"
             FactoryGirl.create(factory.name, trait.name)
           end
         rescue => error
-          result[factory] = error
+          result[name] = error
         end
 
         result
@@ -35,8 +37,8 @@ module FactoryGirl
     end
 
     def error_message
-      lines = invalid_factories.map do |factory, exception|
-        "* #{factory.name} - #{exception.message} (#{exception.class.name})"
+      lines = invalid_factories.map do |factory_name, exception|
+        "* #{factory_name} - #{exception.message} (#{exception.class.name})"
       end
 
       <<-ERROR_MESSAGE.strip
