@@ -828,22 +828,32 @@ FactoryGirl.lint
 `FactoryGirl.lint` creates each factory and catches any exceptions raised
 during the creation process. `FactoryGirl::InvalidFactoryError` is raised with
 a list of factories (and corresponding exceptions) for factories which could
-not be created. Recommended usage of `FactoryGirl.lint` is to invoke this once
-before the test suite is run.
+not be created.
 
-With RSpec:
+Recommended usage of `FactoryGirl.lint`
+is to run this in a task
+before your test suite is executed.
+Running it in a `before(:suite)`,
+will negatively impact the performance
+of your tests
+when running single tests.
+
+Example Rask task:
 
 ```ruby
-# spec/support/factory_girl.rb
-RSpec.configure do |config|
-  # additional factory_girl configuration
-
-  config.before(:suite) do
-    begin
-      DatabaseCleaner.start
-      FactoryGirl.lint
-    ensure
-      DatabaseCleaner.clean
+# lib/tasks/factory_girl.rake
+namespace :factory_girl do
+  desc "Verify that all FactoryGirl factories are valid"
+  task lint: :environment do
+    if Rails.env.test?
+      begin
+        DatabaseCleaner.start
+        FactoryGirl.lint
+      ensure
+        DatabaseCleaner.clean
+      end
+    else
+      system("bundle exec rake factory_girl:lint RAILS_ENV='test'")
     end
   end
 end
