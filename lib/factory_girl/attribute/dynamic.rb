@@ -11,7 +11,10 @@ module FactoryGirl
         block = @block
 
         -> {
-          value = block.arity == 1 ? instance_exec(self, &block) : instance_exec(&block)
+          value = case block.arity
+                  when 1, -1 then instance_exec(self, &block)
+                  else instance_exec(&block)
+                  end
           raise SequenceAbuseError if FactoryGirl::Sequence === value
           value
         }

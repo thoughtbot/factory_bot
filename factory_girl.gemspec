@@ -11,9 +11,8 @@ Gem::Specification.new do |s|
                       all-around easier to work with than fixtures.}
 
   s.files         = `git ls-files`.split("\n")
-  s.test_files    = `git ls-files -- Appraisals {spec,features,gemfiles}/*`.split("\n")
 
-  s.require_paths = ['lib']
+  s.require_path = 'lib'
   s.required_ruby_version = Gem::Requirement.new(">= 1.9.2")
 
   s.authors = ["Josh Clayton", "Joe Ferris"]
@@ -32,15 +31,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency("bourne")
   s.add_development_dependency("appraisal", "~> 1.0.0")
   s.add_development_dependency("activerecord", ">= 3.0.0")
-
-  if RUBY_PLATFORM == "java"
-    s.add_development_dependency("activerecord-jdbcsqlite3-adapter")
-    s.add_development_dependency("jdbc-sqlite3")
-  else
-    s.add_development_dependency("sqlite3")
-  end
-
   s.add_development_dependency("yard")
+
   s.license = "MIT"
 end
-

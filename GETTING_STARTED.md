@@ -66,56 +66,6 @@ end
 
 If you do not include `FactoryGirl::Syntax::Methods` in your test suite, then all factory_girl methods will need to be prefaced with `FactoryGirl`.
 
-Linting Factories
------------------
-
-factory_girl allows for linting known factories:
-
-```ruby
-FactoryGirl.lint
-```
-
-`FactoryGirl.lint` creates each factory and catches any exceptions raised
-during the creation process. `FactoryGirl::InvalidFactoryError` is raised with
-a list of factories (and corresponding exceptions) for factories which could
-not be created. Recommended usage of `FactoryGirl.lint` is to invoke this once
-before the test suite is run.
-
-With RSpec:
-
-```ruby
-# spec/support/factory_girl.rb
-RSpec.configure do |config|
-  # additional factory_girl configuration
-
-  config.before(:suite) do
-    begin
-      DatabaseCleaner.start
-      FactoryGirl.lint
-    ensure
-      DatabaseCleaner.clean
-    end
-  end
-end
-```
-
-After calling `FactoryGirl.lint`, you'll likely want to clear out the
-database, as records will most likely be created. The provided example above
-uses the database_cleaner gem to clear out the database; be sure to add the
-gem to your Gemfile under the appropriate groups.
-
-You can lint factories selectively by passing only factories you want linted:
-
-```ruby
-factories_to_lint = FactoryGirl.factories.reject do |factory|
-  factory.name =~ /^old_/
-end
-
-FactoryGirl.lint factories_to_lint
-```
-
-This would lint all factories that aren't prefixed with `old_`.
-
 Defining factories
 ------------------
 
@@ -865,6 +815,56 @@ There's also a set of `*_pair` methods for creating two records at a time:
 built_users   = build_pair(:user) # array of two built users
 created_users = create_pair(:user) # array of two created users
 ```
+
+Linting Factories
+-----------------
+
+factory_girl allows for linting known factories:
+
+```ruby
+FactoryGirl.lint
+```
+
+`FactoryGirl.lint` creates each factory and catches any exceptions raised
+during the creation process. `FactoryGirl::InvalidFactoryError` is raised with
+a list of factories (and corresponding exceptions) for factories which could
+not be created. Recommended usage of `FactoryGirl.lint` is to invoke this once
+before the test suite is run.
+
+With RSpec:
+
+```ruby
+# spec/support/factory_girl.rb
+RSpec.configure do |config|
+  # additional factory_girl configuration
+
+  config.before(:suite) do
+    begin
+      DatabaseCleaner.start
+      FactoryGirl.lint
+    ensure
+      DatabaseCleaner.clean
+    end
+  end
+end
+```
+
+After calling `FactoryGirl.lint`, you'll likely want to clear out the
+database, as records will most likely be created. The provided example above
+uses the database_cleaner gem to clear out the database; be sure to add the
+gem to your Gemfile under the appropriate groups.
+
+You can lint factories selectively by passing only factories you want linted:
+
+```ruby
+factories_to_lint = FactoryGirl.factories.reject do |factory|
+  factory.name =~ /^old_/
+end
+
+FactoryGirl.lint factories_to_lint
+```
+
+This would lint all factories that aren't prefixed with `old_`.
 
 Custom Construction
 -------------------
