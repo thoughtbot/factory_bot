@@ -1,6 +1,30 @@
 Getting Started
 ===============
 
+* [Update Your Gemfile](#update-your-gemfile)
+* [Configure your test suite](#configure-your-test-suite)
+* [Defining factories](#defining-factories)
+* [Using factories](#using-factories)
+* [Lazy Attributes](#lazy-attributes)
+* [Aliases](#aliases)
+* [Dependent Attributes](#dependent-ttributes)
+* [Transient Attributes](#transient-attributes)
+* [Associations](#associations)
+* [Inheritance](#inheritance)
+* [Sequences](#sequences)
+* [Traits](#traits)
+* [Callbacks](#callbacks)
+* [Modifying factories](#modifying-factories)
+* [Building or Creating Multiple Records](#building-or-creating-multiple-records)
+* [Linting Factories](#linting-factories)
+* [Custom Construction](#custom-construction)
+* [Custom Strategies](#custom-strategies)
+* [Custom Callbacks](#custom-callbacks)
+* [Custom Methods to Persist Objects](#custom-methods-to-persist-objects)
+* [ActiveSupport Instrumentation](#activesupport-instrumentation)
+* [Rails Preloaders and RSpec](#rails-preloaders-and-rspec)
+* [Using Without Bundler](#using-without-bundler)
+
 Update Your Gemfile
 -------------------
 
