@@ -48,18 +48,18 @@ class Spinach::FeatureSteps
   include FactoryGirl::Syntax::Methods
 end
 
-# MiniTest
-class MiniTest::Unit::TestCase
+# Minitest
+class Minitest::Unit::TestCase
   include FactoryGirl::Syntax::Methods
 end
 
-# MiniTest::Spec
-class MiniTest::Spec
+# Minitest::Spec
+class Minitest::Spec
   include FactoryGirl::Syntax::Methods
 end
 
 # minitest-rails
-class MiniTest::Rails::ActiveSupport::TestCase
+class Minitest::Rails::ActiveSupport::TestCase
   include FactoryGirl::Syntax::Methods
 end
 ```
