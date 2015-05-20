@@ -44,9 +44,11 @@ describe "using ActiveSupport::Instrumentation to track factory interaction" do
     callback = ->(name, start, finish, id, payload) do
       factory_name = payload[:name]
       strategy_name = payload[:strategy]
+      factory = payload[:factory]
       tracked_invocations[factory_name] ||= {}
       tracked_invocations[factory_name][strategy_name] ||= 0
       tracked_invocations[factory_name][strategy_name] += 1
+      tracked_invocations[factory_name][:factory] = factory
     end
 
     ActiveSupport::Notifications.subscribed(callback, "factory_girl.run_factory") do
@@ -56,7 +58,7 @@ describe "using ActiveSupport::Instrumentation to track factory interaction" do
       FactoryGirl.attributes_for(:slow_user)
     end
 
-    expect(tracked_invocations[:slow_user]).to eq(build: 2, attributes_for: 1)
-    expect(tracked_invocations[:user]).to eq(build: 5, create: 2)
+    expect(tracked_invocations[:slow_user]).to eq(build: 2, attributes_for: 1, factory:FactoryGirl.factory_by_name("slow_user"))
+    expect(tracked_invocations[:user]).to eq(build: 5, create: 2, factory:FactoryGirl.factory_by_name("user"))
   end
 end
