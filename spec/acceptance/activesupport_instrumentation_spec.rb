@@ -58,7 +58,10 @@ describe "using ActiveSupport::Instrumentation to track factory interaction" do
       FactoryGirl.attributes_for(:slow_user)
     end
 
-    expect(tracked_invocations[:slow_user]).to eq(build: 2, attributes_for: 1, factory:FactoryGirl.factory_by_name("slow_user"))
-    expect(tracked_invocations[:user]).to eq(build: 5, create: 2, factory:FactoryGirl.factory_by_name("user"))
+    expect(tracked_invocations[:slow_user][:build]).to eq(2)
+    expect(tracked_invocations[:slow_user][:attributes_for]).to eq(1)
+    expect(tracked_invocations[:slow_user][:factory]).to eq(FactoryGirl.factory_by_name("slow_user"))
+    expect(tracked_invocations[:user][:build]).to eq(5)
+    expect(tracked_invocations[:user][:factory]).to eq(FactoryGirl.factory_by_name("user"))
   end
 end
