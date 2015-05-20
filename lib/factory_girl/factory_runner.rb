@@ -17,7 +17,7 @@ module FactoryGirl
         factory = factory.with_traits(@traits)
       end
 
-      instrumentation_payload = {  
+      instrumentation_payload = {
         name: @name,
         strategy: runner_strategy,
         traits: @traits,
