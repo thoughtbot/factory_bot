@@ -14,6 +14,8 @@ unless ActiveSupport::Notifications.respond_to?(:subscribed)
 end
 
 describe "using ActiveSupport::Instrumentation to track factory interaction" do
+  let(:slow_user_factory) { FactoryGirl.factory_by_name("slow_user") }
+  let(:user_factory) { FactoryGirl.factory_by_name("user") }
   before do
     define_model("User", email: :string)
     FactoryGirl.define do
@@ -44,9 +46,11 @@ describe "using ActiveSupport::Instrumentation to track factory interaction" do
     callback = ->(name, start, finish, id, payload) do
       factory_name = payload[:name]
       strategy_name = payload[:strategy]
+      factory = payload[:factory]
       tracked_invocations[factory_name] ||= {}
       tracked_invocations[factory_name][strategy_name] ||= 0
       tracked_invocations[factory_name][strategy_name] += 1
+      tracked_invocations[factory_name][:factory] = factory
     end
 
     ActiveSupport::Notifications.subscribed(callback, "factory_girl.run_factory") do
@@ -56,7 +60,10 @@ describe "using ActiveSupport::Instrumentation to track factory interaction" do
       FactoryGirl.attributes_for(:slow_user)
     end
 
-    expect(tracked_invocations[:slow_user]).to eq(build: 2, attributes_for: 1)
-    expect(tracked_invocations[:user]).to eq(build: 5, create: 2)
+    expect(tracked_invocations[:slow_user][:build]).to eq(2)
+    expect(tracked_invocations[:slow_user][:attributes_for]).to eq(1)
+    expect(tracked_invocations[:slow_user][:factory]).to eq(slow_user_factory)
+    expect(tracked_invocations[:user][:build]).to eq(5)
+    expect(tracked_invocations[:user][:factory]).to eq(user_factory)
   end
 end

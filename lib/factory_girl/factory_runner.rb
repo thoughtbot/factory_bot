@@ -17,7 +17,13 @@ module FactoryGirl
         factory = factory.with_traits(@traits)
       end
 
-      instrumentation_payload = { name: @name, strategy: runner_strategy }
+      instrumentation_payload = {
+        name: @name,
+        strategy: runner_strategy,
+        traits: @traits,
+        overrides: @overrides,
+        factory: factory
+      }
 
       ActiveSupport::Notifications.instrument('factory_girl.run_factory', instrumentation_payload) do
         factory.run(runner_strategy, @overrides, &block)
