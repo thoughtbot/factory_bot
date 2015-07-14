@@ -840,10 +840,11 @@ RSpec.configure do |config|
 
   config.before(:suite) do
     begin
-      DatabaseCleaner.start
       FactoryGirl.lint
     ensure
-      DatabaseCleaner.clean
+      FactoryGirl.factories.each do |factory|
+        factory.build_class.delete_all
+      end
     end
   end
 end
@@ -851,8 +852,9 @@ end
 
 After calling `FactoryGirl.lint`, you'll likely want to clear out the
 database, as records will most likely be created. The provided example above
-uses the database_cleaner gem to clear out the database; be sure to add the
-gem to your Gemfile under the appropriate groups.
+loops through the defined factories registry, gets the factory's model through
+`.build_class` and deletes all records using a `.delete_all` method. This is
+an ActiveRecord API, be sure to use your ORM's API.
 
 You can lint factories selectively by passing only factories you want linted:
 
