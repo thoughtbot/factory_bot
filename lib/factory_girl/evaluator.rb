@@ -64,6 +64,10 @@ module FactoryGirl
     end
 
     def self.define_attribute(name, &block)
+      if method_defined?(name) || private_method_defined?(name)
+        undef_method(name)
+      end
+
       define_method(name) do
         if @cached_attributes.key?(name)
           @cached_attributes[name]
