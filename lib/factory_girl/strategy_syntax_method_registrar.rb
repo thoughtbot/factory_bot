@@ -39,6 +39,10 @@ module FactoryGirl
 
     def define_syntax_method(name, &block)
       FactoryGirl::Syntax::Methods.module_exec do
+        if method_defined?(name) || private_method_defined?(name)
+          undef_method(name)
+        end
+
         define_method(name, &block)
       end
     end
