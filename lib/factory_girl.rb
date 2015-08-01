@@ -55,8 +55,16 @@ module FactoryGirl
     @configuration = nil
   end
 
-  def self.lint(factories_to_lint = FactoryGirl.factories)
-    Linter.lint!(factories_to_lint)
+  # Look for errors in factories and (optionally) their traits.
+  # Parameters:
+  # factories - which factories to lint; omit for all factories
+  # options:
+  #   traits : true - to lint traits as well as factories
+  def self.lint(*args)
+    options = args.extract_options!
+    factories_to_lint = args[0] || FactoryGirl.factories
+    strategy = options[:traits] ? :factory_and_traits : :factory
+    Linter.new(factories_to_lint, strategy).lint!
   end
 
   class << self

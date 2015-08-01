@@ -938,6 +938,20 @@ FactoryGirl.lint factories_to_lint
 
 This would lint all factories that aren't prefixed with `old_`.
 
+Traits can also be linted. This option verifies that each  
+and every trait of a factory generates a valid object on its own. 
+This is turned on by passing `traits: true` to the `lint` method:
+
+```ruby
+FactoryGirl.lint traits:true
+```
+
+This can also be combined with other arguments:
+
+```ruby
+FactoryGirl.lint factories_to_lint, traits: true
+```
+
 Custom Construction
 -------------------
 
