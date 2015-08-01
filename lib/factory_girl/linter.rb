@@ -80,7 +80,7 @@ The following factories are invalid:
     end
 
     def location
-      "#{@factory.name}/#{@trait_name}"
+      "#{@factory.name}+#{@trait_name}"
     end
   end
 end
