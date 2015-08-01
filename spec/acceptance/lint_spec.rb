@@ -92,9 +92,7 @@ The following factories are invalid:
   end
 
   describe "trait validation" do
-
     context "turned on" do
-
       it "raises if a trait produces an invalid object" do
         define_model "User", name: :string do
           validates :name, presence: true
@@ -164,8 +162,5 @@ The following factories are invalid:
 
       end
     end
-
-
   end
-
 end

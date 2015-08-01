@@ -22,7 +22,7 @@ module FactoryGirl
     private
 
     def calculate_invalid_factories
-      factories_to_lint.inject(Hash.new([])) do |result, factory|
+      factories_to_lint.reduce(Hash.new([])) do |result, factory|
         begin
           FactoryGirl.create(factory.name)
         rescue => error
@@ -34,7 +34,8 @@ module FactoryGirl
             begin
               FactoryGirl.create(factory.name, trait_name)
             rescue => error
-              result[factory] |= [FactoryTraitError.new(error, factory, trait_name)]
+              result[factory] |=
+                  [FactoryTraitError.new(error, factory, trait_name)]
             end
           end
 
@@ -45,7 +46,7 @@ module FactoryGirl
     end
 
     def error_message
-      lines = invalid_factories.map do |factory, exceptions|
+      lines = invalid_factories.map do |_factory, exceptions|
         exceptions.map &:message
       end.flatten
 
@@ -77,9 +78,9 @@ The following factories are invalid:
       super(wrapped_error, factory)
       @trait_name = trait_name
     end
+
     def location
       "#{@factory.name}/#{@trait_name}"
     end
   end
-
 end
