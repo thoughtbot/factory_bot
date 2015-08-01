@@ -63,46 +63,46 @@ The following factories are invalid:
     end.not_to raise_error
   end
 
-  it 'allows for explicit factories and additional options' do
-    define_model 'User', name: :string do
+  it "allows for explicit factories and additional options" do
+    define_model "User", name: :string do
       validates :name, presence: true
     end
 
     FactoryGirl.define do
       factory :user do
-        name 'assigned'
+        name "assigned"
       end
     end
 
     FactoryGirl.lint FactoryGirl.factories, validate_traits: true
   end
 
-  it 'allows for additional options without explicit factories' do
-    define_model 'User', name: :string do
+  it "allows for additional options without explicit factories" do
+    define_model "User", name: :string do
       validates :name, presence: true
     end
 
     FactoryGirl.define do
       factory :user do
-        name 'assigned'
+        name "assigned"
       end
     end
 
     FactoryGirl.lint validate_traits: true
   end
 
-  describe 'trait validation' do
+  describe "trait validation" do
 
-    context 'turned on' do
+    context "turned on" do
 
-      it 'raises if a trait produces an invalid object' do
-        define_model 'User', name: :string do
+      it "raises if a trait produces an invalid object" do
+        define_model "User", name: :string do
           validates :name, presence: true
         end
 
         FactoryGirl.define do
           factory :user do
-            name 'Yep'
+            name "Yep"
             trait :unnamed do
               name nil
             end
@@ -121,16 +121,16 @@ The following factories are invalid:
 
       end
 
-      it 'does not raise if a trait produces a valid object' do
-        define_model 'User', name: :string do
+      it "does not raise if a trait produces a valid object" do
+        define_model "User", name: :string do
           validates :name, presence: true
         end
 
         FactoryGirl.define do
           factory :user do
-            name 'Yep'
+            name "Yep"
             trait :renamed do
-              name 'Yessir'
+              name "Yessir"
             end
           end
         end
@@ -142,15 +142,15 @@ The following factories are invalid:
 
     end
 
-    context 'turned off' do
-      it 'does not raises if a trait produces an invalid object' do
-        define_model 'User', name: :string do
+    context "turned off" do
+      it "does not raises if a trait produces an invalid object" do
+        define_model "User", name: :string do
           validates :name, presence: true
         end
 
         FactoryGirl.define do
           factory :user do
-            name 'Yep'
+            name "Yep"
             trait :unnamed do
               name nil
             end
