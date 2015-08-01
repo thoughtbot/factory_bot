@@ -62,4 +62,32 @@ The following factories are invalid:
       FactoryGirl.lint only_valid_factories
     end.not_to raise_error
   end
+
+  it 'allows for explicit factories and additional options' do
+    define_model 'User', name: :string do
+      validates :name, presence: true
+    end
+
+    FactoryGirl.define do
+      factory :user do
+        name 'assigned'
+      end
+    end
+
+    FactoryGirl.lint FactoryGirl.factories, validate_traits: true
+  end
+
+  it 'allows for additional options without explicit factories' do
+    define_model 'User', name: :string do
+      validates :name, presence: true
+    end
+
+    FactoryGirl.define do
+      factory :user do
+        name 'assigned'
+      end
+    end
+
+    FactoryGirl.lint validate_traits: true
+  end
 end

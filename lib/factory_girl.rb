@@ -55,8 +55,14 @@ module FactoryGirl
     @configuration = nil
   end
 
-  def self.lint(factories_to_lint = FactoryGirl.factories)
-    Linter.lint!(factories_to_lint)
+  def self.lint(factories = nil, options = {})
+    if factories.is_a?(Hash)
+      factories_to_lint = FactoryGirl.factories
+      options = factories
+    else
+      factories_to_lint = factories || FactoryGirl.factories
+    end
+    Linter.lint!(factories_to_lint, options)
   end
 
   class << self

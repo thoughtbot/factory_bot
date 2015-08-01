@@ -1,11 +1,12 @@
 module FactoryGirl
   class Linter
-    def self.lint!(factories_to_lint)
-      new(factories_to_lint).lint!
+    def self.lint!(factories_to_lint, options)
+      new(factories_to_lint, options).lint!
     end
 
-    def initialize(factories_to_lint)
+    def initialize(factories_to_lint, options)
       @factories_to_lint = factories_to_lint
+      @options = options
       @invalid_factories = calculate_invalid_factories
     end
 
