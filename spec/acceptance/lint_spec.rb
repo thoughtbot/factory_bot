@@ -116,7 +116,6 @@ The following factories are invalid:
         expect do
           FactoryGirl.lint traits: true
         end.to raise_error FactoryGirl::InvalidFactoryError, error_message
-
       end
 
       it "does not raise if a trait produces a valid object" do
@@ -137,7 +136,6 @@ The following factories are invalid:
           FactoryGirl.lint traits: true
         end.to_not raise_error
       end
-
     end
 
     context "turned off" do
@@ -159,7 +157,6 @@ The following factories are invalid:
           FactoryGirl.lint traits: false
           FactoryGirl.lint
         end.to_not raise_error
-
       end
     end
   end
