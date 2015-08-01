@@ -22,11 +22,22 @@ module FactoryGirl
     private
 
     def calculate_invalid_factories
-      factories_to_lint.inject({}) do |result, factory|
+      factories_to_lint.inject(Hash.new([])) do |result, factory|
         begin
           FactoryGirl.create(factory.name)
         rescue => error
-          result[factory] = error
+          result[factory] |= [FactoryError.new(error, factory)]
+        end
+
+        if @options[:traits]
+          factory.definition.defined_traits.map(&:name).each do |trait_name|
+            begin
+              FactoryGirl.create(factory.name, trait_name)
+            rescue => error
+              result[factory] |= [FactoryTraitError.new(error, factory, trait_name)]
+            end
+          end
+
         end
 
         result
@@ -34,9 +45,9 @@ module FactoryGirl
     end
 
     def error_message
-      lines = invalid_factories.map do |factory, exception|
-        "* #{factory.name} - #{exception.message} (#{exception.class.name})"
-      end
+      lines = invalid_factories.map do |factory, exceptions|
+        exceptions.map &:message
+      end.flatten
 
       <<-ERROR_MESSAGE.strip
 The following factories are invalid:
@@ -45,4 +56,30 @@ The following factories are invalid:
       ERROR_MESSAGE
     end
   end
+
+  class FactoryError
+    def initialize(wrapped_error, factory)
+      @wrapped_error = wrapped_error
+      @factory = factory
+    end
+
+    def message
+      "* #{location} - #{@wrapped_error.message} (#{@wrapped_error.class.name})"
+    end
+
+    def location
+      @factory.name
+    end
+  end
+
+  class FactoryTraitError < FactoryError
+    def initialize(wrapped_error, factory, trait_name)
+      super(wrapped_error, factory)
+      @trait_name = trait_name
+    end
+    def location
+      "#{@factory.name}/#{@trait_name}"
+    end
+  end
+
 end
