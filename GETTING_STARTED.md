@@ -838,7 +838,7 @@ will negatively impact the performance
 of your tests
 when running single tests.
 
-Example Rask task:
+Example of a Rake task:
 
 ```ruby
 # lib/tasks/factory_girl.rake
