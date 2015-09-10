@@ -10,7 +10,7 @@ Documentation
 
 You should find the documentation for your version of factory_girl on [Rubygems](https://rubygems.org/gems/factory_girl).
 
-See [GETTING_STARTED] for information on defining and using factories.
+See [GETTING_STARTED](GETTING_STARTED.md) for information on defining and using factories.
 
 Install
 --------
