@@ -8,7 +8,7 @@ end
 World(FactoryGirlDefinitionsHelper)
 
 When /^"([^"]*)" is added to FactoryGirl's file definitions path$/ do |file_name|
-  new_factory_file = File.join(current_dir, file_name.gsub(".rb", ""))
+  new_factory_file = File.join(expand_path("."), file_name.gsub(".rb", ""))
 
   append_file_to_factory_girl_definitions_path(new_factory_file)
 
@@ -16,7 +16,7 @@ When /^"([^"]*)" is added to FactoryGirl's file definitions path$/ do |file_name
 end
 
 When /^"([^"]*)" is added to FactoryGirl's file definitions path as an absolute path$/ do |file_name|
-  new_factory_file = File.expand_path(File.join(current_dir, file_name.gsub(".rb", "")))
+  new_factory_file = File.expand_path(File.join(expand_path("."), file_name.gsub(".rb", "")))
 
   append_file_to_factory_girl_definitions_path(new_factory_file)
 

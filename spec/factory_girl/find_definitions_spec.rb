@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-share_examples_for "finds definitions" do
+shared_examples_for "finds definitions" do
   before do
     FactoryGirl.stubs(:load)
     FactoryGirl.find_definitions
@@ -19,7 +19,7 @@ RSpec::Matchers.define :load_definitions_from do |file|
     "load definitions from #{file}"
   end
 
-  failure_message_for_should do
+  failure_message do
     @has_received.failure_message
   end
 end
