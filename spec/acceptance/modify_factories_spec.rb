@@ -134,7 +134,7 @@ describe "modifying factories" do
 
         its(:name)  { should eq "Great User" }
         its(:email) { should eq "Great User-modified@example.com" }
-        its(:admin) { should be_true }
+        its(:admin) { should be true }
       end
 
       context "overriding dynamic attributes" do
@@ -142,7 +142,7 @@ describe "modifying factories" do
 
         its(:name)  { should eq "Great User" }
         its(:email) { should eq "perfect@example.com" }
-        its(:admin) { should be_true }
+        its(:admin) { should be true }
       end
 
       context "overriding static attributes" do
@@ -150,7 +150,7 @@ describe "modifying factories" do
 
         its(:name)  { should eq "wonderful" }
         its(:email) { should eq "wonderful-modified@example.com" }
-        its(:admin) { should be_true }
+        its(:admin) { should be true }
       end
     end
   end

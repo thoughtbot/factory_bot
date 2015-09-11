@@ -38,7 +38,7 @@ describe 'sequences are evaluated in the correct context' do
       end
     end
 
-    expect(FactoryGirl.build(:sequence_with_frozen).id).to be_false
+    expect(FactoryGirl.build(:sequence_with_frozen).id).to be false
   end
 
   it 'allows direct reference of a method in a sequence' do

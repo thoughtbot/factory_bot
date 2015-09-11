@@ -4,6 +4,7 @@ $LOAD_PATH << File.join(File.dirname(__FILE__))
 require 'rubygems'
 require 'rspec'
 require 'rspec/autorun'
+require 'rspec/its'
 
 require "simplecov"
 
