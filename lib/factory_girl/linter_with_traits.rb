@@ -2,6 +2,7 @@ module FactoryGirl
   class LinterWithTraits < LinterBase
 
     private
+
     class FactoryTraitError < FactoryError
       def initialize(wrapped_error, factory, trait_name)
         super(wrapped_error, factory)
@@ -32,6 +33,5 @@ module FactoryGirl
         result
       end
     end
-
   end
 end

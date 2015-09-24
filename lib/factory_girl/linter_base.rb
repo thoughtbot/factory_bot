@@ -1,5 +1,4 @@
 module FactoryGirl
-
   class LinterBase
 
     def self.lint!(factories_to_lint)
@@ -19,7 +18,6 @@ module FactoryGirl
 
     attr_reader :factories_to_lint, :invalid_factories
     private :factories_to_lint, :invalid_factories
-
 
     class FactoryError
       def initialize(wrapped_error, factory)
@@ -47,6 +45,5 @@ The following factories are invalid:
 #{lines.join("\n")}
       ERROR_MESSAGE
     end
-
   end
 end
