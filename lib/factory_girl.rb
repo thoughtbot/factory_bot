@@ -43,7 +43,9 @@ require 'factory_girl/decorator/class_key_hash'
 require 'factory_girl/decorator/disallows_duplicates_registry'
 require 'factory_girl/decorator/invocation_tracker'
 require 'factory_girl/decorator/new_constructor'
+require 'factory_girl/linter_base'
 require 'factory_girl/linter'
+require 'factory_girl/linter_with_traits'
 require 'factory_girl/version'
 
 module FactoryGirl
@@ -62,7 +64,9 @@ module FactoryGirl
     else
       factories_to_lint = factories || FactoryGirl.factories
     end
-    Linter.lint!(factories_to_lint, options)
+
+    linter = options[:traits] ? LinterWithTraits : Linter
+    linter.lint!(factories_to_lint)
   end
 
   class << self
