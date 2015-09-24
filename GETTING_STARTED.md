@@ -423,6 +423,26 @@ factory :user do
 end
 ```
 
+`sequence` uses `Enumerator#next` to determine the next value, so you can use a
+string as your initial value.
+
+```ruby
+factory :user do
+  sequence(:email, "aaaaaaaa") { |n| "person-#{n}example.com" }
+end
+
+=> FactoryGirl.build(:user).email == "person-aaaaaaaa@example.com"
+=> FactoryGirl.build(:user).email == "person-aaaaaaab@example.com"
+```
+
+If you are using a string as your initial value and your tests are asserting a
+specific ordering, using a short value such as `"a"` is dangerous because if you
+are testing a query such as `User.order(:email)`, it is important to remember that
+`"person-a@example.com" < "person-aa@example.com"` in string comparison. We recommend
+using `"aaaaaaaa"` or a longer string as your starting point to avoid transient
+test failures when your entities span the border of number of characters. This is
+important to remember when using the default integer sequence because `"100" < "99"`.
+
 Without a block, the value will increment itself, starting at its initial value:
 
 ```ruby
@@ -1170,7 +1190,7 @@ FactoryGirl.define do
     name 'United States'
     association :location_group, factory: :north_america
   end
-  
+
   factory :north_america, class: LocationGroup do
     name 'North America'
   end
