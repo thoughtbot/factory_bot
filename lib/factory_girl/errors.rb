@@ -11,6 +11,9 @@ module FactoryGirl
   # Raised when attempting to register a sequence from a dynamic attribute block
   class SequenceAbuseError < RuntimeError; end
 
+  # Raised when the next value in a sequence is < the previous value (e.g. "z" < "aa" or "9" < "10")
+  class SequenceOverflowError < RuntimeError; end
+
   # Raised when defining an invalid attribute:
   # * Defining an attribute which has a name ending in "="
   # * Defining an attribute with both a static and lazy value
