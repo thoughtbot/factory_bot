@@ -124,6 +124,16 @@ module FactoryGirl
       add_attribute(name) { increment_sequence(sequence) }
     end
 
+    # Adds an attribute that will have unique values generated beginning at "00000000000".
+    # You may specify your own initial value, exactly like `sequence`, but if the
+    # next value is ever alphabetically less than the previous value, and error
+    # will be raised. E.g. "Z".next == "AA", and "Z" < "AA".
+    #
+    def alphabetic_sequence(name, *args, &block)
+      sequence = AlphabeticSequence.new(name, *args, &block)
+      add_attribute(name) { increment_sequence(sequence) }
+    end
+
     # Adds an attribute that builds an association. The associated instance will
     # be built using the same build strategy as the parent instance.
     #

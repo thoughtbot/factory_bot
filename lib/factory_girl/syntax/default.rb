@@ -29,6 +29,10 @@ module FactoryGirl
           FactoryGirl.register_sequence(Sequence.new(name, *args, &block))
         end
 
+        def alphabetic_sequence(name, *args, &block)
+          FactoryGirl.register_sequence(AlphabeticSequence.new(name, *args, &block))
+        end
+
         def trait(name, &block)
           FactoryGirl.register_trait(Trait.new(name, &block))
         end

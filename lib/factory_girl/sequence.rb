@@ -11,7 +11,7 @@ module FactoryGirl
       @proc    = proc
 
       options  = args.extract_options!
-      @value   = args.first || 1
+      @value   = args.first || initial_value
       @aliases = options.fetch(:aliases) { [] }
 
       if !@value.respond_to?(:peek)
@@ -36,6 +36,10 @@ module FactoryGirl
     end
 
     private
+
+    def initial_value
+      1
+    end
 
     def value
       @value.peek
