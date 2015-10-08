@@ -48,13 +48,13 @@ class Spinach::FeatureSteps
   include FactoryGirl::Syntax::Methods
 end
 
-# MiniTest
-class MiniTest::Unit::TestCase
+# Minitest
+class Minitest::Test
   include FactoryGirl::Syntax::Methods
 end
 
-# MiniTest::Spec
-class MiniTest::Spec
+# Minitest::Spec
+class Minitest::Spec
   include FactoryGirl::Syntax::Methods
 end
 
