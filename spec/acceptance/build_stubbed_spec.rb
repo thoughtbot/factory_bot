@@ -35,7 +35,7 @@ describe "a generated stub instance" do
   end
 
   it "assigns associations" do
-    expect(subject.user).not_to be_nil
+    expect(subject.user).to be_kind_of(User)
   end
 
   it "has an id" do
@@ -49,6 +49,10 @@ describe "a generated stub instance" do
 
   it "isn't a new record" do
     expect(subject).not_to be_new_record
+  end
+
+  it "assigns associations that aren't new records" do
+    expect(subject.user).not_to be_new_record
   end
 
   it "isn't changed" do
