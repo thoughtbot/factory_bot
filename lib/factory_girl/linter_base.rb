@@ -1,6 +1,5 @@
 module FactoryGirl
   class LinterBase
-
     def self.lint!(factories_to_lint)
       new(factories_to_lint).lint!
     end
