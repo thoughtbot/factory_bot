@@ -25,7 +25,8 @@ module FactoryGirl
       end
 
       def message
-        "* #{location} - #{@wrapped_error.message} (#{@wrapped_error.class.name})"
+        message = @wrapped_error.message
+        "* #{location} - #{message} (#{@wrapped_error.class.name})"
       end
 
       def location
