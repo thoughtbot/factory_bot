@@ -59,7 +59,7 @@ class Minitest::Spec
 end
 
 # minitest-rails
-class Minitest::Rails::ActiveSupport::TestCase
+class ActiveSupport::TestCase
   include FactoryGirl::Syntax::Methods
 end
 ```
