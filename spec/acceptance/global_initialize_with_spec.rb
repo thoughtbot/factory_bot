@@ -3,7 +3,7 @@ require 'spec_helper'
 describe 'global initialize_with' do
   before do
     define_class('User') do
-      attr_accessor:name
+      attr_accessor :name
 
       def initialize(name)
         @name = name
