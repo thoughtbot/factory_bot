@@ -10,6 +10,7 @@ module FactoryGirl
       def result(evaluation)
         evaluation.object.tap do |instance|
           stub_database_interaction_on_result(instance)
+          clear_changed_attributes_on_result(instance)
           evaluation.notify(:after_stub, instance)
         end
       end
@@ -75,6 +76,21 @@ module FactoryGirl
             end
           end
         end
+      end
+
+      def clear_changed_attributes_on_result(result_instance)
+        unless result_instance.respond_to?(:clear_changes_information)
+          result_instance.extend ActiveModelDirtyBackport
+        end
+
+        result_instance.clear_changes_information
+      end
+    end
+
+    module ActiveModelDirtyBackport
+      def clear_changes_information
+        @previously_changed = ActiveSupport::HashWithIndifferentAccess.new
+        @changed_attributes = ActiveSupport::HashWithIndifferentAccess.new
       end
     end
   end
