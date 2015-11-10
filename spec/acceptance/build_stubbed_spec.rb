@@ -51,6 +51,10 @@ describe "a generated stub instance" do
     expect(subject).not_to be_new_record
   end
 
+  it "isn't changed" do
+    expect(subject).not_to be_changed
+  end
+
   it "disables connection" do
     expect { subject.connection }.to raise_error(RuntimeError)
   end
