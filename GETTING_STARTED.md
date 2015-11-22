@@ -35,6 +35,15 @@ RSpec.configure do |config|
   config.include FactoryGirl::Syntax::Methods
 end
 
+# RSpec without Rails
+RSpec.configure do |config|
+  config.include FactoryGirl::Syntax::Methods
+
+  config.before(:suite) do
+    FactoryGirl.find_definitions
+  end
+end
+
 # Test::Unit
 class Test::Unit::TestCase
   include FactoryGirl::Syntax::Methods
@@ -94,8 +103,9 @@ It is highly recommended that you have one factory for each class that provides 
 
 Attempting to define multiple factories with the same name will raise an error.
 
-Factories can be defined anywhere, but will be automatically loaded if they
-are defined in files at the following locations:
+Factories can be defined anywhere, but will be automatically loaded after
+calling `FactoryGirl.find_definitions` if factories are defined in files at the
+following locations:
 
     test/factories.rb
     spec/factories.rb
