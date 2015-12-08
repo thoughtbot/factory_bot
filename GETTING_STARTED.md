@@ -41,6 +41,7 @@ class Test::Unit::TestCase
 end
 
 # Cucumber
+# env.rb (Rails example location - app/features/support/env.rb)
 World(FactoryGirl::Syntax::Methods)
 
 # Spinach
