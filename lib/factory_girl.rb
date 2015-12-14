@@ -43,9 +43,7 @@ require 'factory_girl/decorator/class_key_hash'
 require 'factory_girl/decorator/disallows_duplicates_registry'
 require 'factory_girl/decorator/invocation_tracker'
 require 'factory_girl/decorator/new_constructor'
-require 'factory_girl/linter_base'
 require 'factory_girl/linter'
-require 'factory_girl/linter_with_traits'
 require 'factory_girl/version'
 
 module FactoryGirl
@@ -57,16 +55,15 @@ module FactoryGirl
     @configuration = nil
   end
 
-  def self.lint(factories = nil, options = {})
-    if factories.is_a?(Hash)
-      factories_to_lint = FactoryGirl.factories
-      options = factories
-    else
-      factories_to_lint = factories || FactoryGirl.factories
-    end
-
-    linter = options[:traits] ? LinterWithTraits : Linter
-    linter.lint!(factories_to_lint)
+  # Parameters:
+  # factories - which factories to lint; omit for all factories
+  # options -
+  #   traits: true - to lint traits as well as factories
+  def self.lint(*args)
+    options = args.extract_options!
+    factories_to_lint = args[0] || FactoryGirl.factories
+    strategy = options[:traits] ? :factory_and_traits : :factory
+    Linter.new(factories_to_lint, strategy).lint!
   end
 
   class << self
