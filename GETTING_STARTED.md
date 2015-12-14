@@ -943,7 +943,7 @@ and every trait of a factory generates a valid object on its own.
 This is turned on by passing `traits: true` to the `lint` method:
 
 ```ruby
-FactoryGirl.link traits:true
+FactoryGirl.lint traits:true
 ```
 
 This can also be combined with other arguments:
