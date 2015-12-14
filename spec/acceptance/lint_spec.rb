@@ -92,7 +92,7 @@ The following factories are invalid:
   end
 
   describe "trait validation" do
-    context "turned on" do
+    context "enabled" do
       it "raises if a trait produces an invalid object" do
         define_model "User", name: :string do
           validates :name, presence: true
@@ -134,11 +134,11 @@ The following factories are invalid:
 
         expect do
           FactoryGirl.lint traits: true
-        end.to_not raise_error
+        end.not_to raise_error
       end
     end
 
-    context "turned off" do
+    context "disabled" do
       it "does not raises if a trait produces an invalid object" do
         define_model "User", name: :string do
           validates :name, presence: true
@@ -156,7 +156,7 @@ The following factories are invalid:
         expect do
           FactoryGirl.lint traits: false
           FactoryGirl.lint
-        end.to_not raise_error
+        end.not_to raise_error
       end
     end
   end
