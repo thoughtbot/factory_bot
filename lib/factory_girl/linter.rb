@@ -20,13 +20,11 @@ module FactoryGirl
 
     def calculate_invalid_factories
       factories_to_lint.reduce(Hash.new([])) do |result, factory|
-        errors = self.send(@linting_method, factory)
+        errors = send(@linting_method, factory)
         result[factory] |= errors unless errors.empty?
         result
       end
     end
-
-
 
     class FactoryError
       def initialize(wrapped_error, factory)
@@ -84,7 +82,6 @@ module FactoryGirl
       errors
     end
 
-
     def error_message
       lines = invalid_factories.map do |_factory, exceptions|
         exceptions.map &:message
@@ -96,6 +93,5 @@ The following factories are invalid:
 #{lines.join("\n")}
       ERROR_MESSAGE
     end
-
   end
 end
