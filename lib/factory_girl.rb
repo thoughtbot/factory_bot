@@ -55,6 +55,7 @@ module FactoryGirl
     @configuration = nil
   end
 
+  # Look for errors in factories and (optionally) their traits.
   # Parameters:
   # factories - which factories to lint; omit for all factories
   # options:
