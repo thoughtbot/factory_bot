@@ -57,8 +57,8 @@ module FactoryGirl
 
   # Parameters:
   # factories - which factories to lint; omit for all factories
-  # options -
-  #   traits: true - to lint traits as well as factories
+  # options:
+  #   traits : true - to lint traits as well as factories
   def self.lint(*args)
     options = args.extract_options!
     factories_to_lint = args[0] || FactoryGirl.factories
