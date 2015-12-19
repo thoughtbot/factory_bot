@@ -62,4 +62,30 @@ The following factories are invalid:
       FactoryGirl.lint only_valid_factories
     end.not_to raise_error
   end
+
+  it 'lints traits' do
+    define_model 'User', name: :string do
+      validates :name, presence: true
+    end
+
+    FactoryGirl.define do
+      factory :user do
+        name 'Chris'
+
+        trait :invalid_no_name do
+          name nil
+        end
+      end
+    end
+
+    error_message = <<-ERROR_MESSAGE.strip
+The following factories are invalid:
+
+* user with trait: invalid_no_name - Validation failed: Name can't be blank (ActiveRecord::RecordInvalid)
+    ERROR_MESSAGE
+
+    expect do
+      FactoryGirl.lint
+    end.to raise_error FactoryGirl::InvalidFactoryError, error_message
+  end
 end
