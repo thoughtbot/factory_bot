@@ -65,7 +65,7 @@ We offer 1-on-1 [coaching]. We can help you set up factory_girl, clean up your
 License
 -------
 
-factory_girl is Copyright © 2008-2015 Joe Ferris and thoughtbot. It is free
+factory_girl is Copyright © 2008-2016 Joe Ferris and thoughtbot. It is free
 software, and may be redistributed under the terms specified in the
 [LICENSE](/LICENSE) file.
 
