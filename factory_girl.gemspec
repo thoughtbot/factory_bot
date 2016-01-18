@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
                       using factories - less error-prone, more explicit, and
                       all-around easier to work with than fixtures.}
 
-  s.files         = `git ls-files`.split("\n")
+  s.files         = `git ls-files`.split("\n").reject { |f| f.match(%r{^(spec|features)/}) }
 
   s.require_path = 'lib'
   s.required_ruby_version = Gem::Requirement.new(">= 1.9.2")
