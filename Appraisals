@@ -3,13 +3,13 @@ appraise "3.2" do
 end
 
 appraise '4.0' do
-  gem 'activerecord', "~> 4.0.1"
+  gem 'activerecord', "~> 4.0.13"
 end
 
 appraise '4.1' do
-  gem 'activerecord', "~> 4.1.1"
+  gem 'activerecord', "~> 4.1.14"
 end
 
 appraise '4.2' do
-  gem 'activerecord', "~> 4.2.1"
+  gem 'activerecord', "~> 4.2.5.1"
 end

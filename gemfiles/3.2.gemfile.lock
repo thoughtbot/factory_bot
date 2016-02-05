@@ -105,6 +105,3 @@ DEPENDENCIES
   sqlite3 (~> 1.3.10)
   timecop
   yard
-
-BUNDLED WITH
-   1.11.2

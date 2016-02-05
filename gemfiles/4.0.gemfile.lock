@@ -7,21 +7,21 @@ PATH
 GEM
   remote: https://rubygems.org/
   specs:
-    activemodel (4.0.5)
-      activesupport (= 4.0.5)
+    activemodel (4.0.13)
+      activesupport (= 4.0.13)
       builder (~> 3.1.0)
-    activerecord (4.0.5)
-      activemodel (= 4.0.5)
+    activerecord (4.0.13)
+      activemodel (= 4.0.13)
       activerecord-deprecated_finders (~> 1.0.2)
-      activesupport (= 4.0.5)
+      activesupport (= 4.0.13)
       arel (~> 4.0.0)
-    activerecord-deprecated_finders (1.0.3)
+    activerecord-deprecated_finders (1.0.4)
     activerecord-jdbc-adapter (1.3.19)
       activerecord (>= 2.2)
     activerecord-jdbcsqlite3-adapter (1.3.19)
       activerecord-jdbc-adapter (~> 1.3.19)
       jdbc-sqlite3 (>= 3.7.2, < 3.9)
-    activesupport (4.0.5)
+    activesupport (4.0.13)
       i18n (~> 0.6, >= 0.6.9)
       minitest (~> 4.2)
       multi_json (~> 1.3)
@@ -92,7 +92,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  activerecord (~> 4.0.1)
+  activerecord (~> 4.0.13)
   activerecord-jdbcsqlite3-adapter
   appraisal (~> 2.1.0)
   aruba
@@ -106,6 +106,3 @@ DEPENDENCIES
   sqlite3 (~> 1.3.10)
   timecop
   yard
-
-BUNDLED WITH
-   1.11.2
