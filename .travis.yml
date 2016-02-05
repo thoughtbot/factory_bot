@@ -17,6 +17,20 @@ gemfile:
   - gemfiles/4.0.gemfile
   - gemfiles/4.1.gemfile
   - gemfiles/4.2.gemfile
+  - gemfiles/5.0.gemfile
+matrix:
+  fast_finish: true
+  allow_failures:
+    - rvm: jruby-19mode
+      gemfile: gemfiles/5.0.gemfile
+    - rvm: 1.9.3
+      gemfile: gemfiles/5.0.gemfile
+    - rvm: 2.0.0
+      gemfile: gemfiles/5.0.gemfile
+    - rvm: 2.1.0
+      gemfile: gemfiles/5.0.gemfile
+    - rvm: rbx-2
+      gemfile: gemfiles/5.0.gemfile
 branches:
   only:
     - master

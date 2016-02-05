@@ -74,6 +74,10 @@ describe "a generated stub instance" do
   it "disables increment" do
     expect { subject.increment!(:age) }.to raise_error(RuntimeError)
   end
+
+  it "disables decrement" do
+    expect { subject.decrement!(:age) }.to raise_error(RuntimeError)
+  end
 end
 
 describe "calling `build_stubbed` with a block" do
