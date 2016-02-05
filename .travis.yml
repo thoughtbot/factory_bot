@@ -10,8 +10,6 @@ before_install:
   - gem update bundler
 install: "bundle install"
 script: "bundle exec rake"
-jdk:
-  - openjdk6
 gemfile:
   - gemfiles/3.2.gemfile
   - gemfiles/4.0.gemfile
