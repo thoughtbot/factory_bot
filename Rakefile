@@ -9,9 +9,7 @@ require 'cucumber/rake/task'
 Bundler::GemHelper.install_tasks
 
 desc 'Default: run the specs and features.'
-task :default do
-  system("bundle exec rake -s appraisal spec:unit spec:acceptance features;")
-end
+task default: %i(spec:unit spec:acceptance features)
 
 namespace :spec do
   desc "Run unit specs"

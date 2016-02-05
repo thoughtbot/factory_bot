@@ -9,7 +9,7 @@ before_install:
   - gem update --system
   - gem update bundler
 install: "bundle install"
-script: "bundle exec rake spec:unit spec:acceptance features"
+script: "bundle exec rake"
 jdk:
   - openjdk6
 gemfile:
