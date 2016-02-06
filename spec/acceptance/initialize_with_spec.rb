@@ -215,3 +215,23 @@ describe "initialize_with has access to all attributes for construction" do
     expect(user_with_attributes.ignored).to be_nil
   end
 end
+
+describe "initialize_with for a constructor that requires a block" do
+  it "executes the block correctly" do
+    define_class("Awesome") do
+      attr_reader :output
+
+      def initialize(&block)
+        @output = instance_exec(&block)
+      end
+    end
+
+    FactoryGirl.define do
+      factory :awesome do
+        initialize_with { new { "Output" } }
+      end
+    end
+
+    expect(FactoryGirl.build(:awesome).output).to eq "Output"
+  end
+end

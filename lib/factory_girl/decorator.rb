@@ -10,8 +10,8 @@ module FactoryGirl
       @component.send(name, *args, &block)
     end
 
-    def send(symbol, *args)
-      __send__(symbol, *args)
+    def send(symbol, *args, &block)
+      __send__(symbol, *args, &block)
     end
 
     def self.const_missing(name)
