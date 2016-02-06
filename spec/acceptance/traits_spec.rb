@@ -241,7 +241,7 @@ describe "traits added via strategy" do
   context "adding traits in create" do
     subject { FactoryGirl.create(:user, :admin, :great, name: "Joe") }
 
-    its(:admin) { should be_true }
+    its(:admin) { should be true }
     its(:name)  { should eq "JOE" }
 
     it "doesn't modify the user factory" do
@@ -254,21 +254,21 @@ describe "traits added via strategy" do
   context "adding traits in build" do
     subject { FactoryGirl.build(:user, :admin, :great, name: "Joe") }
 
-    its(:admin) { should be_true }
+    its(:admin) { should be true }
     its(:name)  { should eq "Joe" }
   end
 
   context "adding traits in attributes_for" do
     subject { FactoryGirl.attributes_for(:user, :admin, :great) }
 
-    its([:admin]) { should be_true }
+    its([:admin]) { should be true }
     its([:name])  { should eq "John" }
   end
 
   context "adding traits in build_stubbed" do
     subject { FactoryGirl.build_stubbed(:user, :admin, :great, name: "Jack") }
 
-    its(:admin) { should be_true }
+    its(:admin) { should be true }
     its(:name)  { should eq "Jack" }
   end
 
@@ -279,7 +279,7 @@ describe "traits added via strategy" do
 
     it "creates all the records" do
       subject.each do |record|
-        expect(record.admin).to be_true
+        expect(record.admin).to be true
         expect(record.name).to eq "JOE"
       end
     end
@@ -292,7 +292,7 @@ describe "traits added via strategy" do
 
     it "builds all the records" do
       subject.each do |record|
-        expect(record.admin).to be_true
+        expect(record.admin).to be true
         expect(record.name).to eq "Joe"
       end
     end

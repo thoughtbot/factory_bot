@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-share_examples_for "finds definitions" do
+shared_examples_for "finds definitions" do
   before do
     FactoryGirl.stubs(:load)
     FactoryGirl.find_definitions

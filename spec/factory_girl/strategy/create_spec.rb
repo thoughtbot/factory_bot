@@ -20,6 +20,6 @@ describe FactoryGirl::Strategy::Create do
     evaluation = evaluation_class.new
     evaluation.stubs(object: nil, notify: nil)
     subject.result(evaluation)
-    expect(evaluation.block_run).to be_true
+    expect(evaluation.block_run).to be true
   end
 end
