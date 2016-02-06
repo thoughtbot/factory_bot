@@ -162,6 +162,19 @@ factory :user do
 end
 ```
 
+JSON Properties
+---------------
+Because brackets `{ }` are interpretted first as a block for lazy attributes,
+if you need to assign a value to a model that has a property of type JSON
+you'll need to use double brackets `{{ }}` otherwise the value will be set to nil.
+
+```ruby
+factory :user do
+  # ...
+  json_property {{ :key => "value" }}
+end
+```
+
 Aliases
 -------
 
