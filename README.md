@@ -53,15 +53,6 @@ factory_girl was originally written by Joe Ferris and is now maintained by Josh
 Clayton. Many improvements and bugfixes were contributed by the [open source
 community](https://github.com/thoughtbot/factory_girl/graphs/contributors).
 
-Need Help?
-----------
-
-We offer 1-on-1 [coaching]. We can help you set up factory_girl, clean up your
-`factories.rb`, or speed up slow tests. Or, [hire us] to build your project!
-
-[coaching]: https://robots.thoughtbot.com/rails-coaching?utm_source=github
-[hire us]: https://thoughtbot.com/hire-us?utm_source=github
-
 License
 -------
 
