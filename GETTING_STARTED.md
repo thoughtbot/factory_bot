@@ -461,19 +461,19 @@ generate :email
 # => "person2@example.com"
 ```
 
-Sequences can be used as attributes:
-
-```ruby
-factory :user do
-  email
-end
-```
-
-Or in lazy attributes:
+Sequences can be used in lazy attributes:
 
 ```ruby
 factory :invite do
   invitee { generate(:email) }
+end
+```
+
+Or as attributes:
+
+```ruby
+factory :user do
+  email # Same as `email { generate(:email) }`
 end
 ```
 
