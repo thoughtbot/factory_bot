@@ -169,13 +169,13 @@ user.first_name
 # => "Joe"
 ```
 
-Lazy Attributes
----------------
+Dynamic Attributes
+------------------
 
 Most factory attributes can be added using static values that are evaluated when
 the factory is defined, but some attributes (such as associations and other
 attributes that must be dynamically generated) will need values assigned each
-time an instance is generated. These "lazy" attributes can be added by passing a
+time an instance is generated. These "dynamic" attributes can be added by passing a
 block instead of a parameter:
 
 ```ruby
@@ -225,7 +225,8 @@ end
 Dependent Attributes
 --------------------
 
-Attributes can be based on the values of other attributes using the evaluator that is yielded to lazy attribute blocks:
+Attributes can be based on the values of other attributes using the evaluator
+that is yielded to dynamic attribute blocks:
 
 ```ruby
 factory :user do
@@ -390,13 +391,13 @@ create(:user_with_posts).posts.length # 5
 create(:user_with_posts, posts_count: 15).posts.length # 15
 ```
 
-Generating data for a `has_and_belongs_to_many` relationship is very similar 
-to the above `has_many` relationship, with a small change, you need to pass an 
-array of objects to the model's pluralized attribute name rather than a single 
+Generating data for a `has_and_belongs_to_many` relationship is very similar
+to the above `has_many` relationship, with a small change, you need to pass an
+array of objects to the model's pluralized attribute name rather than a single
 object to the singular version of the attribute name.
 
 Here's an example with two models that are related via
- `has_and_belongs_to_many`: 
+ `has_and_belongs_to_many`:
 
 ```ruby
 FactoryGirl.define do
@@ -411,7 +412,7 @@ FactoryGirl.define do
   factory :profile do
     name "John Doe"
 
-    # profile_with_languages will create language data after the profile has 
+    # profile_with_languages will create language data after the profile has
     # been created
     factory :profile_with_languages do
       # languages_count is declared as an ignored attribute and available in
@@ -420,10 +421,10 @@ FactoryGirl.define do
         languages_count 5
       end
 
-      # the after(:create) yields two values; the profile instance itself and 
-      # the evaluator, which stores all values from the factory, including 
-      # ignored attributes; `create_list`'s second argument is the number of 
-      # records to create and we make sure the profile is associated properly 
+      # the after(:create) yields two values; the profile instance itself and
+      # the evaluator, which stores all values from the factory, including
+      # ignored attributes; `create_list`'s second argument is the number of
+      # records to create and we make sure the profile is associated properly
       # to the language
       after(:create) do |profile, evaluator|
         create_list(:language, evaluator.languages_count, profiles: [profile])
@@ -500,19 +501,19 @@ generate :email
 # => "person2@example.com"
 ```
 
-Sequences can be used as attributes:
-
-```ruby
-factory :user do
-  email
-end
-```
-
-Or in lazy attributes:
+Sequences can be used in dynamic attributes:
 
 ```ruby
 factory :invite do
   invitee { generate(:email) }
+end
+```
+
+Or as implicit attributes:
+
+```ruby
+factory :user do
+  email # Same as `email { generate(:email) }`
 end
 ```
 
@@ -986,8 +987,8 @@ FactoryGirl.lint factories_to_lint
 
 This would lint all factories that aren't prefixed with `old_`.
 
-Traits can also be linted. This option verifies that each  
-and every trait of a factory generates a valid object on its own. 
+Traits can also be linted. This option verifies that each
+and every trait of a factory generates a valid object on its own.
 This is turned on by passing `traits: true` to the `lint` method:
 
 ```ruby
@@ -1294,7 +1295,7 @@ FactoryGirl.define do
     name 'United States'
     association :location_group, factory: :north_america
   end
-  
+
   factory :north_america, class: LocationGroup do
     name 'North America'
   end
