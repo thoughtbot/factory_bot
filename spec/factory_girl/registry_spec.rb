@@ -65,4 +65,13 @@ describe FactoryGirl::Registry do
     expect(subject.find(:user)).to eq registered_object
     expect(subject.find(User)).to eq registered_object
   end
+
+  it "registers namespaced classes" do
+    define_class("Invoice")
+    define_class("Invoice::Item")
+    subject.register(Invoice::Item, registered_object)
+    expect(subject.to_a).to eq [registered_object]
+    expect(subject.find(:invoice_item)).to eq registered_object
+    expect(subject.find(Invoice::Item)).to eq registered_object
+  end
 end

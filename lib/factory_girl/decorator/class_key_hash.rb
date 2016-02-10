@@ -19,7 +19,7 @@ module FactoryGirl
         if key.respond_to?(:to_sym)
           key.to_sym
         else
-          key.to_s.underscore.to_sym
+          key.to_s.underscore.gsub("/", "_").to_sym
         end
       end
     end
