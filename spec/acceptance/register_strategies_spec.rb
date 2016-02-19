@@ -100,10 +100,18 @@ describe "associations without overriding :strategy" do
     end
   end
 
-  it "uses the overridden create strategy to create the association" do
+  it "uses the overridden strategy on the association" do
     FactoryGirl.register_strategy(:create, custom_strategy)
     post = FactoryGirl.build(:post)
     expect(post.user.name).to eq "Custom strategy"
+  end
+
+  it "uses the parent strategy to build the association when flag set" do
+    FactoryGirl.register_strategy(:create, custom_strategy)
+    FactoryGirl.use_parent_strategy = true
+
+    post = FactoryGirl.build(:post)
+    expect(post.user.name).to eq "John Doe"
   end
 end
 

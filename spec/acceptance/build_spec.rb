@@ -27,9 +27,16 @@ describe "a built instance" do
     expect(subject.user).to be_kind_of(User)
     expect(subject.user).not_to be_new_record
   end
+
+  it "assigns but does not save associations when using parent strategy" do
+    FactoryGirl.use_parent_strategy = true
+
+    expect(subject.user).to be_kind_of(User)
+    expect(subject.user).to be_new_record
+  end
 end
 
-describe "a built instance with strategy: :build" do
+describe "a built instance with strategy: :create" do
   include FactoryGirl::Syntax::Methods
 
   before do
@@ -43,7 +50,7 @@ describe "a built instance with strategy: :build" do
       factory :user
 
       factory :post do
-        association(:user, strategy: :build)
+        association(:user, strategy: :create)
       end
     end
   end
@@ -52,9 +59,9 @@ describe "a built instance with strategy: :build" do
 
   it { should be_new_record }
 
-  it "assigns but does not save associations" do
+  it "assigns and saves associations" do
     expect(subject.user).to be_kind_of(User)
-    expect(subject.user).to be_new_record
+    expect(subject.user).not_to be_new_record
   end
 end
 

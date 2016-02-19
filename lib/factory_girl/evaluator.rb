@@ -23,7 +23,13 @@ module FactoryGirl
 
     def association(factory_name, *traits_and_overrides)
       overrides = traits_and_overrides.extract_options!
-      strategy_override = overrides.fetch(:strategy) { :create }
+      strategy_override = overrides.fetch(:strategy) do
+        if FactoryGirl.use_parent_strategy
+          @build_strategy.class
+        else
+          :create
+        end
+      end
 
       traits_and_overrides += [overrides.except(:strategy)]
 
