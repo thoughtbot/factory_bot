@@ -45,7 +45,7 @@ More Information
 * [Issues](https://github.com/thoughtbot/factory_girl/issues)
 * [GIANT ROBOTS SMASHING INTO OTHER GIANT ROBOTS](http://robots.thoughtbot.com/)
 
-[GETTING_STARTED]: http://rubydoc.info/gems/factory_girl/file/GETTING_STARTED.md
+[GETTING_STARTED]: https://github.com/thoughtbot/factory_girl/blob/master/GETTING_STARTED.md
 
 Contributing
 ------------
