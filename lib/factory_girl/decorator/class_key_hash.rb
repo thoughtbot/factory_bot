@@ -18,7 +18,8 @@ module FactoryGirl
       def symbolized_key(key)
         if key.respond_to?(:to_sym)
           key.to_sym
-        else
+        elsif FactoryGirl.allow_class_lookup
+          ActiveSupport::Deprecation.warn "Looking up factories by class is deprecated and will be removed in 5.0. Use symbols instead and set FactoryGirl.allow_class_lookup = false", caller
           key.to_s.underscore.to_sym
         end
       end
