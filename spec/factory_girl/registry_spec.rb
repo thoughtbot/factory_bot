@@ -57,12 +57,4 @@ describe FactoryGirl::Registry do
     subject.clear
     expect(subject.count).to be_zero
   end
-
-  it "registers classes" do
-    define_class("User")
-    subject.register(User, registered_object)
-    expect(subject.to_a).to eq [registered_object]
-    expect(subject.find(:user)).to eq registered_object
-    expect(subject.find(User)).to eq registered_object
-  end
 end

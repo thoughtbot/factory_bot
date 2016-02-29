@@ -68,14 +68,7 @@ describe "transient attributes" do
     end
   end
 
-  context "using aliased 'ignore' method name" do
-    around do |example|
-      cached_silenced = ActiveSupport::Deprecation.silenced
-      ActiveSupport::Deprecation.silenced = true
-      example.run
-      ActiveSupport::Deprecation.silenced = cached_silenced
-    end
-
+  context "using aliased 'ignore' method name", :silence_deprecation do
     before do
       FactoryGirl.define do
         factory :user_using_ignore, class: User do
