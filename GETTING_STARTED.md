@@ -253,6 +253,22 @@ you would expect. If you need to access the evaluator in a factory_girl callback
 you'll need to declare a second block argument (for the evaluator) and access
 transient attributes from there.
 
+Method Name / Reserved Word Attributes
+-------------------------------
+
+If your attributes conflict with existing methods or reserved words you can define them with `add_attribute`.
+
+```ruby
+factory :dna do
+  add_attribute(:sequence) { 'GATTACA' }
+end
+
+factory :payment do
+  add_attribute(:method) { 'paypal' }
+end
+
+```
+
 Associations
 ------------
 
