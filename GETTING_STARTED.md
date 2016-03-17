@@ -44,6 +44,12 @@ RSpec.configure do |config|
   end
 end
 
+Remember to require the above file in your spec_helper since the support folder isn't eagerly loaded
+
+```ruby
+require 'support/factory_girl'
+```
+
 # Test::Unit
 class Test::Unit::TestCase
   include FactoryGirl::Syntax::Methods
