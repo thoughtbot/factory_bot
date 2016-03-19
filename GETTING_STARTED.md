@@ -748,7 +748,7 @@ end
 create(:post).author
 ```
 
-Finally, traits can be used within other traits to mix in their attributes.
+Traits can be used within other traits to mix in their attributes.
 
 ```ruby
 FactoryGirl.define do
@@ -763,6 +763,24 @@ FactoryGirl.define do
     end
   end
 end
+```
+
+Finally, traits can accept transient attributes.
+
+```ruby
+factory :invoice do
+  trait :with_amount do
+    transient do
+      amount 1
+    end
+
+    after(:create) do |invoice, evaluator|
+      create :line_item, invoice: invoice, amount: evaluator.amount
+    end
+  end
+end
+
+create :invoice, :with_amount, amount: 2
 ```
 
 Callbacks
