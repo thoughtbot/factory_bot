@@ -751,16 +751,14 @@ create(:post).author
 Traits can be used within other traits to mix in their attributes.
 
 ```ruby
-FactoryGirl.define do
-  factory :order do
-    trait :completed do
-      completed_at { 3.days.ago }
-    end
+factory :order do
+  trait :completed do
+    completed_at { 3.days.ago }
+  end
 
-    trait :refunded do
-      completed
-      refunded_at { 1.day.ago }
-    end
+  trait :refunded do
+    completed
+    refunded_at { 1.day.ago }
   end
 end
 ```
