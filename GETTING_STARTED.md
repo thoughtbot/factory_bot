@@ -377,7 +377,7 @@ FactoryGirl.define do
     factory :profile_with_languages do
       # languages_count is declared as an ignored attribute and available in
       # attributes on the factory, as well as the callback via the evaluator
-      ignore do
+      transient do
         languages_count 5
       end
 
