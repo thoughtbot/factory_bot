@@ -10,7 +10,7 @@ before_install:
   - gem update --system
   - gem update bundler
   - gem cleanup bundler
-install: "bundle install"
+install: "bundle install --jobs 8"
 script: "bundle exec rake"
 gemfile:
   - gemfiles/3.2.gemfile
