@@ -1,3 +1,3 @@
 module FactoryGirl
-  VERSION = '4.5.0'.freeze
+  VERSION = '4.7.0'.freeze
 end

@@ -1,3 +1,14 @@
+4.7.0 (April 1, 2016)
+  Improve documentation
+  Improve instrumentation payload to include traits, overrides, and the factory itself
+  Allow linting of traits
+  Deprecate factory lookup by class name in preparation for 5.0
+  Improve internal performance by using flat_map instead of map and compact
+  Improve handling of dirty attributes after building a stubbed object
+  Reduce warnings from redefining methods
+
+4.6.0 (skipped)
+
 4.5.0 (October 17, 2014)
   Improve FactoryGirl.lint by including exception and message in output
   Allow selective linting
