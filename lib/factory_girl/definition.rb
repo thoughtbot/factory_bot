@@ -125,17 +125,12 @@ module FactoryGirl
 
     def aggregate_from_traits_and_self(method_name, &block)
       compile
-      [].tap do |list|
-        base_traits.each do |trait|
-          list << trait.send(method_name)
-        end
 
-        list << instance_exec(&block)
-
-        additional_traits.each do |trait|
-          list << trait.send(method_name)
-        end
-      end.flatten.compact
+      [
+        base_traits.map(&method_name),
+        instance_exec(&block),
+        additional_traits.map(&method_name),
+      ].flatten.compact
     end
   end
 end
