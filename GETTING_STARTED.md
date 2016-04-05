@@ -51,30 +51,47 @@ require 'support/factory_girl'
 ```
 
 # Test::Unit
+
+```ruby
 class Test::Unit::TestCase
   include FactoryGirl::Syntax::Methods
 end
+```
 
 # Cucumber
+
+```ruby
 # env.rb (Rails example location - RAILS_ROOT/features/support/env.rb)
 World(FactoryGirl::Syntax::Methods)
+```
 
 # Spinach
+
+```ruby
 class Spinach::FeatureSteps
   include FactoryGirl::Syntax::Methods
 end
+```
 
 # Minitest
+
+```ruby
 class Minitest::Unit::TestCase
   include FactoryGirl::Syntax::Methods
 end
+```
 
 # Minitest::Spec
+
+```ruby
 class Minitest::Spec
   include FactoryGirl::Syntax::Methods
 end
+```
 
 # minitest-rails
+
+```ruby
 class ActiveSupport::TestCase
   include FactoryGirl::Syntax::Methods
 end
