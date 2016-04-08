@@ -43,6 +43,7 @@ RSpec.configure do |config|
     FactoryGirl.find_definitions
   end
 end
+```
 
 Remember to require the above file in your spec_helper since the support folder isn't eagerly loaded
 
