@@ -53,6 +53,14 @@ describe "create multiple instances" do
       end
     end
   end
+
+  context "without the count" do
+    subject { FactoryGirl.create_list(:post, title: "The Hunting of the Bear") }
+
+    it "raise ArgumentError with the proper error message" do
+      expect { subject }.to raise_error(ArgumentError, /count missing/)
+    end
+  end
 end
 
 describe "multiple creates and transient attributes to dynamically build attribute lists" do

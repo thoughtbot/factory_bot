@@ -25,6 +25,10 @@ module FactoryGirl
       strategy_name = @strategy_name
 
       define_syntax_method("#{strategy_name}_list") do |name, amount, *traits_and_overrides, &block|
+        unless amount.respond_to?(:times)
+          raise ArgumentError, "count missing for #{strategy_name}_list"
+        end
+
         amount.times.map { send(strategy_name, name, *traits_and_overrides, &block) }
       end
     end
