@@ -13,6 +13,10 @@ module FactoryGirl
       @items.clear
     end
 
+    def remove(name)
+      @items.delete(name.to_sym)
+    end
+
     def each(&block)
       @items.values.uniq.each(&block)
     end

@@ -81,6 +81,10 @@ module FactoryGirl
     factory
   end
 
+  def self.remove_factory(name)
+    factories.remove(name)
+  end
+
   def self.factory_by_name(name)
     factories.find(name)
   end

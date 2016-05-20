@@ -10,6 +10,12 @@ describe FactoryGirl do
     expect(FactoryGirl.factory_by_name(factory.name)).to eq factory
   end
 
+  it "removes a registered factory" do
+    FactoryGirl.register_factory(factory)
+    expect(FactoryGirl.remove_factory(factory.name)).to eq(factory)
+    expect{ FactoryGirl.factory_by_name(factory.name) }.to raise_error(ArgumentError)
+  end
+
   it "finds a registered sequence" do
     FactoryGirl.register_sequence(sequence)
     expect(FactoryGirl.sequence_by_name(sequence.name)).to eq sequence

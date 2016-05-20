@@ -57,4 +57,19 @@ describe FactoryGirl::Registry do
     subject.clear
     expect(subject.count).to be_zero
   end
+
+  it "removes a factory" do
+    subject.register(:object_name, registered_object)
+    expect do
+      expect(subject.remove(:object_name)).to eq(registered_object)
+    end.to change { subject.count }.by(-1)
+    expect { subject.find(:object_name) }.to raise_error(ArgumentError, "Great thing not registered: object_name")
+  end
+
+  it "no-ops removing a factory that isn't registered" do
+    subject.register(:object_name, registered_object)
+    expect do
+      expect(subject.remove(:no_such_object_name)).to be_nil
+    end.to_not change { subject.count }
+  end
 end
