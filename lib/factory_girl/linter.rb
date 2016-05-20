@@ -84,7 +84,7 @@ module FactoryGirl
 
     def error_message
       lines = invalid_factories.map do |_factory, exceptions|
-        exceptions.map &:message
+        exceptions.map(&:message)
       end.flatten
 
       <<-ERROR_MESSAGE.strip
