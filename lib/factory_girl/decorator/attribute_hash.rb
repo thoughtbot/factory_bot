@@ -7,9 +7,8 @@ module FactoryGirl
       end
 
       def attributes
-        @attributes.inject({}) do |result, attribute_name|
+        @attributes.each_with_object({}) do |attribute_name, result|
           result[attribute_name] = send(attribute_name)
-          result
         end
       end
     end
