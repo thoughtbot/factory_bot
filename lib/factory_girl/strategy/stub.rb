@@ -4,15 +4,29 @@ module FactoryGirl
       @@next_id = 1000
 
       DISABLED_PERSISTENCE_METHODS = [
-        :save,
-        :destroy,
         :connection,
-        :reload,
-        :update_attribute,
-        :update_column,
+        :decrement!,
+        :decrement,
+        :delete,
+        :destroy!,
+        :destroy,
+        :destroyed?,
         :increment!,
-        :decrement!
-      ]
+        :increment,
+        :reload,
+        :save!,
+        :save,
+        :toggle!,
+        :toggle,
+        :touch,
+        :update!,
+        :update,
+        :update_attribute,
+        :update_attributes!,
+        :update_attributes,
+        :update_column,
+        :update_columns,
+      ].freeze
 
       def association(runner)
         runner.run(:build_stubbed)

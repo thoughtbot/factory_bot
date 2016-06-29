@@ -46,13 +46,27 @@ describe FactoryGirl::Strategy::Stub do
       expect(subject.result(evaluation).created_at).to eq created_at
     end
 
-    include_examples "disabled persistence method", :save
-    include_examples "disabled persistence method", :destroy
     include_examples "disabled persistence method", :connection
-    include_examples "disabled persistence method", :reload
-    include_examples "disabled persistence method", :update_attribute
-    include_examples "disabled persistence method", :update_column
-    include_examples "disabled persistence method", :increment!
+    include_examples "disabled persistence method", :decrement
     include_examples "disabled persistence method", :decrement!
+    include_examples "disabled persistence method", :delete
+    include_examples "disabled persistence method", :destroy
+    include_examples "disabled persistence method", :destroy!
+    include_examples "disabled persistence method", :destroyed?
+    include_examples "disabled persistence method", :increment
+    include_examples "disabled persistence method", :increment!
+    include_examples "disabled persistence method", :reload
+    include_examples "disabled persistence method", :save
+    include_examples "disabled persistence method", :save!
+    include_examples "disabled persistence method", :toggle
+    include_examples "disabled persistence method", :toggle!
+    include_examples "disabled persistence method", :touch
+    include_examples "disabled persistence method", :update
+    include_examples "disabled persistence method", :update!
+    include_examples "disabled persistence method", :update_attribute
+    include_examples "disabled persistence method", :update_attributes
+    include_examples "disabled persistence method", :update_attributes!
+    include_examples "disabled persistence method", :update_column
+    include_examples "disabled persistence method", :update_columns
   end
 end
