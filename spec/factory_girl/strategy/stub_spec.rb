@@ -27,7 +27,16 @@ describe FactoryGirl::Strategy::Stub do
       expect(subject.result(evaluation).created_at).to eq created_at
     end
 
-    [:save, :destroy, :connection, :reload, :update_attribute, :update_column].each do |database_method|
+    [
+      :save,
+      :destroy,
+      :connection,
+      :reload,
+      :update_attribute,
+      :update_column,
+      :increment!,
+      :decrement!
+    ].each do |database_method|
       it "raises when attempting to connect to the database by calling #{database_method}" do
         expect do
           subject.result(evaluation).send(database_method)
