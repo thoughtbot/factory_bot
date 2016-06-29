@@ -3,6 +3,31 @@ module FactoryGirl
     class Stub
       @@next_id = 1000
 
+      DISABLED_PERSISTENCE_METHODS = [
+        :connection,
+        :decrement!,
+        :decrement,
+        :delete,
+        :destroy!,
+        :destroy,
+        :destroyed?,
+        :increment!,
+        :increment,
+        :reload,
+        :save!,
+        :save,
+        :toggle!,
+        :toggle,
+        :touch,
+        :update!,
+        :update,
+        :update_attribute,
+        :update_attributes!,
+        :update_attributes,
+        :update_column,
+        :update_columns,
+      ].freeze
+
       def association(runner)
         runner.run(:build_stubbed)
       end
@@ -33,36 +58,10 @@ module FactoryGirl
             id.nil?
           end
 
-          def save(*args)
-            raise "stubbed models are not allowed to access the database - #{self.class.to_s}#save(#{args.join(",")})"
-          end
-
-          def destroy(*args)
-            raise "stubbed models are not allowed to access the database - #{self.class.to_s}#destroy(#{args.join(",")})"
-          end
-
-          def connection
-            raise "stubbed models are not allowed to access the database - #{self.class.to_s}#connection()"
-          end
-
-          def reload(*args)
-            raise "stubbed models are not allowed to access the database - #{self.class.to_s}#reload()"
-          end
-
-          def update_attribute(*args)
-            raise "stubbed models are not allowed to access the database - #{self.class.to_s}#update_attribute(#{args.join(",")})"
-          end
-
-          def update_column(*args)
-            raise "stubbed models are not allowed to access the database - #{self.class.to_s}#update_column(#{args.join(",")})"
-          end
-
-          def increment!(*args)
-            raise "stubbed models are not allowed to access the database - #{self.class}#increment!(#{args.join(',')})"
-          end
-
-          def decrement!(*args)
-            raise "stubbed models are not allowed to access the database - #{self.class}#decrement!(#{args.join(',')})"
+          DISABLED_PERSISTENCE_METHODS.each do |write_method|
+            define_singleton_method(write_method) do |*args|
+              raise "stubbed models are not allowed to access the database - #{self.class}##{write_method}(#{args.join(",")})"
+            end
           end
         end
 

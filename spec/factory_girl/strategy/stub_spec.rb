@@ -1,5 +1,24 @@
 require 'spec_helper'
 
+shared_examples "disabled persistence method" do |method_name|
+  let(:instance) { described_class.new.result(evaluation) }
+
+  describe "overriding persistence method: ##{method_name}" do
+    it "overrides the method with any arity" do
+      method = instance.method(method_name)
+
+      expect(method.arity).to eq(-1)
+    end
+
+    it "raises an informative error if the method is called" do
+      expect { instance.send(method_name) }.to raise_error(
+        RuntimeError,
+        "stubbed models are not allowed to access the database - #{instance.class}##{method_name}()",
+      )
+    end
+  end
+end
+
 describe FactoryGirl::Strategy::Stub do
   it_should_behave_like "strategy with association support", :build_stubbed
   it_should_behave_like "strategy with callbacks", :after_stub
@@ -27,19 +46,27 @@ describe FactoryGirl::Strategy::Stub do
       expect(subject.result(evaluation).created_at).to eq created_at
     end
 
-    [:save, :destroy, :connection, :reload, :update_attribute, :update_column].each do |database_method|
-      it "raises when attempting to connect to the database by calling #{database_method}" do
-        expect do
-          subject.result(evaluation).send(database_method)
-        end.to raise_error(RuntimeError, "stubbed models are not allowed to access the database - #{subject.result(evaluation).class}##{database_method}()")
-      end
-    end
-
-    it "raises when attempting to connect to the database by calling reload with optional lock:true" do
-      expect do
-        subject.result(evaluation).reload(lock: true)
-      end.to raise_error(RuntimeError, "stubbed models are not allowed to access the database - #{subject.result(evaluation).class}#reload()")
-    end
-
+    include_examples "disabled persistence method", :connection
+    include_examples "disabled persistence method", :decrement
+    include_examples "disabled persistence method", :decrement!
+    include_examples "disabled persistence method", :delete
+    include_examples "disabled persistence method", :destroy
+    include_examples "disabled persistence method", :destroy!
+    include_examples "disabled persistence method", :destroyed?
+    include_examples "disabled persistence method", :increment
+    include_examples "disabled persistence method", :increment!
+    include_examples "disabled persistence method", :reload
+    include_examples "disabled persistence method", :save
+    include_examples "disabled persistence method", :save!
+    include_examples "disabled persistence method", :toggle
+    include_examples "disabled persistence method", :toggle!
+    include_examples "disabled persistence method", :touch
+    include_examples "disabled persistence method", :update
+    include_examples "disabled persistence method", :update!
+    include_examples "disabled persistence method", :update_attribute
+    include_examples "disabled persistence method", :update_attributes
+    include_examples "disabled persistence method", :update_attributes!
+    include_examples "disabled persistence method", :update_column
+    include_examples "disabled persistence method", :update_columns
   end
 end
