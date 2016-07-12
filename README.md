@@ -18,15 +18,32 @@ have [a detailed introductory video][], available for free on Upcase.
 Install
 --------
 
-```shell
-gem install factory_girl
-```
-or add the following line to Gemfile:
+Add the following line to Gemfile:
 
 ```ruby
 gem 'factory_girl'
 ```
+
 and run `bundle install` from your shell.
+
+To install the gem manually from your shell, run:
+
+```shell
+gem install factory_girl
+```
+
+**Caveat:** As of ActiveSupport 5.0 and above, Ruby 2.2.2+ is required. Because
+of Rubygems' dependency resolution when installing gems, you may see an error
+similar to:
+
+```
+$ gem install factory_girl
+ERROR:  Error installing factory_girl:
+    activesupport requires Ruby version >= 2.2.2.
+```
+
+To bypass this, install a pre-5.0 version of ActiveSupport before installing
+manually.
 
 Supported Ruby versions
 -----------------------
