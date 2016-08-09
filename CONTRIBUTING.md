@@ -46,6 +46,8 @@ Ideally, a bug report should include a pull request with failing specs.
 
 ## Notes
 * Please add tests if you changed code. Contributions without tests won't be accepted.
+* If you don't know how to add tests, please put in a PR and leave a comment
+  asking for help. We love helping!
 * Please don't update the Gem version.
 
 [repo]: https://github.com/thoughtbot/factory_girl/tree/master
