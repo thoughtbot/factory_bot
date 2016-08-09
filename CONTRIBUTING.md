@@ -29,6 +29,14 @@ Ideally, a bug report should include a pull request with failing specs.
 
 [gist]: https://gist.github.com/
 
+## Cleaning up issues
+
+* Issues that have no response from the submitter will be closed after 30 days.
+* Issues will be closed once they're assumed to be fixed or answered. If the
+  maintainer is wrong, it can be opened again.
+* If your issue is closed by mistake, please understand and explain the issue.
+  We will happily reopen the issue.
+
 ## Submitting a Pull Request
 1. [Fork][fork] the [official repository][repo].
 2. [Create a topic branch.][branch]
