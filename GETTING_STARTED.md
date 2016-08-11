@@ -936,11 +936,23 @@ To set the attributes for each of the factories, you can pass in a hash as you n
 twenty_year_olds = build_list(:user, 25, date_of_birth: 20.years.ago)
 ```
 
+`build_stubbed_list` will give you fully stubbed out instances:
+
+```ruby
+stubbed_users = build_stubbed_list(:user, 25) # array of stubbed users
+```
+
 There's also a set of `*_pair` methods for creating two records at a time:
 
 ```ruby
 built_users   = build_pair(:user) # array of two built users
 created_users = create_pair(:user) # array of two created users
+```
+
+If you need multiple attribute hashes, `attributes_for_list` will generate them:
+
+```ruby
+users_attrs = attributes_for_list(:user, 25) # array of attribute hashes
 ```
 
 Linting Factories
