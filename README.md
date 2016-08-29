@@ -5,6 +5,13 @@ factory_girl is a fixtures replacement with a straightforward definition syntax,
 If you want to use factory_girl with Rails, see
 [factory_girl_rails](https://github.com/thoughtbot/factory_girl_rails).
 
+The name "factory_girl" is a reference to the [Rolling Stones song] of the same
+name and is a play on the name [Object Mother], which is a specialization of the
+Factory Method pattern.
+
+[Rolling Stones song]: https://www.youtube.com/watch?v=4jKix2DFlnA
+[Object Mother]: http://martinfowler.com/bliki/ObjectMother.html
+
 Documentation
 -------------
 
