@@ -5,6 +5,8 @@ factory_girl is a fixtures replacement with a straightforward definition syntax,
 If you want to use factory_girl with Rails, see
 [factory_girl_rails](https://github.com/thoughtbot/factory_girl_rails).
 
+_[Interested in the project name?](NAME.md)._
+
 Documentation
 -------------
 
