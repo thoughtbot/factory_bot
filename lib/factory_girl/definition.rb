@@ -109,6 +109,14 @@ module FactoryGirl
       @additional_traits.map { |name| trait_by_name(name) }
     end
 
+    def map_base_traits(method_name)
+      base_traits.map { |trait| trait.public_send(method_name) }
+    end
+
+    def map_additional_traits(method_name)
+      additional_traits.map { |trait| trait.public_send(method_name) }
+    end
+
     def trait_by_name(name)
       trait_for(name) || FactoryGirl.trait_by_name(name)
     end
@@ -125,16 +133,11 @@ module FactoryGirl
 
     def aggregate_from_traits_and_self(method_name, &block)
       compile
+
       [].tap do |list|
-        base_traits.each do |trait|
-          list << trait.send(method_name)
-        end
-
+        list << map_base_traits(method_name)
         list << instance_exec(&block)
-
-        additional_traits.each do |trait|
-          list << trait.send(method_name)
-        end
+        list << map_additional_traits(method_name)
       end.flatten.compact
     end
   end
