@@ -33,7 +33,6 @@ matrix:
     - rvm: jruby-19mode
       gemfile: gemfiles/5.0.gemfile
     - rvm: rbx-2
-      gemfile: gemfiles/5.0.gemfile
 branches:
   only:
     - master
