@@ -30,8 +30,11 @@ Configure your test suite
 
 ```ruby
 # RSpec
-# spec/support/factory_girl.rb
+# Add the following line inside the Rspec.configure block of the spec/rails_helper.rb
+config.include FactoryGirl::Syntax::Methods
+# spec/rails_helper.rb
 RSpec.configure do |config|
+  ...
   config.include FactoryGirl::Syntax::Methods
 end
 
