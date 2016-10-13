@@ -75,6 +75,18 @@ module FactoryGirl
             end
           end
         end
+
+        has_updated_at = result_instance.respond_to?(:updated_at)
+        updated_at_no_default = has_updated_at && !result_instance.updated_at
+        result_instance_missing_updated_at = !has_updated_at
+
+        if updated_at_no_default || result_instance_missing_updated_at
+          result_instance.instance_eval do
+            def updated_at
+              @updated_at ||= Time.current
+            end
+          end
+        end
       end
 
       def clear_changed_attributes_on_result(result_instance)
