@@ -142,13 +142,13 @@ Using factories
 factory\_girl supports several different build strategies: build, create, attributes\_for and build\_stubbed:
 
 ```ruby
-# Returns a User instance that's not saved
+# Returns an User instance that's not saved
 user = build(:user)
 
 # Returns a saved User instance
 user = create(:user)
 
-# Returns a hash of attributes that can be used to build a User instance
+# Returns a hash of attributes that can be used to build an User instance
 attrs = attributes_for(:user)
 
 # Returns an object with all defined attributes stubbed out
@@ -163,7 +163,7 @@ end
 No matter which strategy is used, it's possible to override the defined attributes by passing a hash:
 
 ```ruby
-# Build a User instance and override the first_name property
+# Build an User instance and override the first_name property
 user = build(:user, first_name: "Joe")
 user.first_name
 # => "Joe"
@@ -197,7 +197,7 @@ end
 
 Aliases
 -------
-FactoryGirl allows you to define aliases to existing factories to make them easier to re-use. This could come in handy when, for example, your Post object has an author attribute that actually refers to an instance of a User class. While normally FactoryGirl can infer the factory name from the association name, in this case it will look for a author factory in vain. So, alias your user factory so it can be used under alias names.
+FactoryGirl allows you to define aliases to existing factories to make them easier to re-use. This could come in handy when, for example, your Post object has an author attribute that actually refers to an instance of an User class. While normally FactoryGirl can infer the factory name from the association name, in this case it will look for an author factory in vain. So, alias your user factory so it can be used under alias names.
 
 ```ruby
 factory :user, aliases: [:author, :commenter] do
@@ -312,12 +312,12 @@ end
 The behavior of the association method varies depending on the build strategy used for the parent object.
 
 ```ruby
-# Builds and saves a User and a Post
+# Builds and saves an User and a Post
 post = create(:post)
 post.new_record?        # => false
 post.author.new_record? # => false
 
-# Builds and saves a User, and then builds but does not save a Post
+# Builds and saves an User, and then builds but does not save a Post
 post = build(:post)
 post.new_record?        # => true
 post.author.new_record? # => false
@@ -331,7 +331,7 @@ factory :post do
   association :author, factory: :user, strategy: :build
 end
 
-# Builds a User, and then builds a Post, but does not save either
+# Builds an User, and then builds a Post, but does not save either
 post = build(:post)
 post.new_record?        # => true
 post.author.new_record? # => true
@@ -811,7 +811,7 @@ factory :user do
 end
 ```
 
-Factories can also define any number of the same kind of callback.  These callbacks will be executed in the order they are specified:
+Factories can also define any number of the same kind of callback. These callbacks will be executed in the order they are specified:
 
 ```ruby
 factory :user do
@@ -874,7 +874,7 @@ Modifying factories
 If you're given a set of factories (say, from a gem developer) but want to change them to fit into your application better, you can
 modify that factory instead of creating a child factory and adding attributes there.
 
-If a gem were to give you a User factory:
+If a gem were to give you an User factory:
 
 ```ruby
 FactoryGirl.define do
@@ -1104,7 +1104,7 @@ end
 
 This will build a hash of all attributes to be passed to `new`. It won't
 include transient attributes, but everything else defined in the factory will be
-passed (associations, evalued sequences, etc.)
+passed (associations, evaluated sequences, etc.)
 
 You can define `initialize_with` for all factories by including it in the
 `FactoryGirl.define` block:
@@ -1357,7 +1357,7 @@ require 'factory_girl'
 ```
 
 Once required, assuming you have a directory structure of `spec/factories` or
-`test/factories`, all you'll need to do is run
+`test/factories`, all you'll need to do is run:
 
 ```ruby
 FactoryGirl.find_definitions
