@@ -69,13 +69,13 @@ module FactoryGirl
 
       # @!method strategy_method
       # @!visibility private
-      # @param [Symbol] name name of the factory to build
+      # @param [Symbol] name the name of the factory to build
       # @param [Array<Symbol, Symbol, Hash>] traits_and_overrides splat args traits and a hash of overrides
       # @param [Proc] block block to be executed
 
       # @!method strategy_method_list
       # @!visibility private
-      # @param [Symbol] name name of the factory to execute
+      # @param [Symbol] name the name of the factory to execute
       # @param [Integer] amount the number of instances to execute
       # @param [Array<Symbol, Symbol, Hash>] traits_and_overrides splat args traits and a hash of overrides
 
