@@ -58,4 +58,17 @@ describe "sequences" do
     expect(second_value).to eq "called-b"
     expect(third_value).to eq "called-c"
   end
+
+  it "generates few values of the sequence" do
+    FactoryGirl.define do
+      sequence :email do |n|
+        "somebody#{n}@example.com"
+      end
+    end
+
+    values = generate_list(:email, 2)
+
+    expect(values.first).to eq("somebody1@example.com")
+    expect(values.second).to eq("somebody2@example.com")
+  end
 end
