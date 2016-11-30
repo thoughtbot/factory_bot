@@ -20,7 +20,7 @@ Gem::Specification.new do |s|
 
   s.homepage = "https://github.com/thoughtbot/factory_girl"
 
-  s.add_dependency("activesupport", ">= 3.0.0")
+  s.add_dependency("activesupport", ">= 3.0.0", "< 5")
 
   s.add_development_dependency("rspec",    "~> 3.0")
   s.add_development_dependency("rspec-its", "~> 1.0")
