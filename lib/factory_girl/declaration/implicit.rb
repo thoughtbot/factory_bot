@@ -11,6 +11,8 @@ module FactoryGirl
         name == other.name &&
           factory == other.factory &&
           ignored == other.ignored
+      rescue NoMethodError => e
+        raise e, e.message + ". Check if you've used symbol for factory name"
       end
 
       protected
