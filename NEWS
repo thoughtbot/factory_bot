@@ -1,3 +1,8 @@
+4.8.0 (December 16, 2016)
+  Improve documentation
+  Add `FactoryGirl.generate_list` to be consistent with `build_list`/`create_list` and friends
+  Add `FactoryGirl.use_parent_strategy` configuration to allow associations to leverage parent build strategy
+
 4.7.0 (April 1, 2016)
   Improve documentation
   Improve instrumentation payload to include traits, overrides, and the factory itself

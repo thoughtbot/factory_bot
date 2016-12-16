@@ -1,7 +1,7 @@
 PATH
   remote: ../
   specs:
-    factory_girl (4.7.0)
+    factory_girl (4.8.0)
       activesupport (>= 3.0.0)
 
 GEM
@@ -109,4 +109,4 @@ DEPENDENCIES
   yard
 
 BUNDLED WITH
-   1.12.5
+   1.13.6
