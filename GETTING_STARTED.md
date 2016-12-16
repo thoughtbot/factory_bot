@@ -289,6 +289,42 @@ end
 
 ```
 
+Inheritance
+-----------
+
+You can easily create multiple factories for the same class without repeating common attributes by nesting factories:
+
+```ruby
+factory :post do
+  title "A title"
+
+  factory :approved_post do
+    approved true
+  end
+end
+
+approved_post = create(:approved_post)
+approved_post.title    # => "A title"
+approved_post.approved # => true
+```
+
+You can also assign the parent explicitly:
+
+```ruby
+factory :post do
+  title "A title"
+end
+
+factory :approved_post, parent: :post do
+  approved true
+end
+```
+
+As mentioned above, it's good practice to define a basic factory for each class
+with only the attributes required to create it. Then, create more specific
+factories that inherit from this basic parent. Factory definitions are still
+code, so keep them DRY.
+
 Associations
 ------------
 
@@ -442,42 +478,6 @@ create(:profile).languages.length # 0
 create(:profile_with_languages).languages.length # 5
 create(:profile_with_languages, languages_count: 15).languages.length # 15
 ```
-
-Inheritance
------------
-
-You can easily create multiple factories for the same class without repeating common attributes by nesting factories:
-
-```ruby
-factory :post do
-  title "A title"
-
-  factory :approved_post do
-    approved true
-  end
-end
-
-approved_post = create(:approved_post)
-approved_post.title    # => "A title"
-approved_post.approved # => true
-```
-
-You can also assign the parent explicitly:
-
-```ruby
-factory :post do
-  title "A title"
-end
-
-factory :approved_post, parent: :post do
-  approved true
-end
-```
-
-As mentioned above, it's good practice to define a basic factory for each class
-with only the attributes required to create it. Then, create more specific
-factories that inherit from this basic parent. Factory definitions are still
-code, so keep them DRY.
 
 Sequences
 ---------
