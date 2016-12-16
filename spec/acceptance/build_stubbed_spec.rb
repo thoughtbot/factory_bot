@@ -154,6 +154,41 @@ describe "defaulting `created_at`" do
   end
 end
 
+describe "defaulting `updated_at`" do
+  include FactoryGirl::Syntax::Methods
+
+  before do
+    define_model("ThingWithTimestamp", updated_at: :datetime)
+    define_model("ThingWithoutTimestamp")
+
+    FactoryGirl.define do
+      factory :thing_with_timestamp
+      factory :thing_without_timestamp
+    end
+
+    Timecop.freeze 2012, 1, 1
+  end
+
+  it "defaults updated_at for objects with updated_at" do
+    expect(build_stubbed(:thing_with_timestamp).updated_at).to eq Time.current
+  end
+
+  it "adds updated_at to objects who don't have the method" do
+    expect(build_stubbed(:thing_without_timestamp)).to respond_to(:updated_at)
+  end
+
+  it "allows overriding updated_at for objects with updated_at" do
+    stubbed = build_stubbed(:thing_with_timestamp, updated_at: 3.days.ago)
+    expect(stubbed.updated_at).to eq 3.days.ago
+  end
+
+  it "doesn't allow setting updated_at on an object that doesn't define it" do
+    expect do
+      build_stubbed(:thing_without_timestamp, updated_at: Time.now)
+    end.to raise_error(NoMethodError, /updated_at=/)
+  end
+end
+
 describe 'defaulting `id`' do
   before do
     define_model('Post')
