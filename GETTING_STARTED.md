@@ -28,8 +28,9 @@ Once your Gemfile is updated, you'll want to update your bundle.
 Configure your test suite
 -------------------------
 
-```ruby
 # RSpec
+
+```ruby
 # spec/support/factory_girl.rb
 RSpec.configure do |config|
   config.include FactoryGirl::Syntax::Methods
