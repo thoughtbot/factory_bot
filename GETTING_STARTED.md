@@ -198,7 +198,7 @@ end
 
 Aliases
 -------
-FactoryGirl allows you to define aliases to existing factories to make them easier to re-use. This could come in handy when, for example, your Post object has an author attribute that actually refers to an instance of a User class. While normally FactoryGirl can infer the factory name from the association name, in this case it will look for a author factory in vain. So, alias your user factory so it can be used under alias names.
+factory_girl allows you to define aliases to existing factories to make them easier to re-use. This could come in handy when, for example, your Post object has an author attribute that actually refers to an instance of a User class. While normally factory_girl can infer the factory name from the association name, in this case it will look for a author factory in vain. So, alias your user factory so it can be used under alias names.
 
 ```ruby
 factory :user, aliases: [:author, :commenter] do
