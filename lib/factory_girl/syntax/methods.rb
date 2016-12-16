@@ -90,6 +90,22 @@ module FactoryGirl
       def generate(name)
         FactoryGirl.sequence_by_name(name).next
       end
+
+      # Generates and returns the list of values in a sequence.
+      #
+      # Arguments:
+      #   name: (Symbol)
+      #     The name of the sequence that a value should be generated for.
+      #   count: (Fixnum)
+      #     Count of values
+      #
+      # Returns:
+      #   The next value in the sequence. (Object)
+      def generate_list(name, count)
+        (1..count).map do
+          FactoryGirl.sequence_by_name(name).next
+        end
+      end
     end
   end
 end
