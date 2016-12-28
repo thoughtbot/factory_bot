@@ -250,6 +250,7 @@ factory :user do
   transient do
     rockstar true
     upcased  false
+    github_group { FactoryGirl.create(:github_group) }
   end
 
   name  { "John Doe#{" - Rockstar" if rockstar}" }
@@ -257,6 +258,7 @@ factory :user do
 
   after(:create) do |user, evaluator|
     user.name.upcase! if evaluator.upcased
+    GithubMock.create_test_group(evaluator.github_group).add_user(user)
   end
 end
 
@@ -272,6 +274,12 @@ Within factory_girl's dynamic attributes, you can access transient attributes as
 you would expect. If you need to access the evaluator in a factory_girl callback,
 you'll need to declare a second block argument (for the evaluator) and access
 transient attributes from there.
+
+If you need to set the default value of a transient attribute using another factory (which
+is uncommon, and should generally be avoided), be sure to put it in a block rather than
+passing it directly as an argument to the attribute.  If passed as an argument, it will be
+evaluated immediately upon loading of your testing environment, which can cause issues
+that prevent your specs from running.
 
 Method Name / Reserved Word Attributes
 -------------------------------
