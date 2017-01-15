@@ -10,7 +10,6 @@ module FactoryGirl
         :delete,
         :destroy!,
         :destroy,
-        :destroyed?,
         :increment!,
         :increment,
         :reload,
@@ -56,6 +55,10 @@ module FactoryGirl
 
           def new_record?
             id.nil?
+          end
+
+          def destroyed?
+            nil
           end
 
           DISABLED_PERSISTENCE_METHODS.each do |write_method|
