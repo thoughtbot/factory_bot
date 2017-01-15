@@ -36,6 +36,7 @@ describe FactoryGirl::Strategy::Stub do
 
     it { expect(subject.result(evaluation)).not_to be_new_record }
     it { expect(subject.result(evaluation)).to be_persisted }
+    it { expect(subject.result(evaluation)).not_to be_destroyed }
 
     it "assigns created_at" do
       created_at = subject.result(evaluation).created_at
@@ -52,7 +53,6 @@ describe FactoryGirl::Strategy::Stub do
     include_examples "disabled persistence method", :delete
     include_examples "disabled persistence method", :destroy
     include_examples "disabled persistence method", :destroy!
-    include_examples "disabled persistence method", :destroyed?
     include_examples "disabled persistence method", :increment
     include_examples "disabled persistence method", :increment!
     include_examples "disabled persistence method", :reload
