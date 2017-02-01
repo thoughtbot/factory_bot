@@ -987,6 +987,8 @@ namespace :factory_girl do
   task lint: :environment do
     if Rails.env.test?
       begin
+        DatabaseCleaner.strategy = :transaction
+        DatabaseCleaner.clean_with(:deletion)
         DatabaseCleaner.start
         FactoryGirl.lint
       ensure
