@@ -16,14 +16,19 @@ If you're *not* using Rails, you'll just have to change the required version of 
 gem "factory_girl", "~> 4.0"
 ```
 
-JRuby users: factory_girl works with JRuby starting with 1.6.7.2 (latest stable, as per July 2012).
-JRuby has to be used in 1.9 mode, for that, use JRUBY_OPTS environment variable:
+JRuby
+-----
+FactoryGirl is compatible with JRuby 1.6.7.2 (latest stable, as per July 2012) or greater.
+JRuby must run in 1.9 mode, which is controlled by the JRUBY_OPTS environment variable:
 
 ```bash
 export JRUBY_OPTS=--1.9
 ```
 
-Once your Gemfile is updated, you'll want to update your bundle.
+Once your Gemfile is updated, you'll want to update your bundle.  
+```bash
+bundle install
+```
 
 Configure your test suite
 -------------------------
@@ -43,38 +48,51 @@ RSpec.configure do |config|
     FactoryGirl.find_definitions
   end
 end
-
-Remember to require the above file in your spec_helper since the support folder isn't eagerly loaded
+```
+Whichever you choose, remember to require the above file in your `spec_helper`. The `spec/support` folder isn't eagerly loaded
 
 ```ruby
 require 'support/factory_girl'
 ```
 
-# Test::Unit
+Test::Unit
+----------
+```ruby
 class Test::Unit::TestCase
   include FactoryGirl::Syntax::Methods
 end
+```
 
-# Cucumber
+Cucumber
+--------
+```ruby
 # env.rb (Rails example location - RAILS_ROOT/features/support/env.rb)
 World(FactoryGirl::Syntax::Methods)
-
-# Spinach
+```
+Spinach
+-------
+```ruby
 class Spinach::FeatureSteps
   include FactoryGirl::Syntax::Methods
 end
-
-# Minitest
+```
+Minitest
+--------
+```ruby
 class Minitest::Unit::TestCase
   include FactoryGirl::Syntax::Methods
 end
-
-# Minitest::Spec
+```
+Minitest::Spec
+--------------
+```ruby
 class Minitest::Spec
   include FactoryGirl::Syntax::Methods
 end
-
-# minitest-rails
+```
+minitest-rails
+--------------
+```ruby
 class ActiveSupport::TestCase
   include FactoryGirl::Syntax::Methods
 end
