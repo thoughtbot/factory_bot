@@ -33,20 +33,18 @@ module FactoryGirl
       @build_strategy.association(runner)
     end
 
-    def instance=(object_instance)
-      @instance = object_instance
-    end
+    attr_accessor :instance
 
     def method_missing(method_name, *args, &block)
-      if @instance.respond_to?(method_name)
-        @instance.send(method_name, *args, &block)
+      if instance.respond_to?(method_name)
+        instance.send(method_name, *args, &block)
       else
         SyntaxRunner.new.send(method_name, *args, &block)
       end
     end
 
     def respond_to_missing?(method_name, include_private = false)
-      @instance.respond_to?(method_name) || SyntaxRunner.new.respond_to?(method_name)
+      instance.respond_to?(method_name) || SyntaxRunner.new.respond_to?(method_name)
     end
 
     def __override_names__
