@@ -10,7 +10,6 @@ module FactoryGirl
         :delete,
         :destroy!,
         :destroy,
-        :destroyed?,
         :increment!,
         :increment,
         :reload,
@@ -50,6 +49,10 @@ module FactoryGirl
         result_instance.id ||= next_id
 
         result_instance.instance_eval do
+          def destroyed?
+            false
+          end
+
           def persisted?
             !new_record?
           end
