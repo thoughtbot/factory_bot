@@ -6,12 +6,10 @@ module FactoryBot
       DISABLED_PERSISTENCE_METHODS = [
         :connection,
         :decrement!,
-        :decrement,
         :delete,
         :destroy!,
         :destroy,
         :increment!,
-        :increment,
         :reload,
         :save!,
         :save,

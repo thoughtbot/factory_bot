@@ -50,7 +50,6 @@ describe FactoryBot::Strategy::Stub do
     end
 
     include_examples "disabled persistence method", :connection
-    include_examples "disabled persistence method", :decrement
     include_examples "disabled persistence method", :decrement!
     include_examples "disabled persistence method", :delete
     include_examples "disabled persistence method", :destroy
