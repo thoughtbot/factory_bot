@@ -51,12 +51,10 @@ describe FactoryGirl::Strategy::Stub do
     include_examples "disabled persistence method", :delete
     include_examples "disabled persistence method", :destroy
     include_examples "disabled persistence method", :destroy!
-    include_examples "disabled persistence method", :destroyed?
     include_examples "disabled persistence method", :increment!
     include_examples "disabled persistence method", :reload
     include_examples "disabled persistence method", :save
     include_examples "disabled persistence method", :save!
-    include_examples "disabled persistence method", :toggle
     include_examples "disabled persistence method", :toggle!
     include_examples "disabled persistence method", :touch
     include_examples "disabled persistence method", :update
