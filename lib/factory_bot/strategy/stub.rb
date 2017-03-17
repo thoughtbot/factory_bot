@@ -14,7 +14,6 @@ module FactoryBot
         :save!,
         :save,
         :toggle!,
-        :toggle,
         :touch,
         :update!,
         :update,
