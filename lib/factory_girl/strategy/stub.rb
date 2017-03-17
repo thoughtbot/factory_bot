@@ -6,13 +6,11 @@ module FactoryGirl
       DISABLED_PERSISTENCE_METHODS = [
         :connection,
         :decrement!,
-        :decrement,
         :delete,
         :destroy!,
         :destroy,
         :destroyed?,
         :increment!,
-        :increment,
         :reload,
         :save!,
         :save,
