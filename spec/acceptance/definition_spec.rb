@@ -52,3 +52,45 @@ describe "attributes defined using Symbol#to_proc" do
     expect(user.password_confirmation).to eq "bar"
   end
 end
+
+describe "defining has_many associations in an association block" do
+  before do
+    define_model("User") do
+      has_many :posts
+      attr_accessor :favorite_post
+    end
+    define_model("Post", user_id: :integer) { belongs_to :user }
+
+    FactoryGirl.define do
+      factory :user do
+        posts { build_list(:post, 2, user: instance) }
+        favorite_post { posts.last }
+      end
+
+      factory :post do
+        user
+      end
+    end
+  end
+
+  it "correctly sets the opposite association on build" do
+    user = FactoryGirl.build(:user)
+
+    expect(user.posts.size).to eq(2)
+    expect(user.posts.map(&:user)).to all(eq(user))
+  end
+
+  it "correctly sets the opposite association on create" do
+    user = FactoryGirl.create(:user)
+
+    expect(user.posts.count).to eq(2)
+    expect(user.posts.map(&:user)).to all(eq(user))
+  end
+
+  it "is usable in other blocks" do
+    user = FactoryGirl.build(:user)
+
+    expect(user.favorite_post).to be_a(Post)
+    expect(user.favorite_post).to eq(user.posts.last)
+  end
+end
