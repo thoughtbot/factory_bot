@@ -91,6 +91,20 @@ The following factories are invalid:
     FactoryGirl.lint validate_traits: true
   end
 
+  it "allows selective linting with single factories" do
+    define_model 'User', name: :string do
+      validates :name, presence: true
+    end
+
+    FactoryGirl.define do
+      factory :user do
+        name 'assigned'
+      end
+    end
+
+    expect { FactoryGirl.lint(FactoryGirl.factories.first) }.not_to raise_error
+  end
+
   describe "trait validation" do
     context "enabled" do
       it "raises if a trait produces an invalid object" do

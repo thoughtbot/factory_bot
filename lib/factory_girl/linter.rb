@@ -2,7 +2,7 @@ module FactoryGirl
   class Linter
 
     def initialize(factories_to_lint, linting_strategy)
-      @factories_to_lint = factories_to_lint
+      @factories_to_lint = force_enumerable(factories_to_lint)
       @linting_method = "lint_#{linting_strategy}"
       @invalid_factories = calculate_invalid_factories
     end
@@ -17,6 +17,14 @@ module FactoryGirl
     private :factories_to_lint, :invalid_factories
 
     private
+
+    def force_enumerable(factories)
+      if factories.respond_to?(:each)
+        factories
+      else
+        Array(factories)
+      end
+    end
 
     def calculate_invalid_factories
       factories_to_lint.reduce(Hash.new([])) do |result, factory|
