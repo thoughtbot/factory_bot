@@ -38,7 +38,7 @@ module FactoryGirl
     end
 
     def method_missing(method_name, *args, &block)
-      if @instance.respond_to?(method_name)
+      if defined?(@instance) && @instance.respond_to?(method_name)
         @instance.send(method_name, *args, &block)
       else
         SyntaxRunner.new.send(method_name, *args, &block)
