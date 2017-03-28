@@ -346,6 +346,14 @@ factory :post do
 end
 ```
 
+You can add traits as arguments to associations:
+
+```ruby
+factory :comment do
+  association :post, :published
+end
+```
+
 The behavior of the association method varies depending on the build strategy used for the parent object.
 
 ```ruby

@@ -136,9 +136,14 @@ module FactoryGirl
     #     association :author, factory: :user
     #   end
     #
+    #   factory :comment do
+    #     association :post, :published
+    #   end
+    #
     # Arguments:
     # * name: +Symbol+
     #   The name of this attribute.
+    # * traits: +Array+ (optional)
     # * options: +Hash+
     #
     # Options:
