@@ -60,11 +60,13 @@ module FactoryGirl
   # factories - which factories to lint; omit for all factories
   # options:
   #   traits : true - to lint traits as well as factories
+  #   use_build : true - to lint using build instead of create
   def self.lint(*args)
     options = args.extract_options!
     factories_to_lint = args[0] || FactoryGirl.factories
     strategy = options[:traits] ? :factory_and_traits : :factory
-    Linter.new(factories_to_lint, strategy).lint!
+    testing_method = options[:use_build] ? :build : :create
+    Linter.new(factories_to_lint, strategy, testing_method).lint!
   end
 
   class << self

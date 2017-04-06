@@ -40,6 +40,7 @@ The following factories are invalid:
     end
 
     expect { FactoryGirl.lint }.not_to raise_error
+    expect { FactoryGirl.lint use_build: true }.not_to raise_error
   end
 
   it 'allows for selective linting' do
@@ -60,6 +61,7 @@ The following factories are invalid:
       end
 
       FactoryGirl.lint only_valid_factories
+      FactoryGirl.lint only_valid_factories, use_build: true
     end.not_to raise_error
   end
 
@@ -75,6 +77,8 @@ The following factories are invalid:
     end
 
     FactoryGirl.lint FactoryGirl.factories, validate_traits: true
+    FactoryGirl.lint FactoryGirl.factories, validate_traits: true,
+                                            use_build: true
   end
 
   it "allows for additional options without explicit factories" do
@@ -89,6 +93,7 @@ The following factories are invalid:
     end
 
     FactoryGirl.lint validate_traits: true
+    FactoryGirl.lint validate_traits: true, use_build: true
   end
 
   describe "trait validation" do
@@ -116,6 +121,10 @@ The following factories are invalid:
         expect do
           FactoryGirl.lint traits: true
         end.to raise_error FactoryGirl::InvalidFactoryError, error_message
+
+        expect do
+          FactoryGirl.lint traits: true, use_build: true
+        end.to_not raise_error
       end
 
       it "does not raise if a trait produces a valid object" do
@@ -134,6 +143,10 @@ The following factories are invalid:
 
         expect do
           FactoryGirl.lint traits: true
+        end.not_to raise_error
+
+        expect do
+          FactoryGirl.lint traits: true, use_build: true
         end.not_to raise_error
       end
     end
@@ -155,7 +168,10 @@ The following factories are invalid:
 
         expect do
           FactoryGirl.lint traits: false
-          FactoryGirl.lint
+        end.not_to raise_error
+
+        expect do
+          FactoryGirl.lint traits: false, use_build: true
         end.not_to raise_error
       end
     end
