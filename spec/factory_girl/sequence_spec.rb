@@ -12,6 +12,12 @@ describe FactoryGirl::Sequence do
     describe "when incrementing" do
       before     { subject.next }
       its(:next) { should eq "=2" }
+
+      describe "when incrementing when the next value is < the previous" do
+        it "raises an error" do
+          expect { 10.times { subject.next } }.to raise_error(FactoryGirl::SequenceOverflowError)
+        end
+      end
     end
   end
 
@@ -22,6 +28,12 @@ describe FactoryGirl::Sequence do
     describe "when incrementing" do
       before     { subject.next }
       its(:next) { should eq "=B" }
+    end
+
+    describe "when incrementing when the next value is < the previous" do
+      it "raises an error" do
+        expect { 27.times { subject.next } }.to raise_error(FactoryGirl::SequenceOverflowError)
+      end
     end
   end
 

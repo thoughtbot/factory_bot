@@ -14,19 +14,25 @@ module FactoryGirl
       @value   = args.first || 1
       @aliases = options.fetch(:aliases) { [] }
 
-      if !@value.respond_to?(:peek)
-        @value = EnumeratorAdapter.new(@value)
-      end
+      @enumerator = @value.respond_to?(:peek)
+      @value = EnumeratorAdapter.new(@value) unless enumerator?
     end
 
     def next(scope = nil)
-      if @proc && scope
+      new_value = if @proc && scope
         scope.instance_exec(value, &@proc)
       elsif @proc
         @proc.call(value)
       else
         value
       end
+
+      if !enumerator? && @previous_value && new_value < @previous_value
+        raise SequenceOverflowError
+      end
+      @previous_value = new_value
+
+      new_value
     ensure
       increment_value
     end
@@ -36,6 +42,10 @@ module FactoryGirl
     end
 
     private
+
+    def enumerator?
+      @enumerator
+    end
 
     def value
       @value.peek
