@@ -1,6 +1,33 @@
 Getting Started
 ===============
 
+Contents
+-------------------
+
+[Update Your Gemfile](https://github.com/thoughtbot/factory_girl/blob/master/GETTING_STARTED.md#update-your-gemfile)  
+[Using Without Bundler](https://github.com/thoughtbot/factory_girl/blob/master/GETTING_STARTED.md#using-without-bundler)  
+[Defining Factories](https://github.com/thoughtbot/factory_girl/blob/master/GETTING_STARTED.md#defining-factories)  
+[Using Factories](https://github.com/thoughtbot/factory_girl/blob/master/GETTING_STARTED.md#using-factories)  
+[Lazy Attributes](https://github.com/thoughtbot/factory_girl/blob/master/GETTING_STARTED.md#lazy-attributes)  
+[Aliases](https://github.com/thoughtbot/factory_girl/blob/master/GETTING_STARTED.md#aliases)  
+[Dependent Attributes](https://github.com/thoughtbot/factory_girl/blob/master/GETTING_STARTED.md#dependent-attributes)  
+[Transient Attributes](https://github.com/thoughtbot/factory_girl/blob/master/GETTING_STARTED.md#transient-attributes)  
+[Associations](https://github.com/thoughtbot/factory_girl/blob/master/GETTING_STARTED.md#associations)  
+[Inheritance](https://github.com/thoughtbot/factory_girl/blob/master/GETTING_STARTED.md#inheritance)  
+[Sequences](https://github.com/thoughtbot/factory_girl/blob/master/GETTING_STARTED.md#sequences)  
+[Traits](https://github.com/thoughtbot/factory_girl/blob/master/GETTING_STARTED.md#traits)  
+[Callbacks](https://github.com/thoughtbot/factory_girl/blob/master/GETTING_STARTED.md#callbacks)  
+[Modifying Factories](https://github.com/thoughtbot/factory_girl/blob/master/GETTING_STARTED.md#modifying-factories)  
+[Building or Creating Multiple Records](https://github.com/thoughtbot/factory_girl/blob/master/GETTING_STARTED.md#building-or-creating-multiple-records)  
+[Custom Construction](https://github.com/thoughtbot/factory_girl/blob/master/GETTING_STARTED.md#custom-construction)  
+[Custom Strategies](https://github.com/thoughtbot/factory_girl/blob/master/GETTING_STARTED.md#custom-strategies)  
+[Custom Callbacks](https://github.com/thoughtbot/factory_girl/blob/master/GETTING_STARTED.md#custom-callbacks)  
+[Custom Methods to Persist Objects](https://github.com/thoughtbot/factory_girl/blob/master/GETTING_STARTED.md#custom-methods-to-persist-objects)  
+[ActiveSupport Instrumentation](https://github.com/thoughtbot/factory_girl/blob/master/GETTING_STARTED.md#activesupport-instrumentation)  
+[Rails Preloaders and RSpec](https://github.com/thoughtbot/factory_girl/blob/master/GETTING_STARTED.md#rails-preloaders-and-rspec)  
+[Using Without Bundler](https://github.com/thoughtbot/factory_girl/blob/master/GETTING_STARTED.md#using-without-bundler)  
+
+
 Update Your Gemfile
 -------------------
 
