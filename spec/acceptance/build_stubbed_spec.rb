@@ -145,6 +145,16 @@ describe "defaulting `created_at`" do
     ENV['TZ'] = original_timezone
   end
 
+  it "defaults created_at for objects with created_at to the correct time with zone" do
+    original_timezone = ENV['TZ']
+    ENV['TZ'] = 'UTC'
+    Time.zone = 'Eastern Time (US & Canada)'
+
+    build_stubbed(:thing_with_timestamp).created_at.zone.should == 'EST'
+
+    ENV['TZ'] = original_timezone
+  end
+
   it "adds created_at to objects who don't have the method" do
     expect(build_stubbed(:thing_without_timestamp)).to respond_to(:created_at)
   end
