@@ -231,7 +231,7 @@ describe FactoryGirl::Factory, "running a factory" do
   let(:declaration)    { FactoryGirl::Declaration::Static.new(:name, "value", false) }
   let(:strategy)       { stub("strategy", result: "result", add_observer: true) }
   let(:attributes)     { [attribute] }
-  let(:attribute_list) { stub('attribute-list', declarations: [declaration], to_a: attributes) }
+  let(:attribute_list) { double('attribute-list', declarations: [declaration], to_a: attributes) }
 
   before do
     define_model("User", name: :string)
