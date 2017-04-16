@@ -240,14 +240,14 @@ create(:user, last_name: "Doe").email
 # => "joe.doe@example.com"
 ```
 
-Transient Attributes
+Transient/*(ignored)* Attributes
 --------------------
 
-There may be times where your code can be DRYed up by passing in transient attributes to factories.
+There may be times where your code can be DRYed up by passing in transient/*(ignored)* attributes to factories.
 
 ```ruby
 factory :user do
-  transient do
+  ignore do
     rockstar true
     upcased  false
   end
@@ -264,14 +264,14 @@ create(:user, upcased: true).name
 #=> "JOHN DOE - ROCKSTAR"
 ```
 
-Static and dynamic attributes can be created as transient attributes. Transient
+Static and dynamic attributes can be created as transient/*(ignored)* attributes. Transient/*(ignored)*
 attributes will be ignored within attributes\_for and won't be set on the model,
 even if the attribute exists or you attempt to override it.
 
-Within factory_girl's dynamic attributes, you can access transient attributes as
+Within factory_girl's dynamic attributes, you can access transient/*(ignored)* attributes as
 you would expect. If you need to access the evaluator in a factory_girl callback,
 you'll need to declare a second block argument (for the evaluator) and access
-transient attributes from there.
+transient/*(ignored)* attributes from there.
 
 Method Name / Reserved Word Attributes
 -------------------------------
@@ -402,14 +402,14 @@ FactoryGirl.define do
 
     # user_with_posts will create post data after the user has been created
     factory :user_with_posts do
-      # posts_count is declared as a transient attribute and available in
+      # posts_count is declared as a transient/*(ignored)* attribute and available in
       # attributes on the factory, as well as the callback via the evaluator
-      transient do
+      ignore do
         posts_count 5
       end
 
       # the after(:create) yields two values; the user instance itself and the
-      # evaluator, which stores all values from the factory, including transient
+      # evaluator, which stores all values from the factory, including transient/*(ignored)*
       # attributes; `create_list`'s second argument is the number of records
       # to create and we make sure the user is associated properly to the post
       after(:create) do |user, evaluator|
@@ -1093,7 +1093,7 @@ by calling `attributes`:
 
 ```ruby
 factory :user do
-  transient do
+  ignore do
     comments_count 5
   end
 
@@ -1104,7 +1104,7 @@ end
 ```
 
 This will build a hash of all attributes to be passed to `new`. It won't
-include transient attributes, but everything else defined in the factory will be
+include transient/*(ignored)* attributes, but everything else defined in the factory will be
 passed (associations, evalued sequences, etc.)
 
 You can define `initialize_with` for all factories by including it in the
