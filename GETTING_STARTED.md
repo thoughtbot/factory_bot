@@ -354,7 +354,7 @@ post = create(:post)
 post.new_record?        # => false
 post.author.new_record? # => false
 
-# Builds and saves a User, and then builds but does not save a Post
+# Builds and saves a Post, and then builds but does not save a User
 post = build(:post)
 post.new_record?        # => true
 post.author.new_record? # => false
