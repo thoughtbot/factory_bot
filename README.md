@@ -3,7 +3,7 @@
 factory_girl is a fixtures replacement with a straightforward definition syntax, support for multiple build strategies (saved instances, unsaved instances, attribute hashes, and stubbed objects), and support for multiple factories for the same class (user, admin_user, and so on), including factory inheritance.
 
 If you want to use factory_girl with Rails, see
-[factory_girl_rails](https://github.com/thoughtbot/factory_girl_rails).
+[factory_girl_rails](https://github.com/thoughtbot/factory_girl_rails) or [factory_factory_girl](https://github.com/st0012/factory_factory_girl).
 
 _[Interested in the project name?](NAME.md)._
 
