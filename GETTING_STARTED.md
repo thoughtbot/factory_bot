@@ -35,6 +35,7 @@ Configure your test suite
 RSpec.configure do |config|
   config.include FactoryGirl::Syntax::Methods
 end
+# put "require 'support/factory_girl'" in specs that use FactoryGirl
 
 # RSpec without Rails
 RSpec.configure do |config|
