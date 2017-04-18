@@ -50,7 +50,6 @@ Remember to require the above file in your rails_helper since the support folder
 
 ```ruby
 require 'support/factory_girl'
-```
 
 # Test::Unit
 
