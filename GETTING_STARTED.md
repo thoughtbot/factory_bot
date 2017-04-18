@@ -52,6 +52,12 @@ Remember to require the above file in your rails_helper since the support folder
 require 'support/factory_girl'
 ```
 
+Remember to require the above file in your spec_helper since the support folder isn't eagerly loaded
+
+```ruby
+require 'support/factory_girl'
+```
+
 # Test::Unit
 
 ```ruby
