@@ -1,15 +1,15 @@
-require 'spec_helper'
+require "spec_helper"
 
 describe "when passing evaluator as attribute" do
   before do
-    define_model('Comment', title: :string, post_id: :integer) do
+    define_model("Comment", title: :string, post_id: :integer) do
       belongs_to :post
     end
-    define_model('Post', title: :string, user_id: :integer) do
+    define_model("Post", title: :string, user_id: :integer) do
       has_many :comments
       belongs_to :user
     end
-    define_model('User', name: :string) { has_many :posts }
+    define_model("User", name: :string) { has_many :posts }
 
     FactoryGirl.define do
       factory(:comment) do
@@ -23,8 +23,8 @@ describe "when passing evaluator as attribute" do
         title { "Through #{user.name}'s Looking Glass" }
       end
 
-      factory(:user) do |user|
-        name 'Macguffin'
+      factory(:user) do
+        name "Macguffin"
         posts { build_list(:post, 1, user: self) }
       end
     end

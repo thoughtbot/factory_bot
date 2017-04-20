@@ -57,7 +57,9 @@ module FactoryBot
       when FactoryGirl::Evaluator
         obj.instance
       when Array
-        obj.map{|o| o.is_a?(FactoryGirl::Evaluator) ? o.instance : o }
+        obj.map do |o|
+          o.is_a?(FactoryGirl::Evaluator) ? o.instance : o
+        end
       else
         obj
       end
