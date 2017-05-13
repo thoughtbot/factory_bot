@@ -33,5 +33,9 @@ module FactoryGirl
     def duplicate_attribute_assignment_from_initialize_with=(value)
       ActiveSupport::Deprecation.warn 'Assignment of duplicate_attribute_assignment_from_initialize_with is unnecessary as this is now default behavior in FactoryGirl 4.0; this line can be removed', caller
     end
+
+    def build_stubbed_starting_id=(starting_id)
+      Strategy::Stub.next_id = starting_id - 1
+    end
   end
 end

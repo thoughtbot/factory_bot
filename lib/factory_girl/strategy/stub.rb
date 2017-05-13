@@ -39,6 +39,10 @@ module FactoryGirl
         end
       end
 
+      def self.next_id=(id)
+        @@next_id = id
+      end
+
       private
 
       def next_id

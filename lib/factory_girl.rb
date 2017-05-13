@@ -84,6 +84,7 @@ module FactoryGirl
              :allow_class_lookup=,
              :use_parent_strategy,
              :use_parent_strategy=,
+             :build_stubbed_starting_id=,
              to: :configuration
   end
 
