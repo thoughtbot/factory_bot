@@ -994,6 +994,7 @@ namespace :factory_girl do
       end
     else
       system("bundle exec rake factory_girl:lint RAILS_ENV='test'")
+      exit $?.exitstatus
     end
   end
 end
