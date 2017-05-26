@@ -3,7 +3,10 @@ ActiveRecord::Base.establish_connection(
   :database => File.join(File.dirname(__FILE__), 'test.db')
 )
 
-class CreateSchema < ActiveRecord::Migration
+major, minor, _ = ActiveRecord.version.version.split('.').map(&:to_i)
+migration_class = (major > 5 || major == 5 && minor >= 1) ? ActiveRecord::Migration[4.2] : ActiveRecord::Migration
+
+class CreateSchema < migration_class
   def self.up
     create_table :categories, :force => true do |t|
       t.string :name
