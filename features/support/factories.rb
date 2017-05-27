@@ -4,7 +4,11 @@ ActiveRecord::Base.establish_connection(
 )
 
 major, minor,  = ActiveRecord.version.version.split('.').map(&:to_i)
-migration_class = (major > 5 || major == 5 && minor >= 1) ? ActiveRecord::Migration[4.2] : ActiveRecord::Migration
+migration_class = if (major > 5 || major == 5 && minor >= 1)
+                    ActiveRecord::Migration[4.2]
+                  else
+                    ActiveRecord::Migration
+                  end
 
 class CreateSchema < migration_class
   def self.up
