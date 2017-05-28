@@ -3,9 +3,13 @@ ActiveRecord::Base.establish_connection(
   :database => File.join(File.dirname(__FILE__), 'test.db')
 )
 
-major, minor,  = ActiveRecord.version.version.split('.').map(&:to_i)
-migration_class = if (major > 5 || major == 5 && minor >= 1)
-                    ActiveRecord::Migration[4.2]
+migration_class = if ActiveRecord.respond_to?(:version)
+                    major, minor,  = ActiveRecord.version.version.split('.').map(&:to_i)
+                    migration_class = if (major > 5 || major == 5 && minor >= 1)
+                      ActiveRecord::Migration[4.2]
+                    else
+                      ActiveRecord::Migration
+                    end
                   else
                     ActiveRecord::Migration
                   end
