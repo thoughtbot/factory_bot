@@ -3,7 +3,8 @@ rvm:
   - 2.0.0
   - 2.1.9
   - 2.2.5
-  - 2.3.1
+  - 2.3.4
+  - 2.4.1
   - ruby-head
   - jruby-19mode
   - rbx-2
@@ -19,6 +20,7 @@ gemfile:
   - gemfiles/4.1.gemfile
   - gemfiles/4.2.gemfile
   - gemfiles/5.0.gemfile
+  - gemfiles/5.1.gemfile
 matrix:
   fast_finish: true
   exclude:
@@ -28,10 +30,28 @@ matrix:
       gemfile: gemfiles/5.0.gemfile
     - rvm: 2.1.9
       gemfile: gemfiles/5.0.gemfile
+    - rvm: 1.9.3
+      gemfile: gemfiles/5.1.gemfile
+    - rvm: 2.0.0
+      gemfile: gemfiles/5.1.gemfile
+    - rvm: 2.1.9
+      gemfile: gemfiles/5.1.gemfile
+    - rvm: 2.2.5
+      gemfile: gemfiles/5.1.gemfile
+    - rvm: 2.4.1
+      gemfile: gemfiles/3.2.gemfile
+    - rvm: 2.4.1
+      gemfile: gemfiles/4.0.gemfile
+    - rvm: 2.4.1
+      gemfile: gemfiles/4.1.gemfile
+    - rvm: 2.4.1
+      gemfile: gemfiles/4.2.gemfile
   allow_failures:
     - rvm: ruby-head
     - rvm: jruby-19mode
       gemfile: gemfiles/5.0.gemfile
+    - rvm: jruby-19mode
+      gemfile: gemfiles/5.1.gemfile
     - rvm: rbx-2
 branches:
   only:
