@@ -78,7 +78,7 @@ community](https://github.com/thoughtbot/factory_girl/graphs/contributors).
 License
 -------
 
-factory_girl is Copyright © 2008-2016 Joe Ferris and thoughtbot. It is free
+factory_girl is Copyright © 2008-2017 Joe Ferris and thoughtbot. It is free
 software, and may be redistributed under the terms specified in the
 [LICENSE](/LICENSE) file.
 
