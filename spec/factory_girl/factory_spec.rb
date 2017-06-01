@@ -17,8 +17,8 @@ describe FactoryGirl::Factory do
   end
 
   it "passes a custom creation block" do
-    strategy = stub("strategy", result: nil, add_observer: true)
-    FactoryGirl::Strategy::Build.stubs(new: strategy)
+    strategy = double("strategy", result: nil, add_observer: true)
+    allow(FactoryGirl::Strategy::Build).to receive(:new).and_return strategy
     block = -> {}
     factory = FactoryGirl::Factory.new(:object)
     factory.to_create(&block)
@@ -229,15 +229,20 @@ describe FactoryGirl::Factory, "running a factory" do
   subject              { FactoryGirl::Factory.new(:user) }
   let(:attribute)      { FactoryGirl::Attribute::Static.new(:name, "value", false) }
   let(:declaration)    { FactoryGirl::Declaration::Static.new(:name, "value", false) }
-  let(:strategy)       { stub("strategy", result: "result", add_observer: true) }
+  let(:strategy)       do
+    double("strategy", result: "result", add_observer: true)
+  end
   let(:attributes)     { [attribute] }
-  let(:attribute_list) { stub('attribute-list', declarations: [declaration], to_a: attributes) }
+  let(:attribute_list) do
+    double("attribute-list", declarations: [declaration], to_a: attributes)
+  end
 
   before do
     define_model("User", name: :string)
-    FactoryGirl::Declaration::Static.stubs(new: declaration)
-    declaration.stubs(to_attributes: attributes)
-    FactoryGirl::Strategy::Build.stubs(new: strategy)
+    allow(FactoryGirl::Declaration::Static).to receive(:new).
+      and_return declaration
+    allow(declaration).to receive(:to_attributes).and_return attributes
+    allow(FactoryGirl::Strategy::Build).to receive(:new).and_return strategy
     subject.declare_attribute(declaration)
   end
 

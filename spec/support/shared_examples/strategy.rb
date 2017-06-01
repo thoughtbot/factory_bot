@@ -1,5 +1,5 @@
 shared_examples_for "strategy without association support" do
-  let(:factory)   { stub("associate_factory") }
+  let(:factory)   { double("associate_factory") }
   let(:attribute) { FactoryGirl::Attribute::Association.new(:user, :user, {}) }
 
   def association_named(name, overrides)
@@ -8,9 +8,9 @@ shared_examples_for "strategy without association support" do
   end
 
   before do
-    FactoryGirl.stubs(factory_by_name: factory)
-    factory.stubs(:compile)
-    factory.stubs(:run)
+    allow(FactoryGirl).to receive(:factory_by_name).and_return factory
+    allow(factory).to receive(:compile)
+    allow(factory).to receive(:run)
   end
 
   it "returns nil when accessing an association" do
@@ -19,7 +19,7 @@ shared_examples_for "strategy without association support" do
 end
 
 shared_examples_for "strategy with association support" do |factory_girl_strategy_name|
-  let(:factory) { stub("associate_factory") }
+  let(:factory) { double("associate_factory") }
 
   def association_named(name, strategy, overrides)
     runner = FactoryGirl::FactoryRunner.new(name, strategy, [overrides])
@@ -27,9 +27,9 @@ shared_examples_for "strategy with association support" do |factory_girl_strateg
   end
 
   before do
-    FactoryGirl.stubs(factory_by_name: factory)
-    factory.stubs(:compile)
-    factory.stubs(:run)
+    allow(FactoryGirl).to receive(:factory_by_name).and_return factory
+    allow(factory).to receive(:compile)
+    allow(factory).to receive(:run)
   end
 
   it "runs the factory with the correct overrides" do
@@ -44,7 +44,7 @@ shared_examples_for "strategy with association support" do |factory_girl_strateg
 end
 
 shared_examples_for "strategy with strategy: :build" do |factory_girl_strategy_name|
-  let(:factory) { stub("associate_factory") }
+  let(:factory) { double("associate_factory") }
 
   def association_named(name, overrides)
     runner = FactoryGirl::FactoryRunner.new(name, overrides[:strategy], [overrides.except(:strategy)])
@@ -52,9 +52,9 @@ shared_examples_for "strategy with strategy: :build" do |factory_girl_strategy_n
   end
 
   before do
-    FactoryGirl.stubs(factory_by_name: factory)
-    factory.stubs(:compile)
-    factory.stubs(:run)
+    allow(FactoryGirl).to receive(:factory_by_name).and_return factory
+    allow(factory).to receive(:compile)
+    allow(factory).to receive(:run)
   end
 
   it "runs the factory with the correct overrides" do
@@ -75,7 +75,9 @@ shared_examples_for "strategy with callbacks" do |*callback_names|
     end.new
   end
 
-  let(:evaluation) { stub("evaluation", object: result_instance, notify: true, create: nil) }
+  let(:evaluation) do
+    double("evaluation", object: result_instance, notify: true, create: nil)
+  end
 
   it "runs the callbacks #{callback_names} with the evaluation's object" do
     subject.result(evaluation)

@@ -2,7 +2,7 @@ require 'spec_helper'
 
 shared_examples_for "finds definitions" do
   before do
-    FactoryGirl.stubs(:load)
+    allow(FactoryGirl).to receive(:load)
     FactoryGirl.find_definitions
   end
 
@@ -79,10 +79,11 @@ describe "definition loading" do
       in_directory_with_files File.join(dir, 'factories', 'b.rb'),
                               File.join(dir, 'factories', 'a.rb')
       it "loads the files in the right order" do
-        FactoryGirl.stubs(:load)
-        sorted_load_order = sequence("load order")
-        FactoryGirl.expects(:load).with(includes("a.rb")).in_sequence(sorted_load_order)
-        FactoryGirl.expects(:load).with(includes("b.rb")).in_sequence(sorted_load_order)
+        wd = File.dirname(__FILE__)
+        file_b = File.join(wd, "tmp", dir, "factories", "b.rb")
+        file_a = File.join(wd, "tmp", dir, "factories", "a.rb")
+        allow(FactoryGirl).to receive(:load).with(file_a).ordered
+        allow(FactoryGirl).to receive(:load).with(file_b).ordered
         FactoryGirl.find_definitions
       end
     end

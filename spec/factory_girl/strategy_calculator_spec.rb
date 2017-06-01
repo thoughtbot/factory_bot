@@ -14,7 +14,10 @@ describe FactoryGirl::StrategyCalculator do
   end
 
   context "when a symbol" do
-    before  { FactoryGirl.stubs(:strategy_by_name).returns(strategy) }
+    before do
+      allow(FactoryGirl).to receive(:strategy_by_name).and_return(strategy)
+    end
+
     subject { FactoryGirl::StrategyCalculator.new(:build).strategy }
 
     it "finds the strategy by name" do

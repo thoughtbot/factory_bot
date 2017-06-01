@@ -25,9 +25,9 @@ describe "calling methods on the model instance" do
     end
 
     it "doesn't instantiate a record with attributes_for" do
-      User.stubs(:new)
+      allow(User).to receive(:new)
       FactoryGirl.attributes_for(:user)
-      expect(User).to have_received(:new).never
+      expect(User).to_not have_received(:new)
     end
   end
 

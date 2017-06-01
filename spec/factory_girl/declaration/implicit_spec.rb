@@ -7,7 +7,7 @@ describe FactoryGirl::Declaration::Implicit do
 
   context "with a known factory" do
     before do
-      FactoryGirl.factories.stubs(:registered? => true)
+      allow(FactoryGirl.factories).to receive(:registered?).and_return true
     end
 
     it { should be_association }
@@ -16,7 +16,7 @@ describe FactoryGirl::Declaration::Implicit do
 
   context "with a known sequence" do
     before do
-      FactoryGirl.sequences.stubs(:registered? => true)
+      allow(FactoryGirl.sequences).to receive(:registered?).and_return true
     end
 
     it { should_not be_association }

@@ -28,8 +28,6 @@ Gem::Specification.new do |s|
   s.add_development_dependency("timecop")
   s.add_development_dependency("simplecov")
   s.add_development_dependency("aruba")
-  s.add_development_dependency("mocha", ">= 0.12.8")
-  s.add_development_dependency("bourne")
   s.add_development_dependency("appraisal", "~> 2.1.0")
   s.add_development_dependency("activerecord", ">= 3.0.0")
   s.add_development_dependency("yard")

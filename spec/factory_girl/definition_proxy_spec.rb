@@ -87,7 +87,7 @@ describe FactoryGirl::DefinitionProxy, "#sequence" do
   subject     { FactoryGirl::Definition.new }
   let(:proxy) { FactoryGirl::DefinitionProxy.new(subject) }
 
-  before      { FactoryGirl::Sequence.stubs(:new) }
+  before      { allow(FactoryGirl::Sequence).to receive(:new) }
 
   it "creates a new sequence starting at 1" do
     proxy.sequence(:great)

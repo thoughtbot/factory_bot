@@ -29,7 +29,23 @@ describe FactoryGirl::Attribute::Dynamic do
     let(:result) { "other attribute value" }
 
     before do
-      subject.stubs(attribute_defined_on_attribute: result)
+      RSpec.configure do |config|
+        config.mock_with :rspec do |mocks|
+          mocks.verify_partial_doubles = false
+        end
+      end
+
+      allow(
+        subject,
+      ).to receive(:attribute_defined_on_attribute).and_return result
+    end
+
+    after do
+      RSpec.configure do |config|
+        config.mock_with :rspec do |mocks|
+          mocks.verify_partial_doubles = true
+        end
+      end
     end
 
     it "evaluates the attribute from the attribute" do
