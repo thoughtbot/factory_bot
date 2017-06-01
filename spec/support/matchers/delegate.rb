@@ -12,14 +12,12 @@ RSpec::Matchers.define :delegate do |delegated_method|
   end
 
   match do |instance|
-    extend Mocha::API
-
     @instance = instance
     @args ||= []
     return_value = 'stubbed return value'
     method_on_target = @method_on_target || delegated_method
-    stubbed_target = stub('stubbed_target', method_on_target => return_value)
-    @instance.stubs(@target_method => stubbed_target)
+    stubbed_target = double("stubbed_target", method_on_target => return_value)
+    allow(@instance).to receive(@target_method).and_return stubbed_target
     begin
       @instance.send(delegated_method, *@args) == return_value
     rescue NoMethodError

@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe FactoryGirl::Strategy::AttributesFor do
   let(:result)     { { name: "John Doe", gender: "Male", admin: false } }
-  let(:evaluation) { stub("evaluation", hash: result) }
+  let(:evaluation) { double("evaluation", hash: result) }
 
   it_should_behave_like "strategy without association support"
 

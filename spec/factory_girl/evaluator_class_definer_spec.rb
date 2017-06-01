@@ -15,7 +15,11 @@ describe FactoryGirl::EvaluatorClassDefiner do
   end
 
   it "evaluates the block in the context of the evaluator" do
-    dependency_attribute = stub("dependency", name: :dependency, to_proc: -> { 1 })
+    dependency_attribute = double(
+      "dependency",
+      name: :dependency,
+      to_proc: -> { 1 },
+    )
     dependency_attribute = stub_attribute(:dependency) { 1 }
     attribute = stub_attribute(:attribute) { dependency + 1 }
     evaluator = define_evaluator(attributes: [dependency_attribute, attribute])
@@ -72,6 +76,6 @@ describe FactoryGirl::EvaluatorClassDefiner do
 
   def stub_attribute(name = :attribute, &value)
     value ||= -> {}
-    stub(name.to_s, name: name.to_sym, to_proc: value)
+    double(name.to_s, name: name.to_sym, to_proc: value)
   end
 end

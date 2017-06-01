@@ -1,8 +1,8 @@
 require 'spec_helper'
 
 describe FactoryGirl::Registry do
-  let(:registered_object)        { stub("registered object") }
-  let(:second_registered_object) { stub("second registered object") }
+  let(:registered_object)        { double("registered object") }
+  let(:second_registered_object) { double("second registered object") }
 
   subject { FactoryGirl::Registry.new("Great thing") }
 

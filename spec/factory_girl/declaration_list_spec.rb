@@ -1,20 +1,27 @@
 require "spec_helper"
 
 describe FactoryGirl::DeclarationList, "#attributes" do
-  let(:static_attribute_1)  { stub("static attribute 1") }
-  let(:static_attribute_2)  { stub("static attribute 2") }
-  let(:dynamic_attribute_1) { stub("dynamic attribute 1") }
-  let(:static_declaration)  { stub("static declaration", to_attributes: [static_attribute_1, static_attribute_2]) }
-  let(:dynamic_declaration) { stub("static declaration", to_attributes: [dynamic_attribute_1]) }
+  let(:static_attribute_1)  { double("static attribute 1") }
+  let(:static_attribute_2)  { double("static attribute 2") }
+  let(:dynamic_attribute_1) { double("dynamic attribute 1") }
+  let(:static_declaration)  do
+    double(
+      "static declaration",
+      to_attributes: [static_attribute_1, static_attribute_2],
+    )
+  end
+  let(:dynamic_declaration) do
+    double("static declaration", to_attributes: [dynamic_attribute_1])
+  end
 
   it "returns an AttributeList" do
     expect(subject.attributes).to be_a(FactoryGirl::AttributeList)
   end
 
-  let(:attribute_list) { stub("attribute list", define_attribute: true) }
+  let(:attribute_list) { double("attribute list", define_attribute: true) }
 
   it "defines each attribute on the attribute list" do
-    FactoryGirl::AttributeList.stubs(new: attribute_list)
+    allow(FactoryGirl::AttributeList).to receive(:new).and_return attribute_list
 
     subject.declare_attribute(static_declaration)
     subject.declare_attribute(dynamic_declaration)
@@ -28,9 +35,11 @@ describe FactoryGirl::DeclarationList, "#attributes" do
 end
 
 describe FactoryGirl::DeclarationList, "#declare_attribute" do
-  let(:declaration_1)              { stub("declaration", name: "declaration 1") }
-  let(:declaration_2)              { stub("declaration", name: "declaration 2") }
-  let(:declaration_with_same_name) { stub("declaration", name: "declaration 1") }
+  let(:declaration_1) { double("declaration", name: "declaration 1") }
+  let(:declaration_2) { double("declaration", name: "declaration 2") }
+  let(:declaration_with_same_name) do
+    double("declaration", name: "declaration 1")
+  end
 
   context "when not overridable" do
     it "adds the declaration to the list" do

@@ -9,15 +9,17 @@ describe FactoryGirl::Definition, "with a name" do
   subject    { FactoryGirl::Definition.new(name) }
 
   it "creates a new attribute list with the name passed" do
-    FactoryGirl::DeclarationList.stubs(:new)
+    allow(FactoryGirl::DeclarationList).to receive(:new)
     subject
     expect(FactoryGirl::DeclarationList).to have_received(:new).with(name)
   end
 end
 
 describe FactoryGirl::Definition, "#overridable" do
-  let(:list) { stub("declaration list", overridable: true) }
-  before { FactoryGirl::DeclarationList.stubs(new: list) }
+  let(:list) { double("declaration list", overridable: true) }
+  before do
+    allow(FactoryGirl::DeclarationList).to receive(:new).and_return list
+  end
 
   it "sets the declaration list as overridable" do
     expect(subject.overridable).to eq subject
@@ -26,8 +28,8 @@ describe FactoryGirl::Definition, "#overridable" do
 end
 
 describe FactoryGirl::Definition, "defining traits" do
-  let(:trait_1) { stub("trait") }
-  let(:trait_2) { stub("trait") }
+  let(:trait_1) { double("trait") }
+  let(:trait_2) { double("trait") }
 
   it "maintains a list of traits" do
     subject.define_trait(trait_1)

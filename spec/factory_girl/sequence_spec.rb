@@ -78,7 +78,7 @@ describe FactoryGirl::Sequence do
 
   describe "a custom sequence and scope" do
     subject { FactoryGirl::Sequence.new(:name, 'A') { |n| "=#{n}#{foo}" } }
-    let(:scope) { stub('scope', foo: 'attribute') }
+    let(:scope) { double("scope", foo: "attribute") }
 
     it 'increments within the correct scope' do
       expect(subject.next(scope)).to eq '=Aattribute'

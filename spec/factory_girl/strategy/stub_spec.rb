@@ -32,7 +32,9 @@ describe FactoryGirl::Strategy::Stub do
       end.new
     end
 
-    let(:evaluation)  { stub("evaluation", object: result_instance, notify: true) }
+    let(:evaluation) do
+      double("evaluation", object: result_instance, notify: true)
+    end
 
     it { expect(subject.result(evaluation)).not_to be_new_record }
     it { expect(subject.result(evaluation)).to be_persisted }
