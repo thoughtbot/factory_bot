@@ -725,3 +725,36 @@ describe "traits used in associations" do
     expect(creator.name).to eq 'Joe Creator'
   end
 end
+
+describe "associations set in traits" do
+  before do
+    define_model("Person", name: :string)
+
+    define_model("Book", name: :string, author_id: :integer) do
+      belongs_to :author, class_name: "Person"
+    end
+
+    FactoryGirl.define do
+      factory :person do
+        name "Ploni"
+      end
+
+      factory :bob, parent: :person do
+        name "Bob"
+      end
+
+      factory :book do
+        association :author, factory: :person
+      end
+
+      trait :bob do
+        association :author, factory: :bob
+      end
+    end
+  end
+
+  it "a trait can be used that has the same name as a factory" do
+    book = FactoryGirl.create(:book, :bob)
+    expect(book.author.name).to eq("Bob")
+  end
+end
