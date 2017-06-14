@@ -5,7 +5,6 @@ rvm:
   - 2.2.5
   - 2.3.1
   - ruby-head
-  - jruby-19mode
   - rbx-2
 before_install:
   - gem update --system
@@ -30,8 +29,6 @@ matrix:
       gemfile: gemfiles/5.0.gemfile
   allow_failures:
     - rvm: ruby-head
-    - rvm: jruby-19mode
-      gemfile: gemfiles/5.0.gemfile
     - rvm: rbx-2
 branches:
   only:
