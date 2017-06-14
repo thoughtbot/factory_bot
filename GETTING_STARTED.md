@@ -1030,6 +1030,12 @@ This can also be combined with other arguments:
 FactoryGirl.lint factories_to_lint, traits: true
 ```
 
+You can also specify the strategy used for linting:
+
+```ruby
+FactoryGirl.lint strategy: :build
+```
+
 Custom Construction
 -------------------
 

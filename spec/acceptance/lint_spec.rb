@@ -160,4 +160,50 @@ The following factories are invalid:
       end
     end
   end
+
+  describe "factory strategy for linting" do
+    it "uses the requested strategy" do
+      define_class "User" do
+        attr_accessor :name
+
+        def save!
+          raise "expected :build strategy, #save! shouldn't be invoked"
+        end
+      end
+
+      FactoryGirl.define do
+        factory :user do
+          name "Barbara"
+        end
+      end
+
+      expect do
+        FactoryGirl.lint strategy: :build
+      end.not_to raise_error
+    end
+
+    it "uses the requested strategy during trait validation" do
+      define_class "User" do
+        attr_accessor :name
+
+        def save!
+          raise "expected :build strategy, #save! shouldn't be invoked"
+        end
+      end
+
+      FactoryGirl.define do
+        factory :user do
+          name "Barbara"
+
+          trait :male do
+            name "Bob"
+          end
+        end
+      end
+
+      expect do
+        FactoryGirl.lint traits: true, strategy: :build
+      end.not_to raise_error
+    end
+  end
 end

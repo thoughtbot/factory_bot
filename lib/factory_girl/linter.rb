@@ -1,9 +1,10 @@
 module FactoryGirl
   class Linter
 
-    def initialize(factories_to_lint, linting_strategy)
-      @factories_to_lint = factories_to_lint
+    def initialize(factories, linting_strategy, factory_strategy = :create)
+      @factories_to_lint = factories
       @linting_method = "lint_#{linting_strategy}"
+      @factory_strategy = factory_strategy
       @invalid_factories = calculate_invalid_factories
     end
 
@@ -13,10 +14,9 @@ module FactoryGirl
       end
     end
 
-    attr_reader :factories_to_lint, :invalid_factories
-    private :factories_to_lint, :invalid_factories
-
     private
+
+    attr_reader :factories_to_lint, :invalid_factories, :factory_strategy
 
     def calculate_invalid_factories
       factories_to_lint.reduce(Hash.new([])) do |result, factory|
@@ -56,7 +56,7 @@ module FactoryGirl
     def lint_factory(factory)
       result = []
       begin
-        FactoryGirl.create(factory.name)
+        FactoryGirl.public_send(factory_strategy, factory.name)
       rescue => error
         result |= [FactoryError.new(error, factory)]
       end
@@ -67,7 +67,7 @@ module FactoryGirl
       result = []
       factory.definition.defined_traits.map(&:name).each do |trait_name|
         begin
-          FactoryGirl.create(factory.name, trait_name)
+          FactoryGirl.public_send(factory_strategy, factory.name, trait_name)
         rescue => error
           result |=
               [FactoryTraitError.new(error, factory, trait_name)]
