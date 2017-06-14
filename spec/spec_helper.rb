@@ -19,8 +19,11 @@ RSpec.configure do |config|
 
   config.include DeclarationMatchers
 
+  config.before do
+    FactoryGirl.reload
+  end
+
   config.after do
     Timecop.return
-    FactoryGirl.reload
   end
 end
