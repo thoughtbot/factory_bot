@@ -15,6 +15,11 @@ describe FactoryBot::DefinitionProxy, "#add_attribute" do
     expect(subject).to have_static_declaration(:attribute_name).with_value("attribute value")
   end
 
+  it "tracks statically-defined attributes" do
+    proxy.add_attribute(:attribute_name, "attribute value")
+    expect(proxy.static_attributes).to_not be_empty
+  end
+
   it "declares a dynamic attribute on the factory" do
     attribute_value = -> { "dynamic attribute" }
     proxy.add_attribute(:attribute_name, &attribute_value)
@@ -35,6 +40,11 @@ describe FactoryBot::DefinitionProxy, "#add_attribute when the proxy ignores att
   it "declares a static attribute on the factory" do
     proxy.add_attribute(:attribute_name, "attribute value")
     expect(subject).to have_static_declaration(:attribute_name).ignored.with_value("attribute value")
+  end
+
+  it "does not track statically-defined ignored attributes" do
+    proxy.add_attribute(:attribute_name, "attribute value")
+    expect(proxy.static_attributes).to be_empty
   end
 
   it "declares a dynamic attribute on the factory" do

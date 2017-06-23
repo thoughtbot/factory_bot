@@ -3,7 +3,7 @@ module FactoryBot
   class Configuration
     attr_reader :factories, :sequences, :traits, :strategies, :callback_names
 
-    attr_accessor :allow_class_lookup, :use_parent_strategy
+    attr_accessor :allow_class_lookup, :use_parent_strategy, :warn_on_static_attributes
 
     def initialize
       @factories      = Decorator::DisallowsDuplicatesRegistry.new(Registry.new('Factory'))
@@ -14,6 +14,7 @@ module FactoryBot
       @definition     = Definition.new
 
       @allow_class_lookup = true
+      @warn_on_static_attributes = false
 
       to_create { |instance| instance.save! }
       initialize_with { new }
