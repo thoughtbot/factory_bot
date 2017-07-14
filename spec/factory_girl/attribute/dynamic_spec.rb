@@ -28,24 +28,17 @@ describe FactoryGirl::Attribute::Dynamic do
     let(:block)  { -> { attribute_defined_on_attribute } }
     let(:result) { "other attribute value" }
 
-    before do
-      RSpec.configure do |config|
-        config.mock_with :rspec do |mocks|
-          mocks.verify_partial_doubles = false
-        end
-      end
-
-      allow(
-        subject,
-      ).to receive(:attribute_defined_on_attribute).and_return result
+    module MissingMethods
+      def attribute_defined_on_attribute(*args); end
     end
 
-    after do
-      RSpec.configure do |config|
-        config.mock_with :rspec do |mocks|
-          mocks.verify_partial_doubles = true
-        end
-      end
+    before do
+      # Define an '#attribute_defined_on_attribute' instance method allowing it
+      # be mocked. Ususually this is determined via '#method_missing'
+      subject.extend(MissingMethods)
+
+      allow(subject).
+        to receive(:attribute_defined_on_attribute).and_return result
     end
 
     it "evaluates the attribute from the attribute" do
