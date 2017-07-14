@@ -229,9 +229,7 @@ describe FactoryGirl::Factory, "running a factory" do
   subject              { FactoryGirl::Factory.new(:user) }
   let(:attribute)      { FactoryGirl::Attribute::Static.new(:name, "value", false) }
   let(:declaration)    { FactoryGirl::Declaration::Static.new(:name, "value", false) }
-  let(:strategy)       do
-    double("strategy", result: "result", add_observer: true)
-  end
+  let(:strategy) { double("strategy", result: "result", add_observer: true) }
   let(:attributes)     { [attribute] }
   let(:attribute_list) do
     double("attribute-list", declarations: [declaration], to_a: attributes)

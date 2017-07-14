@@ -7,26 +7,18 @@ describe FactoryGirl::Attribute::Association do
   let(:association) { double("association") }
 
   subject { FactoryGirl::Attribute::Association.new(name, factory, overrides) }
-  before do
-    RSpec.configure do |config|
-      config.mock_with :rspec do |mocks|
-        # FactoryGirl::Attribute::Association does not explicitly define an
-        # `association` instance method, so when we stub it out below,
-        # rspec-mock complains that it can't find the method.
-        #
-        # Therefore, temporarily turn off this feature.
-        mocks.verify_partial_doubles = false
-      end
-    end
-    allow(subject).to receive(:association).and_return association
+
+  module MissingMethods
+    def association(*args); end
   end
 
-  after do
-    RSpec.configure do |config|
-      config.mock_with :rspec do |mocks|
-        mocks.verify_partial_doubles = true
-      end
-    end
+  before do
+    # Define an '#association' instance method allowing it to be mocked.
+    # Ususually this is determined via '#method_missing'
+    subject.extend(MissingMethods)
+
+    allow(subject).
+      to receive(:association).with(any_args).and_return association
   end
 
   it         { should be_association }

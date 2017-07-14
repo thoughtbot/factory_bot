@@ -1,9 +1,7 @@
 require "spec_helper"
 
 describe FactoryGirl::Decorator::DisallowsDuplicatesRegistry do
-  let(:registry) do
-    double("registry", name: "Great thing", register: true)
-  end
+  let(:registry) { double("registry", name: "Great thing", register: true) }
 
   subject { described_class.new(registry) }
 
