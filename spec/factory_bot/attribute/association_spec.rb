@@ -4,7 +4,7 @@ describe FactoryBot::Attribute::Association do
   let(:overrides)   { { first_name: "John" } }
   let(:association) { double("association") }
 
-  subject { FactoryBot::Attribute::Association.new(name, factory, overrides) }
+  subject { FactoryBot::Attribute::Association.new(name, false, factory, overrides) }
 
   module MissingMethods
     def association(*args); end
@@ -33,6 +33,6 @@ describe FactoryBot::Attribute::Association do
 end
 
 describe FactoryBot::Attribute::Association, "with a string name" do
-  subject    { FactoryBot::Attribute::Association.new("name", :user, {}) }
+  subject    { FactoryBot::Attribute::Association.new("name", false, :user, {}) }
   its(:name) { should eq :name }
 end

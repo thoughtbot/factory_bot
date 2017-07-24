@@ -31,8 +31,8 @@ end
 describe FactoryBot::AttributeList, "#define_attribute with a named attribute list" do
   subject { FactoryBot::AttributeList.new(:author) }
 
-  let(:association_with_same_name)      { FactoryBot::Attribute::Association.new(:author, :author, {}) }
-  let(:association_with_different_name) { FactoryBot::Attribute::Association.new(:author, :post, {}) }
+  let(:association_with_same_name)      { FactoryBot::Attribute::Association.new(:author, false, :author, {}) }
+  let(:association_with_different_name) { FactoryBot::Attribute::Association.new(:author, false, :post, {}) }
 
   it "raises when the attribute is a self-referencing association" do
     expect do
@@ -70,8 +70,8 @@ describe FactoryBot::AttributeList, "#associations" do
   let(:email_attribute) do
     FactoryBot::Attribute::Dynamic.new(:email, false, ->(u) { "#{u.full_name}@example.com" })
   end
-  let(:author_attribute)    { FactoryBot::Attribute::Association.new(:author, :user, {}) }
-  let(:profile_attribute)   { FactoryBot::Attribute::Association.new(:profile, :profile, {}) }
+  let(:author_attribute)    { FactoryBot::Attribute::Association.new(:author, false, :user, {}) }
+  let(:profile_attribute)   { FactoryBot::Attribute::Association.new(:profile, false, :profile, {}) }
 
   before do
     subject.define_attribute(email_attribute)
@@ -120,7 +120,7 @@ describe FactoryBot::AttributeList, "generating names" do
   end
 
   def build_association(name)
-    FactoryBot::Attribute::Association.new(name, :user, {})
+    FactoryBot::Attribute::Association.new(name, false, :user, {})
   end
 
   before do

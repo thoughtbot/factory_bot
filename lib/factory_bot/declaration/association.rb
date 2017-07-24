@@ -2,8 +2,8 @@ module FactoryBot
   class Declaration
     # @api private
     class Association < Declaration
-      def initialize(name, *options)
-        super(name, false)
+      def initialize(name, ignored, *options)
+        super(name, ignored)
         @options = options.dup
         @overrides = options.extract_options!
         @traits = options
@@ -23,7 +23,7 @@ module FactoryBot
 
       def build
         factory_name = @overrides[:factory] || name
-        [Attribute::Association.new(name, factory_name, [@traits, @overrides.except(:factory)].flatten)]
+        [Attribute::Association.new(name, @ignored, factory_name, [@traits, @overrides.except(:factory)].flatten)]
       end
     end
   end

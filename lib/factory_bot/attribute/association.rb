@@ -4,8 +4,8 @@ module FactoryBot
     class Association < Attribute
       attr_reader :factory
 
-      def initialize(name, factory, overrides)
-        super(name, false)
+      def initialize(name, ignored, factory, overrides)
+        super(name, ignored)
         @factory   = factory
         @overrides = overrides
       end
