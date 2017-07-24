@@ -27,8 +27,8 @@ end
 describe FactoryGirl::AttributeList, "#define_attribute with a named attribute list" do
   subject { FactoryGirl::AttributeList.new(:author) }
 
-  let(:association_with_same_name)      { FactoryGirl::Attribute::Association.new(:author, :author, {}) }
-  let(:association_with_different_name) { FactoryGirl::Attribute::Association.new(:author, :post, {}) }
+  let(:association_with_same_name)      { FactoryGirl::Attribute::Association.new(:author, false, :author, {}) }
+  let(:association_with_different_name) { FactoryGirl::Attribute::Association.new(:author, false, :post, {}) }
 
   it "raises when the attribute is a self-referencing association" do
     expect { subject.define_attribute(association_with_same_name) }.to raise_error(FactoryGirl::AssociationDefinitionError, "Self-referencing association 'author' in 'author'")
@@ -62,8 +62,8 @@ end
 describe FactoryGirl::AttributeList, "#associations" do
   let(:full_name_attribute) { FactoryGirl::Attribute::Static.new(:full_name, "value", false) }
   let(:email_attribute)     { FactoryGirl::Attribute::Dynamic.new(:email, false, ->(u) { "#{u.full_name}@example.com" }) }
-  let(:author_attribute)    { FactoryGirl::Attribute::Association.new(:author, :user, {}) }
-  let(:profile_attribute)   { FactoryGirl::Attribute::Association.new(:profile, :profile, {}) }
+  let(:author_attribute)    { FactoryGirl::Attribute::Association.new(:author, false, :user, {}) }
+  let(:profile_attribute)   { FactoryGirl::Attribute::Association.new(:profile, false, :profile, {}) }
 
   before do
     subject.define_attribute(full_name_attribute)
@@ -113,7 +113,7 @@ describe FactoryGirl::AttributeList, "generating names" do
   end
 
   def build_association(name)
-    FactoryGirl::Attribute::Association.new(name, :user, {})
+    FactoryGirl::Attribute::Association.new(name, false, :user, {})
   end
 
   before do

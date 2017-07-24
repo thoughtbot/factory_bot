@@ -6,7 +6,7 @@ describe FactoryGirl::Attribute::Association do
   let(:overrides)   { { first_name: "John" } }
   let(:association) { double("association") }
 
-  subject { FactoryGirl::Attribute::Association.new(name, factory, overrides) }
+  subject { FactoryGirl::Attribute::Association.new(name, false, factory, overrides) }
 
   module MissingMethods
     def association(*args); end
@@ -35,6 +35,6 @@ describe FactoryGirl::Attribute::Association do
 end
 
 describe FactoryGirl::Attribute::Association, "with a string name" do
-  subject    { FactoryGirl::Attribute::Association.new("name", :user, {}) }
+  subject    { FactoryGirl::Attribute::Association.new("name", false, :user, {}) }
   its(:name) { should eq :name }
 end

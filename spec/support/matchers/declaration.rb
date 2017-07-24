@@ -65,9 +65,9 @@ module DeclarationMatchers
       when :implicit    then FactoryGirl::Declaration::Implicit.new(@name, @factory, ignored?)
       when :association
         if @options
-          FactoryGirl::Declaration::Association.new(@name, options)
+          FactoryGirl::Declaration::Association.new(@name, ignored?, options)
         else
-          FactoryGirl::Declaration::Association.new(@name)
+          FactoryGirl::Declaration::Association.new(@name, ignored?)
         end
       end
     end

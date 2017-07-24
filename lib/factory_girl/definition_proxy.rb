@@ -148,7 +148,7 @@ module FactoryGirl
     #    name of the factory. For example, a "user" association will by
     #    default use the "user" factory.
     def association(name, *options)
-      @definition.declare_attribute(Declaration::Association.new(name, *options))
+      @definition.declare_attribute(Declaration::Association.new(name, false, *options))
     end
 
     def to_create(&block)
