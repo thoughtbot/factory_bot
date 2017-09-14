@@ -1,5 +1,7 @@
 module FactoryGirl
   class DefinitionProxy
+    E_ASSOC_NO_BLOCK = "In factory definitions, the association method " \
+      "does not accept blocks".freeze
     UNPROXIED_METHODS = %w(__send__ __id__ nil? send object_id extend instance_eval initialize block_given? raise caller method)
 
     (instance_methods + private_instance_methods).each do |method|
@@ -148,6 +150,7 @@ module FactoryGirl
     #    name of the factory. For example, a "user" association will by
     #    default use the "user" factory.
     def association(name, *options)
+      raise E_ASSOC_NO_BLOCK if block_given?
       @definition.declare_attribute(Declaration::Association.new(name, *options))
     end
 

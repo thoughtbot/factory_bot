@@ -119,6 +119,14 @@ describe FactoryGirl::DefinitionProxy, "#association" do
     proxy.association(:association_name, { name: "Awesome" })
     expect(subject).to have_association_declaration(:association_name).with_options(name: "Awesome")
   end
+
+  context "a confused user provides a block" do
+    it "raises a helpful error" do
+      expect do
+        proxy.association(:association_name) { i_am_a_confused_user }
+      end.to raise_error(FactoryGirl::DefinitionProxy::E_ASSOC_NO_BLOCK)
+    end
+  end
 end
 
 describe FactoryGirl::DefinitionProxy, "adding callbacks" do

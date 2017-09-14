@@ -1,3 +1,6 @@
+Unreleased
+  Add helpful error when confused user gives block to `association`
+
 4.8.0 (December 16, 2016)
   Improve documentation
   Add `FactoryGirl.generate_list` to be consistent with `build_list`/`create_list` and friends
