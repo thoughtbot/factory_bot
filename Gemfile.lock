@@ -13,10 +13,10 @@ GEM
       activemodel (= 5.1.4)
       activesupport (= 5.1.4)
       arel (~> 8.0)
-    activerecord-jdbc-adapter (1.3.22)
+    activerecord-jdbc-adapter (5.0.pre1)
       activerecord (>= 2.2)
-    activerecord-jdbcsqlite3-adapter (1.3.22)
-      activerecord-jdbc-adapter (~> 1.3.22)
+    activerecord-jdbcsqlite3-adapter (5.0.pre1)
+      activerecord-jdbc-adapter (~> 5.0.pre1)
       jdbc-sqlite3 (>= 3.7.2, < 3.9)
     activesupport (5.1.4)
       concurrent-ruby (~> 1.0, >= 1.0.2)
@@ -101,7 +101,7 @@ PLATFORMS
 
 DEPENDENCIES
   activerecord (>= 3.0.0)
-  activerecord-jdbcsqlite3-adapter
+  activerecord-jdbcsqlite3-adapter (~> 5.0.pre1)
   appraisal (~> 2.2.0)
   aruba
   cucumber (~> 2.4.0)
