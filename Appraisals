@@ -22,3 +22,8 @@ appraise '5.0' do
   gem 'activerecord', "~> 5.0.0"
   gem 'activerecord-jdbcsqlite3-adapter', '~> 5.0.pre1', platforms: :jruby
 end
+
+appraise '5.1' do
+  gem 'activerecord', "~> 5.1.0"
+  gem 'activerecord-jdbcsqlite3-adapter', '~> 5.0.pre1', platforms: :jruby
+end
