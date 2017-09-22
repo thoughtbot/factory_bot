@@ -34,9 +34,13 @@ matrix:
       gemfile: gemfiles/5.1.gemfile
     - rvm: 2.1.9
       gemfile: gemfiles/5.1.gemfile
+  include:
+    - rvm: jruby-head
+      gemfile: gemfiles/5.1.gemfile
   allow_failures:
     - rvm: ruby-head
     - rvm: rbx-2
+    - rvm: jruby-head
 branches:
   only:
     - master
