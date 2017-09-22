@@ -5,7 +5,6 @@ rvm:
   - 2.2.5
   - 2.3.1
   - ruby-head
-  - rbx-2
 before_install:
   - gem update --system
   - gem update bundler
@@ -37,9 +36,14 @@ matrix:
   include:
     - rvm: jruby-head
       gemfile: gemfiles/5.1.gemfile
+    - rvm: rbx-2
+      gemfile: gemfiles/5.1.gemfile
+    - rvm: rbx-3
+      gemfile: gemfiles/5.1.gemfile
   allow_failures:
     - rvm: ruby-head
     - rvm: rbx-2
+    - rvm: rbx-3
     - rvm: jruby-head
 branches:
   only:
