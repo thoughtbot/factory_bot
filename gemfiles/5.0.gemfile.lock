@@ -90,12 +90,11 @@ PLATFORMS
 
 DEPENDENCIES
   activerecord (~> 5.0.0)
-  activerecord-jdbcsqlite3-adapter
+  activerecord-jdbcsqlite3-adapter (~> 5.0.pre1)
   appraisal (~> 2.2.0)
   aruba
   cucumber (~> 2.4.0)
   factory_girl!
-  jdbc-sqlite3
   rspec (~> 3.0)
   rspec-its (~> 1.0)
   simplecov

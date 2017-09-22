@@ -96,7 +96,6 @@ DEPENDENCIES
   aruba
   cucumber (~> 2.4.0)
   factory_girl!
-  jdbc-sqlite3
   rspec (~> 3.0)
   rspec-its (~> 1.0)
   simplecov
