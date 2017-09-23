@@ -4,7 +4,6 @@ rvm:
   - 2.1.9
   - 2.2.7
   - 2.3.4
-  - ruby-head
 before_install:
   - gem update --system
   - gem update bundler
@@ -37,6 +36,10 @@ matrix:
     - rvm: 2.1.9
       gemfile: gemfiles/5.1.gemfile
   include:
+    - rvm: ruby-head
+      gemfile: gemfiles/5.0.gemfile
+    - rvm: ruby-head
+      gemfile: gemfiles/5.1.gemfile
     - rvm: jruby-head
       gemfile: gemfiles/5.1.gemfile
     - rvm: rbx-2
