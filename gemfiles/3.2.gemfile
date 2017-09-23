@@ -2,9 +2,8 @@
 
 source "https://rubygems.org"
 
-gem "activerecord-jdbcsqlite3-adapter", :platforms => :jruby
-gem "jdbc-sqlite3", :platforms => :jruby
-gem "sqlite3", "~> 1.3.10", :platforms => :ruby
-gem "activerecord", :git => "https://github.com/rails/rails.git", :branch => "3-2-stable"
+gem "activerecord-jdbcsqlite3-adapter", platforms: :jruby
+gem "sqlite3", "~> 1.3.10", platforms: :ruby
+gem "activerecord", git: "https://github.com/rails/rails.git", branch: "3-2-stable"
 
-gemspec :path => "../"
+gemspec path: "../"

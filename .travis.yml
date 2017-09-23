@@ -2,15 +2,13 @@ rvm:
   - 1.9.3
   - 2.0.0
   - 2.1.9
-  - 2.2.5
-  - 2.3.1
-  - ruby-head
-  - rbx-2
+  - 2.2.7
+  - 2.3.4
 before_install:
   - gem update --system
   - gem update bundler
   - gem cleanup bundler
-install: "bundle install --jobs 8"
+install: "bundle install --jobs=${JOBS_NUMBER} --retry=3 --deployment --path=${BUNDLE_PATH:-vendor/bundle}"
 script: "bundle exec rake"
 gemfile:
   - gemfiles/3.2.gemfile
@@ -18,6 +16,10 @@ gemfile:
   - gemfiles/4.1.gemfile
   - gemfiles/4.2.gemfile
   - gemfiles/5.0.gemfile
+  - gemfiles/5.1.gemfile
+env:
+  global:
+    - JOBS_NUMBER=8
 matrix:
   fast_finish: true
   exclude:
@@ -27,9 +29,36 @@ matrix:
       gemfile: gemfiles/5.0.gemfile
     - rvm: 2.1.9
       gemfile: gemfiles/5.0.gemfile
+    - rvm: 1.9.3
+      gemfile: gemfiles/5.1.gemfile
+    - rvm: 2.0.0
+      gemfile: gemfiles/5.1.gemfile
+    - rvm: 2.1.9
+      gemfile: gemfiles/5.1.gemfile
+  include:
+    - rvm: 2.4.1
+      gemfile: gemfiles/4.2.gemfile
+    - rvm: 2.4.1
+      gemfile: gemfiles/5.0.gemfile
+    - rvm: 2.4.1
+      gemfile: gemfiles/5.1.gemfile
+    - rvm: ruby-head
+      gemfile: gemfiles/5.0.gemfile
+    - rvm: ruby-head
+      gemfile: gemfiles/5.1.gemfile
+    - rvm: jruby-head
+      gemfile: gemfiles/5.1.gemfile
+    - rvm: rbx-2
+      gemfile: gemfiles/5.1.gemfile
+      env: JOBS_NUMBER=1
+    - rvm: rbx-3
+      gemfile: gemfiles/5.1.gemfile
+      env: JOBS_NUMBER=1
   allow_failures:
     - rvm: ruby-head
     - rvm: rbx-2
+    - rvm: rbx-3
+    - rvm: jruby-head
 branches:
   only:
     - master

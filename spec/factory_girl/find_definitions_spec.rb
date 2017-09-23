@@ -82,8 +82,8 @@ describe "definition loading" do
         wd = File.dirname(__FILE__)
         file_b = File.join(wd, "tmp", dir, "factories", "b.rb")
         file_a = File.join(wd, "tmp", dir, "factories", "a.rb")
-        allow(FactoryGirl).to receive(:load).with(file_a).ordered
-        allow(FactoryGirl).to receive(:load).with(file_b).ordered
+        expect(FactoryGirl).to receive(:load).with(file_a).ordered
+        expect(FactoryGirl).to receive(:load).with(file_b).ordered
         FactoryGirl.find_definitions
       end
     end
