@@ -1,3 +1,8 @@
+4.8.1 (September 28, 2017)
+  Explicitly define `#destroyed?` within the `Stub` strategy to return `nil` instead of raising
+  Update various dependencies
+  Update internal test suite to use RSpec's mocking/stubbing instead of mocha
+
 4.8.0 (December 16, 2016)
   Improve documentation
   Add `FactoryGirl.generate_list` to be consistent with `build_list`/`create_list` and friends
