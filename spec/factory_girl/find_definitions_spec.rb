@@ -79,12 +79,15 @@ describe "definition loading" do
       in_directory_with_files File.join(dir, 'factories', 'b.rb'),
                               File.join(dir, 'factories', 'a.rb')
       it "loads the files in the right order" do
+        allow(FactoryGirl).to receive(:load)
         wd = File.dirname(__FILE__)
         file_b = File.join(wd, "tmp", dir, "factories", "b.rb")
         file_a = File.join(wd, "tmp", dir, "factories", "a.rb")
-        allow(FactoryGirl).to receive(:load).with(file_a).ordered
-        allow(FactoryGirl).to receive(:load).with(file_b).ordered
+
         FactoryGirl.find_definitions
+
+        expect(FactoryGirl).to have_received(:load).with(file_a).ordered
+        expect(FactoryGirl).to have_received(:load).with(file_b).ordered
       end
     end
 
