@@ -88,6 +88,28 @@ describe "a custom create" do
   end
 end
 
+describe "a custom create passing in an evaluator" do
+  before do
+    define_class("User") do
+      attr_accessor :name
+    end
+
+    FactoryGirl.define do
+      factory :user do
+        transient { creation_name "evaluator" }
+
+        to_create do |user, evaluator|
+          user.name = evaluator.creation_name
+        end
+      end
+    end
+  end
+
+  it "passes the evaluator to the custom create block" do
+    expect(FactoryGirl.create(:user).name).to eq "evaluator"
+  end
+end
+
 describe "calling `create` with a block" do
   include FactoryGirl::Syntax::Methods
 
