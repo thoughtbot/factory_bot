@@ -725,3 +725,27 @@ describe "traits used in associations" do
     expect(creator.name).to eq 'Joe Creator'
   end
 end
+
+describe "duplicate traits" do
+  before do
+    define_model("User", admin: :boolean, name: :string)
+  end
+
+  it "raises an error" do
+    expect do
+      FactoryGirl.define do
+        factory :user do
+          admin false
+
+          trait :admin do
+            admin true
+          end
+
+          trait :admin do
+            name "Admin"
+          end
+        end
+      end
+    end.to raise_error(RuntimeError)
+  end
+end
