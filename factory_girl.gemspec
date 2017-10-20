@@ -2,7 +2,7 @@ $LOAD_PATH << File.expand_path("../lib", __FILE__)
 
 Gem::Specification.new do |s|
   s.name        = %q{factory_girl}
-  s.version     = "4.8.1".freeze
+  s.version     = "4.8.2".freeze
   s.summary     = %q{factory_girl provides a framework and DSL for defining and
                       using model instance factories.}
   s.description = %q{factory_girl provides a framework and DSL for defining and

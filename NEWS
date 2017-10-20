@@ -1,3 +1,6 @@
+4.8.2 (October 20, 2017)
+  Rename factory_girl to factory_bot
+
 4.8.1 (September 28, 2017)
   Explicitly define `#destroyed?` within the `Stub` strategy to return `nil` instead of raising
   Update various dependencies
