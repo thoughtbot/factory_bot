@@ -4,7 +4,7 @@ describe "transient attributes" do
   before do
     define_model("User", name: :string, email: :string)
 
-    FactoryGirl.define do
+    FactoryBot.define do
       sequence(:name) { |n| "John #{n}" }
 
       factory :user do
@@ -14,7 +14,7 @@ describe "transient attributes" do
           upcased  false
         end
 
-        name  { "#{FactoryGirl.generate(:name)}#{" - Rockstar" if rockstar}" }
+        name  { "#{FactoryBot.generate(:name)}#{" - Rockstar" if rockstar}" }
         email { "#{name.downcase}#{four}@example.com" }
 
         after(:create) do |user, evaluator|
@@ -25,7 +25,7 @@ describe "transient attributes" do
   end
 
   context "returning attributes for a factory" do
-    subject { FactoryGirl.attributes_for(:user, rockstar: true) }
+    subject { FactoryBot.attributes_for(:user, rockstar: true) }
     it { should_not have_key(:four) }
     it { should_not have_key(:rockstar) }
     it { should_not have_key(:upcased) }
@@ -34,10 +34,10 @@ describe "transient attributes" do
   end
 
   context "with a transient variable assigned" do
-    let(:rockstar)           { FactoryGirl.create(:user, rockstar: true, four: "1234") }
-    let(:rockstar_with_name) { FactoryGirl.create(:user, name: "Jane Doe", rockstar: true) }
-    let(:upcased_rockstar)   { FactoryGirl.create(:user, rockstar: true, upcased: true) }
-    let(:groupie)            { FactoryGirl.create(:user, rockstar: false) }
+    let(:rockstar)           { FactoryBot.create(:user, rockstar: true, four: "1234") }
+    let(:rockstar_with_name) { FactoryBot.create(:user, name: "Jane Doe", rockstar: true) }
+    let(:upcased_rockstar)   { FactoryBot.create(:user, rockstar: true, upcased: true) }
+    let(:groupie)            { FactoryBot.create(:user, rockstar: false) }
 
     it "generates the correct attributes on a rockstar" do
       expect(rockstar.name).to eq "John 1 - Rockstar"
@@ -61,7 +61,7 @@ describe "transient attributes" do
   end
 
   context "without transient variables assigned" do
-    let(:rockstar) { FactoryGirl.create(:user) }
+    let(:rockstar) { FactoryBot.create(:user) }
 
     it "uses the default value of the attribute" do
       expect(rockstar.name).to eq "John 1 - Rockstar"
@@ -70,7 +70,7 @@ describe "transient attributes" do
 
   context "using aliased 'ignore' method name", :silence_deprecation do
     before do
-      FactoryGirl.define do
+      FactoryBot.define do
         factory :user_using_ignore, class: User do
           ignore do
             honorific "Esteemed"
@@ -81,7 +81,7 @@ describe "transient attributes" do
       end
     end
 
-    let(:esteemed) { FactoryGirl.create(:user_using_ignore) }
+    let(:esteemed) { FactoryBot.create(:user_using_ignore) }
 
     it "uses the default value of the attribute" do
       expect(esteemed.name).to eq "Esteemed Jane Doe"
@@ -93,7 +93,7 @@ describe "transient sequences" do
   before do
     define_model("User", name: :string)
 
-    FactoryGirl.define do
+    FactoryBot.define do
       factory :user do
         transient do
           sequence(:counter)
@@ -105,8 +105,8 @@ describe "transient sequences" do
   end
 
   it "increments sequences correctly" do
-    expect(FactoryGirl.build(:user).name).to eq "John Doe 1"
-    expect(FactoryGirl.build(:user).name).to eq "John Doe 2"
+    expect(FactoryBot.build(:user).name).to eq "John Doe 1"
+    expect(FactoryBot.build(:user).name).to eq "John Doe 2"
   end
 end
 
@@ -124,7 +124,7 @@ describe "assigning values from a transient attribute" do
       end
     end
 
-    FactoryGirl.define do
+    FactoryBot.define do
       factory :user do
         transient do
           foo { Foo.new('id-of-foo', 'name-of-foo')}
@@ -137,7 +137,7 @@ describe "assigning values from a transient attribute" do
   end
 
   it "does not ignore an _id attribute that is an alias for a transient attribute" do
-    user = FactoryGirl.build(:user, :foo => Foo.new('passed-in-id-of-foo', 'passed-in-name-of-foo'))
+    user = FactoryBot.build(:user, :foo => Foo.new('passed-in-id-of-foo', 'passed-in-name-of-foo'))
     expect(user.foo_id).to eq 'passed-in-id-of-foo'
     expect(user.foo_name).to eq 'passed-in-name-of-foo'
   end

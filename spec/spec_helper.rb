@@ -7,7 +7,7 @@ require 'rspec/its'
 
 require "simplecov"
 
-require 'factory_girl'
+require 'factory_bot'
 require "timecop"
 
 Dir["spec/support/**/*.rb"].each { |f| require File.expand_path(f) }
@@ -23,7 +23,7 @@ RSpec.configure do |config|
   config.include DeclarationMatchers
 
   config.before do
-    FactoryGirl.reload
+    FactoryBot.reload
   end
 
   config.after do

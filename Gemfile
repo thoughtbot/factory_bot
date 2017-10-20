@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gemspec
+gemspec name: 'factory_bot'
 
 gem 'activerecord-jdbcsqlite3-adapter', platforms: :jruby
 gem 'jdbc-sqlite3', platforms: :jruby

@@ -1,14 +1,16 @@
 $LOAD_PATH << File.expand_path("../lib", __FILE__)
-require 'factory_girl/version'
 
 Gem::Specification.new do |s|
   s.name        = %q{factory_girl}
-  s.version     = FactoryGirl::VERSION
+  s.version     = "4.8.1".freeze
   s.summary     = %q{factory_girl provides a framework and DSL for defining and
                       using model instance factories.}
   s.description = %q{factory_girl provides a framework and DSL for defining and
                       using factories - less error-prone, more explicit, and
                       all-around easier to work with than fixtures.}
+  s.post_install_message = "The factory_girl gem has been deprecated and has "\
+                           "been replaced by factory_bot. Please switch to "\
+                           "factory_bot as soon as possible."
 
   s.files         = `git ls-files`.split("\n").reject { |f| f.match(%r{^(spec|features)/}) }
 
@@ -28,6 +30,8 @@ Gem::Specification.new do |s|
   s.add_development_dependency("timecop")
   s.add_development_dependency("simplecov")
   s.add_development_dependency("aruba")
+  s.add_development_dependency("mocha", ">= 0.12.8")
+  s.add_development_dependency("bourne")
   s.add_development_dependency("appraisal", "~> 2.1.0")
   s.add_development_dependency("activerecord", ">= 3.0.0")
   s.add_development_dependency("yard")

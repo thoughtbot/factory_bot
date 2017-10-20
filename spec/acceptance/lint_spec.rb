@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'FactoryGirl.lint' do
+describe 'FactoryBot.lint' do
   it 'raises when a factory is invalid' do
     define_model 'User', name: :string do
       validates :name, presence: true
@@ -8,7 +8,7 @@ describe 'FactoryGirl.lint' do
 
     define_model 'AlwaysValid'
 
-    FactoryGirl.define do
+    FactoryBot.define do
       factory :user do
         factory :admin_user
       end
@@ -24,8 +24,8 @@ The following factories are invalid:
     ERROR_MESSAGE
 
     expect do
-      FactoryGirl.lint
-    end.to raise_error FactoryGirl::InvalidFactoryError, error_message
+      FactoryBot.lint
+    end.to raise_error FactoryBot::InvalidFactoryError, error_message
   end
 
   it 'does not raise when all factories are valid' do
@@ -33,13 +33,13 @@ The following factories are invalid:
       validates :name, presence: true
     end
 
-    FactoryGirl.define do
+    FactoryBot.define do
       factory :user do
         name 'assigned'
       end
     end
 
-    expect { FactoryGirl.lint }.not_to raise_error
+    expect { FactoryBot.lint }.not_to raise_error
   end
 
   it 'allows for selective linting' do
@@ -49,17 +49,17 @@ The following factories are invalid:
 
     define_model 'ValidThing', name: :string
 
-    FactoryGirl.define do
+    FactoryBot.define do
       factory :valid_thing
       factory :invalid_thing
     end
 
     expect do
-      only_valid_factories = FactoryGirl.factories.reject do |factory|
+      only_valid_factories = FactoryBot.factories.reject do |factory|
         factory.name =~ /invalid/
       end
 
-      FactoryGirl.lint only_valid_factories
+      FactoryBot.lint only_valid_factories
     end.not_to raise_error
   end
 
@@ -68,13 +68,13 @@ The following factories are invalid:
       validates :name, presence: true
     end
 
-    FactoryGirl.define do
+    FactoryBot.define do
       factory :user do
         name "assigned"
       end
     end
 
-    FactoryGirl.lint FactoryGirl.factories, validate_traits: true
+    FactoryBot.lint FactoryBot.factories, validate_traits: true
   end
 
   it "allows for additional options without explicit factories" do
@@ -82,13 +82,13 @@ The following factories are invalid:
       validates :name, presence: true
     end
 
-    FactoryGirl.define do
+    FactoryBot.define do
       factory :user do
         name "assigned"
       end
     end
 
-    FactoryGirl.lint validate_traits: true
+    FactoryBot.lint validate_traits: true
   end
 
   describe "trait validation" do
@@ -98,7 +98,7 @@ The following factories are invalid:
           validates :name, presence: true
         end
 
-        FactoryGirl.define do
+        FactoryBot.define do
           factory :user do
             name "Yep"
             trait :unnamed do
@@ -114,8 +114,8 @@ The following factories are invalid:
         ERROR_MESSAGE
 
         expect do
-          FactoryGirl.lint traits: true
-        end.to raise_error FactoryGirl::InvalidFactoryError, error_message
+          FactoryBot.lint traits: true
+        end.to raise_error FactoryBot::InvalidFactoryError, error_message
       end
 
       it "does not raise if a trait produces a valid object" do
@@ -123,7 +123,7 @@ The following factories are invalid:
           validates :name, presence: true
         end
 
-        FactoryGirl.define do
+        FactoryBot.define do
           factory :user do
             name "Yep"
             trait :renamed do
@@ -133,7 +133,7 @@ The following factories are invalid:
         end
 
         expect do
-          FactoryGirl.lint traits: true
+          FactoryBot.lint traits: true
         end.not_to raise_error
       end
     end
@@ -144,7 +144,7 @@ The following factories are invalid:
           validates :name, presence: true
         end
 
-        FactoryGirl.define do
+        FactoryBot.define do
           factory :user do
             name "Yep"
             trait :unnamed do
@@ -154,8 +154,8 @@ The following factories are invalid:
         end
 
         expect do
-          FactoryGirl.lint traits: false
-          FactoryGirl.lint
+          FactoryBot.lint traits: false
+          FactoryBot.lint
         end.not_to raise_error
       end
     end
@@ -171,14 +171,14 @@ The following factories are invalid:
         end
       end
 
-      FactoryGirl.define do
+      FactoryBot.define do
         factory :user do
           name "Barbara"
         end
       end
 
       expect do
-        FactoryGirl.lint strategy: :build
+        FactoryBot.lint strategy: :build
       end.not_to raise_error
     end
 
@@ -191,7 +191,7 @@ The following factories are invalid:
         end
       end
 
-      FactoryGirl.define do
+      FactoryBot.define do
         factory :user do
           name "Barbara"
 
@@ -202,7 +202,7 @@ The following factories are invalid:
       end
 
       expect do
-        FactoryGirl.lint traits: true, strategy: :build
+        FactoryBot.lint traits: true, strategy: :build
       end.not_to raise_error
     end
   end

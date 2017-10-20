@@ -8,7 +8,7 @@ describe "calling methods on the model instance" do
       end
     end
 
-    FactoryGirl.define do
+    FactoryBot.define do
       factory :user do
         age_copy { age }
       end
@@ -17,37 +17,37 @@ describe "calling methods on the model instance" do
 
   context "without the attribute being overridden" do
     it "returns the correct value from the instance" do
-      expect(FactoryGirl.build(:user).age_copy).to eq 18
+      expect(FactoryBot.build(:user).age_copy).to eq 18
     end
 
     it "returns nil during attributes_for" do
-      expect(FactoryGirl.attributes_for(:user)[:age_copy]).to be_nil
+      expect(FactoryBot.attributes_for(:user)[:age_copy]).to be_nil
     end
 
     it "doesn't instantiate a record with attributes_for" do
       allow(User).to receive(:new)
-      FactoryGirl.attributes_for(:user)
+      FactoryBot.attributes_for(:user)
       expect(User).to_not have_received(:new)
     end
   end
 
   context "with the attribute being overridden" do
     it "uses the overridden value" do
-      expect(FactoryGirl.build(:user, age_copy: nil).age_copy).to be_nil
+      expect(FactoryBot.build(:user, age_copy: nil).age_copy).to be_nil
     end
 
     it "uses the overridden value during attributes_for" do
-      expect(FactoryGirl.attributes_for(:user, age_copy: 25)[:age_copy]).to eq 25
+      expect(FactoryBot.attributes_for(:user, age_copy: 25)[:age_copy]).to eq 25
     end
   end
 
   context "with the referenced attribute being overridden" do
     it "uses the overridden value" do
-      expect(FactoryGirl.build(:user, age: nil).age_copy).to be_nil
+      expect(FactoryBot.build(:user, age: nil).age_copy).to be_nil
     end
 
     it "uses the overridden value during attributes_for" do
-      expect(FactoryGirl.attributes_for(:user, age: 25)[:age_copy]).to eq 25
+      expect(FactoryBot.attributes_for(:user, age: 25)[:age_copy]).to eq 25
     end
   end
 end

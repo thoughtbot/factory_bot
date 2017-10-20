@@ -1,7 +1,7 @@
 require "spec_helper"
 
 describe "initialize_with with non-FG attributes" do
-  include FactoryGirl::Syntax::Methods
+  include FactoryBot::Syntax::Methods
 
   before do
     define_model("User", name: :string, age: :integer) do
@@ -10,7 +10,7 @@ describe "initialize_with with non-FG attributes" do
       end
     end
 
-    FactoryGirl.define do
+    FactoryBot.define do
       factory :user do
         initialize_with { User.construct("John Doe", 21) }
       end
@@ -23,7 +23,7 @@ describe "initialize_with with non-FG attributes" do
 end
 
 describe "initialize_with with FG attributes that are transient" do
-  include FactoryGirl::Syntax::Methods
+  include FactoryBot::Syntax::Methods
 
   before do
     define_model("User", name: :string) do
@@ -32,7 +32,7 @@ describe "initialize_with with FG attributes that are transient" do
       end
     end
 
-    FactoryGirl.define do
+    FactoryBot.define do
       factory :user do
         transient do
           name { "Handsome Chap" }
@@ -48,7 +48,7 @@ describe "initialize_with with FG attributes that are transient" do
 end
 
 describe "initialize_with non-ORM-backed objects" do
-  include FactoryGirl::Syntax::Methods
+  include FactoryBot::Syntax::Methods
 
   before do
     define_class("ReportGenerator") do
@@ -60,7 +60,7 @@ describe "initialize_with non-ORM-backed objects" do
       end
     end
 
-    FactoryGirl.define do
+    FactoryBot.define do
       sequence(:random_data) { 5.times.map { Kernel.rand(200) } }
 
       factory :report_generator do
@@ -68,7 +68,7 @@ describe "initialize_with non-ORM-backed objects" do
           name "My Awesome Report"
         end
 
-        initialize_with { ReportGenerator.new(name, FactoryGirl.generate(:random_data)) }
+        initialize_with { ReportGenerator.new(name, FactoryBot.generate(:random_data)) }
       end
     end
   end
@@ -92,7 +92,7 @@ describe "initialize_with parent and child factories" do
       end
     end
 
-    FactoryGirl.define do
+    FactoryBot.define do
       factory :awesome do
         transient do
           name "Great"
@@ -114,11 +114,11 @@ describe "initialize_with parent and child factories" do
   end
 
   it "uses the parent's constructor when the child factory doesn't assign it" do
-    expect(FactoryGirl.build(:sub_awesome).name).to eq "Sub"
+    expect(FactoryBot.build(:sub_awesome).name).to eq "Sub"
   end
 
   it "allows child factories to override initialize_with" do
-    expect(FactoryGirl.build(:super_awesome).name).to eq "Super"
+    expect(FactoryBot.build(:super_awesome).name).to eq "Super"
   end
 end
 
@@ -132,7 +132,7 @@ describe "initialize_with implicit constructor" do
       end
     end
 
-    FactoryGirl.define do
+    FactoryBot.define do
       factory :awesome do
         transient do
           name "Great"
@@ -144,7 +144,7 @@ describe "initialize_with implicit constructor" do
   end
 
   it "instantiates the correct object" do
-    expect(FactoryGirl.build(:awesome, name: "Awesome name").name).to eq "Awesome name"
+    expect(FactoryBot.build(:awesome, name: "Awesome name").name).to eq "Awesome name"
   end
 end
 
@@ -159,7 +159,7 @@ describe "initialize_with doesn't duplicate assignment on attributes accessed fr
       end
     end
 
-    FactoryGirl.define do
+    FactoryBot.define do
       sequence(:email) { |n| "person#{n}@example.com" }
 
       factory :user do
@@ -173,7 +173,7 @@ describe "initialize_with doesn't duplicate assignment on attributes accessed fr
   end
 
   it "instantiates the correct object" do
-    built_user = FactoryGirl.build(:user)
+    built_user = FactoryBot.build(:user)
     expect(built_user.name).to eq "person1"
     expect(built_user.email).to eq "person1@example.com"
   end
@@ -191,7 +191,7 @@ describe "initialize_with has access to all attributes for construction" do
       end
     end
 
-    FactoryGirl.define do
+    FactoryBot.define do
       sequence(:email) { |n| "person#{n}@example.com" }
 
       factory :user do
@@ -209,7 +209,7 @@ describe "initialize_with has access to all attributes for construction" do
   end
 
   it "assigns attributes correctly" do
-    user_with_attributes = FactoryGirl.build(:user)
+    user_with_attributes = FactoryBot.build(:user)
     expect(user_with_attributes.email).to eq "person1@example.com"
     expect(user_with_attributes.name).to eq "person1"
     expect(user_with_attributes.ignored).to be_nil
@@ -226,12 +226,12 @@ describe "initialize_with for a constructor that requires a block" do
       end
     end
 
-    FactoryGirl.define do
+    FactoryBot.define do
       factory :awesome do
         initialize_with { new { "Output" } }
       end
     end
 
-    expect(FactoryGirl.build(:awesome).output).to eq "Output"
+    expect(FactoryBot.build(:awesome).output).to eq "Output"
   end
 end

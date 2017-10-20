@@ -8,7 +8,7 @@ describe "attribute aliases" do
       belongs_to :user
     end
 
-    FactoryGirl.define do
+    FactoryBot.define do
       factory :user do
         factory :user_with_name do
           name "John Doe"
@@ -26,7 +26,7 @@ describe "attribute aliases" do
   end
 
   context "assigning an association by foreign key" do
-    subject { FactoryGirl.build(:post, user_id: 1) }
+    subject { FactoryBot.build(:post, user_id: 1) }
 
     it "doesn't assign both an association and its foreign key" do
       expect(subject.user_id).to eq 1
@@ -34,7 +34,7 @@ describe "attribute aliases" do
   end
 
   context "assigning an association by passing factory" do
-    subject { FactoryGirl.create(:post_with_named_user).user }
+    subject { FactoryBot.create(:post_with_named_user).user }
 
     it "assigns attributes correctly" do
       expect(subject.name).to eq "John Doe"
