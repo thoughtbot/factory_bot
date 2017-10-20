@@ -6,7 +6,7 @@ require 'yard'
 require 'rspec/core/rake_task'
 require 'cucumber/rake/task'
 
-Bundler::GemHelper.install_tasks
+Bundler::GemHelper.install_tasks(name: 'factory_bot')
 
 desc 'Default: run the specs and features.'
 task default: %w(spec:unit spec:acceptance features)
@@ -14,7 +14,7 @@ task default: %w(spec:unit spec:acceptance features)
 namespace :spec do
   desc "Run unit specs"
   RSpec::Core::RakeTask.new('unit') do |t|
-    t.pattern = 'spec/{*_spec.rb,factory_girl/**/*_spec.rb}'
+    t.pattern = 'spec/{*_spec.rb,factory_bot/**/*_spec.rb}'
   end
 
   desc "Run acceptance specs"

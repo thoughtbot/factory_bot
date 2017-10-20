@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe "a created instance" do
-  include FactoryGirl::Syntax::Methods
+  include FactoryBot::Syntax::Methods
 
   before do
     define_model('User')
@@ -10,7 +10,7 @@ describe "a created instance" do
       belongs_to :user
     end
 
-    FactoryGirl.define do
+    FactoryBot.define do
       factory :user
 
       factory :post do
@@ -30,7 +30,7 @@ describe "a created instance" do
 end
 
 describe "a created instance, specifying strategy: :build" do
-  include FactoryGirl::Syntax::Methods
+  include FactoryBot::Syntax::Methods
 
   before do
     define_model('User')
@@ -39,7 +39,7 @@ describe "a created instance, specifying strategy: :build" do
       belongs_to :user
     end
 
-    FactoryGirl.define do
+    FactoryBot.define do
       factory :user
 
       factory :post do
@@ -57,7 +57,7 @@ describe "a created instance, specifying strategy: :build" do
 end
 
 describe "a custom create" do
-  include FactoryGirl::Syntax::Methods
+  include FactoryBot::Syntax::Methods
 
   before do
     define_class('User') do
@@ -74,7 +74,7 @@ describe "a custom create" do
       end
     end
 
-    FactoryGirl.define do
+    FactoryBot.define do
       factory :user do
         to_create do |user|
           user.persist
@@ -84,7 +84,7 @@ describe "a custom create" do
   end
 
   it "uses the custom create block instead of save" do
-    expect(FactoryGirl.create(:user)).to be_persisted
+    expect(FactoryBot.create(:user)).to be_persisted
   end
 end
 
@@ -94,7 +94,7 @@ describe "a custom create passing in an evaluator" do
       attr_accessor :name
     end
 
-    FactoryGirl.define do
+    FactoryBot.define do
       factory :user do
         transient { creation_name "evaluator" }
 
@@ -106,17 +106,17 @@ describe "a custom create passing in an evaluator" do
   end
 
   it "passes the evaluator to the custom create block" do
-    expect(FactoryGirl.create(:user).name).to eq "evaluator"
+    expect(FactoryBot.create(:user).name).to eq "evaluator"
   end
 end
 
 describe "calling `create` with a block" do
-  include FactoryGirl::Syntax::Methods
+  include FactoryBot::Syntax::Methods
 
   before do
     define_model('Company', name: :string)
 
-    FactoryGirl.define do
+    FactoryBot.define do
       factory :company
     end
   end

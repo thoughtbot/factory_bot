@@ -7,14 +7,14 @@ describe 'setting private attributes' do
       attr_accessor :foo
     end
 
-    FactoryGirl.define do
+    FactoryBot.define do
       factory :user do
         foo 123
       end
     end
 
     expect do
-      FactoryGirl.build(:user)
+      FactoryBot.build(:user)
     end.to raise_error NoMethodError, /foo=/
   end
 end

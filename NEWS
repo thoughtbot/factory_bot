@@ -111,7 +111,7 @@
   Skip to_create with skip_create
   Allow registration of custom strategies
   Deprecate alternate syntaxes
-  Implicitly call factory_girl's syntax methods from dynamic attributes
+  Implicitly call factory_bot's syntax methods from dynamic attributes
 
 3.1.0 (April 6, 2012)
   Sequences support aliases, which reference the same block
@@ -206,7 +206,7 @@
 2.3.1 (November 23, 2011)
   Remove internally-used associate method from all the FactoryGirl::Proxy subclasses
   Move around requiring of files
-  Consolidate errors into factory_girl.rb
+  Consolidate errors into factory_bot.rb
   Refactor AttributeList to deal with priority only when iterating over
     attributes
   Refactor internals of some of the Proxy subclasses

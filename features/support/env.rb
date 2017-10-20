@@ -5,6 +5,6 @@ require "simplecov"
 $: << File.join(PROJECT_ROOT, 'lib')
 
 require 'active_record'
-require 'factory_girl'
+require 'factory_bot'
 
 require 'aruba/cucumber'

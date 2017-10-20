@@ -1,6 +1,7 @@
 *.swp
 test.db
 factory_girl-*.gem
+factory_bot-*.gem
 doc
 .yardoc
 coverage
