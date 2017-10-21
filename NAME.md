@@ -1,7 +1,9 @@
-# Why is this project called "Factory Girl"?
+# Why is this project called "Factory Bot"?
 
-The name "Factory Girl" might be confusing to some developers who encounter this
-library.
+The name "Factory Bot" might be confusing to some developers who encounter this
+library. This library used to be called "Factory Girl" but was renamed in October 2017. 
+A discussion of the reasons behind this decision can be found 
+[here](https://github.com/thoughtbot/factory_bot/issues/921).
 
 [We chose the name](https://robots.thoughtbot.com/waiting-for-a-factory-girl) as
 a nod in the direction of the [Factory method](https://en.wikipedia.org/wiki/Factory_method_pattern)
