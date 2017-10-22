@@ -156,6 +156,13 @@ describe "defaulting `created_at`" do
   it "doesn't allow setting created_at on an object that doesn't define it" do
     expect { build_stubbed(:thing_without_timestamp, :created_at => Time.now) }.to raise_error(NoMethodError, /created_at=/)
   end
+
+  it "allows assignment of created_at" do
+    stub = build_stubbed(:thing_with_timestamp)
+    expect(stub.created_at).to eq Time.now
+    stub.created_at = 3.days.ago
+    expect(stub.created_at).to eq 3.days.ago
+  end
 end
 
 describe "defaulting `updated_at`" do
@@ -190,6 +197,13 @@ describe "defaulting `updated_at`" do
     expect do
       build_stubbed(:thing_without_timestamp, updated_at: Time.now)
     end.to raise_error(NoMethodError, /updated_at=/)
+  end
+
+  it "allows assignment of updated_at" do
+    stub = build_stubbed(:thing_with_timestamp)
+    expect(stub.updated_at).to eq Time.now
+    stub.updated_at = 3.days.ago
+    expect(stub.updated_at).to eq 3.days.ago
   end
 end
 

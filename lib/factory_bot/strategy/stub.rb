@@ -76,6 +76,10 @@ module FactoryBot
             def created_at
               @created_at ||= Time.now.in_time_zone
             end
+
+            def created_at=(date)
+              @created_at = date
+            end
           end
         end
 
@@ -87,6 +91,10 @@ module FactoryBot
           result_instance.instance_eval do
             def updated_at
               @updated_at ||= Time.current
+            end
+
+            def updated_at=(date)
+              @updated_at = date
             end
           end
         end
