@@ -18,7 +18,7 @@ GIT
 PATH
   remote: ../
   specs:
-    factory_girl (4.8.1)
+    factory_girl (4.9.0)
       activesupport (>= 3.0.0)
 
 GEM
