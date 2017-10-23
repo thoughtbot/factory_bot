@@ -154,3 +154,5 @@ end
 
 FactoryGirl.register_default_strategies
 FactoryGirl.register_default_callbacks
+
+ActiveSupport::Deprecation.warn "The factory_girl gem is deprecated. Please upgrade to factory_bot. See https://github.com/thoughtbot/factory_bot/blob/v4.9.0/UPGRADE_FROM_FACTORY_GIRL.md for further instructions."
