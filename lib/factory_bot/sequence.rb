@@ -35,6 +35,10 @@ module FactoryBot
       [@name] + @aliases
     end
 
+    def rewind
+      @value.rewind
+    end
+
     private
 
     def value
@@ -47,6 +51,7 @@ module FactoryBot
 
     class EnumeratorAdapter
       def initialize(value)
+        @first_value = value
         @value = value
       end
 
@@ -56,6 +61,10 @@ module FactoryBot
 
       def next
         @value = @value.next
+      end
+
+      def rewind
+        @value = @first_value
       end
     end
   end

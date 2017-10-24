@@ -111,6 +111,10 @@ module FactoryBot
     sequences.find(name)
   end
 
+  def self.rewind_sequences
+    sequences.each(&:rewind)
+  end
+
   def self.register_trait(trait)
     trait.names.each do |name|
       traits.register(name, trait)
