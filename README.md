@@ -5,8 +5,6 @@ factory_bot is a fixtures replacement with a straightforward definition syntax, 
 If you want to use factory_bot with Rails, see
 [factory_bot_rails](https://github.com/thoughtbot/factory_bot_rails).
 
-**A historical note:** factory_bot used to be named factory_girl. An explanation of the name change can be found in the [old factory_girl repository](https://github.com/thoughtbot/factory_girl).
-
 _[Interested in the project name?](NAME.md)._
 
 Documentation
