@@ -2,6 +2,7 @@ module FactoryBot
   # @api private
   class Configuration
     attr_reader :factories, :sequences, :traits, :strategies, :callback_names
+    attr_accessor :trait_repeat_handling_strategy
 
     attr_accessor :allow_class_lookup, :use_parent_strategy
 
@@ -12,6 +13,7 @@ module FactoryBot
       @strategies     = Registry.new('Strategy')
       @callback_names = Set.new
       @definition     = Definition.new
+      @trait_repeat_handling_strategy = :none
 
       @allow_class_lookup = true
 

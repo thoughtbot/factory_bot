@@ -725,3 +725,66 @@ describe "traits used in associations" do
     expect(creator.name).to eq 'Joe Creator'
   end
 end
+
+describe "duplicate trait handling" do
+  let(:define_repeat_trait) do
+    define_model("User", name: :string)
+
+    FactoryBot.define do
+      factory :user do
+        name "Bob"
+
+        trait :common do
+          name "James"
+        end
+
+        trait :common do
+          name "John"
+        end
+      end
+    end
+  end
+
+  before do
+    @starting_strategy = FactoryBot.configuration.trait_repeat_handling_strategy
+  end
+
+  after do
+    FactoryBot.configuration.trait_repeat_handling_strategy = @starting_strategy
+  end
+
+  context "when default, :none strategy is used" do
+    before { FactoryBot.configuration.trait_repeat_handling_strategy = :none }
+
+    it "raises no errors and uses first trait definition" do
+      expect { define_repeat_trait }.to_not raise_error
+
+      expect(FactoryBot.create(:user, :common).name).to eq("James")
+    end
+  end
+
+  context "when default, :raise strategy is used" do
+    before do
+      FactoryBot.configuration.trait_repeat_handling_strategy = :raise
+    end
+
+    it "raises an expressive RuntimeError" do
+      expect { define_repeat_trait }.to(
+        raise_error(RuntimeError, ":user factory defines :admin trait more than once")
+      )
+    end
+  end
+
+  context "when default, :override strategy is used" do
+    before do
+      FactoryBot.configuration.trait_repeat_handling_strategy = :override
+    end
+
+    it "raises no errors and uses the last trait definition" do
+      expect { define_repeat_trait }.to_not raise_error
+
+      expect(FactoryBot.create(:user, :common).name).to eq("John")
+    end
+  end
+end
+
