@@ -33,7 +33,10 @@ module FactoryBot
     end
 
     def duplicate_attribute_assignment_from_initialize_with=(value)
-      ActiveSupport::Deprecation.warn 'Assignment of duplicate_attribute_assignment_from_initialize_with is unnecessary as this is now default behavior in FactoryBot 4.0; this line can be removed', caller
+      ActiveSupport::Deprecation.warn(
+        'Assignment of duplicate_attribute_assignment_from_initialize_with is unnecessary as this is now default behavior in FactoryBot 4.0; this line can be removed',
+        caller
+      )
     end
   end
 end

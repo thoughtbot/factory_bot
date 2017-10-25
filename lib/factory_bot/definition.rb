@@ -77,6 +77,24 @@ module FactoryBot
     end
 
     def define_trait(trait)
+      case FactoryBot.configuration.trait_repeat_handling_strategy
+      when :raise
+        if @defined_traits.detect do |existing_trait|
+          existing_trait.name == trait.name
+        end
+          raise(
+            ":#{declarations.instance_variable_get("@name")
+            } factory defines :#{trait.name} trait more than once"
+          )
+        end
+
+        @defined_traits.add(trait)
+      when :override
+        @defined_traits.delete_if do |existing_trait|
+          existing_trait.name == trait.name
+        end
+      end
+
       @defined_traits.add(trait)
     end
 

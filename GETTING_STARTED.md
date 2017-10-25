@@ -764,7 +764,7 @@ factory :order do
 end
 ```
 
-Finally, traits can accept transient attributes.
+Traits can accept transient attributes.
 
 ```ruby
 factory :invoice do
@@ -780,6 +780,21 @@ factory :invoice do
 end
 
 create :invoice, :with_amount, amount: 2
+```
+
+Finally, you can configure what factory_bot does when it detects repeat trait definitions.  
+Three strategies are supported:
+1. `:none`, the default. Raises no errors and uses the first definition of a trait.  
+2. `:raise` completely disallows repeat definitions by raising an error.  
+3. `:override` raises no errors, but uses the last definition encountered.  
+
+```ruby
+FactoryBot.configuration.trait_repeat_handling_strategy = :override # or :raise
+
+# load factories after setting the strategy
+FactoryBot.find_definitions
+
+# Please note that FactoryBot.reload resets the strategy setting
 ```
 
 Callbacks

@@ -745,6 +745,31 @@ describe "duplicate trait handling" do
     end
   end
 
+  let(:define_same_named_traits_in_different_factories) do
+    define_model("User", name: :string)
+    define_model("Pet", name: :string)
+
+    FactoryBot.define do
+      factory :user do
+        name "Bob"
+
+        trait :common do
+          name "John"
+        end
+      end
+    end
+
+    FactoryBot.define do
+      factory :pet do
+        name "Paws"
+
+        trait :common do
+          name "Spots"
+        end
+      end
+    end
+  end
+
   before do
     @starting_strategy = FactoryBot.configuration.trait_repeat_handling_strategy
   end
@@ -763,27 +788,42 @@ describe "duplicate trait handling" do
     end
   end
 
-  context "when default, :raise strategy is used" do
-    before do
-      FactoryBot.configuration.trait_repeat_handling_strategy = :raise
-    end
+  context "when :raise strategy is used and there's duplicates" do
+    before { FactoryBot.configuration.trait_repeat_handling_strategy = :raise }
 
     it "raises an expressive RuntimeError" do
       expect { define_repeat_trait }.to(
-        raise_error(RuntimeError, ":user factory defines :admin trait more than once")
+        raise_error(RuntimeError, ":user factory defines :common trait more than once")
       )
     end
   end
 
-  context "when default, :override strategy is used" do
-    before do
-      FactoryBot.configuration.trait_repeat_handling_strategy = :override
+  context "when :raise strategy is used and there are no duplicates" do
+    before { FactoryBot.configuration.trait_repeat_handling_strategy = :raise }
+
+    it "does not raise when different factories' traits have the same name" do
+      expect { define_same_named_traits_in_different_factories }.to_not raise_error
     end
+  end
+
+  context "when :override strategy is used and there's duplicates" do
+    before { FactoryBot.configuration.trait_repeat_handling_strategy = :override }
 
     it "raises no errors and uses the last trait definition" do
       expect { define_repeat_trait }.to_not raise_error
 
       expect(FactoryBot.create(:user, :common).name).to eq("John")
+    end
+  end
+
+  context "when :override strategy is used and there are no duplicates" do
+    before { FactoryBot.configuration.trait_repeat_handling_strategy = :override }
+
+    it "raises no errors and uses the last trait definition" do
+      expect { define_same_named_traits_in_different_factories }.to_not raise_error
+
+      expect(FactoryBot.create(:user, :common).name).to eq("John")
+      expect(FactoryBot.create(:pet, :common).name).to eq("Spots")
     end
   end
 end
