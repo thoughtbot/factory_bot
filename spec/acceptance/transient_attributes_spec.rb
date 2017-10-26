@@ -5,7 +5,7 @@ describe "transient attributes" do
     define_model("User", name: :string, email: :string)
 
     FactoryBot.define do
-      sequence(:name) { |n| "John #{n}" }
+      sequence(:name) { |n| "a83k35h9 #{n}" }
 
       factory :user do
         transient do
@@ -40,18 +40,18 @@ describe "transient attributes" do
     let(:groupie)            { FactoryBot.create(:user, rockstar: false) }
 
     it "generates the correct attributes on a rockstar" do
-      expect(rockstar.name).to eq "John 1 - Rockstar"
-      expect(rockstar.email).to eq "john 1 - rockstar1234@example.com"
+      expect(rockstar.name).to eq "a83k35h9 1 - Rockstar"
+      expect(rockstar.email).to eq "a83k35h9 1 - rockstar1234@example.com"
     end
 
     it "generates the correct attributes on an upcased rockstar" do
       expect(upcased_rockstar.name).to eq "JOHN 1 - ROCKSTAR"
-      expect(upcased_rockstar.email).to eq "john 1 - rockstar4@example.com"
+      expect(upcased_rockstar.email).to eq "a83k35h9 1 - rockstar4@example.com"
     end
 
     it "generates the correct attributes on a groupie" do
-      expect(groupie.name).to eq "John 1"
-      expect(groupie.email).to eq "john 14@example.com"
+      expect(groupie.name).to eq "a83k35h9 1"
+      expect(groupie.email).to eq "a83k35h9 14@example.com"
     end
 
     it "generates the correct attributes on a rockstar with a name" do
@@ -64,7 +64,7 @@ describe "transient attributes" do
     let(:rockstar) { FactoryBot.create(:user) }
 
     it "uses the default value of the attribute" do
-      expect(rockstar.name).to eq "John 1 - Rockstar"
+      expect(rockstar.name).to eq "a83k35h9 1 - Rockstar"
     end
   end
 
@@ -99,14 +99,14 @@ describe "transient sequences" do
           sequence(:counter)
         end
 
-        name { "John Doe #{counter}" }
+        name { "a83k35h9 Doe #{counter}" }
       end
     end
   end
 
   it "increments sequences correctly" do
-    expect(FactoryBot.build(:user).name).to eq "John Doe 1"
-    expect(FactoryBot.build(:user).name).to eq "John Doe 2"
+    expect(FactoryBot.build(:user).name).to eq "a83k35h9 Doe 1"
+    expect(FactoryBot.build(:user).name).to eq "a83k35h9 Doe 2"
   end
 end
 

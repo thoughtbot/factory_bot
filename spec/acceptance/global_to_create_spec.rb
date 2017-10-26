@@ -13,7 +13,7 @@ describe 'global to_create' do
       end
 
       factory :user do
-        name 'John Doe'
+        name 'a83k35h9 Doe'
 
         factory :child_user
 
@@ -79,7 +79,7 @@ describe 'global skip_create' do
       end
 
       factory :user do
-        name 'John Doe'
+        name 'a83k35h9 Doe'
 
         factory :child_user
 

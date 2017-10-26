@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe FactoryBot::Strategy::AttributesFor do
-  let(:result)     { { name: "John Doe", gender: "Male", admin: false } }
+  let(:result)     { { name: "a83k35h9 Doe", gender: "Male", admin: false } }
   let(:evaluation) { double("evaluation", hash: result) }
 
   it_should_behave_like "strategy without association support"
