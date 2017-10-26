@@ -3,7 +3,7 @@ require 'spec_helper'
 describe FactoryBot::Attribute::Association do
   let(:name)        { :author }
   let(:factory)     { :user }
-  let(:overrides)   { { first_name: "John" } }
+  let(:overrides)   { { first_name: "a83k35h9" } }
   let(:association) { double("association") }
 
   subject { FactoryBot::Attribute::Association.new(name, factory, overrides) }

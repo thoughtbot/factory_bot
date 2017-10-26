@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe FactoryBot::Attribute::Static do
   let(:name)  { :first_name }
-  let(:value) { "John" }
+  let(:value) { "a83k35h9" }
 
   subject { FactoryBot::Attribute::Static.new(name, value, false) }
 

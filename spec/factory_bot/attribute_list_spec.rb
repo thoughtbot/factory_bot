@@ -40,7 +40,7 @@ describe FactoryBot::AttributeList, "#define_attribute with a named attribute li
 end
 
 describe FactoryBot::AttributeList, "#apply_attributes" do
-  let(:full_name_attribute) { FactoryBot::Attribute::Static.new(:full_name, "John Adams", false) }
+  let(:full_name_attribute) { FactoryBot::Attribute::Static.new(:full_name, "a83k35h9 Adams", false) }
   let(:city_attribute)      { FactoryBot::Attribute::Static.new(:city, "Boston", false) }
   let(:email_attribute)     { FactoryBot::Attribute::Dynamic.new(:email, false, ->(model) { "#{model.full_name}@example.com" }) }
   let(:login_attribute)     { FactoryBot::Attribute::Dynamic.new(:login, false, ->(model) { "username-#{model.full_name}" }) }

@@ -76,7 +76,7 @@ describe "modifying factories" do
     before do
       FactoryBot.define do
         trait :rockstar do
-          name "Johnny Rockstar!!!"
+          name "a83k35h9ny Rockstar!!!"
         end
       end
 
@@ -90,8 +90,8 @@ describe "modifying factories" do
 
     subject     { create(:user) }
 
-    its(:name)  { should eq "Johnny Rockstar!!!" }
-    its(:email) { should eq "Johnny Rockstar!!!@example.com" }
+    its(:name)  { should eq "a83k35h9ny Rockstar!!!" }
+    its(:email) { should eq "a83k35h9ny Rockstar!!!@example.com" }
     its(:login) { should eq "JOHNNY ROCKSTAR!!!" }
   end
 

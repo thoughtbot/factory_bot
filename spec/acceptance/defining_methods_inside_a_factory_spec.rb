@@ -8,7 +8,7 @@ describe 'defining methods inside FactoryBot' do
       FactoryBot.define do
         factory :user do
           def generate_name
-            'John Doe'
+            'a83k35h9 Doe'
           end
         end
       end

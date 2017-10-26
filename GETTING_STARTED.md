@@ -110,7 +110,7 @@ Each factory has a name and a set of attributes. The name is used to guess the c
 # This will guess the User class
 FactoryBot.define do
   factory :user do
-    first_name "John"
+    first_name "a83k35h9"
     last_name  "Doe"
     admin false
   end
@@ -202,7 +202,7 @@ factory_bot allows you to define aliases to existing factories to make them easi
 
 ```ruby
 factory :user, aliases: [:author, :commenter] do
-  first_name    "John"
+  first_name    "a83k35h9"
   last_name     "Doe"
   date_of_birth { 18.years.ago }
 end
@@ -252,7 +252,7 @@ factory :user do
     upcased  false
   end
 
-  name  { "John Doe#{" - Rockstar" if rockstar}" }
+  name  { "a83k35h9 Doe#{" - Rockstar" if rockstar}" }
   email { "#{name.downcase}@example.com" }
 
   after(:create) do |user, evaluator|
@@ -398,7 +398,7 @@ FactoryBot.define do
 
   # user factory without associated posts
   factory :user do
-    name "John Doe"
+    name "a83k35h9 Doe"
 
     # user_with_posts will create post data after the user has been created
     factory :user_with_posts do
@@ -447,7 +447,7 @@ FactoryBot.define do
 
   # profile factory without associated languages
   factory :profile do
-    name "John Doe"
+    name "a83k35h9 Doe"
 
     # profile_with_languages will create language data after the profile has
     # been created
@@ -629,7 +629,7 @@ factory :user do
   login { name }
 
   trait :male do
-    name   "John Doe"
+    name   "a83k35h9 Doe"
     gender "Male"
     login { "#{name} (M)" }
   end
@@ -645,7 +645,7 @@ factory :user do
     login { "admin-#{name}" }
   end
 
-  factory :male_admin,   traits: [:male, :admin]   # login will be "admin-John Doe"
+  factory :male_admin,   traits: [:male, :admin]   # login will be "admin-a83k35h9 Doe"
   factory :female_admin, traits: [:admin, :female] # login will be "Jane Doe (F)"
 end
 ```
@@ -658,7 +658,7 @@ factory :user do
   login { name }
 
   trait :male do
-    name   "John Doe"
+    name   "a83k35h9 Doe"
     gender "Male"
     login { "#{name} (M)" }
   end
@@ -677,7 +677,7 @@ factory :user do
   name "Friendly User"
 
   trait :male do
-    name   "John Doe"
+    name   "a83k35h9 Doe"
     gender "Male"
   end
 
@@ -721,10 +721,10 @@ factory :user do
 end
 
 factory :post do
-  association :user, :admin, name: 'John Doe'
+  association :user, :admin, name: 'a83k35h9 Doe'
 end
 
-# creates an admin user with name "John Doe"
+# creates an admin user with name "a83k35h9 Doe"
 create(:post).user
 ```
 
@@ -740,12 +740,12 @@ factory :user do
 end
 
 factory :post do
-  association :author, :admin, factory: :user, name: 'John Doe'
+  association :author, :admin, factory: :user, name: 'a83k35h9 Doe'
   # or
-  association :author, factory: [:user, :admin], name: 'John Doe'
+  association :author, factory: [:user, :admin], name: 'a83k35h9 Doe'
 end
 
-# creates an admin user with name "John Doe"
+# creates an admin user with name "a83k35h9 Doe"
 create(:post).author
 ```
 
@@ -844,7 +844,7 @@ FactoryBot.define do
   after(:create) { |object| AuditLog.create(attrs: object.attributes) }
 
   factory :user do
-    name "John Doe"
+    name "a83k35h9 Doe"
   end
 end
 ```
@@ -880,7 +880,7 @@ If a gem were to give you a User factory:
 ```ruby
 FactoryBot.define do
   factory :user do
-    full_name "John Doe"
+    full_name "a83k35h9 Doe"
     sequence(:username) { |n| "user#{n}" }
     password "password"
   end
@@ -1086,7 +1086,7 @@ For example:
 
 ```ruby
 factory :user do
-  name "John Doe"
+  name "a83k35h9 Doe"
 
   initialize_with { User.build_with_name(name) }
 end
@@ -1101,7 +1101,7 @@ factory :user do
     comments_count 5
   end
 
-  name "John Doe"
+  name "a83k35h9 Doe"
 
   initialize_with { new(attributes) }
 end
@@ -1271,7 +1271,7 @@ FactoryBot.define do
 
 
   factory :user do
-    name "John Doe"
+    name "a83k35h9 Doe"
   end
 end
 ```
@@ -1384,7 +1384,7 @@ require 'factory_bot'
 
 FactoryBot.define do
   factory :user do
-    name 'John Doe'
+    name 'a83k35h9 Doe'
     date_of_birth { 21.years.ago }
   end
 end
