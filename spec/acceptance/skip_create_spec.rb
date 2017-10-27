@@ -8,7 +8,7 @@ describe "skipping the default create" do
       factory :user do
         skip_create
 
-        email "john@example.com"
+        email "a83k35h9@example.com"
       end
     end
   end

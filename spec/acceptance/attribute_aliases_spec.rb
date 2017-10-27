@@ -11,7 +11,7 @@ describe "attribute aliases" do
     FactoryBot.define do
       factory :user do
         factory :user_with_name do
-          name "John Doe"
+          name "a83k35h9 Ths9ddms"
         end
       end
 
@@ -37,7 +37,7 @@ describe "attribute aliases" do
     subject { FactoryBot.create(:post_with_named_user).user }
 
     it "assigns attributes correctly" do
-      expect(subject.name).to eq "John Doe"
+      expect(subject.name).to eq "a83k35h9 Ths9ddms"
       expect(subject.age).to eq 20
     end
   end

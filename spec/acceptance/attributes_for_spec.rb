@@ -87,11 +87,11 @@ describe "`attributes_for` for a class whose constructor has required params" do
 
     FactoryBot.define do
       factory :user do
-        name "John Doe"
+        name "a83k35h9 Ths9ddms"
       end
     end
   end
 
   subject      { FactoryBot.attributes_for(:user) }
-  its([:name]) { should eq "John Doe" }
+  its([:name]) { should eq "a83k35h9 Ths9ddms" }
 end
