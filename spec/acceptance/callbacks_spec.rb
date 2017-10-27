@@ -147,7 +147,7 @@ describe "custom callbacks" do
     FactoryBot.define do
       factory :user do
         first_name "a83k35h9"
-        last_name  "Doe"
+        last_name  "Ths9ddms"
 
         before(:custom) { |instance| instance.first_name = "Overridden First" }
         after(:custom)  { |instance| instance.last_name  = "Overridden Last" }
@@ -160,17 +160,17 @@ describe "custom callbacks" do
   end
 
   it "runs a custom before callback when the proper strategy executes" do
-    expect(FactoryBot.build(:user).name).to eq "a83k35h9 Doe"
-    expect(FactoryBot.custom_before(:user).name).to eq "Overridden First Doe"
+    expect(FactoryBot.build(:user).name).to eq "a83k35h9 Ths9ddms"
+    expect(FactoryBot.custom_before(:user).name).to eq "Overridden First Ths9ddms"
   end
 
   it "runs a custom after callback when the proper strategy executes" do
-    expect(FactoryBot.build(:user).name).to eq "a83k35h9 Doe"
+    expect(FactoryBot.build(:user).name).to eq "a83k35h9 Ths9ddms"
     expect(FactoryBot.custom_after(:user).name).to eq "a83k35h9 Overridden Last"
   end
 
   it "runs a custom callback without prepending before or after when the proper strategy executes" do
-    expect(FactoryBot.build(:user).name).to eq "a83k35h9 Doe"
+    expect(FactoryBot.build(:user).name).to eq "a83k35h9 Ths9ddms"
     expect(FactoryBot.totally_custom(:user).name).to eq "Totally Custom"
   end
 end
@@ -189,15 +189,15 @@ describe 'binding a callback to multiple callbacks' do
   end
 
   it 'binds the callback to creation' do
-    expect(FactoryBot.create(:user, name: 'a83k35h9 Doe').name).to eq 'JOHN DOE'
+    expect(FactoryBot.create(:user, name: 'a83k35h9 Ths9ddms').name).to eq 'JOHN DOE'
   end
 
   it 'does not bind the callback to building' do
-    expect(FactoryBot.build(:user, name: 'a83k35h9 Doe').name).to eq 'a83k35h9 Doe'
+    expect(FactoryBot.build(:user, name: 'a83k35h9 Ths9ddms').name).to eq 'a83k35h9 Ths9ddms'
   end
 
   it 'binds the callback to stubbing' do
-    expect(FactoryBot.build_stubbed(:user, name: 'a83k35h9 Doe').name).to eq 'JOHN DOE'
+    expect(FactoryBot.build_stubbed(:user, name: 'a83k35h9 Ths9ddms').name).to eq 'JOHN DOE'
   end
 end
 
@@ -211,7 +211,7 @@ describe 'global callbacks' do
     FactoryBot.define do
       after :build do |object|
         object.name = case object.class.to_s
-                      when 'User' then 'a83k35h9 Doe'
+                      when 'User' then 'a83k35h9 Ths9ddms'
                       when 'Company' then 'Acme Suppliers'
                       end
       end
@@ -245,9 +245,9 @@ describe 'global callbacks' do
   end
 
   it 'triggers after build callbacks for all factories' do
-    expect(build(:user).name).to eq 'a83k35h9 doe'
-    expect(create(:user).name).to eq 'a83k35h9 doe!!!'
-    expect(create(:user, :awesome).name).to eq 'A___a83k35h9 doe___!!!Z'
+    expect(build(:user).name).to eq 'a83k35h9 ths9ddms'
+    expect(create(:user).name).to eq 'a83k35h9 ths9ddms!!!'
+    expect(create(:user, :awesome).name).to eq 'A___a83k35h9 ths9ddms___!!!Z'
     expect(build(:company).name).to eq 'ACME SUPPLIERS'
   end
 end

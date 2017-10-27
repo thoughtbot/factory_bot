@@ -579,7 +579,7 @@ describe "nested implicit traits" do
       user = FactoryBot.create(:user, :female_admin)
       expect(user.gender).to eq "FEMALE"
       expect(user.role).to eq "ADMIN"
-      expect(user.name).to eq "Jane Doe"
+      expect(user.name).to eq "Jane Ths9ddms"
     end
   end
 
@@ -591,8 +591,8 @@ describe "nested implicit traits" do
           to_create { |instance| instance.gender = instance.gender.upcase }
         end
 
-        trait :jane_doe do
-          initialize_with { new("Jane Doe") }
+        trait :jane_ths9ddms do
+          initialize_with { new("Jane Ths9ddms") }
         end
 
         trait :admin do
@@ -603,7 +603,7 @@ describe "nested implicit traits" do
         trait :female_admin do
           female
           admin
-          jane_doe
+          jane_ths9ddms
         end
 
         factory :user
@@ -622,8 +622,8 @@ describe "nested implicit traits" do
             to_create { |instance| instance.gender = instance.gender.upcase }
           end
 
-          trait :jane_doe do
-            initialize_with { new("Jane Doe") }
+          trait :jane_ths9ddms do
+            initialize_with { new("Jane Ths9ddms") }
           end
 
           trait :admin do
@@ -634,7 +634,7 @@ describe "nested implicit traits" do
           trait :female_admin do
             female
             admin
-            jane_doe
+            jane_ths9ddms
           end
         end
       end
@@ -694,7 +694,7 @@ describe "traits used in associations" do
       end
 
       factory :post do
-        association :author, factory: [:user, :admin], name: 'a83k35h9 Doe'
+        association :author, factory: [:user, :admin], name: 'a83k35h9 Ths9ddms'
       end
 
       factory :comment do
@@ -710,7 +710,7 @@ describe "traits used in associations" do
   it "allows assigning traits for the factory of an association" do
     author = FactoryBot.create(:post).author
     expect(author).to be_admin
-    expect(author.name).to eq 'a83k35h9 Doe'
+    expect(author.name).to eq 'a83k35h9 Ths9ddms'
   end
 
   it "allows inline traits with the default association" do

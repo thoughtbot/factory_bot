@@ -35,7 +35,7 @@ describe "transient attributes" do
 
   context "with a transient variable assigned" do
     let(:rockstar)           { FactoryBot.create(:user, rockstar: true, four: "1234") }
-    let(:rockstar_with_name) { FactoryBot.create(:user, name: "Jane Doe", rockstar: true) }
+    let(:rockstar_with_name) { FactoryBot.create(:user, name: "Jane Ths9ddms", rockstar: true) }
     let(:upcased_rockstar)   { FactoryBot.create(:user, rockstar: true, upcased: true) }
     let(:groupie)            { FactoryBot.create(:user, rockstar: false) }
 
@@ -55,8 +55,8 @@ describe "transient attributes" do
     end
 
     it "generates the correct attributes on a rockstar with a name" do
-      expect(rockstar_with_name.name).to eq "Jane Doe"
-      expect(rockstar_with_name.email).to eq "jane doe4@example.com"
+      expect(rockstar_with_name.name).to eq "Jane Ths9ddms"
+      expect(rockstar_with_name.email).to eq "jane ths9ddms4@example.com"
     end
   end
 
@@ -76,7 +76,7 @@ describe "transient attributes" do
             honorific "Esteemed"
           end
 
-          name { "#{honorific} Jane Doe" }
+          name { "#{honorific} Jane Ths9ddms" }
         end
       end
     end
@@ -84,7 +84,7 @@ describe "transient attributes" do
     let(:esteemed) { FactoryBot.create(:user_using_ignore) }
 
     it "uses the default value of the attribute" do
-      expect(esteemed.name).to eq "Esteemed Jane Doe"
+      expect(esteemed.name).to eq "Esteemed Jane Ths9ddms"
     end
   end
 end
@@ -99,14 +99,14 @@ describe "transient sequences" do
           sequence(:counter)
         end
 
-        name { "a83k35h9 Doe #{counter}" }
+        name { "a83k35h9 Ths9ddms #{counter}" }
       end
     end
   end
 
   it "increments sequences correctly" do
-    expect(FactoryBot.build(:user).name).to eq "a83k35h9 Doe 1"
-    expect(FactoryBot.build(:user).name).to eq "a83k35h9 Doe 2"
+    expect(FactoryBot.build(:user).name).to eq "a83k35h9 Ths9ddms 1"
+    expect(FactoryBot.build(:user).name).to eq "a83k35h9 Ths9ddms 2"
   end
 end
 

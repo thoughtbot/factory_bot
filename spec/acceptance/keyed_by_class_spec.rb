@@ -8,7 +8,7 @@ describe "finding factories keyed by class instead of symbol" do
 
     FactoryBot.define do
       factory :user do
-        name "a83k35h9 Doe"
+        name "a83k35h9 Ths9ddms"
         sequence(:email) { |n| "person#{n}@example.com" }
       end
     end
@@ -18,7 +18,7 @@ describe "finding factories keyed by class instead of symbol" do
     it "allows interaction based on class name" do
       user = FactoryBot.create User, email: "person@example.com"
       expect(user.email).to eq "person@example.com"
-      expect(user.name).to eq "a83k35h9 Doe"
+      expect(user.name).to eq "a83k35h9 Ths9ddms"
     end
   end
 

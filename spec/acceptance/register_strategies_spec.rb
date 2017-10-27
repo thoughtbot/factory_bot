@@ -95,7 +95,7 @@ describe "associations without overriding :strategy" do
       end
 
       factory :user do
-        name "a83k35h9 Doe"
+        name "a83k35h9 Ths9ddms"
       end
     end
   end
@@ -118,7 +118,7 @@ describe "associations without overriding :strategy" do
       FactoryBot.register_strategy(:create, custom_strategy)
 
       post = FactoryBot.build(:post)
-      expect(post.user.name).to eq "a83k35h9 Doe"
+      expect(post.user.name).to eq "a83k35h9 Ths9ddms"
     end
   end
 end
@@ -139,7 +139,7 @@ describe "associations overriding :strategy" do
       end
 
       factory :user do
-        name "a83k35h9 Doe"
+        name "a83k35h9 Ths9ddms"
       end
     end
   end

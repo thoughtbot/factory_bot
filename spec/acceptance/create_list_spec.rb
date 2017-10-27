@@ -80,7 +80,7 @@ describe "multiple creates and transient attributes to dynamically build attribu
       end
 
       factory :user do
-        name "a83k35h9 Doe"
+        name "a83k35h9 Ths9ddms"
 
         factory :user_with_posts do
           transient do

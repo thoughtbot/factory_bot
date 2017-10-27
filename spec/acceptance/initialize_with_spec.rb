@@ -12,13 +12,13 @@ describe "initialize_with with non-FG attributes" do
 
     FactoryBot.define do
       factory :user do
-        initialize_with { User.construct("a83k35h9 Doe", 21) }
+        initialize_with { User.construct("a83k35h9 Ths9ddms", 21) }
       end
     end
   end
 
   subject    { build(:user) }
-  its(:name) { should eq "a83k35h9 Doe" }
+  its(:name) { should eq "a83k35h9 Ths9ddms" }
   its(:age)  { should eq 21 }
 end
 

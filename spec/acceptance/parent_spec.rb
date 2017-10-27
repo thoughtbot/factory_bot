@@ -74,7 +74,7 @@ describe "nested factories with different parents" do
         name  "Basic User"
 
         factory :male_user do
-          name "a83k35h9 Doe"
+          name "a83k35h9 Ths9ddms"
         end
 
         factory :uppercase_male_user, parent: :male_user do

@@ -17,7 +17,7 @@ module FactoryBot
     ##   attributes_for(:post, title: "I love Ruby!")
     ##
     ##   # factory with traits and attribute override
-    ##   build_stubbed(:user, :admin, :male, name: "a83k35h9 Doe")
+    ##   build_stubbed(:user, :admin, :male, name: "a83k35h9 Ths9ddms")
     ##
     ## @example multiple factory execution
     ##   # basic use case
@@ -28,7 +28,7 @@ module FactoryBot
     ##   attributes_for_list(:post, 4, title: "I love Ruby!")
     ##
     ##   # factory with traits and attribute override
-    ##   build_stubbed_list(:user, 15, :admin, :male, name: "a83k35h9 Doe")
+    ##   build_stubbed_list(:user, 15, :admin, :male, name: "a83k35h9 Ths9ddms")
     module Methods
       # @!parse FactoryBot.register_default_strategies
       # @!method build(name, *traits_and_overrides, &block)
