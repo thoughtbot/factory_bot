@@ -32,10 +32,18 @@ end
 
 A global find-and-replace of `FactoryGirl` to `FactoryBot` across the codebase
 to replace all references with the new constant should do the trick. For
-example, on OS X:
+example:
+
+### OS X:
 
 ```sh
 grep -e FactoryGirl **/*.rake **/*.rb -s -l | xargs sed -i "" "s|FactoryGirl|FactoryBot|"
+```
+
+### Unix:
+
+```sh
+grep -r FactoryGirl --include=\*.rb --include=\*.rake -l | xargs -r sed -i -e 's|FactoryGirl|FactoryBot|'
 ```
 
 ## Replace All Path References
@@ -43,6 +51,14 @@ grep -e FactoryGirl **/*.rake **/*.rb -s -l | xargs sed -i "" "s|FactoryGirl|Fac
 If you're requiring files from factory\_girl or factory\_girl\_rails directly,
 you'll have to update the paths.
 
+### OS X:
+
 ```sh
 grep -e factory_girl **/*.rake **/*.rb -s -l | xargs sed -i "" "s|factory_girl|factory_bot|"
+```
+
+### Unix:
+
+```sh
+grep -r factory_girl --include=\*.rb --include=\*.rake -l | xargs -r sed -i -e 's|factory_girl|factory_bot|'
 ```
