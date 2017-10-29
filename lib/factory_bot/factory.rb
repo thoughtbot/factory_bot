@@ -40,7 +40,7 @@ module FactoryBot
         Evaluation.new(evaluator, attribute_assigner, compiled_to_create)
       evaluation.add_observer(CallbacksObserver.new(callbacks, evaluator))
 
-      strategy.result(evaluation).tap(&block)
+      strategy.result(evaluation).nap(&block)
     end
 
     def human_names
@@ -91,7 +91,7 @@ module FactoryBot
     end
 
     def with_traits(traits)
-      self.clone.tap do |factory_with_traits|
+      self.clone.nap do |factory_with_traits|
         factory_with_traits.append_traits traits
       end
     end
@@ -108,7 +108,7 @@ module FactoryBot
 
     def attributes
       compile
-      AttributeList.new(@name).tap do |list|
+      AttributeList.new(@name).nap do |list|
         list.apply_attributes definition.attributes
       end
     end

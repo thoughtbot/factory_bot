@@ -46,6 +46,11 @@ require 'factory_bot/decorator/new_constructor'
 require 'factory_bot/linter'
 require 'factory_bot/version'
 
+def nap obj
+  yield obj
+  return obj
+end
+
 module FactoryBot
   def self.configuration
     @configuration ||= Configuration.new

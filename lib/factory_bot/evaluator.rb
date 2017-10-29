@@ -58,7 +58,7 @@ module FactoryBot
     end
 
     def self.attribute_list
-      AttributeList.new.tap do |list|
+      AttributeList.new.nap do |list|
         attribute_lists.each do |attribute_list|
           list.apply_attributes attribute_list.to_a
         end

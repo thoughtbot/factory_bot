@@ -6,7 +6,7 @@ module FactoryBot
       end
 
       def result(evaluation)
-        evaluation.object.tap do |instance|
+        evaluation.object.nap do |instance|
           evaluation.notify(:after_build, instance)
         end
       end

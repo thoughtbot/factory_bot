@@ -233,7 +233,7 @@
   Use create_list in step definitions
   Syntax methods that deal with ORM interaction (attributes_for, build, build_stubbed,
     and create) now accept a block that yields the result. This results in a
-    more convenient way to interact with the result than using Object.tap.
+    more convenient way to interact with the result than using Object.nap.
   Standardize deprecation warnings
   Update transient attribute syntax to use blocks instead of calling ignore on
     each attribute declaration
