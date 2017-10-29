@@ -21,7 +21,7 @@ module FactoryBot
     end
 
     def attributes
-      @attributes ||= AttributeList.new(@name).tap do |list|
+      @attributes ||= AttributeList.new(@name).nap do |list|
         to_attributes.each do |attribute|
           list.define_attribute(attribute)
         end

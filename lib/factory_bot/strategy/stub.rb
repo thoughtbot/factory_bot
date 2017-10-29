@@ -32,7 +32,7 @@ module FactoryBot
       end
 
       def result(evaluation)
-        evaluation.object.tap do |instance|
+        evaluation.object.nap do |instance|
           stub_database_interaction_on_result(instance)
           clear_changed_attributes_on_result(instance)
           evaluation.notify(:after_stub, instance)

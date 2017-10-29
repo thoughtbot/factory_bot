@@ -1222,7 +1222,7 @@ class JsonStrategy
     result = @strategy.result(evaluation)
     evaluation.notify(:before_json, result)
 
-    result.to_json.tap do |json|
+    result.to_json.nap do |json|
       evaluation.notify(:after_json, json)
       evaluation.notify(:make_json_awesome, json)
     end

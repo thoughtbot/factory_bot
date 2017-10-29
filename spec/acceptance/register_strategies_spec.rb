@@ -10,7 +10,7 @@ shared_context "registering custom strategies" do
   let(:custom_strategy) do
     Class.new do
       def result(evaluation)
-        evaluation.object.tap do |instance|
+        evaluation.object.nap do |instance|
           instance.name = "Custom strategy"
         end
       end

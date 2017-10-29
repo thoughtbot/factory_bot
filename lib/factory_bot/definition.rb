@@ -18,7 +18,7 @@ module FactoryBot
     delegate :declare_attribute, to: :declarations
 
     def attributes
-      @attributes ||= AttributeList.new.tap do |attribute_list|
+      @attributes ||= AttributeList.new.nap do |attribute_list|
         attribute_lists = aggregate_from_traits_and_self(:attributes) { declarations.attributes }
         attribute_lists.each do |attributes|
           attribute_list.apply_attributes attributes

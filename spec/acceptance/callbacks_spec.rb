@@ -106,7 +106,7 @@ describe "custom callbacks" do
   let(:custom_before) do
     Class.new do
       def result(evaluation)
-        evaluation.object.tap do |instance|
+        evaluation.object.nap do |instance|
           evaluation.notify(:before_custom, instance)
         end
       end
@@ -116,7 +116,7 @@ describe "custom callbacks" do
   let(:custom_after) do
     Class.new do
       def result(evaluation)
-        evaluation.object.tap do |instance|
+        evaluation.object.nap do |instance|
           evaluation.notify(:after_custom, instance)
         end
       end
@@ -126,7 +126,7 @@ describe "custom callbacks" do
   let(:totally_custom) do
     Class.new do
       def result(evaluation)
-        evaluation.object.tap do |instance|
+        evaluation.object.nap do |instance|
           evaluation.notify(:totally_custom, instance)
         end
       end

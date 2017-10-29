@@ -11,7 +11,7 @@ module FactoryBot
 
     def object
       @evaluator.instance = build_class_instance
-      build_class_instance.tap do |instance|
+      build_class_instance.nap do |instance|
         attributes_to_set_on_instance.each do |attribute|
           instance.public_send("#{attribute}=", get(attribute))
           @attribute_names_assigned << attribute

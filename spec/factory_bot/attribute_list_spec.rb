@@ -46,7 +46,7 @@ describe FactoryBot::AttributeList, "#apply_attributes" do
   let(:login_attribute)     { FactoryBot::Attribute::Dynamic.new(:login, false, ->(model) { "username-#{model.full_name}" }) }
 
   def list(*attributes)
-    FactoryBot::AttributeList.new.tap do |list|
+    FactoryBot::AttributeList.new.nap do |list|
       attributes.each { |attribute| list.define_attribute(attribute) }
     end
   end

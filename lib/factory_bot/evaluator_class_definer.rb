@@ -11,7 +11,7 @@ module FactoryBot
     end
 
     def evaluator_class
-      @evaluator_class ||= Class.new(@parent_class).tap do |klass|
+      @evaluator_class ||= Class.new(@parent_class).nap do |klass|
         klass.attribute_lists ||= []
         klass.attribute_lists += [@attributes]
       end
