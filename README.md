@@ -10,15 +10,8 @@ _[Interested in the history of the project name?](NAME.md)_
 
 ### Transitioning from factory\_girl?
 
-Transitioning is a two step process:
+Check out the [guide](https://github.com/thoughtbot/factory_bot/blob/4-9-0-stable/UPGRADE_FROM_FACTORY_GIRL.md).
 
-1) Replace `factory_girl` with `factory_bot` in your Gemfile and `bundle install`
-
-2) Rename all `FactoryGirl` to `FactoryBot` and `factory_girl` to `factory_bot` in your codebase.
-
-This command will perform a `FactoryGirl` to `FactoryBot` rename within your `spec/` directory:
-
-```ag -0l FactoryGirl spec | xargs -0 sed -i 's/FactoryGirl/FactoryBot/g'```
 
 Documentation
 -------------
