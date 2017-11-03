@@ -572,6 +572,22 @@ end
 
 The value just needs to support the `#next` method. Here the next value will be 'a', then 'b', etc.
 
+Sequences can also be rewound with `FactoryBot.rewind_sequences`:
+
+```ruby
+sequence(:email) {|n| "person#{n}@example.com" }
+
+generate(:email) # "person1@example.com"
+generate(:email) # "person2@example.com"
+generate(:email) # "person3@example.com"
+
+FactoryBot.rewind_sequences
+
+generate(:email) # "person1@example.com"
+```
+
+This rewinds all registered sequences.
+
 Traits
 ------
 
