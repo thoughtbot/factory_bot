@@ -19,6 +19,12 @@ module FactoryBot
       end
     end
 
+    def uuids
+      names.map do |name|
+        [name, @proc.try(:object_id)].join
+      end
+    end
+
     def next(scope = nil)
       if @proc && scope
         scope.instance_exec(value, &@proc)

@@ -107,6 +107,14 @@ module FactoryBot
     sequence
   end
 
+  def self.register_sequence_uuid(sequence)
+    return unless sequence
+    sequence.uuids.each do |uuid|
+      sequences.register(uuid, sequence)
+    end
+    sequence
+  end
+
   def self.sequence_by_name(name)
     sequences.find(name)
   end
