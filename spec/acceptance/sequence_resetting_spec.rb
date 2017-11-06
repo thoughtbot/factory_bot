@@ -4,7 +4,7 @@ describe "FactoryBot.rewind_sequences" do
   include FactoryBot::Syntax::Methods
 
   before do
-    define_model('User', age: :integer)
+    define_model("User", age: :integer)
     FactoryBot.define do
       factory :user do
         sequence(:id)
@@ -33,7 +33,7 @@ describe "FactoryBot.rewind_sequences" do
     expect(name).to eq "Joe"
   end
 
-  it "resets all sequences back to their starting values for factory specific sequences" do
+  it "resets sequences back to their starting values for factory sequences" do
     user1 = FactoryBot.create(:user)
     user2 = FactoryBot.create(:user)
 
