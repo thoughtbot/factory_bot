@@ -20,8 +20,9 @@ module FactoryBot
     end
 
     def uuids
+      proc = @proc || -> {}
       names.map do |name|
-        [name, @proc.try(:object_id)].join
+        [name, proc.try(:to_s)].join
       end
     end
 
