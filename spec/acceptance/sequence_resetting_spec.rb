@@ -19,7 +19,6 @@ describe "FactoryBot.rewind_sequences" do
         sequence(:number)
       end
     end
-
   end
 
   it "resets all sequences back to their starting values" do
