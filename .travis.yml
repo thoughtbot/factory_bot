@@ -2,8 +2,9 @@ rvm:
   - 1.9.3
   - 2.0.0
   - 2.1.9
-  - 2.2.5
-  - 2.3.1
+  - 2.2.8
+  - 2.3.5
+  - 2.4.2
   - ruby-head
   - rbx-2
 before_install:
@@ -18,15 +19,34 @@ gemfile:
   - gemfiles/4.1.gemfile
   - gemfiles/4.2.gemfile
   - gemfiles/5.0.gemfile
+  - gemfiles/5.1.gemfile
 matrix:
   fast_finish: true
   exclude:
     - rvm: 1.9.3
       gemfile: gemfiles/5.0.gemfile
+    - rvm: 1.9.3
+      gemfile: gemfiles/5.1.gemfile
     - rvm: 2.0.0
       gemfile: gemfiles/5.0.gemfile
+    - rvm: 2.0.0
+      gemfile: gemfiles/5.1.gemfile
     - rvm: 2.1.9
       gemfile: gemfiles/5.0.gemfile
+    - rvm: 2.1.9
+      gemfile: gemfiles/5.1.gemfile
+    - rvm: 2.4.2
+      gemfile: gemfiles/3.2.gemfile
+    - rvm: 2.4.2
+      gemfile: gemfiles/4.0.gemfile
+    - rvm: 2.4.2
+      gemfile: gemfiles/4.1.gemfile
+    - rvm: ruby-head
+      gemfile: gemfiles/3.2.gemfile
+    - rvm: ruby-head
+      gemfile: gemfiles/4.0.gemfile
+    - rvm: ruby-head
+      gemfile: gemfiles/4.1.gemfile
   allow_failures:
     - rvm: ruby-head
     - rvm: rbx-2

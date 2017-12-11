@@ -7,4 +7,4 @@ gem "jdbc-sqlite3", :platforms => :jruby
 gem "sqlite3", "~> 1.3.10", :platforms => :ruby
 gem "activerecord", :git => "https://github.com/rails/rails.git", :branch => "3-2-stable"
 
-gemspec :path => "../", :name => "factory_bot"
+gemspec :name => "factory_bot", :path => "../"
