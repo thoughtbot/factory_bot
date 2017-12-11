@@ -102,6 +102,56 @@ describe "callbacks using syntax methods without referencing FactoryBot explicit
   end
 end
 
+describe "callbacks which detect overrides" do
+  before do
+    define_model("User", first_name: :string, last_name: :string) do
+      has_many :contact_lists
+      has_many :contacts
+    end
+
+    define_model("ContactList", user_id: :integer) do
+      belongs_to :user
+      has_many :contacts
+    end
+
+    define_model("Contact", user_id: :integer, contact_list_id: :integer) do
+      belongs_to :user
+      belongs_to :contact_list
+    end
+
+    FactoryBot.define do
+      factory :user do
+        first_name "John"
+        last_name  "Doe"
+      end
+
+      factory :contact_list
+
+      factory :contact do
+        user
+        contact_list
+
+        after(:build) do |contact, evaluator|
+          override_names = evaluator.__override_names__
+          unless override_names.include?(:user)
+            if override_names.include?(:contact_list)
+              contact.user = contact.contact_list.user
+            end
+          end
+        end
+      end
+    end
+  end
+
+  let(:user) { FactoryBot.create(:user, first_name: "Jane") }
+  let(:contact_list) { FactoryBot.create(:contact_list, user: user) }
+  let(:contact) { FactoryBot.create(:contact, contact_list: contact_list) }
+
+  it "can still detect overrides after the attributes have been evaluated" do
+    expect(contact.user.first_name).to eq "Jane"
+  end
+end
+
 describe "custom callbacks" do
   let(:custom_before) do
     Class.new do

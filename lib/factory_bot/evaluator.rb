@@ -13,7 +13,7 @@ module FactoryBot
     def initialize(build_strategy, overrides = {})
       @build_strategy = build_strategy
       @overrides = overrides
-      @cached_attributes = overrides
+      @cached_attributes = overrides.dup
       @instance = nil
 
       @overrides.each do |name, value|
