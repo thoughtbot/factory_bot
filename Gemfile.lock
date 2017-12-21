@@ -79,7 +79,7 @@ GEM
     timecop (0.9.1)
     tzinfo (1.2.3)
       thread_safe (~> 0.1)
-    yard (0.9.9)
+    yard (0.9.12)
 
 PLATFORMS
   ruby
@@ -100,4 +100,4 @@ DEPENDENCIES
   yard
 
 BUNDLED WITH
-   1.15.3
+   1.16.0
