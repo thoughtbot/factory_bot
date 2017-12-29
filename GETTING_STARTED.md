@@ -1007,7 +1007,7 @@ namespace :factory_bot do
       end
     else
       system("bundle exec rake factory_bot:lint RAILS_ENV='test'")
-      exit $?.exitstatus
+      fail if $?.exitstatus.nonzero?
     end
   end
 end
