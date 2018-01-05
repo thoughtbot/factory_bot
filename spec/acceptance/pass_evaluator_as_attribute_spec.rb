@@ -11,7 +11,7 @@ describe "when passing evaluator as attribute" do
     end
     define_model("User", name: :string) { has_many :posts }
 
-    FactoryGirl.define do
+    FactoryBot.define do
       factory(:comment) do
         post { build(:post, comments: [self]) }
         title { "re: #{post.title}" }
@@ -31,12 +31,12 @@ describe "when passing evaluator as attribute" do
   end
 
   it "will save the instance" do
-    FactoryGirl.create(:user)
+    FactoryBot.create(:user)
     expect(Comment.last.title).to eq("re: Through Macguffin's Looking Glass")
   end
 
   it "saves correctly going the opposite way up the assn chain" do
-    FactoryGirl.create(:comment)
+    FactoryBot.create(:comment)
     expect(Comment.last.title).to eq("re: Through Macguffin's Looking Glass")
   end
 end

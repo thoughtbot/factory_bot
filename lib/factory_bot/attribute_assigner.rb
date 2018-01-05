@@ -54,11 +54,11 @@ module FactoryBot
 
     def get(attribute_name)
       case obj = @evaluator.send(attribute_name)
-      when FactoryGirl::Evaluator
+      when FactoryBot::Evaluator
         obj.instance
       when Array
         obj.map do |o|
-          o.is_a?(FactoryGirl::Evaluator) ? o.instance : o
+          o.is_a?(FactoryBot::Evaluator) ? o.instance : o
         end
       else
         obj
