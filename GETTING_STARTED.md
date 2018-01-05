@@ -408,13 +408,11 @@ FactoryBot.define do
         posts_count 5
       end
 
-      # the after(:create) yields two values; the user instance itself and the
-      # evaluator, which stores all values from the factory, including transient
-      # attributes; `create_list`'s second argument is the number of records
+      # within the  the dynamic association block, pass self as the user and
+      # the post factory will know to associate with the generated user.
+      # `create_list`'s second argument is the number of records
       # to create and we make sure the user is associated properly to the post
-      after(:create) do |user, evaluator|
-        create_list(:post, evaluator.posts_count, user: user)
-      end
+      posts { build_list(:post, posts_count, user: self) }
     end
   end
 end
@@ -458,14 +456,11 @@ FactoryBot.define do
         languages_count 5
       end
 
-      # the after(:create) yields two values; the profile instance itself and
-      # the evaluator, which stores all values from the factory, including
-      # ignored attributes; `create_list`'s second argument is the number of
-      # records to create and we make sure the profile is associated properly
-      # to the language
-      after(:create) do |profile, evaluator|
-        create_list(:language, evaluator.languages_count, profiles: [profile])
-      end
+      # within the  the dynamic association block, pass [self] as the users and
+      # the post factory will know to associate with the generated user.
+      # `create_list`'s second argument is the number of records
+      # to create and we make sure the user is associated properly to the post
+      languages { build_list(:language, languages_count, profiles: [self]) }
     end
   end
 end
@@ -477,6 +472,35 @@ This allows us to do:
 create(:profile).languages.length # 0
 create(:profile_with_languages).languages.length # 5
 create(:profile_with_languages, languages_count: 15).languages.length # 15
+```
+
+Using data from one factory within an association's factory requires the use of
+dynamic association blocks.
+
+```ruby
+FactoryBot.define do
+  factory(:comment) do
+    post { build(:post, comments: [self]) }
+    title { "re: #{post.title}" }
+  end
+
+  factory(:post) do
+    user { build :user, posts: [self] }
+    comments { build_list(:comment, 1, post: self) }
+    title { "Through #{user.name}'s Looking Glass" }
+  end
+
+  factory(:user) do
+    name "Macguffin"
+    posts { build_list(:post, 1, user: self) }
+  end
+end
+```
+
+Allows you to do this:
+
+```ruby
+create(:user).posts.first.comments.first.title # "re: Through MacGuffin's Looking Glass"
 ```
 
 Sequences
