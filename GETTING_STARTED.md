@@ -408,7 +408,7 @@ FactoryBot.define do
         posts_count 5
       end
 
-      # within the  the dynamic association block, pass self as the user and
+      # within the dynamic association block, pass self as the user and
       # the post factory will know to associate with the generated user.
       # `create_list`'s second argument is the number of records
       # to create and we make sure the user is associated properly to the post
@@ -456,7 +456,7 @@ FactoryBot.define do
         languages_count 5
       end
 
-      # within the  the dynamic association block, pass [self] as the users and
+      # within the dynamic association block, pass [self] as the users and
       # the post factory will know to associate with the generated user.
       # `create_list`'s second argument is the number of records
       # to create and we make sure the user is associated properly to the post
