@@ -28,7 +28,7 @@ Once your Gemfile is updated, you'll want to update your bundle.
 Configure your test suite
 -------------------------
 
-# RSpec
+### RSpec
 
 ```ruby
 # spec/support/factory_bot.rb
@@ -52,7 +52,7 @@ Remember to require the above file in your rails_helper since the support folder
 require 'support/factory_bot'
 ```
 
-# Test::Unit
+### Test::Unit
 
 ```ruby
 class Test::Unit::TestCase
@@ -60,14 +60,14 @@ class Test::Unit::TestCase
 end
 ```
 
-# Cucumber
+### Cucumber
 
 ```ruby
 # env.rb (Rails example location - RAILS_ROOT/features/support/env.rb)
 World(FactoryBot::Syntax::Methods)
 ```
 
-# Spinach
+### Spinach
 
 ```ruby
 class Spinach::FeatureSteps
@@ -75,7 +75,7 @@ class Spinach::FeatureSteps
 end
 ```
 
-# Minitest
+### Minitest
 
 ```ruby
 class Minitest::Unit::TestCase
@@ -83,7 +83,7 @@ class Minitest::Unit::TestCase
 end
 ```
 
-# Minitest::Spec
+### Minitest::Spec
 
 ```ruby
 class Minitest::Spec
@@ -91,7 +91,7 @@ class Minitest::Spec
 end
 ```
 
-# minitest-rails
+### minitest-rails
 
 ```ruby
 class ActiveSupport::TestCase
