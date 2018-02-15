@@ -30,13 +30,19 @@ Configure your test suite
 
 ### RSpec
 
+If you're using Rails:
+
 ```ruby
 # spec/support/factory_bot.rb
 RSpec.configure do |config|
   config.include FactoryBot::Syntax::Methods
 end
+```
 
-# RSpec without Rails
+If you're *not* using Rails:
+
+```ruby
+# spec/support/factory_bot.rb
 RSpec.configure do |config|
   config.include FactoryBot::Syntax::Methods
 
@@ -46,7 +52,7 @@ RSpec.configure do |config|
 end
 ```
 
-Remember to require the above file in your rails_helper since the support folder isn't eagerly loaded
+Remember to require the above file in your rails_helper (spec_helper if not using Rails) since the support folder isn't eagerly loaded
 
 ```ruby
 require 'support/factory_bot'
