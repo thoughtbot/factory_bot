@@ -8,12 +8,13 @@ module FactoryBot
 
     delegate :before, :after, :callback, to: :@definition
 
-    attr_reader :child_factories
+    attr_reader :child_factories, :static_attributes
 
     def initialize(definition, ignore = false)
       @definition      = definition
       @ignore          = ignore
       @child_factories = []
+      @static_attributes = []
     end
 
     def singleton_method_added(name)
@@ -45,6 +46,7 @@ module FactoryBot
       declaration = if block_given?
         Declaration::Dynamic.new(name, @ignore, block)
       else
+        @static_attributes << name unless @ignore
         Declaration::Static.new(name, value, @ignore)
       end
 

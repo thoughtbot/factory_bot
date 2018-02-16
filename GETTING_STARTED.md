@@ -170,6 +170,17 @@ user.first_name
 # => "Joe"
 ```
 
+Static Attributes
+-----------------
+
+Static attributes will be deprecated in an upcoming version of factory\_girl.
+To opt into warnings now, you can configure the setting as such:
+
+```ruby
+# spec/support/factory_girl.rb
+FactoryGirl.configuration.warn_on_static_attributes = true
+```
+
 Dynamic Attributes
 ------------------
 
