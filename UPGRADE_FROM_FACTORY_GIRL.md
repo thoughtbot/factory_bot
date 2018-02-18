@@ -35,7 +35,7 @@ to replace all references with the new constant should do the trick. For
 example, on macOS:
 
 ```sh
-grep -e FactoryGirl **/*.rake **/*.rb -s -l | xargs sed -i "" "s|FactoryGirl|FactoryBot|"
+grep -e FactoryGirl **/*.rake **/*.rb -s -l | xargs sed -i "" "s|FactoryGirl|FactoryBot|g"
 ```
 
 ## Replace All Path References
