@@ -22,7 +22,7 @@ end
 
 # new
 group :development, :test do
-  gem "factory_bot_rails"
+  gem 'factory_bot_rails', '~> 4.8.2'
   # or
   gem "factory_bot"
 end
