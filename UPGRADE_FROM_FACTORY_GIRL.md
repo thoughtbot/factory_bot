@@ -37,7 +37,9 @@ example, on macOS:
 ```sh
 grep -e FactoryGirl **/*.rake **/*.rb -s -l | xargs sed -i "" "s|FactoryGirl|FactoryBot|g"
 ```
+In VSCode or another editor with find/replace GUI:
 
+![VSCode](https://i.imgur.com/SIRUYUH.png)
 ## Replace All Path References
 
 If you're requiring files from factory\_girl or factory\_girl\_rails directly,
@@ -46,3 +48,6 @@ you'll have to update the paths.
 ```sh
 grep -e factory_girl **/*.rake **/*.rb -s -l | xargs sed -i "" "s|factory_girl|factory_bot|g"
 ```
+In VSCode or another editor with find/replace GUI:
+
+![VSCode](https://i.imgur.com/pv3rfS1.png)
