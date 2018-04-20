@@ -38,11 +38,24 @@ example, on macOS:
 grep -e FactoryGirl **/*.rake **/*.rb -s -l | xargs sed -i "" "s|FactoryGirl|FactoryBot|g"
 ```
 
+On Ubuntu (16.04 LTS):
+
+```sh
+grep -i -r FactoryGirl **/* --include=*.rb --include=*.rake -s -l | xargs sed -i "s|FactoryGirl|FactoryBot|"
+```
+
+
 ## Replace All Path References
 
 If you're requiring files from factory\_girl or factory\_girl\_rails directly,
-you'll have to update the paths.
+you'll have to update the paths. For example, on OS X:
 
 ```sh
 grep -e factory_girl **/*.rake **/*.rb -s -l | xargs sed -i "" "s|factory_girl|factory_bot|g"
+```
+
+On Ubuntu (16.04 LTS):
+
+```sh
+grep -i -r factory_girl **/* --include=*.rb --include=*.rake -s -l | xargs sed -i "s|factory_girl|factory_bot|"
 ```
