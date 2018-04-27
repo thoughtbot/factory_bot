@@ -21,5 +21,7 @@ module FactoryBot
   class MethodDefinitionError < RuntimeError; end
 
   # Raised when any factory is considered invalid
-  class InvalidFactoryError < RuntimeError; end
+  class InvalidFactoryError < RuntimeError
+    attr_accessor :exceptions
+  end
 end

@@ -10,7 +10,9 @@ module FactoryBot
 
     def lint!
       if invalid_factories.any?
-        raise InvalidFactoryError, error_message
+        error = InvalidFactoryError.new(error_message)
+        error.exceptions = exceptions
+        raise error
       end
     end
 
@@ -27,6 +29,8 @@ module FactoryBot
     end
 
     class FactoryError
+      attr_accessor :wrapped_error
+
       def initialize(wrapped_error, factory)
         @wrapped_error = wrapped_error
         @factory       = factory
@@ -83,15 +87,19 @@ module FactoryBot
     end
 
     def error_message
-      lines = invalid_factories.map do |_factory, exceptions|
-        exceptions.map(&:message)
-      end.flatten
+      lines = exceptions.map(&:message)
 
       <<-ERROR_MESSAGE.strip
 The following factories are invalid:
 
 #{lines.join("\n")}
       ERROR_MESSAGE
+    end
+
+    def exceptions
+      invalid_factories.map do |_factory, factory_exceptions|
+        factory_exceptions
+      end.flatten
     end
   end
 end
