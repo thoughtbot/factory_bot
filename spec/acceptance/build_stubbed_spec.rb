@@ -166,8 +166,9 @@ describe "defaulting `created_at`" do
     ENV['TZ'] = original_timezone
   end
 
-  it "adds created_at to objects who don't have the method" do
-    expect(build_stubbed(:thing_without_timestamp)).to respond_to(:created_at)
+  it "doesn't add created_at to objects who don't have the method" do
+    expect(build_stubbed(:thing_without_timestamp)).
+      not_to respond_to(:created_at)
   end
 
   it "allows overriding created_at for objects with created_at" do
@@ -198,8 +199,9 @@ describe "defaulting `updated_at`" do
     expect(build_stubbed(:thing_with_timestamp).updated_at).to eq Time.current
   end
 
-  it "adds updated_at to objects who don't have the method" do
-    expect(build_stubbed(:thing_without_timestamp)).to respond_to(:updated_at)
+  it "doesn't add updated_at to objects who don't have the method" do
+    expect(build_stubbed(:thing_without_timestamp)).
+      not_to respond_to(:updated_at)
   end
 
   it "allows overriding updated_at for objects with updated_at" do

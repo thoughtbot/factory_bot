@@ -66,9 +66,8 @@ module FactoryBot
         end
 
         created_at_missing_default = result_instance.respond_to?(:created_at) && !result_instance.created_at
-        result_instance_missing_created_at = !result_instance.respond_to?(:created_at)
 
-        if created_at_missing_default || result_instance_missing_created_at
+        if created_at_missing_default
           result_instance.instance_eval do
             def created_at
               @created_at ||= Time.now.in_time_zone
@@ -78,9 +77,8 @@ module FactoryBot
 
         has_updated_at = result_instance.respond_to?(:updated_at)
         updated_at_no_default = has_updated_at && !result_instance.updated_at
-        result_instance_missing_updated_at = !has_updated_at
 
-        if updated_at_no_default || result_instance_missing_updated_at
+        if updated_at_no_default
           result_instance.instance_eval do
             def updated_at
               @updated_at ||= Time.current

@@ -26,7 +26,7 @@ describe FactoryBot::Strategy::Stub do
     before { Timecop.freeze(Time.now) }
     let(:result_instance) do
       define_class("ResultInstance") do
-        attr_accessor :id
+        attr_accessor :id, :created_at
       end.new
     end
 
