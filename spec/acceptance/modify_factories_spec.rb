@@ -1,5 +1,3 @@
-require "spec_helper"
-
 describe "modifying factories" do
   include FactoryBot::Syntax::Methods
 

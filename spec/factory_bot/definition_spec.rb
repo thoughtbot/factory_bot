@@ -1,5 +1,3 @@
-require "spec_helper"
-
 describe FactoryBot::Definition do
   it { should delegate(:declare_attribute).to(:declarations) }
 end

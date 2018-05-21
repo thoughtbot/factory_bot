@@ -1,5 +1,3 @@
-require "spec_helper"
-
 describe "declaring attributes on a Factory that are private methods on Object" do
   before do
     define_model("Website", system: :boolean, link: :string, sleep: :integer)

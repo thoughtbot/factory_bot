@@ -1,5 +1,3 @@
-require "spec_helper"
-
 describe FactoryBot do
   let(:factory)  { FactoryBot::Factory.new(:object) }
   let(:sequence) { FactoryBot::Sequence.new(:email) }

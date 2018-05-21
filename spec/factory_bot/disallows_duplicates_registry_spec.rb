@@ -1,5 +1,3 @@
-require "spec_helper"
-
 describe FactoryBot::Decorator::DisallowsDuplicatesRegistry do
   let(:registry) { double("registry", name: "Great thing", register: true) }
 

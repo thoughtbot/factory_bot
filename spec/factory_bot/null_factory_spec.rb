@@ -1,5 +1,3 @@
-require "spec_helper"
-
 describe FactoryBot::NullFactory do
   it { should delegate(:defined_traits).to(:definition) }
   it { should delegate(:callbacks).to(:definition) }

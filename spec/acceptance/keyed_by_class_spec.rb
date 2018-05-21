@@ -1,5 +1,3 @@
-require "spec_helper"
-
 describe "finding factories keyed by class instead of symbol" do
   before do
     define_model("User") do

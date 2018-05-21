@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe "attribute aliases" do
   before do
     define_model('User', name: :string, age: :integer)
@@ -42,4 +40,3 @@ describe "attribute aliases" do
     end
   end
 end
-

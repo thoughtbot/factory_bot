@@ -1,5 +1,3 @@
-require "spec_helper"
-
 describe "transient attributes" do
   before do
     define_model("User", name: :string, email: :string)

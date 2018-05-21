@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe FactoryBot::Registry do
   let(:registered_object)        { double("registered object") }
   let(:second_registered_object) { double("second registered object") }

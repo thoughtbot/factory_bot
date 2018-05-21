@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 shared_examples "disabled persistence method" do |method_name|
   let(:instance) { described_class.new.result(evaluation) }
 

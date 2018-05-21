@@ -1,5 +1,3 @@
-require "spec_helper"
-
 describe "syntax methods within dynamic attributes" do
   before do
     define_model("Post", title: :string, user_id: :integer) do

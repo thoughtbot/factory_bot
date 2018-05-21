@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe FactoryBot::Attribute do
   let(:name)  { "user" }
   subject     { FactoryBot::Attribute.new(name, false) }

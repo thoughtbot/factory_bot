@@ -1,5 +1,3 @@
-require "spec_helper"
-
 shared_context "registering custom strategies" do
   before do
     define_class("NamedObject") do

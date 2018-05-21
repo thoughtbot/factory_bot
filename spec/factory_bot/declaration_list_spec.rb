@@ -1,5 +1,3 @@
-require "spec_helper"
-
 describe FactoryBot::DeclarationList, "#attributes" do
   let(:static_attribute_1)  { double("static attribute 1") }
   let(:static_attribute_2)  { double("static attribute 2") }

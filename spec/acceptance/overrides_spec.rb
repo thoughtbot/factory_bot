@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe "attribute overrides" do
   before do
     define_model('User', admin:   :boolean)

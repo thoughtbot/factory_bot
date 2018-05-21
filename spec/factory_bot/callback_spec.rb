@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe FactoryBot::Callback do
   it "has a name" do
     expect(FactoryBot::Callback.new(:after_create, -> {}).name).to eq :after_create

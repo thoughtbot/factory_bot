@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe 'FactoryBot.lint' do
   it 'raises when a factory is invalid' do
     define_model 'User', name: :string do

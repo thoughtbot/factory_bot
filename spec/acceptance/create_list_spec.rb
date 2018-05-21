@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe "create multiple instances" do
   before do
     define_model('Post', title: :string, position: :integer)

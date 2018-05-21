@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe FactoryBot::Factory do
   before do
     @name    = :user

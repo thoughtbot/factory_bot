@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe FactoryBot::Attribute::Dynamic do
   let(:name)  { :first_name }
   let(:block) { -> { } }

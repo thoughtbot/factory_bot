@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe "a generated attributes hash where order matters" do
   include FactoryBot::Syntax::Methods
 

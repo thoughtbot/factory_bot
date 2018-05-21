@@ -1,5 +1,3 @@
-require "spec_helper"
-
 describe "FactoryBot.rewind_sequences" do
   include FactoryBot::Syntax::Methods
 

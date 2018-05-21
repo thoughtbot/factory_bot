@@ -1,5 +1,3 @@
-require "spec_helper"
-
 describe FactoryBot::EvaluatorClassDefiner do
   it "returns an evaluator when accessing the evaluator class" do
     evaluator = define_evaluator(parent_class: FactoryBot::Evaluator)
