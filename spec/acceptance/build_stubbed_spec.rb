@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe "a generated stub instance" do
   include FactoryBot::Syntax::Methods
 

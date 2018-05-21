@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe FactoryBot::DefinitionProxy, "#add_attribute" do
   subject     { FactoryBot::Definition.new }
   let(:proxy) { FactoryBot::DefinitionProxy.new(subject) }

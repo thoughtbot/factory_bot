@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe 'global initialize_with' do
   before do
     define_class('User') do

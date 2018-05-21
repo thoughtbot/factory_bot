@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe 'sequences are evaluated in the correct context' do
   before do
     define_class("User") do

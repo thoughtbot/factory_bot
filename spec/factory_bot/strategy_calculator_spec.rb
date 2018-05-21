@@ -1,5 +1,3 @@
-require "spec_helper"
-
 describe FactoryBot::StrategyCalculator do
   let(:strategy) do
     define_class("MyAwesomeClass")

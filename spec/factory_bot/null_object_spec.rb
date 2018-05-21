@@ -1,5 +1,3 @@
-require "spec_helper"
-
 describe FactoryBot::NullObject do
   let(:methods_to_respond_to)     { %w[id age name admin?] }
   let(:methods_to_not_respond_to) { %w[email date_of_birth title] }

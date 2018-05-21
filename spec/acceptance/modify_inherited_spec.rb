@@ -1,5 +1,3 @@
-require "spec_helper"
-
 describe "modifying inherited factories with traits" do
   before do
     define_model('User', gender: :string, admin: :boolean, age: :integer)

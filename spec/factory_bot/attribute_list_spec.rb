@@ -1,5 +1,3 @@
-require "spec_helper"
-
 describe FactoryBot::AttributeList, "#define_attribute" do
   let(:static_attribute)  { FactoryBot::Attribute::Static.new(:full_name, "value", false) }
   let(:dynamic_attribute) { FactoryBot::Attribute::Dynamic.new(:email, false, ->(u) { "#{u.full_name}@example.com" }) }

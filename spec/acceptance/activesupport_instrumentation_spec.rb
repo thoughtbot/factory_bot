@@ -1,5 +1,3 @@
-require "spec_helper"
-
 unless ActiveSupport::Notifications.respond_to?(:subscribed)
   module SubscribedBehavior
     def subscribed(callback, *args, &block)

@@ -1,5 +1,3 @@
-require "spec_helper"
-
 describe "aliases and overrides" do
   before do
     FactoryBot.aliases << [/one/, "two"]

@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe FactoryBot, "aliases" do
   context "aliases for an attribute" do
     subject { FactoryBot.aliases_for(:test) }

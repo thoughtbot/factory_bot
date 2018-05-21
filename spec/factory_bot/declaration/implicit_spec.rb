@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe FactoryBot::Declaration::Implicit do
   let(:name)        { :author }
   let(:declaration) { FactoryBot::Declaration::Implicit.new(name) }

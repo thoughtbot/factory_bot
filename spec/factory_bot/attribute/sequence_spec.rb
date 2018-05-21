@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe FactoryBot::Attribute::Sequence do
   let(:sequence_name) { :name }
   let(:name)          { :first_name }

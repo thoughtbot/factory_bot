@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe "callbacks" do
   before do
     define_model("User", first_name: :string, last_name: :string)

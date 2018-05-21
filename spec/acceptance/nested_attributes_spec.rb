@@ -1,5 +1,3 @@
-require "spec_helper"
-
 describe "association assignment from nested attributes" do
   before do
     define_model("Post", title: :string) do

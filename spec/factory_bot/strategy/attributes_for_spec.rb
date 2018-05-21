@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe FactoryBot::Strategy::AttributesFor do
   let(:result)     { { name: "John Doe", gender: "Male", admin: false } }
   let(:evaluation) { double("evaluation", hash: result) }

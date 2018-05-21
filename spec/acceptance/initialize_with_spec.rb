@@ -1,5 +1,3 @@
-require "spec_helper"
-
 describe "initialize_with with non-FG attributes" do
   include FactoryBot::Syntax::Methods
 

@@ -1,5 +1,3 @@
-require "spec_helper"
-
 shared_examples "a sequence" do |options|
   first_value  = options[:first_value]
   second_value = options[:second_value]

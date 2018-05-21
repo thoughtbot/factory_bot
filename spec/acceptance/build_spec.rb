@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe "a built instance" do
   include FactoryBot::Syntax::Methods
 

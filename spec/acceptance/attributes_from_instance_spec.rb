@@ -1,5 +1,3 @@
-require "spec_helper"
-
 describe "calling methods on the model instance" do
   before do
     define_model('User', age: :integer, age_copy: :integer) do

@@ -1,5 +1,3 @@
-require "spec_helper"
-
 describe "skipping the default create" do
   before do
     define_model("User", email: :string)

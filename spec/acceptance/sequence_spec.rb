@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe "sequences" do
   include FactoryBot::Syntax::Methods
 

@@ -1,5 +1,3 @@
-require "spec_helper"
-
 describe "defining a child factory before a parent" do
   before do
     define_model("User", name: :string, admin: :boolean, email: :string, upper_email: :string, login: :string)

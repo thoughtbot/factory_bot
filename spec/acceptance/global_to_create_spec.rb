@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe 'global to_create' do
   before do
     define_model('User', name: :string)

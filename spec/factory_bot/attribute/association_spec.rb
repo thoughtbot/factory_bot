@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe FactoryBot::Attribute::Association do
   let(:name)        { :author }
   let(:factory)     { :user }
