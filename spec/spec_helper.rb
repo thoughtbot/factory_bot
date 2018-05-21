@@ -1,4 +1,3 @@
-require 'rubygems'
 require 'rspec'
 require 'rspec/its'
 
