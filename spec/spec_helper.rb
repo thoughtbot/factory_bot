@@ -25,4 +25,7 @@ RSpec.configure do |config|
   config.after do
     Timecop.return
   end
+
+  config.order = :random
+  Kernel.srand config.seed
 end
