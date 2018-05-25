@@ -1,3 +1,8 @@
+4.10.0 (May 25, 2018)
+  Allow sequences to be rewound
+
+4.9.0 (skipped - FactoryGirl only release)
+
 4.8.2 (October 20, 2017)
   Rename factory_girl to factory_bot
 
