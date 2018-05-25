@@ -45,9 +45,16 @@ module FactoryBot
       declaration = if block_given?
         Declaration::Dynamic.new(name, @ignore, block)
       else
-        ActiveSupport::Deprecation.warn "Static attributes will be removed in "\
+        attribute_caller = caller
+
+        if attribute_caller[0].include?("method_missing")
+          attribute_caller = caller(2)
+        end
+
+        ActiveSupport::Deprecation.warn("Static attributes will be removed in "\
           "FactoryBot 5.0. Please use dynamic attributes instead. Static "\
-          "variable used for attribute=#{name} value=#{value}"
+          "attribute=#{name.inspect} value=#{value.inspect}", attribute_caller)
+
         Declaration::Static.new(name, value, @ignore)
       end
 
