@@ -46,10 +46,10 @@ RSpec.configure do |config|
 end
 ```
 
-Remember to require the above file in your rails_helper since the support folder isn't eagerly loaded
+Do not forget to uncomment the following line from `spec/rails_helper.rb` so that every config file you put there will be auto loaded in test environment.
 
 ```ruby
-require 'support/factory_bot'
+# Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 ```
 
 ### Test::Unit
