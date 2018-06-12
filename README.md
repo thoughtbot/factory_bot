@@ -103,4 +103,4 @@ See [our other projects][community] or
 [hire us][hire] to design, develop, and grow your product.
 
 [community]: https://thoughtbot.com/community?utm_source=github
-[hire]: https://thoughtbot.com?utm_source=github
+[hire]: https://thoughtbot.com/hire-us?utm_source=github
