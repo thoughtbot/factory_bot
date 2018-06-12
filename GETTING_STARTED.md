@@ -196,7 +196,7 @@ end
 
 Aliases
 -------
-factory_bot allows you to define aliases to existing factories to make them easier to re-use. This could come in handy when, for example, your Post object has an author attribute that actually refers to an instance of a User class. While normally factory_bot can infer the factory name from the association name, in this case it will look for a author factory in vain. So, alias your user factory so it can be used under alias names.
+factory_bot allows you to define aliases to existing factories to make them easier to re-use. This could come in handy when, for example, your Post object has an author attribute that actually refers to an instance of a User class. While normally factory_bot can infer the factory name from the association name, in this case it will look for an author factory in vain. So, alias your user factory so it can be used under alias names.
 
 ```ruby
 factory :user, aliases: [:author, :commenter] do
@@ -1123,7 +1123,7 @@ end
 
 This will build a hash of all attributes to be passed to `new`. It won't
 include transient attributes, but everything else defined in the factory will be
-passed (associations, evalued sequences, etc.)
+passed (associations, evaluated sequences, etc.)
 
 You can define `initialize_with` for all factories by including it in the
 `FactoryBot.define` block:
@@ -1376,7 +1376,7 @@ require 'factory_bot'
 ```
 
 Once required, assuming you have a directory structure of `spec/factories` or
-`test/factories`, all you'll need to do is run
+`test/factories`, all you'll need to do is run:
 
 ```ruby
 FactoryBot.find_definitions
