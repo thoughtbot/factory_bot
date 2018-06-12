@@ -5,6 +5,7 @@ rvm:
   - 2.2.8
   - 2.3.5
   - 2.4.2
+  - 2.5.1
   - ruby-head
   - rbx-2
 before_install:
