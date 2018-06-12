@@ -79,6 +79,17 @@ describe FactoryBot::DefinitionProxy, "#method_missing" do
     proxy.attribute_name(&attribute_value)
     expect(subject).to have_dynamic_declaration(:attribute_name).with_value(attribute_value)
   end
+
+  it "handles methods added to Kernel" do
+    Kernel.send(:define_method, :method_added_to_kernel) { |arg| }
+
+    proxy.method_added_to_kernel
+
+    expect(subject).to have_implicit_declaration(:method_added_to_kernel).
+      with_factory(subject)
+
+    Kernel.send(:undef_method, :method_added_to_kernel)
+  end
 end
 
 describe FactoryBot::DefinitionProxy, "#sequence" do

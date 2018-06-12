@@ -1,10 +1,5 @@
 module FactoryBot
-  class DefinitionProxy
-    UNPROXIED_METHODS = %w(__send__ __id__ nil? send object_id extend instance_eval initialize block_given? raise caller method)
-
-    (instance_methods + private_instance_methods).each do |method|
-      undef_method(method) unless UNPROXIED_METHODS.include?(method.to_s)
-    end
+  class DefinitionProxy < BasicObject
 
     delegate :before, :after, :callback, to: :@definition
 
@@ -18,7 +13,7 @@ module FactoryBot
 
     def singleton_method_added(name)
       message = "Defining methods in blocks (trait or factory) is not supported (#{name})"
-      raise FactoryBot::MethodDefinitionError, message
+      ::Kernel.raise ::FactoryBot::MethodDefinitionError, message
     end
 
     # Adds an attribute that should be assigned on generated instances for this
@@ -40,9 +35,11 @@ module FactoryBot
     # * value: +Object+
     #   If no block is given, this value will be used for this attribute.
     def add_attribute(name, value = nil, &block)
-      raise AttributeDefinitionError, 'Both value and block given' if value && block_given?
+      if value && ::Kernel.block_given?
+        ::Kernel.raise AttributeDefinitionError, "Both value and block given" 
+      end
 
-      declaration = if block_given?
+      declaration = if ::Kernel.block_given?
         Declaration::Dynamic.new(name, @ignore, block)
       else
         Declaration::Static.new(name, value, @ignore)
@@ -52,7 +49,7 @@ module FactoryBot
     end
 
     def ignore(&block)
-      ActiveSupport::Deprecation.warn "`#ignore` is deprecated and will be "\
+      ::ActiveSupport::Deprecation.warn "`#ignore` is deprecated and will be "\
         "removed in 5.0. Please use `#transient` instead."
       transient(&block)
     end
