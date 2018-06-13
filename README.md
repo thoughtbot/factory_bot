@@ -8,10 +8,76 @@ If you want to use factory_bot with Rails, see
 _[Interested in the history of the project name?](NAME.md)_
 
 
-### Transitioning from factory\_girl?
+Transitioning from factory\_girl?
+-------------
 
-Check out the [guide](https://github.com/thoughtbot/factory_bot/blob/4-9-0-stable/UPGRADE_FROM_FACTORY_GIRL.md).
+Upgrading your codebase should involve only a few steps, and in most cases, it involves updating the Gemfile, factories file(s), and support file configuring the testing framework.
 
+Transitioning is a two step process:
+
+1) Replace `factory_girl` with `factory_bot` in your Gemfile and `bundle install`
+
+2) Rename all `FactoryGirl` to `FactoryBot` and `factory_girl` to `factory_bot` in your codebase.
+
+
+### 1. Modify your Gemfile
+
+Replace references to factory_girl_rails or factory_girl with factory_bot_rails or factory_bot. Both new gems are available starting at version 4.8.2.
+
+Gemfile
+
+```ruby
+# old
+group :development, :test do
+  gem "factory_girl_rails"
+  # or
+  gem "factory_girl"
+end
+
+# new
+group :development, :test do
+  gem "factory_bot_rails"
+  # or
+  gem "factory_bot"
+end
+
+# Don't forget to bundle install!
+
+```
+
+### 2. Renaming All Constant References
+
+A global find-and-replace of FactoryGirl to FactoryBot across the codebase to replace all references with the new constant should do the trick. 
+
+```ruby 
+# e.g. on OS X:
+grep -e FactoryGirl **/*.rake **/*.rb -l | xargs sed -i "" "s|FactoryGirl|FactoryBot|"
+
+# e.g. on Linus (Ubuntu):
+find . -name \*.rb -exec sed -i "s/FactoryGirl/FactoryBot/g" {} \;
+```
+
+### 3. Replace All Path References
+
+If you're requiring files from factory_girl or factory_girl_rails directly, you'll have to update the paths.
+
+```ruby
+## e.g. OS X
+grep -e factory_girl **/*.rake **/*.rb -l | xargs sed -i "" "s|factory_girl|factory_bot|"
+
+## e.g. Ubuntu:
+find . -name \*.rb -exec sed -i "s/factory_girl/factory_bot/g" {} \;
+```
+
+### 4. Use Grep to check for no remaining instances:
+
+`grep -r -l 'FactoryGirl'`
+
+and:
+
+`grep -r -l 'factory_girl'`
+
+You should see no remaining instances. If you do, then go ahead and replace them.
 
 Documentation
 -------------
