@@ -53,7 +53,16 @@ module FactoryBot
     end
 
     def get(attribute_name)
-      @evaluator.send(attribute_name)
+      case obj = @evaluator.send(attribute_name)
+      when FactoryBot::Evaluator
+        obj.instance
+      when Array
+        obj.map do |o|
+          o.is_a?(FactoryBot::Evaluator) ? o.instance : o
+        end
+      else
+        obj
+      end
     end
 
     def attributes_to_set_on_instance
