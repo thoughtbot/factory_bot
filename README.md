@@ -1,4 +1,4 @@
-# factory_bot [![Build Status](https://travis-ci.org/thoughtbot/factory_bot.svg)](http://travis-ci.org/thoughtbot/factory_bot?branch=master) [![Code Climate](https://codeclimate.com/github/thoughtbot/factory_bot/badges/gpa.svg)](https://codeclimate.com/github/thoughtbot/factory_bot)
+# factory_bot [![Build Status][ci-image]][ci] [![Code Climate][grade-image]][grade] [![Gem Version][version-image]][version]
 
 factory_bot is a fixtures replacement with a straightforward definition syntax, support for multiple build strategies (saved instances, unsaved instances, attribute hashes, and stubbed objects), and support for multiple factories for the same class (user, admin_user, and so on), including factory inheritance.
 
@@ -104,3 +104,9 @@ See [our other projects][community] or
 
 [community]: https://thoughtbot.com/community?utm_source=github
 [hire]: https://thoughtbot.com/hire-us?utm_source=github
+[ci-image]: https://travis-ci.org/thoughtbot/factory_bot.svg
+[ci]: http://travis-ci.org/thoughtbot/factory_bot?branch=master
+[grade-image]: https://codeclimate.com/github/thoughtbot/factory_bot/badges/gpa.svg
+[grade]: https://codeclimate.com/github/thoughtbot/factory_bot
+[version-image]: https://badge.fury.io/rb/factory_bot.svg
+[version]: https://badge.fury.io/rb/factory_bot
