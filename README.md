@@ -56,6 +56,8 @@ manually.
 Supported Ruby versions
 -----------------------
 
+The factory_bot 5.x series supports MRI Ruby 2.3+.
+
 The factory_bot 3.x+ series supports MRI Ruby 1.9. Additionally, factory_bot
 3.6+ supports JRuby 1.6.7.2+ while running in 1.9 mode. See [GETTING_STARTED]
 for more information on configuring the JRuby environment.
