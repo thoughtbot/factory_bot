@@ -14,7 +14,7 @@ describe "a generated attributes hash where order matters" do
         evaluates_third  { evaluates_second }
 
         factory :child_model do
-          static 1
+          static { 1 }
         end
       end
 
@@ -22,7 +22,7 @@ describe "a generated attributes hash where order matters" do
         evaluates_first   { static }
         evaluates_second  { evaluates_first }
         evaluates_third   { evaluates_second }
-        static 1
+        static { 1 }
       end
     end
   end

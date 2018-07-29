@@ -4,7 +4,7 @@ describe "create multiple instances" do
 
     FactoryBot.define do
       factory(:post) do |post|
-        post.title "Through the Looking Glass"
+        post.title { "Through the Looking Glass" }
         post.position { rand(10**4) }
       end
     end

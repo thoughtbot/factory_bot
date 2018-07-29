@@ -7,7 +7,7 @@ describe 'setting private attributes' do
 
     FactoryBot.define do
       factory :user do
-        foo 123
+        foo { 123 }
       end
     end
 

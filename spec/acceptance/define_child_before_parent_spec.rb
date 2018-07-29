@@ -4,11 +4,11 @@ describe "defining a child factory before a parent" do
 
     FactoryBot.define do
       factory :admin, parent: :user do
-        admin true
+        admin { true }
       end
 
       factory :user do
-        name "awesome"
+        name { "awesome" }
       end
     end
   end

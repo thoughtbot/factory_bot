@@ -94,7 +94,7 @@ describe "a custom create passing in an evaluator" do
 
     FactoryBot.define do
       factory :user do
-        transient { creation_name "evaluator" }
+        transient { creation_name { "evaluator" } }
 
         to_create do |user, evaluator|
           user.name = evaluator.creation_name

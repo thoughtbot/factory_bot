@@ -9,7 +9,7 @@ describe "attribute aliases" do
     FactoryBot.define do
       factory :user do
         factory :user_with_name do
-          name "John Doe"
+          name { "John Doe" }
         end
       end
 

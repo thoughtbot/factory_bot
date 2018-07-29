@@ -3,24 +3,24 @@ describe "modifying inherited factories with traits" do
     define_model('User', gender: :string, admin: :boolean, age: :integer)
     FactoryBot.define do
       factory :user do
-        trait(:female) { gender "Female" }
-        trait(:male)   { gender "Male" }
+        trait(:female) { gender { "Female" } }
+        trait(:male)   { gender { "Male" } }
 
         trait(:young_admin) do
-          admin true
-          age   17
+          admin { true }
+          age   { 17 }
         end
 
         female
         young_admin
 
         factory :female_user do
-          gender "Female"
-          age 25
+          gender { "Female" }
+          age { 25 }
         end
 
         factory :male_user do
-          gender "Male"
+          gender { "Male" }
         end
       end
     end
@@ -39,7 +39,7 @@ describe "modifying inherited factories with traits" do
   it "allows modification of attributes created via traits" do
     FactoryBot.modify do
       factory :male_user do
-        age 20
+        age { 20 }
       end
     end
 

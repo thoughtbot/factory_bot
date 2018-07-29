@@ -33,7 +33,7 @@ The following factories are invalid:
 
     FactoryBot.define do
       factory :user do
-        name 'assigned'
+        name { 'assigned' }
       end
     end
 
@@ -68,7 +68,7 @@ The following factories are invalid:
 
     FactoryBot.define do
       factory :user do
-        name "assigned"
+        name { "assigned" }
       end
     end
 
@@ -82,7 +82,7 @@ The following factories are invalid:
 
     FactoryBot.define do
       factory :user do
-        name "assigned"
+        name { "assigned" }
       end
     end
 
@@ -98,9 +98,9 @@ The following factories are invalid:
 
         FactoryBot.define do
           factory :user do
-            name "Yep"
+            name { "Yep" }
             trait :unnamed do
-              name nil
+              name { nil }
             end
           end
         end
@@ -123,9 +123,9 @@ The following factories are invalid:
 
         FactoryBot.define do
           factory :user do
-            name "Yep"
+            name { "Yep" }
             trait :renamed do
-              name "Yessir"
+              name { "Yessir" }
             end
           end
         end
@@ -144,9 +144,9 @@ The following factories are invalid:
 
         FactoryBot.define do
           factory :user do
-            name "Yep"
+            name { "Yep" }
             trait :unnamed do
-              name nil
+              name { nil }
             end
           end
         end
@@ -171,7 +171,7 @@ The following factories are invalid:
 
       FactoryBot.define do
         factory :user do
-          name "Barbara"
+          name { "Barbara" }
         end
       end
 
@@ -191,10 +191,10 @@ The following factories are invalid:
 
       FactoryBot.define do
         factory :user do
-          name "Barbara"
+          name { "Barbara" }
 
           trait :male do
-            name "Bob"
+            name { "Bob" }
           end
         end
       end
