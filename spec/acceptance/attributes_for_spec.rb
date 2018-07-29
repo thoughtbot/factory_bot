@@ -85,7 +85,7 @@ describe "`attributes_for` for a class whose constructor has required params" do
 
     FactoryBot.define do
       factory :user do
-        name "John Doe"
+        name { "John Doe" }
       end
     end
   end

@@ -4,7 +4,7 @@ Feature: FactoryBot can find factory definitions correctly
     """
     FactoryBot.define do
       factory :awesome_category, :class => Category do
-        name "awesome!!!"
+        name { "awesome!!!" }
       end
     end
     """
@@ -19,7 +19,7 @@ Feature: FactoryBot can find factory definitions correctly
     """
     FactoryBot.define do
       factory :another_awesome_category, :class => Category do
-        name "awesome!!!"
+        name { "awesome!!!" }
       end
     end
     """
@@ -34,7 +34,7 @@ Feature: FactoryBot can find factory definitions correctly
     """
     FactoryBot.define do
       factory :great_category, :class => Category do
-        name "great!!!"
+        name { "great!!!" }
       end
     end
     """
@@ -50,11 +50,11 @@ Feature: FactoryBot can find factory definitions correctly
     FactoryBot.define do
       sequence(:great)
       trait :admin do
-        admin true
+        admin { true }
       end
 
       factory :handy_category, :class => Category do
-        name "handy"
+        name { "handy" }
       end
     end
     """
@@ -64,7 +64,7 @@ Feature: FactoryBot can find factory definitions correctly
 
     FactoryBot.modify do
       factory :handy_category do
-        name "HANDY!!!"
+        name { "HANDY!!!" }
       end
     end
     """

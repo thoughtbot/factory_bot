@@ -18,7 +18,7 @@ describe "using ActiveSupport::Instrumentation to track factory interaction" do
     define_model("User", email: :string)
     FactoryBot.define do
       factory :user do
-        email "john@example.com"
+        email { "john@example.com" }
 
         factory :slow_user do
           after(:build) { Kernel.sleep(0.1) }

@@ -23,7 +23,7 @@ describe "attributes defined using Symbol#to_proc" do
 
     FactoryBot.define do
       factory :user do
-        password "foo"
+        password { "foo" }
         password_confirmation &:password
       end
     end

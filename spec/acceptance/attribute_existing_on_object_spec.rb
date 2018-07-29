@@ -4,9 +4,9 @@ describe "declaring attributes on a Factory that are private methods on Object" 
 
     FactoryBot.define do
       factory :website do
-        system false
-        link   "http://example.com"
-        sleep  15
+        system { false }
+        link   { "http://example.com" }
+        sleep  { 15 }
       end
     end
   end

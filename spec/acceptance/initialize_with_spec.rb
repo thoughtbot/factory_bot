@@ -63,7 +63,7 @@ describe "initialize_with non-ORM-backed objects" do
 
       factory :report_generator do
         transient do
-          name "My Awesome Report"
+          name { "My Awesome Report" }
         end
 
         initialize_with { ReportGenerator.new(name, FactoryBot.generate(:random_data)) }
@@ -93,14 +93,14 @@ describe "initialize_with parent and child factories" do
     FactoryBot.define do
       factory :awesome do
         transient do
-          name "Great"
+          name { "Great" }
         end
 
         initialize_with { Awesome.new(name) }
 
         factory :sub_awesome do
           transient do
-            name "Sub"
+            name { "Sub" }
           end
         end
 
@@ -133,7 +133,7 @@ describe "initialize_with implicit constructor" do
     FactoryBot.define do
       factory :awesome do
         transient do
-          name "Great"
+          name { "Great" }
         end
 
         initialize_with { new(name) }
@@ -194,7 +194,7 @@ describe "initialize_with has access to all attributes for construction" do
 
       factory :user do
         transient do
-          ignored "of course!"
+          ignored { "of course!" }
         end
 
         email

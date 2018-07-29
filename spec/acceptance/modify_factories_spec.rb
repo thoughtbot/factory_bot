@@ -15,7 +15,7 @@ describe "modifying factories" do
         end
 
         factory :admin do
-          admin true
+          admin { true }
         end
       end
     end
@@ -25,7 +25,7 @@ describe "modifying factories" do
     before do
       FactoryBot.modify do
         factory :user do
-          name "Great User"
+          name { "Great User" }
         end
       end
     end
@@ -43,7 +43,7 @@ describe "modifying factories" do
     it "does allow the factory to be subsequently modified" do
       FactoryBot.modify do
         factory :user do
-          name "Overridden again!"
+          name { "Overridden again!" }
         end
       end
 
@@ -55,7 +55,7 @@ describe "modifying factories" do
     before do
       FactoryBot.modify do
         factory :user do
-          name "Great User"
+          name { "Great User" }
           after(:create) do |user|
             user.name = user.name.downcase
             user.login = nil
@@ -74,7 +74,7 @@ describe "modifying factories" do
     before do
       FactoryBot.define do
         trait :rockstar do
-          name "Johnny Rockstar!!!"
+          name { "Johnny Rockstar!!!" }
         end
       end
 
@@ -98,7 +98,7 @@ describe "modifying factories" do
       FactoryBot.modify do
         factory :user do
           email { "#{name}-modified@example.com" }
-          name "Great User"
+          name { "Great User" }
         end
       end
     end
@@ -156,7 +156,7 @@ describe "modifying factories" do
   it "doesn't overwrite already defined child's attributes" do
     FactoryBot.modify do
       factory :user do
-        admin false
+        admin { false }
       end
     end
     expect(create(:admin)).to be_admin
@@ -165,7 +165,7 @@ describe "modifying factories" do
   it "allows for overriding child classes" do
     FactoryBot.modify do
       factory :admin do
-        admin false
+        admin { false }
       end
     end
 

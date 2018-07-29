@@ -11,7 +11,7 @@ describe 'global to_create' do
       end
 
       factory :user do
-        name 'John Doe'
+        name { 'John Doe' }
 
         factory :child_user
 
@@ -21,7 +21,7 @@ describe 'global to_create' do
       end
 
       factory :post do
-        name 'Great title'
+        name { 'Great title' }
 
         factory :child_post
 
@@ -77,7 +77,7 @@ describe 'global skip_create' do
       end
 
       factory :user do
-        name 'John Doe'
+        name { 'John Doe' }
 
         factory :child_user
 
@@ -87,7 +87,7 @@ describe 'global skip_create' do
       end
 
       factory :post do
-        name 'Great title'
+        name { 'Great title' }
 
         factory :child_post
 

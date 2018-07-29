@@ -6,7 +6,7 @@ describe "aliases and overrides" do
 
     FactoryBot.define do
       factory :user do
-        two "set value"
+        two { "set value" }
       end
     end
   end

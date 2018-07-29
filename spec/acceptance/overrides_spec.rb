@@ -15,13 +15,13 @@ describe "attribute overrides" do
     FactoryBot.define do
       factory :user do
         factory :admin do
-          admin true
+          admin { true }
         end
       end
 
       factory :post do
         user
-        title "default title"
+        title { "default title" }
       end
     end
   end

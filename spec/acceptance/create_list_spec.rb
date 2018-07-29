@@ -4,7 +4,7 @@ describe "create multiple instances" do
 
     FactoryBot.define do
       factory(:post) do |post|
-        post.title "Through the Looking Glass"
+        post.title { "Through the Looking Glass" }
         post.position { rand(10**4) }
       end
     end
@@ -73,16 +73,16 @@ describe "multiple creates and transient attributes to dynamically build attribu
 
     FactoryBot.define do
       factory :post do
-        title "Through the Looking Glass"
+        title { "Through the Looking Glass" }
         user
       end
 
       factory :user do
-        name "John Doe"
+        name { "John Doe" }
 
         factory :user_with_posts do
           transient do
-            posts_count 5
+            posts_count { 5 }
           end
 
           after(:create) do |user, evaluator|

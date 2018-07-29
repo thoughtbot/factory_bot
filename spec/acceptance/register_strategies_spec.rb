@@ -22,7 +22,7 @@ describe "register custom strategies" do
   before do
     FactoryBot.define do
       factory :named_object do
-        name "Great"
+        name { "Great" }
       end
     end
   end
@@ -65,7 +65,7 @@ describe "including FactoryBot::Syntax::Methods when custom strategies have been
   before do
     FactoryBot.define do
       factory :named_object do
-        name "Great"
+        name { "Great" }
       end
     end
   end
@@ -93,7 +93,7 @@ describe "associations without overriding :strategy" do
       end
 
       factory :user do
-        name "John Doe"
+        name { "John Doe" }
       end
     end
   end
@@ -137,7 +137,7 @@ describe "associations overriding :strategy" do
       end
 
       factory :user do
-        name "John Doe"
+        name { "John Doe" }
       end
     end
   end

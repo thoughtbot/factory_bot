@@ -8,8 +8,8 @@ describe "transient attributes" do
       factory :user do
         transient do
           four     { 2 + 2 }
-          rockstar true
-          upcased  false
+          rockstar { true }
+          upcased  { false }
         end
 
         name  { "#{FactoryBot.generate(:name)}#{" - Rockstar" if rockstar}" }

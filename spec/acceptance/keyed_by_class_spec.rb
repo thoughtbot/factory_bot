@@ -6,7 +6,7 @@ describe "finding factories keyed by class instead of symbol" do
 
     FactoryBot.define do
       factory :user do
-        name "John Doe"
+        name { "John Doe" }
         sequence(:email) { |n| "person#{n}@example.com" }
       end
     end

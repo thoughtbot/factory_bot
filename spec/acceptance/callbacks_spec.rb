@@ -144,8 +144,8 @@ describe "custom callbacks" do
 
     FactoryBot.define do
       factory :user do
-        first_name "John"
-        last_name  "Doe"
+        first_name { "John" }
+        last_name  { "Doe" }
 
         before(:custom) { |instance| instance.first_name = "Overridden First" }
         after(:custom)  { |instance| instance.last_name  = "Overridden Last" }
