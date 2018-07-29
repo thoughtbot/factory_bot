@@ -2,17 +2,6 @@ describe FactoryBot::DefinitionProxy, "#add_attribute" do
   subject     { FactoryBot::Definition.new(:name) }
   let(:proxy) { FactoryBot::DefinitionProxy.new(subject) }
 
-  it "raises if both a block and value are given" do
-    expect {
-      proxy.add_attribute(:something, "great") { "will raise!" }
-    }.to raise_error(FactoryBot::AttributeDefinitionError, "Both value and block given")
-  end
-
-  it "declares a static attribute on the factory" do
-    proxy.add_attribute(:attribute_name, "attribute value")
-    expect(subject).to have_static_declaration(:attribute_name).with_value("attribute value")
-  end
-
   it "declares a dynamic attribute on the factory" do
     attribute_value = -> { "dynamic attribute" }
     proxy.add_attribute(:attribute_name, &attribute_value)
@@ -23,17 +12,6 @@ end
 describe FactoryBot::DefinitionProxy, "#add_attribute when the proxy ignores attributes" do
   subject     { FactoryBot::Definition.new(:name) }
   let(:proxy) { FactoryBot::DefinitionProxy.new(subject, true) }
-
-  it "raises if both a block and value are given" do
-    expect {
-      proxy.add_attribute(:something, "great") { "will raise!" }
-    }.to raise_error(FactoryBot::AttributeDefinitionError, "Both value and block given")
-  end
-
-  it "declares a static attribute on the factory" do
-    proxy.add_attribute(:attribute_name, "attribute value")
-    expect(subject).to have_static_declaration(:attribute_name).ignored.with_value("attribute value")
-  end
 
   it "declares a dynamic attribute on the factory" do
     attribute_value = -> { "dynamic attribute" }
@@ -47,11 +25,12 @@ describe FactoryBot::DefinitionProxy, "#transient" do
   let(:proxy) { FactoryBot::DefinitionProxy.new(subject) }
 
   it "makes all attributes added ignored" do
+    attribute_value = -> { "dynamic_attribute" }
     proxy.transient do
-      add_attribute(:attribute_name, "attribute value")
+      add_attribute(:attribute_name, &attribute_value)
     end
 
-    expect(subject).to have_static_declaration(:attribute_name).ignored.with_value("attribute value")
+    expect(subject).to have_dynamic_declaration(:attribute_name).ignored.with_value(attribute_value)
   end
 end
 
@@ -69,15 +48,15 @@ describe FactoryBot::DefinitionProxy, "#method_missing" do
     expect(subject).to have_association_declaration(:author).with_options(factory: :user)
   end
 
-  it "declares a static attribute" do
-    proxy.attribute_name "attribute value"
-    expect(subject).to have_static_declaration(:attribute_name).with_value("attribute value")
-  end
-
   it "declares a dynamic attribute" do
     attribute_value = -> { "dynamic attribute" }
     proxy.attribute_name(&attribute_value)
     expect(subject).to have_dynamic_declaration(:attribute_name).with_value(attribute_value)
+  end
+
+  it "calls super" do
+    invalid_call = -> { proxy.static_attributes_are_gone true }
+    expect(invalid_call).to raise_error(NoMethodError)
   end
 end
 
@@ -209,7 +188,7 @@ describe FactoryBot::DefinitionProxy, "#trait" do
   let(:proxy) { FactoryBot::DefinitionProxy.new(subject) }
 
   it "declares a trait" do
-    male_trait = Proc.new { gender("Male") }
+    male_trait = Proc.new { gender { "Male" } }
     proxy.trait(:male, &male_trait)
     expect(subject).to have_trait(:male).with_block(male_trait)
   end
