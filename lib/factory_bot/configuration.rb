@@ -11,7 +11,7 @@ module FactoryBot
       @traits         = Decorator::DisallowsDuplicatesRegistry.new(Registry.new('Trait'))
       @strategies     = Registry.new('Strategy')
       @callback_names = Set.new
-      @definition     = Definition.new
+      @definition     = Definition.new(:configuration)
 
       @allow_class_lookup = true
 

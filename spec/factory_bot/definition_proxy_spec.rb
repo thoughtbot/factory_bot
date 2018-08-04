@@ -1,5 +1,5 @@
 describe FactoryBot::DefinitionProxy, "#add_attribute" do
-  subject     { FactoryBot::Definition.new }
+  subject     { FactoryBot::Definition.new(:name) }
   let(:proxy) { FactoryBot::DefinitionProxy.new(subject) }
 
   it "raises if both a block and value are given" do
@@ -21,7 +21,7 @@ describe FactoryBot::DefinitionProxy, "#add_attribute" do
 end
 
 describe FactoryBot::DefinitionProxy, "#add_attribute when the proxy ignores attributes" do
-  subject     { FactoryBot::Definition.new }
+  subject     { FactoryBot::Definition.new(:name) }
   let(:proxy) { FactoryBot::DefinitionProxy.new(subject, true) }
 
   it "raises if both a block and value are given" do
@@ -43,7 +43,7 @@ describe FactoryBot::DefinitionProxy, "#add_attribute when the proxy ignores att
 end
 
 describe FactoryBot::DefinitionProxy, "#transient" do
-  subject     { FactoryBot::Definition.new }
+  subject     { FactoryBot::Definition.new(:name) }
   let(:proxy) { FactoryBot::DefinitionProxy.new(subject) }
 
   it "makes all attributes added ignored" do
@@ -56,7 +56,7 @@ describe FactoryBot::DefinitionProxy, "#transient" do
 end
 
 describe FactoryBot::DefinitionProxy, "#method_missing" do
-  subject     { FactoryBot::Definition.new }
+  subject     { FactoryBot::Definition.new(:name) }
   let(:proxy) { FactoryBot::DefinitionProxy.new(subject) }
 
   it "declares an implicit declaration without args or a block" do
@@ -82,30 +82,44 @@ describe FactoryBot::DefinitionProxy, "#method_missing" do
 end
 
 describe FactoryBot::DefinitionProxy, "#sequence" do
-  subject     { FactoryBot::Definition.new }
-  let(:proxy) { FactoryBot::DefinitionProxy.new(subject) }
 
-  before      { allow(FactoryBot::Sequence).to receive(:new) }
+  before do
+    allow(FactoryBot::Sequence).to receive(:new).and_call_original
+  end
+
+  def build_proxy(factory_name)
+    definition = FactoryBot::Definition.new(factory_name)
+    FactoryBot::DefinitionProxy.new(definition)
+  end
 
   it "creates a new sequence starting at 1" do
-    proxy.sequence(:great)
-    expect(FactoryBot::Sequence).to have_received(:new).with(:great)
+    proxy = build_proxy(:factory)
+    proxy.sequence(:sequence)
+
+    expect(FactoryBot::Sequence).to have_received(:new).
+      with("__factory_sequence__")
   end
 
   it "creates a new sequence with an overridden starting vaue" do
-    proxy.sequence(:great, "C")
-    expect(FactoryBot::Sequence).to have_received(:new).with(:great, "C")
+    proxy = build_proxy(:factory)
+    proxy.sequence(:sequence, "C")
+
+    expect(FactoryBot::Sequence).to have_received(:new).
+      with("__factory_sequence__", "C")
   end
 
   it "creates a new sequence with a block" do
     sequence_block = Proc.new { |n| "user+#{n}@example.com" }
-    proxy.sequence(:great, 1, &sequence_block)
-    expect(FactoryBot::Sequence).to have_received(:new).with(:great, 1, &sequence_block)
+    proxy = build_proxy(:factory)
+    proxy.sequence(:sequence, 1, &sequence_block)
+
+    expect(FactoryBot::Sequence).to have_received(:new).
+      with("__factory_sequence__", 1, &sequence_block)
   end
 end
 
 describe FactoryBot::DefinitionProxy, "#association" do
-  subject     { FactoryBot::Definition.new }
+  subject     { FactoryBot::Definition.new(:name) }
   let(:proxy) { FactoryBot::DefinitionProxy.new(subject) }
 
   it "declares an association" do
@@ -120,7 +134,7 @@ describe FactoryBot::DefinitionProxy, "#association" do
 end
 
 describe FactoryBot::DefinitionProxy, "adding callbacks" do
-  subject        { FactoryBot::Definition.new }
+  subject        { FactoryBot::Definition.new(:name) }
   let(:proxy)    { FactoryBot::DefinitionProxy.new(subject) }
   let(:callback) { -> { "my awesome callback!" } }
 
@@ -159,7 +173,7 @@ describe FactoryBot::DefinitionProxy, "adding callbacks" do
 end
 
 describe FactoryBot::DefinitionProxy, "#to_create" do
-  subject     { FactoryBot::Definition.new }
+  subject     { FactoryBot::Definition.new(:name) }
   let(:proxy) { FactoryBot::DefinitionProxy.new(subject) }
 
   it "accepts a block to run in place of #save!" do
@@ -170,7 +184,7 @@ describe FactoryBot::DefinitionProxy, "#to_create" do
 end
 
 describe FactoryBot::DefinitionProxy, "#factory" do
-  subject     { FactoryBot::Definition.new }
+  subject     { FactoryBot::Definition.new(:name) }
   let(:proxy) { FactoryBot::DefinitionProxy.new(subject) }
 
   it "without options" do
@@ -191,7 +205,7 @@ describe FactoryBot::DefinitionProxy, "#factory" do
 end
 
 describe FactoryBot::DefinitionProxy, "#trait" do
-  subject     { FactoryBot::Definition.new }
+  subject     { FactoryBot::Definition.new(:name) }
   let(:proxy) { FactoryBot::DefinitionProxy.new(subject) }
 
   it "declares a trait" do
@@ -202,7 +216,7 @@ describe FactoryBot::DefinitionProxy, "#trait" do
 end
 
 describe FactoryBot::DefinitionProxy, "#initialize_with" do
-  subject     { FactoryBot::Definition.new }
+  subject     { FactoryBot::Definition.new(:name) }
   let(:proxy) { FactoryBot::DefinitionProxy.new(subject) }
 
   it "defines the constructor on the definition" do
