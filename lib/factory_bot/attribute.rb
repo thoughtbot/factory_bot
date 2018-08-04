@@ -1,4 +1,3 @@
-require 'factory_bot/attribute/static'
 require 'factory_bot/attribute/dynamic'
 require 'factory_bot/attribute/association'
 require 'factory_bot/attribute/sequence'

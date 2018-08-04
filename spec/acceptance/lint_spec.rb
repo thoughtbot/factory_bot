@@ -1,10 +1,10 @@
-describe 'FactoryBot.lint' do
-  it 'raises when a factory is invalid' do
-    define_model 'User', name: :string do
+describe "FactoryBot.lint" do
+  it "raises when a factory is invalid" do
+    define_model "User", name: :string do
       validates :name, presence: true
     end
 
-    define_model 'AlwaysValid'
+    define_model "AlwaysValid"
 
     FactoryBot.define do
       factory :user do
@@ -26,26 +26,26 @@ The following factories are invalid:
     end.to raise_error FactoryBot::InvalidFactoryError, error_message
   end
 
-  it 'does not raise when all factories are valid' do
-    define_model 'User', name: :string do
+  it "does not raise when all factories are valid" do
+    define_model "User", name: :string do
       validates :name, presence: true
     end
 
     FactoryBot.define do
       factory :user do
-        name { 'assigned' }
+        name { "assigned" }
       end
     end
 
     expect { FactoryBot.lint }.not_to raise_error
   end
 
-  it 'allows for selective linting' do
-    define_model 'InvalidThing', name: :string do
+  it "allows for selective linting" do
+    define_model "InvalidThing", name: :string do
       validates :name, presence: true
     end
 
-    define_model 'ValidThing', name: :string
+    define_model "ValidThing", name: :string
 
     FactoryBot.define do
       factory :valid_thing
