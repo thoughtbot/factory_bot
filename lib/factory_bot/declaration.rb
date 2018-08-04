@@ -1,4 +1,3 @@
-require 'factory_bot/declaration/static'
 require 'factory_bot/declaration/dynamic'
 require 'factory_bot/declaration/association'
 require 'factory_bot/declaration/implicit'

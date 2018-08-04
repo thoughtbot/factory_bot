@@ -1,8 +1,4 @@
 module DeclarationMatchers
-  def have_static_declaration(name)
-    DeclarationMatcher.new(:static).named(name)
-  end
-
   def have_dynamic_declaration(name)
     DeclarationMatcher.new(:dynamic).named(name)
   end
@@ -60,7 +56,6 @@ module DeclarationMatchers
 
     def expected_declaration
       case @declaration_type
-      when :static      then FactoryBot::Declaration::Static.new(@name, @value, ignored?)
       when :dynamic     then FactoryBot::Declaration::Dynamic.new(@name, ignored?, @value)
       when :implicit    then FactoryBot::Declaration::Implicit.new(@name, @factory, ignored?)
       when :association

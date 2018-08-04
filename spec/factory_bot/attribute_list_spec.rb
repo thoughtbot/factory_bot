@@ -1,24 +1,30 @@
 describe FactoryBot::AttributeList, "#define_attribute" do
-  let(:static_attribute)  { FactoryBot::Attribute::Static.new(:full_name, "value", false) }
-  let(:dynamic_attribute) { FactoryBot::Attribute::Dynamic.new(:email, false, ->(u) { "#{u.full_name}@example.com" }) }
-
   it "maintains a list of attributes" do
-    subject.define_attribute(static_attribute)
-    expect(subject.to_a).to eq [static_attribute]
+    attribute = double(:attribute, name: :attribute_name)
+    another_attribute = double(:attribute, name: :another_attribute_name)
 
-    subject.define_attribute(dynamic_attribute)
-    expect(subject.to_a).to eq [static_attribute, dynamic_attribute]
+    subject.define_attribute(attribute)
+    expect(subject.to_a).to eq [attribute]
+
+    subject.define_attribute(another_attribute)
+    expect(subject.to_a).to eq [attribute, another_attribute]
   end
 
   it "returns the attribute" do
-    expect(subject.define_attribute(static_attribute)).to eq static_attribute
-    expect(subject.define_attribute(dynamic_attribute)).to eq dynamic_attribute
+    attribute = double(:attribute, name: :attribute_name)
+
+    expect(subject.define_attribute(attribute)).to eq attribute
   end
 
   it "raises if an attribute has already been defined" do
+    attribute = double(:attribute, name: :attribute_name)
+
     expect {
-      2.times { subject.define_attribute(static_attribute) }
-    }.to raise_error(FactoryBot::AttributeDefinitionError, "Attribute already defined: full_name")
+      2.times { subject.define_attribute(attribute) }
+    }.to raise_error(
+      FactoryBot::AttributeDefinitionError,
+      "Attribute already defined: attribute_name",
+    )
   end
 end
 
@@ -38,33 +44,29 @@ describe FactoryBot::AttributeList, "#define_attribute with a named attribute li
 end
 
 describe FactoryBot::AttributeList, "#apply_attributes" do
-  let(:full_name_attribute) { FactoryBot::Attribute::Static.new(:full_name, "John Adams", false) }
-  let(:city_attribute)      { FactoryBot::Attribute::Static.new(:city, "Boston", false) }
-  let(:email_attribute)     { FactoryBot::Attribute::Dynamic.new(:email, false, ->(model) { "#{model.full_name}@example.com" }) }
-  let(:login_attribute)     { FactoryBot::Attribute::Dynamic.new(:login, false, ->(model) { "username-#{model.full_name}" }) }
-
   def list(*attributes)
     FactoryBot::AttributeList.new.tap do |list|
       attributes.each { |attribute| list.define_attribute(attribute) }
     end
   end
 
-  it "adds attributes in the order defined regardless of attribute type" do
-    subject.define_attribute(full_name_attribute)
-    subject.define_attribute(login_attribute)
-    subject.apply_attributes(list(city_attribute, email_attribute))
-    expect(subject.to_a).to eq [full_name_attribute, login_attribute, city_attribute, email_attribute]
+  it "adds attributes in the order defined" do
+    attribute1 = double(:attribute1, name: :attribute1)
+    attribute2 = double(:attribute2, name: :attribute2)
+    attribute3 = double(:attribute3, name: :attribute3)
+
+    subject.define_attribute(attribute1)
+    subject.apply_attributes(list(attribute2, attribute3))
+    expect(subject.to_a).to eq [attribute1, attribute2, attribute3]
   end
 end
 
 describe FactoryBot::AttributeList, "#associations" do
-  let(:full_name_attribute) { FactoryBot::Attribute::Static.new(:full_name, "value", false) }
   let(:email_attribute)     { FactoryBot::Attribute::Dynamic.new(:email, false, ->(u) { "#{u.full_name}@example.com" }) }
   let(:author_attribute)    { FactoryBot::Attribute::Association.new(:author, :user, {}) }
   let(:profile_attribute)   { FactoryBot::Attribute::Association.new(:profile, :profile, {}) }
 
   before do
-    subject.define_attribute(full_name_attribute)
     subject.define_attribute(email_attribute)
     subject.define_attribute(author_attribute)
     subject.define_attribute(profile_attribute)
@@ -77,11 +79,11 @@ end
 
 describe FactoryBot::AttributeList, "filter based on ignored attributes" do
   def build_ignored_attribute(name)
-    FactoryBot::Attribute::Static.new(name, "value", true)
+    FactoryBot::Attribute::Dynamic.new(name, true, -> { "value" })
   end
 
   def build_non_ignored_attribute(name)
-    FactoryBot::Attribute::Static.new(name, "value", false)
+    FactoryBot::Attribute::Dynamic.new(name, false, -> { "value" })
   end
 
   before do
@@ -103,11 +105,11 @@ end
 
 describe FactoryBot::AttributeList, "generating names" do
   def build_ignored_attribute(name)
-    FactoryBot::Attribute::Static.new(name, "value", true)
+    FactoryBot::Attribute::Dynamic.new(name, true, -> { "value" })
   end
 
   def build_non_ignored_attribute(name)
-    FactoryBot::Attribute::Static.new(name, "value", false)
+    FactoryBot::Attribute::Dynamic.new(name, false, -> { "value" })
   end
 
   def build_association(name)

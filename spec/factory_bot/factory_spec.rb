@@ -60,20 +60,16 @@ describe FactoryBot::Factory do
     end
 
     it "returns the overridden value in the generated attributes" do
-      declaration = FactoryBot::Declaration::Static.new(@name, 'The price is wrong, Bob!')
+      declaration =
+        FactoryBot::Declaration::Dynamic.new(@name, false, -> { flunk })
       @factory.declare_attribute(declaration)
       result = @factory.run(FactoryBot::Strategy::AttributesFor, @hash)
       expect(result[@name]).to eq @value
     end
 
-    it "does not call a lazy attribute block for an overridden attribute" do
-      declaration = FactoryBot::Declaration::Dynamic.new(@name, false, -> { flunk })
-      @factory.declare_attribute(declaration)
-      @factory.run(FactoryBot::Strategy::AttributesFor, @hash)
-    end
-
     it "overrides a symbol parameter with a string parameter" do
-      declaration = FactoryBot::Declaration::Static.new(@name, 'The price is wrong, Bob!')
+      declaration =
+        FactoryBot::Declaration::Dynamic.new(@name, false, -> { flunk })
       @factory.declare_attribute(declaration)
       @hash = { @name.to_s => @value }
       result = @factory.run(FactoryBot::Strategy::AttributesFor, @hash)
@@ -83,10 +79,16 @@ describe FactoryBot::Factory do
 
   describe "overriding an attribute with an alias" do
     before do
-      @factory.declare_attribute(FactoryBot::Declaration::Static.new(:test, 'original'))
+      attribute = FactoryBot::Declaration::Dynamic.new(
+        :test,
+        false, -> { "original" }
+      )
+      @factory.declare_attribute(attribute)
       FactoryBot.aliases << [/(.*)_alias/, '\1']
-      @result = @factory.run(FactoryBot::Strategy::AttributesFor,
-                             test_alias: 'new')
+      @result = @factory.run(
+        FactoryBot::Strategy::AttributesFor,
+        test_alias: "new",
+      )
     end
 
     it "uses the passed in value for the alias" do
@@ -224,18 +226,22 @@ describe FactoryBot::Factory, "human names" do
 end
 
 describe FactoryBot::Factory, "running a factory" do
-  subject              { FactoryBot::Factory.new(:user) }
-  let(:attribute)      { FactoryBot::Attribute::Static.new(:name, "value", false) }
-  let(:declaration)    { FactoryBot::Declaration::Static.new(:name, "value", false) }
+  subject { FactoryBot::Factory.new(:user) }
+  let(:attribute) do
+    FactoryBot::Attribute::Dynamic.new(:name, false, -> { "value" })
+  end
+  let(:declaration) do
+    FactoryBot::Declaration::Dynamic.new(:name, false, -> { "value" })
+  end
   let(:strategy) { double("strategy", result: "result", add_observer: true) }
-  let(:attributes)     { [attribute] }
+  let(:attributes) { [attribute] }
   let(:attribute_list) do
     double("attribute-list", declarations: [declaration], to_a: attributes)
   end
 
   before do
     define_model("User", name: :string)
-    allow(FactoryBot::Declaration::Static).to receive(:new).
+    allow(FactoryBot::Declaration::Dynamic).to receive(:new).
       and_return declaration
     allow(declaration).to receive(:to_attributes).and_return attributes
     allow(FactoryBot::Strategy::Build).to receive(:new).and_return strategy
