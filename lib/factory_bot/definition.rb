@@ -1,9 +1,10 @@
 module FactoryBot
   # @api private
   class Definition
-    attr_reader :defined_traits, :declarations
+    attr_reader :defined_traits, :declarations, :name
 
-    def initialize(name = nil, base_traits = [])
+    def initialize(name, base_traits = [])
+      @name              = name
       @declarations      = DeclarationList.new(name)
       @callbacks         = []
       @defined_traits    = Set.new

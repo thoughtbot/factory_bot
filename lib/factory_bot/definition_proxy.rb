@@ -121,7 +121,9 @@ module FactoryBot
     #
     # Except that no globally available sequence will be defined.
     def sequence(name, *args, &block)
-      sequence = Sequence.new(name, *args, &block)
+      sequence_name = "__#{@definition.name}_#{name}__"
+      sequence = Sequence.new(sequence_name, *args, &block)
+      FactoryBot.register_sequence(sequence)
       add_attribute(name) { increment_sequence(sequence) }
     end
 
