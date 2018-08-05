@@ -7,7 +7,8 @@ describe "a generated stub instance" do
     define_model('Post', title:   :string,
                          body:    :string,
                          age:     :integer,
-                         user_id: :integer) do
+                         user_id: :integer,
+                         draft: :boolean) do
       belongs_to :user
     end
 
@@ -77,12 +78,34 @@ describe "a generated stub instance" do
     expect { subject.save }.to raise_error(RuntimeError)
   end
 
-  it "disables increment" do
+  it "disables increment!" do
     expect { subject.increment!(:age) }.to raise_error(RuntimeError)
   end
 
-  it "disables decrement" do
+  it "disables decrement!" do
     expect { subject.decrement!(:age) }.to raise_error(RuntimeError)
+  end
+
+  it "disables toggle!" do
+    expect { subject.toggle!(:draft) }.to raise_error(RuntimeError)
+  end
+
+  it "allows increment" do
+    subject.age = 1
+    subject.increment(:age)
+    expect(subject.age).to eq(2)
+  end
+
+  it "allows decrement" do
+    subject.age = 1
+    subject.decrement(:age)
+    expect(subject.age).to eq(0)
+  end
+
+  it "allows toggle" do
+    subject.draft = true
+    subject.toggle(:draft)
+    expect(subject).not_to be_draft
   end
 end
 
