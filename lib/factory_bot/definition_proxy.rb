@@ -181,9 +181,21 @@ module FactoryBot
         attribute_caller = caller(3)
       end
 
-      ActiveSupport::Deprecation.warn("Static attributes will be removed in "\
-        "FactoryBot 5.0. Please use dynamic attributes instead. Static "\
-        "attribute=#{name.inspect} value=#{value.inspect}", attribute_caller)
+      ActiveSupport::Deprecation.warn(<<-MSG, attribute_caller)
+Static attributes will be removed in FactoryBot 5.0. Please use dynamic
+attributes instead by wrapping the attribute value in a block:
+
+#{name} { #{value.inspect} }
+
+To automatically update from static attributes to dynamic ones,
+install rubocop-rspec and run:
+
+rubocop \\
+  --require rubocop-rspec \\
+  --only FactoryBot/AttributeDefinedStatically \\
+  --auto-correct
+
+      MSG
     end
   end
 end
