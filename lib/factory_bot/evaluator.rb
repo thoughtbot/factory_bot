@@ -38,7 +38,7 @@ module FactoryBot
     end
 
     def method_missing(method_name, *args, &block)
-      if @instance.respond_to?(method_name)
+      if @instance.respond_to?(method_name, true)
         @instance.send(method_name, *args, &block)
       else
         SyntaxRunner.new.send(method_name, *args, &block)
@@ -46,7 +46,8 @@ module FactoryBot
     end
 
     def respond_to_missing?(method_name, include_private = false)
-      @instance.respond_to?(method_name) || SyntaxRunner.new.respond_to?(method_name)
+      @instance.respond_to?(method_name, include_private) ||
+        SyntaxRunner.new.respond_to?(method_name, include_private)
     end
 
     def __override_names__
