@@ -10,7 +10,9 @@ Gem::Specification.new do |s|
                   "using factories - less error-prone, more explicit, and "\
                   "all-around easier to work with than fixtures."
 
-  s.files = Dir.glob("lib/**/*") + %w[GETTING_STARTED.md LICENSE README.md]
+  s.files =
+    Dir.glob("lib/**/*") +
+    %w[CONTRIBUTING.md GETTING_STARTED.md LICENSE NAME.md NEWS README.md]
 
   s.require_path = "lib"
   s.required_ruby_version = Gem::Requirement.new(">= 1.9.2")
