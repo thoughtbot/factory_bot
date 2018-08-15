@@ -108,17 +108,26 @@ Each factory has a name and a set of attributes. The name is used to guess the c
 # This will guess the User class
 FactoryBot.define do
   factory :user do
-    first_name "John"
-    last_name  "Doe"
-    admin false
+    first_name { "John" }
+    last_name  { "Doe" }
+    admin { false }
   end
 
   # This will use the User class (Admin would have been guessed)
   factory :admin, class: User do
-    first_name "Admin"
-    last_name  "User"
-    admin      true
+    first_name { "Admin" }
+    last_name { "User" }
+    admin { true }
   end
+end
+```
+
+Because of the block syntax in Ruby, defining attributes as `Hash`es (for
+serialized/JSON columns, for example) requires two sets of curly brackets:
+
+```ruby
+factory :program do
+  configuration { { auto_resolve: false, auto_define: true } }
 end
 ```
 
@@ -168,29 +177,19 @@ user.first_name
 # => "Joe"
 ```
 
-Dynamic Attributes
+Static Attributes
 ------------------
 
-Most factory attributes can be added using static values that are evaluated when
-the factory is defined, but some attributes (such as associations and other
-attributes that must be dynamically generated) will need values assigned each
-time an instance is generated. These "dynamic" attributes can be added by passing a
-block instead of a parameter:
+Static attributes, without a block, are deprecated and will be removed in
+factory\_bot 5. 
 
 ```ruby
 factory :user do
-  # ...
-  activation_code { User.generate_activation_code }
-  date_of_birth   { 21.years.ago }
-end
-```
+  # Do not use deprecated static attributes
+  admin true
 
-Because of the block syntax in Ruby, defining attributes as `Hash`es (for
-serialized/JSON columns, for example) requires two sets of curly brackets:
-
-```ruby
-factory :program do
-  configuration { { auto_resolve: false, auto_define: true } }
+  # Use dynamic attribues instead
+  admin { true }
 end
 ```
 
@@ -200,8 +199,8 @@ factory_bot allows you to define aliases to existing factories to make them easi
 
 ```ruby
 factory :user, aliases: [:author, :commenter] do
-  first_name    "John"
-  last_name     "Doe"
+  first_name { "John" }
+  last_name { "Doe" }
   date_of_birth { 18.years.ago }
 end
 
@@ -209,15 +208,15 @@ factory :post do
   author
   # instead of
   # association :author, factory: :user
-  title "How to read a book effectively"
-  body  "There are five steps involved."
+  title { "How to read a book effectively" }
+  body { "There are five steps involved." }
 end
 
 factory :comment do
   commenter
   # instead of
   # association :commenter, factory: :user
-  body "Great article!"
+  body { "Great article!" }
 end
 ```
 
@@ -229,8 +228,8 @@ that is yielded to dynamic attribute blocks:
 
 ```ruby
 factory :user do
-  first_name "Joe"
-  last_name  "Blow"
+  first_name { "Joe" }
+  last_name  { "Blow" }
   email { "#{first_name}.#{last_name}@example.com".downcase }
 end
 
@@ -246,11 +245,11 @@ There may be times where your code can be DRYed up by passing in transient attri
 ```ruby
 factory :user do
   transient do
-    rockstar true
-    upcased  false
+    rockstar { true }
+    upcased { false }
   end
 
-  name  { "John Doe#{" - Rockstar" if rockstar}" }
+  name { "John Doe#{" - Rockstar" if rockstar}" }
   email { "#{name.downcase}@example.com" }
 
   after(:create) do |user, evaluator|
@@ -294,10 +293,10 @@ You can easily create multiple factories for the same class without repeating co
 
 ```ruby
 factory :post do
-  title "A title"
+  title { "A title" }
 
   factory :approved_post do
-    approved true
+    approved { true }
   end
 end
 
@@ -310,11 +309,11 @@ You can also assign the parent explicitly:
 
 ```ruby
 factory :post do
-  title "A title"
+  title { "A title" }
 end
 
 factory :approved_post, parent: :post do
-  approved true
+  approved { true }
 end
 ```
 
@@ -390,20 +389,20 @@ FactoryBot.define do
 
   # post factory with a `belongs_to` association for the user
   factory :post do
-    title "Through the Looking Glass"
+    title { "Through the Looking Glass" }
     user
   end
 
   # user factory without associated posts
   factory :user do
-    name "John Doe"
+    name { "John Doe" }
 
     # user_with_posts will create post data after the user has been created
     factory :user_with_posts do
       # posts_count is declared as a transient attribute and available in
       # attributes on the factory, as well as the callback via the evaluator
       transient do
-        posts_count 5
+        posts_count { 5 }
       end
 
       # the after(:create) yields two values; the user instance itself and the
@@ -439,13 +438,13 @@ FactoryBot.define do
 
   # language factory with a `belongs_to` association for the profile
   factory :language do
-    title "Through the Looking Glass"
+    title { "Through the Looking Glass" }
     profile
   end
 
   # profile factory without associated languages
   factory :profile do
-    name "John Doe"
+    name { "John Doe" }
 
     # profile_with_languages will create language data after the profile has
     # been created
@@ -453,7 +452,7 @@ FactoryBot.define do
       # languages_count is declared as an ignored attribute and available in
       # attributes on the factory, as well as the callback via the evaluator
       transient do
-        languages_count 5
+        languages_count { 5 }
       end
 
       # the after(:create) yields two values; the profile instance itself and
@@ -596,25 +595,25 @@ to any factory.
 factory :user, aliases: [:author]
 
 factory :story do
-  title "My awesome story"
+  title { "My awesome story" }
   author
 
   trait :published do
-    published true
+    published { true }
   end
 
   trait :unpublished do
-    published false
+    published { false }
   end
 
   trait :week_long_publishing do
     start_at { 1.week.ago }
-    end_at   { Time.now }
+    end_at { Time.now }
   end
 
   trait :month_long_publishing do
     start_at { 1.month.ago }
-    end_at   { Time.now }
+    end_at { Time.now }
   end
 
   factory :week_long_published_story,    traits: [:published, :week_long_publishing]
@@ -639,23 +638,23 @@ the trait that defines the attribute latest gets precedence.
 
 ```ruby
 factory :user do
-  name "Friendly User"
+  name { "Friendly User" }
   login { name }
 
   trait :male do
-    name   "John Doe"
-    gender "Male"
+    name { "John Doe" }
+    gender { "Male" }
     login { "#{name} (M)" }
   end
 
   trait :female do
-    name   "Jane Doe"
-    gender "Female"
+    name { "Jane Doe" }
+    gender { "Female" }
     login { "#{name} (F)" }
   end
 
   trait :admin do
-    admin true
+    admin { true }
     login { "admin-#{name}" }
   end
 
@@ -668,18 +667,18 @@ You can also override individual attributes granted by a trait in subclasses.
 
 ```ruby
 factory :user do
-  name "Friendly User"
+  name { "Friendly User" }
   login { name }
 
   trait :male do
-    name   "John Doe"
-    gender "Male"
+    name { "John Doe" }
+    gender { "Male" }
     login { "#{name} (M)" }
   end
 
   factory :brandon do
     male
-    name "Brandon"
+    name { "Brandon" }
   end
 end
 ```
@@ -688,15 +687,15 @@ Traits can also be passed in as a list of symbols when you construct an instance
 
 ```ruby
 factory :user do
-  name "Friendly User"
+  name { "Friendly User" }
 
   trait :male do
-    name   "John Doe"
-    gender "Male"
+    name { "John Doe" }
+    gender { "Male" }
   end
 
   trait :admin do
-    admin true
+    admin { true }
   end
 end
 
@@ -712,10 +711,10 @@ the number of instances to create/build as second parameter, as documented in th
 
 ```ruby
 factory :user do
-  name "Friendly User"
+  name { "Friendly User" }
 
   trait :admin do
-    admin true
+    admin { true }
   end
 end
 
@@ -727,10 +726,10 @@ Traits can be used with associations easily too:
 
 ```ruby
 factory :user do
-  name "Friendly User"
+  name { "Friendly User" }
 
   trait :admin do
-    admin true
+    admin { true }
   end
 end
 
@@ -746,10 +745,10 @@ When you're using association names that're different than the factory:
 
 ```ruby
 factory :user do
-  name "Friendly User"
+  name { "Friendly User" }
 
   trait :admin do
-    admin true
+    admin { true }
   end
 end
 
@@ -784,7 +783,7 @@ Finally, traits can accept transient attributes.
 factory :invoice do
   trait :with_amount do
     transient do
-      amount 1
+      amount { 1 }
     end
 
     after(:create) do |invoice, evaluator|
@@ -858,7 +857,7 @@ FactoryBot.define do
   after(:create) { |object| AuditLog.create(attrs: object.attributes) }
 
   factory :user do
-    name "John Doe"
+    name { "John Doe" }
   end
 end
 ```
@@ -896,7 +895,7 @@ FactoryBot.define do
   factory :user do
     full_name "John Doe"
     sequence(:username) { |n| "user#{n}" }
-    password "password"
+    password { "password" }
   end
 end
 ```
@@ -906,10 +905,10 @@ Instead of creating a child factory that added additional attributes:
 ```ruby
 FactoryBot.define do
   factory :application_user, parent: :user do
-    full_name     "Jane Doe"
+    full_name { "Jane Doe" }
     date_of_birth { 21.years.ago }
-    gender        "Female"
-    health        90
+    gender { "Female" }
+    health { 90 }
   end
 end
 ```
@@ -919,10 +918,10 @@ You could modify that factory instead.
 ```ruby
 FactoryBot.modify do
   factory :user do
-    full_name     "Jane Doe"
+    full_name { "Jane Doe" }
     date_of_birth { 21.years.ago }
-    gender        "Female"
-    health        90
+    gender { "Female" }
+    health { 90 }
   end
 end
 ```
@@ -1070,7 +1069,7 @@ end
 sequence(:email) { |n| "person#{n}@example.com" }
 
 factory :user do
-  name "Jane Doe"
+  name { "Jane Doe" }
   email
 
   initialize_with { new(name) }
@@ -1100,7 +1099,7 @@ For example:
 
 ```ruby
 factory :user do
-  name "John Doe"
+  name { "John Doe" }
 
   initialize_with { User.build_with_name(name) }
 end
@@ -1112,7 +1111,7 @@ by calling `attributes`:
 ```ruby
 factory :user do
   transient do
-    comments_count 5
+    comments_count { 5 }
   end
 
   name "John Doe"
@@ -1285,7 +1284,7 @@ FactoryBot.define do
 
 
   factory :user do
-    name "John Doe"
+    name { "John Doe" }
   end
 end
 ```
@@ -1339,12 +1338,12 @@ with associations, as below:
 ```ruby
 FactoryBot.define do
   factory :united_states, class: Location do
-    name 'United States'
+    name { 'United States' }
     association :location_group, factory: :north_america
   end
 
   factory :north_america, class: LocationGroup do
-    name 'North America'
+    name { 'North America' }
   end
 end
 ```
@@ -1398,7 +1397,7 @@ require 'factory_bot'
 
 FactoryBot.define do
   factory :user do
-    name 'John Doe'
+    name { 'John Doe' }
     date_of_birth { 21.years.ago }
   end
 end
