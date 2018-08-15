@@ -1,3 +1,8 @@
+4.11.0 (August, 15, 2018)
+  Bugfix: Do not raise error for valid build_stubbed methods: decrement, increment, and toggle
+  Bugfix: Do not add timestamps with build_stubbed for objects that shouldn't have timestamps
+  Deprecate static attributes
+
 4.10.0 (May 25, 2018)
   Allow sequences to be rewound
 
