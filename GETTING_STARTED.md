@@ -188,7 +188,7 @@ factory :user do
   # Do not use deprecated static attributes
   admin true
 
-  # Use dynamic attribues instead
+  # Use dynamic attributes instead
   admin { true }
 end
 ```
