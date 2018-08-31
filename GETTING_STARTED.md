@@ -274,7 +274,7 @@ transient attributes from there.
 Method Name / Reserved Word Attributes
 -------------------------------
 
-If your attributes conflict with existing methods or reserved words you can define them with `add_attribute`.
+If your attributes conflict with existing methods or reserved words (all methods in the [DefinitionProxy](https://github.com/thoughtbot/factory_bot/blob/master/lib/factory_bot/definition_proxy.rb) class) you can define them with `add_attribute`.
 
 ```ruby
 factory :dna do
