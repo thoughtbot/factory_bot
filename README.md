@@ -18,7 +18,7 @@ Documentation
 
 You should find the documentation for your version of factory_bot on [Rubygems](https://rubygems.org/gems/factory_bot).
 
-See [GETTING_STARTED] for information on defining and using factories. We also
+See [GETTING_STARTED]: https://www.rubydoc.info/github/thoughtbot/factory_bot/file/GETTING_STARTED.md for information on defining and using factories. We also
 have [a detailed introductory video][], available for free on Upcase.
 
 [a detailed introductory video]: https://upcase.com/videos/factory-girl?utm_source=github&utm_medium=open-source&utm_campaign=factory-girl
@@ -72,7 +72,8 @@ More Information
 
 You may also find useful information under the [factory_girl tag on Stack Overflow](http://stackoverflow.com/questions/tagged/factory-girl).
 
-[GETTING_STARTED]: http://rubydoc.info/gems/factory_bot/file/GETTING_STARTED.md
+[GETTING_STARTED]: https://www.rubydoc.info/github/thoughtbot/factory_bot/file/GETTING_STARTED.md
+
 
 Contributing
 ------------
