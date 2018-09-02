@@ -72,7 +72,7 @@ More Information
 
 You may also find useful information under the [factory_girl tag on Stack Overflow](http://stackoverflow.com/questions/tagged/factory-girl).
 
-[GETTING_STARTED]: http://rubydoc.info/gems/factory_bot/file/GETTING_STARTED.md
+[GETTING_STARTED]: ./GETTING_STARTED.md
 
 Contributing
 ------------
