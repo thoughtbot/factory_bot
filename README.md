@@ -66,13 +66,13 @@ More Information
 ----------------
 
 * [Rubygems](https://rubygems.org/gems/factory_bot)
-* [Stack Overflow](http://stackoverflow.com/questions/tagged/factory-bot)
+* [Stack Overflow](https://stackoverflow.com/questions/tagged/factory-bot)
 * [Issues](https://github.com/thoughtbot/factory_bot/issues)
-* [GIANT ROBOTS SMASHING INTO OTHER GIANT ROBOTS](http://robots.thoughtbot.com/)
+* [GIANT ROBOTS SMASHING INTO OTHER GIANT ROBOTS](https://robots.thoughtbot.com/)
 
-You may also find useful information under the [factory_girl tag on Stack Overflow](http://stackoverflow.com/questions/tagged/factory-girl).
+You may also find useful information under the [factory_girl tag on Stack Overflow](https://stackoverflow.com/questions/tagged/factory-girl).
 
-[GETTING_STARTED]: http://rubydoc.info/gems/factory_bot/file/GETTING_STARTED.md
+[GETTING_STARTED]: https://www.rubydoc.info/gems/factory_bot/file/GETTING_STARTED.md
 
 Contributing
 ------------
@@ -93,7 +93,7 @@ software, and may be redistributed under the terms specified in the
 About thoughtbot
 ----------------
 
-![thoughtbot](http://presskit.thoughtbot.com/images/thoughtbot-logo-for-readmes.svg)
+![thoughtbot](https://presskit.thoughtbot.com/images/thoughtbot-logo-for-readmes.svg)
 
 factory_bot is maintained and funded by thoughtbot, inc.
 The names and logos for thoughtbot are trademarks of thoughtbot, inc.
@@ -105,7 +105,7 @@ See [our other projects][community] or
 [community]: https://thoughtbot.com/community?utm_source=github
 [hire]: https://thoughtbot.com/hire-us?utm_source=github
 [ci-image]: https://travis-ci.org/thoughtbot/factory_bot.svg
-[ci]: http://travis-ci.org/thoughtbot/factory_bot?branch=master
+[ci]: https://travis-ci.org/thoughtbot/factory_bot?branch=master
 [grade-image]: https://codeclimate.com/github/thoughtbot/factory_bot/badges/gpa.svg
 [grade]: https://codeclimate.com/github/thoughtbot/factory_bot
 [version-image]: https://badge.fury.io/rb/factory_bot.svg
