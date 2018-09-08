@@ -22,9 +22,7 @@ describe "FactoryBot.rewind_sequences" do
   end
 
   it "resets inline sequences back to their starting value" do
-    class User
-      attr_accessor :email
-    end
+    define_class("User") { attr_accessor :email }
 
     FactoryBot.define do
       factory :user do
@@ -42,9 +40,7 @@ describe "FactoryBot.rewind_sequences" do
   end
 
   it "does not collide with globally registered factories" do
-    class User
-      attr_accessor :email
-    end
+    define_class("User") { attr_accessor :email }
 
     FactoryBot.define do
       sequence(:email) { |n| "global-somebody#{n}@example.com" }
@@ -70,9 +66,7 @@ describe "FactoryBot.rewind_sequences" do
   end
 
   it "still allows global sequences prefixed with a factory name" do
-    class User
-      attr_accessor :email
-    end
+    define_class("User") { attr_accessor :email }
 
     FactoryBot.define do
       sequence(:user_email) { |n| "global-somebody#{n}@example.com" }
