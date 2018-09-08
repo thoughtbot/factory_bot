@@ -181,7 +181,8 @@ Static Attributes
 ------------------
 
 Static attributes, without a block, are deprecated and will be removed in
-factory\_bot 5. 
+factory\_bot 5. You can read more about the deprecation
+[here](https://robots.thoughtbot.com/deprecating-static-attributes-in-factory_bot-4-11).
 
 ```ruby
 factory :user do
