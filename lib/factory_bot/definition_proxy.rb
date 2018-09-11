@@ -52,12 +52,6 @@ module FactoryBot
       @definition.declare_attribute(declaration)
     end
 
-    def ignore(&block)
-      ActiveSupport::Deprecation.warn "`#ignore` is deprecated and will be "\
-        "removed in 5.0. Please use `#transient` instead."
-      transient(&block)
-    end
-
     def transient(&block)
       proxy = DefinitionProxy.new(@definition, true)
       proxy.instance_eval(&block)

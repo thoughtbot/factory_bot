@@ -80,8 +80,6 @@ module FactoryBot
              :skip_create,
              :initialize_with,
              :constructor,
-             :duplicate_attribute_assignment_from_initialize_with,
-             :duplicate_attribute_assignment_from_initialize_with=,
              :allow_class_lookup,
              :allow_class_lookup=,
              :use_parent_strategy,
