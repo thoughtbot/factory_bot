@@ -65,26 +65,6 @@ describe "transient attributes" do
       expect(rockstar.name).to eq "John 1 - Rockstar"
     end
   end
-
-  context "using aliased 'ignore' method name", :silence_deprecation do
-    before do
-      FactoryBot.define do
-        factory :user_using_ignore, class: User do
-          ignore do
-            honorific "Esteemed"
-          end
-
-          name { "#{honorific} Jane Doe" }
-        end
-      end
-    end
-
-    let(:esteemed) { FactoryBot.create(:user_using_ignore) }
-
-    it "uses the default value of the attribute" do
-      expect(esteemed.name).to eq "Esteemed Jane Doe"
-    end
-  end
 end
 
 describe "transient sequences" do
