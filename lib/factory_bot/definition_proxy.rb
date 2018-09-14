@@ -21,24 +21,16 @@ module FactoryBot
       raise FactoryBot::MethodDefinitionError, message
     end
 
-    # Adds an attribute that should be assigned on generated instances for this
-    # factory.
-    #
-    # This method should be called with either a value or block, but not both. If
-    # called with a block, the attribute will be generated "lazily," whenever an
-    # instance is generated. Lazy attribute blocks will not be called if that
+    # Adds an attribute to the factory.
+    # The attribute value will be generated "lazily"
+    # by calling the block whenever an instance is generated.
+    # The block will not be called if the
     # attribute is overridden for a specific instance.
-    #
-    # When defining lazy attributes, an instance of FactoryBot::Strategy will
-    # be yielded, allowing associations to be built using the correct build
-    # strategy.
     #
     # Arguments:
     # * name: +Symbol+ or +String+
     #   The name of this attribute. This will be assigned using "name=" for
     #   generated instances.
-    # * value: +Object+
-    #   If no block is given, this value will be used for this attribute.
     def add_attribute(name, &block)
       declaration = Declaration::Dynamic.new(name, @ignore, block)
       @definition.declare_attribute(declaration)
