@@ -260,7 +260,7 @@ describe FactoryBot::Factory, "running a factory" do
   it "calls the block and returns the result" do
     block_run = nil
     block = ->(result) { block_run = "changed" }
-    subject.run(FactoryBot::Strategy::Build, { }, &block)
+    subject.run(FactoryBot::Strategy::Build, {}, &block)
     expect(block_run).to eq "changed"
   end
 end
