@@ -23,7 +23,7 @@ describe FactoryBot::AttributeList, "#define_attribute" do
       2.times { subject.define_attribute(attribute) }
     }.to raise_error(
       FactoryBot::AttributeDefinitionError,
-      "Attribute already defined: attribute_name",
+      "Attribute already defined: attribute_name"
     )
   end
 end

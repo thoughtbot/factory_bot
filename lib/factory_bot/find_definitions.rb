@@ -16,7 +16,7 @@ module FactoryBot
       load("#{path}.rb") if File.exist?("#{path}.rb")
 
       if File.directory? path
-        Dir[File.join(path, '**', '*.rb')].sort.each do |file|
+        Dir[File.join(path, "**", "*.rb")].sort.each do |file|
           load file
         end
       end

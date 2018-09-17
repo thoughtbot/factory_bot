@@ -2,9 +2,9 @@ describe "a generated stub instance" do
   include FactoryBot::Syntax::Methods
 
   before do
-    define_model('User')
+    define_model("User")
 
-    define_model('Post', title:   :string,
+    define_model("Post", title:   :string,
                          body:    :string,
                          age:     :integer,
                          user_id: :integer,
@@ -23,14 +23,14 @@ describe "a generated stub instance" do
     end
   end
 
-  subject { build_stubbed(:post, title: 'overridden title') }
+  subject { build_stubbed(:post, title: "overridden title") }
 
   it "assigns a default attribute" do
-    expect(subject.body).to eq 'default body'
+    expect(subject.body).to eq "default body"
   end
 
   it "assigns an overridden attribute" do
-    expect(subject.title).to eq 'overridden title'
+    expect(subject.title).to eq "overridden title"
   end
 
   it "assigns associations" do
@@ -113,7 +113,7 @@ describe "calling `build_stubbed` with a block" do
   include FactoryBot::Syntax::Methods
 
   before do
-    define_model('Company', name: :string)
+    define_model("Company", name: :string)
 
     FactoryBot.define do
       factory :company
@@ -121,8 +121,8 @@ describe "calling `build_stubbed` with a block" do
   end
 
   it "passes the stub instance" do
-    build_stubbed(:company, name: 'thoughtbot') do |company|
-      expect(company.name).to eq('thoughtbot')
+    build_stubbed(:company, name: "thoughtbot") do |company|
+      expect(company.name).to eq("thoughtbot")
       expect { company.save }.to raise_error(RuntimeError)
     end
   end
@@ -141,8 +141,8 @@ describe "defaulting `created_at`" do
   include FactoryBot::Syntax::Methods
 
   before do
-    define_model('ThingWithTimestamp', created_at: :datetime)
-    define_model('ThingWithoutTimestamp')
+    define_model("ThingWithTimestamp", created_at: :datetime)
+    define_model("ThingWithoutTimestamp")
 
     FactoryBot.define do
       factory :thing_with_timestamp
@@ -157,13 +157,13 @@ describe "defaulting `created_at`" do
   end
 
   it "defaults created_at for objects with created_at to the correct time with zone" do
-    original_timezone = ENV['TZ']
-    ENV['TZ'] = 'UTC'
-    Time.zone = 'Eastern Time (US & Canada)'
+    original_timezone = ENV["TZ"]
+    ENV["TZ"] = "UTC"
+    Time.zone = "Eastern Time (US & Canada)"
 
-    expect(build_stubbed(:thing_with_timestamp).created_at.zone).to eq 'EST'
+    expect(build_stubbed(:thing_with_timestamp).created_at.zone).to eq "EST"
 
-    ENV['TZ'] = original_timezone
+    ENV["TZ"] = original_timezone
   end
 
   it "doesn't add created_at to objects who don't have the method" do
@@ -216,16 +216,16 @@ describe "defaulting `updated_at`" do
   end
 end
 
-describe 'defaulting `id`' do
+describe "defaulting `id`" do
   before do
-    define_model('Post')
+    define_model("Post")
 
     FactoryBot.define do
       factory :post
     end
   end
 
-  it 'allows overriding id' do
+  it "allows overriding id" do
     expect(FactoryBot.build_stubbed(:post, id: 12).id).to eq 12
   end
 end

@@ -1,6 +1,6 @@
 describe "build multiple instances" do
   before do
-    define_model('Post', title: :string, position: :integer)
+    define_model("Post", title: :string, position: :integer)
 
     FactoryBot.define do
       factory(:post) do |post|

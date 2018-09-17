@@ -1,6 +1,6 @@
 describe "calling methods on the model instance" do
   before do
-    define_model('User', age: :integer, age_copy: :integer) do
+    define_model("User", age: :integer, age_copy: :integer) do
       def age
         read_attribute(:age) || 18
       end

@@ -1,6 +1,6 @@
 describe "modifying inherited factories with traits" do
   before do
-    define_model('User', gender: :string, admin: :boolean, age: :integer)
+    define_model("User", gender: :string, admin: :boolean, age: :integer)
     FactoryBot.define do
       factory :user do
         trait(:female) { gender { "Female" } }

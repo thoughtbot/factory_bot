@@ -1,9 +1,9 @@
-require 'rspec'
-require 'rspec/its'
+require "rspec"
+require "rspec/its"
 
 require "simplecov"
 
-require 'factory_bot'
+require "factory_bot"
 require "timecop"
 
 Dir["spec/support/**/*.rb"].each { |f| require File.expand_path(f) }

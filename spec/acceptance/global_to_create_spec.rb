@@ -104,23 +104,23 @@ describe "global skip_create" do
     end
   end
 
-  it 'does not persist any record' do
+  it "does not persist any record" do
     expect(FactoryBot.create(:user)).to be_new_record
     expect(FactoryBot.create(:post)).to be_new_record
   end
 
-  it 'does not persist child records' do
+  it "does not persist child records" do
     expect(FactoryBot.create(:child_user)).to be_new_record
     expect(FactoryBot.create(:child_post)).to be_new_record
   end
 
-  it 'honors overridden to_create' do
-    expect(FactoryBot.create(:child_user_with_trait).name).to eq 'override'
-    expect(FactoryBot.create(:child_post_with_trait).name).to eq 'override'
+  it "honors overridden to_create" do
+    expect(FactoryBot.create(:child_user_with_trait).name).to eq "override"
+    expect(FactoryBot.create(:child_post_with_trait).name).to eq "override"
   end
 
-  it 'honors inline trait to_create' do
-    expect(FactoryBot.create(:child_user, :override_to_create).name).to eq 'override'
-    expect(FactoryBot.create(:child_post, :override_to_create).name).to eq 'override'
+  it "honors inline trait to_create" do
+    expect(FactoryBot.create(:child_user, :override_to_create).name).to eq "override"
+    expect(FactoryBot.create(:child_post, :override_to_create).name).to eq "override"
   end
 end

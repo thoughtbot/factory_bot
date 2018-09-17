@@ -1,4 +1,4 @@
-require 'observer'
+require "observer"
 
 module FactoryBot
   class Evaluation

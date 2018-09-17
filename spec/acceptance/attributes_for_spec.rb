@@ -2,10 +2,10 @@ describe "a generated attributes hash" do
   include FactoryBot::Syntax::Methods
 
   before do
-    define_model('User')
-    define_model('Comment')
+    define_model("User")
+    define_model("Comment")
 
-    define_model('Post', title:   :string,
+    define_model("Post", title:   :string,
                          body:    :string,
                          summary: :string,
                          user_id: :integer) do
@@ -29,7 +29,7 @@ describe "a generated attributes hash" do
     end
   end
 
-  subject { attributes_for(:post, title: 'overridden title') }
+  subject { attributes_for(:post, title: "overridden title") }
 
   it "assigns an overridden value" do
     expect(subject[:title]).to eq "overridden title"
@@ -53,7 +53,7 @@ describe "calling `attributes_for` with a block" do
   include FactoryBot::Syntax::Methods
 
   before do
-    define_model('Company', name: :string)
+    define_model("Company", name: :string)
 
     FactoryBot.define do
       factory :company
@@ -61,8 +61,8 @@ describe "calling `attributes_for` with a block" do
   end
 
   it "passes the hash of attributes" do
-    attributes_for(:company, name: 'thoughtbot') do |attributes|
-      expect(attributes[:name]).to eq('thoughtbot')
+    attributes_for(:company, name: "thoughtbot") do |attributes|
+      expect(attributes[:name]).to eq("thoughtbot")
     end
   end
 
