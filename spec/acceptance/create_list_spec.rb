@@ -1,6 +1,6 @@
 describe "create multiple instances" do
   before do
-    define_model('Post', title: :string, position: :integer)
+    define_model("Post", title: :string, position: :integer)
 
     FactoryBot.define do
       factory(:post) do |post|
@@ -63,11 +63,11 @@ end
 
 describe "multiple creates and transient attributes to dynamically build attribute lists" do
   before do
-    define_model('User', name: :string) do
+    define_model("User", name: :string) do
       has_many :posts
     end
 
-    define_model('Post', title: :string, user_id: :integer) do
+    define_model("Post", title: :string, user_id: :integer) do
       belongs_to :user
     end
 

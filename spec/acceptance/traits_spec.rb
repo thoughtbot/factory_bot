@@ -412,9 +412,9 @@ describe "making sure the factory is properly compiled the first time we want to
 
   it "can honor traits on the very first call" do
     user = FactoryBot.build(:female_user, :admin, age: 30)
-    expect(user.gender).to eq 'female'
+    expect(user.gender).to eq "female"
     expect(user.age).to eq 30
-    expect(user.role).to eq 'admin'
+    expect(user.role).to eq "admin"
   end
 end
 
@@ -675,11 +675,11 @@ describe "traits used in associations" do
     end
 
     define_model("Order", creator_id: :integer) do
-      belongs_to :creator, class_name: 'User'
+      belongs_to :creator, class_name: "User"
     end
 
     define_model("Post", author_id: :integer) do
-      belongs_to :author, class_name: 'User'
+      belongs_to :author, class_name: "User"
     end
 
     FactoryBot.define do
@@ -692,15 +692,15 @@ describe "traits used in associations" do
       end
 
       factory :post do
-        association :author, factory: [:user, :admin], name: 'John Doe'
+        association :author, factory: [:user, :admin], name: "John Doe"
       end
 
       factory :comment do
-        association :user, :admin, name: 'Joe Slick'
+        association :user, :admin, name: "Joe Slick"
       end
 
       factory :order do
-        association :creator, :admin, factory: :user, name: 'Joe Creator'
+        association :creator, :admin, factory: :user, name: "Joe Creator"
       end
     end
   end
@@ -708,18 +708,18 @@ describe "traits used in associations" do
   it "allows assigning traits for the factory of an association" do
     author = FactoryBot.create(:post).author
     expect(author).to be_admin
-    expect(author.name).to eq 'John Doe'
+    expect(author.name).to eq "John Doe"
   end
 
   it "allows inline traits with the default association" do
     user = FactoryBot.create(:comment).user
     expect(user).to be_admin
-    expect(user.name).to eq 'Joe Slick'
+    expect(user.name).to eq "Joe Slick"
   end
 
   it "allows inline traits with a specific factory for an association" do
     creator = FactoryBot.create(:order).creator
     expect(creator).to be_admin
-    expect(creator.name).to eq 'Joe Creator'
+    expect(creator.name).to eq "Joe Creator"
   end
 end

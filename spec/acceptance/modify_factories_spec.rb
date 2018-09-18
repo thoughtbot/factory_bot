@@ -2,7 +2,7 @@ describe "modifying factories" do
   include FactoryBot::Syntax::Methods
 
   before do
-    define_model('User', name: :string, admin: :boolean, email: :string, login: :string)
+    define_model("User", name: :string, admin: :boolean, email: :string, login: :string)
 
     FactoryBot.define do
       sequence(:email) { |n| "user#{n}@example.com" }

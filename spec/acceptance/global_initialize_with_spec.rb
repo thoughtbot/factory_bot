@@ -1,6 +1,6 @@
-describe 'global initialize_with' do
+describe "global initialize_with" do
   before do
-    define_class('User') do
+    define_class("User") do
       attr_accessor :name
 
       def initialize(name)
@@ -8,7 +8,7 @@ describe 'global initialize_with' do
       end
     end
 
-    define_class('Post') do
+    define_class("Post") do
       attr_reader :name
 
       def initialize(name)
@@ -41,28 +41,28 @@ describe 'global initialize_with' do
     end
   end
 
-  it 'handles base initialize_with' do
-    expect(FactoryBot.build(:user).name).to eq 'initialize_with'
-    expect(FactoryBot.build(:post).name).to eq 'initialize_with'
+  it "handles base initialize_with" do
+    expect(FactoryBot.build(:user).name).to eq "initialize_with"
+    expect(FactoryBot.build(:post).name).to eq "initialize_with"
   end
 
-  it 'handles child initialize_with' do
-    expect(FactoryBot.build(:child_user).name).to eq 'initialize_with'
-    expect(FactoryBot.build(:child_post).name).to eq 'initialize_with'
+  it "handles child initialize_with" do
+    expect(FactoryBot.build(:child_user).name).to eq "initialize_with"
+    expect(FactoryBot.build(:child_post).name).to eq "initialize_with"
   end
 
-  it 'handles child initialize_with with trait' do
-    expect(FactoryBot.build(:child_user_with_trait).name).to eq 'trait initialize_with'
-    expect(FactoryBot.build(:child_post_with_trait).name).to eq 'trait initialize_with'
+  it "handles child initialize_with with trait" do
+    expect(FactoryBot.build(:child_user_with_trait).name).to eq "trait initialize_with"
+    expect(FactoryBot.build(:child_post_with_trait).name).to eq "trait initialize_with"
   end
 
-  it 'handles inline trait override' do
-    expect(FactoryBot.build(:child_user, :with_initialize_with).name).to eq 'trait initialize_with'
-    expect(FactoryBot.build(:child_post, :with_initialize_with).name).to eq 'trait initialize_with'
+  it "handles inline trait override" do
+    expect(FactoryBot.build(:child_user, :with_initialize_with).name).to eq "trait initialize_with"
+    expect(FactoryBot.build(:child_post, :with_initialize_with).name).to eq "trait initialize_with"
   end
 
-  it 'uses initialize_with globally across FactoryBot.define' do
-    define_class('Company') do
+  it "uses initialize_with globally across FactoryBot.define" do
+    define_class("Company") do
       attr_reader :name
 
       def initialize(name)
@@ -74,7 +74,7 @@ describe 'global initialize_with' do
       factory :company
     end
 
-    expect(FactoryBot.build(:company).name).to eq 'initialize_with'
-    expect(FactoryBot.build(:company, :with_initialize_with).name).to eq 'trait initialize_with'
+    expect(FactoryBot.build(:company).name).to eq "initialize_with"
+    expect(FactoryBot.build(:company, :with_initialize_with).name).to eq "trait initialize_with"
   end
 end
