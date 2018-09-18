@@ -4,16 +4,16 @@ Getting Started
 Update Your Gemfile
 -------------------
 
-If you're using Rails, you'll need to change the required version of `factory_bot_rails`:
+If you're using Rails:
 
 ```ruby
-gem "factory_bot_rails", "~> 4.0"
+gem "factory_bot_rails"
 ```
 
-If you're *not* using Rails, you'll just have to change the required version of `factory_bot`:
+If you're *not* using Rails:
 
 ```ruby
-gem "factory_bot", "~> 4.0"
+gem "factory_bot"
 ```
 
 JRuby users: factory_bot works with JRuby starting with 1.6.7.2 (latest stable, as per July 2012).
