@@ -7,6 +7,4 @@ gem 'jdbc-sqlite3', platforms: :jruby
 
 gem 'sqlite3', '~> 1.3.10', platforms: :ruby
 
-group 'development' do
-  gem 'rubocop', '0.54', require: false
-end
+gem 'rubocop', '0.54', require: false
