@@ -10,14 +10,6 @@ inherit_from:
 # Note that changes in the inspected code, or installation of new
 # versions of RuboCop, may require this file to be generated again.
 
-# Offense count: 2
-# Cop supports --auto-correct.
-# Configuration parameters: AllowForAlignment, ForceEqualSignAlignment.
-Layout/ExtraSpacing:
-  Exclude:
-    - 'spec/acceptance/attribute_existing_on_object_spec.rb'
-    - 'spec/acceptance/parent_spec.rb'
-
 # Offense count: 1
 # Cop supports --auto-correct.
 # Configuration parameters: IndentationWidth.

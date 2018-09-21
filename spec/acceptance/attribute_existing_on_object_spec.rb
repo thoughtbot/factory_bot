@@ -20,7 +20,7 @@ end
 
 describe "assigning overrides that are also private methods on object" do
   before do
-    define_model("Website",  format: :string, y: :integer, more_format: :string, some_funky_method: :string)
+    define_model("Website", format: :string, y: :integer, more_format: :string, some_funky_method: :string)
 
     Object.class_eval do
       private
