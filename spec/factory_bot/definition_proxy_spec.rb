@@ -63,7 +63,6 @@ describe FactoryBot::DefinitionProxy, "#method_missing" do
 end
 
 describe FactoryBot::DefinitionProxy, "#sequence" do
-
   before do
     allow(FactoryBot::Sequence).to receive(:new).and_call_original
   end

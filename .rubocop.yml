@@ -23,30 +23,6 @@ Layout/EmptyLinesAroundAccessModifier:
     - 'spec/acceptance/attribute_existing_on_object_spec.rb'
     - 'spec/acceptance/private_attributes_spec.rb'
 
-# Offense count: 2
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: empty_lines, no_empty_lines
-Layout/EmptyLinesAroundBlockBody:
-  Exclude:
-    - 'spec/acceptance/activesupport_instrumentation_spec.rb'
-    - 'spec/factory_bot/definition_proxy_spec.rb'
-
-# Offense count: 1
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: empty_lines, empty_lines_except_namespace, empty_lines_special, no_empty_lines, beginning_only, ending_only
-Layout/EmptyLinesAroundClassBody:
-  Exclude:
-    - 'lib/factory_bot/linter.rb'
-
-# Offense count: 1
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: empty_lines, empty_lines_except_namespace, empty_lines_special, no_empty_lines
-Layout/EmptyLinesAroundModuleBody:
-  Exclude:
-    - 'lib/factory_bot/sequence.rb'
 
 # Offense count: 2
 # Cop supports --auto-correct.

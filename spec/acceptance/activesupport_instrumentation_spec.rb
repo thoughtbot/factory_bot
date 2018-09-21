@@ -24,7 +24,6 @@ describe "using ActiveSupport::Instrumentation to track factory interaction" do
           after(:build) { Kernel.sleep(0.1) }
         end
       end
-
     end
   end
 

@@ -1,6 +1,5 @@
 module FactoryBot
   class Linter
-
     def initialize(factories, linting_strategy, factory_strategy = :create)
       @factories_to_lint = factories
       @linting_method = "lint_#{linting_strategy}"
