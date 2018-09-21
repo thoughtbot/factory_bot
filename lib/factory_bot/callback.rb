@@ -22,6 +22,7 @@ module FactoryBot
     end
 
     protected
+
     attr_reader :block
 
     private
