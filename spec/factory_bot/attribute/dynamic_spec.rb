@@ -1,6 +1,6 @@
 describe FactoryBot::Attribute::Dynamic do
   let(:name)  { :first_name }
-  let(:block) { -> { } }
+  let(:block) { -> {} }
 
   subject { FactoryBot::Attribute::Dynamic.new(name, false, block) }
 
@@ -54,6 +54,6 @@ describe FactoryBot::Attribute::Dynamic do
 end
 
 describe FactoryBot::Attribute::Dynamic, "with a string name" do
-  subject    { FactoryBot::Attribute::Dynamic.new("name", false, -> { } ) }
+  subject    { FactoryBot::Attribute::Dynamic.new("name", false, -> {}) }
   its(:name) { should eq :name }
 end

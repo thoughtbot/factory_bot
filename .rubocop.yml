@@ -21,70 +21,11 @@ Layout/IndentHeredoc:
 
 # Offense count: 1
 # Cop supports --auto-correct.
-# Configuration parameters: Width, IgnoredPatterns.
-Layout/IndentationWidth:
-  Exclude:
-    - 'lib/factory_bot/factory.rb'
-
-# Offense count: 1
-# Cop supports --auto-correct.
-Layout/LeadingCommentSpace:
-  Exclude:
-    - 'spec/acceptance/parent_spec.rb'
-
-# Offense count: 1
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: space, no_space
-Layout/SpaceAroundEqualsInParameterDefault:
-  Exclude:
-    - 'lib/factory_bot/null_object.rb'
-
-# Offense count: 2
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, EnforcedStyleForEmptyBrackets.
-# SupportedStyles: space, no_space, compact
-# SupportedStylesForEmptyBrackets: space, no_space
-Layout/SpaceInsideArrayLiteralBrackets:
-  Exclude:
-    - 'spec/acceptance/traits_spec.rb'
-
-# Offense count: 8
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, EnforcedStyleForEmptyBraces, SpaceBeforeBlockParameters.
-# SupportedStyles: space, no_space
-# SupportedStylesForEmptyBraces: space, no_space
-Layout/SpaceInsideBlockBraces:
-  Exclude:
-    - 'lib/factory_bot/attribute.rb'
-    - 'lib/factory_bot/definition.rb'
-    - 'spec/acceptance/parent_spec.rb'
-    - 'spec/acceptance/traits_spec.rb'
-    - 'spec/acceptance/transient_attributes_spec.rb'
-    - 'spec/factory_bot/attribute/dynamic_spec.rb'
-    - 'spec/factory_bot/definition_proxy_spec.rb'
-
-# Offense count: 1
-# Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyleForEmptyBraces.
 # SupportedStyles: space, no_space, compact
 # SupportedStylesForEmptyBraces: space, no_space
 Layout/SpaceInsideHashLiteralBraces:
   EnforcedStyle: space
-
-# Offense count: 1
-# Cop supports --auto-correct.
-Layout/SpaceInsideParens:
-  Exclude:
-    - 'spec/factory_bot/attribute/dynamic_spec.rb'
-
-# Offense count: 1
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: final_newline, final_blank_line
-Layout/TrailingBlankLines:
-  Exclude:
-    - 'Rakefile'
 
 # Offense count: 1
 Lint/RescueException:

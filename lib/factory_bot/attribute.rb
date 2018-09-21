@@ -14,7 +14,7 @@ module FactoryBot
     end
 
     def to_proc
-      -> { }
+      -> {}
     end
 
     def association?

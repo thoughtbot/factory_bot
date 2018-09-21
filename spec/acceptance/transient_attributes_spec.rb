@@ -105,7 +105,7 @@ describe "assigning values from a transient attribute" do
     FactoryBot.define do
       factory :user do
         transient do
-          foo { Foo.new('id-of-foo', 'name-of-foo')}
+          foo { Foo.new('id-of-foo', 'name-of-foo') }
         end
 
         foo_id   { foo.id }
