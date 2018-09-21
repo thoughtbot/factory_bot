@@ -69,7 +69,7 @@ module FactoryBot
           FactoryBot.public_send(factory_strategy, factory.name, trait_name)
         rescue => error
           result |=
-              [FactoryTraitError.new(error, factory, trait_name)]
+            [FactoryTraitError.new(error, factory, trait_name)]
         end
       end
       result
