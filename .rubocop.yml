@@ -10,17 +10,6 @@ inherit_from:
 # Note that changes in the inspected code, or installation of new
 # versions of RuboCop, may require this file to be generated again.
 
-# Offense count: 4
-# Cop supports --auto-correct.
-# Configuration parameters: Include, TreatCommentsAsGroupSeparators.
-# Include: **/*.gemfile, **/Gemfile, **/gems.rb
-Bundler/OrderedGems:
-  Exclude:
-    - 'gemfiles/4.2.gemfile'
-    - 'gemfiles/5.0.gemfile'
-    - 'gemfiles/5.1.gemfile'
-    - 'gemfiles/5.2.gemfile'
-
 # Offense count: 1
 # Cop supports --auto-correct.
 Layout/ElseAlignment:
