@@ -21,10 +21,10 @@ module FactoryBot
 
     def build_class
       @build_class ||= if class_name.is_a? Class
-        class_name
-      else
-        class_name.to_s.camelize.constantize
-      end
+                         class_name
+                       else
+                         class_name.to_s.camelize.constantize
+                       end
     end
 
     def run(build_strategy, overrides, &block)

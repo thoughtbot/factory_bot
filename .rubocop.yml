@@ -10,12 +10,6 @@ inherit_from:
 # Note that changes in the inspected code, or installation of new
 # versions of RuboCop, may require this file to be generated again.
 
-# Offense count: 1
-# Cop supports --auto-correct.
-Layout/ElseAlignment:
-  Exclude:
-    - 'lib/factory_bot/factory.rb'
-
 # Offense count: 3
 # Cop supports --auto-correct.
 # Configuration parameters: AllowAdjacentOneLineDefs, NumberOfEmptyLines.
@@ -60,14 +54,6 @@ Layout/EmptyLinesAroundClassBody:
 Layout/EmptyLinesAroundModuleBody:
   Exclude:
     - 'lib/factory_bot/sequence.rb'
-
-# Offense count: 1
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyleAlignWith, AutoCorrect, Severity.
-# SupportedStylesAlignWith: keyword, variable, start_of_line
-Layout/EndAlignment:
-  Exclude:
-    - 'lib/factory_bot/factory.rb'
 
 # Offense count: 2
 # Cop supports --auto-correct.
