@@ -33,6 +33,8 @@ Configure your test suite
 If you're using Rails:
 
 ```ruby
+require 'factory_bot'
+
 RSpec.configure do |config|
   config.include FactoryBot::Syntax::Methods
 end
