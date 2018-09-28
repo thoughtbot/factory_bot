@@ -5,7 +5,8 @@ describe FactoryBot::DefinitionProxy, "#add_attribute" do
   it "declares a dynamic attribute on the factory" do
     attribute_value = -> { "dynamic attribute" }
     proxy.add_attribute(:attribute_name, &attribute_value)
-    expect(subject).to have_dynamic_declaration(:attribute_name).with_value(attribute_value)
+    expect(subject).to have_dynamic_declaration(:attribute_name).
+      with_value(attribute_value)
   end
 end
 
@@ -16,7 +17,9 @@ describe FactoryBot::DefinitionProxy, "#add_attribute when the proxy ignores att
   it "declares a dynamic attribute on the factory" do
     attribute_value = -> { "dynamic attribute" }
     proxy.add_attribute(:attribute_name, &attribute_value)
-    expect(subject).to have_dynamic_declaration(:attribute_name).ignored.with_value(attribute_value)
+    expect(subject).to have_dynamic_declaration(:attribute_name).
+      ignored.
+      with_value(attribute_value)
   end
 end
 
@@ -40,31 +43,54 @@ describe FactoryBot::DefinitionProxy, "#method_missing" do
   subject     { FactoryBot::Definition.new(:name) }
   let(:proxy) { FactoryBot::DefinitionProxy.new(subject) }
 
-  it "declares an implicit declaration without args or a block" do
-    proxy.bogus
-    expect(subject).to have_implicit_declaration(:bogus).with_factory(subject)
+  context "when called without args or a block" do
+    it "declares an implicit declaration" do
+      proxy.bogus
+      expect(subject).to have_implicit_declaration(:bogus).with_factory(subject)
+    end
   end
 
-  it "declares an association when :factory is passed" do
-    proxy.author factory: :user
-    expect(subject).to have_association_declaration(:author).with_options(factory: :user)
+  context "when called with a ':factory' key" do
+    it "declares an association" do
+      proxy.author factory: :user
+      expect(subject).to have_association_declaration(:author).
+        with_options(factory: :user)
+    end
   end
 
-  it "declares a dynamic attribute" do
-    attribute_value = -> { "dynamic attribute" }
-    proxy.attribute_name(&attribute_value)
-    expect(subject).to have_dynamic_declaration(:attribute_name).with_value(attribute_value)
+  context "when called with a block" do
+    it "declares a dynamic attribute" do
+      attribute_value = -> { "dynamic attribute" }
+      proxy.attribute_name(&attribute_value)
+      expect(subject).to have_dynamic_declaration(:attribute_name).
+        with_value(attribute_value)
+    end
   end
 
-  it "raises a NoMethodError" do
-    definition = FactoryBot::Definition.new(:broken)
-    proxy = FactoryBot::DefinitionProxy.new(definition)
+  context "when called with a static-attribute-like argument" do
+    it "raises a NoMethodError" do
+      definition = FactoryBot::Definition.new(:broken)
+      proxy = FactoryBot::DefinitionProxy.new(definition)
 
-    invalid_call = -> { proxy.static_attributes_are_gone true }
-    expect(invalid_call).to raise_error(
-      NoMethodError,
-      "undefined method 'static_attributes_are_gone' in 'broken' factory",
-    )
+      invalid_call = -> { proxy.static_attributes_are_gone true }
+      expect(invalid_call).to raise_error(
+        NoMethodError,
+        "undefined method 'static_attributes_are_gone' in 'broken' factory",
+      )
+    end
+  end
+
+  context "when called with a setter method" do
+    it "raises a NoMethodError" do
+      definition = FactoryBot::Definition.new(:broken)
+      proxy = FactoryBot::DefinitionProxy.new(definition)
+
+      invalid_call = -> { proxy.setter_method = true }
+      expect(invalid_call).to raise_error(
+        NoMethodError,
+        "undefined method 'setter_method=' in 'broken' factory",
+      )
+    end
   end
 end
 
@@ -115,7 +141,8 @@ describe FactoryBot::DefinitionProxy, "#association" do
 
   it "declares an association with options" do
     proxy.association(:association_name, { name: "Awesome" })
-    expect(subject).to have_association_declaration(:association_name).with_options(name: "Awesome")
+    expect(subject).to have_association_declaration(:association_name).
+      with_options(name: "Awesome")
   end
 end
 
