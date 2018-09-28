@@ -30,7 +30,7 @@ describe "a generated attributes hash where order matters" do
   context "factory with a parent" do
     subject { FactoryBot.build(:child_model) }
 
-    it "assigns attributes in the order they're defined with preference to static attributes" do
+    it "assigns attributes in the order they're defined" do
       expect(subject[:evaluates_first]).to eq 1
       expect(subject[:evaluates_second]).to eq 1
       expect(subject[:evaluates_third]).to eq 1
@@ -40,7 +40,7 @@ describe "a generated attributes hash where order matters" do
   context "factory without a parent" do
     subject { FactoryBot.build(:without_parent) }
 
-    it "assigns attributes in the order they're defined with preference to static attributes without a parent class" do
+    it "assigns attributes in the order they're defined without a parent class" do
       expect(subject[:evaluates_first]).to eq 1
       expect(subject[:evaluates_second]).to eq 1
       expect(subject[:evaluates_third]).to eq 1
