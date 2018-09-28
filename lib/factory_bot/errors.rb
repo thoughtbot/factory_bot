@@ -11,10 +11,7 @@ module FactoryBot
   # Raised when attempting to register a sequence from a dynamic attribute block
   class SequenceAbuseError < RuntimeError; end
 
-  # Raised when defining an invalid attribute:
-  # * Defining an attribute which has a name ending in "="
-  # * Defining an attribute with both a static and lazy value
-  # * Defining an attribute twice in the same factory
+  # Raised when defining an attribute twice in the same factory
   class AttributeDefinitionError < RuntimeError; end
 
   # Raised when a method is defined in a factory or trait with arguments
