@@ -14,6 +14,7 @@ module FactoryBot
       end
 
       protected
+
       attr_reader :factory
 
       private

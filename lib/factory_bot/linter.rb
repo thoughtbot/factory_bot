@@ -1,6 +1,5 @@
 module FactoryBot
   class Linter
-
     def initialize(factories, linting_strategy, factory_strategy = :create)
       @factories_to_lint = factories
       @linting_method = "lint_#{linting_strategy}"
@@ -70,7 +69,7 @@ module FactoryBot
           FactoryBot.public_send(factory_strategy, factory.name, trait_name)
         rescue => error
           result |=
-              [FactoryTraitError.new(error, factory, trait_name)]
+            [FactoryTraitError.new(error, factory, trait_name)]
         end
       end
       result

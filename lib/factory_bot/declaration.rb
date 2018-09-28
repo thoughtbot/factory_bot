@@ -17,6 +17,7 @@ module FactoryBot
     end
 
     protected
+
     attr_reader :ignored
   end
 end

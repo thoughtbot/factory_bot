@@ -63,7 +63,6 @@ describe FactoryBot::DefinitionProxy, "#method_missing" do
 end
 
 describe FactoryBot::DefinitionProxy, "#sequence" do
-
   before do
     allow(FactoryBot::Sequence).to receive(:new).and_call_original
   end
@@ -179,7 +178,7 @@ describe FactoryBot::DefinitionProxy, "#factory" do
   end
 
   it "with a block" do
-    child_block = -> { }
+    child_block = -> {}
     proxy.factory(:child, {}, &child_block)
     expect(proxy.child_factories).to include([:child, {}, child_block])
   end
