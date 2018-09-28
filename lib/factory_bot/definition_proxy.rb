@@ -78,7 +78,9 @@ module FactoryBot
       elsif args.first.respond_to?(:has_key?) && args.first.has_key?(:factory)
         association(name, *args)
       else
-        super(name, *args, &block)
+        raise NoMethodError.new(
+          "undefined method '#{name}' in '#{@definition.name}' factory",
+        )
       end
     end
 
