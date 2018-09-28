@@ -111,14 +111,14 @@ describe "modifying factories" do
         its(:email) { should eq "Great User-modified@example.com" }
       end
 
-      context "overriding dynamic attributes" do
+      context "overriding the email" do
         subject     { create(:user, email: "perfect@example.com") }
 
         its(:name)  { should eq "Great User" }
         its(:email) { should eq "perfect@example.com" }
       end
 
-      context "overriding static attributes" do
+      context "overriding the name" do
         subject     { create(:user, name: "wonderful") }
 
         its(:name)  { should eq "wonderful" }
@@ -135,7 +135,7 @@ describe "modifying factories" do
         its(:admin) { should be true }
       end
 
-      context "overriding dynamic attributes" do
+      context "overriding the email" do
         subject     { create(:admin, email: "perfect@example.com") }
 
         its(:name)  { should eq "Great User" }
@@ -143,7 +143,7 @@ describe "modifying factories" do
         its(:admin) { should be true }
       end
 
-      context "overriding static attributes" do
+      context "overriding the name" do
         subject     { create(:admin, name: "wonderful") }
 
         its(:name)  { should eq "wonderful" }

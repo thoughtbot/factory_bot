@@ -1,15 +1,15 @@
 describe FactoryBot::DeclarationList, "#attributes" do
-  let(:static_attribute_1)  { double("static attribute 1") }
-  let(:static_attribute_2)  { double("static attribute 2") }
-  let(:dynamic_attribute_1) { double("dynamic attribute 1") }
-  let(:static_declaration)  do
+  let(:attribute_1) { double("attribute 1") }
+  let(:attribute_2) { double("attribute 2") }
+  let(:attribute_3) { double("attribute 3") }
+  let(:declaration_1) do
     double(
-      "static declaration",
-      to_attributes: [static_attribute_1, static_attribute_2],
+      "declaration 1",
+      to_attributes: [attribute_1, attribute_2],
     )
   end
-  let(:dynamic_declaration) do
-    double("static declaration", to_attributes: [dynamic_attribute_1])
+  let(:declaration_2) do
+    double("declaration_2", to_attributes: [attribute_3])
   end
 
   it "returns an AttributeList" do
@@ -21,14 +21,14 @@ describe FactoryBot::DeclarationList, "#attributes" do
   it "defines each attribute on the attribute list" do
     allow(FactoryBot::AttributeList).to receive(:new).and_return attribute_list
 
-    subject.declare_attribute(static_declaration)
-    subject.declare_attribute(dynamic_declaration)
+    subject.declare_attribute(declaration_1)
+    subject.declare_attribute(declaration_2)
 
     subject.attributes
 
-    expect(attribute_list).to have_received(:define_attribute).with(static_attribute_1)
-    expect(attribute_list).to have_received(:define_attribute).with(static_attribute_2)
-    expect(attribute_list).to have_received(:define_attribute).with(dynamic_attribute_1)
+    expect(attribute_list).to have_received(:define_attribute).with(attribute_1)
+    expect(attribute_list).to have_received(:define_attribute).with(attribute_2)
+    expect(attribute_list).to have_received(:define_attribute).with(attribute_3)
   end
 end
 
