@@ -93,15 +93,6 @@ Style/BlockDelimiters:
 
 # Offense count: 3
 # Cop supports --auto-correct.
-# Configuration parameters: PreferredMethods.
-Style/CollectionMethods:
-  Exclude:
-    - 'lib/factory_bot/attribute_assigner.rb'
-    - 'lib/factory_bot/declaration_list.rb'
-    - 'spec/support/macros/define_constant.rb'
-
-# Offense count: 3
-# Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle.
 # SupportedStyles: compact, expanded
 Style/EmptyMethod:

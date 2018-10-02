@@ -22,7 +22,7 @@ module FactoryBot
     def hash
       @evaluator.instance = build_hash
 
-      attributes_to_set_on_hash.inject({}) do |result, attribute|
+      attributes_to_set_on_hash.reduce({}) do |result, attribute|
         result[attribute] = get(attribute)
         result
       end
