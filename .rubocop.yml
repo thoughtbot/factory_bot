@@ -91,7 +91,6 @@ Style/BlockDelimiters:
   Exclude:
     - 'spec/**/*'
 
-# Offense count: 1
 # Configuration parameters: .
 # SupportedStyles: annotated, template, unannotated
 Style/FormatStringToken:
