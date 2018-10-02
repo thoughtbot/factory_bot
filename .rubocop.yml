@@ -31,11 +31,6 @@ Layout/IndentHeredoc:
 Layout/SpaceInsideHashLiteralBraces:
   EnforcedStyle: space
 
-# Offense count: 1
-Lint/RescueException:
-  Exclude:
-    - 'spec/support/macros/define_constant.rb'
-
 # Offense count: 5
 # Cop supports --auto-correct.
 # Configuration parameters: AllowUnusedKeywordArguments, IgnoreEmptyMethods.
