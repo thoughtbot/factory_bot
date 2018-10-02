@@ -59,7 +59,7 @@ module FactoryBot
       end
 
       class ModifyDSL
-        def factory(name, options = {}, &block)
+        def factory(name, _options = {}, &block)
           factory = FactoryBot.factory_by_name(name)
           proxy = FactoryBot::DefinitionProxy.new(factory.definition.overridable)
           proxy.instance_eval(&block)
