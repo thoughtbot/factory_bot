@@ -28,9 +28,9 @@ module DefineConstantMacros
       connection.create_table(table_name, &block)
       @created_tables << table_name
       connection
-    rescue StandardError => exception
+    rescue StandardError => error
       connection.execute("DROP TABLE IF EXISTS #{table_name}")
-      raise exception
+      raise error
     end
   end
 
