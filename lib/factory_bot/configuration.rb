@@ -15,7 +15,7 @@ module FactoryBot
 
       @allow_class_lookup = true
 
-      to_create { |instance| instance.save! }
+      to_create(&:save!)
       initialize_with { new }
     end
 
