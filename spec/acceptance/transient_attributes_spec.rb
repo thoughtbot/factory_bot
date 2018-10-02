@@ -12,7 +12,7 @@ describe "transient attributes" do
           upcased  { false }
         end
 
-        name  { "#{FactoryBot.generate(:name)}#{" - Rockstar" if rockstar}" }
+        name  { "#{FactoryBot.generate(:name)}#{' - Rockstar' if rockstar}" }
         email { "#{name.downcase}#{four}@example.com" }
 
         after(:create) do |user, evaluator|

@@ -111,15 +111,6 @@ Style/MethodMissing:
 Style/StringLiterals:
   Enabled: false
 
-# Offense count: 2
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: single_quotes, double_quotes
-Style/StringLiteralsInInterpolation:
-  Exclude:
-    - 'lib/factory_bot/strategy/stub.rb'
-    - 'spec/acceptance/transient_attributes_spec.rb'
-
 # Offense count: 21
 # Cop supports --auto-correct.
 # Configuration parameters: MinSize.
