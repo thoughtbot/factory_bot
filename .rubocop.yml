@@ -82,14 +82,6 @@ Naming/MemoizedInstanceVariableName:
 
 # Offense count: 3
 # Cop supports --auto-correct.
-# Configuration parameters: AutoCorrect.
-Performance/TimesMap:
-  Exclude:
-    - 'lib/factory_bot/strategy_syntax_method_registrar.rb'
-    - 'spec/acceptance/initialize_with_spec.rb'
-
-# Offense count: 3
-# Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle, ProceduralMethods, FunctionalMethods, IgnoredMethods.
 # SupportedStyles: line_count_based, semantic, braces_for_chaining
 # ProceduralMethods: benchmark, bm, bmbm, create, each_with_object, measure, new, realtime, tap, with_object

@@ -29,7 +29,7 @@ module FactoryBot
           raise ArgumentError, "count missing for #{strategy_name}_list"
         end
 
-        amount.times.map { send(strategy_name, name, *traits_and_overrides, &block) }
+        Array.new(amount) { send(strategy_name, name, *traits_and_overrides, &block) }
       end
     end
 
@@ -37,7 +37,7 @@ module FactoryBot
       strategy_name = @strategy_name
 
       define_syntax_method("#{strategy_name}_pair") do |name, *traits_and_overrides, &block|
-        2.times.map { send(strategy_name, name, *traits_and_overrides, &block) }
+        Array.new(2) { send(strategy_name, name, *traits_and_overrides, &block) }
       end
     end
 
