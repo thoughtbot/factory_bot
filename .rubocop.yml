@@ -91,15 +91,6 @@ Style/BlockDelimiters:
   Exclude:
     - 'spec/**/*'
 
-# Offense count: 3
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: compact, expanded
-Style/EmptyMethod:
-  Exclude:
-    - 'lib/factory_bot/strategy/null.rb'
-    - 'spec/acceptance/attribute_existing_on_object_spec.rb'
-
 # Offense count: 1
 # Cop supports --auto-correct.
 Style/ExpandPathArguments:
