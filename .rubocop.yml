@@ -106,12 +106,6 @@ Style/MethodMissing:
 
 # Offense count: 1
 # Cop supports --auto-correct.
-Style/MutableConstant:
-  Exclude:
-    - 'lib/factory_bot/definition_proxy.rb'
-
-# Offense count: 1
-# Cop supports --auto-correct.
 Style/RedundantBegin:
   Exclude:
     - 'lib/factory_bot/linter.rb'
