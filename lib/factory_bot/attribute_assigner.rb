@@ -36,7 +36,7 @@ module FactoryBot
 
     def decorated_evaluator
       Decorator::InvocationTracker.new(
-        Decorator::NewConstructor.new(@evaluator, @build_class)
+        Decorator::NewConstructor.new(@evaluator, @build_class),
       )
     end
 

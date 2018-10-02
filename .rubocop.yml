@@ -117,17 +117,6 @@ Style/StringLiterals:
 Style/SymbolArray:
   EnforcedStyle: brackets
 
-# Offense count: 5
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyleForMultiline.
-# SupportedStylesForMultiline: comma, consistent_comma, no_comma
-Style/TrailingCommaInArguments:
-  Exclude:
-    - 'features/support/factories.rb'
-    - 'lib/factory_bot/attribute_assigner.rb'
-    - 'spec/factory_bot/evaluator_class_definer_spec.rb'
-    - 'spec/support/macros/define_constant.rb'
-
 # Offense count: 2
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyleForMultiline.
