@@ -22,7 +22,7 @@ module FactoryBot
         strategy: runner_strategy,
         traits: @traits,
         overrides: @overrides,
-        factory: factory
+        factory: factory,
       }
 
       ActiveSupport::Notifications.instrument('factory_bot.run_factory', instrumentation_payload) do

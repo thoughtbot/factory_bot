@@ -117,14 +117,6 @@ Style/StringLiterals:
 Style/SymbolArray:
   EnforcedStyle: brackets
 
-# Offense count: 1
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyleForMultiline.
-# SupportedStylesForMultiline: comma, consistent_comma, no_comma
-Style/TrailingCommaInHashLiteral:
-  Exclude:
-    - 'lib/factory_bot/factory_runner.rb'
-
 # Offense count: 196
 # Configuration parameters: AllowHeredoc, AllowURI, URISchemes, IgnoreCopDirectives, IgnoredPatterns.
 # URISchemes: http, https
