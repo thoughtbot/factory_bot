@@ -24,7 +24,7 @@ namespace :spec do
 end
 
 desc "Run the unit and acceptance specs"
-task :spec => ['spec:unit', 'spec:acceptance']
+task spec: ['spec:unit', 'spec:acceptance']
 
 Cucumber::Rake::Task.new(:features) do |t|
   t.fork = true

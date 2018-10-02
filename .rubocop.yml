@@ -96,24 +96,13 @@ Style/BlockDelimiters:
 Style/FormatStringToken:
   EnforcedStyle: unannotated
 
-# Offense count: 24
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, UseHashRocketsWithSymbolValues, PreferHashRocketsForNonAlnumEndingSymbols.
-# SupportedStyles: ruby19, hash_rockets, no_mixed_keys, ruby19_no_mixed_keys
-Style/HashSyntax:
-  Exclude:
-    - 'Rakefile'
-    - 'spec/acceptance/build_stubbed_spec.rb'
-    - 'spec/acceptance/nested_attributes_spec.rb'
-    - 'spec/acceptance/transient_attributes_spec.rb'
-
 # Offense count: 4
-# Style/MethodMissing:
-#   Exclude:
-#     - 'lib/factory_bot/decorator.rb'
-#     - 'lib/factory_bot/decorator/invocation_tracker.rb'
-#     - 'lib/factory_bot/definition_proxy.rb'
-#     - 'lib/factory_bot/evaluator.rb'
+Style/MethodMissing:
+  Exclude:
+    - 'lib/factory_bot/decorator.rb'
+    - 'lib/factory_bot/decorator/invocation_tracker.rb'
+    - 'lib/factory_bot/definition_proxy.rb'
+    - 'lib/factory_bot/evaluator.rb'
 
 # Offense count: 1
 # Cop supports --auto-correct.
