@@ -81,7 +81,7 @@ describe "callbacks using syntax methods without referencing FactoryBot explicit
       factory :user do
         after(:stub)   { generate(:sequence_3) }
         after(:build)  { |user| user.first_number = generate(:sequence_1) }
-        after(:create) { |user, evaluator| user.last_number = generate(:sequence_2) }
+        after(:create) { |user, _evaluator| user.last_number = generate(:sequence_2) }
       end
     end
   end

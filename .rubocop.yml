@@ -36,18 +36,6 @@ Lint/RescueException:
   Exclude:
     - 'spec/support/macros/define_constant.rb'
 
-# Offense count: 13
-# Cop supports --auto-correct.
-# Configuration parameters: IgnoreEmptyBlocks, AllowUnusedKeywordArguments.
-Lint/UnusedBlockArgument:
-  Exclude:
-    - 'spec/acceptance/activesupport_instrumentation_spec.rb'
-    - 'spec/acceptance/build_list_spec.rb'
-    - 'spec/acceptance/callbacks_spec.rb'
-    - 'spec/acceptance/create_list_spec.rb'
-    - 'spec/acceptance/sequence_context_spec.rb'
-    - 'spec/factory_bot/factory_spec.rb'
-
 # Offense count: 5
 # Cop supports --auto-correct.
 # Configuration parameters: AllowUnusedKeywordArguments, IgnoreEmptyMethods.
@@ -158,12 +146,12 @@ Style/HashSyntax:
     - 'spec/acceptance/transient_attributes_spec.rb'
 
 # Offense count: 4
-Style/MethodMissing:
-  Exclude:
-    - 'lib/factory_bot/decorator.rb'
-    - 'lib/factory_bot/decorator/invocation_tracker.rb'
-    - 'lib/factory_bot/definition_proxy.rb'
-    - 'lib/factory_bot/evaluator.rb'
+# Style/MethodMissing:
+#   Exclude:
+#     - 'lib/factory_bot/decorator.rb'
+#     - 'lib/factory_bot/decorator/invocation_tracker.rb'
+#     - 'lib/factory_bot/definition_proxy.rb'
+#     - 'lib/factory_bot/evaluator.rb'
 
 # Offense count: 1
 # Cop supports --auto-correct.

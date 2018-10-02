@@ -46,7 +46,7 @@ describe "build multiple instances" do
     end
 
     it "correctly uses the set value" do
-      subject.each_with_index do |record, index|
+      subject.each do |record|
         expect(record.position).to eq record.id
       end
     end
