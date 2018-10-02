@@ -81,7 +81,6 @@ Naming/MemoizedInstanceVariableName:
   Exclude:
     - 'spec/support/macros/define_constant.rb'
 
-# Offense count: 3
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle, ProceduralMethods, FunctionalMethods, IgnoredMethods.
 # SupportedStyles: line_count_based, semantic, braces_for_chaining
@@ -90,9 +89,7 @@ Naming/MemoizedInstanceVariableName:
 # IgnoredMethods: lambda, proc, it
 Style/BlockDelimiters:
   Exclude:
-    - 'spec/acceptance/modify_factories_spec.rb'
-    - 'spec/factory_bot/attribute_list_spec.rb'
-    - 'spec/factory_bot/attribute_spec.rb'
+    - 'spec/**/*'
 
 # Offense count: 3
 # Cop supports --auto-correct.
@@ -145,12 +142,12 @@ Style/HashSyntax:
     - 'spec/acceptance/transient_attributes_spec.rb'
 
 # Offense count: 4
-Style/MethodMissing:
-  Exclude:
-    - 'lib/factory_bot/decorator.rb'
-    - 'lib/factory_bot/decorator/invocation_tracker.rb'
-    - 'lib/factory_bot/definition_proxy.rb'
-    - 'lib/factory_bot/evaluator.rb'
+# Style/MethodMissing:
+#   Exclude:
+#     - 'lib/factory_bot/decorator.rb'
+#     - 'lib/factory_bot/decorator/invocation_tracker.rb'
+#     - 'lib/factory_bot/definition_proxy.rb'
+#     - 'lib/factory_bot/evaluator.rb'
 
 # Offense count: 1
 # Cop supports --auto-correct.
