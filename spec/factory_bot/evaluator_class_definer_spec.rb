@@ -13,7 +13,7 @@ describe FactoryBot::EvaluatorClassDefiner do
   end
 
   it "evaluates the block in the context of the evaluator" do
-    dependency_attribute = double(
+    double(
       "dependency",
       name: :dependency,
       to_proc: -> { 1 },

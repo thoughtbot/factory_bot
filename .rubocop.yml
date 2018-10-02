@@ -31,12 +31,6 @@ Layout/IndentHeredoc:
 Layout/SpaceInsideHashLiteralBraces:
   EnforcedStyle: space
 
-# Offense count: 2
-Lint/UselessAssignment:
-  Exclude:
-    - 'lib/factory_bot/declaration_list.rb'
-    - 'spec/factory_bot/evaluator_class_definer_spec.rb'
-
 # Offense count: 1
 # Configuration parameters: CountComments, ExcludedMethods.
 Metrics/BlockLength:
