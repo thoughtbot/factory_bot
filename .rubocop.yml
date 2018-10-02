@@ -111,7 +111,6 @@ Style/MethodMissing:
 Style/StringLiterals:
   Enabled: false
 
-# Offense count: 21
 # Cop supports --auto-correct.
 # Configuration parameters: MinSize.
 # SupportedStyles: percent, brackets
