@@ -140,7 +140,7 @@ describe FactoryBot::DefinitionProxy, "#association" do
   end
 
   it "declares an association with options" do
-    proxy.association(:association_name, { name: "Awesome" })
+    proxy.association(:association_name, name: "Awesome")
     expect(subject).to have_association_declaration(:association_name).
       with_options(name: "Awesome")
   end
@@ -206,7 +206,7 @@ describe FactoryBot::DefinitionProxy, "#factory" do
   end
 
   it "with options" do
-    proxy.factory(:child, { awesome: true })
+    proxy.factory(:child, awesome: true)
     expect(proxy.child_factories).to include([:child, { awesome: true }, nil])
   end
 

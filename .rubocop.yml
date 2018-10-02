@@ -93,15 +93,6 @@ Style/BlockDelimiters:
 
 # Offense count: 3
 # Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: braces, no_braces, context_dependent
-Style/BracesAroundHashParameters:
-  Exclude:
-    - 'spec/factory_bot/definition_proxy_spec.rb'
-    - 'spec/support/shared_examples/strategy.rb'
-
-# Offense count: 3
-# Cop supports --auto-correct.
 # Configuration parameters: PreferredMethods.
 Style/CollectionMethods:
   Exclude:
