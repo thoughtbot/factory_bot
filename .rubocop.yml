@@ -92,12 +92,6 @@ Style/BlockDelimiters:
     - 'spec/**/*'
 
 # Offense count: 1
-# Cop supports --auto-correct.
-Style/ExpandPathArguments:
-  Exclude:
-    - 'factory_bot.gemspec'
-
-# Offense count: 1
 # Configuration parameters: .
 # SupportedStyles: annotated, template, unannotated
 Style/FormatStringToken:

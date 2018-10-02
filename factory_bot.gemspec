@@ -1,4 +1,4 @@
-$LOAD_PATH << File.expand_path("../lib", __FILE__)
+$LOAD_PATH << File.expand_path('lib', __dir__)
 require "factory_bot/version"
 
 Gem::Specification.new do |s|
