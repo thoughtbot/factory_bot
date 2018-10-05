@@ -38,10 +38,11 @@ example, on macOS:
 grep -e FactoryGirl **/*.rake **/*.rb -s -l | xargs sed -i "" "s|FactoryGirl|FactoryBot|g"
 ```
 
-Linux:
+Linux (if this does not work, please see alternative PRs #1070, #1075, #1084, #1095, #1102):
 ```sh
 find . -type f -print0| xargs -0 sed -i 's/FactoryGirl/FactoryBot/g'
 ```
+
 
 ## Replace All Path References
 
