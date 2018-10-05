@@ -76,11 +76,6 @@ Metrics/BlockLength:
 Metrics/LineLength:
   Max: 189
 
-# Offense count: 1
-Naming/MemoizedInstanceVariableName:
-  Exclude:
-    - 'spec/support/macros/define_constant.rb'
-
 # Offense count: 3
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle, ProceduralMethods, FunctionalMethods, IgnoredMethods.
