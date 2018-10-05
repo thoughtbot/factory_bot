@@ -38,6 +38,15 @@ example, on macOS:
 grep -e FactoryGirl **/*.rake **/*.rb -s -l | xargs sed -i "" "s|FactoryGirl|FactoryBot|g"
 ```
 
+Linux:
+
+```sh
+find . -type f -print0| xargs -0 sed -i 's/FactoryGirl/FactoryBot/g'
+```
+
+If these examples don't work for you, various other approaches
+have been suggested in pull requests #1070, #1075, #1084, #1095, and #1102.
+
 ## Replace All Path References
 
 If you're requiring files from factory\_girl or factory\_girl\_rails directly,
