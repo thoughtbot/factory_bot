@@ -33,39 +33,6 @@ Layout/SpaceInsideHashLiteralBraces:
   EnforcedStyle: space
 
 # Offense count: 1
-Lint/RescueException:
-  Exclude:
-    - 'spec/support/macros/define_constant.rb'
-
-# Offense count: 13
-# Cop supports --auto-correct.
-# Configuration parameters: IgnoreEmptyBlocks, AllowUnusedKeywordArguments.
-Lint/UnusedBlockArgument:
-  Exclude:
-    - 'spec/acceptance/activesupport_instrumentation_spec.rb'
-    - 'spec/acceptance/build_list_spec.rb'
-    - 'spec/acceptance/callbacks_spec.rb'
-    - 'spec/acceptance/create_list_spec.rb'
-    - 'spec/acceptance/sequence_context_spec.rb'
-    - 'spec/factory_bot/factory_spec.rb'
-
-# Offense count: 5
-# Cop supports --auto-correct.
-# Configuration parameters: AllowUnusedKeywordArguments, IgnoreEmptyMethods.
-Lint/UnusedMethodArgument:
-  Exclude:
-    - 'lib/factory_bot/evaluator.rb'
-    - 'lib/factory_bot/null_object.rb'
-    - 'lib/factory_bot/syntax/default.rb'
-    - 'spec/acceptance/activesupport_instrumentation_spec.rb'
-
-# Offense count: 2
-Lint/UselessAssignment:
-  Exclude:
-    - 'lib/factory_bot/declaration_list.rb'
-    - 'spec/factory_bot/evaluator_class_definer_spec.rb'
-
-# Offense count: 1
 # Configuration parameters: CountComments, ExcludedMethods.
 Metrics/BlockLength:
   Max: 26

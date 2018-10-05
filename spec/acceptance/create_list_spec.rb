@@ -46,7 +46,7 @@ describe "create multiple instances" do
     end
 
     it "uses the new values" do
-      subject.each_with_index do |record, index|
+      subject.each do |record|
         expect(record.position).to eq record.id
       end
     end

@@ -13,11 +13,11 @@ module FactoryBot
       end
     end
 
-    def respond_to?(method, include_private = false)
+    def respond_to?(method, _include_private = false)
       @methods_to_respond_to.include? method.to_s
     end
 
-    def respond_to_missing?(*args)
+    def respond_to_missing?(*)
       false
     end
   end

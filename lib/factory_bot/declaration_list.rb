@@ -39,7 +39,7 @@ module FactoryBot
     end
 
     def to_attributes
-      @declarations.inject([]) { |result, declaration| result += declaration.to_attributes }
+      @declarations.inject([]) { |result, declaration| result + declaration.to_attributes }
     end
 
     def overridable?
