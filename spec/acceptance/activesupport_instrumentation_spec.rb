@@ -1,6 +1,6 @@
 unless ActiveSupport::Notifications.respond_to?(:subscribed)
   module SubscribedBehavior
-    def subscribed(callback, *args, &_block)
+    def subscribed(callback, *args)
       subscriber = subscribe(*args, &callback)
       yield
     ensure

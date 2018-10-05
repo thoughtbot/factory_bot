@@ -28,9 +28,9 @@ module DefineConstantMacros
       connection.create_table(table_name, &block)
       @created_tables << table_name
       connection
-    rescue StandardError => error
+    rescue Exception => exception # rubocop:disable Lint/RescueException
       connection.execute("DROP TABLE IF EXISTS #{table_name}")
-      raise error
+      raise exception
     end
   end
 
