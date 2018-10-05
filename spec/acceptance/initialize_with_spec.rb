@@ -59,7 +59,7 @@ describe "initialize_with non-ORM-backed objects" do
     end
 
     FactoryBot.define do
-      sequence(:random_data) { 5.times.map { Kernel.rand(200) } }
+      sequence(:random_data) { Array.new(5) { Kernel.rand(200) } }
 
       factory :report_generator do
         transient do

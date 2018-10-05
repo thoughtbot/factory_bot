@@ -1,6 +1,7 @@
 inherit_from:
   - https://raw.githubusercontent.com/thoughtbot/guides/master/style/ruby/.rubocop.yml
 AllCops:
+  TargetRubyVersion: 2.3
   Exclude:
     - 'gemfiles/*'
     - 'tmp/**/*'
@@ -79,20 +80,6 @@ Metrics/LineLength:
 Naming/MemoizedInstanceVariableName:
   Exclude:
     - 'spec/support/macros/define_constant.rb'
-
-# Offense count: 1
-# Cop supports --auto-correct.
-Performance/RegexpMatch:
-  Exclude:
-    - 'lib/factory_bot/aliases.rb'
-
-# Offense count: 3
-# Cop supports --auto-correct.
-# Configuration parameters: AutoCorrect.
-Performance/TimesMap:
-  Exclude:
-    - 'lib/factory_bot/strategy_syntax_method_registrar.rb'
-    - 'spec/acceptance/initialize_with_spec.rb'
 
 # Offense count: 3
 # Cop supports --auto-correct.
