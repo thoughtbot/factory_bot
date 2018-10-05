@@ -106,9 +106,9 @@ Style/MethodMissing:
 
 # Offense count: 1	
 # Cop supports --auto-correct.	
-# Style/RedundantBegin:	
-#   Exclude:	
-#     - 'lib/factory_bot/linter.rb'
+Style/RedundantBegin:	
+  Exclude:	
+    - 'lib/factory_bot/linter.rb'
 
 # Offense count: 308
 # Cop supports --auto-correct.
