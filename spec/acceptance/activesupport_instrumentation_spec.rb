@@ -1,6 +1,6 @@
 unless ActiveSupport::Notifications.respond_to?(:subscribed)
   module SubscribedBehavior
-    def subscribed(callback, *args, &block)
+    def subscribed(callback, *args)
       subscriber = subscribe(*args, &callback)
       yield
     ensure
@@ -29,7 +29,7 @@ describe "using ActiveSupport::Instrumentation to track factory interaction" do
 
   it "tracks proper time of creating the record" do
     time_to_execute = 0
-    callback = ->(name, start, finish, id, payload) { time_to_execute = finish - start }
+    callback = ->(_name, start, finish, _id, _payload) { time_to_execute = finish - start }
     ActiveSupport::Notifications.subscribed(callback, "factory_bot.run_factory") do
       FactoryBot.build(:slow_user)
     end
@@ -40,7 +40,7 @@ describe "using ActiveSupport::Instrumentation to track factory interaction" do
   it "builds the correct payload" do
     tracked_invocations = {}
 
-    callback = ->(name, start, finish, id, payload) do
+    callback = ->(_name, _start, _finish, _id, payload) do
       factory_name = payload[:name]
       strategy_name = payload[:strategy]
       factory = payload[:factory]
