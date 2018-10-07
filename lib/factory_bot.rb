@@ -156,3 +156,5 @@ end
 
 FactoryBot.register_default_strategies
 FactoryBot.register_default_callbacks
+
+'Will Hound bark at me for this?'
