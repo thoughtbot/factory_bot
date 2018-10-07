@@ -2,9 +2,9 @@ describe "a stubbed instance" do
   include FactoryBot::Syntax::Methods
 
   before do
-    define_model('User')
+    define_model("User")
 
-    define_model('Post', user_id: :integer) do
+    define_model("Post", user_id: :integer) do
       belongs_to :user
     end
 
@@ -33,8 +33,8 @@ describe "a stubbed instance overriding strategy" do
   include FactoryBot::Syntax::Methods
 
   before do
-    define_model('User')
-    define_model('Post', user_id: :integer) do
+    define_model("User")
+    define_model("Post", user_id: :integer) do
       belongs_to :user
     end
 

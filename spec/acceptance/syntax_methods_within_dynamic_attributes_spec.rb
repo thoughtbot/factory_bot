@@ -37,7 +37,7 @@ describe "syntax methods within dynamic attributes" do
     expect(FactoryBot.attributes_for(:post)[:title]).to be_nil
   end
 
-  it 'allows syntax methods to be used when the block has an arity of 1' do
+  it "allows syntax methods to be used when the block has an arity of 1" do
     FactoryBot.define do
       factory :post_using_block_with_variable, parent: :post do
         user { |_| build(:user) }

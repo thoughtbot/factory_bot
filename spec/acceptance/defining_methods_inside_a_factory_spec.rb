@@ -1,12 +1,12 @@
-describe 'defining methods inside FactoryBot' do
-  it 'raises with a meaningful message' do
-    define_model('User')
+describe "defining methods inside FactoryBot" do
+  it "raises with a meaningful message" do
+    define_model("User")
 
     expect do
       FactoryBot.define do
         factory :user do
           def generate_name
-            'John Doe'
+            "John Doe"
           end
         end
       end

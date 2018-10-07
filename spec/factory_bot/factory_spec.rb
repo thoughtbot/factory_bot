@@ -1,7 +1,7 @@
 describe FactoryBot::Factory do
   before do
     @name    = :user
-    @class   = define_class('User')
+    @class   = define_class("User")
     @factory = FactoryBot::Factory.new(@name)
     FactoryBot.register_factory(@factory)
   end
@@ -55,7 +55,7 @@ describe FactoryBot::Factory do
   describe "when overriding generated attributes with a hash" do
     before do
       @name  = :name
-      @value = 'The price is right!'
+      @value = "The price is right!"
       @hash  = { @name => @value }
     end
 
@@ -92,7 +92,7 @@ describe FactoryBot::Factory do
     end
 
     it "uses the passed in value for the alias" do
-      expect(@result[:test_alias]).to eq 'new'
+      expect(@result[:test_alias]).to eq "new"
     end
 
     it "discards the predefined value for the attribute" do
@@ -160,7 +160,7 @@ describe FactoryBot::Factory, "with a name ending in s" do
   let(:name)           { :business }
   let(:business_class) { Business }
 
-  before  { define_class('Business') }
+  before  { define_class("Business") }
   subject { FactoryBot::Factory.new(name) }
 
   its(:name)        { should eq name }

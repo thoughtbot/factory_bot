@@ -2,9 +2,9 @@ describe "a created instance" do
   include FactoryBot::Syntax::Methods
 
   before do
-    define_model('User')
+    define_model("User")
 
-    define_model('Post', user_id: :integer) do
+    define_model("Post", user_id: :integer) do
       belongs_to :user
     end
 
@@ -17,7 +17,7 @@ describe "a created instance" do
     end
   end
 
-  subject { create('post') }
+  subject { create("post") }
 
   it { should_not be_new_record }
 
@@ -31,9 +31,9 @@ describe "a created instance, specifying strategy: :build" do
   include FactoryBot::Syntax::Methods
 
   before do
-    define_model('User')
+    define_model("User")
 
-    define_model('Post', user_id: :integer) do
+    define_model("Post", user_id: :integer) do
       belongs_to :user
     end
 
@@ -58,7 +58,7 @@ describe "a custom create" do
   include FactoryBot::Syntax::Methods
 
   before do
-    define_class('User') do
+    define_class("User") do
       def initialize
         @persisted = false
       end
@@ -110,7 +110,7 @@ describe "calling `create` with a block" do
   include FactoryBot::Syntax::Methods
 
   before do
-    define_model('Company', name: :string)
+    define_model("Company", name: :string)
 
     FactoryBot.define do
       factory :company
@@ -118,8 +118,8 @@ describe "calling `create` with a block" do
   end
 
   it "passes the created instance" do
-    create(:company, name: 'thoughtbot') do |company|
-      expect(company.name).to eq('thoughtbot')
+    create(:company, name: "thoughtbot") do |company|
+      expect(company.name).to eq("thoughtbot")
     end
   end
 

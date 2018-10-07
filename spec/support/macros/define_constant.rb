@@ -1,4 +1,4 @@
-require 'active_record'
+require "active_record"
 
 module DefineConstantMacros
   def define_class(path, base = Object, &block)
@@ -35,7 +35,7 @@ module DefineConstantMacros
   end
 
   def constant_path(constant_name)
-    names = constant_name.split('::')
+    names = constant_name.split("::")
     class_name = names.pop
     namespace = names.reduce(Object) { |result, name| result.const_get(name) }
     [namespace, class_name]
@@ -75,8 +75,8 @@ RSpec.configure do |config|
 
   config.before(:all) do
     ActiveRecord::Base.establish_connection(
-      adapter:  'sqlite3',
-      database: File.join(File.dirname(__FILE__), 'test.db'),
+      adapter:  "sqlite3",
+      database: File.join(File.dirname(__FILE__), "test.db"),
     )
   end
 

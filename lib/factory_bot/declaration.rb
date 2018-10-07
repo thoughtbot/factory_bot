@@ -1,6 +1,6 @@
-require 'factory_bot/declaration/dynamic'
-require 'factory_bot/declaration/association'
-require 'factory_bot/declaration/implicit'
+require "factory_bot/declaration/dynamic"
+require "factory_bot/declaration/association"
+require "factory_bot/declaration/implicit"
 
 module FactoryBot
   # @api private
