@@ -48,7 +48,7 @@ module DeclarationMatchers
     def failure_message
       [
         "expected declarations to include declaration of type #{@declaration_type}",
-        @options ? "with options #{options}" : nil
+        @options ? "with options #{options}" : nil,
       ].compact.join ' '
     end
 

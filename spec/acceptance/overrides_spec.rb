@@ -7,7 +7,7 @@ describe "attribute overrides" do
       belongs_to :user
 
       def secure=(value)
-        return unless user && user.admin?
+        return unless user&.admin?
         write_attribute(:secure, value)
       end
     end

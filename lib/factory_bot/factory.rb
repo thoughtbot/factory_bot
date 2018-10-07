@@ -91,7 +91,7 @@ module FactoryBot
     end
 
     def with_traits(traits)
-      self.clone.tap do |factory_with_traits|
+      clone.tap do |factory_with_traits|
         factory_with_traits.append_traits traits
       end
     end

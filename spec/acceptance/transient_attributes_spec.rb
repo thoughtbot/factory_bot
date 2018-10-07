@@ -12,7 +12,7 @@ describe "transient attributes" do
           upcased  { false }
         end
 
-        name  { "#{FactoryBot.generate(:name)}#{" - Rockstar" if rockstar}" }
+        name  { "#{FactoryBot.generate(:name)}#{' - Rockstar' if rockstar}" }
         email { "#{name.downcase}#{four}@example.com" }
 
         after(:create) do |user, evaluator|
@@ -115,7 +115,7 @@ describe "assigning values from a transient attribute" do
   end
 
   it "does not ignore an _id attribute that is an alias for a transient attribute" do
-    user = FactoryBot.build(:user, :foo => Foo.new('passed-in-id-of-foo', 'passed-in-name-of-foo'))
+    user = FactoryBot.build(:user, foo: Foo.new('passed-in-id-of-foo', 'passed-in-name-of-foo'))
     expect(user.foo_id).to eq 'passed-in-id-of-foo'
     expect(user.foo_name).to eq 'passed-in-name-of-foo'
   end

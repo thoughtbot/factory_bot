@@ -74,9 +74,7 @@ describe "a custom create" do
 
     FactoryBot.define do
       factory :user do
-        to_create do |user|
-          user.persist
-        end
+        to_create(&:persist)
       end
     end
   end

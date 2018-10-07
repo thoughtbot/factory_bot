@@ -59,7 +59,7 @@ shared_examples_for "strategy with strategy: :build" do |factory_bot_strategy_na
 
   it "runs the factory with the correct overrides" do
     association_named(:author, strategy: :build, great: "value")
-    expect(factory).to have_received(:run).with(factory_bot_strategy_name, { great: "value" })
+    expect(factory).to have_received(:run).with(factory_bot_strategy_name, great: "value")
   end
 
   it "finds the factory with the correct factory name" do

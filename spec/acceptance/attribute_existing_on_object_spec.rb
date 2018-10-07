@@ -25,8 +25,7 @@ describe "assigning overrides that are also private methods on object" do
     Object.class_eval do
       private
 
-      def some_funky_method(args)
-      end
+      def some_funky_method(args); end
     end
 
     FactoryBot.define do

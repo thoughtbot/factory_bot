@@ -43,7 +43,6 @@ Metrics/BlockLength:
 Metrics/LineLength:
   Max: 189
 
-# Offense count: 3
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle, ProceduralMethods, FunctionalMethods, IgnoredMethods.
 # SupportedStyles: line_count_based, semantic, braces_for_chaining
@@ -52,59 +51,12 @@ Metrics/LineLength:
 # IgnoredMethods: lambda, proc, it
 Style/BlockDelimiters:
   Exclude:
-    - 'spec/acceptance/modify_factories_spec.rb'
-    - 'spec/factory_bot/attribute_list_spec.rb'
-    - 'spec/factory_bot/attribute_spec.rb'
+    - 'spec/**/*'
 
-# Offense count: 3
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: braces, no_braces, context_dependent
-Style/BracesAroundHashParameters:
-  Exclude:
-    - 'spec/factory_bot/definition_proxy_spec.rb'
-    - 'spec/support/shared_examples/strategy.rb'
-
-# Offense count: 3
-# Cop supports --auto-correct.
-# Configuration parameters: PreferredMethods.
-Style/CollectionMethods:
-  Exclude:
-    - 'lib/factory_bot/attribute_assigner.rb'
-    - 'lib/factory_bot/declaration_list.rb'
-    - 'spec/support/macros/define_constant.rb'
-
-# Offense count: 3
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: compact, expanded
-Style/EmptyMethod:
-  Exclude:
-    - 'lib/factory_bot/strategy/null.rb'
-    - 'spec/acceptance/attribute_existing_on_object_spec.rb'
-
-# Offense count: 1
-# Cop supports --auto-correct.
-Style/ExpandPathArguments:
-  Exclude:
-    - 'factory_bot.gemspec'
-
-# Offense count: 1
 # Configuration parameters: .
 # SupportedStyles: annotated, template, unannotated
 Style/FormatStringToken:
   EnforcedStyle: unannotated
-
-# Offense count: 24
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, UseHashRocketsWithSymbolValues, PreferHashRocketsForNonAlnumEndingSymbols.
-# SupportedStyles: ruby19, hash_rockets, no_mixed_keys, ruby19_no_mixed_keys
-Style/HashSyntax:
-  Exclude:
-    - 'Rakefile'
-    - 'spec/acceptance/build_stubbed_spec.rb'
-    - 'spec/acceptance/nested_attributes_spec.rb'
-    - 'spec/acceptance/transient_attributes_spec.rb'
 
 # Offense count: 4
 Style/MethodMissing:
@@ -114,40 +66,6 @@ Style/MethodMissing:
     - 'lib/factory_bot/definition_proxy.rb'
     - 'lib/factory_bot/evaluator.rb'
 
-# Offense count: 1
-# Cop supports --auto-correct.
-Style/MutableConstant:
-  Exclude:
-    - 'lib/factory_bot/definition_proxy.rb'
-
-# Offense count: 1
-# Cop supports --auto-correct.
-Style/RedundantBegin:
-  Exclude:
-    - 'lib/factory_bot/linter.rb'
-
-# Offense count: 1
-# Cop supports --auto-correct.
-Style/RedundantSelf:
-  Exclude:
-    - 'lib/factory_bot/factory.rb'
-
-# Offense count: 2
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: implicit, explicit
-Style/RescueStandardError:
-  Exclude:
-    - 'lib/factory_bot/linter.rb'
-
-# Offense count: 1
-# Cop supports --auto-correct.
-# Configuration parameters: ConvertCodeThatCanStartToReturnNil, Whitelist.
-# Whitelist: present?, blank?, presence, try
-Style/SafeNavigation:
-  Exclude:
-    - 'spec/acceptance/overrides_spec.rb'
-
 # Offense count: 308
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle, ConsistentQuotesInMultiline.
@@ -155,58 +73,11 @@ Style/SafeNavigation:
 Style/StringLiterals:
   Enabled: false
 
-# Offense count: 2
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: single_quotes, double_quotes
-Style/StringLiteralsInInterpolation:
-  Exclude:
-    - 'lib/factory_bot/strategy/stub.rb'
-    - 'spec/acceptance/transient_attributes_spec.rb'
-
-# Offense count: 21
 # Cop supports --auto-correct.
 # Configuration parameters: MinSize.
 # SupportedStyles: percent, brackets
 Style/SymbolArray:
   EnforcedStyle: brackets
-
-# Offense count: 2
-# Cop supports --auto-correct.
-# Configuration parameters: IgnoredMethods.
-# IgnoredMethods: respond_to, define_method
-Style/SymbolProc:
-  Exclude:
-    - 'lib/factory_bot/configuration.rb'
-    - 'spec/acceptance/create_spec.rb'
-
-# Offense count: 5
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyleForMultiline.
-# SupportedStylesForMultiline: comma, consistent_comma, no_comma
-Style/TrailingCommaInArguments:
-  Exclude:
-    - 'features/support/factories.rb'
-    - 'lib/factory_bot/attribute_assigner.rb'
-    - 'spec/factory_bot/evaluator_class_definer_spec.rb'
-    - 'spec/support/macros/define_constant.rb'
-
-# Offense count: 2
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyleForMultiline.
-# SupportedStylesForMultiline: comma, consistent_comma, no_comma
-Style/TrailingCommaInArrayLiteral:
-  Exclude:
-    - 'lib/factory_bot/aliases.rb'
-    - 'spec/support/matchers/declaration.rb'
-
-# Offense count: 1
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyleForMultiline.
-# SupportedStylesForMultiline: comma, consistent_comma, no_comma
-Style/TrailingCommaInHashLiteral:
-  Exclude:
-    - 'lib/factory_bot/factory_runner.rb'
 
 # Offense count: 196
 # Configuration parameters: AllowHeredoc, AllowURI, URISchemes, IgnoreCopDirectives, IgnoredPatterns.
