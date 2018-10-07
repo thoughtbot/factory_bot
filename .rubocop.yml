@@ -66,13 +66,6 @@ Style/MethodMissing:
     - 'lib/factory_bot/definition_proxy.rb'
     - 'lib/factory_bot/evaluator.rb'
 
-# Offense count: 308
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, ConsistentQuotesInMultiline.
-# SupportedStyles: single_quotes, double_quotes
-Style/StringLiterals:
-  Enabled: false
-
 # Cop supports --auto-correct.
 # Configuration parameters: MinSize.
 # SupportedStyles: percent, brackets
