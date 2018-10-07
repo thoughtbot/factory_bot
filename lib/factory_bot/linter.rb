@@ -86,10 +86,10 @@ module FactoryBot
         exceptions.map(&:message)
       end.flatten
 
-      <<-ERROR_MESSAGE.strip
-The following factories are invalid:
+      <<~ERROR_MESSAGE.strip
+        The following factories are invalid:
 
-#{lines.join("\n")}
+        #{lines.join("\n")}
       ERROR_MESSAGE
     end
   end
