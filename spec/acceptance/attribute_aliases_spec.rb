@@ -1,8 +1,8 @@
 describe "attribute aliases" do
   before do
-    define_model('User', name: :string, age: :integer)
+    define_model("User", name: :string, age: :integer)
 
-    define_model('Post', user_id: :integer) do
+    define_model("Post", user_id: :integer) do
       belongs_to :user
     end
 

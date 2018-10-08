@@ -1,6 +1,6 @@
-require 'factory_bot/attribute/dynamic'
-require 'factory_bot/attribute/association'
-require 'factory_bot/attribute/sequence'
+require "factory_bot/attribute/dynamic"
+require "factory_bot/attribute/association"
+require "factory_bot/attribute/sequence"
 
 module FactoryBot
   # @api private

@@ -1,10 +1,10 @@
-PROJECT_ROOT = File.expand_path(File.join(File.dirname(__FILE__), '..', '..'))
+PROJECT_ROOT = File.expand_path(File.join(File.dirname(__FILE__), "..", ".."))
 
 require "simplecov"
 
-$: << File.join(PROJECT_ROOT, 'lib')
+$: << File.join(PROJECT_ROOT, "lib")
 
-require 'active_record'
-require 'factory_bot'
+require "active_record"
+require "factory_bot"
 
-require 'aruba/cucumber'
+require "aruba/cucumber"

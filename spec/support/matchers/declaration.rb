@@ -49,7 +49,7 @@ module DeclarationMatchers
       [
         "expected declarations to include declaration of type #{@declaration_type}",
         @options ? "with options #{options}" : nil,
-      ].compact.join ' '
+      ].compact.join " "
     end
 
     private

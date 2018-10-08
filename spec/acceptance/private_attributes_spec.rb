@@ -1,6 +1,6 @@
-describe 'setting private attributes' do
-  it 'raises a NoMethodError' do
-    define_class('User') do
+describe "setting private attributes" do
+  it "raises a NoMethodError" do
+    define_class("User") do
       private
 
       attr_accessor :foo

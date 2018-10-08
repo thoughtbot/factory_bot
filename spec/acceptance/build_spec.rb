@@ -2,9 +2,9 @@ describe "a built instance" do
   include FactoryBot::Syntax::Methods
 
   before do
-    define_model('User')
+    define_model("User")
 
-    define_model('Post', user_id: :integer) do
+    define_model("Post", user_id: :integer) do
       belongs_to :user
     end
 
@@ -51,9 +51,9 @@ describe "a built instance with strategy: :create" do
   include FactoryBot::Syntax::Methods
 
   before do
-    define_model('User')
+    define_model("User")
 
-    define_model('Post', user_id: :integer) do
+    define_model("Post", user_id: :integer) do
       belongs_to :user
     end
 
@@ -80,7 +80,7 @@ describe "calling `build` with a block" do
   include FactoryBot::Syntax::Methods
 
   before do
-    define_model('Company', name: :string)
+    define_model("Company", name: :string)
 
     FactoryBot.define do
       factory :company
@@ -88,8 +88,8 @@ describe "calling `build` with a block" do
   end
 
   it "passes the built instance" do
-    build(:company, name: 'thoughtbot') do |company|
-      expect(company.name).to eq('thoughtbot')
+    build(:company, name: "thoughtbot") do |company|
+      expect(company.name).to eq("thoughtbot")
     end
   end
 
