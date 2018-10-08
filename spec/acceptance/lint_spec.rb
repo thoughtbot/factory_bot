@@ -14,11 +14,11 @@ describe "FactoryBot.lint" do
       factory :always_valid
     end
 
-    error_message = <<-ERROR_MESSAGE.strip
-The following factories are invalid:
+    error_message = <<~ERROR_MESSAGE.strip
+      The following factories are invalid:
 
-* user - Validation failed: Name can't be blank (ActiveRecord::RecordInvalid)
-* admin_user - Validation failed: Name can't be blank (ActiveRecord::RecordInvalid)
+      * user - Validation failed: Name can't be blank (ActiveRecord::RecordInvalid)
+      * admin_user - Validation failed: Name can't be blank (ActiveRecord::RecordInvalid)
     ERROR_MESSAGE
 
     expect do
@@ -105,10 +105,10 @@ The following factories are invalid:
           end
         end
 
-        error_message = <<-ERROR_MESSAGE.strip
-The following factories are invalid:
+        error_message = <<~ERROR_MESSAGE.strip
+          The following factories are invalid:
 
-* user+unnamed - Validation failed: Name can't be blank (ActiveRecord::RecordInvalid)
+          * user+unnamed - Validation failed: Name can't be blank (ActiveRecord::RecordInvalid)
         ERROR_MESSAGE
 
         expect do
