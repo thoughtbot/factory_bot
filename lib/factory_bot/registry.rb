@@ -1,3 +1,5 @@
+require "active_support/core_ext/hash/indifferent_access"
+
 module FactoryBot
   class Registry
     include Enumerable
@@ -6,7 +8,7 @@ module FactoryBot
 
     def initialize(name)
       @name  = name
-      @items = Decorator::ClassKeyHash.new({})
+      @items = ActiveSupport::HashWithIndifferentAccess.new
     end
 
     def clear
