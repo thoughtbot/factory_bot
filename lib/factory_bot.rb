@@ -39,7 +39,6 @@ require "factory_bot/find_definitions"
 require "factory_bot/reload"
 require "factory_bot/decorator"
 require "factory_bot/decorator/attribute_hash"
-require "factory_bot/decorator/class_key_hash"
 require "factory_bot/decorator/disallows_duplicates_registry"
 require "factory_bot/decorator/invocation_tracker"
 require "factory_bot/decorator/new_constructor"
@@ -80,8 +79,6 @@ module FactoryBot
              :skip_create,
              :initialize_with,
              :constructor,
-             :allow_class_lookup,
-             :allow_class_lookup=,
              :use_parent_strategy,
              :use_parent_strategy=,
              to: :configuration
