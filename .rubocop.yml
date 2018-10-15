@@ -41,13 +41,19 @@ Style/BlockDelimiters:
 Style/FormatStringToken:
   EnforcedStyle: unannotated
 
-# Offense count: 4
-Style/MethodMissing:
+# Offense count: 3
+Style/MethodMissingSuper:
   Exclude:
+    - 'lib/factory_bot/evaluator.rb'
+    - 'lib/factory_bot/definition_proxy.rb'
     - 'lib/factory_bot/decorator.rb'
+
+# Offense count: 3
+Style/MissingRespondToMissing:
+  Exclude:
     - 'lib/factory_bot/decorator/invocation_tracker.rb'
     - 'lib/factory_bot/definition_proxy.rb'
-    - 'lib/factory_bot/evaluator.rb'
+    - 'lib/factory_bot/decorator.rb'
 
 # Cop supports --auto-correct.
 # Configuration parameters: MinSize.
