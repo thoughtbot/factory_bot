@@ -7,7 +7,15 @@ module FactoryBot
     end
 
     def method_missing(name, *args, &block)
-      @component.send(name, *args, &block)
+      if @component.respond_to?(name)
+        @component.send(name, *args, &block)
+      else
+        super
+      end
+    end
+
+    def respond_to_missing?(name, include_private = false)
+      @component.respond_to?(name) || super
     end
 
     def send(symbol, *args, &block)

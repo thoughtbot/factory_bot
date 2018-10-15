@@ -11,6 +11,10 @@ module FactoryBot
         super
       end
 
+      def respond_to_missing?(*)
+        super
+      end
+
       def __invoked_methods__
         @invoked_methods.uniq
       end
