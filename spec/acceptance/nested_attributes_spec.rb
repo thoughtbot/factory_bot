@@ -25,6 +25,8 @@ describe "association assignment from nested attributes" do
   end
 
   it "assigns the correct amount of comments when overridden" do
-    expect(FactoryBot.create(:post, comments_attributes: [FactoryBot.attributes_for(:comment)]).comments.count).to eq 1
+    post = FactoryBot.create(:post, comments_attributes: [FactoryBot.attributes_for(:comment)])
+
+    expect(post.comments.count).to eq 1
   end
 end
