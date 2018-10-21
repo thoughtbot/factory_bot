@@ -10,7 +10,8 @@ module FactoryBot
       end
 
       def ==(other)
-        name == other.name &&
+        self.class == other.class &&
+          name == other.name &&
           options == other.options
       end
 
