@@ -176,7 +176,8 @@ describe "defaulting `created_at`" do
   end
 
   it "doesn't allow setting created_at on an object that doesn't define it" do
-    expect { build_stubbed(:thing_without_timestamp, created_at: Time.now) }.to raise_error(NoMethodError, /created_at=/)
+    expect { build_stubbed(:thing_without_timestamp, created_at: Time.now) }.
+      to raise_error(NoMethodError, /created_at=/)
   end
 end
 

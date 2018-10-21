@@ -90,7 +90,9 @@ module FactoryBot
 
     def alias_names_to_ignore
       @attribute_list.non_ignored.flat_map do |attribute|
-        override_names.map { |override| attribute.name if attribute.alias_for?(override) && attribute.name != override && !ignored_attribute_names.include?(override) }
+        override_names.map do |override|
+          attribute.name if attribute.alias_for?(override) && attribute.name != override && !ignored_attribute_names.include?(override)
+        end
       end.compact
     end
   end

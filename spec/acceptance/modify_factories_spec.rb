@@ -173,10 +173,12 @@ describe "modifying factories" do
   end
 
   it "raises an exception if the factory was not defined before" do
-    expect {
+    modify_unknown_factory = -> do
       FactoryBot.modify do
         factory :unknown_factory
       end
-    }.to raise_error(ArgumentError)
+    end
+
+    expect(modify_unknown_factory).to raise_error(ArgumentError)
   end
 end
