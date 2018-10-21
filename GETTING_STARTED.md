@@ -102,7 +102,7 @@ If you do not include `FactoryBot::Syntax::Methods` in your test suite, then all
 Defining factories
 ------------------
 
-Each factory has a name and a set of attributes. The name is used to guess the class of the object by default, but it's possible to explicitly specify it:
+Each factory has a name and a set of attributes. The name is used to guess the class of the object by default:
 
 ```ruby
 # This will guess the User class
@@ -112,14 +112,24 @@ FactoryBot.define do
     last_name  { "Doe" }
     admin { false }
   end
-
-  # This will use the User class (Admin would have been guessed)
-  factory :admin, class: User do
-    first_name { "Admin" }
-    last_name { "User" }
-    admin { true }
-  end
 end
+```
+
+It is also possible to explicitly specify the class:
+
+```ruby
+# This will use the User class (otherwise Admin would have been guessed)
+factory :admin, class: User
+```
+
+If the constant is not available
+(if you are using a Rails engine that waits to load models, for example),
+you can also pass a symbol or string,
+which factory_bot will constantize later, once you start building objects:
+
+```ruby
+# It's OK if Doorkeeper::AccessToken isn't loaded yet
+factory :access_token, class: "Doorkeeper::AccessToken"
 ```
 
 Because of the block syntax in Ruby, defining attributes as `Hash`es (for
