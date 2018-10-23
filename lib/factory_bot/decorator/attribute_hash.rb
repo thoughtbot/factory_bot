@@ -8,7 +8,7 @@ module FactoryBot
 
       def attributes
         @attributes.each_with_object({}) do |attribute_name, result|
-          result[attribute_name] = send(attribute_name)
+          result[attribute_name] = @component.send(attribute_name)
         end
       end
     end
