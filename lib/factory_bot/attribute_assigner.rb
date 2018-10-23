@@ -31,7 +31,10 @@ module FactoryBot
     private
 
     def method_tracking_evaluator
-      @method_tracking_evaluator ||= Decorator::AttributeHash.new(decorated_evaluator, attribute_names_to_assign)
+      @method_tracking_evaluator ||= Decorator::AttributeHash.new(
+        decorated_evaluator,
+        attribute_names_to_assign,
+      )
     end
 
     def decorated_evaluator

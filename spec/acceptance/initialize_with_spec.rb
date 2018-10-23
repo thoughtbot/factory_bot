@@ -178,7 +178,7 @@ describe "initialize_with doesn't duplicate assignment on attributes accessed fr
 end
 
 describe "initialize_with has access to all attributes for construction" do
-  before do
+  it "assigns attributes correctly" do
     define_class("User") do
       attr_reader :name, :email, :ignored
 
@@ -204,13 +204,34 @@ describe "initialize_with has access to all attributes for construction" do
         initialize_with { new(attributes) }
       end
     end
-  end
 
-  it "assigns attributes correctly" do
     user_with_attributes = FactoryBot.build(:user)
     expect(user_with_attributes.email).to eq "person1@example.com"
     expect(user_with_attributes.name).to eq "person1"
     expect(user_with_attributes.ignored).to be_nil
+  end
+end
+
+describe "initialize_with with an 'attributes' attribute" do
+  it "assigns attributes correctly" do
+    define_class("User") do
+      attr_reader :name
+
+      def initialize(attributes:)
+        @name = attributes[:name]
+      end
+    end
+
+    FactoryBot.define do
+      factory :user do
+        attributes { { name: "Daniel" } }
+        initialize_with { new(attributes) }
+      end
+    end
+
+    user = FactoryBot.build(:user)
+
+    expect(user.name).to eq("Daniel")
   end
 end
 
