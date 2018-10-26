@@ -32,6 +32,7 @@ module FactoryBot
         evaluation.object.tap do |instance|
           stub_database_interaction_on_result(instance)
           clear_changes_information(instance)
+          set_timestamps(instance)
           evaluation.notify(:after_stub, instance)
         end
       end
@@ -64,41 +65,34 @@ module FactoryBot
             end
           end
         end
-
-        created_at_missing_default = result_instance.respond_to?(:created_at) && !result_instance.created_at
-
-        if created_at_missing_default
-          result_instance.instance_eval do
-            def created_at
-              @created_at ||= Time.now.in_time_zone
-            end
-
-            def created_at=(date)
-              @created_at = date
-            end
-          end
-        end
-
-        has_updated_at = result_instance.respond_to?(:updated_at)
-        updated_at_no_default = has_updated_at && !result_instance.updated_at
-
-        if updated_at_no_default
-          result_instance.instance_eval do
-            def updated_at
-              @updated_at ||= Time.current
-            end
-
-            def updated_at=(date)
-              @updated_at = date
-            end
-          end
-        end
       end
 
       def clear_changes_information(result_instance)
         if result_instance.respond_to?(:clear_changes_information)
           result_instance.clear_changes_information
         end
+      end
+
+      def set_timestamps(result_instance)
+        if missing_created_at?(result_instance)
+          result_instance.created_at = Time.current
+        end
+
+        if missing_updated_at?(result_instance)
+          result_instance.updated_at = Time.current
+        end
+      end
+
+      def missing_created_at?(result_instance)
+        result_instance.respond_to?(:created_at) &&
+          result_instance.respond_to?(:created_at=) &&
+          result_instance.created_at.blank?
+      end
+
+      def missing_updated_at?(result_instance)
+        result_instance.respond_to?(:updated_at) &&
+          result_instance.respond_to?(:updated_at=) &&
+          result_instance.updated_at.blank?
       end
     end
   end
