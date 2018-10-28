@@ -131,18 +131,36 @@ describe FactoryBot::DefinitionProxy, "#sequence" do
 end
 
 describe FactoryBot::DefinitionProxy, "#association" do
-  subject     { FactoryBot::Definition.new(:name) }
-  let(:proxy) { FactoryBot::DefinitionProxy.new(subject) }
-
   it "declares an association" do
+    definition = FactoryBot::Definition.new(:definition_name)
+    proxy = FactoryBot::DefinitionProxy.new(definition)
+
     proxy.association(:association_name)
-    expect(subject).to have_association_declaration(:association_name)
+
+    expect(definition).to have_association_declaration(:association_name)
   end
 
   it "declares an association with options" do
+    definition = FactoryBot::Definition.new(:definition_name)
+    proxy = FactoryBot::DefinitionProxy.new(definition)
+
     proxy.association(:association_name, name: "Awesome")
-    expect(subject).to have_association_declaration(:association_name).
+
+    expect(definition).to have_association_declaration(:association_name).
       with_options(name: "Awesome")
+  end
+
+  context "when passing a block" do
+    it "raises an error" do
+      definition = FactoryBot::Definition.new(:post)
+      proxy = FactoryBot::DefinitionProxy.new(definition)
+
+      expect { proxy.association(:author) {} }.
+        to raise_error(
+          FactoryBot::AssociationDefinitionError,
+          "Unexpected block passed to 'author' association in 'post' factory",
+        )
+    end
   end
 end
 
