@@ -1,3 +1,24 @@
+4.11.1 (September 7, 2018)
+  Documentation: Include .yardopts in the gem to fix broken RubyDoc links
+
+4.11.0 (August, 15, 2018)
+  Bugfix: Do not raise error for valid build_stubbed methods: decrement, increment, and toggle
+  Bugfix: Do not add timestamps with build_stubbed for objects that shouldn't have timestamps
+  Deprecate static attributes
+
+4.10.0 (May 25, 2018)
+  Allow sequences to be rewound
+
+4.9.0 (skipped - FactoryGirl only release)
+
+4.8.2 (October 20, 2017)
+  Rename factory_girl to factory_bot
+
+4.8.1 (September 28, 2017)
+  Explicitly define `#destroyed?` within the `Stub` strategy to return `nil` instead of raising
+  Update various dependencies
+  Update internal test suite to use RSpec's mocking/stubbing instead of mocha
+
 4.8.0 (December 16, 2016)
   Improve documentation
   Add `FactoryGirl.generate_list` to be consistent with `build_list`/`create_list` and friends
@@ -106,7 +127,7 @@
   Skip to_create with skip_create
   Allow registration of custom strategies
   Deprecate alternate syntaxes
-  Implicitly call factory_girl's syntax methods from dynamic attributes
+  Implicitly call factory_bot's syntax methods from dynamic attributes
 
 3.1.0 (April 6, 2012)
   Sequences support aliases, which reference the same block
@@ -201,7 +222,7 @@
 2.3.1 (November 23, 2011)
   Remove internally-used associate method from all the FactoryGirl::Proxy subclasses
   Move around requiring of files
-  Consolidate errors into factory_girl.rb
+  Consolidate errors into factory_bot.rb
   Refactor AttributeList to deal with priority only when iterating over
     attributes
   Refactor internals of some of the Proxy subclasses

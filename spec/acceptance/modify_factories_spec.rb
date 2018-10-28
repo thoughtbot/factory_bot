@@ -1,12 +1,10 @@
-require "spec_helper"
-
 describe "modifying factories" do
-  include FactoryGirl::Syntax::Methods
+  include FactoryBot::Syntax::Methods
 
   before do
-    define_model('User', name: :string, admin: :boolean, email: :string, login: :string)
+    define_model("User", name: :string, admin: :boolean, email: :string, login: :string)
 
-    FactoryGirl.define do
+    FactoryBot.define do
       sequence(:email) { |n| "user#{n}@example.com" }
 
       factory :user do
@@ -17,7 +15,7 @@ describe "modifying factories" do
         end
 
         factory :admin do
-          admin true
+          admin { true }
         end
       end
     end
@@ -25,9 +23,9 @@ describe "modifying factories" do
 
   context "simple modification" do
     before do
-      FactoryGirl.modify do
+      FactoryBot.modify do
         factory :user do
-          name "Great User"
+          name { "Great User" }
         end
       end
     end
@@ -38,14 +36,14 @@ describe "modifying factories" do
 
     it "doesn't allow the factory to be subsequently defined" do
       expect do
-        FactoryGirl.define { factory :user }
-      end.to raise_error(FactoryGirl::DuplicateDefinitionError, "Factory already registered: user")
+        FactoryBot.define { factory :user }
+      end.to raise_error(FactoryBot::DuplicateDefinitionError, "Factory already registered: user")
     end
 
     it "does allow the factory to be subsequently modified" do
-      FactoryGirl.modify do
+      FactoryBot.modify do
         factory :user do
-          name "Overridden again!"
+          name { "Overridden again!" }
         end
       end
 
@@ -55,9 +53,9 @@ describe "modifying factories" do
 
   context "adding callbacks" do
     before do
-      FactoryGirl.modify do
+      FactoryBot.modify do
         factory :user do
-          name "Great User"
+          name { "Great User" }
           after(:create) do |user|
             user.name = user.name.downcase
             user.login = nil
@@ -74,13 +72,13 @@ describe "modifying factories" do
 
   context "reusing traits" do
     before do
-      FactoryGirl.define do
+      FactoryBot.define do
         trait :rockstar do
-          name "Johnny Rockstar!!!"
+          name { "Johnny Rockstar!!!" }
         end
       end
 
-      FactoryGirl.modify do
+      FactoryBot.modify do
         factory :user do
           rockstar
           email { "#{name}@example.com" }
@@ -97,10 +95,10 @@ describe "modifying factories" do
 
   context "redefining attributes" do
     before do
-      FactoryGirl.modify do
+      FactoryBot.modify do
         factory :user do
           email { "#{name}-modified@example.com" }
-          name "Great User"
+          name { "Great User" }
         end
       end
     end
@@ -113,14 +111,14 @@ describe "modifying factories" do
         its(:email) { should eq "Great User-modified@example.com" }
       end
 
-      context "overriding dynamic attributes" do
+      context "overriding the email" do
         subject     { create(:user, email: "perfect@example.com") }
 
         its(:name)  { should eq "Great User" }
         its(:email) { should eq "perfect@example.com" }
       end
 
-      context "overriding static attributes" do
+      context "overriding the name" do
         subject     { create(:user, name: "wonderful") }
 
         its(:name)  { should eq "wonderful" }
@@ -137,7 +135,7 @@ describe "modifying factories" do
         its(:admin) { should be true }
       end
 
-      context "overriding dynamic attributes" do
+      context "overriding the email" do
         subject     { create(:admin, email: "perfect@example.com") }
 
         its(:name)  { should eq "Great User" }
@@ -145,7 +143,7 @@ describe "modifying factories" do
         its(:admin) { should be true }
       end
 
-      context "overriding static attributes" do
+      context "overriding the name" do
         subject     { create(:admin, name: "wonderful") }
 
         its(:name)  { should eq "wonderful" }
@@ -156,18 +154,18 @@ describe "modifying factories" do
   end
 
   it "doesn't overwrite already defined child's attributes" do
-    FactoryGirl.modify do
+    FactoryBot.modify do
       factory :user do
-        admin false
+        admin { false }
       end
     end
     expect(create(:admin)).to be_admin
   end
 
   it "allows for overriding child classes" do
-    FactoryGirl.modify do
+    FactoryBot.modify do
       factory :admin do
-        admin false
+        admin { false }
       end
     end
 
@@ -175,10 +173,12 @@ describe "modifying factories" do
   end
 
   it "raises an exception if the factory was not defined before" do
-    expect {
-      FactoryGirl.modify do
+    modify_unknown_factory = -> do
+      FactoryBot.modify do
         factory :unknown_factory
       end
-    }.to raise_error(ArgumentError)
+    end
+
+    expect(modify_unknown_factory).to raise_error(ArgumentError)
   end
 end

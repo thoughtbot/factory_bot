@@ -1,16 +1,16 @@
 shared_examples_for "strategy without association support" do
-  let(:factory)   { stub("associate_factory") }
-  let(:attribute) { FactoryGirl::Attribute::Association.new(:user, :user, {}) }
+  let(:factory)   { double("associate_factory") }
+  let(:attribute) { FactoryBot::Attribute::Association.new(:user, :user, {}) }
 
   def association_named(name, overrides)
-    runner = FactoryGirl::FactoryRunner.new(name, :build, [overrides])
+    runner = FactoryBot::FactoryRunner.new(name, :build, [overrides])
     subject.association(runner)
   end
 
   before do
-    FactoryGirl.stubs(factory_by_name: factory)
-    factory.stubs(:compile)
-    factory.stubs(:run)
+    allow(FactoryBot).to receive(:factory_by_name).and_return factory
+    allow(factory).to receive(:compile)
+    allow(factory).to receive(:run)
   end
 
   it "returns nil when accessing an association" do
@@ -18,53 +18,53 @@ shared_examples_for "strategy without association support" do
   end
 end
 
-shared_examples_for "strategy with association support" do |factory_girl_strategy_name|
-  let(:factory) { stub("associate_factory") }
+shared_examples_for "strategy with association support" do |factory_bot_strategy_name|
+  let(:factory) { double("associate_factory") }
 
   def association_named(name, strategy, overrides)
-    runner = FactoryGirl::FactoryRunner.new(name, strategy, [overrides])
+    runner = FactoryBot::FactoryRunner.new(name, strategy, [overrides])
     subject.association(runner)
   end
 
   before do
-    FactoryGirl.stubs(factory_by_name: factory)
-    factory.stubs(:compile)
-    factory.stubs(:run)
+    allow(FactoryBot).to receive(:factory_by_name).and_return factory
+    allow(factory).to receive(:compile)
+    allow(factory).to receive(:run)
   end
 
   it "runs the factory with the correct overrides" do
-    association_named(:author, factory_girl_strategy_name, great: "value")
-    expect(factory).to have_received(:run).with(factory_girl_strategy_name, great: "value")
+    association_named(:author, factory_bot_strategy_name, great: "value")
+    expect(factory).to have_received(:run).with(factory_bot_strategy_name, great: "value")
   end
 
   it "finds the factory with the correct factory name" do
-    association_named(:author, factory_girl_strategy_name, great: "value")
-    expect(FactoryGirl).to have_received(:factory_by_name).with(:author)
+    association_named(:author, factory_bot_strategy_name, great: "value")
+    expect(FactoryBot).to have_received(:factory_by_name).with(:author)
   end
 end
 
-shared_examples_for "strategy with strategy: :build" do |factory_girl_strategy_name|
-  let(:factory) { stub("associate_factory") }
+shared_examples_for "strategy with strategy: :build" do |factory_bot_strategy_name|
+  let(:factory) { double("associate_factory") }
 
   def association_named(name, overrides)
-    runner = FactoryGirl::FactoryRunner.new(name, overrides[:strategy], [overrides.except(:strategy)])
+    runner = FactoryBot::FactoryRunner.new(name, overrides[:strategy], [overrides.except(:strategy)])
     subject.association(runner)
   end
 
   before do
-    FactoryGirl.stubs(factory_by_name: factory)
-    factory.stubs(:compile)
-    factory.stubs(:run)
+    allow(FactoryBot).to receive(:factory_by_name).and_return factory
+    allow(factory).to receive(:compile)
+    allow(factory).to receive(:run)
   end
 
   it "runs the factory with the correct overrides" do
     association_named(:author, strategy: :build, great: "value")
-    expect(factory).to have_received(:run).with(factory_girl_strategy_name, { great: "value" })
+    expect(factory).to have_received(:run).with(factory_bot_strategy_name, great: "value")
   end
 
   it "finds the factory with the correct factory name" do
     association_named(:author, strategy: :build, great: "value")
-    expect(FactoryGirl).to have_received(:factory_by_name).with(:author)
+    expect(FactoryBot).to have_received(:factory_by_name).with(:author)
   end
 end
 
@@ -75,7 +75,9 @@ shared_examples_for "strategy with callbacks" do |*callback_names|
     end.new
   end
 
-  let(:evaluation) { stub("evaluation", object: result_instance, notify: true, create: nil) }
+  let(:evaluation) do
+    double("evaluation", object: result_instance, notify: true, create: nil)
+  end
 
   it "runs the callbacks #{callback_names} with the evaluation's object" do
     subject.result(evaluation)

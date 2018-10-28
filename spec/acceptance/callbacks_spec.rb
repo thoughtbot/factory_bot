@@ -1,54 +1,52 @@
-require 'spec_helper'
-
 describe "callbacks" do
   before do
     define_model("User", first_name: :string, last_name: :string)
 
-    FactoryGirl.define do
+    FactoryBot.define do
       factory :user_with_callbacks, class: :user do
-        after(:stub)   { |user| user.first_name = 'Stubby' }
-        after(:build)  { |user| user.first_name = 'Buildy' }
-        after(:create) { |user| user.last_name  = 'Createy' }
+        after(:stub)   { |user| user.first_name = "Stubby" }
+        after(:build)  { |user| user.first_name = "Buildy" }
+        after(:create) { |user| user.last_name  = "Createy" }
       end
 
       factory :user_with_inherited_callbacks, parent: :user_with_callbacks do
-        after(:stub)  { |user| user.last_name  = 'Double-Stubby' }
-        after(:build) { |user| user.first_name = 'Child-Buildy' }
+        after(:stub)  { |user| user.last_name  = "Double-Stubby" }
+        after(:build) { |user| user.first_name = "Child-Buildy" }
       end
     end
   end
 
   it "runs the after(:stub) callback when stubbing" do
-    user = FactoryGirl.build_stubbed(:user_with_callbacks)
-    expect(user.first_name).to eq 'Stubby'
+    user = FactoryBot.build_stubbed(:user_with_callbacks)
+    expect(user.first_name).to eq "Stubby"
   end
 
   it "runs the after(:build) callback when building" do
-    user = FactoryGirl.build(:user_with_callbacks)
-    expect(user.first_name).to eq 'Buildy'
+    user = FactoryBot.build(:user_with_callbacks)
+    expect(user.first_name).to eq "Buildy"
   end
 
   it "runs both the after(:build) and after(:create) callbacks when creating" do
-    user = FactoryGirl.create(:user_with_callbacks)
-    expect(user.first_name).to eq 'Buildy'
-    expect(user.last_name).to eq 'Createy'
+    user = FactoryBot.create(:user_with_callbacks)
+    expect(user.first_name).to eq "Buildy"
+    expect(user.last_name).to eq "Createy"
   end
 
   it "runs both the after(:stub) callback on the factory and the inherited after(:stub) callback" do
-    user = FactoryGirl.build_stubbed(:user_with_inherited_callbacks)
-    expect(user.first_name).to eq 'Stubby'
-    expect(user.last_name).to eq 'Double-Stubby'
+    user = FactoryBot.build_stubbed(:user_with_inherited_callbacks)
+    expect(user.first_name).to eq "Stubby"
+    expect(user.last_name).to eq "Double-Stubby"
   end
 
   it "runs child callback after parent callback" do
-    user = FactoryGirl.build(:user_with_inherited_callbacks)
-    expect(user.first_name).to eq 'Child-Buildy'
+    user = FactoryBot.build(:user_with_inherited_callbacks)
+    expect(user.first_name).to eq "Child-Buildy"
   end
 end
 
-describe 'callbacks using Symbol#to_proc' do
+describe "callbacks using Symbol#to_proc" do
   before do
-    define_model('User') do
+    define_model("User") do
       def confirmed?
         !!@confirmed
       end
@@ -58,24 +56,24 @@ describe 'callbacks using Symbol#to_proc' do
       end
     end
 
-    FactoryGirl.define do
+    FactoryBot.define do
       factory :user do
         after :build, &:confirm!
       end
     end
   end
 
-  it 'runs the callback correctly' do
-    user = FactoryGirl.build(:user)
+  it "runs the callback correctly" do
+    user = FactoryBot.build(:user)
     expect(user).to be_confirmed
   end
 end
 
-describe "callbacks using syntax methods without referencing FactoryGirl explicitly" do
+describe "callbacks using syntax methods without referencing FactoryBot explicitly" do
   before do
     define_model("User", first_number: :integer, last_number: :integer)
 
-    FactoryGirl.define do
+    FactoryBot.define do
       sequence(:sequence_1)
       sequence(:sequence_2)
       sequence(:sequence_3)
@@ -83,22 +81,22 @@ describe "callbacks using syntax methods without referencing FactoryGirl explici
       factory :user do
         after(:stub)   { generate(:sequence_3) }
         after(:build)  { |user| user.first_number = generate(:sequence_1) }
-        after(:create) { |user, evaluator| user.last_number = generate(:sequence_2) }
+        after(:create) { |user, _evaluator| user.last_number = generate(:sequence_2) }
       end
     end
   end
 
   it "works when the callback has no variables" do
-    FactoryGirl.build_stubbed(:user)
-    expect(FactoryGirl.generate(:sequence_3)).to eq 2
+    FactoryBot.build_stubbed(:user)
+    expect(FactoryBot.generate(:sequence_3)).to eq 2
   end
 
   it "works when the callback has one variable" do
-    expect(FactoryGirl.build(:user).first_number).to eq 1
+    expect(FactoryBot.build(:user).first_number).to eq 1
   end
 
   it "works when the callback has two variables" do
-    expect(FactoryGirl.create(:user).last_number).to eq 1
+    expect(FactoryBot.create(:user).last_number).to eq 1
   end
 end
 
@@ -140,14 +138,14 @@ describe "custom callbacks" do
       end
     end
 
-    FactoryGirl.register_strategy(:custom_before, custom_before)
-    FactoryGirl.register_strategy(:custom_after, custom_after)
-    FactoryGirl.register_strategy(:totally_custom, totally_custom)
+    FactoryBot.register_strategy(:custom_before, custom_before)
+    FactoryBot.register_strategy(:custom_after, custom_after)
+    FactoryBot.register_strategy(:totally_custom, totally_custom)
 
-    FactoryGirl.define do
+    FactoryBot.define do
       factory :user do
-        first_name "John"
-        last_name  "Doe"
+        first_name { "John" }
+        last_name  { "Doe" }
 
         before(:custom) { |instance| instance.first_name = "Overridden First" }
         after(:custom)  { |instance| instance.last_name  = "Overridden Last" }
@@ -160,26 +158,26 @@ describe "custom callbacks" do
   end
 
   it "runs a custom before callback when the proper strategy executes" do
-    expect(FactoryGirl.build(:user).name).to eq "John Doe"
-    expect(FactoryGirl.custom_before(:user).name).to eq "Overridden First Doe"
+    expect(FactoryBot.build(:user).name).to eq "John Doe"
+    expect(FactoryBot.custom_before(:user).name).to eq "Overridden First Doe"
   end
 
   it "runs a custom after callback when the proper strategy executes" do
-    expect(FactoryGirl.build(:user).name).to eq "John Doe"
-    expect(FactoryGirl.custom_after(:user).name).to eq "John Overridden Last"
+    expect(FactoryBot.build(:user).name).to eq "John Doe"
+    expect(FactoryBot.custom_after(:user).name).to eq "John Overridden Last"
   end
 
   it "runs a custom callback without prepending before or after when the proper strategy executes" do
-    expect(FactoryGirl.build(:user).name).to eq "John Doe"
-    expect(FactoryGirl.totally_custom(:user).name).to eq "Totally Custom"
+    expect(FactoryBot.build(:user).name).to eq "John Doe"
+    expect(FactoryBot.totally_custom(:user).name).to eq "Totally Custom"
   end
 end
 
-describe 'binding a callback to multiple callbacks' do
+describe "binding a callback to multiple callbacks" do
   before do
-    define_model('User', name: :string)
+    define_model("User", name: :string)
 
-    FactoryGirl.define do
+    FactoryBot.define do
       factory :user do
         callback(:before_create, :after_stub) do |instance|
           instance.name = instance.name.upcase
@@ -188,31 +186,31 @@ describe 'binding a callback to multiple callbacks' do
     end
   end
 
-  it 'binds the callback to creation' do
-    expect(FactoryGirl.create(:user, name: 'John Doe').name).to eq 'JOHN DOE'
+  it "binds the callback to creation" do
+    expect(FactoryBot.create(:user, name: "John Doe").name).to eq "JOHN DOE"
   end
 
-  it 'does not bind the callback to building' do
-    expect(FactoryGirl.build(:user, name: 'John Doe').name).to eq 'John Doe'
+  it "does not bind the callback to building" do
+    expect(FactoryBot.build(:user, name: "John Doe").name).to eq "John Doe"
   end
 
-  it 'binds the callback to stubbing' do
-    expect(FactoryGirl.build_stubbed(:user, name: 'John Doe').name).to eq 'JOHN DOE'
+  it "binds the callback to stubbing" do
+    expect(FactoryBot.build_stubbed(:user, name: "John Doe").name).to eq "JOHN DOE"
   end
 end
 
-describe 'global callbacks' do
-  include FactoryGirl::Syntax::Methods
+describe "global callbacks" do
+  include FactoryBot::Syntax::Methods
 
   before do
-    define_model('User', name: :string)
-    define_model('Company', name: :string)
+    define_model("User", name: :string)
+    define_model("Company", name: :string)
 
-    FactoryGirl.define do
+    FactoryBot.define do
       after :build do |object|
         object.name = case object.class.to_s
-                      when 'User' then 'John Doe'
-                      when 'Company' then 'Acme Suppliers'
+                      when "User" then "John Doe"
+                      when "Company" then "Acme Suppliers"
                       end
       end
 
@@ -244,10 +242,10 @@ describe 'global callbacks' do
     end
   end
 
-  it 'triggers after build callbacks for all factories' do
-    expect(build(:user).name).to eq 'john doe'
-    expect(create(:user).name).to eq 'john doe!!!'
-    expect(create(:user, :awesome).name).to eq 'A___john doe___!!!Z'
-    expect(build(:company).name).to eq 'ACME SUPPLIERS'
+  it "triggers after build callbacks for all factories" do
+    expect(build(:user).name).to eq "john doe"
+    expect(create(:user).name).to eq "john doe!!!"
+    expect(create(:user, :awesome).name).to eq "A___john doe___!!!Z"
+    expect(build(:company).name).to eq "ACME SUPPLIERS"
   end
 end

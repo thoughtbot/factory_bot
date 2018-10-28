@@ -1,13 +1,11 @@
-require 'spec_helper'
-
 describe "a generated attributes hash" do
-  include FactoryGirl::Syntax::Methods
+  include FactoryBot::Syntax::Methods
 
   before do
-    define_model('User')
-    define_model('Comment')
+    define_model("User")
+    define_model("Comment")
 
-    define_model('Post', title:   :string,
+    define_model("Post", title:   :string,
                          body:    :string,
                          summary: :string,
                          user_id: :integer) do
@@ -15,7 +13,7 @@ describe "a generated attributes hash" do
       has_many :comments
     end
 
-    FactoryGirl.define do
+    FactoryBot.define do
       factory :user
       factory :comment
 
@@ -31,7 +29,7 @@ describe "a generated attributes hash" do
     end
   end
 
-  subject { attributes_for(:post, title: 'overridden title') }
+  subject { attributes_for(:post, title: "overridden title") }
 
   it "assigns an overridden value" do
     expect(subject[:title]).to eq "overridden title"
@@ -52,19 +50,19 @@ describe "a generated attributes hash" do
 end
 
 describe "calling `attributes_for` with a block" do
-  include FactoryGirl::Syntax::Methods
+  include FactoryBot::Syntax::Methods
 
   before do
-    define_model('Company', name: :string)
+    define_model("Company", name: :string)
 
-    FactoryGirl.define do
+    FactoryBot.define do
       factory :company
     end
   end
 
   it "passes the hash of attributes" do
-    attributes_for(:company, name: 'thoughtbot') do |attributes|
-      expect(attributes[:name]).to eq('thoughtbot')
+    attributes_for(:company, name: "thoughtbot") do |attributes|
+      expect(attributes[:name]).to eq("thoughtbot")
     end
   end
 
@@ -85,13 +83,13 @@ describe "`attributes_for` for a class whose constructor has required params" do
       def initialize(arg1, arg2); end
     end
 
-    FactoryGirl.define do
+    FactoryBot.define do
       factory :user do
-        name "John Doe"
+        name { "John Doe" }
       end
     end
   end
 
-  subject      { FactoryGirl.attributes_for(:user) }
+  subject      { FactoryBot.attributes_for(:user) }
   its([:name]) { should eq "John Doe" }
 end

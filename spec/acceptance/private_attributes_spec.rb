@@ -1,20 +1,19 @@
-require 'spec_helper'
-
-describe 'setting private attributes' do
-  it 'raises a NoMethodError' do
-    define_class('User') do
+describe "setting private attributes" do
+  it "raises a NoMethodError" do
+    define_class("User") do
       private
+
       attr_accessor :foo
     end
 
-    FactoryGirl.define do
+    FactoryBot.define do
       factory :user do
-        foo 123
+        foo { 123 }
       end
     end
 
     expect do
-      FactoryGirl.build(:user)
+      FactoryBot.build(:user)
     end.to raise_error NoMethodError, /foo=/
   end
 end

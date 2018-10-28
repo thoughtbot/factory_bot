@@ -1,8 +1,4 @@
 module DeclarationMatchers
-  def have_static_declaration(name)
-    DeclarationMatcher.new(:static).named(name)
-  end
-
   def have_dynamic_declaration(name)
     DeclarationMatcher.new(:dynamic).named(name)
   end
@@ -52,22 +48,21 @@ module DeclarationMatchers
     def failure_message
       [
         "expected declarations to include declaration of type #{@declaration_type}",
-        @options ? "with options #{options}" : nil
-      ].compact.join ' '
+        @options ? "with options #{options}" : nil,
+      ].compact.join " "
     end
 
     private
 
     def expected_declaration
       case @declaration_type
-      when :static      then FactoryGirl::Declaration::Static.new(@name, @value, ignored?)
-      when :dynamic     then FactoryGirl::Declaration::Dynamic.new(@name, ignored?, @value)
-      when :implicit    then FactoryGirl::Declaration::Implicit.new(@name, @factory, ignored?)
+      when :dynamic     then FactoryBot::Declaration::Dynamic.new(@name, ignored?, @value)
+      when :implicit    then FactoryBot::Declaration::Implicit.new(@name, @factory, ignored?)
       when :association
         if @options
-          FactoryGirl::Declaration::Association.new(@name, options)
+          FactoryBot::Declaration::Association.new(@name, options)
         else
-          FactoryGirl::Declaration::Association.new(@name)
+          FactoryBot::Declaration::Association.new(@name)
         end
       end
     end
