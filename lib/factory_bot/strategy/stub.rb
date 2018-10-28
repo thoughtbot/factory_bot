@@ -31,8 +31,8 @@ module FactoryBot
       def result(evaluation)
         evaluation.object.tap do |instance|
           stub_database_interaction_on_result(instance)
-          clear_changes_information(instance)
           set_timestamps(instance)
+          clear_changes_information(instance)
           evaluation.notify(:after_stub, instance)
         end
       end
