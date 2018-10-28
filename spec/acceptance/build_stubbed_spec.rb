@@ -156,14 +156,9 @@ describe "defaulting `created_at`" do
     expect(build_stubbed(:thing_with_timestamp).created_at).to eq Time.now
   end
 
-  it "defaults created_at for objects with created_at to the correct time with zone" do
-    original_timezone = ENV["TZ"]
-    ENV["TZ"] = "UTC"
-    Time.zone = "Eastern Time (US & Canada)"
-
-    expect(build_stubbed(:thing_with_timestamp).created_at.zone).to eq "EST"
-
-    ENV["TZ"] = original_timezone
+  it "is doesn't mark the object as changed" do
+    stub = build_stubbed(:thing_with_timestamp)
+    expect(stub).not_to be_changed
   end
 
   it "doesn't add created_at to objects who don't have the method" do
@@ -172,7 +167,9 @@ describe "defaulting `created_at`" do
   end
 
   it "allows overriding created_at for objects with created_at" do
-    expect(build_stubbed(:thing_with_timestamp, created_at: 3.days.ago).created_at).to eq 3.days.ago
+    created_at = 3.days.ago
+    stubbed = build_stubbed(:thing_with_timestamp, created_at: created_at)
+    expect(stubbed.created_at).to eq created_at
   end
 
   it "doesn't allow setting created_at on an object that doesn't define it" do
@@ -185,6 +182,48 @@ describe "defaulting `created_at`" do
     expect(stub.created_at).to eq Time.now
     stub.created_at = 3.days.ago
     expect(stub.created_at).to eq 3.days.ago
+  end
+
+  context "when using time_zone_aware_attributes" do
+    it "defaults created_at to the local time zone" do
+      Time.zone = "Eastern Time (US & Canada)"
+      ActiveRecord::Base.time_zone_aware_attributes = true
+
+      stub = build_stubbed(:thing_with_timestamp)
+
+      expect(stub.created_at.zone).to eq "EST"
+    end
+
+    it "casts created_at override to local time zone" do
+      Time.zone = "Eastern Time (US & Canada)"
+      ActiveRecord::Base.time_zone_aware_attributes = true
+      created_at = Time.now.in_time_zone("CET")
+
+      stub = build_stubbed(:thing_with_timestamp, created_at: created_at)
+
+      expect(stub.created_at.zone).to eq "EST"
+    end
+  end
+
+  context "when NOT using time_zone_aware_attributes" do
+    it "defaults created_at to UTC" do
+      Time.zone = "Eastern Time (US & Canada)"
+      ActiveRecord::Base.time_zone_aware_attributes = false
+
+      stub = build_stubbed(:thing_with_timestamp)
+
+      expect(stub.created_at.zone).to eq "UTC"
+    end
+
+    it "casts created_at override to UTC" do
+      Time.zone = "Eastern Time (US & Canada)"
+      ActiveRecord::Base.time_zone_aware_attributes = false
+      created_at = Time.now.in_time_zone("CET")
+
+      stub = build_stubbed(:thing_with_timestamp, created_at: created_at)
+
+      expect(stub.created_at.zone).to eq "UTC"
+    end
   end
 end
 
@@ -205,6 +244,11 @@ describe "defaulting `updated_at`" do
 
   it "defaults updated_at for objects with updated_at" do
     expect(build_stubbed(:thing_with_timestamp).updated_at).to eq Time.current
+  end
+
+  it "is doesn't mark the object as changed" do
+    stub = build_stubbed(:thing_with_timestamp)
+    expect(stub).not_to be_changed
   end
 
   it "doesn't add updated_at to objects who don't have the method" do
@@ -228,6 +272,48 @@ describe "defaulting `updated_at`" do
     expect(stub.updated_at).to eq Time.now
     stub.updated_at = 3.days.ago
     expect(stub.updated_at).to eq 3.days.ago
+  end
+
+  context "when using time_zone_aware_attributes" do
+    it "defaults updated_at to the local time zone" do
+      Time.zone = "Eastern Time (US & Canada)"
+      ActiveRecord::Base.time_zone_aware_attributes = true
+
+      stub = build_stubbed(:thing_with_timestamp)
+
+      expect(stub.updated_at.zone).to eq "EST"
+    end
+
+    it "casts updated_at override to local time zone" do
+      Time.zone = "Eastern Time (US & Canada)"
+      ActiveRecord::Base.time_zone_aware_attributes = true
+      updated_at = Time.now.in_time_zone("CET")
+
+      stub = build_stubbed(:thing_with_timestamp, updated_at: updated_at)
+
+      expect(stub.updated_at.zone).to eq "EST"
+    end
+  end
+
+  context "when NOT using time_zone_aware_attributes" do
+    it "defaults updated_at to UTC" do
+      Time.zone = "Eastern Time (US & Canada)"
+      ActiveRecord::Base.time_zone_aware_attributes = false
+
+      stub = build_stubbed(:thing_with_timestamp)
+
+      expect(stub.updated_at.zone).to eq "UTC"
+    end
+
+    it "casts updated_at override to UTC" do
+      Time.zone = "Eastern Time (US & Canada)"
+      ActiveRecord::Base.time_zone_aware_attributes = false
+      updated_at = Time.now.in_time_zone("CET")
+
+      stub = build_stubbed(:thing_with_timestamp, updated_at: updated_at)
+
+      expect(stub.updated_at.zone).to eq "UTC"
+    end
   end
 end
 
