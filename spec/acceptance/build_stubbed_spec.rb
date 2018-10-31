@@ -184,46 +184,21 @@ describe "defaulting `created_at`" do
     expect(stub.created_at).to eq 3.days.ago
   end
 
-  context "when using time_zone_aware_attributes" do
-    it "defaults created_at to the local time zone" do
-      Time.zone = "Eastern Time (US & Canada)"
-      ActiveRecord::Base.time_zone_aware_attributes = true
-
-      stub = build_stubbed(:thing_with_timestamp)
-
-      expect(stub.created_at.zone).to eq "EST"
+  it "behaves the same as a non-stubbed created_at" do
+    define_model("ThingWithCreatedAt", created_at: :datetime) do
+      def created_at
+        :the_real_created_at
+      end
     end
 
-    it "casts created_at override to local time zone" do
-      Time.zone = "Eastern Time (US & Canada)"
-      ActiveRecord::Base.time_zone_aware_attributes = true
-      created_at = Time.now.in_time_zone("CET")
-
-      stub = build_stubbed(:thing_with_timestamp, created_at: created_at)
-
-      expect(stub.created_at.zone).to eq "EST"
-    end
-  end
-
-  context "when NOT using time_zone_aware_attributes" do
-    it "defaults created_at to UTC" do
-      Time.zone = "Eastern Time (US & Canada)"
-      ActiveRecord::Base.time_zone_aware_attributes = false
-
-      stub = build_stubbed(:thing_with_timestamp)
-
-      expect(stub.created_at.zone).to eq "UTC"
+    FactoryBot.define do
+      factory :thing_with_created_at
     end
 
-    it "casts created_at override to UTC" do
-      Time.zone = "Eastern Time (US & Canada)"
-      ActiveRecord::Base.time_zone_aware_attributes = false
-      created_at = Time.now.in_time_zone("CET")
+    stub = build_stubbed(:thing_with_created_at)
+    persisted = create(:thing_with_created_at)
 
-      stub = build_stubbed(:thing_with_timestamp, created_at: created_at)
-
-      expect(stub.created_at.zone).to eq "UTC"
-    end
+    expect(stub.created_at).to eq(persisted.created_at)
   end
 end
 
@@ -274,46 +249,21 @@ describe "defaulting `updated_at`" do
     expect(stub.updated_at).to eq 3.days.ago
   end
 
-  context "when using time_zone_aware_attributes" do
-    it "defaults updated_at to the local time zone" do
-      Time.zone = "Eastern Time (US & Canada)"
-      ActiveRecord::Base.time_zone_aware_attributes = true
-
-      stub = build_stubbed(:thing_with_timestamp)
-
-      expect(stub.updated_at.zone).to eq "EST"
+  it "behaves the same as a non-stubbed updated_at" do
+    define_model("ThingWithUpdatedAt", updated_at: :datetime) do
+      def updated_at
+        :the_real_updated_at
+      end
     end
 
-    it "casts updated_at override to local time zone" do
-      Time.zone = "Eastern Time (US & Canada)"
-      ActiveRecord::Base.time_zone_aware_attributes = true
-      updated_at = Time.now.in_time_zone("CET")
-
-      stub = build_stubbed(:thing_with_timestamp, updated_at: updated_at)
-
-      expect(stub.updated_at.zone).to eq "EST"
-    end
-  end
-
-  context "when NOT using time_zone_aware_attributes" do
-    it "defaults updated_at to UTC" do
-      Time.zone = "Eastern Time (US & Canada)"
-      ActiveRecord::Base.time_zone_aware_attributes = false
-
-      stub = build_stubbed(:thing_with_timestamp)
-
-      expect(stub.updated_at.zone).to eq "UTC"
+    FactoryBot.define do
+      factory :thing_with_updated_at
     end
 
-    it "casts updated_at override to UTC" do
-      Time.zone = "Eastern Time (US & Canada)"
-      ActiveRecord::Base.time_zone_aware_attributes = false
-      updated_at = Time.now.in_time_zone("CET")
+    stub = build_stubbed(:thing_with_updated_at)
+    persisted = create(:thing_with_updated_at)
 
-      stub = build_stubbed(:thing_with_timestamp, updated_at: updated_at)
-
-      expect(stub.updated_at.zone).to eq "UTC"
-    end
+    expect(stub.updated_at).to eq(persisted.updated_at)
   end
 end
 
