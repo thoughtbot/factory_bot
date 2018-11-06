@@ -6,12 +6,8 @@ module FactoryBot
         @invoked_methods = []
       end
 
-      def method_missing(name, *args, &block)
+      def method_missing(name, *args, &block) # rubocop:disable Style/MissingRespondToMissing
         @invoked_methods << name
-        super
-      end
-
-      def respond_to_missing?(*)
         super
       end
 

@@ -11,7 +11,7 @@ module FactoryBot
     end
 
     def respond_to_missing?(name, include_private = false)
-      @component.respond_to?(name) || super
+      @component.respond_to?(name, true) || super
     end
 
     def send(symbol, *args, &block)
