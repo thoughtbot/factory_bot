@@ -37,7 +37,7 @@ module FactoryBot
       @instance = object_instance
     end
 
-    def method_missing(method_name, *args, &block)
+    def method_missing(method_name, *args, &block) # rubocop:disable Style/MethodMissing
       if @instance.respond_to?(method_name)
         @instance.send(method_name, *args, &block)
       else

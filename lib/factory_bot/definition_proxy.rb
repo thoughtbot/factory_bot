@@ -72,7 +72,7 @@ module FactoryBot
     #   end
     #
     # are equivalent.
-    def method_missing(name, *args, &block)
+    def method_missing(name, *args, &block) # rubocop:disable Style/MethodMissing
       if args.empty?
         __declare_attribute__(name, block)
       elsif args.first.respond_to?(:has_key?) && args.first.has_key?(:factory)

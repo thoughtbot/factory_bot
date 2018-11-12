@@ -21,13 +21,6 @@ Style/SymbolArray:
 Style/FormatStringToken:
   Enabled: false
 
-Style/MethodMissing:
-  Exclude:
-    - 'lib/factory_bot/decorator.rb'
-    - 'lib/factory_bot/decorator/invocation_tracker.rb'
-    - 'lib/factory_bot/definition_proxy.rb'
-    - 'lib/factory_bot/evaluator.rb'
-
 # TODO: gradually bring this down to 80 as we fix files
 # Let's not open a big PR to fix all of these at once - 
 # we can fix gradually if we happen to be editing a file that has a violation
