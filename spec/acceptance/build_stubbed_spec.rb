@@ -156,14 +156,9 @@ describe "defaulting `created_at`" do
     expect(build_stubbed(:thing_with_timestamp).created_at).to eq Time.now
   end
 
-  it "defaults created_at for objects with created_at to the correct time with zone" do
-    original_timezone = ENV["TZ"]
-    ENV["TZ"] = "UTC"
-    Time.zone = "Eastern Time (US & Canada)"
-
-    expect(build_stubbed(:thing_with_timestamp).created_at.zone).to eq "EST"
-
-    ENV["TZ"] = original_timezone
+  it "is doesn't mark the object as changed" do
+    stub = build_stubbed(:thing_with_timestamp)
+    expect(stub).not_to be_changed
   end
 
   it "doesn't add created_at to objects who don't have the method" do
@@ -172,11 +167,38 @@ describe "defaulting `created_at`" do
   end
 
   it "allows overriding created_at for objects with created_at" do
-    expect(build_stubbed(:thing_with_timestamp, created_at: 3.days.ago).created_at).to eq 3.days.ago
+    created_at = 3.days.ago
+    stubbed = build_stubbed(:thing_with_timestamp, created_at: created_at)
+    expect(stubbed.created_at).to eq created_at
   end
 
   it "doesn't allow setting created_at on an object that doesn't define it" do
-    expect { build_stubbed(:thing_without_timestamp, created_at: Time.now) }.to raise_error(NoMethodError, /created_at=/)
+    expect { build_stubbed(:thing_without_timestamp, created_at: Time.now) }.
+      to raise_error(NoMethodError, /created_at=/)
+  end
+
+  it "allows assignment of created_at" do
+    stub = build_stubbed(:thing_with_timestamp)
+    expect(stub.created_at).to eq Time.now
+    stub.created_at = 3.days.ago
+    expect(stub.created_at).to eq 3.days.ago
+  end
+
+  it "behaves the same as a non-stubbed created_at" do
+    define_model("ThingWithCreatedAt", created_at: :datetime) do
+      def created_at
+        :the_real_created_at
+      end
+    end
+
+    FactoryBot.define do
+      factory :thing_with_created_at
+    end
+
+    stub = build_stubbed(:thing_with_created_at)
+    persisted = create(:thing_with_created_at)
+
+    expect(stub.created_at).to eq(persisted.created_at)
   end
 end
 
@@ -199,6 +221,11 @@ describe "defaulting `updated_at`" do
     expect(build_stubbed(:thing_with_timestamp).updated_at).to eq Time.current
   end
 
+  it "is doesn't mark the object as changed" do
+    stub = build_stubbed(:thing_with_timestamp)
+    expect(stub).not_to be_changed
+  end
+
   it "doesn't add updated_at to objects who don't have the method" do
     expect(build_stubbed(:thing_without_timestamp)).
       not_to respond_to(:updated_at)
@@ -213,6 +240,30 @@ describe "defaulting `updated_at`" do
     expect do
       build_stubbed(:thing_without_timestamp, updated_at: Time.now)
     end.to raise_error(NoMethodError, /updated_at=/)
+  end
+
+  it "allows assignment of updated_at" do
+    stub = build_stubbed(:thing_with_timestamp)
+    expect(stub.updated_at).to eq Time.now
+    stub.updated_at = 3.days.ago
+    expect(stub.updated_at).to eq 3.days.ago
+  end
+
+  it "behaves the same as a non-stubbed updated_at" do
+    define_model("ThingWithUpdatedAt", updated_at: :datetime) do
+      def updated_at
+        :the_real_updated_at
+      end
+    end
+
+    FactoryBot.define do
+      factory :thing_with_updated_at
+    end
+
+    stub = build_stubbed(:thing_with_updated_at)
+    persisted = create(:thing_with_updated_at)
+
+    expect(stub.updated_at).to eq(persisted.updated_at)
   end
 end
 

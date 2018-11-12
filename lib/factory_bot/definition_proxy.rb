@@ -131,7 +131,15 @@ module FactoryBot
     #    name of the factory. For example, a "user" association will by
     #    default use the "user" factory.
     def association(name, *options)
-      @definition.declare_attribute(Declaration::Association.new(name, *options))
+      if block_given?
+        raise AssociationDefinitionError.new(
+          "Unexpected block passed to '#{name}' association "\
+          "in '#{@definition.name}' factory",
+        )
+      else
+        declaration = Declaration::Association.new(name, *options)
+        @definition.declare_attribute(declaration)
+      end
     end
 
     def to_create(&block)

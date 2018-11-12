@@ -8,7 +8,8 @@ module FactoryBot
       end
 
       def ==(other)
-        name == other.name &&
+        self.class == other.class &&
+          name == other.name &&
           ignored == other.ignored &&
           block == other.block
       end

@@ -1,7 +1,6 @@
 require "rubygems"
 require "bundler"
 require "rake"
-require "appraisal"
 require "yard"
 require "rspec/core/rake_task"
 require "cucumber/rake/task"

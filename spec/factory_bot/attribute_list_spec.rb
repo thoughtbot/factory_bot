@@ -19,9 +19,9 @@ describe FactoryBot::AttributeList, "#define_attribute" do
   it "raises if an attribute has already been defined" do
     attribute = double(:attribute, name: :attribute_name)
 
-    expect {
+    expect do
       2.times { subject.define_attribute(attribute) }
-    }.to raise_error(
+    end.to raise_error(
       FactoryBot::AttributeDefinitionError,
       "Attribute already defined: attribute_name",
     )
@@ -35,7 +35,12 @@ describe FactoryBot::AttributeList, "#define_attribute with a named attribute li
   let(:association_with_different_name) { FactoryBot::Attribute::Association.new(:author, :post, {}) }
 
   it "raises when the attribute is a self-referencing association" do
-    expect { subject.define_attribute(association_with_same_name) }.to raise_error(FactoryBot::AssociationDefinitionError, "Self-referencing association 'author' in 'author'")
+    expect do
+      subject.define_attribute(association_with_same_name)
+    end.to raise_error(
+      FactoryBot::AssociationDefinitionError,
+      "Self-referencing association 'author' in 'author'",
+    )
   end
 
   it "does not raise when the attribute is not a self-referencing association" do
@@ -62,7 +67,9 @@ describe FactoryBot::AttributeList, "#apply_attributes" do
 end
 
 describe FactoryBot::AttributeList, "#associations" do
-  let(:email_attribute)     { FactoryBot::Attribute::Dynamic.new(:email, false, ->(u) { "#{u.full_name}@example.com" }) }
+  let(:email_attribute) do
+    FactoryBot::Attribute::Dynamic.new(:email, false, ->(u) { "#{u.full_name}@example.com" })
+  end
   let(:author_attribute)    { FactoryBot::Attribute::Association.new(:author, :user, {}) }
   let(:profile_attribute)   { FactoryBot::Attribute::Association.new(:profile, :profile, {}) }
 
