@@ -21,7 +21,7 @@ You should find the documentation for your version of factory_bot on [Rubygems](
 See [GETTING_STARTED] for information on defining and using factories. We also
 have [a detailed introductory video][], available for free on Upcase.
 
-[a detailed introductory video]: https://upcase.com/videos/factory-girl?utm_source=github&utm_medium=open-source&utm_campaign=factory-girl
+[a detailed introductory video]: https://upcase.com/videos/factory-bot?utm_source=github&utm_medium=open-source&utm_campaign=factory-girl
 
 Install
 --------
