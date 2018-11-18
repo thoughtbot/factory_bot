@@ -14,18 +14,6 @@ describe FactoryBot::Factory do
     expect(@factory.build_class).to eq @class
   end
 
-  it "passes a custom creation block" do
-    strategy = double("strategy", result: nil, add_observer: true)
-    allow(FactoryBot::Strategy::Build).to receive(:new).and_return strategy
-    block = -> {}
-    factory = FactoryBot::Factory.new(:object)
-    factory.to_create(&block)
-
-    factory.run(FactoryBot::Strategy::Build, {})
-
-    expect(strategy).to have_received(:result).with(instance_of(FactoryBot::Evaluation))
-  end
-
   it "returns associations" do
     factory = FactoryBot::Factory.new(:post)
     FactoryBot.register_factory(FactoryBot::Factory.new(:admin))
