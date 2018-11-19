@@ -40,19 +40,6 @@ To install the gem manually from your shell, run:
 gem install factory_bot
 ```
 
-**Caveat:** As of ActiveSupport 5.0 and above, Ruby 2.2.2+ is required. Because
-of Rubygems' dependency resolution when installing gems, you may see an error
-similar to:
-
-```
-$ gem install factory_bot
-ERROR:  Error installing factory_bot:
-    activesupport requires Ruby version >= 2.2.2.
-```
-
-To bypass this, install a pre-5.0 version of ActiveSupport before installing
-manually.
-
 Supported Ruby versions
 -----------------------
 
