@@ -176,4 +176,25 @@ describe "FactoryBot.lint" do
       end.not_to raise_error
     end
   end
+
+  describe "verbose linting" do
+    it "prints the backtrace for each factory error" do
+      define_class("InvalidThing") do
+        def save!
+          raise "invalid"
+        end
+      end
+
+      FactoryBot.define do
+        factory :invalid_thing
+      end
+
+      expect do
+        FactoryBot.lint(verbose: true)
+      end.to raise_error(
+        FactoryBot::InvalidFactoryError,
+        %r{#{__FILE__}:\d*:in `save!'},
+      )
+    end
+  end
 end

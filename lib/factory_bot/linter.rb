@@ -1,9 +1,10 @@
 module FactoryBot
   class Linter
-    def initialize(factories, strategy: :create, traits: false)
+    def initialize(factories, strategy: :create, traits: false, verbose: false)
       @factories_to_lint = factories
       @factory_strategy = strategy
       @traits = traits
+      @verbose = verbose
       @invalid_factories = calculate_invalid_factories
     end
 
@@ -34,6 +35,13 @@ module FactoryBot
       def message
         message = @wrapped_error.message
         "* #{location} - #{message} (#{@wrapped_error.class.name})"
+      end
+
+      def verbose_message
+        <<~MESSAGE
+          #{message}
+            #{@wrapped_error.backtrace.join("\n  ")}
+        MESSAGE
       end
 
       def location
@@ -85,7 +93,7 @@ module FactoryBot
 
     def error_message
       lines = invalid_factories.map do |_factory, exceptions|
-        exceptions.map(&:message)
+        exceptions.map(&error_message_type)
       end.flatten
 
       <<~ERROR_MESSAGE.strip
@@ -93,6 +101,14 @@ module FactoryBot
 
         #{lines.join("\n")}
       ERROR_MESSAGE
+    end
+
+    def error_message_type
+      if @verbose
+        :verbose_message
+      else
+        :message
+      end
     end
   end
 end
