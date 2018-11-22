@@ -1,9 +1,9 @@
 module FactoryBot
   class Linter
-    def initialize(factories, linting_strategy, factory_strategy = :create)
+    def initialize(factories, strategy: :create, traits: false)
       @factories_to_lint = factories
-      @linting_method = "lint_#{linting_strategy}"
-      @factory_strategy = factory_strategy
+      @factory_strategy = strategy
+      @traits = traits
       @invalid_factories = calculate_invalid_factories
     end
 
@@ -19,7 +19,7 @@ module FactoryBot
 
     def calculate_invalid_factories
       factories_to_lint.reduce(Hash.new([])) do |result, factory|
-        errors = send(@linting_method, factory)
+        errors = lint(factory)
         result[factory] |= errors unless errors.empty?
         result
       end
@@ -52,6 +52,14 @@ module FactoryBot
       end
     end
 
+    def lint(factory)
+      if @traits
+        lint_factory(factory) + lint_traits(factory)
+      else
+        lint_factory(factory)
+      end
+    end
+
     def lint_factory(factory)
       result = []
       begin
@@ -73,12 +81,6 @@ module FactoryBot
         end
       end
       result
-    end
-
-    def lint_factory_and_traits(factory)
-      errors = lint_factory(factory)
-      errors |= lint_traits(factory)
-      errors
     end
 
     def error_message
