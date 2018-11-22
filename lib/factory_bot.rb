@@ -63,9 +63,7 @@ module FactoryBot
   def self.lint(*args)
     options = args.extract_options!
     factories_to_lint = args[0] || FactoryBot.factories
-    linting_strategy = options[:traits] ? :factory_and_traits : :factory
-    factory_strategy = options[:strategy] || :create
-    Linter.new(factories_to_lint, linting_strategy, factory_strategy).lint!
+    Linter.new(factories_to_lint, options).lint!
   end
 
   class << self
