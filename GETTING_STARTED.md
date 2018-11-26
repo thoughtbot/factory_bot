@@ -502,6 +502,36 @@ create(:profile_with_languages).languages.length # 5
 create(:profile_with_languages, languages_count: 15).languages.length # 15
 ```
 
+Polymorphic associations can be handled with traits:
+
+```
+FactoryBot.define do
+  factory :video
+  factory :photo
+
+  factory :comment do
+    for_photo
+
+    trait :for_video do
+      association(:commentable, factory: :video)
+    end
+
+    trait :for_photo do
+      association(:commentable, factory: :photo)
+    end
+  end
+end
+```
+
+This allows us to do:
+
+```
+create(:comment)
+create(:comment, :for_video)
+create(:comment, :for_photo)
+```
+
+
 Sequences
 ---------
 
