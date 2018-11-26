@@ -541,6 +541,9 @@ factory :user do
 end
 ```
 
+Note that defining sequences as implicit attributes will not work if you have a
+factory with the same name as the sequence.
+
 And it's also possible to define an in-line sequence that is only used in
 a particular factory:
 
@@ -649,7 +652,7 @@ factory :story do
 end
 ```
 
-Traits can be used as attributes:
+Traits can be used as implicit attributes:
 
 ```ruby
 factory :week_long_published_story_with_title, parent: :story do
@@ -658,6 +661,9 @@ factory :week_long_published_story_with_title, parent: :story do
   title { "Publishing that was started at #{start_at}" }
 end
 ```
+
+Note that defining traits as implicit attributes will not work if you have a
+factory or sequence with the same name as the trait.
 
 Traits that define the same attributes won't raise AttributeDefinitionErrors;
 the trait that defines the attribute latest gets precedence.

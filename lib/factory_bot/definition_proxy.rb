@@ -56,17 +56,20 @@ module FactoryBot
     #
     # are equivalent.
     #
-    # If no argument or block is given, factory_bot will look for a sequence
-    # or association with the same name. This means that:
+    # If no argument or block is given, factory_bot will first look for an
+    # association, then for a sequence, and finally for a trait with the same
+    # name. This means that given an "admin" trait, an "email" sequence, and an
+    # "account" factory:
     #
-    #   factory :user do
-    #     email { create(:email) }
+    #   factory :user, traits: [:admin] do
+    #     email { generate(:email) }
     #     association :account
     #   end
     #
     # and:
     #
     #   factory :user do
+    #     admin
     #     email
     #     account
     #   end
