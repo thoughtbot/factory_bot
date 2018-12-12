@@ -1,6 +1,19 @@
 module FactoryBot
   class DefinitionProxy
-    UNPROXIED_METHODS = %w(__send__ __id__ nil? send object_id extend instance_eval initialize block_given? raise caller method).freeze
+    UNPROXIED_METHODS = %w(
+      __send__
+      __id__
+      nil?
+      send
+      object_id
+      extend
+      instance_eval
+      initialize
+      block_given?
+      raise
+      caller
+      method
+    ).freeze
 
     (instance_methods + private_instance_methods).each do |method|
       undef_method(method) unless UNPROXIED_METHODS.include?(method.to_s)

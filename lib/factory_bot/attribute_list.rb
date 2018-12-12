@@ -54,7 +54,8 @@ module FactoryBot
 
     def ensure_attribute_not_self_referencing!(attribute)
       if attribute.respond_to?(:factory) && attribute.factory == @name
-        raise AssociationDefinitionError, "Self-referencing association '#{attribute.name}' in '#{attribute.factory}'"
+        message = "Self-referencing association '#{attribute.name}' in '#{attribute.factory}'"
+        raise AssociationDefinitionError, message
       end
     end
 

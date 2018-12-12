@@ -2,7 +2,7 @@ describe "defining methods inside FactoryBot" do
   it "raises with a meaningful message" do
     define_model("User")
 
-    expect do
+    bad_factory_definition = -> do
       FactoryBot.define do
         factory :user do
           def generate_name
@@ -10,6 +10,11 @@ describe "defining methods inside FactoryBot" do
           end
         end
       end
-    end.to raise_error FactoryBot::MethodDefinitionError, /Defining methods in blocks \(trait or factory\) is not supported \(generate_name\)/
+    end
+
+    expect(bad_factory_definition).to raise_error(
+      FactoryBot::MethodDefinitionError,
+      /Defining methods in blocks \(trait or factory\) is not supported \(generate_name\)/,
+    )
   end
 end

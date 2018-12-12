@@ -46,7 +46,8 @@ describe "assigning overrides that are also private methods on object" do
   its(:some_funky_method) { should eq "foobar!" }
 end
 
-describe "accessing methods from the instance within a dynamic attribute that is also a private method on object" do
+describe "accessing methods from the instance within a dynamic attribute "\
+         "that is also a private method on object" do
   before do
     define_model("Website", more_format: :string) do
       def format

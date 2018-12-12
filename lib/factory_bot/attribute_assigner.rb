@@ -68,7 +68,11 @@ module FactoryBot
     end
 
     def attribute_names_to_assign
-      @attribute_names_to_assign ||= non_ignored_attribute_names + override_names - ignored_attribute_names - alias_names_to_ignore
+      @attribute_names_to_assign ||=
+        non_ignored_attribute_names +
+        override_names -
+        ignored_attribute_names -
+        alias_names_to_ignore
     end
 
     def non_ignored_attribute_names
@@ -94,9 +98,15 @@ module FactoryBot
     def alias_names_to_ignore
       @attribute_list.non_ignored.flat_map do |attribute|
         override_names.map do |override|
-          attribute.name if attribute.alias_for?(override) && attribute.name != override && !ignored_attribute_names.include?(override)
+          attribute.name if ignorable_alias?(attribute, override)
         end
       end.compact
+    end
+
+    def ignorable_alias?(attribute, override)
+      attribute.alias_for?(override) &&
+        attribute.name != override &&
+        !ignored_attribute_names.include?(override)
     end
   end
 end
