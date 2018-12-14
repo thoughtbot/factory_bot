@@ -179,6 +179,6 @@ describe "modifying factories" do
       end
     end
 
-    expect(modify_unknown_factory).to raise_error(ArgumentError)
+    expect(modify_unknown_factory).to raise_error(KeyError)
   end
 end

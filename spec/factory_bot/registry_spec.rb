@@ -18,7 +18,7 @@ describe FactoryBot::Registry do
 
   it "raises when an object cannot be found" do
     expect { subject.find(:object_name) }.
-      to raise_error(ArgumentError, "Great thing not registered: object_name")
+      to raise_error(KeyError, "Great thing not registered: object_name")
   end
 
   it "adds and returns the object registered" do
