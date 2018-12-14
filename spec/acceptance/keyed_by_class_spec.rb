@@ -11,7 +11,7 @@ describe "finding factories keyed by class instead of symbol" do
 
   it "doesn't find the factory" do
     expect { FactoryBot.create(User) }.to(
-      raise_error(ArgumentError, "Factory not registered: User"),
+      raise_error(KeyError, "Factory not registered: #{User.inspect}"),
     )
   end
 end

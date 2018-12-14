@@ -10,7 +10,7 @@ describe "associations" do
       end
 
       expect { FactoryBot.build(:post) }.
-        to raise_error("Trait not registered: user")
+        to raise_error(KeyError, "Trait not registered: \"user\"")
     end
   end
 end

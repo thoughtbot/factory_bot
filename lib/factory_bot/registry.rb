@@ -20,11 +20,9 @@ module FactoryBot
     end
 
     def find(name)
-      if registered?(name)
-        @items[name]
-      else
-        raise ArgumentError, "#{@name} not registered: #{name}"
-      end
+      @items.fetch(name)
+    rescue KeyError => key_error
+      raise key_error_with_custom_message(key_error)
     end
 
     alias :[] :find
@@ -35,6 +33,15 @@ module FactoryBot
 
     def registered?(name)
       @items.key?(name)
+    end
+
+    private
+
+    def key_error_with_custom_message(key_error)
+      message = key_error.message.sub("key not found", "#{@name} not registered")
+      error = KeyError.new(message)
+      error.set_backtrace(key_error.backtrace)
+      error
     end
   end
 end
