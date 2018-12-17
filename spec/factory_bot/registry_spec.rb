@@ -21,12 +21,6 @@ describe FactoryBot::Registry do
       to raise_error(KeyError, "Great thing not registered: \"object_name\"")
   end
 
-  it "includes a did_you_mean message" do
-    subject.register(:factory_bot, registered_object)
-    expect { subject.find(:factory_bit) }.
-      to raise_error(KeyError, /Did you mean\?  "factory_bot"/)
-  end
-
   it "adds and returns the object registered" do
     expect(subject.register(:object_name, registered_object)).to eq registered_object
   end
