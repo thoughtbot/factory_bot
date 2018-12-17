@@ -46,6 +46,8 @@ require "factory_bot/linter"
 require "factory_bot/version"
 
 module FactoryBot
+  DEPRECATOR = ActiveSupport::Deprecation.new("6.0", "factory_bot")
+
   def self.configuration
     @configuration ||= Configuration.new
   end
@@ -78,9 +80,10 @@ module FactoryBot
              :skip_create,
              :initialize_with,
              :constructor,
-             :use_parent_strategy,
-             :use_parent_strategy=,
              to: :configuration
+
+    attr_accessor :use_parent_strategy
+    deprecate :use_parent_strategy, :use_parent_strategy=, deprecator: DEPRECATOR
   end
 
   def self.register_factory(factory)

@@ -23,9 +23,7 @@ module FactoryBot
 
     def association(factory_name, *traits_and_overrides)
       overrides = traits_and_overrides.extract_options!
-      strategy_override = overrides.fetch(:strategy) do
-        FactoryBot.use_parent_strategy ? @build_strategy.class : :create
-      end
+      strategy_override = overrides.fetch(:strategy, @build_strategy.class)
 
       traits_and_overrides += [overrides.except(:strategy)]
 
