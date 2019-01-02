@@ -28,30 +28,18 @@ group :development, :test do
 end
 ```
 
-## Replace All Constant References
+## Make a Copy of Factory Bot Module
 
-A global find-and-replace of `FactoryGirl` to `FactoryBot` across the codebase
-to replace all references with the new constant should do the trick. For
-example, on macOS:
-
-```sh
-grep -e FactoryGirl **/*.rake **/*.rb -s -l | xargs sed -i "" "s|FactoryGirl|FactoryBot|g"
+Just add to config/environment.rb 
+```ruby
+  if Rails.env.test?
+    FactoryGirl = FactoryBot.dup
+  end
 ```
+just before 
 
-Linux:
-
-```sh
-find . -type f -print0| xargs -0 sed -i 's/FactoryGirl/FactoryBot/g'
+```ruby
+# Initialize the Rails application.
+Rails.application.initialize!
 ```
-
-If these examples don't work for you, various other approaches
-have been suggested in pull requests #1070, #1075, #1084, #1095, and #1102.
-
-## Replace All Path References
-
-If you're requiring files from factory\_girl or factory\_girl\_rails directly,
-you'll have to update the paths.
-
-```sh
-grep -e factory_girl **/*.rake **/*.rb -s -l | xargs sed -i "" "s|factory_girl|factory_bot|g"
-```
+and you are fine.
