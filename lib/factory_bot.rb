@@ -1,5 +1,6 @@
 require "set"
 require "active_support/core_ext/module/delegation"
+require "active_support/core_ext/module/attribute_accessors"
 require "active_support/deprecation"
 require "active_support/notifications"
 
@@ -54,6 +55,8 @@ module FactoryBot
     @configuration = nil
   end
 
+  mattr_accessor :use_parent_strategy, instance_accessor: false, default: false
+
   # Look for errors in factories and (optionally) their traits.
   # Parameters:
   # factories - which factories to lint; omit for all factories
@@ -78,8 +81,6 @@ module FactoryBot
              :skip_create,
              :initialize_with,
              :constructor,
-             :use_parent_strategy,
-             :use_parent_strategy=,
              to: :configuration
   end
 
