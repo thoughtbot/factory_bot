@@ -30,10 +30,14 @@ Configure your test suite
 
 ### RSpec
 
-If you're using Rails:
+If you're using Rails, you need to Add these code in `spec/spec_helper.rb`
 
 ```ruby
+require 'factory_bot'
+...
+
 RSpec.configure do |config|
+  ...
   config.include FactoryBot::Syntax::Methods
 end
 ```
