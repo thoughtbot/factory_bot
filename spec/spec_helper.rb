@@ -20,7 +20,7 @@ RSpec.configure do |config|
 
   config.before do
     FactoryBot.reload
-    FactoryBot.use_parent_strategy = false
+    FactoryBot.use_parent_strategy = true
   end
 
   config.after do

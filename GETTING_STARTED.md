@@ -347,9 +347,35 @@ factory :post do
 end
 ```
 
-The behavior of the association method varies depending on the build strategy used for the parent object.
+In factory\_bot 5, associations default to using the same build strategy as
+their parent object:
 
 ```ruby
+FactoryBot.define do
+  factory :author
+
+  factory :post do
+    author
+  end
+end
+
+post = build(:post)
+post.new_record?        # => true
+post.author.new_record? # => true
+
+post = create(:post)
+post.new_record?        # => false
+post.author.new_record? # => false
+```
+
+This is different than the default behavior for previous versions of
+factory\_bot, where the association strategy would not always match the strategy
+of the parent object. If you want to continue using the old behavior, you can
+set the `use_parent_strategy` configuration option to `false`.
+
+```ruby
+FactoryBot.use_parent_strategy = false
+
 # Builds and saves a User and a Post
 post = create(:post)
 post.new_record?        # => false
@@ -364,6 +390,8 @@ post.author.new_record? # => false
 To not save the associated object, specify strategy: :build in the factory:
 
 ```ruby
+FactoryBot.use_parent_strategy = false
+
 factory :post do
   # ...
   association :author, factory: :user, strategy: :build
@@ -383,28 +411,6 @@ factory :post do
   # ...
   author strategy: :build    # <<< this does *not* work; causes author_id to be nil
 ```
-
-To have unspecified associations use the parent's strategy, instead of using :create, you can use the configuration `use_parent_strategy`:
-
-```ruby
-FactoryBot.use_parent_strategy = true
-
-factory :post do
-  # ...
-  author
-end
-
-post = build(:post)
-post.new_record?        # => true
-post.author.new_record? # => true
-
-post = create(:post)
-post.new_record?        # => false
-post.author.new_record? # => false
-```
-
-If you are using rspec, you can set this configuration in your spec_helper.rb (or rails_helper.rb, if using Rails).
-If you want to set it globally, you can use an intializer (if using Rails).
 
 Generating data for a `has_many` relationship is a bit more involved,
 depending on the amount of flexibility desired, but here's a surefire example

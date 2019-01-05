@@ -55,7 +55,7 @@ module FactoryBot
     @configuration = nil
   end
 
-  mattr_accessor :use_parent_strategy, instance_accessor: false, default: false
+  mattr_accessor :use_parent_strategy, instance_accessor: false, default: true
 
   # Look for errors in factories and (optionally) their traits.
   # Parameters:
