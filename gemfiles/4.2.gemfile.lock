@@ -2,7 +2,7 @@ PATH
   remote: ..
   specs:
     factory_bot (4.11.1)
-      activesupport (>= 3.0.0)
+      activesupport (>= 4.2.0)
 
 GEM
   remote: https://rubygems.org/
