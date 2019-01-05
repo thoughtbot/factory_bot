@@ -1,8 +1,6 @@
 rvm:
-  - 2.3
-  - 2.4
-  - 2.5
-  - ruby-head
+  - 2.1
+  - 2.2
 before_install:
   - gem update --system
   - gem update bundler
@@ -16,8 +14,6 @@ gemfile:
   - gemfiles/5.2.gemfile
 matrix:
   fast_finish: true
-  allow_failures:
-    - rvm: ruby-head
 branches:
   only:
     - master
