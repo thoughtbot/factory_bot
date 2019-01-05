@@ -24,13 +24,16 @@ Gem::Specification.new do |s|
 
   s.add_dependency("activesupport", ">= 3.0.0")
 
-  s.add_development_dependency("activerecord", ">= 3.0.0")
-  s.add_development_dependency("appraisal", "~> 2.1.0")
+  s.add_development_dependency("activerecord")
+  s.add_development_dependency("appraisal")
   s.add_development_dependency("aruba")
-  s.add_development_dependency("cucumber", "~> 1.3.15")
-  s.add_development_dependency("rspec",    "~> 3.0")
-  s.add_development_dependency("rspec-its", "~> 1.0")
+  s.add_development_dependency("cucumber")
+  s.add_development_dependency("rake")
+  s.add_development_dependency("rspec")
+  s.add_development_dependency("rspec-its")
+  s.add_development_dependency("rubocop", "0.54")
   s.add_development_dependency("simplecov")
+  s.add_development_dependency("sqlite3")
   s.add_development_dependency("timecop")
   s.add_development_dependency("yard")
 
