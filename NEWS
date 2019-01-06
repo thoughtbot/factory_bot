@@ -1,3 +1,20 @@
+5.0.0
+  Added: Verbose option to include full backtraces in the linting output
+  Changed: use_parent_strategy now defaults to true, so by default the
+    build strategy will build, rather than create associations
+  Changed: Passing a block when defining associations now raises an error
+  Bugfix: use_parent_strategy is no longer reset by FactoryBot.reload
+  Bugfix: rewind_sequences will now rewind local sequences along with the global ones
+  Bugfix: the build_stubbed strategy now sets timestamps without changing the
+    the original behavior of the timestamp methods
+  Bugfix: avoid a stack error when referring to an "attributes" attribute in initialize_with
+  Removed: support for EOL versions of Ruby and Rails
+  Removed: static attributes (use dynamic attributes with a block instead)
+  Removed: looking up factories by class
+  Removed: ignore method (use transient instead)
+  Removed: duplicate_attribute_assignment_from_initialize_with configuration option
+  Deprecated: allow_class_lookup configuration option
+
 4.11.1 (September 7, 2018)
   Documentation: Include .yardopts in the gem to fix broken RubyDoc links
 
