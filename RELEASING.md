@@ -9,7 +9,7 @@
    so you can add "[ci skip]" to the commit message.
 1. Tag the release: `git tag -s vVERSION`
   - We recommend the [_quick guide on how to sign a release_] from git ready.
-1. Push changes: `git push --tags`
+1. Push changes: `git push && git push --tags`
 1. Build and publish:
   ```bash
   gem build factory_bot.gemspec
