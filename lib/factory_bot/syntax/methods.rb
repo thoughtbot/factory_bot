@@ -2,8 +2,8 @@ module FactoryBot
   module Syntax
     ## This module is a container for all strategy methods provided by
     ## FactoryBot. This includes all the default strategies provided ({Methods#build},
-    ## {Methods#create}, {Methods#build_stubbed}, and {Methods#attributes_for}), as well as
-    ## the complementary *_list methods.
+    ## {Methods#create}, {Methods#build_stubbed}, and {Methods#attributes_for}), as
+    ## well as the complementary *_list and *_pair methods.
     ## @example singular factory execution
     ##   # basic use case
     ##   build(:completed_order)
@@ -51,21 +51,37 @@ module FactoryBot
       # Generates a hash of attributes for a registered factory by name.
       # @return [Hash] hash of attributes for the factory
 
-      # @!method build_list(name, amount, *traits_and_overrides)
+      # @!method build_list(name, amount, *traits_and_overrides, &block)
       # (see #strategy_method_list)
       # @return [Array] array of built objects defined by the factory
 
-      # @!method create_list(name, amount, *traits_and_overrides)
+      # @!method create_list(name, amount, *traits_and_overrides, &block)
       # (see #strategy_method_list)
       # @return [Array] array of created objects defined by the factory
 
-      # @!method build_stubbed_list(name, amount, *traits_and_overrides)
+      # @!method build_stubbed_list(name, amount, *traits_and_overrides, &block)
       # (see #strategy_method_list)
       # @return [Array] array of stubbed objects defined by the factory
 
-      # @!method attributes_for_list(name, amount, *traits_and_overrides)
+      # @!method attributes_for_list(name, amount, *traits_and_overrides, &block)
       # (see #strategy_method_list)
       # @return [Array<Hash>] array of attribute hashes for the factory
+
+      # @!method build_pair(name, *traits_and_overrides, &block)
+      # (see #strategy_method_pair)
+      # @return [Array] pair of built objects defined by the factory
+
+      # @!method create_pair(name, *traits_and_overrides, &block)
+      # (see #strategy_method_pair)
+      # @return [Array] pair of created objects defined by the factory
+
+      # @!method build_stubbed_pair(name, *traits_and_overrides, &block)
+      # (see #strategy_method_pair)
+      # @return [Array] pair of stubbed objects defined by the factory
+
+      # @!method attributes_for_pair(name, *traits_and_overrides, &block)
+      # (see #strategy_method_pair)
+      # @return [Array<Hash>] pair of attribute hashes for the factory
 
       # @!method strategy_method
       # @!visibility private
@@ -78,6 +94,13 @@ module FactoryBot
       # @param [Symbol] name the name of the factory to execute
       # @param [Integer] amount the number of instances to execute
       # @param [Array<Symbol, Symbol, Hash>] traits_and_overrides splat args traits and a hash of overrides
+      # @param [Proc] block block to be executed
+
+      # @!method strategy_method_pair
+      # @!visibility private
+      # @param [Symbol] name the name of the factory to execute
+      # @param [Array<Symbol, Symbol, Hash>] traits_and_overrides splat args traits and a hash of overrides
+      # @param [Proc] block block to be executed
 
       # Generates and returns the next value in a sequence.
       #
