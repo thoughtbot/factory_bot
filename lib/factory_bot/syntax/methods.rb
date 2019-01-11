@@ -2,8 +2,8 @@ module FactoryBot
   module Syntax
     ## This module is a container for all strategy methods provided by
     ## FactoryBot. This includes all the default strategies provided ({Methods#build},
-    ## {Methods#create}, {Methods#build_stubbed}, {Methods#attributes_for}, and
-    ## {Methods#null}), as well as the complementary *_list and *_pair methods.
+    ## {Methods#create}, {Methods#build_stubbed}, and {Methods#attributes_for}), as
+    ## well as the complementary *_list and *_pair methods.
     ## @example singular factory execution
     ##   # basic use case
     ##   build(:completed_order)
@@ -51,11 +51,6 @@ module FactoryBot
       # Generates a hash of attributes for a registered factory by name.
       # @return [Hash] hash of attributes for the factory
 
-      # @!method null(name, *traits_and_overrides, &block)
-      # (see #strategy_method)
-      # Returns a null object for a registered factory by name.
-      # @return [nil] null object for the factory
-
       # @!method build_list(name, amount, *traits_and_overrides, &block)
       # (see #strategy_method_list)
       # @return [Array] array of built objects defined by the factory
@@ -72,10 +67,6 @@ module FactoryBot
       # (see #strategy_method_list)
       # @return [Array<Hash>] array of attribute hashes for the factory
 
-      # @!method null_list(name, amount, *traits_and_overrides, &block)
-      # (see #strategy_method_list)
-      # @return [Array<nil>] array of null objects for the factory
-
       # @!method build_pair(name, *traits_and_overrides, &block)
       # (see #strategy_method_pair)
       # @return [Array] pair of built objects defined by the factory
@@ -91,10 +82,6 @@ module FactoryBot
       # @!method attributes_for_pair(name, *traits_and_overrides, &block)
       # (see #strategy_method_pair)
       # @return [Array<Hash>] pair of attribute hashes for the factory
-
-      # @!method null_pair(name, *traits_and_overrides, &block)
-      # (see #strategy_method_pair)
-      # @return [Array<nil>] pair of null objects for the factory
 
       # @!method strategy_method
       # @!visibility private
