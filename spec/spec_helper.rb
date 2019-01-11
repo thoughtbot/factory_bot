@@ -20,11 +20,19 @@ RSpec.configure do |config|
 
   config.before do
     FactoryBot.reload
-    FactoryBot.use_parent_strategy = true
   end
 
   config.after do
     Timecop.return
+  end
+
+  config.around do |example|
+    begin
+      previous_use_parent_strategy = FactoryBot.use_parent_strategy
+      example.run
+    ensure
+      FactoryBot.use_parent_strategy = previous_use_parent_strategy
+    end
   end
 
   config.order = :random

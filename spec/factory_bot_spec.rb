@@ -17,4 +17,10 @@ describe FactoryBot do
     FactoryBot.register_trait(trait)
     expect(FactoryBot.trait_by_name(trait.name)).to eq trait
   end
+
+  describe ".use_parent_strategy" do
+    it "is true by default" do
+      expect(FactoryBot.use_parent_strategy).to be true
+    end
+  end
 end
