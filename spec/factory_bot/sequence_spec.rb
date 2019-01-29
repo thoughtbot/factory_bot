@@ -19,10 +19,10 @@ shared_examples "a sequence" do |options|
   end
 end
 
-describe FactoryBot::Sequence do
+describe FactoryGirl::Sequence do
   describe "a basic sequence" do
     let(:name) { :test }
-    subject    { FactoryBot::Sequence.new(name) { |n| "=#{n}" } }
+    subject    { FactoryGirl::Sequence.new(name) { |n| "=#{n}" } }
 
     its(:name)  { should eq name }
     its(:names) { should eq [name] }
@@ -31,14 +31,14 @@ describe FactoryBot::Sequence do
   end
 
   describe "a custom sequence" do
-    subject { FactoryBot::Sequence.new(:name, "A") { |n| "=#{n}" } }
+    subject { FactoryGirl::Sequence.new(:name, "A") { |n| "=#{n}" } }
 
     it_behaves_like "a sequence", first_value: "=A", second_value: "=B"
   end
 
   describe "a sequence with aliases using default value" do
     subject do
-      FactoryBot::Sequence.new(:test, aliases: [:alias, :other]) do |n|
+      FactoryGirl::Sequence.new(:test, aliases: [:alias, :other]) do |n|
         "=#{n}"
       end
     end
@@ -50,7 +50,7 @@ describe FactoryBot::Sequence do
 
   describe "a sequence with custom value and aliases" do
     subject do
-      FactoryBot::Sequence.new(:test, 3, aliases: [:alias, :other]) do |n|
+      FactoryGirl::Sequence.new(:test, 3, aliases: [:alias, :other]) do |n|
         "=#{n}"
       end
     end
@@ -61,20 +61,20 @@ describe FactoryBot::Sequence do
   end
 
   describe "a basic sequence without a block" do
-    subject { FactoryBot::Sequence.new(:name) }
+    subject { FactoryGirl::Sequence.new(:name) }
 
     it_behaves_like "a sequence", first_value: 1, second_value: 2
   end
 
   describe "a custom sequence without a block" do
-    subject { FactoryBot::Sequence.new(:name, "A") }
+    subject { FactoryGirl::Sequence.new(:name, "A") }
 
     it_behaves_like "a sequence", first_value: "A", second_value: "B"
   end
 
   describe "iterating over items in an enumerator" do
     subject do
-      FactoryBot::Sequence.new(:name, %w[foo bar].to_enum) { |n| "=#{n}" }
+      FactoryGirl::Sequence.new(:name, %w[foo bar].to_enum) { |n| "=#{n}" }
     end
 
     it "navigates to the next items until no items remain" do
@@ -87,7 +87,7 @@ describe FactoryBot::Sequence do
   end
 
   describe "a custom sequence and scope" do
-    subject { FactoryBot::Sequence.new(:name, "A") { |n| "=#{n}#{foo}" } }
+    subject { FactoryGirl::Sequence.new(:name, "A") { |n| "=#{n}#{foo}" } }
     let(:scope) { double("scope", foo: "attribute") }
 
     it "increments within the correct scope" do

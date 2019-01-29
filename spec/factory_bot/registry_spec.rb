@@ -1,8 +1,8 @@
-describe FactoryBot::Registry do
+describe FactoryGirl::Registry do
   let(:registered_object)        { double("registered object") }
   let(:second_registered_object) { double("second registered object") }
 
-  subject { FactoryBot::Registry.new("Great thing") }
+  subject { FactoryGirl::Registry.new("Great thing") }
 
   it { should be_kind_of(Enumerable) }
 

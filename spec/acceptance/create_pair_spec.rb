@@ -2,7 +2,7 @@ describe "create multiple instances" do
   before do
     define_model("Post", title: :string, position: :integer)
 
-    FactoryBot.define do
+    FactoryGirl.define do
       factory(:post) do |post|
         post.title { "Through the Looking Glass" }
         post.position { rand(10**4) }
@@ -11,7 +11,7 @@ describe "create multiple instances" do
   end
 
   context "without default attributes" do
-    subject { FactoryBot.create_pair(:post) }
+    subject { FactoryGirl.create_pair(:post) }
 
     its(:length) { should eq 2 }
 

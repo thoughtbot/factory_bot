@@ -1,6 +1,6 @@
 require "active_support/core_ext/hash/indifferent_access"
 
-module FactoryBot
+module FactoryGirl
   class Registry
     include Enumerable
 

@@ -3,7 +3,7 @@ describe "global to_create" do
     define_model("User", name: :string)
     define_model("Post", name: :string)
 
-    FactoryBot.define do
+    FactoryGirl.define do
       to_create { |instance| instance.name = "persisted!" }
 
       trait :override_to_create do
@@ -33,37 +33,37 @@ describe "global to_create" do
   end
 
   it "handles base to_create" do
-    expect(FactoryBot.create(:user).name).to eq "persisted!"
-    expect(FactoryBot.create(:post).name).to eq "persisted!"
+    expect(FactoryGirl.create(:user).name).to eq "persisted!"
+    expect(FactoryGirl.create(:post).name).to eq "persisted!"
   end
 
   it "handles child to_create" do
-    expect(FactoryBot.create(:child_user).name).to eq "persisted!"
-    expect(FactoryBot.create(:child_post).name).to eq "persisted!"
+    expect(FactoryGirl.create(:child_user).name).to eq "persisted!"
+    expect(FactoryGirl.create(:child_post).name).to eq "persisted!"
   end
 
   it "handles child to_create with trait" do
-    expect(FactoryBot.create(:child_user_with_trait).name).to eq "override"
-    expect(FactoryBot.create(:child_post_with_trait).name).to eq "override"
+    expect(FactoryGirl.create(:child_user_with_trait).name).to eq "override"
+    expect(FactoryGirl.create(:child_post_with_trait).name).to eq "override"
   end
 
   it "handles inline trait override" do
-    user = FactoryBot.create(:child_user, :override_to_create)
-    post = FactoryBot.create(:child_post, :override_to_create)
+    user = FactoryGirl.create(:child_user, :override_to_create)
+    post = FactoryGirl.create(:child_post, :override_to_create)
 
     expect(user.name).to eq "override"
     expect(post.name).to eq "override"
   end
 
-  it "uses to_create globally across FactoryBot.define" do
+  it "uses to_create globally across FactoryGirl.define" do
     define_model("Company", name: :string)
 
-    FactoryBot.define do
+    FactoryGirl.define do
       factory :company
     end
 
-    company = FactoryBot.create(:company)
-    override_company = FactoryBot.create(:company, :override_to_create)
+    company = FactoryGirl.create(:company)
+    override_company = FactoryGirl.create(:company, :override_to_create)
 
     expect(company.name).to eq "persisted!"
     expect(override_company.name).to eq "override"
@@ -75,7 +75,7 @@ describe "global skip_create" do
     define_model("User", name: :string)
     define_model("Post", name: :string)
 
-    FactoryBot.define do
+    FactoryGirl.define do
       skip_create
 
       trait :override_to_create do
@@ -105,22 +105,22 @@ describe "global skip_create" do
   end
 
   it "does not persist any record" do
-    expect(FactoryBot.create(:user)).to be_new_record
-    expect(FactoryBot.create(:post)).to be_new_record
+    expect(FactoryGirl.create(:user)).to be_new_record
+    expect(FactoryGirl.create(:post)).to be_new_record
   end
 
   it "does not persist child records" do
-    expect(FactoryBot.create(:child_user)).to be_new_record
-    expect(FactoryBot.create(:child_post)).to be_new_record
+    expect(FactoryGirl.create(:child_user)).to be_new_record
+    expect(FactoryGirl.create(:child_post)).to be_new_record
   end
 
   it "honors overridden to_create" do
-    expect(FactoryBot.create(:child_user_with_trait).name).to eq "override"
-    expect(FactoryBot.create(:child_post_with_trait).name).to eq "override"
+    expect(FactoryGirl.create(:child_user_with_trait).name).to eq "override"
+    expect(FactoryGirl.create(:child_post_with_trait).name).to eq "override"
   end
 
   it "honors inline trait to_create" do
-    expect(FactoryBot.create(:child_user, :override_to_create).name).to eq "override"
-    expect(FactoryBot.create(:child_post, :override_to_create).name).to eq "override"
+    expect(FactoryGirl.create(:child_user, :override_to_create).name).to eq "override"
+    expect(FactoryGirl.create(:child_post, :override_to_create).name).to eq "override"
   end
 end

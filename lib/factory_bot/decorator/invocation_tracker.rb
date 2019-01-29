@@ -1,4 +1,4 @@
-module FactoryBot
+module FactoryGirl
   class Decorator
     class InvocationTracker < Decorator
       def initialize(component)

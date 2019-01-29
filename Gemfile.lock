@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    factory_bot (5.0.0.rc2)
+    factory_girl (5.0.0.rc2)
       activesupport (>= 4.2.0)
 
 GEM
@@ -115,7 +115,7 @@ DEPENDENCIES
   appraisal
   aruba
   cucumber
-  factory_bot!
+  factory_girl!
   rake
   rspec
   rspec-its

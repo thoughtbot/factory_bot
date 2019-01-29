@@ -1,4 +1,4 @@
-module FactoryBot
+module FactoryGirl
   module Strategy
     class Create
       def association(runner)

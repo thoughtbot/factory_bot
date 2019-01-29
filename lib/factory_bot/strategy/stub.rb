@@ -1,4 +1,4 @@
-module FactoryBot
+module FactoryGirl
   module Strategy
     class Stub
       @@next_id = 1000

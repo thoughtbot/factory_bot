@@ -1,5 +1,5 @@
 describe "a stubbed instance" do
-  include FactoryBot::Syntax::Methods
+  include FactoryGirl::Syntax::Methods
 
   before do
     define_model("User")
@@ -8,7 +8,7 @@ describe "a stubbed instance" do
       belongs_to :user
     end
 
-    FactoryBot.define do
+    FactoryGirl.define do
       factory :user
 
       factory :post do
@@ -30,7 +30,7 @@ describe "a stubbed instance" do
 end
 
 describe "a stubbed instance overriding strategy" do
-  include FactoryBot::Syntax::Methods
+  include FactoryGirl::Syntax::Methods
 
   before do
     define_model("User")
@@ -38,7 +38,7 @@ describe "a stubbed instance overriding strategy" do
       belongs_to :user
     end
 
-    FactoryBot.define do
+    FactoryGirl.define do
       factory :user
 
       factory :post do

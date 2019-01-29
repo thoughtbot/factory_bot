@@ -1,5 +1,5 @@
 describe "a generated attributes hash where order matters" do
-  include FactoryBot::Syntax::Methods
+  include FactoryGirl::Syntax::Methods
 
   before do
     define_model("ParentModel", static:           :integer,
@@ -7,7 +7,7 @@ describe "a generated attributes hash where order matters" do
                                 evaluates_second: :integer,
                                 evaluates_third:  :integer)
 
-    FactoryBot.define do
+    FactoryGirl.define do
       factory :parent_model do
         evaluates_first  { static }
         evaluates_second { evaluates_first }
@@ -28,7 +28,7 @@ describe "a generated attributes hash where order matters" do
   end
 
   context "factory with a parent" do
-    subject { FactoryBot.build(:child_model) }
+    subject { FactoryGirl.build(:child_model) }
 
     it "assigns attributes in the order they're defined" do
       expect(subject[:evaluates_first]).to eq 1
@@ -38,7 +38,7 @@ describe "a generated attributes hash where order matters" do
   end
 
   context "factory without a parent" do
-    subject { FactoryBot.build(:without_parent) }
+    subject { FactoryGirl.build(:without_parent) }
 
     it "assigns attributes in the order they're defined without a parent class" do
       expect(subject[:evaluates_first]).to eq 1

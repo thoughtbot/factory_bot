@@ -12,12 +12,12 @@
 1. Push changes: `git push && git push --tags`
 1. Build and publish:
   ```bash
-  gem build factory_bot.gemspec
-  gem push factory_bot-VERSION.gem
+  gem build factory_girl.gemspec
+  gem push factory_girl-VERSION.gem
   ```
 
 1. Add a new GitHub release using the recent `NEWS.md` as the content. Sample
-   URL: https://github.com/thoughtbot/factory_bot/releases/new?tag=vVERSION
+   URL: https://github.com/thoughtbot/factory_girl/releases/new?tag=vVERSION
 1. Announce the new release,
    making sure to say "thank you" to the contributors
    who helped shape this version!

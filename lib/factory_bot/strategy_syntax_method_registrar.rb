@@ -1,4 +1,4 @@
-module FactoryBot
+module FactoryGirl
   # @api private
   class StrategySyntaxMethodRegistrar
     def initialize(strategy_name)
@@ -42,7 +42,7 @@ module FactoryBot
     end
 
     def define_syntax_method(name, &block)
-      FactoryBot::Syntax::Methods.module_exec do
+      FactoryGirl::Syntax::Methods.module_exec do
         if method_defined?(name) || private_method_defined?(name)
           undef_method(name)
         end

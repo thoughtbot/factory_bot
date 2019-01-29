@@ -1,4 +1,4 @@
-module FactoryBot
+module FactoryGirl
   class Decorator < BasicObject
     undef_method :==
 

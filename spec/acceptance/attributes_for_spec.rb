@@ -1,5 +1,5 @@
 describe "a generated attributes hash" do
-  include FactoryBot::Syntax::Methods
+  include FactoryGirl::Syntax::Methods
 
   before do
     define_model("User")
@@ -13,7 +13,7 @@ describe "a generated attributes hash" do
       has_many :comments
     end
 
-    FactoryBot.define do
+    FactoryGirl.define do
       factory :user
       factory :comment
 
@@ -50,12 +50,12 @@ describe "a generated attributes hash" do
 end
 
 describe "calling `attributes_for` with a block" do
-  include FactoryBot::Syntax::Methods
+  include FactoryGirl::Syntax::Methods
 
   before do
     define_model("Company", name: :string)
 
-    FactoryBot.define do
+    FactoryGirl.define do
       factory :company
     end
   end
@@ -83,13 +83,13 @@ describe "`attributes_for` for a class whose constructor has required params" do
       def initialize(arg1, arg2); end
     end
 
-    FactoryBot.define do
+    FactoryGirl.define do
       factory :user do
         name { "John Doe" }
       end
     end
   end
 
-  subject      { FactoryBot.attributes_for(:user) }
+  subject      { FactoryGirl.attributes_for(:user) }
   its([:name]) { should eq "John Doe" }
 end

@@ -1,4 +1,4 @@
-module FactoryBot
+module FactoryGirl
   class Decorator
     class NewConstructor < Decorator
       def initialize(component, build_class)

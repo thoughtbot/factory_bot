@@ -2,7 +2,7 @@ describe "create multiple instances" do
   before do
     define_model("Post", title: :string, position: :integer)
 
-    FactoryBot.define do
+    FactoryGirl.define do
       factory(:post) do |post|
         post.title { "Through the Looking Glass" }
         post.position { rand(10**4) }
@@ -11,7 +11,7 @@ describe "create multiple instances" do
   end
 
   context "without default attributes" do
-    subject { FactoryBot.create_list(:post, 20) }
+    subject { FactoryGirl.create_list(:post, 20) }
 
     its(:length) { should eq 20 }
 
@@ -29,7 +29,7 @@ describe "create multiple instances" do
   end
 
   context "with default attributes" do
-    subject { FactoryBot.create_list(:post, 20, title: "The Hunting of the Snark") }
+    subject { FactoryGirl.create_list(:post, 20, title: "The Hunting of the Snark") }
 
     it "overrides the default values" do
       subject.each do |record|
@@ -40,7 +40,7 @@ describe "create multiple instances" do
 
   context "with a block" do
     subject do
-      FactoryBot.create_list(:post, 20, title: "The Listing of the Block") do |post|
+      FactoryGirl.create_list(:post, 20, title: "The Listing of the Block") do |post|
         post.position = post.id
       end
     end
@@ -53,7 +53,7 @@ describe "create multiple instances" do
   end
 
   context "without the count" do
-    subject { FactoryBot.create_list(:post, title: "The Hunting of the Bear") }
+    subject { FactoryGirl.create_list(:post, title: "The Hunting of the Bear") }
 
     it "raise ArgumentError with the proper error message" do
       expect { subject }.to raise_error(ArgumentError, /count missing/)
@@ -71,7 +71,7 @@ describe "multiple creates and transient attributes to dynamically build attribu
       belongs_to :user
     end
 
-    FactoryBot.define do
+    FactoryGirl.define do
       factory :post do
         title { "Through the Looking Glass" }
         user
@@ -86,7 +86,7 @@ describe "multiple creates and transient attributes to dynamically build attribu
           end
 
           after(:create) do |user, evaluator|
-            FactoryBot.create_list(:post, evaluator.posts_count, user: user)
+            FactoryGirl.create_list(:post, evaluator.posts_count, user: user)
           end
         end
       end
@@ -94,10 +94,10 @@ describe "multiple creates and transient attributes to dynamically build attribu
   end
 
   it "generates the correct number of posts" do
-    expect(FactoryBot.create(:user_with_posts).posts.length).to eq 5
+    expect(FactoryGirl.create(:user_with_posts).posts.length).to eq 5
   end
 
   it "allows the number of posts to be modified" do
-    expect(FactoryBot.create(:user_with_posts, posts_count: 2).posts.length).to eq 2
+    expect(FactoryGirl.create(:user_with_posts, posts_count: 2).posts.length).to eq 2
   end
 end

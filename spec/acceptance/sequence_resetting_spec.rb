@@ -1,8 +1,8 @@
-describe "FactoryBot.rewind_sequences" do
-  include FactoryBot::Syntax::Methods
+describe "FactoryGirl.rewind_sequences" do
+  include FactoryGirl::Syntax::Methods
 
   it "resets all sequences back to their starting values" do
-    FactoryBot.define do
+    FactoryGirl.define do
       sequence(:email) { |n| "somebody#{n}@example.com" }
       sequence(:name, %w[Joe Josh].to_enum)
     end
@@ -12,7 +12,7 @@ describe "FactoryBot.rewind_sequences" do
       generate(:name)
     end
 
-    FactoryBot.rewind_sequences
+    FactoryGirl.rewind_sequences
 
     email = generate(:email)
     name = generate(:name)
@@ -24,7 +24,7 @@ describe "FactoryBot.rewind_sequences" do
   it "resets inline sequences back to their starting value" do
     define_class("User") { attr_accessor :email }
 
-    FactoryBot.define do
+    FactoryGirl.define do
       factory :user do
         sequence(:email) { |n| "somebody#{n}@example.com" }
       end
@@ -32,7 +32,7 @@ describe "FactoryBot.rewind_sequences" do
 
     build_list(:user, 2)
 
-    FactoryBot.rewind_sequences
+    FactoryGirl.rewind_sequences
 
     user = build(:user)
 
@@ -42,7 +42,7 @@ describe "FactoryBot.rewind_sequences" do
   it "does not collide with globally registered factories" do
     define_class("User") { attr_accessor :email }
 
-    FactoryBot.define do
+    FactoryGirl.define do
       sequence(:email) { |n| "global-somebody#{n}@example.com" }
 
       factory :user do
@@ -56,7 +56,7 @@ describe "FactoryBot.rewind_sequences" do
 
     build_list(:user, 2)
 
-    FactoryBot.rewind_sequences
+    FactoryGirl.rewind_sequences
 
     user = build(:user)
     email = generate(:email)
@@ -68,7 +68,7 @@ describe "FactoryBot.rewind_sequences" do
   it "still allows global sequences prefixed with a factory name" do
     define_class("User") { attr_accessor :email }
 
-    FactoryBot.define do
+    FactoryGirl.define do
       sequence(:user_email) { |n| "global-somebody#{n}@example.com" }
 
       factory :user do
@@ -82,7 +82,7 @@ describe "FactoryBot.rewind_sequences" do
 
     build_list(:user, 2)
 
-    FactoryBot.rewind_sequences
+    FactoryGirl.rewind_sequences
 
     user = build(:user)
     email = generate(:user_email)

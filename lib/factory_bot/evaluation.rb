@@ -1,6 +1,6 @@
 require "observer"
 
-module FactoryBot
+module FactoryGirl
   class Evaluation
     include Observable
 

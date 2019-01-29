@@ -1,4 +1,4 @@
-module FactoryBot
+module FactoryGirl
   # @api private
   class NullObject < ::BasicObject
     def initialize(methods_to_respond_to)

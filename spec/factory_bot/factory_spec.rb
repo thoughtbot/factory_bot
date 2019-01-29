@@ -1,9 +1,9 @@
-describe FactoryBot::Factory do
+describe FactoryGirl::Factory do
   before do
     @name    = :user
     @class   = define_class("User")
-    @factory = FactoryBot::Factory.new(@name)
-    FactoryBot.register_factory(@factory)
+    @factory = FactoryGirl::Factory.new(@name)
+    FactoryGirl.register_factory(@factory)
   end
 
   it "has a factory name" do
@@ -15,11 +15,11 @@ describe FactoryBot::Factory do
   end
 
   it "returns associations" do
-    factory = FactoryBot::Factory.new(:post)
-    FactoryBot.register_factory(FactoryBot::Factory.new(:admin))
-    factory.declare_attribute(FactoryBot::Declaration::Association.new(:author, {}))
-    factory.declare_attribute(FactoryBot::Declaration::Association.new(:editor, {}))
-    factory.declare_attribute(FactoryBot::Declaration::Implicit.new(:admin, factory))
+    factory = FactoryGirl::Factory.new(:post)
+    FactoryGirl.register_factory(FactoryGirl::Factory.new(:admin))
+    factory.declare_attribute(FactoryGirl::Declaration::Association.new(:author, {}))
+    factory.declare_attribute(FactoryGirl::Declaration::Association.new(:editor, {}))
+    factory.declare_attribute(FactoryGirl::Declaration::Implicit.new(:admin, factory))
     factory.associations.each do |association|
       expect(association).to be_association
     end
@@ -27,14 +27,14 @@ describe FactoryBot::Factory do
   end
 
   it "includes associations from the parent factory" do
-    association_on_parent = FactoryBot::Declaration::Association.new(:association_on_parent, {})
-    association_on_child  = FactoryBot::Declaration::Association.new(:association_on_child, {})
+    association_on_parent = FactoryGirl::Declaration::Association.new(:association_on_parent, {})
+    association_on_child  = FactoryGirl::Declaration::Association.new(:association_on_child, {})
 
-    factory = FactoryBot::Factory.new(:post)
+    factory = FactoryGirl::Factory.new(:post)
     factory.declare_attribute(association_on_parent)
-    FactoryBot.register_factory(factory)
+    FactoryGirl.register_factory(factory)
 
-    child_factory = FactoryBot::Factory.new(:child_post, parent: :post)
+    child_factory = FactoryGirl::Factory.new(:child_post, parent: :post)
     child_factory.declare_attribute(association_on_child)
 
     expect(child_factory.associations.map(&:name)).to eq [:association_on_parent, :association_on_child]
@@ -49,32 +49,32 @@ describe FactoryBot::Factory do
 
     it "returns the overridden value in the generated attributes" do
       declaration =
-        FactoryBot::Declaration::Dynamic.new(@name, false, -> { flunk })
+        FactoryGirl::Declaration::Dynamic.new(@name, false, -> { flunk })
       @factory.declare_attribute(declaration)
-      result = @factory.run(FactoryBot::Strategy::AttributesFor, @hash)
+      result = @factory.run(FactoryGirl::Strategy::AttributesFor, @hash)
       expect(result[@name]).to eq @value
     end
 
     it "overrides a symbol parameter with a string parameter" do
       declaration =
-        FactoryBot::Declaration::Dynamic.new(@name, false, -> { flunk })
+        FactoryGirl::Declaration::Dynamic.new(@name, false, -> { flunk })
       @factory.declare_attribute(declaration)
       @hash = { @name.to_s => @value }
-      result = @factory.run(FactoryBot::Strategy::AttributesFor, @hash)
+      result = @factory.run(FactoryGirl::Strategy::AttributesFor, @hash)
       expect(result[@name]).to eq @value
     end
   end
 
   describe "overriding an attribute with an alias" do
     before do
-      attribute = FactoryBot::Declaration::Dynamic.new(
+      attribute = FactoryGirl::Declaration::Dynamic.new(
         :test,
         false, -> { "original" }
       )
       @factory.declare_attribute(attribute)
-      FactoryBot.aliases << [/(.*)_alias/, '\1']
+      FactoryGirl.aliases << [/(.*)_alias/, '\1']
       @result = @factory.run(
-        FactoryBot::Strategy::AttributesFor,
+        FactoryGirl::Strategy::AttributesFor,
         test_alias: "new",
       )
     end
@@ -93,24 +93,24 @@ describe FactoryBot::Factory do
   end
 
   it "creates a new factory using the class of the parent" do
-    child = FactoryBot::Factory.new(:child, parent: @factory.name)
+    child = FactoryGirl::Factory.new(:child, parent: @factory.name)
     child.compile
     expect(child.build_class).to eq @factory.build_class
   end
 
   it "creates a new factory while overriding the parent class" do
-    child = FactoryBot::Factory.new(:child, class: String, parent: @factory.name)
+    child = FactoryGirl::Factory.new(:child, class: String, parent: @factory.name)
     child.compile
     expect(child.build_class).to eq String
   end
 end
 
-describe FactoryBot::Factory, "when defined with a custom class" do
-  subject           { FactoryBot::Factory.new(:author, class: Float) }
+describe FactoryGirl::Factory, "when defined with a custom class" do
+  subject           { FactoryGirl::Factory.new(:author, class: Float) }
   its(:build_class) { should eq Float }
 end
 
-describe FactoryBot::Factory, "when given a class that overrides #to_s" do
+describe FactoryGirl::Factory, "when given a class that overrides #to_s" do
   let(:overriding_class) { Overriding::Class }
 
   before do
@@ -122,46 +122,46 @@ describe FactoryBot::Factory, "when given a class that overrides #to_s" do
     end
   end
 
-  subject { FactoryBot::Factory.new(:overriding_class, class: Overriding::Class) }
+  subject { FactoryGirl::Factory.new(:overriding_class, class: Overriding::Class) }
 
   it "sets build_class correctly" do
     expect(subject.build_class).to eq overriding_class
   end
 end
 
-describe FactoryBot::Factory, "when defined with a class instead of a name" do
+describe FactoryGirl::Factory, "when defined with a class instead of a name" do
   let(:factory_class) { ArgumentError }
   let(:name)          { :argument_error }
 
-  subject { FactoryBot::Factory.new(factory_class) }
+  subject { FactoryGirl::Factory.new(factory_class) }
 
   its(:name)        { should eq name }
   its(:build_class) { should eq factory_class }
 end
 
-describe FactoryBot::Factory, "when defined with a custom class name" do
-  subject           { FactoryBot::Factory.new(:author, class: :argument_error) }
+describe FactoryGirl::Factory, "when defined with a custom class name" do
+  subject           { FactoryGirl::Factory.new(:author, class: :argument_error) }
   its(:build_class) { should eq ArgumentError }
 end
 
-describe FactoryBot::Factory, "with a name ending in s" do
+describe FactoryGirl::Factory, "with a name ending in s" do
   let(:name)           { :business }
   let(:business_class) { Business }
 
   before  { define_class("Business") }
-  subject { FactoryBot::Factory.new(name) }
+  subject { FactoryGirl::Factory.new(name) }
 
   its(:name)        { should eq name }
   its(:build_class) { should eq business_class }
 end
 
-describe FactoryBot::Factory, "with a string for a name" do
+describe FactoryGirl::Factory, "with a string for a name" do
   let(:name) { :string }
-  subject    { FactoryBot::Factory.new(name.to_s) }
+  subject    { FactoryGirl::Factory.new(name.to_s) }
   its(:name) { should eq name }
 end
 
-describe FactoryBot::Factory, "for namespaced class" do
+describe FactoryGirl::Factory, "for namespaced class" do
   let(:name)           { :settings }
   let(:settings_class) { Admin::Settings }
 
@@ -171,7 +171,7 @@ describe FactoryBot::Factory, "for namespaced class" do
   end
 
   context "with a namespaced class with Namespace::Class syntax" do
-    subject { FactoryBot::Factory.new(name, class: "Admin::Settings") }
+    subject { FactoryGirl::Factory.new(name, class: "Admin::Settings") }
 
     it "sets build_class correctly" do
       expect(subject.build_class).to eq settings_class
@@ -179,7 +179,7 @@ describe FactoryBot::Factory, "for namespaced class" do
   end
 
   context "with a namespaced class with namespace/class syntax" do
-    subject { FactoryBot::Factory.new(name, class: "admin/settings") }
+    subject { FactoryGirl::Factory.new(name, class: "admin/settings") }
 
     it "sets build_class correctly" do
       expect(subject.build_class).to eq settings_class
@@ -187,39 +187,39 @@ describe FactoryBot::Factory, "for namespaced class" do
   end
 end
 
-describe FactoryBot::Factory, "human names" do
+describe FactoryGirl::Factory, "human names" do
   context "factory name without underscores" do
-    subject           { FactoryBot::Factory.new(:user) }
+    subject           { FactoryGirl::Factory.new(:user) }
     its(:names)       { should eq [:user] }
     its(:human_names) { should eq ["user"] }
   end
 
   context "factory name with underscores" do
-    subject           { FactoryBot::Factory.new(:happy_user) }
+    subject           { FactoryGirl::Factory.new(:happy_user) }
     its(:names)       { should eq [:happy_user] }
     its(:human_names) { should eq ["happy user"] }
   end
 
   context "factory name with big letters" do
-    subject           { FactoryBot::Factory.new(:LoL) }
+    subject           { FactoryGirl::Factory.new(:LoL) }
     its(:names)       { should eq [:LoL] }
     its(:human_names) { should eq ["lol"] }
   end
 
   context "factory name with aliases" do
-    subject           { FactoryBot::Factory.new(:happy_user, aliases: [:gleeful_user, :person]) }
+    subject           { FactoryGirl::Factory.new(:happy_user, aliases: [:gleeful_user, :person]) }
     its(:names)       { should eq [:happy_user, :gleeful_user, :person] }
     its(:human_names) { should eq ["happy user", "gleeful user", "person"] }
   end
 end
 
-describe FactoryBot::Factory, "running a factory" do
-  subject { FactoryBot::Factory.new(:user) }
+describe FactoryGirl::Factory, "running a factory" do
+  subject { FactoryGirl::Factory.new(:user) }
   let(:attribute) do
-    FactoryBot::Attribute::Dynamic.new(:name, false, -> { "value" })
+    FactoryGirl::Attribute::Dynamic.new(:name, false, -> { "value" })
   end
   let(:declaration) do
-    FactoryBot::Declaration::Dynamic.new(:name, false, -> { "value" })
+    FactoryGirl::Declaration::Dynamic.new(:name, false, -> { "value" })
   end
   let(:strategy) { double("strategy", result: "result", add_observer: true) }
   let(:attributes) { [attribute] }
@@ -229,26 +229,26 @@ describe FactoryBot::Factory, "running a factory" do
 
   before do
     define_model("User", name: :string)
-    allow(FactoryBot::Declaration::Dynamic).to receive(:new).
+    allow(FactoryGirl::Declaration::Dynamic).to receive(:new).
       and_return declaration
     allow(declaration).to receive(:to_attributes).and_return attributes
-    allow(FactoryBot::Strategy::Build).to receive(:new).and_return strategy
+    allow(FactoryGirl::Strategy::Build).to receive(:new).and_return strategy
     subject.declare_attribute(declaration)
   end
 
   it "creates the right strategy using the build class when running" do
-    subject.run(FactoryBot::Strategy::Build, {})
-    expect(FactoryBot::Strategy::Build).to have_received(:new).once
+    subject.run(FactoryGirl::Strategy::Build, {})
+    expect(FactoryGirl::Strategy::Build).to have_received(:new).once
   end
 
   it "returns the result from the strategy when running" do
-    expect(subject.run(FactoryBot::Strategy::Build, {})).to eq "result"
+    expect(subject.run(FactoryGirl::Strategy::Build, {})).to eq "result"
   end
 
   it "calls the block and returns the result" do
     block_run = nil
     block = ->(_result) { block_run = "changed" }
-    subject.run(FactoryBot::Strategy::Build, {}, &block)
+    subject.run(FactoryGirl::Strategy::Build, {}, &block)
     expect(block_run).to eq "changed"
   end
 end

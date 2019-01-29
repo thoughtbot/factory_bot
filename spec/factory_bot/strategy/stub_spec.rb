@@ -17,7 +17,7 @@ shared_examples "disabled persistence method" do |method_name|
   end
 end
 
-describe FactoryBot::Strategy::Stub do
+describe FactoryGirl::Strategy::Stub do
   it_should_behave_like "strategy with association support", :build_stubbed
   it_should_behave_like "strategy with callbacks", :after_stub
   it_should_behave_like "strategy with strategy: :build", :build_stubbed

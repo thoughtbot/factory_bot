@@ -1,4 +1,4 @@
-describe FactoryBot::DeclarationList, "#attributes" do
+describe FactoryGirl::DeclarationList, "#attributes" do
   let(:attribute_1) { double("attribute 1") }
   let(:attribute_2) { double("attribute 2") }
   let(:attribute_3) { double("attribute 3") }
@@ -13,13 +13,13 @@ describe FactoryBot::DeclarationList, "#attributes" do
   end
 
   it "returns an AttributeList" do
-    expect(subject.attributes).to be_a(FactoryBot::AttributeList)
+    expect(subject.attributes).to be_a(FactoryGirl::AttributeList)
   end
 
   let(:attribute_list) { double("attribute list", define_attribute: true) }
 
   it "defines each attribute on the attribute list" do
-    allow(FactoryBot::AttributeList).to receive(:new).and_return attribute_list
+    allow(FactoryGirl::AttributeList).to receive(:new).and_return attribute_list
 
     subject.declare_attribute(declaration_1)
     subject.declare_attribute(declaration_2)
@@ -32,7 +32,7 @@ describe FactoryBot::DeclarationList, "#attributes" do
   end
 end
 
-describe FactoryBot::DeclarationList, "#declare_attribute" do
+describe FactoryGirl::DeclarationList, "#declare_attribute" do
   let(:declaration_1) { double("declaration", name: "declaration 1") }
   let(:declaration_2) { double("declaration", name: "declaration 2") }
   let(:declaration_with_same_name) do

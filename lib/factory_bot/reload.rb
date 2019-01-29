@@ -1,4 +1,4 @@
-module FactoryBot
+module FactoryGirl
   def self.reload
     reset_configuration
     register_default_strategies

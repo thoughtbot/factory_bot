@@ -1,4 +1,4 @@
-module FactoryBot
+module FactoryGirl
   # @api private
   class DeclarationList
     include Enumerable

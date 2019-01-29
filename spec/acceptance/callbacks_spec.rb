@@ -2,7 +2,7 @@ describe "callbacks" do
   before do
     define_model("User", first_name: :string, last_name: :string)
 
-    FactoryBot.define do
+    FactoryGirl.define do
       factory :user_with_callbacks, class: :user do
         after(:stub)   { |user| user.first_name = "Stubby" }
         after(:build)  { |user| user.first_name = "Buildy" }
@@ -17,29 +17,29 @@ describe "callbacks" do
   end
 
   it "runs the after(:stub) callback when stubbing" do
-    user = FactoryBot.build_stubbed(:user_with_callbacks)
+    user = FactoryGirl.build_stubbed(:user_with_callbacks)
     expect(user.first_name).to eq "Stubby"
   end
 
   it "runs the after(:build) callback when building" do
-    user = FactoryBot.build(:user_with_callbacks)
+    user = FactoryGirl.build(:user_with_callbacks)
     expect(user.first_name).to eq "Buildy"
   end
 
   it "runs both the after(:build) and after(:create) callbacks when creating" do
-    user = FactoryBot.create(:user_with_callbacks)
+    user = FactoryGirl.create(:user_with_callbacks)
     expect(user.first_name).to eq "Buildy"
     expect(user.last_name).to eq "Createy"
   end
 
   it "runs both the after(:stub) callback on the factory and the inherited after(:stub) callback" do
-    user = FactoryBot.build_stubbed(:user_with_inherited_callbacks)
+    user = FactoryGirl.build_stubbed(:user_with_inherited_callbacks)
     expect(user.first_name).to eq "Stubby"
     expect(user.last_name).to eq "Double-Stubby"
   end
 
   it "runs child callback after parent callback" do
-    user = FactoryBot.build(:user_with_inherited_callbacks)
+    user = FactoryGirl.build(:user_with_inherited_callbacks)
     expect(user.first_name).to eq "Child-Buildy"
   end
 end
@@ -56,7 +56,7 @@ describe "callbacks using Symbol#to_proc" do
       end
     end
 
-    FactoryBot.define do
+    FactoryGirl.define do
       factory :user do
         after :build, &:confirm!
       end
@@ -64,16 +64,16 @@ describe "callbacks using Symbol#to_proc" do
   end
 
   it "runs the callback correctly" do
-    user = FactoryBot.build(:user)
+    user = FactoryGirl.build(:user)
     expect(user).to be_confirmed
   end
 end
 
-describe "callbacks using syntax methods without referencing FactoryBot explicitly" do
+describe "callbacks using syntax methods without referencing FactoryGirl explicitly" do
   before do
     define_model("User", first_number: :integer, last_number: :integer)
 
-    FactoryBot.define do
+    FactoryGirl.define do
       sequence(:sequence_1)
       sequence(:sequence_2)
       sequence(:sequence_3)
@@ -87,16 +87,16 @@ describe "callbacks using syntax methods without referencing FactoryBot explicit
   end
 
   it "works when the callback has no variables" do
-    FactoryBot.build_stubbed(:user)
-    expect(FactoryBot.generate(:sequence_3)).to eq 2
+    FactoryGirl.build_stubbed(:user)
+    expect(FactoryGirl.generate(:sequence_3)).to eq 2
   end
 
   it "works when the callback has one variable" do
-    expect(FactoryBot.build(:user).first_number).to eq 1
+    expect(FactoryGirl.build(:user).first_number).to eq 1
   end
 
   it "works when the callback has two variables" do
-    expect(FactoryBot.create(:user).last_number).to eq 1
+    expect(FactoryGirl.create(:user).last_number).to eq 1
   end
 end
 
@@ -138,11 +138,11 @@ describe "custom callbacks" do
       end
     end
 
-    FactoryBot.register_strategy(:custom_before, custom_before)
-    FactoryBot.register_strategy(:custom_after, custom_after)
-    FactoryBot.register_strategy(:totally_custom, totally_custom)
+    FactoryGirl.register_strategy(:custom_before, custom_before)
+    FactoryGirl.register_strategy(:custom_after, custom_after)
+    FactoryGirl.register_strategy(:totally_custom, totally_custom)
 
-    FactoryBot.define do
+    FactoryGirl.define do
       factory :user do
         first_name { "John" }
         last_name  { "Doe" }
@@ -158,18 +158,18 @@ describe "custom callbacks" do
   end
 
   it "runs a custom before callback when the proper strategy executes" do
-    expect(FactoryBot.build(:user).name).to eq "John Doe"
-    expect(FactoryBot.custom_before(:user).name).to eq "Overridden First Doe"
+    expect(FactoryGirl.build(:user).name).to eq "John Doe"
+    expect(FactoryGirl.custom_before(:user).name).to eq "Overridden First Doe"
   end
 
   it "runs a custom after callback when the proper strategy executes" do
-    expect(FactoryBot.build(:user).name).to eq "John Doe"
-    expect(FactoryBot.custom_after(:user).name).to eq "John Overridden Last"
+    expect(FactoryGirl.build(:user).name).to eq "John Doe"
+    expect(FactoryGirl.custom_after(:user).name).to eq "John Overridden Last"
   end
 
   it "runs a custom callback without prepending before or after when the proper strategy executes" do
-    expect(FactoryBot.build(:user).name).to eq "John Doe"
-    expect(FactoryBot.totally_custom(:user).name).to eq "Totally Custom"
+    expect(FactoryGirl.build(:user).name).to eq "John Doe"
+    expect(FactoryGirl.totally_custom(:user).name).to eq "Totally Custom"
   end
 end
 
@@ -177,7 +177,7 @@ describe "binding a callback to multiple callbacks" do
   before do
     define_model("User", name: :string)
 
-    FactoryBot.define do
+    FactoryGirl.define do
       factory :user do
         callback(:before_create, :after_stub) do |instance|
           instance.name = instance.name.upcase
@@ -187,26 +187,26 @@ describe "binding a callback to multiple callbacks" do
   end
 
   it "binds the callback to creation" do
-    expect(FactoryBot.create(:user, name: "John Doe").name).to eq "JOHN DOE"
+    expect(FactoryGirl.create(:user, name: "John Doe").name).to eq "JOHN DOE"
   end
 
   it "does not bind the callback to building" do
-    expect(FactoryBot.build(:user, name: "John Doe").name).to eq "John Doe"
+    expect(FactoryGirl.build(:user, name: "John Doe").name).to eq "John Doe"
   end
 
   it "binds the callback to stubbing" do
-    expect(FactoryBot.build_stubbed(:user, name: "John Doe").name).to eq "JOHN DOE"
+    expect(FactoryGirl.build_stubbed(:user, name: "John Doe").name).to eq "JOHN DOE"
   end
 end
 
 describe "global callbacks" do
-  include FactoryBot::Syntax::Methods
+  include FactoryGirl::Syntax::Methods
 
   before do
     define_model("User", name: :string)
     define_model("Company", name: :string)
 
-    FactoryBot.define do
+    FactoryGirl.define do
       after :build do |object|
         object.name = case object.class.to_s
                       when "User" then "John Doe"

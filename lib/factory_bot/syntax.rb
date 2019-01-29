@@ -1,7 +1,7 @@
-require "factory_bot/syntax/methods"
-require "factory_bot/syntax/default"
+require "factory_girl/syntax/methods"
+require "factory_girl/syntax/default"
 
-module FactoryBot
+module FactoryGirl
   module Syntax
   end
 end

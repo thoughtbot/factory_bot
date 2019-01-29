@@ -3,7 +3,7 @@ require "rspec/its"
 
 require "simplecov"
 
-require "factory_bot"
+require "factory_girl"
 require "timecop"
 
 Dir["spec/support/**/*.rb"].each { |f| require File.expand_path(f) }
@@ -19,7 +19,7 @@ RSpec.configure do |config|
   config.include DeclarationMatchers
 
   config.before do
-    FactoryBot.reload
+    FactoryGirl.reload
   end
 
   config.after do
@@ -28,10 +28,10 @@ RSpec.configure do |config|
 
   config.around do |example|
     begin
-      previous_use_parent_strategy = FactoryBot.use_parent_strategy
+      previous_use_parent_strategy = FactoryGirl.use_parent_strategy
       example.run
     ensure
-      FactoryBot.use_parent_strategy = previous_use_parent_strategy
+      FactoryGirl.use_parent_strategy = previous_use_parent_strategy
     end
   end
 

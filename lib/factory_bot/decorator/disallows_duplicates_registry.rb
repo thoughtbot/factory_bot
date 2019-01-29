@@ -1,4 +1,4 @@
-module FactoryBot
+module FactoryGirl
   class Decorator
     class DisallowsDuplicatesRegistry < Decorator
       def register(name, item)

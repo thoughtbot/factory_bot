@@ -1,8 +1,8 @@
 describe "sequences" do
-  include FactoryBot::Syntax::Methods
+  include FactoryGirl::Syntax::Methods
 
   it "generates several values in the correct format" do
-    FactoryBot.define do
+    FactoryGirl.define do
       sequence :email do |n|
         "somebody#{n}@example.com"
       end
@@ -17,7 +17,7 @@ describe "sequences" do
   end
 
   it "generates sequential numbers if no block is given" do
-    FactoryBot.define do
+    FactoryGirl.define do
       sequence :order
     end
 
@@ -30,7 +30,7 @@ describe "sequences" do
   end
 
   it "generates aliases for the sequence that reference the same block" do
-    FactoryBot.define do
+    FactoryGirl.define do
       sequence(:size, aliases: [:count, :length]) { |n| "called-#{n}" }
     end
 
@@ -44,7 +44,7 @@ describe "sequences" do
   end
 
   it "generates aliases for the sequence that reference the same block and retains value" do
-    FactoryBot.define do
+    FactoryGirl.define do
       sequence(:size, "a", aliases: [:count, :length]) { |n| "called-#{n}" }
     end
 
@@ -58,7 +58,7 @@ describe "sequences" do
   end
 
   it "generates few values of the sequence" do
-    FactoryBot.define do
+    FactoryGirl.define do
       sequence :email do |n|
         "somebody#{n}@example.com"
       end

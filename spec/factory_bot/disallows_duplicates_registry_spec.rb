@@ -1,4 +1,4 @@
-describe FactoryBot::Decorator::DisallowsDuplicatesRegistry do
+describe FactoryGirl::Decorator::DisallowsDuplicatesRegistry do
   let(:registry) { double("registry", name: "Great thing", register: true) }
 
   subject { described_class.new(registry) }
@@ -12,6 +12,6 @@ describe FactoryBot::Decorator::DisallowsDuplicatesRegistry do
   it "raises when attempting to #register a previously registered strategy" do
     allow(registry).to receive(:registered?).and_return true
     expect { subject.register(:same_name, {}) }.
-      to raise_error(FactoryBot::DuplicateDefinitionError, "Great thing already registered: same_name")
+      to raise_error(FactoryGirl::DuplicateDefinitionError, "Great thing already registered: same_name")
   end
 end

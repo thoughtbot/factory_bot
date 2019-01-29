@@ -1,4 +1,4 @@
-module FactoryBot
+module FactoryGirl
   # @api private
   class Trait
     attr_reader :name, :definition
@@ -8,7 +8,7 @@ module FactoryBot
       @block = block
       @definition = Definition.new(@name)
 
-      proxy = FactoryBot::DefinitionProxy.new(@definition)
+      proxy = FactoryGirl::DefinitionProxy.new(@definition)
       proxy.instance_eval(&@block) if block_given?
     end
 

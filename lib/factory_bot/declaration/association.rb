@@ -1,4 +1,4 @@
-module FactoryBot
+module FactoryGirl
   class Declaration
     # @api private
     class Association < Declaration

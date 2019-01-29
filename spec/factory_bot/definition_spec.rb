@@ -1,4 +1,4 @@
-describe FactoryBot::Definition do
+describe FactoryGirl::Definition do
   subject { described_class.new(:name) }
 
   it { should delegate(:declare_attribute).to(:declarations) }
@@ -6,11 +6,11 @@ describe FactoryBot::Definition do
   describe "with a name" do
     it "creates a new attribute list with the name passed" do
       name = "great name"
-      allow(FactoryBot::DeclarationList).to receive(:new)
+      allow(FactoryGirl::DeclarationList).to receive(:new)
 
-      FactoryBot::Definition.new(name)
+      FactoryGirl::Definition.new(name)
 
-      expect(FactoryBot::DeclarationList).to have_received(:new).with(name)
+      expect(FactoryGirl::DeclarationList).to have_received(:new).with(name)
     end
   end
 
@@ -26,7 +26,7 @@ describe FactoryBot::Definition do
   describe "#overridable" do
     let(:list) { double("declaration list", overridable: true) }
     before do
-      allow(FactoryBot::DeclarationList).to receive(:new).and_return list
+      allow(FactoryGirl::DeclarationList).to receive(:new).and_return list
     end
 
     it "sets the declaration list as overridable" do

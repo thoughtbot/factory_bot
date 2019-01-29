@@ -1,4 +1,4 @@
-module FactoryBot
+module FactoryGirl
   class Declaration
     # @api private
     class Implicit < Declaration
@@ -21,9 +21,9 @@ module FactoryBot
       private
 
       def build
-        if FactoryBot.factories.registered?(name)
+        if FactoryGirl.factories.registered?(name)
           [Attribute::Association.new(name, name, {})]
-        elsif FactoryBot.sequences.registered?(name)
+        elsif FactoryGirl.sequences.registered?(name)
           [Attribute::Sequence.new(name, name, @ignored)]
         else
           @factory.inherit_traits([name])

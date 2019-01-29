@@ -1,4 +1,4 @@
-module FactoryBot
+module FactoryGirl
   # @api private
   class NullFactory
     attr_reader :definition
@@ -14,8 +14,8 @@ module FactoryBot
 
     def class_name; end
 
-    def evaluator_class; FactoryBot::Evaluator; end
+    def evaluator_class; FactoryGirl::Evaluator; end
 
-    def hierarchy_class; FactoryBot::DefinitionHierarchy; end
+    def hierarchy_class; FactoryGirl::DefinitionHierarchy; end
   end
 end

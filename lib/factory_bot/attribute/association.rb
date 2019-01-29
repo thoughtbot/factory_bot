@@ -1,4 +1,4 @@
-module FactoryBot
+module FactoryGirl
   class Attribute
     # @api private
     class Association < Attribute

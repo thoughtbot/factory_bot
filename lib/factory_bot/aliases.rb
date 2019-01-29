@@ -1,4 +1,4 @@
-module FactoryBot
+module FactoryGirl
   class << self
     attr_accessor :aliases
   end

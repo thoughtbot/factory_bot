@@ -1,4 +1,4 @@
-module FactoryBot
+module FactoryGirl
   class DefinitionProxy
     UNPROXIED_METHODS = %w(
       __send__
@@ -31,7 +31,7 @@ module FactoryBot
 
     def singleton_method_added(name)
       message = "Defining methods in blocks (trait or factory) is not supported (#{name})"
-      raise FactoryBot::MethodDefinitionError, message
+      raise FactoryGirl::MethodDefinitionError, message
     end
 
     # Adds an attribute to the factory.
@@ -69,7 +69,7 @@ module FactoryBot
     #
     # are equivalent.
     #
-    # If no argument or block is given, factory_bot will first look for an
+    # If no argument or block is given, factory_girl will first look for an
     # association, then for a sequence, and finally for a trait with the same
     # name. This means that given an "admin" trait, an "email" sequence, and an
     # "account" factory:
@@ -112,14 +112,14 @@ module FactoryBot
     #   sequence(:email) { |n| "person#{n}@example.com" }
     #
     #   factory :user do
-    #     email { FactoryBot.generate(:email) }
+    #     email { FactoryGirl.generate(:email) }
     #   end
     #
     # Except that no globally available sequence will be defined.
     def sequence(name, *args, &block)
       sequence_name = "__#{@definition.name}_#{name}__"
       sequence = Sequence.new(sequence_name, *args, &block)
-      FactoryBot.register_sequence(sequence)
+      FactoryGirl.register_sequence(sequence)
       add_attribute(name) { increment_sequence(sequence) }
     end
 

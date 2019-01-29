@@ -1,7 +1,7 @@
 require "active_support/core_ext/hash/keys"
 require "active_support/inflector"
 
-module FactoryBot
+module FactoryGirl
   # @api private
   class Factory
     attr_reader :name, :definition
@@ -59,7 +59,7 @@ module FactoryBot
     #     # ...
     #   end
     #
-    #   FactoryBot.create(:author).class
+    #   FactoryGirl.create(:author).class
     #   # => User
     #
     # Because an attribute defined without a value or block will build an
@@ -74,7 +74,7 @@ module FactoryBot
     #     author
     #   end
     #
-    #   FactoryBot.create(:post).author.class
+    #   FactoryGirl.create(:post).author.class
     #   # => User
     def names
       [name] + @aliases
@@ -145,7 +145,7 @@ module FactoryBot
 
     def parent
       if @parent
-        FactoryBot.factory_by_name(@parent)
+        FactoryGirl.factory_by_name(@parent)
       else
         NullFactory.new
       end

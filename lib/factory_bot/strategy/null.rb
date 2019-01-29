@@ -1,4 +1,4 @@
-module FactoryBot
+module FactoryGirl
   module Strategy
     class Null
       def association(runner); end

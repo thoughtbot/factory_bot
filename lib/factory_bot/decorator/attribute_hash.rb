@@ -1,4 +1,4 @@
-module FactoryBot
+module FactoryGirl
   class Decorator
     class AttributeHash < Decorator
       def initialize(component, attributes = [])

@@ -1,4 +1,4 @@
-describe FactoryBot::Decorator::AttributeHash do
+describe FactoryGirl::Decorator::AttributeHash do
   describe "#attributes" do
     it "returns a hash of attributes" do
       attributes = { attribute_1: :value, attribute_2: :value }

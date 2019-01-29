@@ -1,4 +1,4 @@
-describe "FactoryBot.lint" do
+describe "FactoryGirl.lint" do
   it "raises when a factory is invalid" do
     define_model "User", name: :string do
       validates :name, presence: true
@@ -6,7 +6,7 @@ describe "FactoryBot.lint" do
 
     define_model "AlwaysValid"
 
-    FactoryBot.define do
+    FactoryGirl.define do
       factory :user do
         factory :admin_user
       end
@@ -22,8 +22,8 @@ describe "FactoryBot.lint" do
     ERROR_MESSAGE
 
     expect do
-      FactoryBot.lint
-    end.to raise_error FactoryBot::InvalidFactoryError, error_message
+      FactoryGirl.lint
+    end.to raise_error FactoryGirl::InvalidFactoryError, error_message
   end
 
   it "does not raise when all factories are valid" do
@@ -31,13 +31,13 @@ describe "FactoryBot.lint" do
       validates :name, presence: true
     end
 
-    FactoryBot.define do
+    FactoryGirl.define do
       factory :user do
         name { "assigned" }
       end
     end
 
-    expect { FactoryBot.lint }.not_to raise_error
+    expect { FactoryGirl.lint }.not_to raise_error
   end
 
   it "allows for selective linting" do
@@ -47,17 +47,17 @@ describe "FactoryBot.lint" do
 
     define_model "ValidThing", name: :string
 
-    FactoryBot.define do
+    FactoryGirl.define do
       factory :valid_thing
       factory :invalid_thing
     end
 
     expect do
-      only_valid_factories = FactoryBot.factories.reject do |factory|
+      only_valid_factories = FactoryGirl.factories.reject do |factory|
         factory.name =~ /invalid/
       end
 
-      FactoryBot.lint only_valid_factories
+      FactoryGirl.lint only_valid_factories
     end.not_to raise_error
   end
 
@@ -68,7 +68,7 @@ describe "FactoryBot.lint" do
           validates :name, presence: true
         end
 
-        FactoryBot.define do
+        FactoryGirl.define do
           factory :user do
             name { "Yep" }
             trait :unnamed do
@@ -84,8 +84,8 @@ describe "FactoryBot.lint" do
         ERROR_MESSAGE
 
         expect do
-          FactoryBot.lint traits: true
-        end.to raise_error FactoryBot::InvalidFactoryError, error_message
+          FactoryGirl.lint traits: true
+        end.to raise_error FactoryGirl::InvalidFactoryError, error_message
       end
 
       it "does not raise if a trait produces a valid object" do
@@ -93,7 +93,7 @@ describe "FactoryBot.lint" do
           validates :name, presence: true
         end
 
-        FactoryBot.define do
+        FactoryGirl.define do
           factory :user do
             name { "Yep" }
             trait :renamed do
@@ -103,7 +103,7 @@ describe "FactoryBot.lint" do
         end
 
         expect do
-          FactoryBot.lint traits: true
+          FactoryGirl.lint traits: true
         end.not_to raise_error
       end
     end
@@ -114,7 +114,7 @@ describe "FactoryBot.lint" do
           validates :name, presence: true
         end
 
-        FactoryBot.define do
+        FactoryGirl.define do
           factory :user do
             name { "Yep" }
             trait :unnamed do
@@ -124,8 +124,8 @@ describe "FactoryBot.lint" do
         end
 
         expect do
-          FactoryBot.lint traits: false
-          FactoryBot.lint
+          FactoryGirl.lint traits: false
+          FactoryGirl.lint
         end.not_to raise_error
       end
     end
@@ -141,14 +141,14 @@ describe "FactoryBot.lint" do
         end
       end
 
-      FactoryBot.define do
+      FactoryGirl.define do
         factory :user do
           name { "Barbara" }
         end
       end
 
       expect do
-        FactoryBot.lint strategy: :build
+        FactoryGirl.lint strategy: :build
       end.not_to raise_error
     end
 
@@ -161,7 +161,7 @@ describe "FactoryBot.lint" do
         end
       end
 
-      FactoryBot.define do
+      FactoryGirl.define do
         factory :user do
           name { "Barbara" }
 
@@ -172,7 +172,7 @@ describe "FactoryBot.lint" do
       end
 
       expect do
-        FactoryBot.lint traits: true, strategy: :build
+        FactoryGirl.lint traits: true, strategy: :build
       end.not_to raise_error
     end
   end
@@ -185,14 +185,14 @@ describe "FactoryBot.lint" do
         end
       end
 
-      FactoryBot.define do
+      FactoryGirl.define do
         factory :invalid_thing
       end
 
       expect do
-        FactoryBot.lint(verbose: true)
+        FactoryGirl.lint(verbose: true)
       end.to raise_error(
-        FactoryBot::InvalidFactoryError,
+        FactoryGirl::InvalidFactoryError,
         %r{#{__FILE__}:\d*:in `save!'},
       )
     end

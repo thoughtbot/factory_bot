@@ -14,5 +14,5 @@ name.
 ## Factory Bot
 
 The name "Factory Girl" was confusing to some developers who encountered this
-library, and offensive or problematic to others. In October 2017 we [renamed the library](https://robots.thoughtbot.com/factory_bot)
+library, and offensive or problematic to others. In October 2017 we [renamed the library](https://robots.thoughtbot.com/factory_girl)
 to "Factory Bot".

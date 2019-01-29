@@ -56,13 +56,13 @@ module DeclarationMatchers
 
     def expected_declaration
       case @declaration_type
-      when :dynamic     then FactoryBot::Declaration::Dynamic.new(@name, ignored?, @value)
-      when :implicit    then FactoryBot::Declaration::Implicit.new(@name, @factory, ignored?)
+      when :dynamic     then FactoryGirl::Declaration::Dynamic.new(@name, ignored?, @value)
+      when :implicit    then FactoryGirl::Declaration::Implicit.new(@name, @factory, ignored?)
       when :association
         if @options
-          FactoryBot::Declaration::Association.new(@name, options)
+          FactoryGirl::Declaration::Association.new(@name, options)
         else
-          FactoryBot::Declaration::Association.new(@name)
+          FactoryGirl::Declaration::Association.new(@name)
         end
       end
     end

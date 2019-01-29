@@ -1,4 +1,4 @@
-describe FactoryBot::AttributeList, "#define_attribute" do
+describe FactoryGirl::AttributeList, "#define_attribute" do
   it "maintains a list of attributes" do
     attribute = double(:attribute, name: :attribute_name)
     another_attribute = double(:attribute, name: :another_attribute_name)
@@ -22,23 +22,23 @@ describe FactoryBot::AttributeList, "#define_attribute" do
     expect do
       2.times { subject.define_attribute(attribute) }
     end.to raise_error(
-      FactoryBot::AttributeDefinitionError,
+      FactoryGirl::AttributeDefinitionError,
       "Attribute already defined: attribute_name",
     )
   end
 end
 
-describe FactoryBot::AttributeList, "#define_attribute with a named attribute list" do
-  subject { FactoryBot::AttributeList.new(:author) }
+describe FactoryGirl::AttributeList, "#define_attribute with a named attribute list" do
+  subject { FactoryGirl::AttributeList.new(:author) }
 
-  let(:association_with_same_name)      { FactoryBot::Attribute::Association.new(:author, :author, {}) }
-  let(:association_with_different_name) { FactoryBot::Attribute::Association.new(:author, :post, {}) }
+  let(:association_with_same_name)      { FactoryGirl::Attribute::Association.new(:author, :author, {}) }
+  let(:association_with_different_name) { FactoryGirl::Attribute::Association.new(:author, :post, {}) }
 
   it "raises when the attribute is a self-referencing association" do
     expect do
       subject.define_attribute(association_with_same_name)
     end.to raise_error(
-      FactoryBot::AssociationDefinitionError,
+      FactoryGirl::AssociationDefinitionError,
       "Self-referencing association 'author' in 'author'",
     )
   end
@@ -48,9 +48,9 @@ describe FactoryBot::AttributeList, "#define_attribute with a named attribute li
   end
 end
 
-describe FactoryBot::AttributeList, "#apply_attributes" do
+describe FactoryGirl::AttributeList, "#apply_attributes" do
   def list(*attributes)
-    FactoryBot::AttributeList.new.tap do |list|
+    FactoryGirl::AttributeList.new.tap do |list|
       attributes.each { |attribute| list.define_attribute(attribute) }
     end
   end
@@ -66,12 +66,12 @@ describe FactoryBot::AttributeList, "#apply_attributes" do
   end
 end
 
-describe FactoryBot::AttributeList, "#associations" do
+describe FactoryGirl::AttributeList, "#associations" do
   let(:email_attribute) do
-    FactoryBot::Attribute::Dynamic.new(:email, false, ->(u) { "#{u.full_name}@example.com" })
+    FactoryGirl::Attribute::Dynamic.new(:email, false, ->(u) { "#{u.full_name}@example.com" })
   end
-  let(:author_attribute)    { FactoryBot::Attribute::Association.new(:author, :user, {}) }
-  let(:profile_attribute)   { FactoryBot::Attribute::Association.new(:profile, :profile, {}) }
+  let(:author_attribute)    { FactoryGirl::Attribute::Association.new(:author, :user, {}) }
+  let(:profile_attribute)   { FactoryGirl::Attribute::Association.new(:profile, :profile, {}) }
 
   before do
     subject.define_attribute(email_attribute)
@@ -84,13 +84,13 @@ describe FactoryBot::AttributeList, "#associations" do
   end
 end
 
-describe FactoryBot::AttributeList, "filter based on ignored attributes" do
+describe FactoryGirl::AttributeList, "filter based on ignored attributes" do
   def build_ignored_attribute(name)
-    FactoryBot::Attribute::Dynamic.new(name, true, -> { "value" })
+    FactoryGirl::Attribute::Dynamic.new(name, true, -> { "value" })
   end
 
   def build_non_ignored_attribute(name)
-    FactoryBot::Attribute::Dynamic.new(name, false, -> { "value" })
+    FactoryGirl::Attribute::Dynamic.new(name, false, -> { "value" })
   end
 
   before do
@@ -110,17 +110,17 @@ describe FactoryBot::AttributeList, "filter based on ignored attributes" do
   end
 end
 
-describe FactoryBot::AttributeList, "generating names" do
+describe FactoryGirl::AttributeList, "generating names" do
   def build_ignored_attribute(name)
-    FactoryBot::Attribute::Dynamic.new(name, true, -> { "value" })
+    FactoryGirl::Attribute::Dynamic.new(name, true, -> { "value" })
   end
 
   def build_non_ignored_attribute(name)
-    FactoryBot::Attribute::Dynamic.new(name, false, -> { "value" })
+    FactoryGirl::Attribute::Dynamic.new(name, false, -> { "value" })
   end
 
   def build_association(name)
-    FactoryBot::Attribute::Association.new(name, :user, {})
+    FactoryGirl::Attribute::Association.new(name, :user, {})
   end
 
   before do

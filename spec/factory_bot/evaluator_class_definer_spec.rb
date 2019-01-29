@@ -1,8 +1,8 @@
-describe FactoryBot::EvaluatorClassDefiner do
+describe FactoryGirl::EvaluatorClassDefiner do
   it "returns an evaluator when accessing the evaluator class" do
-    evaluator = define_evaluator(parent_class: FactoryBot::Evaluator)
+    evaluator = define_evaluator(parent_class: FactoryGirl::Evaluator)
 
-    expect(evaluator).to be_a(FactoryBot::Evaluator)
+    expect(evaluator).to be_a(FactoryGirl::Evaluator)
   end
 
   it "adds each attribute to the evaluator" do
@@ -56,13 +56,13 @@ describe FactoryBot::EvaluatorClassDefiner do
 
   def define_evaluator(arguments = {})
     evaluator_class = define_evaluator_class(arguments)
-    evaluator_class.new(FactoryBot::Strategy::Null)
+    evaluator_class.new(FactoryGirl::Strategy::Null)
   end
 
   def define_evaluator_class(arguments = {})
-    evaluator_class_definer = FactoryBot::EvaluatorClassDefiner.new(
+    evaluator_class_definer = FactoryGirl::EvaluatorClassDefiner.new(
       arguments[:attributes] || [],
-      arguments[:parent_class] || FactoryBot::Evaluator,
+      arguments[:parent_class] || FactoryGirl::Evaluator,
     )
     evaluator_class_definer.evaluator_class
   end

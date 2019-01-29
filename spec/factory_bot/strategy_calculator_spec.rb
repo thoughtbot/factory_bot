@@ -1,10 +1,10 @@
-describe FactoryBot::StrategyCalculator do
+describe FactoryGirl::StrategyCalculator do
   let(:strategy) do
     define_class("MyAwesomeClass")
   end
 
   context "when a class" do
-    subject { FactoryBot::StrategyCalculator.new(strategy).strategy }
+    subject { FactoryGirl::StrategyCalculator.new(strategy).strategy }
 
     it "returns the class passed" do
       expect(subject).to eq strategy
@@ -13,14 +13,14 @@ describe FactoryBot::StrategyCalculator do
 
   context "when a symbol" do
     before do
-      allow(FactoryBot).to receive(:strategy_by_name).and_return(strategy)
+      allow(FactoryGirl).to receive(:strategy_by_name).and_return(strategy)
     end
 
-    subject { FactoryBot::StrategyCalculator.new(:build).strategy }
+    subject { FactoryGirl::StrategyCalculator.new(:build).strategy }
 
     it "finds the strategy by name" do
       subject
-      expect(FactoryBot).to have_received(:strategy_by_name).with(:build)
+      expect(FactoryGirl).to have_received(:strategy_by_name).with(:build)
     end
 
     it "returns the strategy found" do

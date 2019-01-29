@@ -1,5 +1,5 @@
-module FactoryBot
-  # Sequences are defined using sequence within a FactoryBot.define block.
+module FactoryGirl
+  # Sequences are defined using sequence within a FactoryGirl.define block.
   # Sequence values are generated using next.
   # @api private
   class Sequence

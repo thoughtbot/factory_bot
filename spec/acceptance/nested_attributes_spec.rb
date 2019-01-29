@@ -9,9 +9,9 @@ describe "association assignment from nested attributes" do
       belongs_to :post
     end
 
-    FactoryBot.define do
+    FactoryGirl.define do
       factory :post do
-        comments_attributes { [FactoryBot.attributes_for(:comment), FactoryBot.attributes_for(:comment)] }
+        comments_attributes { [FactoryGirl.attributes_for(:comment), FactoryGirl.attributes_for(:comment)] }
       end
 
       factory :comment do
@@ -21,11 +21,11 @@ describe "association assignment from nested attributes" do
   end
 
   it "assigns the correct amount of comments" do
-    expect(FactoryBot.create(:post).comments.count).to eq 2
+    expect(FactoryGirl.create(:post).comments.count).to eq 2
   end
 
   it "assigns the correct amount of comments when overridden" do
-    post = FactoryBot.create(:post, comments_attributes: [FactoryBot.attributes_for(:comment)])
+    post = FactoryGirl.create(:post, comments_attributes: [FactoryGirl.attributes_for(:comment)])
 
     expect(post.comments.count).to eq 1
   end

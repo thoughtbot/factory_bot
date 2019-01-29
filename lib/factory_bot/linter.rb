@@ -1,4 +1,4 @@
-module FactoryBot
+module FactoryGirl
   class Linter
     def initialize(factories, strategy: :create, traits: false, verbose: false)
       @factories_to_lint = factories
@@ -71,7 +71,7 @@ module FactoryBot
     def lint_factory(factory)
       result = []
       begin
-        FactoryBot.public_send(factory_strategy, factory.name)
+        FactoryGirl.public_send(factory_strategy, factory.name)
       rescue StandardError => error
         result |= [FactoryError.new(error, factory)]
       end
@@ -82,7 +82,7 @@ module FactoryBot
       result = []
       factory.definition.defined_traits.map(&:name).each do |trait_name|
         begin
-          FactoryBot.public_send(factory_strategy, factory.name, trait_name)
+          FactoryGirl.public_send(factory_strategy, factory.name, trait_name)
         rescue StandardError => error
           result |=
             [FactoryTraitError.new(error, factory, trait_name)]

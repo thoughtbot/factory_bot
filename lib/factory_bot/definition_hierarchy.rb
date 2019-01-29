@@ -1,15 +1,15 @@
-module FactoryBot
+module FactoryGirl
   class DefinitionHierarchy
     def callbacks
-      FactoryBot.callbacks
+      FactoryGirl.callbacks
     end
 
     def constructor
-      FactoryBot.constructor
+      FactoryGirl.constructor
     end
 
     def to_create
-      FactoryBot.to_create
+      FactoryGirl.to_create
     end
 
     def self.build_from_definition(definition)

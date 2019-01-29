@@ -1,19 +1,19 @@
-describe FactoryBot::Declaration::Implicit do
+describe FactoryGirl::Declaration::Implicit do
   context "with a known factory" do
     it "creates an association attribute" do
-      allow(FactoryBot.factories).to receive(:registered?).and_return true
+      allow(FactoryGirl.factories).to receive(:registered?).and_return true
 
-      declaration = FactoryBot::Declaration::Implicit.new(:name)
+      declaration = FactoryGirl::Declaration::Implicit.new(:name)
       attribute = declaration.to_attributes.first
 
       expect(attribute).to be_association
     end
 
     it "has the correct factory name" do
-      allow(FactoryBot.factories).to receive(:registered?).and_return true
+      allow(FactoryGirl.factories).to receive(:registered?).and_return true
       name = :factory_name
 
-      declaration = FactoryBot::Declaration::Implicit.new(name)
+      declaration = FactoryGirl::Declaration::Implicit.new(name)
       attribute = declaration.to_attributes.first
 
       expect(attribute.factory).to eq(name)
@@ -22,21 +22,21 @@ describe FactoryBot::Declaration::Implicit do
 
   context "with a known sequence" do
     it "does not create an assocition attribute" do
-      allow(FactoryBot.sequences).to receive(:registered?).and_return true
+      allow(FactoryGirl.sequences).to receive(:registered?).and_return true
 
-      declaration = FactoryBot::Declaration::Implicit.new(:name)
+      declaration = FactoryGirl::Declaration::Implicit.new(:name)
       attribute = declaration.to_attributes.first
 
       expect(attribute).not_to be_association
     end
 
     it "creates a sequence attribute" do
-      allow(FactoryBot.sequences).to receive(:registered?).and_return true
+      allow(FactoryGirl.sequences).to receive(:registered?).and_return true
 
-      declaration = FactoryBot::Declaration::Implicit.new(:name)
+      declaration = FactoryGirl::Declaration::Implicit.new(:name)
       attribute = declaration.to_attributes.first
 
-      expect(attribute).to be_a(FactoryBot::Attribute::Sequence)
+      expect(attribute).to be_a(FactoryGirl::Attribute::Sequence)
     end
   end
 

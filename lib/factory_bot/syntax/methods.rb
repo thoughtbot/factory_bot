@@ -1,7 +1,7 @@
-module FactoryBot
+module FactoryGirl
   module Syntax
     ## This module is a container for all strategy methods provided by
-    ## FactoryBot. This includes all the default strategies provided ({Methods#build},
+    ## FactoryGirl. This includes all the default strategies provided ({Methods#build},
     ## {Methods#create}, {Methods#build_stubbed}, and {Methods#attributes_for}), as
     ## well as the complementary *_list and *_pair methods.
     ## @example singular factory execution
@@ -30,7 +30,7 @@ module FactoryBot
     ##   # factory with traits and attribute override
     ##   build_stubbed_list(:user, 15, :admin, :male, name: "John Doe")
     module Methods
-      # @!parse FactoryBot.register_default_strategies
+      # @!parse FactoryGirl.register_default_strategies
       # @!method build(name, *traits_and_overrides, &block)
       # (see #strategy_method)
       # Builds a registered factory by name.
@@ -111,7 +111,7 @@ module FactoryBot
       # Returns:
       #   The next value in the sequence. (Object)
       def generate(name)
-        FactoryBot.sequence_by_name(name).next
+        FactoryGirl.sequence_by_name(name).next
       end
 
       # Generates and returns the list of values in a sequence.
@@ -126,7 +126,7 @@ module FactoryBot
       #   The next value in the sequence. (Object)
       def generate_list(name, count)
         (1..count).map do
-          FactoryBot.sequence_by_name(name).next
+          FactoryGirl.sequence_by_name(name).next
         end
       end
     end

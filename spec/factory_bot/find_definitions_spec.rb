@@ -1,10 +1,10 @@
 shared_examples_for "finds definitions" do
   before do
-    allow(FactoryBot).to receive(:load)
-    FactoryBot.find_definitions
+    allow(FactoryGirl).to receive(:load)
+    FactoryGirl.find_definitions
   end
 
-  subject { FactoryBot }
+  subject { FactoryGirl }
 end
 
 RSpec::Matchers.define :load_definitions_from do |file|
@@ -77,15 +77,15 @@ describe "definition loading" do
       in_directory_with_files File.join(dir, "factories", "b.rb"),
                               File.join(dir, "factories", "a.rb")
       it "loads the files in the right order" do
-        allow(FactoryBot).to receive(:load)
+        allow(FactoryGirl).to receive(:load)
         wd = File.dirname(__FILE__)
         file_b = File.join(wd, "tmp", dir, "factories", "b.rb")
         file_a = File.join(wd, "tmp", dir, "factories", "a.rb")
 
-        FactoryBot.find_definitions
+        FactoryGirl.find_definitions
 
-        expect(FactoryBot).to have_received(:load).with(file_a).ordered
-        expect(FactoryBot).to have_received(:load).with(file_b).ordered
+        expect(FactoryGirl).to have_received(:load).with(file_a).ordered
+        expect(FactoryGirl).to have_received(:load).with(file_b).ordered
       end
     end
 

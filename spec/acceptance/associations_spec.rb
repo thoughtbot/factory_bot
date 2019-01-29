@@ -3,13 +3,13 @@ describe "associations" do
     it "raises an error about the trait not being registered" do
       define_class("Post")
 
-      FactoryBot.define do
+      FactoryGirl.define do
         factory :post do
           author factory: user
         end
       end
 
-      expect { FactoryBot.build(:post) }.
+      expect { FactoryGirl.build(:post) }.
         to raise_error(KeyError, "Trait not registered: \"user\"")
     end
   end

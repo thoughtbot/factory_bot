@@ -1,8 +1,8 @@
-describe FactoryBot::Attribute::Dynamic do
+describe FactoryGirl::Attribute::Dynamic do
   let(:name)  { :first_name }
   let(:block) { -> {} }
 
-  subject { FactoryBot::Attribute::Dynamic.new(name, false, block) }
+  subject { FactoryGirl::Attribute::Dynamic.new(name, false, block) }
 
   its(:name) { should eq name }
 
@@ -45,15 +45,15 @@ describe FactoryBot::Attribute::Dynamic do
   end
 
   context "with a block returning a sequence" do
-    let(:block) { -> { FactoryBot.register_sequence(FactoryBot::Sequence.new(:email, 1) { |n| "foo#{n}" }) } }
+    let(:block) { -> { FactoryGirl.register_sequence(FactoryGirl::Sequence.new(:email, 1) { |n| "foo#{n}" }) } }
 
     it "raises a sequence abuse error" do
-      expect { subject.to_proc.call }.to raise_error(FactoryBot::SequenceAbuseError)
+      expect { subject.to_proc.call }.to raise_error(FactoryGirl::SequenceAbuseError)
     end
   end
 end
 
-describe FactoryBot::Attribute::Dynamic, "with a string name" do
-  subject    { FactoryBot::Attribute::Dynamic.new("name", false, -> {}) }
+describe FactoryGirl::Attribute::Dynamic, "with a string name" do
+  subject    { FactoryGirl::Attribute::Dynamic.new("name", false, -> {}) }
   its(:name) { should eq :name }
 end

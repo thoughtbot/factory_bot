@@ -1,4 +1,4 @@
-module FactoryBot
+module FactoryGirl
   # @api private
   class StrategyCalculator
     def initialize(name_or_object)
@@ -20,7 +20,7 @@ module FactoryBot
     end
 
     def strategy_name_to_object
-      FactoryBot.strategy_by_name(@name_or_object)
+      FactoryGirl.strategy_by_name(@name_or_object)
     end
   end
 end

@@ -1,4 +1,4 @@
-module FactoryBot
+module FactoryGirl
   class Attribute
     # @api private
     class Sequence < Attribute
@@ -9,7 +9,7 @@ module FactoryBot
 
       def to_proc
         sequence = @sequence
-        -> { FactoryBot.generate(sequence) }
+        -> { FactoryGirl.generate(sequence) }
       end
     end
   end

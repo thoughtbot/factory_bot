@@ -1,4 +1,4 @@
-describe FactoryBot::NullFactory do
+describe FactoryGirl::NullFactory do
   it { should delegate(:defined_traits).to(:definition) }
   it { should delegate(:callbacks).to(:definition) }
   it { should delegate(:attributes).to(:definition) }
@@ -6,6 +6,6 @@ describe FactoryBot::NullFactory do
 
   its(:compile)         { should be_nil }
   its(:class_name)      { should be_nil }
-  its(:attributes)      { should be_an_instance_of(FactoryBot::AttributeList) }
-  its(:evaluator_class) { should eq FactoryBot::Evaluator }
+  its(:attributes)      { should be_an_instance_of(FactoryGirl::AttributeList) }
+  its(:evaluator_class) { should eq FactoryGirl::Evaluator }
 end

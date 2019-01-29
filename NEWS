@@ -3,7 +3,7 @@
   Changed: use_parent_strategy now defaults to true, so by default the
     build strategy will build, rather than create associations
   Changed: Passing a block when defining associations now raises an error
-  Bugfix: use_parent_strategy is no longer reset by FactoryBot.reload
+  Bugfix: use_parent_strategy is no longer reset by FactoryGirl.reload
   Bugfix: rewind_sequences will now rewind local sequences along with the global ones
   Bugfix: the build_stubbed strategy now sets timestamps without changing the
     the original behavior of the timestamp methods
@@ -29,7 +29,7 @@
 4.9.0 (skipped - FactoryGirl only release)
 
 4.8.2 (October 20, 2017)
-  Rename factory_girl to factory_bot
+  Rename factory_girl to factory_girl
 
 4.8.1 (September 28, 2017)
   Explicitly define `#destroyed?` within the `Stub` strategy to return `nil` instead of raising
@@ -144,7 +144,7 @@
   Skip to_create with skip_create
   Allow registration of custom strategies
   Deprecate alternate syntaxes
-  Implicitly call factory_bot's syntax methods from dynamic attributes
+  Implicitly call factory_girl's syntax methods from dynamic attributes
 
 3.1.0 (April 6, 2012)
   Sequences support aliases, which reference the same block
@@ -239,7 +239,7 @@
 2.3.1 (November 23, 2011)
   Remove internally-used associate method from all the FactoryGirl::Proxy subclasses
   Move around requiring of files
-  Consolidate errors into factory_bot.rb
+  Consolidate errors into factory_girl.rb
   Refactor AttributeList to deal with priority only when iterating over
     attributes
   Refactor internals of some of the Proxy subclasses

@@ -1,5 +1,5 @@
 describe "a built instance" do
-  include FactoryBot::Syntax::Methods
+  include FactoryGirl::Syntax::Methods
 
   before do
     define_model("User")
@@ -8,7 +8,7 @@ describe "a built instance" do
       belongs_to :user
     end
 
-    FactoryBot.define do
+    FactoryGirl.define do
       factory :user
 
       factory :post do
@@ -22,7 +22,7 @@ describe "a built instance" do
   it { should be_new_record }
 
   context "when the :use_parent_strategy config option is set to false" do
-    before { FactoryBot.use_parent_strategy = false }
+    before { FactoryGirl.use_parent_strategy = false }
 
     it "assigns and saves associations" do
       expect(subject.user).to be_kind_of(User)
@@ -31,7 +31,7 @@ describe "a built instance" do
   end
 
   context "when the :use_parent_strategy config option is set to true" do
-    before { FactoryBot.use_parent_strategy = true }
+    before { FactoryGirl.use_parent_strategy = true }
 
     it "assigns but does not save associations" do
       expect(subject.user).to be_kind_of(User)
@@ -41,7 +41,7 @@ describe "a built instance" do
 end
 
 describe "a built instance with strategy: :create" do
-  include FactoryBot::Syntax::Methods
+  include FactoryGirl::Syntax::Methods
 
   before do
     define_model("User")
@@ -50,7 +50,7 @@ describe "a built instance with strategy: :create" do
       belongs_to :user
     end
 
-    FactoryBot.define do
+    FactoryGirl.define do
       factory :user
 
       factory :post do
@@ -70,12 +70,12 @@ describe "a built instance with strategy: :create" do
 end
 
 describe "calling `build` with a block" do
-  include FactoryBot::Syntax::Methods
+  include FactoryGirl::Syntax::Methods
 
   before do
     define_model("Company", name: :string)
 
-    FactoryBot.define do
+    FactoryGirl.define do
       factory :company
     end
   end

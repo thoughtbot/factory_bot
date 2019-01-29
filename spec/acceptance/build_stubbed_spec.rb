@@ -1,5 +1,5 @@
 describe "a generated stub instance" do
-  include FactoryBot::Syntax::Methods
+  include FactoryGirl::Syntax::Methods
 
   before do
     define_model("User")
@@ -12,7 +12,7 @@ describe "a generated stub instance" do
       belongs_to :user
     end
 
-    FactoryBot.define do
+    FactoryGirl.define do
       factory :user
 
       factory :post do
@@ -110,12 +110,12 @@ describe "a generated stub instance" do
 end
 
 describe "calling `build_stubbed` with a block" do
-  include FactoryBot::Syntax::Methods
+  include FactoryGirl::Syntax::Methods
 
   before do
     define_model("Company", name: :string)
 
-    FactoryBot.define do
+    FactoryGirl.define do
       factory :company
     end
   end
@@ -138,13 +138,13 @@ describe "calling `build_stubbed` with a block" do
 end
 
 describe "defaulting `created_at`" do
-  include FactoryBot::Syntax::Methods
+  include FactoryGirl::Syntax::Methods
 
   before do
     define_model("ThingWithTimestamp", created_at: :datetime)
     define_model("ThingWithoutTimestamp")
 
-    FactoryBot.define do
+    FactoryGirl.define do
       factory :thing_with_timestamp
       factory :thing_without_timestamp
     end
@@ -191,7 +191,7 @@ describe "defaulting `created_at`" do
       end
     end
 
-    FactoryBot.define do
+    FactoryGirl.define do
       factory :thing_with_created_at
     end
 
@@ -203,13 +203,13 @@ describe "defaulting `created_at`" do
 end
 
 describe "defaulting `updated_at`" do
-  include FactoryBot::Syntax::Methods
+  include FactoryGirl::Syntax::Methods
 
   before do
     define_model("ThingWithTimestamp", updated_at: :datetime)
     define_model("ThingWithoutTimestamp")
 
-    FactoryBot.define do
+    FactoryGirl.define do
       factory :thing_with_timestamp
       factory :thing_without_timestamp
     end
@@ -256,7 +256,7 @@ describe "defaulting `updated_at`" do
       end
     end
 
-    FactoryBot.define do
+    FactoryGirl.define do
       factory :thing_with_updated_at
     end
 
@@ -271,12 +271,12 @@ describe "defaulting `id`" do
   before do
     define_model("Post")
 
-    FactoryBot.define do
+    FactoryGirl.define do
       factory :post
     end
   end
 
   it "allows overriding id" do
-    expect(FactoryBot.build_stubbed(:post, id: 12).id).to eq 12
+    expect(FactoryGirl.build_stubbed(:post, id: 12).id).to eq 12
   end
 end

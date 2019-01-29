@@ -1,8 +1,8 @@
-require "factory_bot/attribute/dynamic"
-require "factory_bot/attribute/association"
-require "factory_bot/attribute/sequence"
+require "factory_girl/attribute/dynamic"
+require "factory_girl/attribute/association"
+require "factory_girl/attribute/sequence"
 
-module FactoryBot
+module FactoryGirl
   # @api private
   class Attribute
     attr_reader :name, :ignored
@@ -21,7 +21,7 @@ module FactoryBot
     end
 
     def alias_for?(attr)
-      FactoryBot.aliases_for(attr).include?(name)
+      FactoryGirl.aliases_for(attr).include?(name)
     end
   end
 end

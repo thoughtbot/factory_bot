@@ -1,4 +1,4 @@
-describe FactoryBot::Declaration::Association do
+describe FactoryGirl::Declaration::Association do
   describe "#==" do
     context "when the attributes are equal" do
       it "the objects are equal" do

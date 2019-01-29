@@ -1,8 +1,8 @@
-require "factory_bot/declaration/dynamic"
-require "factory_bot/declaration/association"
-require "factory_bot/declaration/implicit"
+require "factory_girl/declaration/dynamic"
+require "factory_girl/declaration/association"
+require "factory_girl/declaration/implicit"
 
-module FactoryBot
+module FactoryGirl
   # @api private
   class Declaration
     attr_reader :name

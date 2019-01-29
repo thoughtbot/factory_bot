@@ -4,13 +4,13 @@ describe "finding factories keyed by class instead of symbol" do
       attr_accessor :name, :email
     end
 
-    FactoryBot.define do
+    FactoryGirl.define do
       factory :user
     end
   end
 
   it "doesn't find the factory" do
-    expect { FactoryBot.create(User) }.to(
+    expect { FactoryGirl.create(User) }.to(
       raise_error(KeyError, "Factory not registered: #{User.inspect}"),
     )
   end

@@ -17,7 +17,7 @@ Here are some ways *you* can contribute:
 * by closing [issues][]
 * by reviewing patches
 
-[issues]: https://github.com/thoughtbot/factory_bot/issues
+[issues]: https://github.com/thoughtbot/factory_girl/issues
 
 ## Submitting an Issue
 
@@ -52,7 +52,7 @@ already been submitted.
   asking for help. We love helping!
 * Please don't update the Gem version.
 
-[repo]: https://github.com/thoughtbot/factory_bot/tree/master
+[repo]: https://github.com/thoughtbot/factory_girl/tree/master
 [fork]: https://help.github.com/articles/fork-a-repo/
 [branch]: https://help.github.com/articles/creating-and-deleting-branches-within-your-repository/
 [pr]: https://help.github.com/articles/using-pull-requests/

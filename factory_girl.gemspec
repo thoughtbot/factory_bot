@@ -1,12 +1,12 @@
 $LOAD_PATH << File.expand_path("lib", __dir__)
-require "factory_bot/version"
+require "factory_girl/version"
 
 Gem::Specification.new do |s|
-  s.name        = "factory_bot"
-  s.version     = FactoryBot::VERSION
-  s.summary     = "factory_bot provides a framework and DSL for defining and "\
+  s.name        = "factory_girl"
+  s.version     = FactoryGirl::VERSION
+  s.summary     = "factory_girl provides a framework and DSL for defining and "\
                   "using model instance factories."
-  s.description = "factory_bot provides a framework and DSL for defining and "\
+  s.description = "factory_girl provides a framework and DSL for defining and "\
                   "using factories - less error-prone, more explicit, and "\
                   "all-around easier to work with than fixtures."
 
@@ -20,7 +20,7 @@ Gem::Specification.new do |s|
   s.authors = ["Josh Clayton", "Joe Ferris"]
   s.email   = ["jclayton@thoughtbot.com", "jferris@thoughtbot.com"]
 
-  s.homepage = "https://github.com/thoughtbot/factory_bot"
+  s.homepage = "https://github.com/thoughtbot/factory_girl"
 
   s.add_dependency("activesupport", ">= 4.2.0")
 

@@ -1,4 +1,4 @@
-module FactoryBot
+module FactoryGirl
   class Callback
     attr_reader :name
 
@@ -28,9 +28,9 @@ module FactoryBot
     private
 
     def ensure_valid_callback_name!
-      unless FactoryBot.callback_names.include?(name)
+      unless FactoryGirl.callback_names.include?(name)
         raise InvalidCallbackNameError, "#{name} is not a valid callback name. " +
-          "Valid callback names are #{FactoryBot.callback_names.inspect}"
+          "Valid callback names are #{FactoryGirl.callback_names.inspect}"
       end
     end
 
