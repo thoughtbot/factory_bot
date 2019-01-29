@@ -33,8 +33,10 @@ Configure your test suite
 If you're using Rails:
 
 ```ruby
+#  spec/rails_helper.rb
+
 RSpec.configure do |config|
-  config.include FactoryBot::Syntax::Methods
+  config.include FactoryBot::Syntax::Methods # add to block.
 end
 ```
 
