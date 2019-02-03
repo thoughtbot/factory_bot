@@ -15,6 +15,7 @@ describe FactoryBot::Factory do
   end
 
   it "returns associations" do
+    define_class("Post")
     factory = FactoryBot::Factory.new(:post)
     FactoryBot.register_factory(FactoryBot::Factory.new(:admin))
     factory.declare_attribute(FactoryBot::Declaration::Association.new(:author, {}))
@@ -30,6 +31,7 @@ describe FactoryBot::Factory do
     association_on_parent = FactoryBot::Declaration::Association.new(:association_on_parent, {})
     association_on_child  = FactoryBot::Declaration::Association.new(:association_on_child, {})
 
+    define_class("Post")
     factory = FactoryBot::Factory.new(:post)
     factory.declare_attribute(association_on_parent)
     FactoryBot.register_factory(factory)

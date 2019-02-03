@@ -1,13 +1,14 @@
 module FactoryBot
   # @api private
   class Definition
-    attr_reader :defined_traits, :declarations, :name
+    attr_reader :defined_traits, :declarations, :name, :registered_enums
 
     def initialize(name, base_traits = [])
       @name              = name
       @declarations      = DeclarationList.new(name)
       @callbacks         = []
       @defined_traits    = Set.new
+      @registered_enums  = []
       @to_create         = nil
       @base_traits       = base_traits
       @additional_traits = []
@@ -56,6 +57,13 @@ module FactoryBot
       end
     end
 
+    def expand_enum_traits(klass)
+      registered_enums.each do |enum|
+        traits = enum.build_traits(klass)
+        traits.each { |trait| define_trait(trait) }
+      end
+    end
+
     def overridable
       declarations.overridable
       self
@@ -79,6 +87,10 @@ module FactoryBot
 
     def define_trait(trait)
       @defined_traits.add(trait)
+    end
+
+    def register_enum(enum)
+      @registered_enums << enum
     end
 
     def define_constructor(&block)

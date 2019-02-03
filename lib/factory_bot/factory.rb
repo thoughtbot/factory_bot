@@ -84,6 +84,7 @@ module FactoryBot
       unless @compiled
         parent.compile
         parent.defined_traits.each { |trait| define_trait(trait) }
+        @definition.expand_enum_traits(build_class)
         @definition.compile
         build_hierarchy
         @compiled = true
