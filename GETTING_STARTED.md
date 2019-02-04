@@ -1120,7 +1120,7 @@ Verbose linting will include full backtraces for each error, which can be
 helpful for debugging:
 
 ```ruby
-FactoryBot.lint verbose: :true
+FactoryBot.lint verbose: true
 ```
 
 Custom Construction
