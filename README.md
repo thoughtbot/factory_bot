@@ -75,7 +75,7 @@ community](https://github.com/thoughtbot/factory_bot/graphs/contributors).
 License
 -------
 
-factory_bot is Copyright © 2008-2016 Joe Ferris and thoughtbot. It is free
+factory_bot is Copyright © 2008-2019 Joe Ferris and thoughtbot. It is free
 software, and may be redistributed under the terms specified in the
 [LICENSE](/LICENSE) file.
 
