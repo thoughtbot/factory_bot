@@ -54,7 +54,7 @@ module FactoryBot
         private
 
         def configuration
-          FactoryBot.configuration
+          FactoryBot::Internal.configuration
         end
       end
 

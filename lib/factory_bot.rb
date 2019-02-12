@@ -45,16 +45,17 @@ require "factory_bot/decorator/invocation_tracker"
 require "factory_bot/decorator/new_constructor"
 require "factory_bot/linter"
 require "factory_bot/version"
+require "factory_bot/internal"
 
 module FactoryBot
   DEPRECATOR = ActiveSupport::Deprecation.new("6.0", "factory_bot")
 
   def self.configuration
-    @configuration ||= Configuration.new
+    Internal.configuration
   end
 
   def self.reset_configuration
-    @configuration = nil
+    Internal.reset_configuration
   end
 
   mattr_accessor :use_parent_strategy, instance_accessor: false
