@@ -115,6 +115,7 @@ module FactoryBot
 
   def self.rewind_sequences
     sequences.each(&:rewind)
+    Internal.rewind_inline_sequences
   end
 
   def self.register_trait(trait)

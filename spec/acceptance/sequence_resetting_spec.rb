@@ -90,4 +90,34 @@ describe "FactoryBot.rewind_sequences" do
     expect(user.email).to eq "local-somebody1@example.com"
     expect(email).to eq "global-somebody1@example.com"
   end
+
+  it "allows setting sequences within identically named traits" do
+    define_class("User") { attr_accessor :email }
+    define_class("Person") { attr_accessor :email }
+
+    FactoryBot.define do
+      factory :user do
+        trait :with_email do
+          sequence(:email) { |n| "user#{n}@example.com" }
+        end
+      end
+
+      factory :person do
+        trait :with_email do
+          sequence(:email) { |n| "person#{n}@example.com" }
+        end
+      end
+    end
+
+    build_list(:user, 2, :with_email)
+    build_list(:person, 2, :with_email)
+
+    FactoryBot.rewind_sequences
+
+    user = build(:user, :with_email)
+    person = build(:person, :with_email)
+
+    expect(user.email).to eq "user1@example.com"
+    expect(person.email).to eq "person1@example.com"
+  end
 end

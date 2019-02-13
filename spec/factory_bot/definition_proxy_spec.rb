@@ -106,18 +106,20 @@ describe FactoryBot::DefinitionProxy, "#sequence" do
 
   it "creates a new sequence starting at 1" do
     proxy = build_proxy(:factory)
+
     proxy.sequence(:sequence)
 
-    expect(FactoryBot::Sequence).to have_received(:new).
-      with("__factory_sequence__")
+    expect(FactoryBot::Sequence).to have_received(:new).with(:sequence)
   end
 
   it "creates a new sequence with an overridden starting vaue" do
     proxy = build_proxy(:factory)
-    proxy.sequence(:sequence, "C")
+    override = "override"
+
+    proxy.sequence(:sequence, override)
 
     expect(FactoryBot::Sequence).to have_received(:new).
-      with("__factory_sequence__", "C")
+      with(:sequence, override)
   end
 
   it "creates a new sequence with a block" do
@@ -126,7 +128,7 @@ describe FactoryBot::DefinitionProxy, "#sequence" do
     proxy.sequence(:sequence, 1, &sequence_block)
 
     expect(FactoryBot::Sequence).to have_received(:new).
-      with("__factory_sequence__", 1, &sequence_block)
+      with(:sequence, 1, &sequence_block)
   end
 end
 
