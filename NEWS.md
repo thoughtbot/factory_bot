@@ -1,5 +1,9 @@
 # News
 
+## 5.0.1 (February 15, 2019)
+  * Bugfix: Do not raise error when two sequences have the same name
+    in two traits that have the same name
+
 ## 5.0.0
   * Added: Verbose option to include full backtraces in the linting output
   * Changed: use_parent_strategy now defaults to true, so by default the

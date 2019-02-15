@@ -12,7 +12,7 @@ Gem::Specification.new do |s|
 
   s.files =
     Dir.glob("lib/**/*") +
-    %w[CONTRIBUTING.md GETTING_STARTED.md LICENSE NAME.md NEWS README.md .yardopts]
+    %w[CONTRIBUTING.md GETTING_STARTED.md LICENSE NAME.md NEWS.md README.md .yardopts]
 
   s.require_path = "lib"
   s.required_ruby_version = Gem::Requirement.new(">= 2.3.0")
