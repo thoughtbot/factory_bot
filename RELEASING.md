@@ -21,5 +21,6 @@
 1. Announce the new release,
    making sure to say "thank you" to the contributors
    who helped shape this version!
+   thoughtbotters can refer to the handbook for announcements guidelines.
 
 [_quick guide on how to sign a release_]: http://gitready.com/advanced/2014/11/02/gpg-sign-releases.html
