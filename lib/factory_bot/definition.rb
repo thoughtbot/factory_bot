@@ -115,7 +115,7 @@ module FactoryBot
     end
 
     def trait_for(name)
-      defined_traits.detect { |trait| trait.name == name }
+      defined_traits.detect { |trait| trait.name == name.to_s }
     end
 
     def initialize_copy(source)

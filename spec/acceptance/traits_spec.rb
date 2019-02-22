@@ -232,6 +232,19 @@ describe "trait indifferent access" do
   end
 end
 
+describe "looking up traits that don't exist" do
+  it "raises a KeyError" do
+    define_class("User")
+
+    FactoryBot.define do
+      factory :user
+    end
+
+    expect { FactoryBot.build(:user, double("not a trait")) }.
+      to raise_error(KeyError)
+  end
+end
+
 describe "traits with callbacks" do
   before do
     define_model("User", name: :string)

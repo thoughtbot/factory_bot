@@ -4,7 +4,7 @@ module FactoryBot
     attr_reader :name, :definition
 
     def initialize(name, &block)
-      @name = name.to_sym
+      @name = name.to_s
       @block = block
       @definition = Definition.new(@name)
 
