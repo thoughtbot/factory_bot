@@ -1,10 +1,13 @@
 # News
 
+## 5.0.2 (February 22, 2019)
+  * Bugfix: raise "Trait not registered" error when passing invalid trait arguments
+
 ## 5.0.1 (February 15, 2019)
   * Bugfix: Do not raise error when two sequences have the same name
     in two traits that have the same name
 
-## 5.0.0
+## 5.0.0 (February 1, 2019)
   * Added: Verbose option to include full backtraces in the linting output
   * Changed: use_parent_strategy now defaults to true, so by default the
     build strategy will build, rather than create associations
