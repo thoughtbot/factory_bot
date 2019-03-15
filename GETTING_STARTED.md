@@ -516,14 +516,14 @@ FactoryBot.define do
   factory :photo
 
   factory :comment do
-    for_photo
+    for_photo # default to the :for_photo trait if none is specified
 
     trait :for_video do
-      association(:commentable, factory: :video)
+      association :commentable, factory: :video
     end
 
     trait :for_photo do
-      association(:commentable, factory: :photo)
+      association :commentable, factory: :photo
     end
   end
 end
