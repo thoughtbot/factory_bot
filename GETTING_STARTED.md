@@ -519,11 +519,11 @@ FactoryBot.define do
     for_photo
 
     trait :for_video do
-      association(:commentable, factory: :video)
+      association :commentable, factory: :video
     end
 
     trait :for_photo do
-      association(:commentable, factory: :photo)
+      association :commentable, factory: :photo
     end
   end
 end
@@ -532,7 +532,8 @@ end
 This allows us to do:
 
 ```
-create(:comment)
+# Would be created for :photo by default since we have `for_photo` after :comment factory definition
+create(:comment) 
 create(:comment, :for_video)
 create(:comment, :for_photo)
 ```
