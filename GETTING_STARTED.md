@@ -532,7 +532,7 @@ end
 This allows us to do:
 
 ```
-create(:comment) 
+create(:comment)
 create(:comment, :for_video)
 create(:comment, :for_photo)
 ```
