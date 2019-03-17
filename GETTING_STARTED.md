@@ -961,7 +961,7 @@ If a gem were to give you a User factory:
 ```ruby
 FactoryBot.define do
   factory :user do
-    full_name "John Doe"
+    full_name { "John Doe" }
     sequence(:username) { |n| "user#{n}" }
     password { "password" }
   end
