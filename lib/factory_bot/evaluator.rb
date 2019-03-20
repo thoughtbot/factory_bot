@@ -66,7 +66,7 @@ module FactoryBot
     end
 
     def self.define_attribute(name, &block)
-      if method_defined?(name) || private_method_defined?(name)
+      if instance_methods(false).include?(name) || private_instance_methods(false).include?(name)
         undef_method(name)
       end
 
