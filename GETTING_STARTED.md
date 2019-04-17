@@ -1082,8 +1082,7 @@ end
 
 After calling `FactoryBot.lint`, you'll likely want to clear out the
 database, as records will most likely be created. The provided example above
-uses the database_cleaner gem to clear out the database; be sure to add the
-gem to your Gemfile under the appropriate groups.
+uses the an sql transaction and rollback to leave the database clean.
 
 You can lint factories selectively by passing only factories you want linted:
 
