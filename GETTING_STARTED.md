@@ -1066,10 +1066,11 @@ Example Rake task:
 namespace :factory_bot do
   desc "Verify that all FactoryBot factories are valid"
   task lint: :environment do
-    if Rails.env.test?
-      DatabaseCleaner.clean_with(:deletion)
-      DatabaseCleaner.cleaning do
+    if Rails.env.test?    
+      conn = ActiveRecord::Base.connection
+      conn.transaction do
         FactoryBot.lint
+        raise ActiveRecord::Rollback
       end
     else
       system("bundle exec rake factory_bot:lint RAILS_ENV='test'")
@@ -1081,8 +1082,7 @@ end
 
 After calling `FactoryBot.lint`, you'll likely want to clear out the
 database, as records will most likely be created. The provided example above
-uses the database_cleaner gem to clear out the database; be sure to add the
-gem to your Gemfile under the appropriate groups.
+uses an sql transaction and rollback to leave the database clean.
 
 You can lint factories selectively by passing only factories you want linted:
 
