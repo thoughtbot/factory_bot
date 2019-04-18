@@ -59,7 +59,7 @@ More Information
 * [Issues](https://github.com/thoughtbot/factory_bot/issues)
 * [GIANT ROBOTS SMASHING INTO OTHER GIANT ROBOTS](https://robots.thoughtbot.com/)
 
-[GETTING_STARTED]: https://www.rubydoc.info/gems/factory_bot/file/GETTING_STARTED.md
+[GETTING_STARTED]: https://github.com/thoughtbot/factory_bot/blob/master/GETTING_STARTED.md
 
 Contributing
 ------------
