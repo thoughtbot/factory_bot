@@ -30,7 +30,7 @@ module FactoryBot
         end
 
         def trait(name, &block)
-          FactoryBot.register_trait(Trait.new(name, &block))
+          Internal.register_trait(Trait.new(name, &block))
         end
 
         def to_create(&block)

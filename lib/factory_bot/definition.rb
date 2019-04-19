@@ -111,7 +111,7 @@ module FactoryBot
     end
 
     def trait_by_name(name)
-      trait_for(name) || FactoryBot.trait_by_name(name)
+      trait_for(name) || Internal.trait_by_name(name)
     end
 
     def trait_for(name)

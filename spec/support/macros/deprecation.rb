@@ -2,10 +2,10 @@ require "active_support"
 
 module SilenceDeprecation
   def silence_deprecation(example)
-    cached_silenced = ActiveSupport::Deprecation.silenced
-    ActiveSupport::Deprecation.silenced = true
+    cached_silenced = FactoryBot::Deprecation.silenced
+    FactoryBot::Deprecation.silenced = true
     example.run
-    ActiveSupport::Deprecation.silenced = cached_silenced
+    FactoryBot::Deprecation.silenced = cached_silenced
   end
 end
 
