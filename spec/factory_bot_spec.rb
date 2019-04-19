@@ -13,7 +13,7 @@ describe FactoryBot do
     expect(FactoryBot.sequence_by_name(sequence.name)).to eq sequence
   end
 
-  it "finds a registered trait" do
+  it "finds a registered trait", :silence_deprecation do
     FactoryBot.register_trait(trait)
     expect(FactoryBot.trait_by_name(trait.name)).to eq trait
   end

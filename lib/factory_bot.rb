@@ -48,7 +48,7 @@ require "factory_bot/version"
 require "factory_bot/internal"
 
 module FactoryBot
-  DEPRECATOR = ActiveSupport::Deprecation.new("6.0", "factory_bot")
+  Deprecation = ActiveSupport::Deprecation.new("6.0", "factory_bot")
 
   def self.configuration
     Internal.configuration
@@ -87,8 +87,18 @@ module FactoryBot
              :constructor,
              to: :configuration
 
+    delegate :trait_by_name,
+             :register_trait,
+             to: Internal
+
     attr_accessor :allow_class_lookup
-    deprecate :allow_class_lookup, :allow_class_lookup=, deprecator: DEPRECATOR
+
+    deprecate :allow_class_lookup,
+              :allow_class_lookup=,
+              :register_trait,
+              :trait_by_name,
+              :traits,
+              deprecator: Deprecation
   end
 
   def self.register_factory(factory)
@@ -116,17 +126,6 @@ module FactoryBot
   def self.rewind_sequences
     sequences.each(&:rewind)
     Internal.rewind_inline_sequences
-  end
-
-  def self.register_trait(trait)
-    trait.names.each do |name|
-      traits.register(name, trait)
-    end
-    trait
-  end
-
-  def self.trait_by_name(name)
-    traits.find(name)
   end
 
   def self.register_strategy(strategy_name, strategy_class)

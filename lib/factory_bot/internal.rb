@@ -2,7 +2,7 @@ module FactoryBot
   # @api private
   module Internal
     class << self
-      delegate :inline_sequences, to: :configuration
+      delegate :inline_sequences, :traits, to: :configuration
 
       def configuration
         @configuration ||= Configuration.new
@@ -18,6 +18,17 @@ module FactoryBot
 
       def rewind_inline_sequences
         inline_sequences.each(&:rewind)
+      end
+
+      def register_trait(trait)
+        trait.names.each do |name|
+          traits.register(name, trait)
+        end
+        trait
+      end
+
+      def trait_by_name(name)
+        traits.find(name)
       end
     end
   end
