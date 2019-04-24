@@ -152,7 +152,7 @@ module FactoryBot
           "in '#{@definition.name}' factory",
         )
       else
-        declaration = Declaration::Association.new(name, *options)
+        declaration = Declaration::Association.new(name, false, *options)
         @definition.declare_attribute(declaration)
       end
     end

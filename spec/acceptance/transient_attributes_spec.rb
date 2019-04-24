@@ -1,15 +1,19 @@
 describe "transient attributes" do
   before do
+    define_model("Country")
     define_model("User", name: :string, email: :string)
 
     FactoryBot.define do
       sequence(:name) { |n| "John #{n}" }
+
+      factory :country
 
       factory :user do
         transient do
           four     { 2 + 2 }
           rockstar { true }
           upcased  { false }
+          country
         end
 
         name  { "#{FactoryBot.generate(:name)}#{' - Rockstar' if rockstar}" }

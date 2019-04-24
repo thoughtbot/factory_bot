@@ -60,9 +60,9 @@ module DeclarationMatchers
       when :implicit    then FactoryBot::Declaration::Implicit.new(@name, @factory, ignored?)
       when :association
         if @options
-          FactoryBot::Declaration::Association.new(@name, options)
+          FactoryBot::Declaration::Association.new(@name, ignored?, options)
         else
-          FactoryBot::Declaration::Association.new(@name)
+          FactoryBot::Declaration::Association.new(@name, ignored?)
         end
       end
     end
