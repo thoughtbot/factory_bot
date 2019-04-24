@@ -72,23 +72,11 @@ describe FactoryBot::DefinitionProxy, "#method_missing" do
       definition = FactoryBot::Definition.new(:broken)
       proxy = FactoryBot::DefinitionProxy.new(definition)
 
-      invalid_call = -> { proxy.static_attributes_are_gone true }
+      invalid_call = -> { proxy.static_attributes_are_gone "true" }
       expect(invalid_call).to raise_error(
         NoMethodError,
-        "undefined method 'static_attributes_are_gone' in 'broken' factory",
-      )
-    end
-  end
-
-  context "when called with a setter method" do
-    it "raises a NoMethodError" do
-      definition = FactoryBot::Definition.new(:broken)
-      proxy = FactoryBot::DefinitionProxy.new(definition)
-
-      invalid_call = -> { proxy.setter_method = true }
-      expect(invalid_call).to raise_error(
-        NoMethodError,
-        "undefined method 'setter_method=' in 'broken' factory",
+        "undefined method 'static_attributes_are_gone' in 'broken' factory\n" \
+        "Did you mean? 'static_attributes_are_gone { \"true\" }'\n",
       )
     end
   end
