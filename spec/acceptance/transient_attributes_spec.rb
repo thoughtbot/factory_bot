@@ -1,6 +1,6 @@
 describe "transient attributes" do
   before do
-    define_model('Country')
+    define_model("Country")
     define_model("User", name: :string, email: :string)
 
     FactoryBot.define do
