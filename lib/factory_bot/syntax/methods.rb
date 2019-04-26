@@ -30,7 +30,7 @@ module FactoryBot
     ##   # factory with traits and attribute override
     ##   build_stubbed_list(:user, 15, :admin, :male, name: "John Doe")
     module Methods
-      # @!parse FactoryBot.register_default_strategies
+      # @!parse FactoryBot::Internal.register_default_strategies
       # @!method build(name, *traits_and_overrides, &block)
       # (see #strategy_method)
       # Builds a registered factory by name.

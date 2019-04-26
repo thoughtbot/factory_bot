@@ -13,14 +13,14 @@ describe FactoryBot::StrategyCalculator do
 
   context "when a symbol" do
     before do
-      allow(FactoryBot).to receive(:strategy_by_name).and_return(strategy)
+      allow(FactoryBot::Internal).to receive(:strategy_by_name).and_return(strategy)
     end
 
     subject { FactoryBot::StrategyCalculator.new(:build).strategy }
 
     it "finds the strategy by name" do
       subject
-      expect(FactoryBot).to have_received(:strategy_by_name).with(:build)
+      expect(FactoryBot::Internal).to have_received(:strategy_by_name).with(:build)
     end
 
     it "returns the strategy found" do
