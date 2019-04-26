@@ -1,8 +1,26 @@
 module FactoryBot
   # @api private
   module Internal
+    DEFAULT_STRATEGIES = {
+      build:          FactoryBot::Strategy::Build,
+      create:         FactoryBot::Strategy::Create,
+      attributes_for: FactoryBot::Strategy::AttributesFor,
+      build_stubbed:  FactoryBot::Strategy::Stub,
+      null:           FactoryBot::Strategy::Null,
+    }.freeze
+
+    DEFAULT_CALLBACKS = [
+      :after_create, :after_build, :after_stub, :after_create
+    ].freeze
+
     class << self
-      delegate :inline_sequences, :sequences, :traits, :factories, to: :configuration
+      delegate :callback_names,
+               :factories,
+               :inline_sequences,
+               :sequences,
+               :strategies,
+               :traits,
+               to: :configuration
 
       def configuration
         @configuration ||= Configuration.new
@@ -56,6 +74,28 @@ module FactoryBot
 
       def factory_by_name(name)
         factories.find(name)
+      end
+
+      def register_strategy(strategy_name, strategy_class)
+        strategies.register(strategy_name, strategy_class)
+        StrategySyntaxMethodRegistrar.new(strategy_name).define_strategy_methods
+      end
+
+      def strategy_by_name(name)
+        strategies.find(name)
+      end
+
+      def register_default_strategies
+        DEFAULT_STRATEGIES.each(&method(:register_strategy))
+      end
+
+      def register_default_callbacks
+        DEFAULT_CALLBACKS.each(&method(:register_callback))
+      end
+
+      def register_callback(name)
+        name = name.to_sym
+        callback_names << name
       end
     end
   end

@@ -26,7 +26,7 @@ describe FactoryBot::Callback do
   end
 
   it "allows valid callback names to be assigned" do
-    FactoryBot.callback_names.each do |callback_name|
+    FactoryBot::Internal.callback_names.each do |callback_name|
       expect { FactoryBot::Callback.new(callback_name, -> {}) }.
         to_not raise_error
     end
