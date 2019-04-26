@@ -89,14 +89,16 @@ module FactoryBot
     #
     # are equivalent.
     def method_missing(name, *args, &block) # rubocop:disable Style/MethodMissing
-      if args.empty?
+      association_options = args.first
+
+      if association_options.nil?
         __declare_attribute__(name, block)
-      elsif args.first.respond_to?(:has_key?) && args.first.has_key?(:factory)
-        association(name, *args)
+      elsif __valid_association_options?(association_options)
+        association(name, association_options)
       else
         raise NoMethodError.new(<<~MSG)
           undefined method '#{name}' in '#{@definition.name}' factory
-          Did you mean? '#{name} { #{args.first.inspect} }'
+          Did you mean? '#{name} { #{association_options.inspect} }'
         MSG
       end
     end
@@ -187,6 +189,10 @@ module FactoryBot
       else
         add_attribute(name, &block)
       end
+    end
+
+    def __valid_association_options?(options)
+      options.respond_to?(:has_key?) && options.has_key?(:factory)
     end
   end
 end
