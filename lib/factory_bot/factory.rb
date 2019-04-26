@@ -145,7 +145,7 @@ module FactoryBot
 
     def parent
       if @parent
-        FactoryBot.factory_by_name(@parent)
+        FactoryBot::Internal.factory_by_name(@parent)
       else
         NullFactory.new
       end

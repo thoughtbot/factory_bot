@@ -75,19 +75,21 @@ module FactoryBot
   end
 
   class << self
-    delegate :factories,
-             :sequences,
-             :traits,
-             :callbacks,
-             :strategies,
+    delegate :callbacks,
              :callback_names,
-             :to_create,
-             :skip_create,
-             :initialize_with,
              :constructor,
+             :factories,
+             :initialize_with,
+             :sequences,
+             :skip_create,
+             :strategies,
+             :to_create,
+             :traits,
              to: :configuration
 
-    delegate :register_sequence,
+    delegate :factory_by_name,
+             :register_factory,
+             :register_sequence,
              :register_trait,
              :rewind_sequences,
              :sequence_by_name,
@@ -98,23 +100,14 @@ module FactoryBot
 
     deprecate :allow_class_lookup,
               :allow_class_lookup=,
+              :factory_by_name,
+              :register_factory,
               :register_trait,
               :sequence_by_name,
               :sequences,
               :trait_by_name,
               :traits,
               deprecator: Deprecation
-  end
-
-  def self.register_factory(factory)
-    factory.names.each do |name|
-      factories.register(name, factory)
-    end
-    factory
-  end
-
-  def self.factory_by_name(name)
-    factories.find(name)
   end
 
   def self.register_strategy(strategy_name, strategy_class)
