@@ -9,7 +9,7 @@ module FactoryBot
     end
 
     def run(runner_strategy = @strategy, &block)
-      factory = FactoryBot.factory_by_name(@name)
+      factory = FactoryBot::Internal.factory_by_name(@name)
 
       factory.compile
 

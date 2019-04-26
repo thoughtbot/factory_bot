@@ -3,7 +3,7 @@ describe FactoryBot::Factory do
     @name    = :user
     @class   = define_class("User")
     @factory = FactoryBot::Factory.new(@name)
-    FactoryBot.register_factory(@factory)
+    FactoryBot::Internal.register_factory(@factory)
   end
 
   it "has a factory name" do
@@ -16,7 +16,7 @@ describe FactoryBot::Factory do
 
   it "returns associations" do
     factory = FactoryBot::Factory.new(:post)
-    FactoryBot.register_factory(FactoryBot::Factory.new(:admin))
+    FactoryBot::Internal.register_factory(FactoryBot::Factory.new(:admin))
     factory.declare_attribute(FactoryBot::Declaration::Association.new(:author, {}))
     factory.declare_attribute(FactoryBot::Declaration::Association.new(:editor, {}))
     factory.declare_attribute(FactoryBot::Declaration::Implicit.new(:admin, factory))
@@ -32,7 +32,7 @@ describe FactoryBot::Factory do
 
     factory = FactoryBot::Factory.new(:post)
     factory.declare_attribute(association_on_parent)
-    FactoryBot.register_factory(factory)
+    FactoryBot::Internal.register_factory(factory)
 
     child_factory = FactoryBot::Factory.new(:child_post, parent: :post)
     child_factory.declare_attribute(association_on_child)

@@ -3,7 +3,7 @@ describe FactoryBot do
   let(:sequence) { FactoryBot::Sequence.new(:email) }
   let(:trait)    { FactoryBot::Trait.new(:admin) }
 
-  it "finds a registered factory" do
+  it "finds a registered factory", :silence_deprecation do
     FactoryBot.register_factory(factory)
     expect(FactoryBot.factory_by_name(factory.name)).to eq factory
   end

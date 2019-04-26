@@ -12,8 +12,8 @@ unless ActiveSupport::Notifications.respond_to?(:subscribed)
 end
 
 describe "using ActiveSupport::Instrumentation to track factory interaction" do
-  let(:slow_user_factory) { FactoryBot.factory_by_name("slow_user") }
-  let(:user_factory) { FactoryBot.factory_by_name("user") }
+  let(:slow_user_factory) { FactoryBot::Internal.factory_by_name("slow_user") }
+  let(:user_factory) { FactoryBot::Internal.factory_by_name("user") }
   before do
     define_model("User", email: :string)
     FactoryBot.define do

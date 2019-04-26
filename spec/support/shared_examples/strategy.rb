@@ -8,7 +8,7 @@ shared_examples_for "strategy without association support" do
   end
 
   before do
-    allow(FactoryBot).to receive(:factory_by_name).and_return factory
+    allow(FactoryBot::Internal).to receive(:factory_by_name).and_return factory
     allow(factory).to receive(:compile)
     allow(factory).to receive(:run)
   end
@@ -27,7 +27,7 @@ shared_examples_for "strategy with association support" do |factory_bot_strategy
   end
 
   before do
-    allow(FactoryBot).to receive(:factory_by_name).and_return factory
+    allow(FactoryBot::Internal).to receive(:factory_by_name).and_return factory
     allow(factory).to receive(:compile)
     allow(factory).to receive(:run)
   end
@@ -39,7 +39,7 @@ shared_examples_for "strategy with association support" do |factory_bot_strategy
 
   it "finds the factory with the correct factory name" do
     association_named(:author, factory_bot_strategy_name, great: "value")
-    expect(FactoryBot).to have_received(:factory_by_name).with(:author)
+    expect(FactoryBot::Internal).to have_received(:factory_by_name).with(:author)
   end
 end
 
@@ -52,7 +52,7 @@ shared_examples_for "strategy with strategy: :build" do |factory_bot_strategy_na
   end
 
   before do
-    allow(FactoryBot).to receive(:factory_by_name).and_return factory
+    allow(FactoryBot::Internal).to receive(:factory_by_name).and_return factory
     allow(factory).to receive(:compile)
     allow(factory).to receive(:run)
   end
@@ -64,7 +64,7 @@ shared_examples_for "strategy with strategy: :build" do |factory_bot_strategy_na
 
   it "finds the factory with the correct factory name" do
     association_named(:author, strategy: :build, great: "value")
-    expect(FactoryBot).to have_received(:factory_by_name).with(:author)
+    expect(FactoryBot::Internal).to have_received(:factory_by_name).with(:author)
   end
 end
 
