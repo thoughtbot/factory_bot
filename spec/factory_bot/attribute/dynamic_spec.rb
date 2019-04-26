@@ -45,7 +45,13 @@ describe FactoryBot::Attribute::Dynamic do
   end
 
   context "with a block returning a sequence" do
-    let(:block) { -> { FactoryBot.register_sequence(FactoryBot::Sequence.new(:email, 1) { |n| "foo#{n}" }) } }
+    let(:block) do
+      -> do
+        FactoryBot::Internal.register_sequence(
+          FactoryBot::Sequence.new(:email, 1) { |n| "foo#{n}" },
+        )
+      end
+    end
 
     it "raises a sequence abuse error" do
       expect { subject.to_proc.call }.to raise_error(FactoryBot::SequenceAbuseError)

@@ -8,7 +8,7 @@ describe FactoryBot do
     expect(FactoryBot.factory_by_name(factory.name)).to eq factory
   end
 
-  it "finds a registered sequence" do
+  it "finds a registered sequence", :silence_deprecation do
     FactoryBot.register_sequence(sequence)
     expect(FactoryBot.sequence_by_name(sequence.name)).to eq sequence
   end

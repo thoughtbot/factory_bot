@@ -87,8 +87,11 @@ module FactoryBot
              :constructor,
              to: :configuration
 
-    delegate :trait_by_name,
+    delegate :register_sequence,
              :register_trait,
+             :rewind_sequences,
+             :sequence_by_name,
+             :trait_by_name,
              to: Internal
 
     attr_accessor :allow_class_lookup
@@ -96,6 +99,8 @@ module FactoryBot
     deprecate :allow_class_lookup,
               :allow_class_lookup=,
               :register_trait,
+              :sequence_by_name,
+              :sequences,
               :trait_by_name,
               :traits,
               deprecator: Deprecation
@@ -110,22 +115,6 @@ module FactoryBot
 
   def self.factory_by_name(name)
     factories.find(name)
-  end
-
-  def self.register_sequence(sequence)
-    sequence.names.each do |name|
-      sequences.register(name, sequence)
-    end
-    sequence
-  end
-
-  def self.sequence_by_name(name)
-    sequences.find(name)
-  end
-
-  def self.rewind_sequences
-    sequences.each(&:rewind)
-    Internal.rewind_inline_sequences
   end
 
   def self.register_strategy(strategy_name, strategy_class)
