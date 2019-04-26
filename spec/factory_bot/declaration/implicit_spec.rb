@@ -22,7 +22,7 @@ describe FactoryBot::Declaration::Implicit do
 
   context "with a known sequence" do
     it "does not create an assocition attribute" do
-      allow(FactoryBot.sequences).to receive(:registered?).and_return true
+      allow(FactoryBot::Internal.sequences).to receive(:registered?).and_return true
 
       declaration = FactoryBot::Declaration::Implicit.new(:name)
       attribute = declaration.to_attributes.first
@@ -31,7 +31,7 @@ describe FactoryBot::Declaration::Implicit do
     end
 
     it "creates a sequence attribute" do
-      allow(FactoryBot.sequences).to receive(:registered?).and_return true
+      allow(FactoryBot::Internal.sequences).to receive(:registered?).and_return true
 
       declaration = FactoryBot::Declaration::Implicit.new(:name)
       attribute = declaration.to_attributes.first

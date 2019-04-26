@@ -111,7 +111,7 @@ module FactoryBot
       # Returns:
       #   The next value in the sequence. (Object)
       def generate(name)
-        FactoryBot.sequence_by_name(name).next
+        Internal.sequence_by_name(name).next
       end
 
       # Generates and returns the list of values in a sequence.
@@ -126,7 +126,7 @@ module FactoryBot
       #   The next value in the sequence. (Object)
       def generate_list(name, count)
         (1..count).map do
-          FactoryBot.sequence_by_name(name).next
+          Internal.sequence_by_name(name).next
         end
       end
     end

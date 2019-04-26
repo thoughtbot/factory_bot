@@ -23,7 +23,7 @@ module FactoryBot
       def build
         if FactoryBot.factories.registered?(name)
           [Attribute::Association.new(name, name, {})]
-        elsif FactoryBot.sequences.registered?(name)
+        elsif FactoryBot::Internal.sequences.registered?(name)
           [Attribute::Sequence.new(name, name, @ignored)]
         else
           @factory.inherit_traits([name])

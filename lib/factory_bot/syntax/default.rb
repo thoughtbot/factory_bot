@@ -26,7 +26,7 @@ module FactoryBot
         end
 
         def sequence(name, *args, &block)
-          FactoryBot.register_sequence(Sequence.new(name, *args, &block))
+          Internal.register_sequence(Sequence.new(name, *args, &block))
         end
 
         def trait(name, &block)
@@ -54,7 +54,7 @@ module FactoryBot
         private
 
         def configuration
-          FactoryBot::Internal.configuration
+          Internal.configuration
         end
       end
 
