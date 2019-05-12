@@ -62,6 +62,11 @@ More Information
 [GETTING_STARTED]: https://github.com/thoughtbot/factory_bot/blob/master/GETTING_STARTED.md
 [NAME]: https://github.com/thoughtbot/factory_bot/blob/master/NAME.md
 
+Useful Tools
+------------
+
+* [FactoryTrace](https://github.com/djezzzl/factory_trace) - helps to find unused factories and traits.
+
 Contributing
 ------------
 
