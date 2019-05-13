@@ -31,7 +31,8 @@ Gem::Specification.new do |s|
   s.add_development_dependency("rake")
   s.add_development_dependency("rspec")
   s.add_development_dependency("rspec-its")
-  s.add_development_dependency("rubocop", "0.54")
+  s.add_development_dependency("rubocop", "0.68")
+  s.add_development_dependency("rubocop-performance")
   s.add_development_dependency("simplecov")
   s.add_development_dependency("yard")
 
