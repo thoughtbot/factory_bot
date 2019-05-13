@@ -21,8 +21,8 @@ module FactoryBot
 
     def find(name)
       @items.fetch(name)
-    rescue KeyError => key_error
-      raise key_error_with_custom_message(key_error)
+    rescue KeyError => e
+      raise key_error_with_custom_message(e)
     end
 
     alias :[] :find

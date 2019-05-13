@@ -4,9 +4,9 @@ describe "a generated stub instance" do
   before do
     define_model("User")
 
-    define_model("Post", title:   :string,
-                         body:    :string,
-                         age:     :integer,
+    define_model("Post", title: :string,
+                         body: :string,
+                         age: :integer,
                          user_id: :integer,
                          draft: :boolean) do
       belongs_to :user

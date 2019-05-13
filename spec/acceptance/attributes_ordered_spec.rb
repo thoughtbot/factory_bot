@@ -2,10 +2,10 @@ describe "a generated attributes hash where order matters" do
   include FactoryBot::Syntax::Methods
 
   before do
-    define_model("ParentModel", static:           :integer,
-                                evaluates_first:  :integer,
+    define_model("ParentModel", static: :integer,
+                                evaluates_first: :integer,
                                 evaluates_second: :integer,
-                                evaluates_third:  :integer)
+                                evaluates_third: :integer)
 
     FactoryBot.define do
       factory :parent_model do
