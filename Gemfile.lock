@@ -59,14 +59,14 @@ GEM
     gherkin (5.1.0)
     i18n (1.4.0)
       concurrent-ruby (~> 1.0)
+    jaro_winkler (1.5.2)
     json (2.1.0)
     minitest (5.11.3)
     multi_json (1.13.1)
     multi_test (0.1.2)
-    parallel (1.12.1)
-    parser (2.5.3.0)
+    parallel (1.17.0)
+    parser (2.6.3.0)
       ast (~> 2.4.0)
-    powerpack (0.1.2)
     rainbow (3.0.0)
     rake (12.3.2)
     rspec (3.8.0)
@@ -85,13 +85,15 @@ GEM
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.8.0)
     rspec-support (3.8.0)
-    rubocop (0.54.0)
+    rubocop (0.68.0)
+      jaro_winkler (~> 1.5.1)
       parallel (~> 1.10)
-      parser (>= 2.5)
-      powerpack (~> 0.1)
+      parser (>= 2.5, != 2.5.1.1)
       rainbow (>= 2.2.2, < 4.0)
       ruby-progressbar (~> 1.7)
-      unicode-display_width (~> 1.0, >= 1.0.1)
+      unicode-display_width (>= 1.4.0, < 1.6)
+    rubocop-performance (1.2.0)
+      rubocop (>= 0.68.0)
     ruby-progressbar (1.10.0)
     simplecov (0.16.1)
       docile (~> 1.1)
@@ -104,7 +106,7 @@ GEM
     timecop (0.9.1)
     tzinfo (1.2.5)
       thread_safe (~> 0.1)
-    unicode-display_width (1.4.1)
+    unicode-display_width (1.5.0)
     yard (0.9.16)
 
 PLATFORMS
@@ -119,7 +121,8 @@ DEPENDENCIES
   rake
   rspec
   rspec-its
-  rubocop (= 0.54)
+  rubocop (= 0.68)
+  rubocop-performance
   simplecov
   sqlite3
   timecop
