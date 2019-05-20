@@ -1,7 +1,8 @@
 module FactoryBot
   class Enum
-    def initialize(attribute_name)
+    def initialize(attribute_name, values = nil)
       @attribute_name = attribute_name
+      @values = values
     end
 
     def build_traits(klass)
@@ -13,7 +14,14 @@ module FactoryBot
     private
 
     def enum_values(klass)
-      klass.send(@attribute_name.to_s.pluralize)
+      case @values
+      when Hash
+        @values
+      when Array
+        @values.map { |value| [value, value] }
+      else
+        klass.send(@attribute_name.to_s.pluralize)
+      end
     end
 
     def build_trait(trait_name, attribute_name, value)
