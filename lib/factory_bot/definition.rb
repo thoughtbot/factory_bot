@@ -57,6 +57,13 @@ module FactoryBot
       end
     end
 
+    def register_defined_enums(klass)
+      return unless klass.respond_to?(:defined_enums)
+      klass.defined_enums.each_key do |name|
+        register_enum(Enum.new(name))
+      end
+    end
+
     def expand_enum_traits(klass)
       registered_enums.each do |enum|
         traits = enum.build_traits(klass)
