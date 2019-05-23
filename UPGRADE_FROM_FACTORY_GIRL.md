@@ -35,7 +35,7 @@ to replace all references with the new constant should do the trick. For
 example, on macOS:
 
 ```sh
-grep -e FactoryGirl **/*.rake **/*.rb -s -l | xargs sed -i "" "s|FactoryGirl|FactoryBot|g"
+grep -lr FactoryGirl --include="*.rake" --include="*.rb" ./* | xargs sed -i "" "s|FactoryGirl|FactoryBot|g"
 ```
 
 Linux:
@@ -53,5 +53,5 @@ If you're requiring files from factory\_girl or factory\_girl\_rails directly,
 you'll have to update the paths.
 
 ```sh
-grep -e factory_girl **/*.rake **/*.rb -s -l | xargs sed -i "" "s|factory_girl|factory_bot|g"
+grep -lr factory_girl --include="*.rake" --include="*.rb" ./* | xargs sed -i "" "s|factory_girl|factory_bot|g"
 ```
