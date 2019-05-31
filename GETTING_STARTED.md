@@ -387,7 +387,7 @@ post.new_record?        # => true
 post.author.new_record? # => false
 ```
 
-To not save the associated object, specify strategy: :build in the factory:
+To not save the associated object, specify `strategy: :build` in the factory:
 
 ```ruby
 FactoryBot.use_parent_strategy = false
