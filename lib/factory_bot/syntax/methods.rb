@@ -129,6 +129,20 @@ module FactoryBot
           Internal.sequence_by_name(name).next
         end
       end
+
+      # Creates a copy of the file passed to attach to the attribute
+      #
+      # Arguments:
+      #   filepath: (String)
+      #     The path for the file that will be loaded. Should be a valid path
+      #     for a file that exists at that location.
+      #
+      # Returns:
+      #   An instance of the file loader class pointing to the file at the
+      #   provided path.
+      def file_fixture(file_path)
+        FileLoader.new(file_path)
+      end
     end
   end
 end

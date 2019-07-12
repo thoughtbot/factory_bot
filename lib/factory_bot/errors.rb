@@ -22,4 +22,6 @@ module FactoryBot
 
   # Raised when any factory is considered invalid
   class InvalidFactoryError < RuntimeError; end
+
+  class FileDoesNotExistError < RuntimeError; end
 end
