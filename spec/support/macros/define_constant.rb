@@ -33,11 +33,15 @@ module DefineConstantMacros
 
   def clear_generated_tables
     created_tables.each do |table_name|
-      ActiveRecord::Base.
-        connection.
-        execute("DROP TABLE IF EXISTS #{table_name}")
+      clear_generated_table(table_name)
     end
     created_tables.clear
+  end
+
+  def clear_generated_table(table_name)
+    ActiveRecord::Base.
+      connection.
+      execute("DROP TABLE IF EXISTS #{table_name}")
   end
 
   private

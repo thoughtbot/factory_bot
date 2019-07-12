@@ -58,3 +58,44 @@ describe "a stubbed instance overriding strategy" do
     expect(subject.user).not_to be_new_record
   end
 end
+
+describe "a stubbed instance with no primary key" do
+  it "builds a stubbed instance" do
+    using_model_without_pk do
+      FactoryBot.define do
+        factory :model_without_pk
+      end
+
+      model = FactoryBot.build_stubbed(:model_without_pk)
+      expect(model).to be_truthy
+    end
+  end
+
+  it "behaves like a persisted record" do
+    using_model_without_pk do
+      FactoryBot.define do
+        factory :model_without_pk
+      end
+
+      model = FactoryBot.build_stubbed(:model_without_pk)
+      expect(model).to be_persisted
+      expect(model).not_to be_new_record
+    end
+  end
+
+  def using_model_without_pk
+    define_class("ModelWithoutPk", ActiveRecord::Base)
+
+    connection = ActiveRecord::Base.connection
+    begin
+      clear_generated_table("model_without_pks")
+      connection.create_table("model_without_pks", id: false) do |t|
+        t.column :updated_at, :datetime
+      end
+
+      yield
+    ensure
+      clear_generated_table("model_without_pks")
+    end
+  end
+end
