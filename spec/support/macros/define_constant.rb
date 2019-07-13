@@ -2,12 +2,9 @@ require "active_record"
 
 module DefineConstantMacros
   def define_class(path, base = Object, &block)
-    namespace, class_name = *constant_path(path)
-    klass = Class.new(base)
-    namespace.const_set(class_name, klass)
-    klass.class_eval(&block) if block_given?
-    defined_constants << path
-    klass
+    const = stub_const(path, Class.new(base))
+    const.class_eval(&block) if block_given?
+    const
   end
 
   def define_model(name, columns = {}, &block)
@@ -34,22 +31,6 @@ module DefineConstantMacros
     end
   end
 
-  def constant_path(constant_name)
-    names = constant_name.split("::")
-    class_name = names.pop
-    namespace = names.reduce(Object) { |result, name| result.const_get(name) }
-    [namespace, class_name]
-  end
-
-  def clear_generated_constants
-    defined_constants.reverse.each do |path|
-      namespace, class_name = *constant_path(path)
-      namespace.send(:remove_const, class_name)
-    end
-
-    defined_constants.clear
-  end
-
   def clear_generated_tables
     created_tables.each do |table_name|
       ActiveRecord::Base.
@@ -60,10 +41,6 @@ module DefineConstantMacros
   end
 
   private
-
-  def defined_constants
-    @defined_constants ||= []
-  end
 
   def created_tables
     @created_tables ||= []
@@ -81,7 +58,6 @@ RSpec.configure do |config|
   end
 
   config.after do
-    clear_generated_constants
     clear_generated_tables
   end
 end
