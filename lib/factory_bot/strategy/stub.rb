@@ -76,24 +76,24 @@ module FactoryBot
 
       def set_timestamps(result_instance)
         if missing_created_at?(result_instance)
-          result_instance.created_at = Time.current
+          result_instance.created_at = Time.now
         end
 
         if missing_updated_at?(result_instance)
-          result_instance.updated_at = Time.current
+          result_instance.updated_at = Time.now
         end
       end
 
       def missing_created_at?(result_instance)
         result_instance.respond_to?(:created_at) &&
           result_instance.respond_to?(:created_at=) &&
-          result_instance.created_at.blank?
+          result_instance.created_at.to_s.strip.empty?
       end
 
       def missing_updated_at?(result_instance)
         result_instance.respond_to?(:updated_at) &&
           result_instance.respond_to?(:updated_at=) &&
-          result_instance.updated_at.blank?
+          result_instance.updated_at.to_s.strip.empty?
       end
     end
   end
