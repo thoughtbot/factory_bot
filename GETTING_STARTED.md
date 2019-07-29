@@ -510,7 +510,7 @@ create(:profile_with_languages, languages_count: 15).languages.length # 15
 
 Polymorphic associations can be handled with traits:
 
-```
+```ruby
 FactoryBot.define do
   factory :video
   factory :photo
@@ -531,7 +531,7 @@ end
 
 This allows us to do:
 
-```
+```ruby
 create(:comment)
 create(:comment, :for_video)
 create(:comment, :for_photo)
