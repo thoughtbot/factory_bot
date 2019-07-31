@@ -100,7 +100,6 @@ GEM
     sqlite3 (1.4.1)
     thor (0.20.3)
     thread_safe (0.3.6)
-    timecop (0.9.1)
     tzinfo (1.2.5)
       thread_safe (~> 0.1)
     unicode-display_width (1.6.0)
@@ -122,8 +121,7 @@ DEPENDENCIES
   rubocop (= 0.54)
   simplecov
   sqlite3
-  timecop
   yard
 
 BUNDLED WITH
-   2.0.1
+   2.0.2

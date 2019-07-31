@@ -23,7 +23,7 @@ describe FactoryBot::Strategy::Stub do
   it_should_behave_like "strategy with strategy: :build", :build_stubbed
 
   context "asking for a result" do
-    before { Timecop.freeze(Time.now) }
+    before { travel_to(Time.now) }
     let(:result_instance) do
       define_class("ResultInstance") do
         attr_accessor :id, :created_at
@@ -42,7 +42,7 @@ describe FactoryBot::Strategy::Stub do
       created_at = subject.result(evaluation).created_at
       expect(created_at).to eq Time.now
 
-      Timecop.travel(150000)
+      travel_to(2.days.from_now)
 
       expect(subject.result(evaluation).created_at).to eq created_at
     end
