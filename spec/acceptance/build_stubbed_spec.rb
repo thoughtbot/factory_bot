@@ -149,7 +149,7 @@ describe "defaulting `created_at`" do
       factory :thing_without_timestamp
     end
 
-    Timecop.freeze 2012, 1, 1
+    travel_to(Time.now)
   end
 
   it "defaults created_at for objects with created_at" do
@@ -214,7 +214,7 @@ describe "defaulting `updated_at`" do
       factory :thing_without_timestamp
     end
 
-    Timecop.freeze 2012, 1, 1
+    travel_to(Time.now)
   end
 
   it "defaults updated_at for objects with updated_at" do
