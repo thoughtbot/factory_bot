@@ -4,7 +4,6 @@ require "rspec/its"
 require "simplecov"
 
 require "factory_bot"
-require "active_support/testing/time_helpers"
 
 Dir["spec/support/**/*.rb"].each { |f| require File.expand_path(f) }
 
@@ -17,14 +16,9 @@ RSpec.configure do |config|
   end
 
   config.include DeclarationMatchers
-  config.include ActiveSupport::Testing::TimeHelpers
 
   config.before do
     FactoryBot.reload
-  end
-
-  config.after do
-    travel_back
   end
 
   config.around do |example|

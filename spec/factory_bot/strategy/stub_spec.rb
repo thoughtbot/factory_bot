@@ -23,7 +23,6 @@ describe FactoryBot::Strategy::Stub do
   it_should_behave_like "strategy with strategy: :build", :build_stubbed
 
   context "asking for a result" do
-    before { travel_to(Time.now) }
     let(:result_instance) do
       define_class("ResultInstance") do
         attr_accessor :id, :created_at
@@ -39,12 +38,10 @@ describe FactoryBot::Strategy::Stub do
     it { expect(subject.result(evaluation)).not_to be_destroyed }
 
     it "assigns created_at" do
-      created_at = subject.result(evaluation).created_at
-      expect(created_at).to eq Time.now
+      created_at1 = subject.result(evaluation).created_at
+      created_at2 = subject.result(evaluation).created_at
 
-      travel_to(2.days.from_now)
-
-      expect(subject.result(evaluation).created_at).to eq created_at
+      expect(created_at1).to equal created_at2
     end
 
     include_examples "disabled persistence method", :connection
