@@ -148,12 +148,10 @@ describe "defaulting `created_at`" do
       factory :thing_with_timestamp
       factory :thing_without_timestamp
     end
-
-    travel_to(Time.now)
   end
 
   it "defaults created_at for objects with created_at" do
-    expect(build_stubbed(:thing_with_timestamp).created_at).to eq Time.now
+    expect(build_stubbed(:thing_with_timestamp).created_at).to be_about_now
   end
 
   it "is doesn't mark the object as changed" do
@@ -179,9 +177,10 @@ describe "defaulting `created_at`" do
 
   it "allows assignment of created_at" do
     stub = build_stubbed(:thing_with_timestamp)
-    expect(stub.created_at).to eq Time.now
-    stub.created_at = 3.days.ago
-    expect(stub.created_at).to eq 3.days.ago
+    expect(stub.created_at).to be_about_now
+    past_time = 3.days.ago
+    stub.created_at = past_time
+    expect(stub.created_at).to eq past_time
   end
 
   it "behaves the same as a non-stubbed created_at" do
@@ -213,12 +212,10 @@ describe "defaulting `updated_at`" do
       factory :thing_with_timestamp
       factory :thing_without_timestamp
     end
-
-    travel_to(Time.now)
   end
 
   it "defaults updated_at for objects with updated_at" do
-    expect(build_stubbed(:thing_with_timestamp).updated_at).to eq Time.current
+    expect(build_stubbed(:thing_with_timestamp).updated_at).to be_about_now
   end
 
   it "is doesn't mark the object as changed" do
@@ -232,8 +229,9 @@ describe "defaulting `updated_at`" do
   end
 
   it "allows overriding updated_at for objects with updated_at" do
-    stubbed = build_stubbed(:thing_with_timestamp, updated_at: 3.days.ago)
-    expect(stubbed.updated_at).to eq 3.days.ago
+    past_time = 3.days.ago
+    stubbed = build_stubbed(:thing_with_timestamp, updated_at: past_time)
+    expect(stubbed.updated_at).to eq past_time
   end
 
   it "doesn't allow setting updated_at on an object that doesn't define it" do
@@ -244,9 +242,10 @@ describe "defaulting `updated_at`" do
 
   it "allows assignment of updated_at" do
     stub = build_stubbed(:thing_with_timestamp)
-    expect(stub.updated_at).to eq Time.now
-    stub.updated_at = 3.days.ago
-    expect(stub.updated_at).to eq 3.days.ago
+    expect(stub.updated_at).to be_about_now
+    past_time = 3.days.ago
+    stub.updated_at = past_time
+    expect(stub.updated_at).to eq past_time
   end
 
   it "behaves the same as a non-stubbed updated_at" do
