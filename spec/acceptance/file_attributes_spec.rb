@@ -1,8 +1,8 @@
 describe "file attributes" do
   context "when an attribute uses a file" do
     it "assigns an file to the attribute" do
-      define_class("Post") do |_class|
-        attr_accessor :attachment
+      define_model("Post") do
+        has_one_attached :attachment
       end
       filename = File.expand_path("spec/support/text_file.txt")
       file_contents = File.read(filename)
