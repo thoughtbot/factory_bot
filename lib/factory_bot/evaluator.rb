@@ -21,6 +21,20 @@ module FactoryBot
       end
     end
 
+    # Creates a copy of the file passed to attach to the attribute
+    #
+    # Arguments:
+    #   filepath: (String)
+    #     The path for the file that will be loaded. Should be a valid path
+    #     for a file that exists at that location.
+    #
+    # Returns:
+    #   An instance of the file loader class pointing to the file at the
+    #   provided path.
+    def file_fixture(file_path)
+      FileLoader.new(file_path)
+    end
+
     def association(factory_name, *traits_and_overrides)
       overrides = traits_and_overrides.extract_options!
       strategy_override = overrides.fetch(:strategy) do
@@ -35,10 +49,6 @@ module FactoryBot
 
     def instance=(object_instance)
       @instance = object_instance
-    end
-
-    def file_fixture(file_path)
-      FileLoader.new(file_path)
     end
 
     def method_missing(method_name, *args, &block) # rubocop:disable Style/MethodMissing

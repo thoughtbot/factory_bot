@@ -1,4 +1,5 @@
 require "active_record"
+require "active_storage"
 
 module DefineConstantMacros
   def define_class(path, base = Object, &block)
@@ -7,8 +8,12 @@ module DefineConstantMacros
     const
   end
 
+  class ApplicationRecord < ActiveRecord::Base
+    include ActiveStorage
+  end
+
   def define_model(name, columns = {}, &block)
-    model = define_class(name, ActiveRecord::Base, &block)
+    model = define_class(name, ApplicationRecord, &block)
     create_table(model.table_name) do |table|
       columns.each do |column_name, type|
         table.column column_name, type
