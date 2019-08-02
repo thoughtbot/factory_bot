@@ -7,17 +7,17 @@ PATH
 GEM
   remote: https://rubygems.org/
   specs:
-    activemodel (6.0.0.rc1)
-      activesupport (= 6.0.0.rc1)
-    activerecord (6.0.0.rc1)
-      activemodel (= 6.0.0.rc1)
-      activesupport (= 6.0.0.rc1)
-    activesupport (6.0.0.rc1)
+    activemodel (6.0.0.rc2)
+      activesupport (= 6.0.0.rc2)
+    activerecord (6.0.0.rc2)
+      activemodel (= 6.0.0.rc2)
+      activesupport (= 6.0.0.rc2)
+    activesupport (6.0.0.rc2)
       concurrent-ruby (~> 1.0, >= 1.0.2)
       i18n (>= 0.7, < 2)
       minitest (~> 5.1)
       tzinfo (~> 1.1)
-      zeitwerk (~> 2.1, >= 2.1.4)
+      zeitwerk (~> 2.1, >= 2.1.8)
     appraisal (2.2.0)
       bundler
       rake
@@ -67,12 +67,12 @@ GEM
       ast (~> 2.4.0)
     powerpack (0.1.2)
     rainbow (3.0.0)
-    rake (12.3.2)
+    rake (12.3.3)
     rspec (3.8.0)
       rspec-core (~> 3.8.0)
       rspec-expectations (~> 3.8.0)
       rspec-mocks (~> 3.8.0)
-    rspec-core (3.8.1)
+    rspec-core (3.8.2)
       rspec-support (~> 3.8.0)
     rspec-expectations (3.8.4)
       diff-lcs (>= 1.2.0, < 2.0)
@@ -92,7 +92,7 @@ GEM
       ruby-progressbar (~> 1.7)
       unicode-display_width (~> 1.0, >= 1.0.1)
     ruby-progressbar (1.10.1)
-    simplecov (0.16.1)
+    simplecov (0.17.0)
       docile (~> 1.1)
       json (>= 1.8, < 3)
       simplecov-html (~> 0.10.0)
@@ -103,14 +103,14 @@ GEM
     tzinfo (1.2.5)
       thread_safe (~> 0.1)
     unicode-display_width (1.6.0)
-    yard (0.9.19)
-    zeitwerk (2.1.6)
+    yard (0.9.20)
+    zeitwerk (2.1.9)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
-  activerecord (~> 6.0.0.rc1)
+  activerecord (~> 6.0.0.rc2)
   appraisal
   aruba
   cucumber
