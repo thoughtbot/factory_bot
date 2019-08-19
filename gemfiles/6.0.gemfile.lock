@@ -7,12 +7,12 @@ PATH
 GEM
   remote: https://rubygems.org/
   specs:
-    activemodel (6.0.0.rc2)
-      activesupport (= 6.0.0.rc2)
-    activerecord (6.0.0.rc2)
-      activemodel (= 6.0.0.rc2)
-      activesupport (= 6.0.0.rc2)
-    activesupport (6.0.0.rc2)
+    activemodel (6.0.0)
+      activesupport (= 6.0.0)
+    activerecord (6.0.0)
+      activemodel (= 6.0.0)
+      activesupport (= 6.0.0)
+    activesupport (6.0.0)
       concurrent-ruby (~> 1.0, >= 1.0.2)
       i18n (>= 0.7, < 2)
       minitest (~> 5.1)
@@ -22,8 +22,8 @@ GEM
       bundler
       rake
       thor (>= 0.14.0)
-    aruba (0.14.10)
-      childprocess (>= 0.6.3, < 1.1.0)
+    aruba (0.14.11)
+      childprocess (>= 0.6.3, < 3.0.0)
       contracts (~> 0.9)
       cucumber (>= 1.3.19)
       ffi (~> 1.9)
@@ -32,7 +32,7 @@ GEM
     ast (2.4.0)
     backports (3.15.0)
     builder (3.2.3)
-    childprocess (1.0.1)
+    childprocess (2.0.0)
       rake (< 13.0)
     concurrent-ruby (1.1.5)
     contracts (0.16.0)
@@ -110,7 +110,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  activerecord (~> 6.0.0.rc2)
+  activerecord (~> 6.0.0)
   appraisal
   aruba
   cucumber
