@@ -25,6 +25,9 @@ module FactoryBot
           [Attribute::Association.new(name, name, {})]
         elsif FactoryBot::Internal.sequences.registered?(name)
           [Attribute::Sequence.new(name, name, @ignored)]
+        elsif @factory.name.to_s == name.to_s
+          message = "Self-referencing trait '#{@name}'"
+          raise TraitDefinitionError, message
         else
           @factory.inherit_traits([name])
           []

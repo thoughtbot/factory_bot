@@ -2,6 +2,9 @@ module FactoryBot
   # Raised when a factory is defined that attempts to instantiate itself.
   class AssociationDefinitionError < RuntimeError; end
 
+  # Raised when a trait is defined that references itself.
+  class TraitDefinitionError < RuntimeError; end
+
   # Raised when a callback is defined that has an invalid name
   class InvalidCallbackNameError < RuntimeError; end
 

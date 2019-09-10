@@ -7,9 +7,11 @@ module FactoryBot
       @name = name.to_s
       @block = block
       @definition = Definition.new(@name)
-
       proxy = FactoryBot::DefinitionProxy.new(@definition)
-      proxy.instance_eval(&@block) if block_given?
+
+      if block_given?
+        proxy.instance_eval(&@block)
+      end
     end
 
     delegate :add_callback, :declare_attribute, :to_create, :define_trait, :constructor,
