@@ -1,5 +1,13 @@
 # News
 
+## 5.1.0 (September 21, 2019)
+  * Added: "Did you mean?" style error message to help with typos in association declarations
+  * Changed: `NoMethodError` for static attributes now offers a "Did you mean?" style message
+  * Fixed: avoid undefining inherited evaluator methods
+  * Fixed: avoid stubbing id for records without a primary key
+  * Fixed: raise a helpful error for self-referencing traits to avoid a `SystemStackError`
+  * Deprecated: top-level methods meant only for internal use: `allow_class_lookup`, `allow_class_lookup`=, `register_trait`, `trait_by_name`, `traits`, `sequence_by_name`, `sequences`, `factory_by_name`, `register_factory`, `callback_names`, `register_callback`, `register_default_callbacks`, `register_default_strategies`, `strategies`
+
 ## 5.0.2 (February 22, 2019)
   * Bugfix: raise "Trait not registered" error when passing invalid trait arguments
 
