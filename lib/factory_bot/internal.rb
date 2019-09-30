@@ -86,7 +86,9 @@ module FactoryBot
       end
 
       def register_default_strategies
-        DEFAULT_STRATEGIES.each { |strategy_name, strategy_class| register_strategy(strategy_name, strategy_class) }
+        DEFAULT_STRATEGIES.each { |strategy_name, strategy_class|
+          register_strategy(strategy_name, strategy_class)
+        }
       end
 
       def register_default_callbacks
