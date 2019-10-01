@@ -115,13 +115,15 @@ module FactoryBot
     end
 
     def trait_for(name)
-      defined_traits.detect { |trait| trait.name == name.to_s }
+      @defined_traits_by_name ||= defined_traits.each_with_object({}) { |t, memo| memo[t.name] ||= t }
+      @defined_traits_by_name[name.to_s]
     end
 
     def initialize_copy(source)
       super
       @attributes = nil
       @compiled   = false
+      @defined_traits_by_name = nil
     end
 
     def aggregate_from_traits_and_self(method_name, &block)
