@@ -33,7 +33,7 @@ end
 appraise "6.0" do
   gem "activerecord", "~> 6.0.0"
   group :development do
-    gem "activerecord-jdbcsqlite3-adapter", platforms: [:jruby]
+    gem "activerecord-jdbcsqlite3-adapter", "~> 60.0.rc1", platforms: [:jruby]
     gem "sqlite3", platforms: [:ruby]
   end
 end
