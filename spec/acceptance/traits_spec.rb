@@ -204,15 +204,17 @@ end
 
 describe "trait indifferent access" do
   context "when trait is defined as a string" do
-    before { build_user_factory_with_admin_trait("admin") }
-
     it "can be invoked with a string" do
+      build_user_factory_with_admin_trait("admin")
+
       user = FactoryBot.build(:user, "admin")
 
       expect(user).to be_admin
     end
 
     it "can be invoked with a symbol" do
+      build_user_factory_with_admin_trait("admin")
+
       user = FactoryBot.build(:user, :admin)
 
       expect(user).to be_admin
@@ -220,14 +222,17 @@ describe "trait indifferent access" do
   end
 
   context "when trait is defined as a symbol" do
-    before { build_user_factory_with_admin_trait(:admin) }
     it "can be invoked with a string" do
+      build_user_factory_with_admin_trait(:admin)
+
       user = FactoryBot.build(:user, "admin")
 
       expect(user).to be_admin
     end
 
     it "can be invoked with a symbol" do
+      build_user_factory_with_admin_trait(:admin)
+
       user = FactoryBot.build(:user, :admin)
 
       expect(user).to be_admin
@@ -235,15 +240,17 @@ describe "trait indifferent access" do
   end
 
   context "when trait is defined as integer" do
-    before { build_user_factory_with_admin_trait(42) }
-
     it "can be invoked with a string" do
+      build_user_factory_with_admin_trait(42)
+
       user = FactoryBot.build(:user, "42")
 
       expect(user).to be_admin
     end
 
     it "can be invoked with as integer" do
+      build_user_factory_with_admin_trait(42)
+
       user = FactoryBot.build(:user, 42)
 
       expect(user).to be_admin
@@ -251,18 +258,19 @@ describe "trait indifferent access" do
   end
 
   context "when trait is defined as struct" do
-    let(:struct) { Struct.new(:a, :b) }
-    let(:instance) { struct.new(1, "x") }
-
-    before { build_user_factory_with_admin_trait(instance) }
-
     it "can be invoked with a string" do
+      instance = Struct.new(:a, :b).new(1, "x")
+      build_user_factory_with_admin_trait(instance)
+
       user = FactoryBot.build(:user, '#<struct a=1, b="x">')
 
       expect(user).to be_admin
     end
 
     it "can be invoked with a struct" do
+      instance = Struct.new(:a, :b).new(1, "x")
+      build_user_factory_with_admin_trait(instance)
+
       user = FactoryBot.build(:user, instance)
 
       expect(user).to be_admin
