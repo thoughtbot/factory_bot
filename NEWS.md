@@ -1,5 +1,9 @@
 # News
 
+## 5.1.1 (October 2, 2019)
+  * Improved: performance of traits
+  * Fixed: registering strategies on JRuby
+
 ## 5.1.0 (September 21, 2019)
   * Added: "Did you mean?" style error message to help with typos in association declarations
   * Changed: `NoMethodError` for static attributes now offers a "Did you mean?" style message
