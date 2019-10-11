@@ -2,15 +2,13 @@ describe FactoryBot, "aliases" do
   it "for an attribute should include the original attribute and a version suffixed with '_id'" do
     aliases = FactoryBot.aliases_for(:test)
 
-    expect(aliases).to include(:test)
-    expect(aliases).to include(:test_id)
+    expect(aliases).to include(:test, :test_id)
   end
 
   it "for a foreign key should include both the suffixed and un-suffixed variants" do
     aliases = FactoryBot.aliases_for(:test_id)
 
-    expect(aliases).to include(:test)
-    expect(aliases).to include(:test_id)
+    expect(aliases).to include(:test, :test_id)
   end
 
   it "for an attribute which starts with an underscore should not include a non-underscored version" do
@@ -25,7 +23,6 @@ describe FactoryBot, "after defining an alias" do
     FactoryBot.aliases << [/(.*)_suffix/, '\1']
     aliases = FactoryBot.aliases_for(:test_suffix)
 
-    expect(aliases).to include(:test)
-    expect(aliases).to include(:test_suffix_id)
+    expect(aliases).to include(:test, :test_suffix_id)
   end
 end
