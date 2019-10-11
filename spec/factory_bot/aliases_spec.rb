@@ -1,29 +1,42 @@
 describe FactoryBot, "aliases" do
-  context "aliases for an attribute" do
-    subject { FactoryBot.aliases_for(:test) }
-    it      { should include(:test) }
-    it      { should include(:test_id) }
+  it "aliases for an attribute should include the original attribute and a version suffixed with '_id'" do
+    aliases = FactoryBot.aliases_for(:test)
+
+    expect(aliases).to include(:test)
+    expect(aliases).to include(:test_id)
   end
 
-  context "aliases for a foreign key" do
-    subject { FactoryBot.aliases_for(:test_id) }
-    it      { should include(:test) }
-    it      { should include(:test_id) }
+  it "aliases for a foreign key should include the un-suffixed attribute name" do
+    aliases = FactoryBot.aliases_for(:test_id)
+
+    expect(aliases).to include(:test)
   end
 
-  context "aliases for an attribute starting with an underscore" do
-    subject { FactoryBot.aliases_for(:_id) }
-    it      { should_not include(:id) }
+  it "aliases for a foreign key should include the original attribute name" do
+    aliases = FactoryBot.aliases_for(:test_id)
+
+    expect(aliases).to include(:test_id)
+  end
+
+  it "aliases for an attribute starting with an underscore should not include a non-underscored version" do
+    aliases = FactoryBot.aliases_for(:_id)
+
+    expect(aliases).not_to include(:id)
   end
 end
 
 describe FactoryBot, "after defining an alias" do
-  before do
+  it "the list of aliases should include an un-suffixed equivalent" do
     FactoryBot.aliases << [/(.*)_suffix/, '\1']
+    aliases = FactoryBot.aliases_for(:test_suffix)
+
+    expect(aliases).to include(:test)
   end
 
-  subject { FactoryBot.aliases_for(:test_suffix) }
+  it "the list of aliases should include the original name plus an '_id' suffix" do
+    FactoryBot.aliases << [/(.*)_suffix/, '\1']
+    aliases = FactoryBot.aliases_for(:test_suffix)
 
-  it { should include(:test) }
-  it { should include(:test_suffix_id) }
+    expect(aliases).to include(:test_suffix_id)
+  end
 end
