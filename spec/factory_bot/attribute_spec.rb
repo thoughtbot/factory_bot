@@ -1,7 +1,15 @@
 describe FactoryBot::Attribute do
-  let(:name)  { "user" }
-  subject     { FactoryBot::Attribute.new(name, false) }
+  it "converts the name attribute to a symbol" do
+    name = "user"
+    attribute = FactoryBot::Attribute.new(name, false)
 
-  its(:name) { should eq name.to_sym }
-  it { should_not be_association }
+    expect(attribute.name).to eq name.to_sym
+  end
+
+  it "is not an association" do
+    name = "user"
+    attribute = FactoryBot::Attribute.new(name, false)
+
+    expect(attribute).not_to be_association
+  end
 end
