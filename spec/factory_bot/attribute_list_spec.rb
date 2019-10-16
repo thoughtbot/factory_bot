@@ -1,3 +1,9 @@
+def build_attribute_list(*attributes)
+  FactoryBot::AttributeList.new.tap do |list|
+    attributes.each { |attribute| list.define_attribute(attribute) }
+  end
+end
+
 describe FactoryBot::AttributeList, "#define_attribute" do
   it "maintains a list of attributes" do
     attribute = double(:attribute, name: :attribute_name)
@@ -53,12 +59,6 @@ describe FactoryBot::AttributeList, "#define_attribute with a named attribute li
 end
 
 describe FactoryBot::AttributeList, "#apply_attributes" do
-  def list(*attributes)
-    FactoryBot::AttributeList.new.tap do |list|
-      attributes.each { |attribute| list.define_attribute(attribute) }
-    end
-  end
-
   it "adds attributes in the order defined" do
     attribute1 = double(:attribute1, name: :attribute1)
     attribute2 = double(:attribute2, name: :attribute2)
@@ -66,7 +66,7 @@ describe FactoryBot::AttributeList, "#apply_attributes" do
     list = FactoryBot::AttributeList.new
 
     list.define_attribute(attribute1)
-    list.apply_attributes(list(attribute2, attribute3))
+    list.apply_attributes(build_attribute_list(attribute2, attribute3))
     expect(list.to_a).to eq [attribute1, attribute2, attribute3]
   end
 end
@@ -80,11 +80,7 @@ describe FactoryBot::AttributeList, "#associations" do
     )
     author_attribute = FactoryBot::Attribute::Association.new(:author, :user, {})
     profile_attribute = FactoryBot::Attribute::Association.new(:profile, :profile, {})
-    list = FactoryBot::AttributeList.new
-
-    list.define_attribute(email_attribute)
-    list.define_attribute(author_attribute)
-    list.define_attribute(profile_attribute)
+    list = build_attribute_list(email_attribute, author_attribute, profile_attribute)
 
     expect(list.associations.to_a).to eq [author_attribute, profile_attribute]
   end
@@ -100,23 +96,25 @@ describe FactoryBot::AttributeList, "filter based on ignored attributes" do
   end
 
   it "filters #ignored attributes" do
-    list = FactoryBot::AttributeList.new
-    list.define_attribute(build_ignored_attribute(:comments_count))
-    list.define_attribute(build_ignored_attribute(:posts_count))
-    list.define_attribute(build_non_ignored_attribute(:email))
-    list.define_attribute(build_non_ignored_attribute(:first_name))
-    list.define_attribute(build_non_ignored_attribute(:last_name))
+    list = build_attribute_list(
+      build_ignored_attribute(:comments_count),
+      build_ignored_attribute(:posts_count),
+      build_non_ignored_attribute(:email),
+      build_non_ignored_attribute(:first_name),
+      build_non_ignored_attribute(:last_name),
+    )
 
     expect(list.ignored.names).to eq [:comments_count, :posts_count]
   end
 
   it "filters #non_ignored attributes" do
-    list = FactoryBot::AttributeList.new
-    list.define_attribute(build_ignored_attribute(:comments_count))
-    list.define_attribute(build_ignored_attribute(:posts_count))
-    list.define_attribute(build_non_ignored_attribute(:email))
-    list.define_attribute(build_non_ignored_attribute(:first_name))
-    list.define_attribute(build_non_ignored_attribute(:last_name))
+    list = build_attribute_list(
+      build_ignored_attribute(:comments_count),
+      build_ignored_attribute(:posts_count),
+      build_non_ignored_attribute(:email),
+      build_non_ignored_attribute(:first_name),
+      build_non_ignored_attribute(:last_name),
+    )
 
     expect(list.non_ignored.names).to eq [:email, :first_name, :last_name]
   end
@@ -136,49 +134,53 @@ describe FactoryBot::AttributeList, "generating names" do
   end
 
   it "knows all its #names" do
-    list = FactoryBot::AttributeList.new
-    list.define_attribute(build_ignored_attribute(:comments_count))
-    list.define_attribute(build_ignored_attribute(:posts_count))
-    list.define_attribute(build_non_ignored_attribute(:email))
-    list.define_attribute(build_non_ignored_attribute(:first_name))
-    list.define_attribute(build_non_ignored_attribute(:last_name))
-    list.define_attribute(build_association(:avatar))
+    list = build_attribute_list(
+      build_ignored_attribute(:comments_count),
+      build_ignored_attribute(:posts_count),
+      build_non_ignored_attribute(:email),
+      build_non_ignored_attribute(:first_name),
+      build_non_ignored_attribute(:last_name),
+      build_association(:avatar),
+    )
 
     expect(list.names).to eq [:comments_count, :posts_count, :email, :first_name, :last_name, :avatar]
   end
 
   it "knows all its #names for #ignored attributes" do
-    list = FactoryBot::AttributeList.new
-    list.define_attribute(build_ignored_attribute(:comments_count))
-    list.define_attribute(build_ignored_attribute(:posts_count))
-    list.define_attribute(build_non_ignored_attribute(:email))
-    list.define_attribute(build_non_ignored_attribute(:first_name))
-    list.define_attribute(build_non_ignored_attribute(:last_name))
-    list.define_attribute(build_association(:avatar))
+    list = build_attribute_list(
+      build_ignored_attribute(:comments_count),
+      build_ignored_attribute(:posts_count),
+      build_non_ignored_attribute(:email),
+      build_non_ignored_attribute(:first_name),
+      build_non_ignored_attribute(:last_name),
+      build_association(:avatar),
+    )
 
     expect(list.ignored.names).to eq [:comments_count, :posts_count]
   end
 
   it "knows all its #names for #non_ignored attributes" do
-    list = FactoryBot::AttributeList.new
-    list.define_attribute(build_ignored_attribute(:comments_count))
-    list.define_attribute(build_ignored_attribute(:posts_count))
-    list.define_attribute(build_non_ignored_attribute(:email))
-    list.define_attribute(build_non_ignored_attribute(:first_name))
-    list.define_attribute(build_non_ignored_attribute(:last_name))
-    list.define_attribute(build_association(:avatar))
+    list = build_attribute_list(
+      build_ignored_attribute(:comments_count),
+      build_ignored_attribute(:posts_count),
+      build_non_ignored_attribute(:email),
+      build_non_ignored_attribute(:first_name),
+      build_non_ignored_attribute(:last_name),
+      build_association(:avatar),
+    )
 
     expect(list.non_ignored.names).to eq [:email, :first_name, :last_name, :avatar]
   end
 
   it "knows all its #names for #associations" do
-    list = FactoryBot::AttributeList.new
-    list.define_attribute(build_ignored_attribute(:comments_count))
-    list.define_attribute(build_ignored_attribute(:posts_count))
-    list.define_attribute(build_non_ignored_attribute(:email))
-    list.define_attribute(build_non_ignored_attribute(:first_name))
-    list.define_attribute(build_non_ignored_attribute(:last_name))
-    list.define_attribute(build_association(:avatar))
+    list = build_attribute_list(
+      build_ignored_attribute(:comments_count),
+      build_ignored_attribute(:posts_count),
+      build_non_ignored_attribute(:email),
+      build_non_ignored_attribute(:first_name),
+      build_non_ignored_attribute(:last_name),
+      build_association(:avatar),
+    )
 
     expect(list.associations.names).to eq [:avatar]
   end
