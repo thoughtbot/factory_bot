@@ -107,7 +107,7 @@ describe FactoryBot::AttributeList, "filter based on ignored attributes" do
     list.define_attribute(build_non_ignored_attribute(:first_name))
     list.define_attribute(build_non_ignored_attribute(:last_name))
 
-    expect(list.ignored.map(&:name)).to eq [:comments_count, :posts_count]
+    expect(list.ignored.names).to eq [:comments_count, :posts_count]
   end
 
   it "filters #non_ignored attributes" do
@@ -118,7 +118,7 @@ describe FactoryBot::AttributeList, "filter based on ignored attributes" do
     list.define_attribute(build_non_ignored_attribute(:first_name))
     list.define_attribute(build_non_ignored_attribute(:last_name))
 
-    expect(list.non_ignored.map(&:name)).to eq [:email, :first_name, :last_name]
+    expect(list.non_ignored.names).to eq [:email, :first_name, :last_name]
   end
 end
 
