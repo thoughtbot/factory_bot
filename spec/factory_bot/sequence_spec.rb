@@ -2,20 +2,21 @@ shared_examples "a sequence" do |options|
   first_value  = options[:first_value]
   second_value = options[:second_value]
 
-  its(:next) { should eq first_value }
-
-  context "when incrementing" do
-    before     { subject.next }
-    its(:next) { should eq second_value }
+  it "has a next value equal to its first value" do
+    expect(subject.next).to eq first_value
   end
 
-  context "after rewinding" do
-    before do
-      subject.next
-      subject.rewind
-    end
+  it "has a next value equal to the 2nd value after being incremented" do
+    subject.next
 
-    its(:next) { should eq first_value }
+    expect(subject.next).to eq second_value
+  end
+
+  it "has a next value equal to the 1st value after rewinding" do
+    subject.next
+    subject.rewind
+
+    expect(subject.next).to eq first_value
   end
 end
 
@@ -43,7 +44,9 @@ describe FactoryBot::Sequence do
       end
     end
 
-    its(:names) { should eq [:test, :alias, :other] }
+    it "has the expected names as its names" do
+      expect(subject.names).to eq [:test, :alias, :other]
+    end
 
     it_behaves_like "a sequence", first_value: "=1", second_value: "=2"
   end
@@ -55,7 +58,9 @@ describe FactoryBot::Sequence do
       end
     end
 
-    its(:names) { should eq [:test, :alias, :other] }
+    it "has the expected names as its names" do
+      expect(subject.names).to eq [:test, :alias, :other]
+    end
 
     it_behaves_like "a sequence", first_value: "=3", second_value: "=4"
   end
@@ -80,6 +85,7 @@ describe FactoryBot::Sequence do
     it "navigates to the next items until no items remain" do
       expect(subject.next).to eq "=foo"
       expect(subject.next).to eq "=bar"
+
       expect { subject.next }.to raise_error(StopIteration)
     end
 
