@@ -1,11 +1,49 @@
 describe FactoryBot::NullFactory do
-  it { should delegate(:defined_traits).to(:definition) }
-  it { should delegate(:callbacks).to(:definition) }
-  it { should delegate(:attributes).to(:definition) }
-  it { should delegate(:constructor).to(:definition) }
+  it "delegates defined traits to its definition" do
+    null_factory = FactoryBot::NullFactory.new
 
-  its(:compile)         { should be_nil }
-  its(:class_name)      { should be_nil }
-  its(:attributes)      { should be_an_instance_of(FactoryBot::AttributeList) }
-  its(:evaluator_class) { should eq FactoryBot::Evaluator }
+    expect(null_factory).to delegate(:defined_traits).to(:definition)
+  end
+
+  it "delegates callbacks to its definition" do
+    null_factory = FactoryBot::NullFactory.new
+
+    expect(null_factory).to delegate(:callbacks).to(:definition)
+  end
+
+  it "delegates attributes to its definition" do
+    null_factory = FactoryBot::NullFactory.new
+
+    expect(null_factory).to delegate(:attributes).to(:definition)
+  end
+
+  it "delegates constructor to its definition" do
+    null_factory = FactoryBot::NullFactory.new
+
+    expect(null_factory).to delegate(:constructor).to(:definition)
+  end
+
+  it "has a nil value for its compile attribute" do
+    null_factory = FactoryBot::NullFactory.new
+
+    expect(null_factory.compile).to be_nil
+  end
+
+  it "has a nil value for its class_name attribute" do
+    null_factory = FactoryBot::NullFactory.new
+
+    expect(null_factory.class_name).to be_nil
+  end
+
+  it "has an instance of FactoryBot::AttributeList for its attributes attribute" do
+    null_factory = FactoryBot::NullFactory.new
+
+    expect(null_factory.attributes).to be_an_instance_of(FactoryBot::AttributeList)
+  end
+
+  it "has FactoryBot::Evaluator as its evaluator class" do
+    null_factory = FactoryBot::NullFactory.new
+
+    expect(null_factory.evaluator_class).to eq FactoryBot::Evaluator
+  end
 end
