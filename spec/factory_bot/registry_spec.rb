@@ -1,59 +1,87 @@
 describe FactoryBot::Registry do
-  let(:registered_object)        { double("registered object") }
-  let(:second_registered_object) { double("second registered object") }
+  it "is an enumerable" do
+    registry = FactoryBot::Registry.new("Great thing")
 
-  subject { FactoryBot::Registry.new("Great thing") }
-
-  it { should be_kind_of(Enumerable) }
+    expect(registry).to be_kind_of(Enumerable)
+  end
 
   it "finds a registered object" do
-    subject.register(:object_name, registered_object)
-    expect(subject.find(:object_name)).to eq registered_object
+    registry = FactoryBot::Registry.new("Great thing")
+    registered_object = double("registered object")
+    registry.register(:object_name, registered_object)
+
+    expect(registry.find(:object_name)).to eq registered_object
   end
 
   it "finds a registered object with square brackets" do
-    subject.register(:object_name, registered_object)
-    expect(subject[:object_name]).to eq registered_object
+    registry = FactoryBot::Registry.new("Great thing")
+    registered_object = double("registered object")
+    registry.register(:object_name, registered_object)
+
+    expect(registry[:object_name]).to eq registered_object
   end
 
   it "raises when an object cannot be found" do
-    expect { subject.find(:object_name) }.
+    registry = FactoryBot::Registry.new("Great thing")
+
+    expect { registry.find(:object_name) }.
       to raise_error(KeyError, "Great thing not registered: \"object_name\"")
   end
 
   it "adds and returns the object registered" do
-    expect(subject.register(:object_name, registered_object)).to eq registered_object
+    registry = FactoryBot::Registry.new("Great thing")
+    registered_object = double("registered object")
+
+    expect(registry.register(:object_name, registered_object)).to eq registered_object
   end
 
   it "knows that an object is registered by symbol" do
-    subject.register(:object_name, registered_object)
-    expect(subject).to be_registered(:object_name)
+    registry = FactoryBot::Registry.new("Great thing")
+    registered_object = double("registered object")
+    registry.register(:object_name, registered_object)
+
+    expect(registry).to be_registered(:object_name)
   end
 
   it "knows that an object is registered by string" do
-    subject.register(:object_name, registered_object)
-    expect(subject).to be_registered("object_name")
+    registry = FactoryBot::Registry.new("Great thing")
+    registered_object = double("registered object")
+    registry.register(:object_name, registered_object)
+
+    expect(registry).to be_registered("object_name")
   end
 
   it "knows when an object is not registered" do
-    expect(subject).not_to be_registered("bogus")
+    registry = FactoryBot::Registry.new("Great thing")
+
+    expect(registry).not_to be_registered("bogus")
   end
 
   it "iterates registered objects" do
-    subject.register(:first_object, registered_object)
-    subject.register(:second_object, second_registered_object)
-    expect(subject.to_a).to eq [registered_object, second_registered_object]
+    registry = FactoryBot::Registry.new("Great thing")
+    registered_object = double("registered object")
+    second_registered_object = double("second registered object")
+    registry.register(:first_object, registered_object)
+    registry.register(:second_object, second_registered_object)
+
+    expect(registry.to_a).to eq [registered_object, second_registered_object]
   end
 
   it "does not include duplicate objects with registered under different names" do
-    subject.register(:first_object, registered_object)
-    subject.register(:second_object, registered_object)
-    expect(subject.to_a).to eq [registered_object]
+    registry = FactoryBot::Registry.new("Great thing")
+    registered_object = double("registered object")
+    registry.register(:first_object, registered_object)
+    registry.register(:second_object, registered_object)
+
+    expect(registry.to_a).to eq [registered_object]
   end
 
   it "clears registered factories" do
-    subject.register(:object_name, registered_object)
-    subject.clear
-    expect(subject.count).to be_zero
+    registry = FactoryBot::Registry.new("Great thing")
+    registered_object = double("registered object")
+    registry.register(:object_name, registered_object)
+    registry.clear
+
+    expect(registry.count).to be_zero
   end
 end
