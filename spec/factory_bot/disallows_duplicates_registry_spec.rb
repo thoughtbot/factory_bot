@@ -1,7 +1,7 @@
 describe FactoryBot::Decorator::DisallowsDuplicatesRegistry do
   it "delegates #register to the registry when not registered" do
     registry = double("registry", name: "Great thing", register: true)
-    decorator = described_class.new(registry)
+    decorator = FactoryBot::Decorator::DisallowsDuplicatesRegistry.new(registry)
     allow(registry).to receive(:registered?).and_return false
     decorator.register(:awesome, {})
 
@@ -10,7 +10,7 @@ describe FactoryBot::Decorator::DisallowsDuplicatesRegistry do
 
   it "raises when attempting to #register a previously registered strategy" do
     registry = double("registry", name: "Great thing", register: true)
-    decorator = described_class.new(registry)
+    decorator = FactoryBot::Decorator::DisallowsDuplicatesRegistry.new(registry)
     allow(registry).to receive(:registered?).and_return true
 
     expect { decorator.register(:same_name, {}) }.
