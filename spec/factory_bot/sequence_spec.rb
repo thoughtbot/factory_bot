@@ -2,20 +2,21 @@ shared_examples "a sequence" do |options|
   first_value  = options[:first_value]
   second_value = options[:second_value]
 
-  its(:next) { should eq first_value }
-
-  context "when incrementing" do
-    before     { subject.next }
-    its(:next) { should eq second_value }
+  it "has a next value equal to its first value" do
+    expect(subject.next).to eq first_value
   end
 
-  context "after rewinding" do
-    before do
-      subject.next
-      subject.rewind
-    end
+  it "has a next value equal to the 2nd value after being incremented" do
+    subject.next
 
-    its(:next) { should eq first_value }
+    expect(subject.next).to eq second_value
+  end
+
+  it "has a next value equal to the 1st value after rewinding" do
+    subject.next
+    subject.rewind
+
+    expect(subject.next).to eq first_value
   end
 end
 
@@ -43,7 +44,14 @@ describe FactoryBot::Sequence do
       end
     end
 
-    its(:names) { should eq [:test, :alias, :other] }
+    it "has the expected names as its names" do
+      names = [:foo, :bar, :baz]
+      sequence = FactoryBot::Sequence.new(names.first, aliases: names.last(2)) do
+        "=#{n}"
+      end
+
+      expect(sequence.names).to eq names
+    end
 
     it_behaves_like "a sequence", first_value: "=1", second_value: "=2"
   end
@@ -55,7 +63,13 @@ describe FactoryBot::Sequence do
       end
     end
 
-    its(:names) { should eq [:test, :alias, :other] }
+    it "has the expected names as its names" do
+      names = [:foo, :bar, :baz]
+      sequence = FactoryBot::Sequence.new(names.first, 3, aliases: names.last(2)) do
+        "=#{n}"
+      end
+      expect(sequence.names).to eq names
+    end
 
     it_behaves_like "a sequence", first_value: "=3", second_value: "=4"
   end
@@ -78,39 +92,37 @@ describe FactoryBot::Sequence do
     end
 
     it "navigates to the next items until no items remain" do
-      expect(subject.next).to eq "=foo"
-      expect(subject.next).to eq "=bar"
-      expect { subject.next }.to raise_error(StopIteration)
+      sequence = FactoryBot::Sequence.new(:name, %w[foo bar].to_enum) { |n| "=#{n}" }
+      expect(sequence.next).to eq "=foo"
+      expect(sequence.next).to eq "=bar"
+
+      expect { sequence.next }.to raise_error(StopIteration)
     end
 
     it_behaves_like "a sequence", first_value: "=foo", second_value: "=bar"
   end
 
-  describe "a custom sequence and scope" do
-    subject { FactoryBot::Sequence.new(:name, "A") { |n| "=#{n}#{foo}" } }
-    let(:scope) { double("scope", foo: "attribute") }
+  it "a custom sequence and scope increments within the correct scope" do
+    sequence = FactoryBot::Sequence.new(:name, "A") { |n| "=#{n}#{foo}" }
+    scope = double("scope", foo: "attribute")
 
-    it "increments within the correct scope" do
-      expect(subject.next(scope)).to eq "=Aattribute"
-    end
+    expect(sequence.next(scope)).to eq "=Aattribute"
+  end
 
-    context "when incrementing" do
-      before { subject.next(scope) }
+  it "a custom sequence and scope increments within the correct scope when incrementing" do
+    sequence = FactoryBot::Sequence.new(:name, "A") { |n| "=#{n}#{foo}" }
+    scope = double("scope", foo: "attribute")
+    sequence.next(scope)
 
-      it "increments within the correct scope" do
-        expect(subject.next(scope)).to eq "=Battribute"
-      end
-    end
+    expect(sequence.next(scope)).to eq "=Battribute"
+  end
 
-    context "after rewinding" do
-      before do
-        subject.next(scope)
-        subject.rewind
-      end
+  it "a custom scope increments within the correct scope after rewinding" do
+    sequence = FactoryBot::Sequence.new(:name, "A") { |n| "=#{n}#{foo}" }
+    scope = double("scope", foo: "attribute")
+    sequence.next(scope)
+    sequence.rewind
 
-      it "increments within the correct scope" do
-        expect(subject.next(scope)).to eq "=Aattribute"
-      end
-    end
+    expect(sequence.next(scope)).to eq "=Aattribute"
   end
 end
