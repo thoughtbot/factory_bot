@@ -1,6 +1,8 @@
-def build_attribute_list(*attributes)
-  FactoryBot::AttributeList.new.tap do |list|
-    attributes.each { |attribute| list.define_attribute(attribute) }
+module AttributeList
+  def build_attribute_list(*attributes)
+    FactoryBot::AttributeList.new.tap do |list|
+      attributes.each { |attribute| list.define_attribute(attribute) }
+    end
   end
 end
 
@@ -59,6 +61,8 @@ describe FactoryBot::AttributeList, "#define_attribute with a named attribute li
 end
 
 describe FactoryBot::AttributeList, "#apply_attributes" do
+  include AttributeList
+
   it "adds attributes in the order defined" do
     attribute1 = double(:attribute1, name: :attribute1)
     attribute2 = double(:attribute2, name: :attribute2)
@@ -71,6 +75,8 @@ describe FactoryBot::AttributeList, "#apply_attributes" do
 end
 
 describe FactoryBot::AttributeList, "#associations" do
+  include AttributeList
+
   it "returns associations" do
     email_attribute = FactoryBot::Attribute::Dynamic.new(
       :email,
@@ -86,6 +92,8 @@ describe FactoryBot::AttributeList, "#associations" do
 end
 
 describe FactoryBot::AttributeList, "filter based on ignored attributes" do
+  include AttributeList
+
   def build_ignored_attribute(name)
     FactoryBot::Attribute::Dynamic.new(name, true, -> { "value" })
   end
@@ -114,6 +122,8 @@ describe FactoryBot::AttributeList, "filter based on ignored attributes" do
 end
 
 describe FactoryBot::AttributeList, "generating names" do
+  include AttributeList
+
   def build_ignored_attribute(name)
     FactoryBot::Attribute::Dynamic.new(name, true, -> { "value" })
   end
