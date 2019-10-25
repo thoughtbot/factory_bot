@@ -49,7 +49,7 @@ module FactoryBot
 
         defined_traits.each do |defined_trait|
           base_traits.each       { |bt| bt.define_trait defined_trait }
-          additional_traits.each { |bt| bt.define_trait defined_trait }
+          additional_traits.each { |at| at.define_trait defined_trait }
         end
 
         @compiled = true

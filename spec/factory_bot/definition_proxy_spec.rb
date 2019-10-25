@@ -1,98 +1,89 @@
 describe FactoryBot::DefinitionProxy, "#add_attribute" do
-  subject     { FactoryBot::Definition.new(:name) }
-  let(:proxy) { FactoryBot::DefinitionProxy.new(subject) }
-
-  it "declares a dynamic attribute on the factory" do
+  it "declares a dynamic attribute on the factory when the proxy respects attributes" do
+    definition = FactoryBot::Definition.new(:name)
+    proxy = FactoryBot::DefinitionProxy.new(definition)
     attribute_value = -> { "dynamic attribute" }
     proxy.add_attribute(:attribute_name, &attribute_value)
-    expect(subject).to have_dynamic_declaration(:attribute_name).
+
+    expect(definition).to have_dynamic_declaration(:attribute_name).
       with_value(attribute_value)
   end
-end
 
-describe FactoryBot::DefinitionProxy, "#add_attribute when the proxy ignores attributes" do
-  subject     { FactoryBot::Definition.new(:name) }
-  let(:proxy) { FactoryBot::DefinitionProxy.new(subject, true) }
-
-  it "declares a dynamic attribute on the factory" do
+  it "declares a dynamic attribute on the factory when the proxy ignores attributes" do
+    definition = FactoryBot::Definition.new(:name)
+    proxy = FactoryBot::DefinitionProxy.new(definition, true)
     attribute_value = -> { "dynamic attribute" }
     proxy.add_attribute(:attribute_name, &attribute_value)
-    expect(subject).to have_dynamic_declaration(:attribute_name).
+    expect(definition).to have_dynamic_declaration(:attribute_name).
       ignored.
       with_value(attribute_value)
   end
 end
 
 describe FactoryBot::DefinitionProxy, "#transient" do
-  subject     { FactoryBot::Definition.new(:name) }
-  let(:proxy) { FactoryBot::DefinitionProxy.new(subject) }
-
   it "makes all attributes added ignored" do
+    definition = FactoryBot::Definition.new(:name)
+    proxy = FactoryBot::DefinitionProxy.new(definition)
     attribute_value = -> { "dynamic_attribute" }
     proxy.transient do
       add_attribute(:attribute_name, &attribute_value)
     end
 
-    expect(subject).to have_dynamic_declaration(:attribute_name).
+    expect(definition).to have_dynamic_declaration(:attribute_name).
       ignored.
       with_value(attribute_value)
   end
 end
 
 describe FactoryBot::DefinitionProxy, "#method_missing" do
-  subject     { FactoryBot::Definition.new(:name) }
-  let(:proxy) { FactoryBot::DefinitionProxy.new(subject) }
+  it "declares an implicit declaration when called without args or a block" do
+    definition = FactoryBot::Definition.new(:name)
+    proxy = FactoryBot::DefinitionProxy.new(definition)
+    proxy.bogus
 
-  context "when called without args or a block" do
-    it "declares an implicit declaration" do
-      proxy.bogus
-      expect(subject).to have_implicit_declaration(:bogus).with_factory(subject)
-    end
+    expect(definition).to have_implicit_declaration(:bogus).with_factory(definition)
   end
 
-  context "when called with a ':factory' key" do
-    it "declares an association" do
-      proxy.author factory: :user
-      expect(subject).to have_association_declaration(:author).
-        with_options(factory: :user)
-    end
+  it "declares an association when called with a ':factory' key" do
+    definition = FactoryBot::Definition.new(:name)
+    proxy = FactoryBot::DefinitionProxy.new(definition)
+    proxy.author factory: :user
+
+    expect(definition).to have_association_declaration(:author).
+      with_options(factory: :user)
   end
 
-  context "when called with a block" do
-    it "declares a dynamic attribute" do
-      attribute_value = -> { "dynamic attribute" }
-      proxy.attribute_name(&attribute_value)
-      expect(subject).to have_dynamic_declaration(:attribute_name).
-        with_value(attribute_value)
-    end
+  it "declares a dynamic attribute when called with a block" do
+    definition = FactoryBot::Definition.new(:name)
+    proxy = FactoryBot::DefinitionProxy.new(definition)
+    attribute_value = -> { "dynamic attribute" }
+    proxy.attribute_name(&attribute_value)
+
+    expect(definition).to have_dynamic_declaration(:attribute_name).
+      with_value(attribute_value)
   end
 
-  context "when called with a static-attribute-like argument" do
-    it "raises a NoMethodError" do
-      definition = FactoryBot::Definition.new(:broken)
-      proxy = FactoryBot::DefinitionProxy.new(definition)
+  it "raises a NoMethodError when called with a static-attribute-like argument" do
+    definition = FactoryBot::Definition.new(:broken)
+    proxy = FactoryBot::DefinitionProxy.new(definition)
+    invalid_call = -> { proxy.static_attributes_are_gone "true" }
 
-      invalid_call = -> { proxy.static_attributes_are_gone "true" }
-      expect(invalid_call).to raise_error(
-        NoMethodError,
-        "undefined method 'static_attributes_are_gone' in 'broken' factory\n" \
-        "Did you mean? 'static_attributes_are_gone { \"true\" }'\n",
-      )
-    end
+    expect(invalid_call).to raise_error(
+      NoMethodError,
+      "undefined method 'static_attributes_are_gone' in 'broken' factory\n" \
+      "Did you mean? 'static_attributes_are_gone { \"true\" }'\n",
+    )
   end
 end
 
 describe FactoryBot::DefinitionProxy, "#sequence" do
-  before do
-    allow(FactoryBot::Sequence).to receive(:new).and_call_original
-  end
-
   def build_proxy(factory_name)
     definition = FactoryBot::Definition.new(factory_name)
     FactoryBot::DefinitionProxy.new(definition)
   end
 
   it "creates a new sequence starting at 1" do
+    allow(FactoryBot::Sequence).to receive(:new).and_call_original
     proxy = build_proxy(:factory)
 
     proxy.sequence(:sequence)
@@ -101,6 +92,7 @@ describe FactoryBot::DefinitionProxy, "#sequence" do
   end
 
   it "creates a new sequence with an overridden starting vaue" do
+    allow(FactoryBot::Sequence).to receive(:new).and_call_original
     proxy = build_proxy(:factory)
     override = "override"
 
@@ -111,6 +103,7 @@ describe FactoryBot::DefinitionProxy, "#sequence" do
   end
 
   it "creates a new sequence with a block" do
+    allow(FactoryBot::Sequence).to receive(:new).and_call_original
     sequence_block = Proc.new { |n| "user+#{n}@example.com" }
     proxy = build_proxy(:factory)
     proxy.sequence(:sequence, 1, &sequence_block)
@@ -140,109 +133,138 @@ describe FactoryBot::DefinitionProxy, "#association" do
       with_options(name: "Awesome")
   end
 
-  context "when passing a block" do
-    it "raises an error" do
-      definition = FactoryBot::Definition.new(:post)
-      proxy = FactoryBot::DefinitionProxy.new(definition)
+  it "when passing a block raises an error" do
+    definition = FactoryBot::Definition.new(:post)
+    proxy = FactoryBot::DefinitionProxy.new(definition)
 
-      expect { proxy.association(:author) {} }.
-        to raise_error(
-          FactoryBot::AssociationDefinitionError,
-          "Unexpected block passed to 'author' association in 'post' factory",
-        )
-    end
+    expect { proxy.association(:author) {} }.
+      to raise_error(
+        FactoryBot::AssociationDefinitionError,
+        "Unexpected block passed to 'author' association in 'post' factory",
+      )
   end
 end
 
 describe FactoryBot::DefinitionProxy, "adding callbacks" do
-  subject        { FactoryBot::Definition.new(:name) }
-  let(:proxy)    { FactoryBot::DefinitionProxy.new(subject) }
-  let(:callback) { -> { "my awesome callback!" } }
+  it "adding an :after_build callback succeeds" do
+    definition = FactoryBot::Definition.new(:name)
+    proxy = FactoryBot::DefinitionProxy.new(definition)
+    callback = -> { "my awesome callback!" }
 
-  context "#after(:build)" do
-    before { proxy.after(:build, &callback) }
-    it     { should have_callback(:after_build).with_block(callback) }
+    proxy.after(:build, &callback)
+
+    expect(definition).to have_callback(:after_build).with_block(callback)
   end
 
-  context "#after(:create)" do
-    before { proxy.after(:create, &callback) }
-    it     { should have_callback(:after_create).with_block(callback) }
+  it "adding an :after_create callback succeeds" do
+    definition = FactoryBot::Definition.new(:name)
+    proxy = FactoryBot::DefinitionProxy.new(definition)
+    callback = -> { "my awesome callback!" }
+
+    proxy.after(:create, &callback)
+
+    expect(definition).to have_callback(:after_create).with_block(callback)
   end
 
-  context "#after(:stub)" do
-    before { proxy.after(:stub, &callback) }
-    it     { should have_callback(:after_stub).with_block(callback) }
+  it "adding an :after_stub callback succeeds" do
+    definition = FactoryBot::Definition.new(:name)
+    proxy = FactoryBot::DefinitionProxy.new(definition)
+    callback = -> { "my awesome callback!" }
+
+    proxy.after(:stub, &callback)
+    expect(definition).to have_callback(:after_stub).with_block(callback)
   end
 
-  context "#after(:stub, :create)" do
-    before { proxy.after(:stub, :create, &callback) }
-    it     { should have_callback(:after_stub).with_block(callback) }
-    it     { should have_callback(:after_create).with_block(callback) }
+  it "adding both an :after_stub and an :after_create callback succeeds" do
+    definition = FactoryBot::Definition.new(:name)
+    proxy = FactoryBot::DefinitionProxy.new(definition)
+    callback = -> { "my awesome callback!" }
+
+    proxy.after(:stub, :create, &callback)
+
+    expect(definition).to have_callback(:after_stub).with_block(callback)
+    expect(definition).to have_callback(:after_create).with_block(callback)
   end
 
-  context "#before(:stub, :create)" do
-    before { proxy.before(:stub, :create, &callback) }
-    it     { should have_callback(:before_stub).with_block(callback) }
-    it     { should have_callback(:before_create).with_block(callback) }
+  it "adding both a :before_stub and a :before_create callback succeeds" do
+    definition = FactoryBot::Definition.new(:name)
+    proxy = FactoryBot::DefinitionProxy.new(definition)
+    callback = -> { "my awesome callback!" }
+
+    proxy.before(:stub, :create, &callback)
+
+    expect(definition).to have_callback(:before_stub).with_block(callback)
+    expect(definition).to have_callback(:before_create).with_block(callback)
   end
 
-  context "#callback(:after_stub, :before_create)" do
-    before { proxy.callback(:after_stub, :before_create, &callback) }
-    it     { should have_callback(:after_stub).with_block(callback) }
-    it     { should have_callback(:before_create).with_block(callback) }
+  it "adding both an :after_stub and a :before_create callback succeeds" do
+    definition = FactoryBot::Definition.new(:name)
+    proxy = FactoryBot::DefinitionProxy.new(definition)
+    callback = -> { "my awesome callback!" }
+
+    proxy.callback(:after_stub, :before_create, &callback)
+
+    expect(definition).to have_callback(:after_stub).with_block(callback)
+    expect(definition).to have_callback(:before_create).with_block(callback)
   end
 end
 
 describe FactoryBot::DefinitionProxy, "#to_create" do
-  subject     { FactoryBot::Definition.new(:name) }
-  let(:proxy) { FactoryBot::DefinitionProxy.new(subject) }
-
   it "accepts a block to run in place of #save!" do
+    definition = FactoryBot::Definition.new(:name)
+    proxy = FactoryBot::DefinitionProxy.new(definition)
     to_create_block = ->(record) { record.persist }
     proxy.to_create(&to_create_block)
-    expect(subject.to_create).to eq to_create_block
+
+    expect(definition.to_create).to eq to_create_block
   end
 end
 
 describe FactoryBot::DefinitionProxy, "#factory" do
-  subject     { FactoryBot::Definition.new(:name) }
-  let(:proxy) { FactoryBot::DefinitionProxy.new(subject) }
-
   it "without options" do
+    definition = FactoryBot::Definition.new(:name)
+    proxy = FactoryBot::DefinitionProxy.new(definition)
     proxy.factory(:child)
+
     expect(proxy.child_factories).to include([:child, {}, nil])
   end
 
   it "with options" do
+    definition = FactoryBot::Definition.new(:name)
+    proxy = FactoryBot::DefinitionProxy.new(definition)
     proxy.factory(:child, awesome: true)
+
     expect(proxy.child_factories).to include([:child, { awesome: true }, nil])
   end
 
   it "with a block" do
+    definition = FactoryBot::Definition.new(:name)
+    proxy = FactoryBot::DefinitionProxy.new(definition)
     child_block = -> {}
     proxy.factory(:child, {}, &child_block)
+
     expect(proxy.child_factories).to include([:child, {}, child_block])
   end
 end
 
 describe FactoryBot::DefinitionProxy, "#trait" do
-  subject     { FactoryBot::Definition.new(:name) }
-  let(:proxy) { FactoryBot::DefinitionProxy.new(subject) }
-
   it "declares a trait" do
+    definition = FactoryBot::Definition.new(:name)
+    proxy = FactoryBot::DefinitionProxy.new(definition)
     male_trait = Proc.new { gender { "Male" } }
     proxy.trait(:male, &male_trait)
-    expect(subject).to have_trait(:male).with_block(male_trait)
+
+    expect(definition).to have_trait(:male).with_block(male_trait)
   end
 end
 
 describe FactoryBot::DefinitionProxy, "#initialize_with" do
-  subject     { FactoryBot::Definition.new(:name) }
-  let(:proxy) { FactoryBot::DefinitionProxy.new(subject) }
-
   it "defines the constructor on the definition" do
+    definition = FactoryBot::Definition.new(:name)
+    proxy = FactoryBot::DefinitionProxy.new(definition)
     constructor = Proc.new { Array.new }
     proxy.initialize_with(&constructor)
-    expect(subject.constructor).to eq constructor
+
+    expect(definition.constructor).to eq constructor
   end
 end
