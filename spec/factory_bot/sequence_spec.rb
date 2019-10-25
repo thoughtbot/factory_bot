@@ -45,7 +45,12 @@ describe FactoryBot::Sequence do
     end
 
     it "has the expected names as its names" do
-      expect(subject.names).to eq [:test, :alias, :other]
+      names = [:foo, :bar, :baz]
+      sequence = FactoryBot::Sequence.new(names.first, aliases: names.last(2)) do
+        "=#{n}"
+      end
+
+      expect(sequence.names).to eq names
     end
 
     it_behaves_like "a sequence", first_value: "=1", second_value: "=2"
@@ -59,7 +64,11 @@ describe FactoryBot::Sequence do
     end
 
     it "has the expected names as its names" do
-      expect(subject.names).to eq [:test, :alias, :other]
+      names = [:foo, :bar, :baz]
+      sequence = FactoryBot::Sequence.new(names.first, 3, aliases: names.last(2)) do
+        "=#{n}"
+      end
+      expect(sequence.names).to eq names
     end
 
     it_behaves_like "a sequence", first_value: "=3", second_value: "=4"
@@ -83,40 +92,37 @@ describe FactoryBot::Sequence do
     end
 
     it "navigates to the next items until no items remain" do
-      expect(subject.next).to eq "=foo"
-      expect(subject.next).to eq "=bar"
+      sequence = FactoryBot::Sequence.new(:name, %w[foo bar].to_enum) { |n| "=#{n}" }
+      expect(sequence.next).to eq "=foo"
+      expect(sequence.next).to eq "=bar"
 
-      expect { subject.next }.to raise_error(StopIteration)
+      expect { sequence.next }.to raise_error(StopIteration)
     end
 
     it_behaves_like "a sequence", first_value: "=foo", second_value: "=bar"
   end
 
-  describe "a custom sequence and scope" do
-    subject { FactoryBot::Sequence.new(:name, "A") { |n| "=#{n}#{foo}" } }
-    let(:scope) { double("scope", foo: "attribute") }
+  it "a custom sequence and scope increments within the correct scope" do
+    sequence = FactoryBot::Sequence.new(:name, "A") { |n| "=#{n}#{foo}" }
+    scope = double("scope", foo: "attribute")
 
-    it "increments within the correct scope" do
-      expect(subject.next(scope)).to eq "=Aattribute"
-    end
+    expect(sequence.next(scope)).to eq "=Aattribute"
+  end
 
-    context "when incrementing" do
-      before { subject.next(scope) }
+  it "a custom sequence and scope increments within the correct scope when incrementing" do
+    sequence = FactoryBot::Sequence.new(:name, "A") { |n| "=#{n}#{foo}" }
+    scope = double("scope", foo: "attribute")
+    sequence.next(scope)
 
-      it "increments within the correct scope" do
-        expect(subject.next(scope)).to eq "=Battribute"
-      end
-    end
+    expect(sequence.next(scope)).to eq "=Battribute"
+  end
 
-    context "after rewinding" do
-      before do
-        subject.next(scope)
-        subject.rewind
-      end
+  it "a custom scope increments within the correct scope after rewinding" do
+    sequence = FactoryBot::Sequence.new(:name, "A") { |n| "=#{n}#{foo}" }
+    scope = double("scope", foo: "attribute")
+    sequence.next(scope)
+    sequence.rewind
 
-      it "increments within the correct scope" do
-        expect(subject.next(scope)).to eq "=Aattribute"
-      end
-    end
+    expect(sequence.next(scope)).to eq "=Aattribute"
   end
 end
