@@ -347,6 +347,16 @@ factory :post do
 end
 ```
 
+You can override attributes of your association using attributes from the factory:
+
+```ruby
+factory :post do
+  # ...
+  category { 'example' }
+  author { association :user, last_name: category }
+end
+```
+
 In factory\_bot 5, associations default to using the same build strategy as
 their parent object:
 
