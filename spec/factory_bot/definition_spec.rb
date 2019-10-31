@@ -1,75 +1,75 @@
 describe FactoryBot::Definition do
-  subject { described_class.new(:name) }
+  it "delegates :declare_attribute to declarations" do
+    definition = described_class.new(:name)
 
-  it { should delegate(:declare_attribute).to(:declarations) }
-
-  describe "with a name" do
-    it "creates a new attribute list with the name passed" do
-      name = "great name"
-      allow(FactoryBot::DeclarationList).to receive(:new)
-
-      FactoryBot::Definition.new(name)
-
-      expect(FactoryBot::DeclarationList).to have_received(:new).with(name)
-    end
+    expect(definition).to delegate(:declare_attribute).to(:declarations)
   end
 
-  describe "#name" do
-    it "returns the name" do
-      name = "factory name"
-      definition = described_class.new(name)
+  it "creates a new attribute list with the name passed when given a name" do
+    name = "great name"
+    allow(FactoryBot::DeclarationList).to receive(:new)
 
-      expect(definition.name).to eq(name)
-    end
+    FactoryBot::Definition.new(name)
+
+    expect(FactoryBot::DeclarationList).to have_received(:new).with(name)
   end
 
-  describe "#overridable" do
-    let(:list) { double("declaration list", overridable: true) }
-    before do
-      allow(FactoryBot::DeclarationList).to receive(:new).and_return list
-    end
+  it "has a name" do
+    name = "factory name"
+    definition = described_class.new(name)
 
-    it "sets the declaration list as overridable" do
-      expect(subject.overridable).to eq subject
-      expect(list).to have_received(:overridable).once
-    end
+    expect(definition.name).to eq(name)
   end
 
-  describe "defining traits" do
-    let(:trait_1) { double("trait") }
-    let(:trait_2) { double("trait") }
+  it "has an overridable declaration list" do
+    list = double("declaration list", overridable: true)
+    allow(FactoryBot::DeclarationList).to receive(:new).and_return list
+    definition = described_class.new(:name)
 
-    it "maintains a list of traits" do
-      subject.define_trait(trait_1)
-      subject.define_trait(trait_2)
-      expect(subject.defined_traits).to include(trait_1, trait_2)
-    end
-
-    it "adds only unique traits" do
-      subject.define_trait(trait_1)
-      subject.define_trait(trait_1)
-      expect(subject.defined_traits.size).to eq 1
-    end
+    expect(definition.overridable).to eq definition
+    expect(list).to have_received(:overridable).once
   end
 
-  describe "adding callbacks" do
-    let(:callback_1) { "callback1" }
-    let(:callback_2) { "callback2" }
+  it "maintains a list of traits" do
+    trait1 = double(:trait)
+    trait2 = double(:trait)
+    definition = described_class.new(:name)
+    definition.define_trait(trait1)
+    definition.define_trait(trait2)
 
-    it "maintains a list of callbacks" do
-      subject.add_callback(callback_1)
-      subject.add_callback(callback_2)
-      expect(subject.callbacks).to eq [callback_1, callback_2]
-    end
+    expect(definition.defined_traits).to include(trait1, trait2)
   end
 
-  describe "#to_create" do
-    its(:to_create) { should be_nil }
+  it "adds only unique traits" do
+    trait1 = double(:trait)
+    definition = described_class.new(:name)
+    definition.define_trait(trait1)
+    definition.define_trait(trait1)
 
-    it "returns the assigned value when given a block" do
-      block = proc { nil }
-      subject.to_create(&block)
-      expect(subject.to_create).to eq block
-    end
+    expect(definition.defined_traits.size).to eq 1
+  end
+
+  it "maintains a list of callbacks" do
+    callback1 = "callback1"
+    callback2 = "callback2"
+    definition = described_class.new(:name)
+    definition.add_callback(callback1)
+    definition.add_callback(callback2)
+
+    expect(definition.callbacks).to eq [callback1, callback2]
+  end
+
+  it "doesn't expose a separate create strategy when none is specified" do
+    definition = described_class.new(:name)
+
+    expect(definition.to_create).to be_nil
+  end
+
+  it "exposes a non-default create strategy when one is provided by the user" do
+    definition = described_class.new(:name)
+    block = proc { nil }
+    definition.to_create(&block)
+
+    expect(definition.to_create).to eq block
   end
 end
