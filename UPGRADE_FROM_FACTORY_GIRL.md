@@ -45,7 +45,7 @@ find . -type f -print0| xargs -0 sed -i 's/FactoryGirl/FactoryBot/g'
 ```
 
 If these examples don't work for you, various other approaches
-have been suggested in pull requests #1070, #1075, #1084, #1095, and #1102.
+have been suggested in pull requests [#1070](https://github.com/thoughtbot/factory_bot/pull/1070), [#1075](https://github.com/thoughtbot/factory_bot/pull/1075), [#1084](https://github.com/thoughtbot/factory_bot/pull/1084), [#1095](https://github.com/thoughtbot/factory_bot/pull/1095), and [#1102](https://github.com/thoughtbot/factory_bot/pull/1102).
 
 ## Replace All Path References
 
