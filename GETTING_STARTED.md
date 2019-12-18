@@ -119,7 +119,7 @@ It is also possible to explicitly specify the class:
 
 ```ruby
 # This will use the User class (otherwise Admin would have been guessed)
-factory :admin, class: User
+factory :admin, class: "User"
 ```
 
 If the constant is not available
@@ -1066,7 +1066,7 @@ Example Rake task:
 namespace :factory_bot do
   desc "Verify that all FactoryBot factories are valid"
   task lint: :environment do
-    if Rails.env.test?    
+    if Rails.env.test?
       conn = ActiveRecord::Base.connection
       conn.transaction do
         FactoryBot.lint
@@ -1413,12 +1413,12 @@ with associations, as below:
 
 ```ruby
 FactoryBot.define do
-  factory :united_states, class: Location do
+  factory :united_states, class: "Location" do
     name { 'United States' }
     association :location_group, factory: :north_america
   end
 
-  factory :north_america, class: LocationGroup do
+  factory :north_america, class: "LocationGroup" do
     name { 'North America' }
   end
 end
