@@ -1413,7 +1413,7 @@ with associations, as below:
 
 ```ruby
 FactoryBot.define do
-  factory :united_states, class: 'Location' do
+  factory :united_states, class: "Location" do
     name { 'United States' }
     association :location_group, factory: :north_america
   end
