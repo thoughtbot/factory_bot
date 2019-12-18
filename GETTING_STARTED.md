@@ -1418,7 +1418,7 @@ FactoryBot.define do
     association :location_group, factory: :north_america
   end
 
-  factory :north_america, class: 'LocationGroup' do
+  factory :north_america, class: "LocationGroup" do
     name { 'North America' }
   end
 end
