@@ -6,9 +6,7 @@ rvm:
   - jruby-9.2.8.0
   - ruby-head
 before_install:
-  - gem update --system
-  - gem update bundler
-  - gem cleanup bundler
+  which bundle || gem install bundler
 install: "bundle install --jobs 8"
 script: "bundle exec rake"
 gemfile:
