@@ -31,6 +31,7 @@ module FactoryBot
       def result(evaluation)
         evaluation.object.tap do |instance|
           stub_database_interaction_on_result(instance)
+          stub_association_loading(instance)
           set_timestamps(instance)
           clear_changes_information(instance)
           evaluation.notify(:after_stub, instance)
@@ -70,9 +71,29 @@ module FactoryBot
         end
       end
 
+      def stub_association_loading(result_instance)
+        return if !can_have_associations?(result_instance)
+
+        result_instance.class.reflect_on_all_associations.each do |association|
+          result_instance.association(association.name).instance_eval do
+            def load_target
+              []
+            end
+
+            def loaded?
+              true
+            end
+          end
+        end
+      end
+
       def has_settable_id?(result_instance)
         !result_instance.class.respond_to?(:primary_key) ||
           result_instance.class.primary_key
+      end
+
+      def can_have_associations?(result_instance)
+        result_instance.class.respond_to? :reflect_on_all_associations
       end
 
       def clear_changes_information(result_instance)

@@ -99,3 +99,36 @@ describe "a stubbed instance with no primary key" do
     end
   end
 end
+
+describe "a stubbed instance with association persisted in the database" do
+  include FactoryBot::Syntax::Methods
+
+  before do
+    define_model("User") do
+      has_many :posts
+    end
+    define_model("Post", user_id: :integer) do
+      belongs_to :user
+    end
+
+    FactoryBot.define do
+      factory :user
+
+      factory :post do
+        association(:user)
+      end
+    end
+  end
+
+  let(:persisted_post) { create(:post) }
+
+  subject { build_stubbed(:user, id: persisted_post.user.id)}
+
+  it "does not assign associations in the database" do
+    expect(subject.posts).to be_empty
+  end
+
+  it "is a collection proxy" do
+    expect(subject.posts).to be_kind_of ActiveRecord::Associations::CollectionProxy
+  end
+end
