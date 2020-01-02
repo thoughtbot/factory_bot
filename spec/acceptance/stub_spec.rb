@@ -122,7 +122,7 @@ describe "a stubbed instance with association persisted in the database" do
 
   let(:persisted_post) { create(:post) }
 
-  subject { build_stubbed(:user, id: persisted_post.user.id)}
+  subject { build_stubbed(:user, id: persisted_post.user.id) }
 
   it "does not assign associations in the database" do
     expect(subject.posts).to be_empty
