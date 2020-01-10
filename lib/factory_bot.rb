@@ -71,7 +71,7 @@ module FactoryBot
   def self.lint(*args)
     options = args.extract_options!
     factories_to_lint = args[0] || FactoryBot.factories
-    Linter.new(factories_to_lint, options).lint!
+    Linter.new(factories_to_lint, **options).lint!
   end
 
   class << self
