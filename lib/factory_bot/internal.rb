@@ -2,11 +2,11 @@ module FactoryBot
   # @api private
   module Internal
     DEFAULT_STRATEGIES = {
-      build:          FactoryBot::Strategy::Build,
-      create:         FactoryBot::Strategy::Create,
+      build: FactoryBot::Strategy::Build,
+      create: FactoryBot::Strategy::Create,
       attributes_for: FactoryBot::Strategy::AttributesFor,
-      build_stubbed:  FactoryBot::Strategy::Stub,
-      null:           FactoryBot::Strategy::Null,
+      build_stubbed: FactoryBot::Strategy::Stub,
+      null: FactoryBot::Strategy::Null,
     }.freeze
 
     DEFAULT_CALLBACKS = [
