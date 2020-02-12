@@ -1,12 +1,19 @@
 describe "transient attributes" do
   before do
-    define_model("Country")
-    define_model("User", name: :string, email: :string)
+    define_model("Country", country_code: :string)
+    # define_model("Account", account_number: :string)
+    define_model("User", name: :string, email: :string, country_code: :string)
 
     FactoryBot.define do
       sequence(:name) { |n| "John #{n}" }
 
-      factory :country
+      factory :country do
+        country_code { 'US' }
+      end
+
+      # factory :account do
+      #   sequence(:account_number)
+      # end
 
       factory :user do
         transient do
@@ -18,6 +25,7 @@ describe "transient attributes" do
 
         name  { "#{FactoryBot.generate(:name)}#{' - Rockstar' if rockstar}" }
         email { "#{name.downcase}#{four}@example.com" }
+        country_code { country.country_code }
 
         after(:create) do |user, evaluator|
           user.name.upcase! if evaluator.upcased
@@ -28,11 +36,15 @@ describe "transient attributes" do
 
   context "returning attributes for a factory" do
     subject { FactoryBot.attributes_for(:user, rockstar: true) }
+
     it { should_not have_key(:four) }
     it { should_not have_key(:rockstar) }
     it { should_not have_key(:upcased) }
+    it { should_not have_key(:country) }
+    # it { should_not have_key(:account) }
     it { should     have_key(:name) }
     it { should     have_key(:email) }
+    it { should     have_key(:country_code) }
   end
 
   context "with a transient variable assigned" do

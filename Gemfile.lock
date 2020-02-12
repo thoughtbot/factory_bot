@@ -33,6 +33,7 @@ GEM
     ast (2.4.0)
     backports (3.11.4)
     builder (3.2.3)
+    byebug (11.0.1)
     childprocess (0.9.0)
       ffi (~> 1.0, >= 1.0.11)
     concurrent-ruby (1.1.4)
@@ -114,6 +115,7 @@ DEPENDENCIES
   activerecord
   appraisal
   aruba
+  byebug
   cucumber
   factory_bot!
   rake

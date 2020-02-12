@@ -23,7 +23,8 @@ module FactoryBot
 
       def build
         factory_name = @overrides[:factory] || name
-        [Attribute::Association.new(name, @ignored, factory_name, [@traits, @overrides.except(:factory)].flatten)]
+        overrides = [@traits, @overrides.except(:factory)].flatten
+        [Attribute::Association.new(name, @ignored, factory_name, overrides)]
       end
     end
   end

@@ -31,8 +31,12 @@ end
 describe FactoryBot::AttributeList, "#define_attribute with a named attribute list" do
   subject { FactoryBot::AttributeList.new(:author) }
 
-  let(:association_with_same_name)      { FactoryBot::Attribute::Association.new(:author, false, :author, {}) }
-  let(:association_with_different_name) { FactoryBot::Attribute::Association.new(:author, false, :post, {}) }
+  let(:association_with_same_name) do
+    FactoryBot::Attribute::Association.new(:author, false, :author, {})
+  end
+  let(:association_with_different_name) do
+    FactoryBot::Attribute::Association.new(:author, false, :post, {})
+  end
 
   it "raises when the attribute is a self-referencing association" do
     expect do
