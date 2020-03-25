@@ -1,5 +1,8 @@
 # News
 
+## 5.1.2 (March 25, 2020)
+  * Fixed: Ruby 2.7 keyword deprecation warning in FactoryBot.lint
+
 ## 5.1.1 (October 2, 2019)
   * Improved: performance of traits
   * Fixed: registering strategies on JRuby
