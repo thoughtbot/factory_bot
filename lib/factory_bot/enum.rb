@@ -7,21 +7,14 @@ module FactoryBot
 
     def build_traits(klass)
       enum_values(klass).map do |trait_name, value|
-        build_trait(trait_name, @attribute_name, value)
+        build_trait(trait_name, @attribute_name, value || trait_name)
       end
     end
 
     private
 
     def enum_values(klass)
-      case @values
-      when Hash
-        @values
-      when Array
-        @values.map { |value| [value, value] }
-      else
-        klass.send(@attribute_name.to_s.pluralize)
-      end
+      @values || klass.send(@attribute_name.to_s.pluralize)
     end
 
     def build_trait(trait_name, attribute_name, value)

@@ -84,7 +84,7 @@ module FactoryBot
       unless @compiled
         parent.compile
         parent.defined_traits.each { |trait| define_trait(trait) }
-        @definition.register_defined_enums(build_class)
+        @definition.automatically_register_defined_enums(build_class)
         @definition.expand_enum_traits(build_class)
         @definition.compile
         build_hierarchy
