@@ -142,6 +142,10 @@ describe "custom callbacks" do
     FactoryBot.register_strategy(:custom_after, custom_after)
     FactoryBot.register_strategy(:totally_custom, totally_custom)
 
+    FactoryBot.register_callback(:before_custom)
+    FactoryBot.register_callback(:after_custom)
+    FactoryBot.register_callback(:totally_custom)
+
     FactoryBot.define do
       factory :user do
         first_name { "John" }
@@ -247,5 +251,19 @@ describe "global callbacks" do
     expect(create(:user).name).to eq "john doe!!!"
     expect(create(:user, :awesome).name).to eq "A___john doe___!!!Z"
     expect(build(:company).name).to eq "ACME SUPPLIERS"
+  end
+end
+
+describe "invalid callbacks" do
+  it "raises an error for unregistered callbacks" do
+    definition = -> do
+      FactoryBot.define do
+        factory :user do
+          after(:invalid_callback) {}
+        end
+      end
+    end
+
+    expect(&definition).to raise_error(FactoryBot::InvalidCallbackNameError)
   end
 end

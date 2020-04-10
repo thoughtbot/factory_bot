@@ -187,6 +187,7 @@ describe FactoryBot::DefinitionProxy, "adding callbacks" do
   end
 
   it "adding both a :before_stub and a :before_create callback succeeds" do
+    FactoryBot.register_callback(:before_stub)
     definition = FactoryBot::Definition.new(:name)
     proxy = FactoryBot::DefinitionProxy.new(definition)
     callback = -> { "my awesome callback!" }

@@ -10,7 +10,7 @@ module FactoryBot
     }.freeze
 
     DEFAULT_CALLBACKS = [
-      :after_create, :after_build, :after_stub, :after_create
+      :after_create, :after_build, :after_stub, :before_create
     ].freeze
 
     class << self
