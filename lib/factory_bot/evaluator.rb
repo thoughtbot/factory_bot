@@ -37,7 +37,7 @@ module FactoryBot
       @instance = object_instance
     end
 
-    def method_missing(method_name, *args, &block) # rubocop:disable Style/MethodMissing
+    def method_missing(method_name, *args, &block) # rubocop:disable Style/MethodMissingSuper
       if @instance.respond_to?(method_name)
         @instance.send(method_name, *args, &block)
       else
@@ -66,7 +66,7 @@ module FactoryBot
     end
 
     def self.define_attribute(name, &block)
-      if method_defined?(name) || private_method_defined?(name)
+      if instance_methods(false).include?(name) || private_instance_methods(false).include?(name)
         undef_method(name)
       end
 

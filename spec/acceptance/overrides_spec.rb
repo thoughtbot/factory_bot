@@ -1,13 +1,14 @@
 describe "attribute overrides" do
   before do
-    define_model("User", admin:   :boolean)
-    define_model("Post", title:   :string,
-                         secure:  :boolean,
+    define_model("User", admin: :boolean)
+    define_model("Post", title: :string,
+                         secure: :boolean,
                          user_id: :integer) do
       belongs_to :user
 
       def secure=(value)
         return unless user&.admin?
+
         write_attribute(:secure, value)
       end
     end

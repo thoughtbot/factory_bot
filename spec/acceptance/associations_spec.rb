@@ -9,8 +9,11 @@ describe "associations" do
         end
       end
 
-      expect { FactoryBot.build(:post) }.
-        to raise_error(KeyError, "Trait not registered: \"user\"")
+      expect { FactoryBot.build(:post) }.to raise_error(
+        ArgumentError,
+        "Association 'author' received an invalid factory argument.\n" \
+        "Did you mean? 'factory: :user'\n",
+      )
     end
   end
 end

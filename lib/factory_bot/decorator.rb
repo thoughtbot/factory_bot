@@ -6,7 +6,7 @@ module FactoryBot
       @component = component
     end
 
-    def method_missing(name, *args, &block) # rubocop:disable Style/MethodMissing
+    def method_missing(name, *args, &block) # rubocop:disable Style/MethodMissingSuper
       @component.send(name, *args, &block)
     end
 

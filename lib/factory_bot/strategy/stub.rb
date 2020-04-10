@@ -44,15 +44,17 @@ module FactoryBot
       end
 
       def stub_database_interaction_on_result(result_instance)
-        result_instance.id ||= next_id
+        if has_settable_id?(result_instance)
+          result_instance.id ||= next_id
+        end
 
         result_instance.instance_eval do
           def persisted?
-            !new_record?
+            true
           end
 
           def new_record?
-            id.nil?
+            false
           end
 
           def destroyed?
@@ -66,6 +68,11 @@ module FactoryBot
             end
           end
         end
+      end
+
+      def has_settable_id?(result_instance)
+        !result_instance.class.respond_to?(:primary_key) ||
+          result_instance.class.primary_key
       end
 
       def clear_changes_information(result_instance)

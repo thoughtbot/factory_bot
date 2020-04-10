@@ -50,7 +50,7 @@ module FactoryBot
 
         defined_traits.each do |defined_trait|
           base_traits.each       { |bt| bt.define_trait defined_trait }
-          additional_traits.each { |bt| bt.define_trait defined_trait }
+          additional_traits.each { |at| at.define_trait defined_trait }
         end
 
         @compiled = true
@@ -115,7 +115,7 @@ module FactoryBot
 
     def callback(*names, &block)
       names.each do |name|
-        FactoryBot.register_callback(name)
+        FactoryBot::Internal.register_callback(name)
         add_callback(Callback.new(name, block))
       end
     end
@@ -131,17 +131,19 @@ module FactoryBot
     end
 
     def trait_by_name(name)
-      trait_for(name) || FactoryBot.trait_by_name(name)
+      trait_for(name) || Internal.trait_by_name(name)
     end
 
     def trait_for(name)
-      defined_traits.detect { |trait| trait.name == name }
+      @defined_traits_by_name ||= defined_traits.each_with_object({}) { |t, memo| memo[t.name] ||= t }
+      @defined_traits_by_name[name.to_s]
     end
 
     def initialize_copy(source)
       super
       @attributes = nil
       @compiled   = false
+      @defined_traits_by_name = nil
     end
 
     def aggregate_from_traits_and_self(method_name, &block)

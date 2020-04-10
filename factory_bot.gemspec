@@ -12,7 +12,7 @@ Gem::Specification.new do |s|
 
   s.files =
     Dir.glob("lib/**/*") +
-    %w[CONTRIBUTING.md GETTING_STARTED.md LICENSE NAME.md NEWS README.md .yardopts]
+    %w[CONTRIBUTING.md GETTING_STARTED.md LICENSE NAME.md NEWS.md README.md .yardopts]
 
   s.require_path = "lib"
   s.required_ruby_version = Gem::Requirement.new(">= 2.3.0")
@@ -21,6 +21,7 @@ Gem::Specification.new do |s|
   s.email   = ["jclayton@thoughtbot.com", "jferris@thoughtbot.com"]
 
   s.homepage = "https://github.com/thoughtbot/factory_bot"
+  s.metadata["changelog_uri"] = "https://github.com/thoughtbot/factory_bot/blob/master/NEWS.md"
 
   s.add_dependency("activesupport", ">= 4.2.0")
 
@@ -31,10 +32,10 @@ Gem::Specification.new do |s|
   s.add_development_dependency("rake")
   s.add_development_dependency("rspec")
   s.add_development_dependency("rspec-its")
-  s.add_development_dependency("rubocop", "0.54")
+  s.add_development_dependency("rubocop")
+  s.add_development_dependency("rubocop-performance")
+  s.add_development_dependency("rubocop-rails")
   s.add_development_dependency("simplecov")
-  s.add_development_dependency("sqlite3")
-  s.add_development_dependency("timecop")
   s.add_development_dependency("yard")
 
   s.license = "MIT"

@@ -8,7 +8,7 @@ module FactoryBot
     end
 
     delegate :defined_traits, :callbacks, :attributes, :constructor,
-      :to_create, to: :definition
+             :to_create, to: :definition
 
     def compile; end
 

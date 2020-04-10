@@ -2,7 +2,7 @@ module FactoryBot
   # @api private
   class AttributeAssigner
     def initialize(evaluator, build_class, &instance_builder)
-      @build_class = build_class
+      @build_class              = build_class
       @instance_builder         = instance_builder
       @evaluator                = evaluator
       @attribute_list           = evaluator.class.attribute_list

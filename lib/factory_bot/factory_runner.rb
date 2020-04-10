@@ -5,11 +5,11 @@ module FactoryBot
       @strategy = strategy
 
       @overrides = traits_and_overrides.extract_options!
-      @traits    = traits_and_overrides.map(&:to_sym)
+      @traits    = traits_and_overrides
     end
 
     def run(runner_strategy = @strategy, &block)
-      factory = FactoryBot.factory_by_name(@name)
+      factory = FactoryBot::Internal.factory_by_name(@name)
 
       factory.compile
 

@@ -17,7 +17,7 @@ module FactoryBot
           proxy = FactoryBot::DefinitionProxy.new(factory.definition)
           proxy.instance_eval(&block) if block_given?
 
-          FactoryBot.register_factory(factory)
+          Internal.register_factory(factory)
 
           proxy.child_factories.each do |(child_name, child_options, child_block)|
             parent_factory = child_options.delete(:parent) || name
@@ -26,11 +26,11 @@ module FactoryBot
         end
 
         def sequence(name, *args, &block)
-          FactoryBot.register_sequence(Sequence.new(name, *args, &block))
+          Internal.register_sequence(Sequence.new(name, *args, &block))
         end
 
         def trait(name, &block)
-          FactoryBot.register_trait(Trait.new(name, &block))
+          Internal.register_trait(Trait.new(name, &block))
         end
 
         def to_create(&block)
@@ -54,13 +54,13 @@ module FactoryBot
         private
 
         def configuration
-          FactoryBot.configuration
+          Internal.configuration
         end
       end
 
       class ModifyDSL
         def factory(name, _options = {}, &block)
-          factory = FactoryBot.factory_by_name(name)
+          factory = Internal.factory_by_name(name)
           proxy = FactoryBot::DefinitionProxy.new(factory.definition.overridable)
           proxy.instance_eval(&block)
         end

@@ -16,6 +16,7 @@ module FactoryBot
                   else instance_exec(&block)
                   end
           raise SequenceAbuseError if FactoryBot::Sequence === value
+
           value
         }
       end

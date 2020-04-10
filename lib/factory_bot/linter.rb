@@ -72,8 +72,8 @@ module FactoryBot
       result = []
       begin
         FactoryBot.public_send(factory_strategy, factory.name)
-      rescue StandardError => error
-        result |= [FactoryError.new(error, factory)]
+      rescue StandardError => e
+        result |= [FactoryError.new(e, factory)]
       end
       result
     end
@@ -83,9 +83,9 @@ module FactoryBot
       factory.definition.defined_traits.map(&:name).each do |trait_name|
         begin
           FactoryBot.public_send(factory_strategy, factory.name, trait_name)
-        rescue StandardError => error
+        rescue StandardError => e
           result |=
-            [FactoryTraitError.new(error, factory, trait_name)]
+            [FactoryTraitError.new(e, factory, trait_name)]
         end
       end
       result

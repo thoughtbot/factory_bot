@@ -88,15 +88,18 @@ module FactoryBot
     #   end
     #
     # are equivalent.
-    def method_missing(name, *args, &block) # rubocop:disable Style/MethodMissing
-      if args.empty?
+    def method_missing(name, *args, &block) # rubocop:disable Style/MissingRespondToMissing, Style/MethodMissingSuper, Metrics/LineLength
+      association_options = args.first
+
+      if association_options.nil?
         __declare_attribute__(name, block)
-      elsif args.first.respond_to?(:has_key?) && args.first.has_key?(:factory)
-        association(name, *args)
+      elsif __valid_association_options?(association_options)
+        association(name, association_options)
       else
-        raise NoMethodError.new(
-          "undefined method '#{name}' in '#{@definition.name}' factory",
-        )
+        raise NoMethodError.new(<<~MSG)
+          undefined method '#{name}' in '#{@definition.name}' factory
+          Did you mean? '#{name} { #{association_options.inspect} }'
+        MSG
       end
     end
 
@@ -117,9 +120,8 @@ module FactoryBot
     #
     # Except that no globally available sequence will be defined.
     def sequence(name, *args, &block)
-      sequence_name = "__#{@definition.name}_#{name}__"
-      sequence = Sequence.new(sequence_name, *args, &block)
-      FactoryBot.register_sequence(sequence)
+      sequence = Sequence.new(name, *args, &block)
+      FactoryBot::Internal.register_inline_sequence(sequence)
       add_attribute(name) { increment_sequence(sequence) }
     end
 
@@ -191,6 +193,10 @@ module FactoryBot
       else
         add_attribute(name, &block)
       end
+    end
+
+    def __valid_association_options?(options)
+      options.respond_to?(:has_key?) && options.has_key?(:factory)
     end
   end
 end

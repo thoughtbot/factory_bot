@@ -4,7 +4,6 @@ require "rspec/its"
 require "simplecov"
 
 require "factory_bot"
-require "timecop"
 
 Dir["spec/support/**/*.rb"].each { |f| require File.expand_path(f) }
 
@@ -20,23 +19,6 @@ RSpec.configure do |config|
 
   config.before do
     FactoryBot.reload
-  end
-
-  config.after do
-    Timecop.return
-  end
-
-  config.around do |example|
-    begin
-      previous_use_parent_strategy = FactoryBot.use_parent_strategy
-      previous_automatically_define_enum_traits =
-        FactoryBot.automatically_define_enum_traits
-      example.run
-    ensure
-      FactoryBot.use_parent_strategy = previous_use_parent_strategy
-      FactoryBot.automatically_define_enum_traits =
-        previous_automatically_define_enum_traits
-    end
   end
 
   config.order = :random

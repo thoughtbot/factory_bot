@@ -1,3 +1,5 @@
+require: rubocop-performance
+
 inherit_from:
   - https://raw.githubusercontent.com/thoughtbot/guides/master/style/ruby/.rubocop.yml
 
@@ -6,6 +8,9 @@ AllCops:
   Exclude:
     - 'gemfiles/*'
     - 'tmp/**/*'
+
+Rails:
+  Enabled: false
 
 Metrics/BlockLength:
   CountComments: true
@@ -24,5 +29,5 @@ Style/FormatStringToken:
 # TODO: gradually bring this down to 80 as we fix files
 # Let's not open a big PR to fix all of these at once - 
 # we can fix gradually if we happen to be editing a file that has a violation
-Metrics/LineLength:
+Layout/LineLength:
   Max: 110

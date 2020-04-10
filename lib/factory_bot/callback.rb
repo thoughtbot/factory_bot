@@ -28,9 +28,9 @@ module FactoryBot
     private
 
     def ensure_valid_callback_name!
-      unless FactoryBot.callback_names.include?(name)
+      unless FactoryBot::Internal.callback_names.include?(name)
         raise InvalidCallbackNameError, "#{name} is not a valid callback name. " +
-          "Valid callback names are #{FactoryBot.callback_names.inspect}"
+          "Valid callback names are #{FactoryBot::Internal.callback_names.inspect}"
       end
     end
 

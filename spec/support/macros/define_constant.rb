@@ -2,12 +2,9 @@ require "active_record"
 
 module DefineConstantMacros
   def define_class(path, base = Object, &block)
-    namespace, class_name = *constant_path(path)
-    klass = Class.new(base)
-    namespace.const_set(class_name, klass)
-    klass.class_eval(&block) if block_given?
-    defined_constants << path
-    klass
+    const = stub_const(path, Class.new(base))
+    const.class_eval(&block) if block_given?
+    const
   end
 
   def define_model(name, columns = {}, &block)
@@ -28,42 +25,26 @@ module DefineConstantMacros
       connection.create_table(table_name, &block)
       created_tables << table_name
       connection
-    rescue Exception => exception # rubocop:disable Lint/RescueException
+    rescue Exception => e # rubocop:disable Lint/RescueException
       connection.execute("DROP TABLE IF EXISTS #{table_name}")
-      raise exception
+      raise e
     end
-  end
-
-  def constant_path(constant_name)
-    names = constant_name.split("::")
-    class_name = names.pop
-    namespace = names.reduce(Object) { |result, name| result.const_get(name) }
-    [namespace, class_name]
-  end
-
-  def clear_generated_constants
-    defined_constants.reverse.each do |path|
-      namespace, class_name = *constant_path(path)
-      namespace.send(:remove_const, class_name)
-    end
-
-    defined_constants.clear
   end
 
   def clear_generated_tables
     created_tables.each do |table_name|
-      ActiveRecord::Base.
-        connection.
-        execute("DROP TABLE IF EXISTS #{table_name}")
+      clear_generated_table(table_name)
     end
     created_tables.clear
   end
 
-  private
-
-  def defined_constants
-    @defined_constants ||= []
+  def clear_generated_table(table_name)
+    ActiveRecord::Base.
+      connection.
+      execute("DROP TABLE IF EXISTS #{table_name}")
   end
+
+  private
 
   def created_tables
     @created_tables ||= []
@@ -75,13 +56,12 @@ RSpec.configure do |config|
 
   config.before(:all) do
     ActiveRecord::Base.establish_connection(
-      adapter:  "sqlite3",
-      database: File.join(File.dirname(__FILE__), "test.db"),
+      adapter: "sqlite3",
+      database: ":memory:",
     )
   end
 
   config.after do
-    clear_generated_constants
     clear_generated_tables
   end
 end

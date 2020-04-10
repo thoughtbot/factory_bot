@@ -5,7 +5,7 @@ factory_bot is a fixtures replacement with a straightforward definition syntax, 
 If you want to use factory_bot with Rails, see
 [factory_bot_rails](https://github.com/thoughtbot/factory_bot_rails).
 
-_[Interested in the history of the project name?](NAME.md)_
+_[Interested in the history of the project name?][NAME]_
 
 
 ### Transitioning from factory\_girl?
@@ -59,30 +59,37 @@ More Information
 * [Issues](https://github.com/thoughtbot/factory_bot/issues)
 * [GIANT ROBOTS SMASHING INTO OTHER GIANT ROBOTS](https://robots.thoughtbot.com/)
 
-You may also find useful information under the [factory_girl tag on Stack Overflow](https://stackoverflow.com/questions/tagged/factory-girl).
+[GETTING_STARTED]: https://github.com/thoughtbot/factory_bot/blob/master/GETTING_STARTED.md
+[NAME]: https://github.com/thoughtbot/factory_bot/blob/master/NAME.md
 
-[GETTING_STARTED]: https://www.rubydoc.info/gems/factory_bot/file/GETTING_STARTED.md
+Useful Tools
+------------
+
+* [FactoryTrace](https://github.com/djezzzl/factory_trace) - helps to find unused factories and traits.
 
 Contributing
 ------------
 
 Please see [CONTRIBUTING.md](https://github.com/thoughtbot/factory_bot/blob/master/CONTRIBUTING.md).
 
-factory_bot was originally written by Joe Ferris and is now maintained by Josh
-Clayton. Many improvements and bugfixes were contributed by the [open source
+factory_bot was originally written by Joe Ferris and is maintained by thoughtbot.
+Many improvements and bugfixes were contributed by the [open source
 community](https://github.com/thoughtbot/factory_bot/graphs/contributors).
 
 License
 -------
 
-factory_bot is Copyright © 2008-2016 Joe Ferris and thoughtbot. It is free
+factory_bot is Copyright © 2008-2020 Joe Ferris and thoughtbot. It is free
 software, and may be redistributed under the terms specified in the
-[LICENSE](/LICENSE) file.
+[LICENSE] file.
+
+[LICENSE]: https://github.com/thoughtbot/factory_bot/blob/master/LICENSE
+
 
 About thoughtbot
 ----------------
 
-![thoughtbot](https://presskit.thoughtbot.com/images/thoughtbot-logo-for-readmes.svg)
+![thoughtbot](https://thoughtbot.com/brand_assets/93:44.svg)
 
 factory_bot is maintained and funded by thoughtbot, inc.
 The names and logos for thoughtbot are trademarks of thoughtbot, inc.

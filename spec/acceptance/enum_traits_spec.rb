@@ -1,24 +1,24 @@
 describe "enum traits" do
   it "builds traits for each enumerated value" do
-    FactoryBot.automatically_define_enum_traits = false
-
-    define_model("Task", status: :integer) do
-      enum status: { queued: 0, started: 1, finished: 2 }
-    end
-
-    FactoryBot.define do
-      factory :task do
-        traits_for_enum(:status)
+    with_temporary_assignment(FactoryBot, :automatically_define_enum_traits, false) do
+      define_model("Task", status: :integer) do
+        enum status: { queued: 0, started: 1, finished: 2 }
       end
+
+      FactoryBot.define do
+        factory :task do
+          traits_for_enum(:status)
+        end
+      end
+
+      Task.statuses.each_key do |trait_name|
+        task = FactoryBot.build(:task, trait_name)
+
+        expect(task.status).to eq(trait_name)
+      end
+
+      Task.reset_column_information
     end
-
-    Task.statuses.each_key do |trait_name|
-      task = FactoryBot.build(:task, trait_name)
-
-      expect(task.status).to eq(trait_name)
-    end
-
-    Task.reset_column_information
   end
 
   it "builds traits automatically for model enum field" do
