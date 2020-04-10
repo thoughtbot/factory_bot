@@ -1,5 +1,7 @@
 describe "enum traits" do
   it "builds traits for each enumerated value" do
+    FactoryBot.automatically_define_enum_traits = false
+
     define_model("Task", status: :integer) do
       enum status: { queued: 0, started: 1, finished: 2 }
     end
@@ -125,7 +127,6 @@ describe "enum traits" do
     end
 
     statuses.each do |trait_name|
-
       task = FactoryBot.build(:task, trait_name)
 
       expect(task.status).to eq(trait_name)

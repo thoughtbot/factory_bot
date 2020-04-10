@@ -29,9 +29,13 @@ RSpec.configure do |config|
   config.around do |example|
     begin
       previous_use_parent_strategy = FactoryBot.use_parent_strategy
+      previous_automatically_define_enum_traits =
+        FactoryBot.automatically_define_enum_traits
       example.run
     ensure
       FactoryBot.use_parent_strategy = previous_use_parent_strategy
+      FactoryBot.automatically_define_enum_traits =
+        previous_automatically_define_enum_traits
     end
   end
 

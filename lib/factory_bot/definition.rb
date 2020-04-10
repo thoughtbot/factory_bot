@@ -58,9 +58,10 @@ module FactoryBot
     end
 
     def automatically_register_defined_enums(klass)
-      return unless klass.respond_to?(:defined_enums)
-      klass.defined_enums.each_key do |name|
-        register_enum(Enum.new(name))
+      if FactoryBot.automatically_define_enum_traits && klass.respond_to?(:defined_enums)
+        klass.defined_enums.each_key do |name|
+          register_enum(Enum.new(name))
+        end
       end
     end
 

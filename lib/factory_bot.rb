@@ -61,6 +61,9 @@ module FactoryBot
   mattr_accessor :use_parent_strategy, instance_accessor: false
   self.use_parent_strategy = true
 
+  mattr_accessor :automatically_define_enum_traits, instance_accessor: false
+  self.automatically_define_enum_traits = true
+
   # Look for errors in factories and (optionally) their traits.
   # Parameters:
   # factories - which factories to lint; omit for all factories
