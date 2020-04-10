@@ -57,15 +57,11 @@ module FactoryBot
       end
     end
 
-    def automatically_register_defined_enums(klass)
-      if FactoryBot.automatically_define_enum_traits && klass.respond_to?(:defined_enums)
-        klass.defined_enums.each_key do |name|
-          register_enum(Enum.new(name))
-        end
-      end
-    end
-
     def expand_enum_traits(klass)
+      if automatically_register_defined_enums?(klass)
+        automatically_register_defined_enums(klass)
+      end
+
       registered_enums.each do |enum|
         traits = enum.build_traits(klass)
         traits.each { |trait| define_trait(trait) }
@@ -154,6 +150,15 @@ module FactoryBot
         instance_exec(&block),
         additional_traits.map(&method_name),
       ].flatten.compact
+    end
+
+    def automatically_register_defined_enums(klass)
+      klass.defined_enums.each_key { |name| register_enum(Enum.new(name)) }
+    end
+
+    def automatically_register_defined_enums?(klass)
+      FactoryBot.automatically_define_enum_traits &&
+        klass.respond_to?(:defined_enums)
     end
   end
 end

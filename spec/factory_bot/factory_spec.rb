@@ -136,6 +136,7 @@ describe FactoryBot::Factory do
 
   it "creates a new factory while overriding the parent class" do
     name    = :user
+    define_class("User")
     factory = FactoryBot::Factory.new(name)
     FactoryBot::Internal.register_factory(factory)
 
