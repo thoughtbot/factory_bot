@@ -1,4 +1,5 @@
 module FactoryBot
+  # @api private
   class Enum
     def initialize(attribute_name, values = nil)
       @attribute_name = attribute_name

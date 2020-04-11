@@ -176,6 +176,44 @@ module FactoryBot
       @definition.define_trait(Trait.new(name, &block))
     end
 
+    # Allows for creation of traits for enumerable values. The instance can be
+    # built with the following allowed syntax.
+    # ----
+    # Default Example:
+    #   factory :task do
+    #     traits_for_enum :status
+    #   end
+    #
+    # Arguments:
+    # * name_of_enum_type_attribute: +Symbol+
+    #   The name of this attribute.
+    # * options: +Hash+
+    # * Where the hash has enum values
+    #   status: { queued: 0, started: 1, finished: 2 }
+    #
+    # ----
+    # Example using a list of values as an Array, or custom enum:
+    #   factory :task do
+    #     traits_for_enum :status, statuses
+    #   end
+    #
+    # Arguments:
+    # * name_of_enum_type_attribute: +Symbol+
+    #   The name of this attribute.
+    #
+    # * argument given: +Array+ or +CustomEnumClass+
+    #
+    # * Where the Array has enum values
+    #   statuses = %w[queued started finished]
+    #
+    # * Where the CustomEnumClass has enum values
+    #   status  = define_class("Statuses") do
+    #     include Enumerable
+    #
+    #     def each(&block)
+    #       ["queued", "started", "finished"].each(&block)
+    #     end
+    #   end.new
     def traits_for_enum(attribute_name, values = nil)
       @definition.register_enum(Enum.new(attribute_name, values))
     end
