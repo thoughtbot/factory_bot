@@ -176,44 +176,60 @@ module FactoryBot
       @definition.define_trait(Trait.new(name, &block))
     end
 
-    # Allows for creation of traits for enumerable values. The instance can be
-    # built with the following allowed syntax.
-    # ----
-    # Default Example:
+    # Creates traits for enumerable values.
+    #
+    # Example:
+    #   factory :task do
+    #     traits_for_enum :status, [:started, :finished]
+    #   end
+    #
+    # Equivalent to:
+    #   factory :task do
+    #     trait :started do
+    #       status { :started }
+    #     end
+    #
+    #     trait :finished do
+    #       status { :finished }
+    #     end
+    #   end
+    #
+    # Example:
+    #   factory :task do
+    #     traits_for_enum :status, {started: 1, finished: 2}
+    #   end
+    #
+    # Example:
+    #   class Task
+    #     def statuses
+    #       {started: 1, finished: 2}
+    #     end
+    #   end
+    #
     #   factory :task do
     #     traits_for_enum :status
     #   end
     #
-    # Arguments:
-    # * name_of_enum_type_attribute: +Symbol+
-    #   The name of this attribute.
-    # * options: +Hash+
-    # * Where the hash has enum values
-    #   status: { queued: 0, started: 1, finished: 2 }
-    #
-    # ----
-    # Example using a list of values as an Array, or custom enum:
+    # Both equivalent to:
     #   factory :task do
-    #     traits_for_enum :status, statuses
+    #     trait :started do
+    #       status { 1 }
+    #     end
+    #
+    #     trait :finished do
+    #       status { 2 }
+    #     end
     #   end
     #
+    #
     # Arguments:
-    # * name_of_enum_type_attribute: +Symbol+
-    #   The name of this attribute.
-    #
-    # * argument given: +Array+ or +CustomEnumClass+
-    #
-    # * Where the Array has enum values
-    #   statuses = %w[queued started finished]
-    #
-    # * Where the CustomEnumClass has enum values
-    #   status  = define_class("Statuses") do
-    #     include Enumerable
-    #
-    #     def each(&block)
-    #       ["queued", "started", "finished"].each(&block)
-    #     end
-    #   end.new
+    #   attribute_name: +Symbol+ or +String+
+    #     the name of the attribute these traits will set the value of
+    #   values: +Array+, +Hash+, or other +Enumerable+
+    #     An array of trait names, or a mapping of trait names to values for
+    #     those traits. When this argument is not provided, factory_bot will
+    #     attempt to get the values by calling the pluralized `attribute_name`
+    #     class method.
     def traits_for_enum(attribute_name, values = nil)
       @definition.register_enum(Enum.new(attribute_name, values))
     end
