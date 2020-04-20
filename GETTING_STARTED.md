@@ -119,7 +119,7 @@ It is also possible to explicitly specify the class:
 
 ```ruby
 # This will use the User class (otherwise Admin would have been guessed)
-factory :admin, class: "User"
+factory :admin, class: User
 ```
 
 If the constant is not available
