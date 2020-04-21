@@ -29,6 +29,18 @@ module FactoryBot
           raise ArgumentError, "count missing for #{strategy_name}_list"
         end
 
+        Array.new(amount) { send(strategy_name, name, *traits_and_overrides, &block) }
+      end
+    end
+
+    def define_list_with_index_strategy_method
+      strategy_name = @strategy_name
+
+      define_syntax_method("#{strategy_name}_list_with_index") do |name, amount, *traits_and_overrides, &block|
+        unless amount.respond_to?(:times)
+          raise ArgumentError, "count missing for #{strategy_name}_list_with_index"
+        end
+
         Array.new(amount) do |i|
           curried_block = block.nil? ? block : ->(*args) { block.call(*args << i) }
           send(strategy_name, name, *traits_and_overrides, &curried_block)
