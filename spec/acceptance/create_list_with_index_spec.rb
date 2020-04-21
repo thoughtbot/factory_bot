@@ -11,7 +11,7 @@ describe "create multiple instances" do
     end
 
     context "without a block" do
-      subject { FactoryBot.create_list_with_index(:post, 20, title: "The Hunting of the Snark") }
+      subject { FactoryBot.create_list_with_index(:post, 20) }
 
       it "creates identical items" do
         subject.each do |record|
@@ -22,7 +22,7 @@ describe "create multiple instances" do
 
     context "with a block that doesn't receive an index" do
       subject do
-        FactoryBot.create_list_with_index(:post, 20, title: "The Listing of the Block") do |post|
+        FactoryBot.create_list_with_index(:post, 20) do |post|
           post.position = post.id
         end
       end
@@ -36,7 +36,7 @@ describe "create multiple instances" do
 
     context "with a block that receives both the object and an index" do
       subject do
-        FactoryBot.create_list_with_index(:post, 20, title: "The Listing of the Indexed Block") do |post, index|
+        FactoryBot.create_list_with_index(:post, 20) do |post, index|
           post.position = index
         end
       end
@@ -49,7 +49,7 @@ describe "create multiple instances" do
     end
 
     context "without the count" do
-      subject { FactoryBot.create_list_with_index(:post, title: "The Hunting of the Bear") }
+      subject { FactoryBot.create_list_with_index(:post, title: "Countless") }
   
       it "raise ArgumentError with the proper error message" do
         expect { subject }.to raise_error(ArgumentError, /count missing/)
