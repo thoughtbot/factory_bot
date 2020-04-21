@@ -55,4 +55,4 @@ describe "create multiple instances" do
         expect { subject }.to raise_error(ArgumentError, /count missing/)
       end
     end
-  end
+end
