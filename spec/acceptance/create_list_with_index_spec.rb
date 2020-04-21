@@ -50,7 +50,7 @@ describe "create multiple instances" do
 
     context "without the count" do
       subject { FactoryBot.create_list_with_index(:post, title: "Countless") }
-  
+
       it "raise ArgumentError with the proper error message" do
         expect { subject }.to raise_error(ArgumentError, /count missing/)
       end
