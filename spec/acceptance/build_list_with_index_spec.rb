@@ -48,4 +48,3 @@ describe "build multiple instances" do
       end
     end
   end
-  
