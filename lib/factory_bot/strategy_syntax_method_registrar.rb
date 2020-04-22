@@ -30,7 +30,7 @@ module FactoryBot
         end
 
         Array.new(amount) do |i|
-          curried_block = block&.arity == 2 ? -> (record) { block.call(record, i) } : block
+          curried_block = block&.arity == 2 ? ->(record) { block.call(record, i) } : block
           send(strategy_name, name, *traits_and_overrides, &curried_block)
         end
       end
