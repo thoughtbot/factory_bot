@@ -29,7 +29,10 @@ module FactoryBot
           raise ArgumentError, "count missing for #{strategy_name}_list"
         end
 
-        Array.new(amount) { send(strategy_name, name, *traits_and_overrides, &block) }
+        Array.new(amount) do |i|
+          curried_block = block&.arity == 2 ? -> (record) { block.call(record, i) } : block
+          send(strategy_name, name, *traits_and_overrides, &curried_block)
+        end
       end
     end
 
