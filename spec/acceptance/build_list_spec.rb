@@ -54,7 +54,7 @@ describe "build multiple instances" do
 
   context "with a block that receives both the object and an index" do
     subject do
-      FactoryBot.build_list(:post, 20, title: "The Listing of the Indexed Block") do |post, index|
+      FactoryBot.build_list(:post, 20, title: "The Indexed Block") do |post, index|
         post.position = index
       end
     end
