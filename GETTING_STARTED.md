@@ -1018,7 +1018,7 @@ To set the attributes for each of the factories, you can pass in a hash as you n
 twenty_year_olds = build_list(:user, 25, date_of_birth: 20.years.ago)
 ```
 
-There are `*_list_with_index` methods for using the index to set different attribute values for each created item:
+In order to set different attributes for each factory, these methods may be passed a block, with the factory and the index as parameters:
 
 ```ruby
 twenty_somethings = build_list(:user, 10) do |user, i|
