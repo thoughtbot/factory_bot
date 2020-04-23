@@ -140,21 +140,4 @@ describe FactoryBot::Internal do
         to eq :strategy_class
     end
   end
-
-  describe "default strategies and callbacks" do
-    FactoryBot::Internal::DEFAULT_STRATEGIES.
-      each do |strategy_name, strategy_class|
-      it "registers the #{strategy_name} strategy by default" do
-        expect(FactoryBot::Internal.strategy_by_name(strategy_name)).
-          to eq strategy_class
-      end
-    end
-
-    FactoryBot::Internal::DEFAULT_CALLBACKS.each do |callback_name|
-      it "registers the #{callback_name} by default" do
-        expect(FactoryBot::Internal.callback_names.include?(callback_name)).
-          to be_truthy
-      end
-    end
-  end
 end

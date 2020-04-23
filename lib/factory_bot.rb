@@ -4,6 +4,7 @@ require "active_support/core_ext/module/attribute_accessors"
 require "active_support/deprecation"
 require "active_support/notifications"
 
+require "factory_bot/internal"
 require "factory_bot/definition_hierarchy"
 require "factory_bot/configuration"
 require "factory_bot/errors"
@@ -45,18 +46,9 @@ require "factory_bot/decorator/invocation_tracker"
 require "factory_bot/decorator/new_constructor"
 require "factory_bot/linter"
 require "factory_bot/version"
-require "factory_bot/internal"
 
 module FactoryBot
   Deprecation = ActiveSupport::Deprecation.new("6.0", "factory_bot")
-
-  def self.configuration
-    Internal.configuration
-  end
-
-  def self.reset_configuration
-    Internal.reset_configuration
-  end
 
   mattr_accessor :use_parent_strategy, instance_accessor: false
   self.use_parent_strategy = true
@@ -75,19 +67,13 @@ module FactoryBot
   end
 
   class << self
-    delegate :callbacks,
-             :callback_names,
+    delegate :callback_names,
+             :callbacks,
+             :configuration,
              :constructor,
              :factories,
+             :factory_by_name,
              :initialize_with,
-             :sequences,
-             :skip_create,
-             :strategies,
-             :to_create,
-             :traits,
-             to: :configuration
-
-    delegate :factory_by_name,
              :register_callback,
              :register_default_callbacks,
              :register_default_strategies,
@@ -95,10 +81,16 @@ module FactoryBot
              :register_sequence,
              :register_strategy,
              :register_trait,
+             :reset_configuration,
              :rewind_sequences,
              :sequence_by_name,
+             :sequences,
+             :skip_create,
+             :strategies,
              :strategy_by_name,
+             :to_create,
              :trait_by_name,
+             :traits,
              to: Internal
 
     attr_accessor :allow_class_lookup
@@ -106,15 +98,23 @@ module FactoryBot
     deprecate :allow_class_lookup,
               :allow_class_lookup=,
               :callback_names,
+              :callbacks,
+              :configuration,
+              :constructor,
               :factory_by_name,
+              :initialize_with,
               :register_callback,
               :register_default_callbacks,
               :register_default_strategies,
               :register_factory,
+              :register_sequence,
               :register_trait,
+              :reset_configuration,
               :sequence_by_name,
               :sequences,
+              :skip_create,
               :strategies,
+              :to_create,
               :trait_by_name,
               :traits,
               deprecator: Deprecation
