@@ -88,7 +88,7 @@ module FactoryBot
     #   end
     #
     # are equivalent.
-    def method_missing(name, *args, &block) # rubocop:disable Style/MissingRespondToMissing, Style/MethodMissingSuper, Metrics/LineLength
+    def method_missing(name, *args, &block) # rubocop:disable Style/MissingRespondToMissing, Style/MethodMissingSuper
       association_options = args.first
 
       if association_options.nil?
