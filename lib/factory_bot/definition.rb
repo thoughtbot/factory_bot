@@ -44,8 +44,10 @@ module FactoryBot
       aggregate_from_traits_and_self(:callbacks) { @callbacks }
     end
 
-    def compile
+    def compile(klass = nil)
       unless @compiled
+        expand_enum_traits(klass) unless klass.nil?
+
         declarations.attributes
 
         defined_traits.each do |defined_trait|
@@ -54,17 +56,6 @@ module FactoryBot
         end
 
         @compiled = true
-      end
-    end
-
-    def expand_enum_traits(klass)
-      if automatically_register_defined_enums?(klass)
-        automatically_register_defined_enums(klass)
-      end
-
-      registered_enums.each do |enum|
-        traits = enum.build_traits(klass)
-        traits.each { |trait| define_trait(trait) }
       end
     end
 
@@ -150,6 +141,17 @@ module FactoryBot
         instance_exec(&block),
         additional_traits.map(&method_name),
       ].flatten.compact
+    end
+
+    def expand_enum_traits(klass)
+      if automatically_register_defined_enums?(klass)
+        automatically_register_defined_enums(klass)
+      end
+
+      registered_enums.each do |enum|
+        traits = enum.build_traits(klass)
+        traits.each { |trait| define_trait(trait) }
+      end
     end
 
     def automatically_register_defined_enums(klass)
