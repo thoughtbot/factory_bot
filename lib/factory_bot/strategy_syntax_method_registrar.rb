@@ -11,8 +11,6 @@ module FactoryBot
       define_pair_strategy_method
     end
 
-    private
-
     def self.with_index(block, index)
       if block&.arity == 2
         ->(instance) { block.call(instance, index) }
@@ -20,6 +18,8 @@ module FactoryBot
         block
       end
     end
+
+    private
 
     def define_singular_strategy_method
       strategy_name = @strategy_name
