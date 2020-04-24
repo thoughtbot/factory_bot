@@ -1,6 +1,4 @@
 rvm:
-  - 2.3
-  - 2.4
   - 2.5
   - 2.6
   - 2.7
@@ -13,20 +11,12 @@ before_install:
 install: "bundle install --jobs 8"
 script: "bundle exec rake"
 gemfile:
-  - gemfiles/4.2.gemfile
   - gemfiles/5.0.gemfile
   - gemfiles/5.1.gemfile
   - gemfiles/5.2.gemfile
   - gemfiles/6.0.gemfile
   - gemfiles/master.gemfile
 matrix:
-  exclude:
-    - rvm: 2.3
-      gemfile: gemfiles/6.0.gemfile
-    - rvm: 2.4
-      gemfile: gemfiles/6.0.gemfile
-    - rvm: 2.7
-      gemfile: gemfiles/4.2.gemfile
   fast_finish: true
   allow_failures:
     - rvm: ruby-head

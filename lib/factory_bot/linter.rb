@@ -81,12 +81,9 @@ module FactoryBot
     def lint_traits(factory)
       result = []
       factory.definition.defined_traits.map(&:name).each do |trait_name|
-        begin
-          FactoryBot.public_send(factory_strategy, factory.name, trait_name)
-        rescue StandardError => e
-          result |=
-            [FactoryTraitError.new(e, factory, trait_name)]
-        end
+        FactoryBot.public_send(factory_strategy, factory.name, trait_name)
+      rescue StandardError => e
+        result |= [FactoryTraitError.new(e, factory, trait_name)]
       end
       result
     end

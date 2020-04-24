@@ -3,14 +3,7 @@ ActiveRecord::Base.establish_connection(
   database: ":memory:",
 )
 
-migration_class =
-  if ActiveRecord::Migration.respond_to?(:[])
-    ActiveRecord::Migration[4.2]
-  else
-    ActiveRecord::Migration
-  end
-
-class CreateSchema < migration_class
+class CreateSchema < ActiveRecord::Migration[5.0]
   def self.up
     create_table :categories, force: true do |t|
       t.string :name

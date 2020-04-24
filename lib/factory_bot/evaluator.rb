@@ -7,7 +7,7 @@ module FactoryBot
     class_attribute :attribute_lists
 
     private_instance_methods.each do |method|
-      undef_method(method) unless method =~ /^__|initialize/
+      undef_method(method) unless method.match?(/^__|initialize/)
     end
 
     def initialize(build_strategy, overrides = {})

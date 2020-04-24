@@ -48,7 +48,7 @@ require "factory_bot/linter"
 require "factory_bot/version"
 
 module FactoryBot
-  Deprecation = ActiveSupport::Deprecation.new("6.0", "factory_bot")
+  Deprecation = ActiveSupport::Deprecation.new("7.0", "factory_bot")
 
   mattr_accessor :use_parent_strategy, instance_accessor: false
   self.use_parent_strategy = true
@@ -76,57 +76,11 @@ module FactoryBot
   end
 
   class << self
-    delegate :callback_names,
-             :callbacks,
-             :configuration,
-             :constructor,
-             :factories,
-             :factory_by_name,
-             :initialize_with,
-             :register_callback,
-             :register_default_callbacks,
-             :register_default_strategies,
-             :register_factory,
-             :register_sequence,
+    delegate :factories,
              :register_strategy,
-             :register_trait,
-             :reset_configuration,
              :rewind_sequences,
-             :sequence_by_name,
-             :sequences,
-             :skip_create,
-             :strategies,
              :strategy_by_name,
-             :to_create,
-             :trait_by_name,
-             :traits,
              to: Internal
-
-    attr_accessor :allow_class_lookup
-
-    deprecate :allow_class_lookup,
-              :allow_class_lookup=,
-              :callback_names,
-              :callbacks,
-              :configuration,
-              :constructor,
-              :factory_by_name,
-              :initialize_with,
-              :register_callback,
-              :register_default_callbacks,
-              :register_default_strategies,
-              :register_factory,
-              :register_sequence,
-              :register_trait,
-              :reset_configuration,
-              :sequence_by_name,
-              :sequences,
-              :skip_create,
-              :strategies,
-              :to_create,
-              :trait_by_name,
-              :traits,
-              deprecator: Deprecation
   end
 end
 
