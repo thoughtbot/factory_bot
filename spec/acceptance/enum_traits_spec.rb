@@ -51,7 +51,9 @@ describe "enum traits" do
     it "builds traits for each enumerated value using a provided list of values as a Hash" do
       statuses = { queued: 0, started: 1, finished: 2 }
 
-      define_model "Task", status: :integer
+      define_class "Task" do
+        attr_accessor :status
+      end
 
       FactoryBot.define do
         factory :task do
@@ -64,14 +66,14 @@ describe "enum traits" do
 
         expect(task.status).to eq(trait_value)
       end
-
-      Task.reset_column_information
     end
 
     it "builds traits for each enumerated value using a provided list of values as an Array" do
       statuses = %w[queued started finished]
 
-      define_model "Task", status: :string
+      define_class "Task" do
+        attr_accessor :status
+      end
 
       FactoryBot.define do
         factory :task do
@@ -84,8 +86,6 @@ describe "enum traits" do
 
         expect(task.status).to eq(trait_name)
       end
-
-      Task.reset_column_information
     end
 
     it "builds traits for each enumerated value using a custom enumerable" do
@@ -97,7 +97,9 @@ describe "enum traits" do
         end
       end.new
 
-      define_model "Task", status: :string
+      define_class "Task" do
+        attr_accessor :status
+      end
 
       FactoryBot.define do
         factory :task do
@@ -110,13 +112,11 @@ describe "enum traits" do
 
         expect(task.status).to eq(trait_name)
       end
-
-      Task.reset_column_information
     end
   end
 
   context "when automatically_define_enum_traits is false" do
-    it "raises error when attempting to build traits automatically" do
+    it "raises an error for undefined traits" do
       with_temporary_assignment(FactoryBot, :automatically_define_enum_traits, false) do
         define_model("Task", status: :integer) do
           enum status: { queued: 0, started: 1, finished: 2 }
