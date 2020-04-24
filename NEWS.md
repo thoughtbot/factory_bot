@@ -1,5 +1,9 @@
 # News
 
+## 5.2.0 (April 24, 2020)
+  * Added: Pass index to block for `*_list` methods
+  * Deprecated: top-level methods meant only for internal use: `callbacks`, `configuration`, `constructor`, `initialize_with`, `register_sequence`, `resent_configuration`, `skip_create`, `to_create`
+
 ## 5.1.2 (March 25, 2020)
   * Fixed: Ruby 2.7 keyword deprecation warning in FactoryBot.lint
 
