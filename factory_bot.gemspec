@@ -15,7 +15,7 @@ Gem::Specification.new do |s|
     %w[CONTRIBUTING.md GETTING_STARTED.md LICENSE NAME.md NEWS.md README.md .yardopts]
 
   s.require_path = "lib"
-  s.required_ruby_version = Gem::Requirement.new(">= 2.3.0")
+  s.required_ruby_version = Gem::Requirement.new(">= 2.5.0")
 
   s.authors = ["Josh Clayton", "Joe Ferris"]
   s.email   = ["jclayton@thoughtbot.com", "jferris@thoughtbot.com"]
@@ -23,7 +23,7 @@ Gem::Specification.new do |s|
   s.homepage = "https://github.com/thoughtbot/factory_bot"
   s.metadata["changelog_uri"] = "https://github.com/thoughtbot/factory_bot/blob/master/NEWS.md"
 
-  s.add_dependency("activesupport", ">= 4.2.0")
+  s.add_dependency("activesupport", ">= 5.0.0")
 
   s.add_development_dependency("activerecord")
   s.add_development_dependency("appraisal")

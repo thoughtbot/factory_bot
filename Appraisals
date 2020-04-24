@@ -1,9 +1,3 @@
-appraise "4.2" do
-  gem "activerecord", "~> 4.2.11"
-  gem "activerecord-jdbcsqlite3-adapter", "~> 1.3.25", platforms: [:jruby]
-  gem "sqlite3", "~> 1.3.6", platforms: [:ruby]
-end
-
 appraise "5.0" do
   gem "activerecord", "~> 5.0.7"
   gem "activerecord-jdbcsqlite3-adapter", platforms: [:jruby]
