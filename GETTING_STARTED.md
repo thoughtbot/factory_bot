@@ -1018,6 +1018,14 @@ To set the attributes for each of the factories, you can pass in a hash as you n
 twenty_year_olds = build_list(:user, 25, date_of_birth: 20.years.ago)
 ```
 
+In order to set different attributes for each factory, these methods may be passed a block, with the factory and the index as parameters:
+
+```ruby
+twenty_somethings = build_list(:user, 10) do |user, i|
+  user.date_of_birth = (20 + i).years.ago
+end
+```
+
 `build_stubbed_list` will give you fully stubbed out instances:
 
 ```ruby
