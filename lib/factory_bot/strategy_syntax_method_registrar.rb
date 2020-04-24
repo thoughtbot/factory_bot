@@ -13,6 +13,14 @@ module FactoryBot
 
     private
 
+    def self.with_index(block, index)
+      if block&.arity == 2
+        ->(instance) { block.call(instance, index) }
+      else
+        block
+      end
+    end
+
     def define_singular_strategy_method
       strategy_name = @strategy_name
 
@@ -30,8 +38,8 @@ module FactoryBot
         end
 
         Array.new(amount) do |i|
-          curried_block = block&.arity == 2 ? ->(record) { block.call(record, i) } : block
-          send(strategy_name, name, *traits_and_overrides, &curried_block)
+          block_with_index = StrategySyntaxMethodRegistrar.with_index(block, i)
+          send(strategy_name, name, *traits_and_overrides, &block_with_index)
         end
       end
     end
