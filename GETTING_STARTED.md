@@ -375,7 +375,7 @@ end
 create(:user).name
 #=> "John Doe - ROCKSTAR"
 
-create(:user, rockstart: false).name
+create(:user, rockstar: false).name
 #=> "John Doe"
 ```
 
