@@ -24,6 +24,10 @@ module FactoryBot
         :update_columns,
       ].freeze
 
+      def self.next_id=(id)
+        @@next_id = id
+      end
+
       def association(runner)
         runner.run(:build_stubbed)
       end

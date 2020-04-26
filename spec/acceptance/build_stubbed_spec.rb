@@ -279,3 +279,21 @@ describe "defaulting `id`" do
     expect(FactoryBot.build_stubbed(:post, id: 12).id).to eq 12
   end
 end
+
+describe "configuring the starting id" do
+  it "defines which id build_stubbed instances start with" do
+    define_model("Post")
+
+    FactoryBot.define do
+      factory :post
+    end
+
+    FactoryBot.build_stubbed_starting_id = 1000
+
+    expect(FactoryBot.build_stubbed(:post).id).to eq 1000
+
+    FactoryBot.build_stubbed_starting_id = 3000
+
+    expect(FactoryBot.build_stubbed(:post).id).to eq 3000
+  end
+end

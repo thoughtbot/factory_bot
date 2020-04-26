@@ -66,6 +66,15 @@ module FactoryBot
     Linter.new(factories_to_lint, **options).lint!
   end
 
+  # Set the starting value for ids when using the build_stubbed strategy
+  #
+  # Arguments:
+  # * starting_id +Integer+
+  #   The new starting id value.
+  def self.build_stubbed_starting_id=(starting_id)
+    Strategy::Stub.next_id = starting_id - 1
+  end
+
   class << self
     delegate :callback_names,
              :callbacks,
