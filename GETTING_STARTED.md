@@ -29,6 +29,7 @@ Getting Started
   + [With other attributes](#with-other-attributes)
   + [With `attributes_for`](#with-attributes_for)
   + [With callbacks](#with-callbacks)
+  + [With associations](#with-associations)
 * [Method Name / Reserved Word Attributes](#method-name--reserved-word-attributes)
 * [Inheritance](#inheritance)
   + [Nested factories](#nested-factories)
@@ -58,7 +59,7 @@ Getting Started
   + [Attribute precedence](#attribute-precedence)
   + [In child factories](#in-child-factories)
   + [Using traits](#using-traits)
-  + [With associations](#with-associations)
+  + [With associations](#with-associations-1)
   + [Traits within traits](#traits-within-traits)
   + [With transient attributes](#with-transient-attributes)
 * [Callbacks](#callbacks)
@@ -408,6 +409,25 @@ create(:user).name
 
 create(:user, upcased: true).name
 #=> "JOHN DOE"
+```
+
+### With associations
+
+Transient [associations](#associations) are not supported in factory\_bot.
+Associations within the transient block will be treated as regular,
+non-transient associations.
+
+If needed, you can generally work around this by building a factory within a
+transient attribute:
+
+```ruby
+factory :post
+
+factory :user do
+  transient do
+    post { build(:post) }
+  end
+end
 ```
 
 Method Name / Reserved Word Attributes
