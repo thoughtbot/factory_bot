@@ -2,7 +2,7 @@
 
 ## 5.2.0 (April 24, 2020)
   * Added: Pass index to block for `*_list` methods
-  * Deprecated: top-level methods meant only for internal use: `callbacks`, `configuration`, `constructor`, `initialize_with`, `register_sequence`, `resent_configuration`, `skip_create`, `to_create`
+  * Deprecated: methods on the top-level `FactoryBot` module meant only for internal use: `callbacks`, `configuration`, `constructor`, `initialize_with`, `register_sequence`, `resent_configuration`, `skip_create`, `to_create`
 
 ## 5.1.2 (March 25, 2020)
   * Fixed: Ruby 2.7 keyword deprecation warning in FactoryBot.lint
@@ -17,7 +17,7 @@
   * Fixed: avoid undefining inherited evaluator methods
   * Fixed: avoid stubbing id for records without a primary key
   * Fixed: raise a helpful error for self-referencing traits to avoid a `SystemStackError`
-  * Deprecated: top-level methods meant only for internal use: `allow_class_lookup`, `allow_class_lookup`=, `register_trait`, `trait_by_name`, `traits`, `sequence_by_name`, `sequences`, `factory_by_name`, `register_factory`, `callback_names`, `register_callback`, `register_default_callbacks`, `register_default_strategies`, `strategies`
+  * Deprecated: methods on the top-level `FactoryBot` module meant only for internal use: `allow_class_lookup`, `allow_class_lookup`=, `register_trait`, `trait_by_name`, `traits`, `sequence_by_name`, `sequences`, `factory_by_name`, `register_factory`, `callback_names`, `register_callback`, `register_default_callbacks`, `register_default_strategies`, `strategies`
 
 ## 5.0.2 (February 22, 2019)
   * Bugfix: raise "Trait not registered" error when passing invalid trait arguments
