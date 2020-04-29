@@ -18,6 +18,7 @@ gemfile:
   - gemfiles/5.1.gemfile
   - gemfiles/5.2.gemfile
   - gemfiles/6.0.gemfile
+  - gemfiles/master.gemfile
 matrix:
   exclude:
     - rvm: 2.3
@@ -29,6 +30,7 @@ matrix:
   fast_finish: true
   allow_failures:
     - rvm: ruby-head
+    - gemfile: gemfiles/master.gemfile
 branches:
   only:
     - master
