@@ -32,6 +32,7 @@ require "factory_bot/declaration"
 require "factory_bot/sequence"
 require "factory_bot/attribute_list"
 require "factory_bot/trait"
+require "factory_bot/enum"
 require "factory_bot/aliases"
 require "factory_bot/definition"
 require "factory_bot/definition_proxy"
@@ -52,6 +53,9 @@ module FactoryBot
 
   mattr_accessor :use_parent_strategy, instance_accessor: false
   self.use_parent_strategy = true
+
+  mattr_accessor :automatically_define_enum_traits, instance_accessor: false
+  self.automatically_define_enum_traits = true
 
   # Look for errors in factories and (optionally) their traits.
   # Parameters:

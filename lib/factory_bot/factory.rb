@@ -84,7 +84,7 @@ module FactoryBot
       unless @compiled
         parent.compile
         parent.defined_traits.each { |trait| define_trait(trait) }
-        @definition.compile
+        @definition.compile(build_class)
         build_hierarchy
         @compiled = true
       end

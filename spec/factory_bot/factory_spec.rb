@@ -17,6 +17,7 @@ describe FactoryBot::Factory do
   end
 
   it "returns associations" do
+    define_class("Post")
     factory = FactoryBot::Factory.new(:post)
     FactoryBot::Internal.register_factory(FactoryBot::Factory.new(:admin))
     factory.declare_attribute(FactoryBot::Declaration::Association.new(:author, {}))
@@ -32,6 +33,7 @@ describe FactoryBot::Factory do
     association_on_parent = FactoryBot::Declaration::Association.new(:association_on_parent, {})
     association_on_child  = FactoryBot::Declaration::Association.new(:association_on_child, {})
 
+    define_class("Post")
     factory = FactoryBot::Factory.new(:post)
     factory.declare_attribute(association_on_parent)
     FactoryBot::Internal.register_factory(factory)
@@ -134,6 +136,7 @@ describe FactoryBot::Factory do
 
   it "creates a new factory while overriding the parent class" do
     name    = :user
+    define_class("User")
     factory = FactoryBot::Factory.new(name)
     FactoryBot::Internal.register_factory(factory)
 
