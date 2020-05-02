@@ -362,7 +362,7 @@ Transient Attributes
 
 There may be times where your code can be DRYed up by passing in transient
 attributes to factories. You can access transient attributes within other
-attributes (see [Dependent Attributes](#dependent-attributes):
+attributes (see [Dependent Attributes](#dependent-attributes)):
 
 ```ruby
 factory :user do
