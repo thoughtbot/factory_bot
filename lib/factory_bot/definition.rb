@@ -102,7 +102,6 @@ module FactoryBot
 
     def callback(*names, &block)
       names.each do |name|
-        FactoryBot::Internal.register_callback(name)
         add_callback(Callback.new(name, block))
       end
     end

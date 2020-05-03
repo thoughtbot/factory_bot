@@ -24,16 +24,4 @@ describe FactoryBot::Callback do
     FactoryBot::Callback.new(:after_create, ->(one, two) { ran_with = [one, two] }).run(:one, :two)
     expect(ran_with).to eq [:one, :two]
   end
-
-  it "allows valid callback names to be assigned" do
-    FactoryBot::Internal.callback_names.each do |callback_name|
-      expect { FactoryBot::Callback.new(callback_name, -> {}) }.
-        to_not raise_error
-    end
-  end
-
-  it "raises if an invalid callback name is assigned" do
-    expect { FactoryBot::Callback.new(:magic_fairies, -> {}) }.
-      to raise_error(FactoryBot::InvalidCallbackNameError, /magic_fairies is not a valid callback name/)
-  end
 end

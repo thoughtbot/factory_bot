@@ -89,4 +89,3 @@ module FactoryBot
 end
 
 FactoryBot::Internal.register_default_strategies
-FactoryBot::Internal.register_default_callbacks
