@@ -4,7 +4,6 @@ module FactoryBot
     class << self
       delegate :after,
                :before,
-               :callback_names,
                :callbacks,
                :constructor,
                :factories,
@@ -86,18 +85,6 @@ module FactoryBot
         register_strategy(:attributes_for, FactoryBot::Strategy::AttributesFor)
         register_strategy(:build_stubbed, FactoryBot::Strategy::Stub)
         register_strategy(:null, FactoryBot::Strategy::Null)
-      end
-
-      def register_default_callbacks
-        register_callback(:after_create)
-        register_callback(:after_build)
-        register_callback(:after_stub)
-        register_callback(:before_create)
-      end
-
-      def register_callback(name)
-        name = name.to_sym
-        callback_names << name
       end
     end
   end

@@ -5,7 +5,6 @@ module FactoryBot
     def initialize(name, block)
       @name  = name.to_sym
       @block = block
-      ensure_valid_callback_name!
     end
 
     def run(instance, evaluator)
@@ -26,13 +25,6 @@ module FactoryBot
     attr_reader :block
 
     private
-
-    def ensure_valid_callback_name!
-      unless FactoryBot::Internal.callback_names.include?(name)
-        raise InvalidCallbackNameError, "#{name} is not a valid callback name. " +
-          "Valid callback names are #{FactoryBot::Internal.callback_names.inspect}"
-      end
-    end
 
     def syntax_runner
       @syntax_runner ||= SyntaxRunner.new
