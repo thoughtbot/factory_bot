@@ -3,7 +3,6 @@ Getting Started
 
 * [Setup](#setup)
   + [Update Your Gemfile](#update-your-gemfile)
-  + [JRuby](#jruby)
   + [Configure your test suite](#configure-your-test-suite)
     - [RSpec](#rspec)
     - [Test::Unit](#testunit)
@@ -94,18 +93,6 @@ If you're *not* using Rails:
 ```ruby
 gem "factory_bot"
 ```
-
-### JRuby
-
-JRuby users: factory\_bot works with JRuby starting with 1.6.7.2 (latest stable,
-as per July 2012). JRuby has to be used in 1.9 mode, for that, use JRUBY_OPTS
-environment variable:
-
-```bash
-export JRUBY_OPTS=--1.9
-```
-
-Once your Gemfile is updated, you'll want to update your bundle.
 
 ### Configure your test suite
 
