@@ -13,7 +13,7 @@ module FactoryBot
       end
     end
 
-    def respond_to?(method, _include_private = false)
+    def respond_to?(method)
       @methods_to_respond_to.include? method.to_s
     end
   end
