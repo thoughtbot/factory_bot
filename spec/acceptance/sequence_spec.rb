@@ -69,4 +69,24 @@ describe "sequences" do
     expect(values.first).to eq("somebody1@example.com")
     expect(values.second).to eq("somebody2@example.com")
   end
+
+  context "when the :randomise_sequence_start config option is set to true" do
+    before { allow(Random).to receive(:rand).and_return(123) }
+
+    it "randomly offsets the initial sequence value" do
+      with_temporary_assignment(FactoryBot, :randomise_sequence_start, true) do
+        FactoryBot.define do
+          sequence :email do |n|
+            "somebody#{n}@example.com"
+          end
+        end
+
+        first_value = generate(:email)
+        another_value = generate(:email)
+
+        expect(first_value).to eq "somebody124@example.com"
+        expect(another_value).to eq "somebody125@example.com"
+      end
+    end
+  end
 end

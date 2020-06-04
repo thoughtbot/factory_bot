@@ -51,6 +51,9 @@ require "factory_bot/version"
 module FactoryBot
   Deprecation = ActiveSupport::Deprecation.new("7.0", "factory_bot")
 
+  mattr_accessor :randomise_sequence_start, instance_accessor: false
+  self.randomise_sequence_start = false
+
   mattr_accessor :use_parent_strategy, instance_accessor: false
   self.use_parent_strategy = true
 

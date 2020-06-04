@@ -10,7 +10,7 @@ module FactoryBot
       @proc    = proc
 
       options  = args.extract_options!
-      @value   = args.first || 1
+      @value   = args.first || default_value
       @aliases = options.fetch(:aliases) { [] }
 
       if !@value.respond_to?(:peek)
@@ -39,6 +39,12 @@ module FactoryBot
     end
 
     private
+
+    def default_value
+      offset = FactoryBot.randomise_sequence_start ? Random.rand(1_000) : 0
+
+      offset + 1
+    end
 
     def value
       @value.peek
