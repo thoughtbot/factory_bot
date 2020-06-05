@@ -8,23 +8,23 @@ module FactoryBot
 
     def initialize(name, options = {})
       assert_valid_options(options)
-      @name             = name.respond_to?(:to_sym) ? name.to_sym : name.to_s.underscore.to_sym
-      @parent           = options[:parent]
-      @aliases          = options[:aliases] || []
-      @class_name       = options[:class]
-      @definition       = Definition.new(@name, options[:traits] || [])
-      @compiled         = false
+      @name = name.respond_to?(:to_sym) ? name.to_sym : name.to_s.underscore.to_sym
+      @parent = options[:parent]
+      @aliases = options[:aliases] || []
+      @class_name = options[:class]
+      @definition = Definition.new(@name, options[:traits] || [])
+      @compiled = false
     end
 
     delegate :add_callback, :declare_attribute, :to_create, :define_trait, :constructor,
-             :defined_traits, :inherit_traits, :append_traits, to: :@definition
+      :defined_traits, :inherit_traits, :append_traits, to: :@definition
 
     def build_class
       @build_class ||= if class_name.is_a? Class
-                         class_name
-                       else
-                         class_name.to_s.camelize.constantize
-                       end
+        class_name
+      else
+        class_name.to_s.camelize.constantize
+      end
     end
 
     def run(build_strategy, overrides, &block)

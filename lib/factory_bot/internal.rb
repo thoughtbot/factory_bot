@@ -3,18 +3,18 @@ module FactoryBot
   module Internal
     class << self
       delegate :after,
-               :before,
-               :callbacks,
-               :constructor,
-               :factories,
-               :initialize_with,
-               :inline_sequences,
-               :sequences,
-               :skip_create,
-               :strategies,
-               :to_create,
-               :traits,
-               to: :configuration
+        :before,
+        :callbacks,
+        :constructor,
+        :factories,
+        :initialize_with,
+        :inline_sequences,
+        :sequences,
+        :skip_create,
+        :strategies,
+        :to_create,
+        :traits,
+        to: :configuration
 
       def configuration
         @configuration ||= Configuration.new

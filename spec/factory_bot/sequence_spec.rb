@@ -1,5 +1,5 @@
 shared_examples "a sequence" do |options|
-  first_value  = options[:first_value]
+  first_value = options[:first_value]
   second_value = options[:second_value]
 
   it "has a next value equal to its first value" do
@@ -23,9 +23,9 @@ end
 describe FactoryBot::Sequence do
   describe "a basic sequence" do
     let(:name) { :test }
-    subject    { FactoryBot::Sequence.new(name) { |n| "=#{n}" } }
+    subject { FactoryBot::Sequence.new(name) { |n| "=#{n}" } }
 
-    its(:name)  { should eq name }
+    its(:name) { should eq name }
     its(:names) { should eq [name] }
 
     it_behaves_like "a sequence", first_value: "=1", second_value: "=2"
@@ -46,9 +46,9 @@ describe FactoryBot::Sequence do
 
     it "has the expected names as its names" do
       names = [:foo, :bar, :baz]
-      sequence = FactoryBot::Sequence.new(names.first, aliases: names.last(2)) do
+      sequence = FactoryBot::Sequence.new(names.first, aliases: names.last(2)) {
         "=#{n}"
-      end
+      }
 
       expect(sequence.names).to eq names
     end
@@ -65,9 +65,9 @@ describe FactoryBot::Sequence do
 
     it "has the expected names as its names" do
       names = [:foo, :bar, :baz]
-      sequence = FactoryBot::Sequence.new(names.first, 3, aliases: names.last(2)) do
+      sequence = FactoryBot::Sequence.new(names.first, 3, aliases: names.last(2)) {
         "=#{n}"
-      end
+      }
       expect(sequence.names).to eq names
     end
 

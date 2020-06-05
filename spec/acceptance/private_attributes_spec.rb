@@ -12,8 +12,8 @@ describe "setting private attributes" do
       end
     end
 
-    expect do
+    expect {
       FactoryBot.build(:user)
-    end.to raise_error NoMethodError, /foo=/
+    }.to raise_error NoMethodError, /foo=/
   end
 end

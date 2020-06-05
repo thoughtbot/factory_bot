@@ -5,8 +5,8 @@ module FactoryBot
 
     def initialize(name = nil)
       @declarations = []
-      @name         = name
-      @overridable  = false
+      @name = name
+      @overridable = false
     end
 
     def declare_attribute(declaration)

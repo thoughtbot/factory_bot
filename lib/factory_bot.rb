@@ -81,10 +81,10 @@ module FactoryBot
 
   class << self
     delegate :factories,
-             :register_strategy,
-             :rewind_sequences,
-             :strategy_by_name,
-             to: Internal
+      :register_strategy,
+      :rewind_sequences,
+      :strategy_by_name,
+      to: Internal
   end
 end
 

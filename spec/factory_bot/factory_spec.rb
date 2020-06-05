@@ -1,6 +1,6 @@
 describe FactoryBot::Factory do
   it "has a factory name" do
-    name    = :user
+    name = :user
     factory = FactoryBot::Factory.new(name)
     FactoryBot::Internal.register_factory(factory)
 
@@ -31,7 +31,7 @@ describe FactoryBot::Factory do
 
   it "includes associations from the parent factory" do
     association_on_parent = FactoryBot::Declaration::Association.new(:association_on_parent, {})
-    association_on_child  = FactoryBot::Declaration::Association.new(:association_on_child, {})
+    association_on_child = FactoryBot::Declaration::Association.new(:association_on_child, {})
 
     define_class("Post")
     factory = FactoryBot::Factory.new(:post)
@@ -48,7 +48,7 @@ describe FactoryBot::Factory do
     it "returns the overridden value in the generated attributes" do
       name = :name
       value = "The price is right!"
-      hash = { name => value }
+      hash = {name => value}
       define_class("Name")
       factory = FactoryBot::Factory.new(name)
       declaration =
@@ -67,7 +67,7 @@ describe FactoryBot::Factory do
       declaration =
         FactoryBot::Declaration::Dynamic.new(name, false, -> { flunk })
       factory.declare_attribute(declaration)
-      hash = { name.to_s => value }
+      hash = {name.to_s => value}
       result = factory.run(FactoryBot::Strategy::AttributesFor, hash)
 
       expect(result[name]).to eq value
@@ -88,7 +88,7 @@ describe FactoryBot::Factory do
       FactoryBot.aliases << [/(.*)_alias/, '\1']
       result = factory.run(
         FactoryBot::Strategy::AttributesFor,
-        test_alias: "new",
+        test_alias: "new"
       )
 
       expect(result[:test_alias]).to eq "new"
@@ -107,7 +107,7 @@ describe FactoryBot::Factory do
       FactoryBot.aliases << [/(.*)_alias/, '\1']
       result = factory.run(
         FactoryBot::Strategy::AttributesFor,
-        test_alias: "new",
+        test_alias: "new"
       )
 
       expect(result[:test]).to be_nil
@@ -135,7 +135,7 @@ describe FactoryBot::Factory do
   end
 
   it "creates a new factory while overriding the parent class" do
-    name    = :user
+    name = :user
     define_class("User")
     factory = FactoryBot::Factory.new(name)
     FactoryBot::Internal.register_factory(factory)
@@ -296,8 +296,8 @@ describe FactoryBot::Factory, "running a factory" do
     declaration = FactoryBot::Declaration::Dynamic.new(:name, false, -> { "value" })
     strategy = double("strategy", result: "result", add_observer: true)
     define_model("User", name: :string)
-    allow(FactoryBot::Declaration::Dynamic).to receive(:new).
-      and_return declaration
+    allow(FactoryBot::Declaration::Dynamic).to receive(:new)
+      .and_return declaration
     allow(declaration).to receive(:to_attributes).and_return attributes
     allow(FactoryBot::Strategy::Build).to receive(:new).and_return strategy
     factory = FactoryBot::Factory.new(:user)

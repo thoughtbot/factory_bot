@@ -2,10 +2,10 @@ module FactoryBot
   # @api private
   class AttributeAssigner
     def initialize(evaluator, build_class, &instance_builder)
-      @build_class              = build_class
-      @instance_builder         = instance_builder
-      @evaluator                = evaluator
-      @attribute_list           = evaluator.class.attribute_list
+      @build_class = build_class
+      @instance_builder = instance_builder
+      @evaluator = evaluator
+      @attribute_list = evaluator.class.attribute_list
       @attribute_names_assigned = []
     end
 
@@ -22,9 +22,8 @@ module FactoryBot
     def hash
       @evaluator.instance = build_hash
 
-      attributes_to_set_on_hash.reduce({}) do |result, attribute|
+      attributes_to_set_on_hash.each_with_object({}) do |attribute, result|
         result[attribute] = get(attribute)
-        result
       end
     end
 
@@ -33,13 +32,13 @@ module FactoryBot
     def method_tracking_evaluator
       @method_tracking_evaluator ||= Decorator::AttributeHash.new(
         decorated_evaluator,
-        attribute_names_to_assign,
+        attribute_names_to_assign
       )
     end
 
     def decorated_evaluator
       Decorator::InvocationTracker.new(
-        Decorator::NewConstructor.new(@evaluator, @build_class),
+        Decorator::NewConstructor.new(@evaluator, @build_class)
       )
     end
 
@@ -96,11 +95,11 @@ module FactoryBot
     end
 
     def alias_names_to_ignore
-      @attribute_list.non_ignored.flat_map do |attribute|
+      @attribute_list.non_ignored.flat_map { |attribute|
         override_names.map do |override|
           attribute.name if ignorable_alias?(attribute, override)
         end
-      end.compact
+      }.compact
     end
 
     def ignorable_alias?(attribute, override)

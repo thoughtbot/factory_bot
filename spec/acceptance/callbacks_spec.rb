@@ -4,13 +4,13 @@ describe "callbacks" do
 
     FactoryBot.define do
       factory :user_with_callbacks, class: :user do
-        after(:stub)   { |user| user.first_name = "Stubby" }
-        after(:build)  { |user| user.first_name = "Buildy" }
-        after(:create) { |user| user.last_name  = "Createy" }
+        after(:stub) { |user| user.first_name = "Stubby" }
+        after(:build) { |user| user.first_name = "Buildy" }
+        after(:create) { |user| user.last_name = "Createy" }
       end
 
       factory :user_with_inherited_callbacks, parent: :user_with_callbacks do
-        after(:stub)  { |user| user.last_name  = "Double-Stubby" }
+        after(:stub) { |user| user.last_name = "Double-Stubby" }
         after(:build) { |user| user.first_name = "Child-Buildy" }
       end
     end
@@ -79,8 +79,8 @@ describe "callbacks using syntax methods without referencing FactoryBot explicit
       sequence(:sequence_3)
 
       factory :user do
-        after(:stub)   { generate(:sequence_3) }
-        after(:build)  { |user| user.first_number = generate(:sequence_1) }
+        after(:stub) { generate(:sequence_3) }
+        after(:build) { |user| user.first_number = generate(:sequence_1) }
         after(:create) { |user, _evaluator| user.last_number = generate(:sequence_2) }
       end
     end
@@ -145,13 +145,13 @@ describe "custom callbacks" do
     FactoryBot.define do
       factory :user do
         first_name { "John" }
-        last_name  { "Doe" }
+        last_name { "Doe" }
 
         before(:custom) { |instance| instance.first_name = "Overridden First" }
-        after(:custom)  { |instance| instance.last_name  = "Overridden Last" }
+        after(:custom) { |instance| instance.last_name = "Overridden Last" }
         callback(:totally_custom) do |instance|
           instance.first_name = "Totally"
-          instance.last_name  = "Custom"
+          instance.last_name = "Custom"
         end
       end
     end
@@ -211,7 +211,7 @@ describe "global callbacks" do
         object.name = case object.class.to_s
                       when "User" then "John Doe"
                       when "Company" then "Acme Suppliers"
-                      end
+        end
       end
 
       after :create do |object|

@@ -5,8 +5,8 @@ describe FactoryBot::DefinitionProxy, "#add_attribute" do
     attribute_value = -> { "dynamic attribute" }
     proxy.add_attribute(:attribute_name, &attribute_value)
 
-    expect(definition).to have_dynamic_declaration(:attribute_name).
-      with_value(attribute_value)
+    expect(definition).to have_dynamic_declaration(:attribute_name)
+      .with_value(attribute_value)
   end
 
   it "declares a dynamic attribute on the factory when the proxy ignores attributes" do
@@ -14,9 +14,9 @@ describe FactoryBot::DefinitionProxy, "#add_attribute" do
     proxy = FactoryBot::DefinitionProxy.new(definition, true)
     attribute_value = -> { "dynamic attribute" }
     proxy.add_attribute(:attribute_name, &attribute_value)
-    expect(definition).to have_dynamic_declaration(:attribute_name).
-      ignored.
-      with_value(attribute_value)
+    expect(definition).to have_dynamic_declaration(:attribute_name)
+      .ignored
+      .with_value(attribute_value)
   end
 end
 
@@ -29,9 +29,9 @@ describe FactoryBot::DefinitionProxy, "#transient" do
       add_attribute(:attribute_name, &attribute_value)
     end
 
-    expect(definition).to have_dynamic_declaration(:attribute_name).
-      ignored.
-      with_value(attribute_value)
+    expect(definition).to have_dynamic_declaration(:attribute_name)
+      .ignored
+      .with_value(attribute_value)
   end
 end
 
@@ -49,8 +49,8 @@ describe FactoryBot::DefinitionProxy, "#method_missing" do
     proxy = FactoryBot::DefinitionProxy.new(definition)
     proxy.author factory: :user
 
-    expect(definition).to have_association_declaration(:author).
-      with_options(factory: :user)
+    expect(definition).to have_association_declaration(:author)
+      .with_options(factory: :user)
   end
 
   it "declares a dynamic attribute when called with a block" do
@@ -59,8 +59,8 @@ describe FactoryBot::DefinitionProxy, "#method_missing" do
     attribute_value = -> { "dynamic attribute" }
     proxy.attribute_name(&attribute_value)
 
-    expect(definition).to have_dynamic_declaration(:attribute_name).
-      with_value(attribute_value)
+    expect(definition).to have_dynamic_declaration(:attribute_name)
+      .with_value(attribute_value)
   end
 
   it "raises a NoMethodError when called with a static-attribute-like argument" do
@@ -71,7 +71,7 @@ describe FactoryBot::DefinitionProxy, "#method_missing" do
     expect(invalid_call).to raise_error(
       NoMethodError,
       "undefined method 'static_attributes_are_gone' in 'broken' factory\n" \
-      "Did you mean? 'static_attributes_are_gone { \"true\" }'\n",
+      "Did you mean? 'static_attributes_are_gone { \"true\" }'\n"
     )
   end
 end
@@ -98,18 +98,18 @@ describe FactoryBot::DefinitionProxy, "#sequence" do
 
     proxy.sequence(:sequence, override)
 
-    expect(FactoryBot::Sequence).to have_received(:new).
-      with(:sequence, override)
+    expect(FactoryBot::Sequence).to have_received(:new)
+      .with(:sequence, override)
   end
 
   it "creates a new sequence with a block" do
     allow(FactoryBot::Sequence).to receive(:new).and_call_original
-    sequence_block = Proc.new { |n| "user+#{n}@example.com" }
+    sequence_block = proc { |n| "user+#{n}@example.com" }
     proxy = build_proxy(:factory)
     proxy.sequence(:sequence, 1, &sequence_block)
 
-    expect(FactoryBot::Sequence).to have_received(:new).
-      with(:sequence, 1, &sequence_block)
+    expect(FactoryBot::Sequence).to have_received(:new)
+      .with(:sequence, 1, &sequence_block)
   end
 end
 
@@ -129,18 +129,18 @@ describe FactoryBot::DefinitionProxy, "#association" do
 
     proxy.association(:association_name, name: "Awesome")
 
-    expect(definition).to have_association_declaration(:association_name).
-      with_options(name: "Awesome")
+    expect(definition).to have_association_declaration(:association_name)
+      .with_options(name: "Awesome")
   end
 
   it "when passing a block raises an error" do
     definition = FactoryBot::Definition.new(:post)
     proxy = FactoryBot::DefinitionProxy.new(definition)
 
-    expect { proxy.association(:author) {} }.
-      to raise_error(
+    expect { proxy.association(:author) {} }
+      .to raise_error(
         FactoryBot::AssociationDefinitionError,
-        "Unexpected block passed to 'author' association in 'post' factory",
+        "Unexpected block passed to 'author' association in 'post' factory"
       )
   end
 end
@@ -234,7 +234,7 @@ describe FactoryBot::DefinitionProxy, "#factory" do
     proxy = FactoryBot::DefinitionProxy.new(definition)
     proxy.factory(:child, awesome: true)
 
-    expect(proxy.child_factories).to include([:child, { awesome: true }, nil])
+    expect(proxy.child_factories).to include([:child, {awesome: true}, nil])
   end
 
   it "with a block" do
@@ -251,7 +251,7 @@ describe FactoryBot::DefinitionProxy, "#trait" do
   it "declares a trait" do
     definition = FactoryBot::Definition.new(:name)
     proxy = FactoryBot::DefinitionProxy.new(definition)
-    male_trait = Proc.new { gender { "Male" } }
+    male_trait = proc { gender { "Male" } }
     proxy.trait(:male, &male_trait)
 
     expect(definition).to have_trait(:male).with_block(male_trait)
@@ -262,7 +262,7 @@ describe FactoryBot::DefinitionProxy, "#initialize_with" do
   it "defines the constructor on the definition" do
     definition = FactoryBot::Definition.new(:name)
     proxy = FactoryBot::DefinitionProxy.new(definition)
-    constructor = Proc.new { Array.new }
+    constructor = proc { [] }
     proxy.initialize_with(&constructor)
 
     expect(definition.constructor).to eq constructor

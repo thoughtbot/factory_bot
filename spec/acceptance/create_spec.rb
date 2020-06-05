@@ -125,10 +125,10 @@ describe "calling `create` with a block" do
 
   it "returns the created instance" do
     expected = nil
-    result = create(:company) do |company|
+    result = create(:company) { |company|
       expected = company
       "hello!"
-    end
+    }
     expect(result).to eq expected
   end
 end

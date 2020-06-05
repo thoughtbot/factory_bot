@@ -15,9 +15,9 @@ describe "initialize_with with non-FG attributes" do
     end
   end
 
-  subject    { build(:user) }
+  subject { build(:user) }
   its(:name) { should eq "John Doe" }
-  its(:age)  { should eq 21 }
+  its(:age) { should eq 21 }
 end
 
 describe "initialize_with with FG attributes that are transient" do
@@ -41,7 +41,7 @@ describe "initialize_with with FG attributes that are transient" do
     end
   end
 
-  subject    { build(:user) }
+  subject { build(:user) }
   its(:name) { should eq "Handsome Chap from .construct" }
 end
 
@@ -163,7 +163,7 @@ describe "initialize_with doesn't duplicate assignment on attributes accessed fr
       factory :user do
         email
 
-        name { email.gsub(/\@.+/, "") }
+        name { email.gsub(/@.+/, "") }
 
         initialize_with { new(name) }
       end
@@ -199,7 +199,7 @@ describe "initialize_with has access to all attributes for construction" do
 
         email
 
-        name { email.gsub(/\@.+/, "") }
+        name { email.gsub(/@.+/, "") }
 
         initialize_with { new(attributes) }
       end
@@ -224,7 +224,7 @@ describe "initialize_with with an 'attributes' attribute" do
 
     FactoryBot.define do
       factory :user do
-        attributes { { name: "Daniel" } }
+        attributes { {name: "Daniel"} }
         initialize_with { new(attributes) }
       end
     end

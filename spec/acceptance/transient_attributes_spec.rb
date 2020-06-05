@@ -7,12 +7,12 @@ describe "transient attributes" do
 
       factory :user do
         transient do
-          four     { 2 + 2 }
+          four { 2 + 2 }
           rockstar { true }
-          upcased  { false }
+          upcased { false }
         end
 
-        name  { "#{FactoryBot.generate(:name)}#{' - Rockstar' if rockstar}" }
+        name { "#{FactoryBot.generate(:name)}#{" - Rockstar" if rockstar}" }
         email { "#{name.downcase}#{four}@example.com" }
 
         after(:create) do |user, evaluator|
@@ -27,15 +27,15 @@ describe "transient attributes" do
     it { should_not have_key(:four) }
     it { should_not have_key(:rockstar) }
     it { should_not have_key(:upcased) }
-    it { should     have_key(:name) }
-    it { should     have_key(:email) }
+    it { should have_key(:name) }
+    it { should have_key(:email) }
   end
 
   context "with a transient variable assigned" do
-    let(:rockstar)           { FactoryBot.create(:user, rockstar: true, four: "1234") }
+    let(:rockstar) { FactoryBot.create(:user, rockstar: true, four: "1234") }
     let(:rockstar_with_name) { FactoryBot.create(:user, name: "Jane Doe", rockstar: true) }
-    let(:upcased_rockstar)   { FactoryBot.create(:user, rockstar: true, upcased: true) }
-    let(:groupie)            { FactoryBot.create(:user, rockstar: false) }
+    let(:upcased_rockstar) { FactoryBot.create(:user, rockstar: true, upcased: true) }
+    let(:groupie) { FactoryBot.create(:user, rockstar: false) }
 
     it "generates the correct attributes on a rockstar" do
       expect(rockstar.name).to eq "John 1 - Rockstar"
@@ -108,7 +108,7 @@ describe "assigning values from a transient attribute" do
           foo { Foo.new("id-of-foo", "name-of-foo") }
         end
 
-        foo_id   { foo.id }
+        foo_id { foo.id }
         foo_name { foo.name }
       end
     end

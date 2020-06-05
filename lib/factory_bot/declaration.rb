@@ -8,7 +8,7 @@ module FactoryBot
     attr_reader :name
 
     def initialize(name, ignored = false)
-      @name    = name
+      @name = name
       @ignored = ignored
     end
 
