@@ -4,11 +4,12 @@ require "rake"
 require "yard"
 require "rspec/core/rake_task"
 require "cucumber/rake/task"
+require "standard/rake"
 
 Bundler::GemHelper.install_tasks(name: "factory_bot")
 
-desc "Default: run the specs and features."
-task default: %w[spec:unit spec:acceptance features]
+desc "Default: run the specs, features, and standard ."
+task default: %w[spec:unit spec:acceptance features standard]
 
 namespace :spec do
   desc "Run unit specs"
