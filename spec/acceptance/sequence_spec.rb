@@ -11,8 +11,8 @@ describe "sequences" do
     first_value = generate(:email)
     another_value = generate(:email)
 
-    expect(first_value).to match /^somebody\d+@example\.com$/
-    expect(another_value).to match /^somebody\d+@example\.com$/
+    expect(first_value).to match(/^somebody\d+@example\.com$/)
+    expect(another_value).to match(/^somebody\d+@example\.com$/)
     expect(first_value).not_to eq another_value
   end
 
@@ -34,9 +34,9 @@ describe "sequences" do
       sequence(:size, aliases: [:count, :length]) { |n| "called-#{n}" }
     end
 
-    first_value  = generate(:size)
+    first_value = generate(:size)
     second_value = generate(:count)
-    third_value  = generate(:length)
+    third_value = generate(:length)
 
     expect(first_value).to eq "called-1"
     expect(second_value).to eq "called-2"
@@ -48,9 +48,9 @@ describe "sequences" do
       sequence(:size, "a", aliases: [:count, :length]) { |n| "called-#{n}" }
     end
 
-    first_value  = generate(:size)
+    first_value = generate(:size)
     second_value = generate(:count)
-    third_value  = generate(:length)
+    third_value = generate(:length)
 
     expect(first_value).to eq "called-a"
     expect(second_value).to eq "called-b"

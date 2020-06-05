@@ -2,7 +2,7 @@ describe "enum traits" do
   context "when automatically_define_enum_traits is true" do
     it "builds traits automatically for model enum field" do
       define_model("Task", status: :integer) do
-        enum status: { queued: 0, started: 1, finished: 2 }
+        enum status: {queued: 0, started: 1, finished: 2}
       end
 
       FactoryBot.define do
@@ -20,7 +20,7 @@ describe "enum traits" do
 
     it "prefers user defined traits over automatically built traits" do
       define_model("Task", status: :integer) do
-        enum status: { queued: 0, started: 1, finished: 2 }
+        enum status: {queued: 0, started: 1, finished: 2}
       end
 
       FactoryBot.define do
@@ -49,7 +49,7 @@ describe "enum traits" do
     end
 
     it "builds traits for each enumerated value using a provided list of values as a Hash" do
-      statuses = { queued: 0, started: 1, finished: 2 }
+      statuses = {queued: 0, started: 1, finished: 2}
 
       define_class "Task" do
         attr_accessor :status
@@ -89,13 +89,13 @@ describe "enum traits" do
     end
 
     it "builds traits for each enumerated value using a custom enumerable" do
-      statuses = define_class("Statuses") do
+      statuses = define_class("Statuses") {
         include Enumerable
 
         def each(&block)
           ["queued", "started", "finished"].each(&block)
         end
-      end.new
+      }.new
 
       define_class "Task" do
         attr_accessor :status
@@ -119,7 +119,7 @@ describe "enum traits" do
     it "raises an error for undefined traits" do
       with_temporary_assignment(FactoryBot, :automatically_define_enum_traits, false) do
         define_model("Task", status: :integer) do
-          enum status: { queued: 0, started: 1, finished: 2 }
+          enum status: {queued: 0, started: 1, finished: 2}
         end
 
         FactoryBot.define do
@@ -139,7 +139,7 @@ describe "enum traits" do
     it "builds traits for each enumerated value when traits_for_enum are specified" do
       with_temporary_assignment(FactoryBot, :automatically_define_enum_traits, false) do
         define_model("Task", status: :integer) do
-          enum status: { queued: 0, started: 1, finished: 2 }
+          enum status: {queued: 0, started: 1, finished: 2}
         end
 
         FactoryBot.define do

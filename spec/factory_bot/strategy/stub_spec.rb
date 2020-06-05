@@ -11,7 +11,7 @@ shared_examples "disabled persistence method" do |method_name|
     it "raises an informative error if the method is called" do
       expect { instance.send(method_name) }.to raise_error(
         RuntimeError,
-        "stubbed models are not allowed to access the database - #{instance.class}##{method_name}()",
+        "stubbed models are not allowed to access the database - #{instance.class}##{method_name}()"
       )
     end
   end
@@ -24,9 +24,9 @@ describe FactoryBot::Strategy::Stub do
 
   context "asking for a result" do
     let(:result_instance) do
-      define_class("ResultInstance") do
+      define_class("ResultInstance") {
         attr_accessor :id, :created_at
-      end.new
+      }.new
     end
 
     let(:evaluation) do

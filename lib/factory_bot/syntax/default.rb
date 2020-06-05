@@ -38,12 +38,12 @@ module FactoryBot
         end
 
         delegate :after,
-                 :before,
-                 :callback,
-                 :initialize_with,
-                 :skip_create,
-                 :to_create,
-                 to: FactoryBot::Internal
+          :before,
+          :callback,
+          :initialize_with,
+          :skip_create,
+          :to_create,
+          to: FactoryBot::Internal
       end
 
       class ModifyDSL

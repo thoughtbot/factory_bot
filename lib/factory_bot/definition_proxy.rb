@@ -1,6 +1,6 @@
 module FactoryBot
   class DefinitionProxy
-    UNPROXIED_METHODS = %w(
+    UNPROXIED_METHODS = %w[
       __send__
       __id__
       nil?
@@ -13,7 +13,7 @@ module FactoryBot
       raise
       caller
       method
-    ).freeze
+    ].freeze
 
     (instance_methods + private_instance_methods).each do |method|
       undef_method(method) unless UNPROXIED_METHODS.include?(method.to_s)
@@ -24,8 +24,8 @@ module FactoryBot
     attr_reader :child_factories
 
     def initialize(definition, ignore = false)
-      @definition      = definition
-      @ignore          = ignore
+      @definition = definition
+      @ignore = ignore
       @child_factories = []
     end
 
@@ -152,7 +152,7 @@ module FactoryBot
       if block_given?
         raise AssociationDefinitionError.new(
           "Unexpected block passed to '#{name}' association "\
-          "in '#{@definition.name}' factory",
+          "in '#{@definition.name}' factory"
         )
       else
         declaration = Declaration::Association.new(name, *options)

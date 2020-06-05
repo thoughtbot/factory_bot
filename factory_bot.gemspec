@@ -2,9 +2,9 @@ $LOAD_PATH << File.expand_path("lib", __dir__)
 require "factory_bot/version"
 
 Gem::Specification.new do |s|
-  s.name        = "factory_bot"
-  s.version     = FactoryBot::VERSION
-  s.summary     = "factory_bot provides a framework and DSL for defining and "\
+  s.name = "factory_bot"
+  s.version = FactoryBot::VERSION
+  s.summary = "factory_bot provides a framework and DSL for defining and "\
                   "using model instance factories."
   s.description = "factory_bot provides a framework and DSL for defining and "\
                   "using factories - less error-prone, more explicit, and "\
@@ -18,7 +18,7 @@ Gem::Specification.new do |s|
   s.required_ruby_version = Gem::Requirement.new(">= 2.5.0")
 
   s.authors = ["Josh Clayton", "Joe Ferris"]
-  s.email   = ["jclayton@thoughtbot.com", "jferris@thoughtbot.com"]
+  s.email = ["jclayton@thoughtbot.com", "jferris@thoughtbot.com"]
 
   s.homepage = "https://github.com/thoughtbot/factory_bot"
   s.metadata["changelog_uri"] = "https://github.com/thoughtbot/factory_bot/blob/master/NEWS.md"

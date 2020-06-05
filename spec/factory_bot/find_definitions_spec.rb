@@ -49,7 +49,7 @@ describe "definition loading" do
     end
   end
 
-  %w(spec test).each do |dir|
+  %w[spec test].each do |dir|
     describe "with a factories file under #{dir}" do
       in_directory_with_files File.join(dir, "factories.rb")
       it_should_behave_like "finds definitions" do
@@ -66,7 +66,7 @@ describe "definition loading" do
 
     describe "with several factories files under #{dir}/factories" do
       in_directory_with_files File.join(dir, "factories", "post_factory.rb"),
-                              File.join(dir, "factories", "person_factory.rb")
+        File.join(dir, "factories", "person_factory.rb")
       it_should_behave_like "finds definitions" do
         it { should load_definitions_from("#{dir}/factories/post_factory.rb") }
         it { should load_definitions_from("#{dir}/factories/person_factory.rb") }
@@ -75,7 +75,7 @@ describe "definition loading" do
 
     describe "with several factories files under #{dir}/factories in non-alphabetical order" do
       in_directory_with_files File.join(dir, "factories", "b.rb"),
-                              File.join(dir, "factories", "a.rb")
+        File.join(dir, "factories", "a.rb")
       it "loads the files in the right order" do
         allow(FactoryBot).to receive(:load)
         wd = File.dirname(__FILE__)
@@ -91,8 +91,8 @@ describe "definition loading" do
 
     describe "with nested and unnested factories files under #{dir}" do
       in_directory_with_files File.join(dir, "factories.rb"),
-                              File.join(dir, "factories", "post_factory.rb"),
-                              File.join(dir, "factories", "person_factory.rb")
+        File.join(dir, "factories", "post_factory.rb"),
+        File.join(dir, "factories", "person_factory.rb")
       it_should_behave_like "finds definitions" do
         it { should load_definitions_from("#{dir}/factories.rb") }
         it { should load_definitions_from("#{dir}/factories/post_factory.rb") }
@@ -102,7 +102,7 @@ describe "definition loading" do
 
     describe "with deeply nested factory files under #{dir}" do
       in_directory_with_files File.join(dir, "factories", "subdirectory", "post_factory.rb"),
-                              File.join(dir, "factories", "subdirectory", "person_factory.rb")
+        File.join(dir, "factories", "subdirectory", "person_factory.rb")
       it_should_behave_like "finds definitions" do
         it { should load_definitions_from("#{dir}/factories/subdirectory/post_factory.rb") }
         it { should load_definitions_from("#{dir}/factories/subdirectory/person_factory.rb") }

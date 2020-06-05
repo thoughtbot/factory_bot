@@ -1,4 +1,4 @@
-Then /^I should find the following for the last category:$/ do |table|
+Then(/^I should find the following for the last category:$/) do |table|
   table.hashes.first.each do |key, value|
     expect(Category.last.attributes[key].to_s).to eq value
   end

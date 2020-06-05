@@ -7,7 +7,7 @@ module FactoryBot
     attr_reader :name
 
     def initialize(name)
-      @name  = name
+      @name = name
       @items = ActiveSupport::HashWithIndifferentAccess.new
     end
 
@@ -25,7 +25,7 @@ module FactoryBot
       raise key_error_with_custom_message(e)
     end
 
-    alias :[] :find
+    alias [] find
 
     def register(name, item)
       @items[name] = item

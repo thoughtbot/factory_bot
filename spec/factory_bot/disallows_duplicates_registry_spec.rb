@@ -13,7 +13,7 @@ describe FactoryBot::Decorator::DisallowsDuplicatesRegistry do
     decorator = FactoryBot::Decorator::DisallowsDuplicatesRegistry.new(registry)
     allow(registry).to receive(:registered?).and_return true
 
-    expect { decorator.register(:same_name, {}) }.
-      to raise_error(FactoryBot::DuplicateDefinitionError, "Great thing already registered: same_name")
+    expect { decorator.register(:same_name, {}) }
+      .to raise_error(FactoryBot::DuplicateDefinitionError, "Great thing already registered: same_name")
   end
 end

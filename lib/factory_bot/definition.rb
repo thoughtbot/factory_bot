@@ -4,17 +4,17 @@ module FactoryBot
     attr_reader :defined_traits, :declarations, :name, :registered_enums
 
     def initialize(name, base_traits = [])
-      @name              = name
-      @declarations      = DeclarationList.new(name)
-      @callbacks         = []
-      @defined_traits    = Set.new
-      @registered_enums  = []
-      @to_create         = nil
-      @base_traits       = base_traits
+      @name = name
+      @declarations = DeclarationList.new(name)
+      @callbacks = []
+      @defined_traits = Set.new
+      @registered_enums = []
+      @to_create = nil
+      @base_traits = base_traits
       @additional_traits = []
-      @constructor       = nil
-      @attributes        = nil
-      @compiled          = false
+      @constructor = nil
+      @attributes = nil
+      @compiled = false
     end
 
     delegate :declare_attribute, to: :declarations
@@ -51,7 +51,7 @@ module FactoryBot
         declarations.attributes
 
         defined_traits.each do |defined_trait|
-          base_traits.each       { |bt| bt.define_trait defined_trait }
+          base_traits.each { |bt| bt.define_trait defined_trait }
           additional_traits.each { |at| at.define_trait defined_trait }
         end
 
@@ -128,7 +128,7 @@ module FactoryBot
     def initialize_copy(source)
       super
       @attributes = nil
-      @compiled   = false
+      @compiled = false
       @defined_traits_by_name = nil
     end
 
@@ -138,7 +138,7 @@ module FactoryBot
       [
         base_traits.map(&method_name),
         instance_exec(&block),
-        additional_traits.map(&method_name),
+        additional_traits.map(&method_name)
       ].flatten.compact
     end
 

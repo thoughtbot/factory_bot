@@ -5,8 +5,8 @@ describe "declaring attributes on a Factory that are private methods on Object" 
     FactoryBot.define do
       factory :website do
         system { false }
-        link   { "http://example.com" }
-        sleep  { 15 }
+        link { "http://example.com" }
+        sleep { 15 }
       end
     end
   end
@@ -14,8 +14,8 @@ describe "declaring attributes on a Factory that are private methods on Object" 
   subject { FactoryBot.build(:website, sleep: -5) }
 
   its(:system) { should eq false }
-  its(:link)   { should eq "http://example.com" }
-  its(:sleep)  { should eq -5 }
+  its(:link) { should eq "http://example.com" }
+  its(:sleep) { should eq(-5) }
 end
 
 describe "assigning overrides that are also private methods on object" do
@@ -25,7 +25,8 @@ describe "assigning overrides that are also private methods on object" do
     Object.class_eval do
       private
 
-      def some_funky_method(args); end
+      def some_funky_method(args)
+      end
     end
 
     FactoryBot.define do
@@ -40,9 +41,9 @@ describe "assigning overrides that are also private methods on object" do
   end
 
   subject { FactoryBot.build(:website, format: "Great", y: 12345, some_funky_method: "foobar!") }
-  its(:format)            { should eq "Great" }
-  its(:y)                 { should eq 12345 }
-  its(:more_format)       { should eq "format: Great" }
+  its(:format) { should eq "Great" }
+  its(:y) { should eq 12345 }
+  its(:more_format) { should eq "format: Great" }
   its(:some_funky_method) { should eq "foobar!" }
 end
 
@@ -62,6 +63,6 @@ describe "accessing methods from the instance within a dynamic attribute "\
     end
   end
 
-  subject           { FactoryBot.build(:website) }
+  subject { FactoryBot.build(:website) }
   its(:more_format) { should eq "format: This is an awesome format" }
 end

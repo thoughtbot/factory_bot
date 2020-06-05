@@ -7,7 +7,7 @@ describe FactoryBot::Strategy::Create do
       "evaluation",
       object: nil,
       notify: nil,
-      create: nil,
+      create: nil
     )
 
     subject.result(evaluation)

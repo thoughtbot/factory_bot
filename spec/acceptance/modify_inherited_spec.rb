@@ -4,11 +4,11 @@ describe "modifying inherited factories with traits" do
     FactoryBot.define do
       factory :user do
         trait(:female) { gender { "Female" } }
-        trait(:male)   { gender { "Male" } }
+        trait(:male) { gender { "Male" } }
 
         trait(:young_admin) do
           admin { true }
-          age   { 17 }
+          age { 17 }
         end
 
         female

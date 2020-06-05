@@ -6,14 +6,14 @@ module FactoryBot
     attr_reader :name
 
     def initialize(name, *args, &proc)
-      @name    = name
-      @proc    = proc
+      @name = name
+      @proc = proc
 
-      options  = args.extract_options!
-      @value   = args.first || 1
+      options = args.extract_options!
+      @value = args.first || 1
       @aliases = options.fetch(:aliases) { [] }
 
-      if !@value.respond_to?(:peek)
+      unless @value.respond_to?(:peek)
         @value = EnumeratorAdapter.new(@value)
       end
     end

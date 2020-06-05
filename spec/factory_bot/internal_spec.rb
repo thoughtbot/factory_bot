@@ -4,10 +4,10 @@ describe FactoryBot::Internal do
       trait = FactoryBot::Trait.new(:admin)
       configuration = FactoryBot::Internal.configuration
 
-      expect { FactoryBot::Internal.register_trait(trait) }.
-        to change { configuration.traits.count }.
-        from(0).
-        to(1)
+      expect { FactoryBot::Internal.register_trait(trait) }
+        .to change { configuration.traits.count }
+        .from(0)
+        .to(1)
     end
 
     it "returns the registered trait" do
@@ -31,10 +31,10 @@ describe FactoryBot::Internal do
       sequence = FactoryBot::Sequence.new(:email)
       configuration = FactoryBot::Internal.configuration
 
-      expect { FactoryBot::Internal.register_sequence(sequence) }.
-        to change { configuration.sequences.count }.
-        from(0).
-        to(1)
+      expect { FactoryBot::Internal.register_sequence(sequence) }
+        .to change { configuration.sequences.count }
+        .from(0)
+        .to(1)
     end
 
     it "returns the registered sequence" do
@@ -75,10 +75,10 @@ describe FactoryBot::Internal do
       factory = FactoryBot::Factory.new(:object)
       configuration = FactoryBot::Internal.configuration
 
-      expect { FactoryBot::Internal.register_factory(factory) }.
-        to change { configuration.factories.count }.
-        from(0).
-        to(1)
+      expect { FactoryBot::Internal.register_factory(factory) }
+        .to change { configuration.factories.count }
+        .from(0)
+        .to(1)
     end
 
     it "returns the registered factory" do
@@ -101,10 +101,10 @@ describe FactoryBot::Internal do
     it "registers the provided factory" do
       factory = FactoryBot::Factory.new(:object)
       configuration = FactoryBot::Internal.configuration
-      expect { FactoryBot::Internal.register_factory(factory) }.
-        to change { configuration.factories.count }.
-        from(0).
-        to(1)
+      expect { FactoryBot::Internal.register_factory(factory) }
+        .to change { configuration.factories.count }
+        .from(0)
+        .to(1)
     end
 
     it "returns the registered factory" do
@@ -125,19 +125,19 @@ describe FactoryBot::Internal do
     it "register the provided strategy name with the class" do
       configuration = FactoryBot::Internal.configuration
       initial_strategies_count = configuration.strategies.count
-      expect do
+      expect {
         FactoryBot::Internal.register_strategy(:strategy_name, :strategy_class)
-      end.to change { configuration.strategies.count }.
-        from(initial_strategies_count).
-        to(initial_strategies_count + 1)
+      }.to change { configuration.strategies.count }
+        .from(initial_strategies_count)
+        .to(initial_strategies_count + 1)
     end
   end
 
   describe ".strategy_by_name" do
     it "finds a registered strategy" do
       FactoryBot::Internal.register_strategy(:strategy_name, :strategy_class)
-      expect(FactoryBot::Internal.strategy_by_name(:strategy_name)).
-        to eq :strategy_class
+      expect(FactoryBot::Internal.strategy_by_name(:strategy_name))
+        .to eq :strategy_class
     end
   end
 end

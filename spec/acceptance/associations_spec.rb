@@ -12,7 +12,7 @@ describe "associations" do
       expect { FactoryBot.build(:post) }.to raise_error(
         ArgumentError,
         "Association 'author' received an invalid factory argument.\n" \
-        "Did you mean? 'factory: :user'\n",
+        "Did you mean? 'factory: :user'\n"
       )
     end
   end

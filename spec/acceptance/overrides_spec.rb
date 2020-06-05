@@ -30,7 +30,7 @@ describe "attribute overrides" do
   let(:admin) { FactoryBot.create(:admin) }
 
   let(:post_attributes) do
-    { secure: false }
+    {secure: false}
   end
 
   let(:non_admin_post_attributes) do
@@ -44,17 +44,17 @@ describe "attribute overrides" do
   end
 
   context "with an admin posting" do
-    subject      { FactoryBot.create(:post, admin_post_attributes) }
+    subject { FactoryBot.create(:post, admin_post_attributes) }
     its(:secure) { should eq false }
   end
 
   context "with a non-admin posting" do
-    subject      { FactoryBot.create(:post, non_admin_post_attributes) }
+    subject { FactoryBot.create(:post, non_admin_post_attributes) }
     its(:secure) { should be_nil }
   end
 
   context "with no user posting" do
-    subject      { FactoryBot.create(:post, post_attributes) }
+    subject { FactoryBot.create(:post, post_attributes) }
     its(:secure) { should be_nil }
   end
 end

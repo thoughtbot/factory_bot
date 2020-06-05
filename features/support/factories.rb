@@ -1,6 +1,6 @@
 ActiveRecord::Base.establish_connection(
   adapter: "sqlite3",
-  database: ":memory:",
+  database: ":memory:"
 )
 
 class CreateSchema < ActiveRecord::Migration[5.0]

@@ -69,10 +69,10 @@ describe "calling `attributes_for` with a block" do
   it "returns the hash of attributes" do
     expected = nil
 
-    result = attributes_for(:company) do |attributes|
+    result = attributes_for(:company) { |attributes|
       expected = attributes
       "hello!"
-    end
+    }
     expect(result).to eq expected
   end
 end
@@ -80,7 +80,8 @@ end
 describe "`attributes_for` for a class whose constructor has required params" do
   before do
     define_model("User", name: :string) do
-      def initialize(arg1, arg2); end
+      def initialize(arg1, arg2)
+      end
     end
 
     FactoryBot.define do
@@ -90,6 +91,6 @@ describe "`attributes_for` for a class whose constructor has required params" do
     end
   end
 
-  subject      { FactoryBot.attributes_for(:user) }
+  subject { FactoryBot.attributes_for(:user) }
   its([:name]) { should eq "John Doe" }
 end

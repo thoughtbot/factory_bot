@@ -5,14 +5,14 @@ module FactoryBot
 
   self.aliases = [
     [/(.+)_id/, '\1'],
-    [/(.*)/, '\1_id'],
+    [/(.*)/, '\1_id']
   ]
 
   def self.aliases_for(attribute)
-    aliases.map do |(pattern, replace)|
+    aliases.map { |(pattern, replace)|
       if pattern.match(attribute.to_s)
         attribute.to_s.sub(pattern, replace).to_sym
       end
-    end.compact << attribute
+    }.compact << attribute
   end
 end

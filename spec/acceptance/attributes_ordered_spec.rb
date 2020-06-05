@@ -9,9 +9,9 @@ describe "a generated attributes hash where order matters" do
 
     FactoryBot.define do
       factory :parent_model do
-        evaluates_first  { static }
+        evaluates_first { static }
         evaluates_second { evaluates_first }
-        evaluates_third  { evaluates_second }
+        evaluates_third { evaluates_second }
 
         factory :child_model do
           static { 1 }
@@ -19,9 +19,9 @@ describe "a generated attributes hash where order matters" do
       end
 
       factory :without_parent, class: ParentModel do
-        evaluates_first   { static }
-        evaluates_second  { evaluates_first }
-        evaluates_third   { evaluates_second }
+        evaluates_first { static }
+        evaluates_second { evaluates_first }
+        evaluates_third { evaluates_second }
         static { 1 }
       end
     end
