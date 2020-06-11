@@ -21,7 +21,6 @@ Gem::Specification.new do |s|
   s.email = ["jclayton@thoughtbot.com", "jferris@thoughtbot.com"]
 
   s.homepage = "https://github.com/thoughtbot/factory_bot"
-  s.metadata["changelog_uri"] = "https://github.com/thoughtbot/factory_bot/blob/master/NEWS.md"
 
   s.add_dependency("activesupport", ">= 5.0.0")
 
