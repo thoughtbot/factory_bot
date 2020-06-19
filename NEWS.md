@@ -1,5 +1,8 @@
 # News
 
+## 6.0.1 (June 19, 2020)
+  * Fixed: bug with constant resolution causing unexpected uninitialized constant errors
+
 ## 6.0.0 (June 18, 2020)
   * Added: automatic definition of traits for Active Record enum attributes, enabled by default
   * Added: `traits_for_enum` method to define traits for non-Active Record enums
