@@ -1,5 +1,12 @@
 # News
 
+## 6.0.0 (June 18, 2020)
+  * Added: automatic definition of traits for Active Record enum attributes, enabled by default
+  * Added: `traits_for_enum` method to define traits for non-Active Record enums
+  * Added: `build_stubbed_starting_id=` option to define the starting id for `build_stubbed`
+  * Removed: deprecated methods on the top-level `FactoryBot` module meant only for internal use
+  * Removed: support for EOL versions of Ruby (2.3, 2.4) and Rails (4.2)
+
 ## 5.2.0 (April 24, 2020)
   * Added: Pass index to block for `*_list` methods
   * Deprecated: methods on the top-level `FactoryBot` module meant only for internal use: `callbacks`, `configuration`, `constructor`, `initialize_with`, `register_sequence`, `resent_configuration`, `skip_create`, `to_create`
