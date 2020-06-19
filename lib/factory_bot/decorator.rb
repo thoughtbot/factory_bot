@@ -17,5 +17,9 @@ module FactoryBot
     def send(symbol, *args, &block)
       __send__(symbol, *args, &block)
     end
+
+    def self.const_missing(name)
+      ::Object.const_get(name)
+    end
   end
 end
