@@ -15,6 +15,7 @@ module FactoryBot
       @constructor = nil
       @attributes = nil
       @compiled = false
+      @expanded_enum_traits = false
     end
 
     delegate :declare_attribute, to: :declarations
@@ -143,6 +144,8 @@ module FactoryBot
     end
 
     def expand_enum_traits(klass)
+      return if @expanded_enum_traits
+
       if automatically_register_defined_enums?(klass)
         automatically_register_defined_enums(klass)
       end
@@ -151,6 +154,8 @@ module FactoryBot
         traits = enum.build_traits(klass)
         traits.each { |trait| define_trait(trait) }
       end
+
+      @expanded_enum_traits = true
     end
 
     def automatically_register_defined_enums(klass)
