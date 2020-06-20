@@ -2,7 +2,7 @@
 
 1. Update version file accordingly and run `bundle install` to update the
    Gemfile.lock and `bundle exec appraisal install` to update the Appraisal
-  gemfile.lock files.
+   gemfile.lock files.
 1. Update `NEWS.md` to reflect the changes since last release.
 1. Commit changes.
    There shouldn't be code changes,

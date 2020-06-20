@@ -1,5 +1,8 @@
 # News
 
+## 6.0.2 (June 19, 2020)
+  * Fixed: bug causing traits to consume more memory each time they were used
+
 ## 6.0.1 (June 19, 2020)
   * Fixed: bug with constant resolution causing unexpected uninitialized constant errors
 
