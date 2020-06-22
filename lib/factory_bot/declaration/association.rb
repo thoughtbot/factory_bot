@@ -25,7 +25,7 @@ module FactoryBot
       attr_reader :factory_name, :overrides, :traits
 
       def build
-        ensure_factory_is_not_a_declaration!
+        raise_if_arguments_are_declarations!
 
         [
           Attribute::Association.new(
@@ -36,12 +36,21 @@ module FactoryBot
         ]
       end
 
-      def ensure_factory_is_not_a_declaration!
+      def raise_if_arguments_are_declarations!
         if factory_name.is_a?(Declaration)
           raise ArgumentError.new(<<~MSG)
             Association '#{name}' received an invalid factory argument.
             Did you mean? 'factory: :#{factory_name.name}'
           MSG
+        end
+
+        overrides.each do |attribute, value|
+          if value.is_a?(Declaration)
+            raise ArgumentError.new(<<~MSG)
+              Association '#{name}' received an invalid attribute override.
+              Did you mean? '#{attribute}: :#{value.name}'
+            MSG
+          end
         end
       end
     end
