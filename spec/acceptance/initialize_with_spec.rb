@@ -201,7 +201,7 @@ describe "initialize_with has access to all attributes for construction" do
 
         name { email.gsub(/@.+/, "") }
 
-        initialize_with { new(attributes) }
+        initialize_with { new(**attributes) }
       end
     end
 
@@ -225,7 +225,7 @@ describe "initialize_with with an 'attributes' attribute" do
     FactoryBot.define do
       factory :user do
         attributes { {name: "Daniel"} }
-        initialize_with { new(attributes) }
+        initialize_with { new(**attributes) }
       end
     end
 

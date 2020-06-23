@@ -35,11 +35,21 @@ module FactoryBot
 
     attr_writer :instance
 
-    def method_missing(method_name, *args, &block) # rubocop:disable Style/MethodMissingSuper
-      if @instance.respond_to?(method_name)
-        @instance.send(method_name, *args, &block)
-      else
-        SyntaxRunner.new.send(method_name, *args, &block)
+    if ::Gem::Version.new(::RUBY_VERSION) >= ::Gem::Version.new("2.7")
+      def method_missing(method_name, *args, **kwargs, &block) # rubocop:disable Style/MethodMissingSuper, Style/MissingRespondToMissing
+        if @instance.respond_to?(method_name)
+          @instance.send(method_name, *args, **kwargs, &block)
+        else
+          SyntaxRunner.new.send(method_name, *args, **kwargs, &block)
+        end
+      end
+    else
+      def method_missing(method_name, *args, &block) # rubocop:disable Style/MethodMissingSuper, Style/MissingRespondToMissing
+        if @instance.respond_to?(method_name)
+          @instance.send(method_name, *args, &block)
+        else
+          SyntaxRunner.new.send(method_name, *args, &block)
+        end
       end
     end
 
