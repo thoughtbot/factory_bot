@@ -3,7 +3,7 @@ require "bundler/inline"
 gemfile(true) do
   source "https://rubygems.org"
   git_source(:github) { |repo| "https://github.com/#{repo}.git" }
-  gem "factory_bot", "~> 5.0"
+  gem "factory_bot", "~> 6.0"
   gem "activerecord"
   gem "sqlite3"
 end
