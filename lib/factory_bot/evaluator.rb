@@ -33,7 +33,7 @@ module FactoryBot
       @build_strategy.association(runner)
     end
 
-    attr_writer :instance
+    attr_accessor :instance
 
     if ::Gem::Version.new(::RUBY_VERSION) >= ::Gem::Version.new("2.7")
       def method_missing(method_name, *args, **kwargs, &block) # rubocop:disable Style/MethodMissingSuper, Style/MissingRespondToMissing
