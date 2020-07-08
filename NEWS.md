@@ -1,5 +1,10 @@
 # News
 
+## 6.1.0 (July 8, 2020)
+  * Added: public reader for the evaluation instance, helpful for building interrelated associations
+  * Changed: raise a more helpful error when passing an invalid argument to an association
+  * Fixed: Ruby 2.7 kwarg deprecation warnings
+
 ## 6.0.2 (June 19, 2020)
   * Fixed: bug causing traits to consume more memory each time they were used
 
@@ -8,6 +13,9 @@
 
 ## 6.0.0 (June 18, 2020)
   * Added: automatic definition of traits for Active Record enum attributes, enabled by default
+    (Note that this required changing where factory_bot constantizes the build
+     class, which may affect applications that were using abstract factories for
+     inheritance. See issue #1409.)
   * Added: `traits_for_enum` method to define traits for non-Active Record enums
   * Added: `build_stubbed_starting_id=` option to define the starting id for `build_stubbed`
   * Removed: deprecated methods on the top-level `FactoryBot` module meant only for internal use
