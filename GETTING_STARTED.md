@@ -748,7 +748,7 @@ build(:user_with_posts).posts.length # 1
 build_stubbed(:user_with_posts).posts.length # 1
 ```
 
-Or, for more flexibility you can combine this with the `posts_count` transient
+For more flexibility you can combine this with the `posts_count` transient
 attribute from the callback example:
 
 ```ruby
