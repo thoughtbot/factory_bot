@@ -860,7 +860,7 @@ create(:comment, :for_photo)
 
 ### Interconnected associations
 
-There are limitless ways records and other objects might be interconnected, and
+There are limitless ways objects might be interconnected, and
 factory\_bot may not always be suited to handle those relationships. In some
 cases it makes sense to use factory\_bot to build each individual object, and
 then to write helper methods in plain Ruby to tie those objects together.
