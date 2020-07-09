@@ -891,7 +891,6 @@ end
 We can ensure the student and profile are connected to each other and to the
 same school with a factory like this:
 
-
 ```ruby
 FactoryBot.define do
   factory :student do
