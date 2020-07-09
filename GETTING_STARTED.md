@@ -865,7 +865,7 @@ factory\_bot may not always be suited to handle those relationships. In some
 cases it makes sense to use factory\_bot to build each individual object, and
 then to write helper methods in plain Ruby to tie those objects together.
 
-That said, come of the more complex relationships can be build in factory\_bot
+That said, some more complex, interconnected relationships can be built in factory\_bot
 using inline associations with reference to the `instance` being built.
 
 Let's say your models look like this, where an associated `Student` and
