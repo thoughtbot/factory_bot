@@ -4,7 +4,7 @@ module FactoryBot
     include Enumerable
 
     def initialize(name = nil, attributes = [])
-      @name       = name
+      @name = name
       @attributes = attributes
     end
 

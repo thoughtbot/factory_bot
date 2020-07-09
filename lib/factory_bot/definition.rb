@@ -1,19 +1,21 @@
 module FactoryBot
   # @api private
   class Definition
-    attr_reader :defined_traits, :declarations, :name
+    attr_reader :defined_traits, :declarations, :name, :registered_enums
 
     def initialize(name, base_traits = [])
-      @name              = name
-      @declarations      = DeclarationList.new(name)
-      @callbacks         = []
-      @defined_traits    = Set.new
-      @to_create         = nil
-      @base_traits       = base_traits
+      @name = name
+      @declarations = DeclarationList.new(name)
+      @callbacks = []
+      @defined_traits = Set.new
+      @registered_enums = []
+      @to_create = nil
+      @base_traits = base_traits
       @additional_traits = []
-      @constructor       = nil
-      @attributes        = nil
-      @compiled          = false
+      @constructor = nil
+      @attributes = nil
+      @compiled = false
+      @expanded_enum_traits = false
     end
 
     delegate :declare_attribute, to: :declarations
@@ -43,12 +45,14 @@ module FactoryBot
       aggregate_from_traits_and_self(:callbacks) { @callbacks }
     end
 
-    def compile
+    def compile(klass = nil)
       unless @compiled
+        expand_enum_traits(klass) unless klass.nil?
+
         declarations.attributes
 
         defined_traits.each do |defined_trait|
-          base_traits.each       { |bt| bt.define_trait defined_trait }
+          base_traits.each { |bt| bt.define_trait defined_trait }
           additional_traits.each { |at| at.define_trait defined_trait }
         end
 
@@ -81,6 +85,10 @@ module FactoryBot
       @defined_traits.add(trait)
     end
 
+    def register_enum(enum)
+      @registered_enums << enum
+    end
+
     def define_constructor(&block)
       @constructor = block
     end
@@ -95,7 +103,6 @@ module FactoryBot
 
     def callback(*names, &block)
       names.each do |name|
-        FactoryBot::Internal.register_callback(name)
         add_callback(Callback.new(name, block))
       end
     end
@@ -122,7 +129,7 @@ module FactoryBot
     def initialize_copy(source)
       super
       @attributes = nil
-      @compiled   = false
+      @compiled = false
       @defined_traits_by_name = nil
     end
 
@@ -132,8 +139,32 @@ module FactoryBot
       [
         base_traits.map(&method_name),
         instance_exec(&block),
-        additional_traits.map(&method_name),
+        additional_traits.map(&method_name)
       ].flatten.compact
+    end
+
+    def expand_enum_traits(klass)
+      return if @expanded_enum_traits
+
+      if automatically_register_defined_enums?(klass)
+        automatically_register_defined_enums(klass)
+      end
+
+      registered_enums.each do |enum|
+        traits = enum.build_traits(klass)
+        traits.each { |trait| define_trait(trait) }
+      end
+
+      @expanded_enum_traits = true
+    end
+
+    def automatically_register_defined_enums(klass)
+      klass.defined_enums.each_key { |name| register_enum(Enum.new(name)) }
+    end
+
+    def automatically_register_defined_enums?(klass)
+      FactoryBot.automatically_define_enum_traits &&
+        klass.respond_to?(:defined_enums)
     end
   end
 end

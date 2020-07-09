@@ -21,9 +21,9 @@ describe "FactoryBot.lint" do
       * admin_user - Validation failed: Name can't be blank (ActiveRecord::RecordInvalid)
     ERROR_MESSAGE
 
-    expect do
+    expect {
       FactoryBot.lint
-    end.to raise_error FactoryBot::InvalidFactoryError, error_message
+    }.to raise_error FactoryBot::InvalidFactoryError, error_message
   end
 
   it "does not raise when all factories are valid" do
@@ -52,13 +52,13 @@ describe "FactoryBot.lint" do
       factory :invalid_thing
     end
 
-    expect do
-      only_valid_factories = FactoryBot.factories.reject do |factory|
+    expect {
+      only_valid_factories = FactoryBot.factories.reject { |factory|
         factory.name =~ /invalid/
-      end
+      }
 
       FactoryBot.lint only_valid_factories
-    end.not_to raise_error
+    }.not_to raise_error
   end
 
   describe "trait validation" do
@@ -83,9 +83,9 @@ describe "FactoryBot.lint" do
           * user+unnamed - Validation failed: Name can't be blank (ActiveRecord::RecordInvalid)
         ERROR_MESSAGE
 
-        expect do
+        expect {
           FactoryBot.lint traits: true
-        end.to raise_error FactoryBot::InvalidFactoryError, error_message
+        }.to raise_error FactoryBot::InvalidFactoryError, error_message
       end
 
       it "does not raise if a trait produces a valid object" do
@@ -102,9 +102,9 @@ describe "FactoryBot.lint" do
           end
         end
 
-        expect do
+        expect {
           FactoryBot.lint traits: true
-        end.not_to raise_error
+        }.not_to raise_error
       end
     end
 
@@ -123,10 +123,10 @@ describe "FactoryBot.lint" do
           end
         end
 
-        expect do
+        expect {
           FactoryBot.lint traits: false
           FactoryBot.lint
-        end.not_to raise_error
+        }.not_to raise_error
       end
     end
   end
@@ -147,9 +147,9 @@ describe "FactoryBot.lint" do
         end
       end
 
-      expect do
+      expect {
         FactoryBot.lint strategy: :build
-      end.not_to raise_error
+      }.not_to raise_error
     end
 
     it "uses the requested strategy during trait validation" do
@@ -171,9 +171,9 @@ describe "FactoryBot.lint" do
         end
       end
 
-      expect do
+      expect {
         FactoryBot.lint traits: true, strategy: :build
-      end.not_to raise_error
+      }.not_to raise_error
     end
   end
 
@@ -189,11 +189,11 @@ describe "FactoryBot.lint" do
         factory :invalid_thing
       end
 
-      expect do
+      expect {
         FactoryBot.lint(verbose: true)
-      end.to raise_error(
+      }.to raise_error(
         FactoryBot::InvalidFactoryError,
-        %r{#{__FILE__}:\d*:in `save!'},
+        %r{#{__FILE__}:\d*:in `save!'}
       )
     end
   end

@@ -30,14 +30,14 @@ describe "modifying factories" do
       end
     end
 
-    subject     { create(:user) }
-    its(:name)  { should eq "Great User" }
+    subject { create(:user) }
+    its(:name) { should eq "Great User" }
     its(:login) { should eq "GREAT USER" }
 
     it "doesn't allow the factory to be subsequently defined" do
-      expect do
+      expect {
         FactoryBot.define { factory :user }
-      end.to raise_error(FactoryBot::DuplicateDefinitionError, "Factory already registered: user")
+      }.to raise_error(FactoryBot::DuplicateDefinitionError, "Factory already registered: user")
     end
 
     it "does allow the factory to be subsequently modified" do
@@ -66,7 +66,7 @@ describe "modifying factories" do
 
     subject { create(:user) }
 
-    its(:name)  { should eq "great user" }
+    its(:name) { should eq "great user" }
     its(:login) { should be_nil }
   end
 
@@ -86,9 +86,9 @@ describe "modifying factories" do
       end
     end
 
-    subject     { create(:user) }
+    subject { create(:user) }
 
-    its(:name)  { should eq "Johnny Rockstar!!!" }
+    its(:name) { should eq "Johnny Rockstar!!!" }
     its(:email) { should eq "Johnny Rockstar!!!@example.com" }
     its(:login) { should eq "JOHNNY ROCKSTAR!!!" }
   end
@@ -105,48 +105,48 @@ describe "modifying factories" do
 
     context "creating user" do
       context "without overrides" do
-        subject     { create(:user) }
+        subject { create(:user) }
 
-        its(:name)  { should eq "Great User" }
+        its(:name) { should eq "Great User" }
         its(:email) { should eq "Great User-modified@example.com" }
       end
 
       context "overriding the email" do
-        subject     { create(:user, email: "perfect@example.com") }
+        subject { create(:user, email: "perfect@example.com") }
 
-        its(:name)  { should eq "Great User" }
+        its(:name) { should eq "Great User" }
         its(:email) { should eq "perfect@example.com" }
       end
 
       context "overriding the name" do
-        subject     { create(:user, name: "wonderful") }
+        subject { create(:user, name: "wonderful") }
 
-        its(:name)  { should eq "wonderful" }
+        its(:name) { should eq "wonderful" }
         its(:email) { should eq "wonderful-modified@example.com" }
       end
     end
 
     context "creating admin" do
       context "without overrides" do
-        subject     { create(:admin) }
+        subject { create(:admin) }
 
-        its(:name)  { should eq "Great User" }
+        its(:name) { should eq "Great User" }
         its(:email) { should eq "Great User-modified@example.com" }
         its(:admin) { should be true }
       end
 
       context "overriding the email" do
-        subject     { create(:admin, email: "perfect@example.com") }
+        subject { create(:admin, email: "perfect@example.com") }
 
-        its(:name)  { should eq "Great User" }
+        its(:name) { should eq "Great User" }
         its(:email) { should eq "perfect@example.com" }
         its(:admin) { should be true }
       end
 
       context "overriding the name" do
-        subject     { create(:admin, name: "wonderful") }
+        subject { create(:admin, name: "wonderful") }
 
-        its(:name)  { should eq "wonderful" }
+        its(:name) { should eq "wonderful" }
         its(:email) { should eq "wonderful-modified@example.com" }
         its(:admin) { should be true }
       end

@@ -11,6 +11,14 @@ module FactoryBot
       define_pair_strategy_method
     end
 
+    def self.with_index(block, index)
+      if block&.arity == 2
+        ->(instance) { block.call(instance, index) }
+      else
+        block
+      end
+    end
+
     private
 
     def define_singular_strategy_method
@@ -29,7 +37,10 @@ module FactoryBot
           raise ArgumentError, "count missing for #{strategy_name}_list"
         end
 
-        Array.new(amount) { send(strategy_name, name, *traits_and_overrides, &block) }
+        Array.new(amount) do |i|
+          block_with_index = StrategySyntaxMethodRegistrar.with_index(block, i)
+          send(strategy_name, name, *traits_and_overrides, &block_with_index)
+        end
       end
     end
 

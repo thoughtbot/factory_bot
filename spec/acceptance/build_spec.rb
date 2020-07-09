@@ -88,10 +88,10 @@ describe "calling `build` with a block" do
 
   it "returns the built instance" do
     expected = nil
-    result = build(:company) do |company|
+    result = build(:company) { |company|
       expected = company
       "hello!"
-    end
+    }
     expect(result).to eq expected
   end
 end

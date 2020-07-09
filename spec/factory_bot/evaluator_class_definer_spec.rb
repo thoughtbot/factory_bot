@@ -22,10 +22,10 @@ describe FactoryBot::EvaluatorClassDefiner do
 
   it "only instance_execs the block once even when returning nil" do
     count = 0
-    attribute = stub_attribute :attribute do
+    attribute = stub_attribute(:attribute) {
       count += 1
       nil
-    end
+    }
     evaluator = define_evaluator(attributes: [attribute])
 
     2.times { evaluator.attribute }
@@ -47,7 +47,7 @@ describe FactoryBot::EvaluatorClassDefiner do
       child_attributes = [stub_attribute, stub_attribute]
       child_evaluator = define_evaluator(
         attributes: child_attributes,
-        parent_class: parent_evaluator_class,
+        parent_class: parent_evaluator_class
       )
 
       expect(child_evaluator.attribute_lists).to eq [parent_attributes, child_attributes]
@@ -62,7 +62,7 @@ describe FactoryBot::EvaluatorClassDefiner do
   def define_evaluator_class(arguments = {})
     evaluator_class_definer = FactoryBot::EvaluatorClassDefiner.new(
       arguments[:attributes] || [],
-      arguments[:parent_class] || FactoryBot::Evaluator,
+      arguments[:parent_class] || FactoryBot::Evaluator
     )
     evaluator_class_definer.evaluator_class
   end

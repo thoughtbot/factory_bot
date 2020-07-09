@@ -6,12 +6,12 @@ module FactoryBot
 
       def initialize(name, factory, overrides)
         super(name, false)
-        @factory   = factory
+        @factory = factory
         @overrides = overrides
       end
 
       def to_proc
-        factory   = @factory
+        factory = @factory
         overrides = @overrides
         traits_and_overrides = [factory, overrides].flatten
         factory_name = traits_and_overrides.shift

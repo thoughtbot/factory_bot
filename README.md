@@ -1,4 +1,4 @@
-# factory_bot [![Build Status][ci-image]][ci] [![Code Climate][grade-image]][grade] [![Gem Version][version-image]][version] [![Reviewed by Hound][hound-badge-image]][hound]
+# factory_bot [![Build Status][ci-image]][ci] [![Code Climate][grade-image]][grade] [![Gem Version][version-image]][version]
 
 factory_bot is a fixtures replacement with a straightforward definition syntax, support for multiple build strategies (saved instances, unsaved instances, attribute hashes, and stubbed objects), and support for multiple factories for the same class (user, admin_user, and so on), including factory inheritance.
 
@@ -43,13 +43,7 @@ gem install factory_bot
 Supported Ruby versions
 -----------------------
 
-The factory_bot 5.x series supports MRI Ruby 2.3+.
-
-The factory_bot 3.x+ series supports MRI Ruby 1.9. Additionally, factory_bot
-3.6+ supports JRuby 1.6.7.2+ while running in 1.9 mode. See [GETTING_STARTED]
-for more information on configuring the JRuby environment.
-
-For versions of Ruby prior to 1.9, please use factory_bot 2.x.
+Supported Ruby versions are listed in [`.travis.yml`](https://github.com/thoughtbot/factory_bot/blob/master/.travis.yml)
 
 More Information
 ----------------
@@ -72,14 +66,14 @@ Contributing
 
 Please see [CONTRIBUTING.md](https://github.com/thoughtbot/factory_bot/blob/master/CONTRIBUTING.md).
 
-factory_bot was originally written by Joe Ferris and is now maintained by Josh
-Clayton. Many improvements and bugfixes were contributed by the [open source
+factory_bot was originally written by Joe Ferris and is maintained by thoughtbot.
+Many improvements and bugfixes were contributed by the [open source
 community](https://github.com/thoughtbot/factory_bot/graphs/contributors).
 
 License
 -------
 
-factory_bot is Copyright © 2008-2019 Joe Ferris and thoughtbot. It is free
+factory_bot is Copyright © 2008-2020 Joe Ferris and thoughtbot. It is free
 software, and may be redistributed under the terms specified in the
 [LICENSE] file.
 
@@ -89,7 +83,7 @@ software, and may be redistributed under the terms specified in the
 About thoughtbot
 ----------------
 
-![thoughtbot](https://presskit.thoughtbot.com/images/thoughtbot-logo-for-readmes.svg)
+![thoughtbot](https://thoughtbot.com/brand_assets/93:44.svg)
 
 factory_bot is maintained and funded by thoughtbot, inc.
 The names and logos for thoughtbot are trademarks of thoughtbot, inc.

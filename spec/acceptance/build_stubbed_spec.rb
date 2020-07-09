@@ -4,9 +4,9 @@ describe "a generated stub instance" do
   before do
     define_model("User")
 
-    define_model("Post", title:   :string,
-                         body:    :string,
-                         age:     :integer,
+    define_model("Post", title: :string,
+                         body: :string,
+                         age: :integer,
                          user_id: :integer,
                          draft: :boolean) do
       belongs_to :user
@@ -129,10 +129,10 @@ describe "calling `build_stubbed` with a block" do
 
   it "returns the stub instance" do
     expected = nil
-    result = build_stubbed(:company) do |company|
+    result = build_stubbed(:company) { |company|
       expected = company
       "hello!"
-    end
+    }
     expect(result).to eq expected
   end
 end
@@ -160,8 +160,8 @@ describe "defaulting `created_at`" do
   end
 
   it "doesn't add created_at to objects who don't have the method" do
-    expect(build_stubbed(:thing_without_timestamp)).
-      not_to respond_to(:created_at)
+    expect(build_stubbed(:thing_without_timestamp))
+      .not_to respond_to(:created_at)
   end
 
   it "allows overriding created_at for objects with created_at" do
@@ -171,8 +171,8 @@ describe "defaulting `created_at`" do
   end
 
   it "doesn't allow setting created_at on an object that doesn't define it" do
-    expect { build_stubbed(:thing_without_timestamp, created_at: Time.now) }.
-      to raise_error(NoMethodError, /created_at=/)
+    expect { build_stubbed(:thing_without_timestamp, created_at: Time.now) }
+      .to raise_error(NoMethodError, /created_at=/)
   end
 
   it "allows assignment of created_at" do
@@ -224,8 +224,8 @@ describe "defaulting `updated_at`" do
   end
 
   it "doesn't add updated_at to objects who don't have the method" do
-    expect(build_stubbed(:thing_without_timestamp)).
-      not_to respond_to(:updated_at)
+    expect(build_stubbed(:thing_without_timestamp))
+      .not_to respond_to(:updated_at)
   end
 
   it "allows overriding updated_at for objects with updated_at" do
@@ -235,9 +235,9 @@ describe "defaulting `updated_at`" do
   end
 
   it "doesn't allow setting updated_at on an object that doesn't define it" do
-    expect do
+    expect {
       build_stubbed(:thing_without_timestamp, updated_at: Time.now)
-    end.to raise_error(NoMethodError, /updated_at=/)
+    }.to raise_error(NoMethodError, /updated_at=/)
   end
 
   it "allows assignment of updated_at" do
@@ -277,5 +277,23 @@ describe "defaulting `id`" do
 
   it "allows overriding id" do
     expect(FactoryBot.build_stubbed(:post, id: 12).id).to eq 12
+  end
+end
+
+describe "configuring the starting id" do
+  it "defines which id build_stubbed instances start with" do
+    define_model("Post")
+
+    FactoryBot.define do
+      factory :post
+    end
+
+    FactoryBot.build_stubbed_starting_id = 1000
+
+    expect(FactoryBot.build_stubbed(:post).id).to eq 1000
+
+    FactoryBot.build_stubbed_starting_id = 3000
+
+    expect(FactoryBot.build_stubbed(:post).id).to eq 3000
   end
 end

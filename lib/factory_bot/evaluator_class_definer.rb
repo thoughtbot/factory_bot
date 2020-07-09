@@ -3,7 +3,7 @@ module FactoryBot
   class EvaluatorClassDefiner
     def initialize(attributes, parent_class)
       @parent_class = parent_class
-      @attributes   = attributes
+      @attributes = attributes
 
       attributes.each do |attribute|
         evaluator_class.define_attribute(attribute.name, &attribute.to_proc)

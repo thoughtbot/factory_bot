@@ -5,7 +5,7 @@ module FactoryBot
       @methods_to_respond_to = methods_to_respond_to.map(&:to_s)
     end
 
-    def method_missing(name, *args, &block)
+    def method_missing(name, *args, &block) # rubocop:disable Style/MissingRespondToMissing
       if respond_to?(name)
         nil
       else
@@ -13,12 +13,8 @@ module FactoryBot
       end
     end
 
-    def respond_to?(method, _include_private = false)
+    def respond_to?(method)
       @methods_to_respond_to.include? method.to_s
-    end
-
-    def respond_to_missing?(*)
-      false
     end
   end
 end

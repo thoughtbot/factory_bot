@@ -10,12 +10,18 @@ module FactoryBot
     delegate :defined_traits, :callbacks, :attributes, :constructor,
       :to_create, to: :definition
 
-    def compile; end
+    def compile
+    end
 
-    def class_name; end
+    def class_name
+    end
 
-    def evaluator_class; FactoryBot::Evaluator; end
+    def evaluator_class
+      FactoryBot::Evaluator
+    end
 
-    def hierarchy_class; FactoryBot::DefinitionHierarchy; end
+    def hierarchy_class
+      FactoryBot::DefinitionHierarchy
+    end
   end
 end

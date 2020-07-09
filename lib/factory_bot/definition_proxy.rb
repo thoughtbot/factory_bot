@@ -1,6 +1,6 @@
 module FactoryBot
   class DefinitionProxy
-    UNPROXIED_METHODS = %w(
+    UNPROXIED_METHODS = %w[
       __send__
       __id__
       nil?
@@ -13,7 +13,7 @@ module FactoryBot
       raise
       caller
       method
-    ).freeze
+    ].freeze
 
     (instance_methods + private_instance_methods).each do |method|
       undef_method(method) unless UNPROXIED_METHODS.include?(method.to_s)
@@ -24,8 +24,8 @@ module FactoryBot
     attr_reader :child_factories
 
     def initialize(definition, ignore = false)
-      @definition      = definition
-      @ignore          = ignore
+      @definition = definition
+      @ignore = ignore
       @child_factories = []
     end
 
@@ -88,7 +88,7 @@ module FactoryBot
     #   end
     #
     # are equivalent.
-    def method_missing(name, *args, &block) # rubocop:disable Style/MethodMissing
+    def method_missing(name, *args, &block) # rubocop:disable Style/MissingRespondToMissing, Style/MethodMissingSuper
       association_options = args.first
 
       if association_options.nil?
@@ -152,7 +152,7 @@ module FactoryBot
       if block_given?
         raise AssociationDefinitionError.new(
           "Unexpected block passed to '#{name}' association "\
-          "in '#{@definition.name}' factory",
+          "in '#{@definition.name}' factory"
         )
       else
         declaration = Declaration::Association.new(name, *options)
@@ -174,6 +174,64 @@ module FactoryBot
 
     def trait(name, &block)
       @definition.define_trait(Trait.new(name, &block))
+    end
+
+    # Creates traits for enumerable values.
+    #
+    # Example:
+    #   factory :task do
+    #     traits_for_enum :status, [:started, :finished]
+    #   end
+    #
+    # Equivalent to:
+    #   factory :task do
+    #     trait :started do
+    #       status { :started }
+    #     end
+    #
+    #     trait :finished do
+    #       status { :finished }
+    #     end
+    #   end
+    #
+    # Example:
+    #   factory :task do
+    #     traits_for_enum :status, {started: 1, finished: 2}
+    #   end
+    #
+    # Example:
+    #   class Task
+    #     def statuses
+    #       {started: 1, finished: 2}
+    #     end
+    #   end
+    #
+    #   factory :task do
+    #     traits_for_enum :status
+    #   end
+    #
+    # Both equivalent to:
+    #   factory :task do
+    #     trait :started do
+    #       status { 1 }
+    #     end
+    #
+    #     trait :finished do
+    #       status { 2 }
+    #     end
+    #   end
+    #
+    #
+    # Arguments:
+    #   attribute_name: +Symbol+ or +String+
+    #     the name of the attribute these traits will set the value of
+    #   values: +Array+, +Hash+, or other +Enumerable+
+    #     An array of trait names, or a mapping of trait names to values for
+    #     those traits. When this argument is not provided, factory_bot will
+    #     attempt to get the values by calling the pluralized `attribute_name`
+    #     class method.
+    def traits_for_enum(attribute_name, values = nil)
+      @definition.register_enum(Enum.new(attribute_name, values))
     end
 
     def initialize_with(&block)

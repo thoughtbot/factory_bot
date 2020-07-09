@@ -1,5 +1,5 @@
 shared_examples_for "strategy without association support" do
-  let(:factory)   { double("associate_factory") }
+  let(:factory) { double("associate_factory") }
   let(:attribute) { FactoryBot::Attribute::Association.new(:user, :user, {}) }
 
   def association_named(name, overrides)
@@ -70,9 +70,9 @@ end
 
 shared_examples_for "strategy with callbacks" do |*callback_names|
   let(:result_instance) do
-    define_class("ResultInstance") do
+    define_class("ResultInstance") {
       attr_accessor :id
-    end.new
+    }.new
   end
 
   let(:evaluation) do

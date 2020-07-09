@@ -7,7 +7,7 @@ module FactoryBot
     class_attribute :attribute_lists
 
     private_instance_methods.each do |method|
-      undef_method(method) unless method =~ /^__|initialize/
+      undef_method(method) unless method.match?(/^__|initialize/)
     end
 
     def initialize(build_strategy, overrides = {})
@@ -23,9 +23,9 @@ module FactoryBot
 
     def association(factory_name, *traits_and_overrides)
       overrides = traits_and_overrides.extract_options!
-      strategy_override = overrides.fetch(:strategy) do
+      strategy_override = overrides.fetch(:strategy) {
         FactoryBot.use_parent_strategy ? @build_strategy.class : :create
-      end
+      }
 
       traits_and_overrides += [overrides.except(:strategy)]
 
@@ -33,15 +33,23 @@ module FactoryBot
       @build_strategy.association(runner)
     end
 
-    def instance=(object_instance)
-      @instance = object_instance
-    end
+    attr_accessor :instance
 
-    def method_missing(method_name, *args, &block) # rubocop:disable Style/MethodMissing
-      if @instance.respond_to?(method_name)
-        @instance.send(method_name, *args, &block)
-      else
-        SyntaxRunner.new.send(method_name, *args, &block)
+    if ::Gem::Version.new(::RUBY_VERSION) >= ::Gem::Version.new("2.7")
+      def method_missing(method_name, *args, **kwargs, &block) # rubocop:disable Style/MethodMissingSuper, Style/MissingRespondToMissing
+        if @instance.respond_to?(method_name)
+          @instance.send(method_name, *args, **kwargs, &block)
+        else
+          SyntaxRunner.new.send(method_name, *args, **kwargs, &block)
+        end
+      end
+    else
+      def method_missing(method_name, *args, &block) # rubocop:disable Style/MethodMissingSuper, Style/MissingRespondToMissing
+        if @instance.respond_to?(method_name)
+          @instance.send(method_name, *args, &block)
+        else
+          SyntaxRunner.new.send(method_name, *args, &block)
+        end
       end
     end
 

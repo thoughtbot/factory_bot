@@ -19,17 +19,16 @@ module FactoryBot
     attr_reader :factories_to_lint, :invalid_factories, :factory_strategy
 
     def calculate_invalid_factories
-      factories_to_lint.reduce(Hash.new([])) do |result, factory|
+      factories_to_lint.each_with_object(Hash.new([])) do |factory, result|
         errors = lint(factory)
         result[factory] |= errors unless errors.empty?
-        result
       end
     end
 
     class FactoryError
       def initialize(wrapped_error, factory)
         @wrapped_error = wrapped_error
-        @factory       = factory
+        @factory = factory
       end
 
       def message
@@ -72,8 +71,8 @@ module FactoryBot
       result = []
       begin
         FactoryBot.public_send(factory_strategy, factory.name)
-      rescue StandardError => error
-        result |= [FactoryError.new(error, factory)]
+      rescue => e
+        result |= [FactoryError.new(e, factory)]
       end
       result
     end
@@ -81,20 +80,17 @@ module FactoryBot
     def lint_traits(factory)
       result = []
       factory.definition.defined_traits.map(&:name).each do |trait_name|
-        begin
-          FactoryBot.public_send(factory_strategy, factory.name, trait_name)
-        rescue StandardError => error
-          result |=
-            [FactoryTraitError.new(error, factory, trait_name)]
-        end
+        FactoryBot.public_send(factory_strategy, factory.name, trait_name)
+      rescue => e
+        result |= [FactoryTraitError.new(e, factory, trait_name)]
       end
       result
     end
 
     def error_message
-      lines = invalid_factories.map do |_factory, exceptions|
+      lines = invalid_factories.map { |_factory, exceptions|
         exceptions.map(&error_message_type)
-      end.flatten
+      }.flatten
 
       <<~ERROR_MESSAGE.strip
         The following factories are invalid:

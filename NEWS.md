@@ -1,5 +1,33 @@
 # News
 
+## 6.1.0 (July 8, 2020)
+  * Added: public reader for the evaluation instance, helpful for building interrelated associations
+  * Changed: raise a more helpful error when passing an invalid argument to an association
+  * Fixed: Ruby 2.7 kwarg deprecation warnings
+
+## 6.0.2 (June 19, 2020)
+  * Fixed: bug causing traits to consume more memory each time they were used
+
+## 6.0.1 (June 19, 2020)
+  * Fixed: bug with constant resolution causing unexpected uninitialized constant errors
+
+## 6.0.0 (June 18, 2020)
+  * Added: automatic definition of traits for Active Record enum attributes, enabled by default
+    (Note that this required changing where factory_bot constantizes the build
+     class, which may affect applications that were using abstract factories for
+     inheritance. See issue #1409.)
+  * Added: `traits_for_enum` method to define traits for non-Active Record enums
+  * Added: `build_stubbed_starting_id=` option to define the starting id for `build_stubbed`
+  * Removed: deprecated methods on the top-level `FactoryBot` module meant only for internal use
+  * Removed: support for EOL versions of Ruby (2.3, 2.4) and Rails (4.2)
+
+## 5.2.0 (April 24, 2020)
+  * Added: Pass index to block for `*_list` methods
+  * Deprecated: methods on the top-level `FactoryBot` module meant only for internal use: `callbacks`, `configuration`, `constructor`, `initialize_with`, `register_sequence`, `resent_configuration`, `skip_create`, `to_create`
+
+## 5.1.2 (March 25, 2020)
+  * Fixed: Ruby 2.7 keyword deprecation warning in FactoryBot.lint
+
 ## 5.1.1 (October 2, 2019)
   * Improved: performance of traits
   * Fixed: registering strategies on JRuby
@@ -10,7 +38,7 @@
   * Fixed: avoid undefining inherited evaluator methods
   * Fixed: avoid stubbing id for records without a primary key
   * Fixed: raise a helpful error for self-referencing traits to avoid a `SystemStackError`
-  * Deprecated: top-level methods meant only for internal use: `allow_class_lookup`, `allow_class_lookup`=, `register_trait`, `trait_by_name`, `traits`, `sequence_by_name`, `sequences`, `factory_by_name`, `register_factory`, `callback_names`, `register_callback`, `register_default_callbacks`, `register_default_strategies`, `strategies`
+  * Deprecated: methods on the top-level `FactoryBot` module meant only for internal use: `allow_class_lookup`, `allow_class_lookup`=, `register_trait`, `trait_by_name`, `traits`, `sequence_by_name`, `sequences`, `factory_by_name`, `register_factory`, `callback_names`, `register_callback`, `register_default_callbacks`, `register_default_strategies`, `strategies`
 
 ## 5.0.2 (February 22, 2019)
   * Bugfix: raise "Trait not registered" error when passing invalid trait arguments

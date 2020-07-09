@@ -25,9 +25,9 @@ module DefineConstantMacros
       connection.create_table(table_name, &block)
       created_tables << table_name
       connection
-    rescue Exception => exception # rubocop:disable Lint/RescueException
+    rescue Exception => e # rubocop:disable Lint/RescueException
       connection.execute("DROP TABLE IF EXISTS #{table_name}")
-      raise exception
+      raise e
     end
   end
 
@@ -39,9 +39,9 @@ module DefineConstantMacros
   end
 
   def clear_generated_table(table_name)
-    ActiveRecord::Base.
-      connection.
-      execute("DROP TABLE IF EXISTS #{table_name}")
+    ActiveRecord::Base
+      .connection
+      .execute("DROP TABLE IF EXISTS #{table_name}")
   end
 
   private
@@ -56,8 +56,8 @@ RSpec.configure do |config|
 
   config.before(:all) do
     ActiveRecord::Base.establish_connection(
-      adapter:  "sqlite3",
-      database: ":memory:",
+      adapter: "sqlite3",
+      database: ":memory:"
     )
   end
 

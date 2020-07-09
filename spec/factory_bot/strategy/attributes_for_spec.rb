@@ -1,5 +1,5 @@
 describe FactoryBot::Strategy::AttributesFor do
-  let(:result)     { { name: "John Doe", gender: "Male", admin: false } }
+  let(:result) { {name: "John Doe", gender: "Male", admin: false} }
   let(:evaluation) { double("evaluation", hash: result) }
 
   it_should_behave_like "strategy without association support"
@@ -9,8 +9,8 @@ describe FactoryBot::Strategy::AttributesFor do
   end
 
   it "does not run the to_create block" do
-    expect do
+    expect {
       subject.result(evaluation)
-    end.to_not raise_error
+    }.to_not raise_error
   end
 end

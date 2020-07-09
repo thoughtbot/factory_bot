@@ -51,4 +51,18 @@ describe "build multiple instances" do
       end
     end
   end
+
+  context "with a block that receives both the object and an index" do
+    subject do
+      FactoryBot.build_list(:post, 20, title: "The Indexed Block") do |post, index|
+        post.position = index
+      end
+    end
+
+    it "correctly uses the set value" do
+      subject.each_with_index do |record, index|
+        expect(record.position).to eq index
+      end
+    end
+  end
 end

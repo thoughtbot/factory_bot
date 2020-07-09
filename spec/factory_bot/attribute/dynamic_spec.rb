@@ -1,5 +1,5 @@
 describe FactoryBot::Attribute::Dynamic do
-  let(:name)  { :first_name }
+  let(:name) { :first_name }
   let(:block) { -> {} }
 
   subject { FactoryBot::Attribute::Dynamic.new(name, false, block) }
@@ -23,11 +23,12 @@ describe FactoryBot::Attribute::Dynamic do
   end
 
   context "with a block referencing an attribute on the attribute" do
-    let(:block)  { -> { attribute_defined_on_attribute } }
+    let(:block) { -> { attribute_defined_on_attribute } }
     let(:result) { "other attribute value" }
 
     module MissingMethods
-      def attribute_defined_on_attribute(*args); end
+      def attribute_defined_on_attribute(*args)
+      end
     end
 
     before do
@@ -35,8 +36,8 @@ describe FactoryBot::Attribute::Dynamic do
       # be mocked. Ususually this is determined via '#method_missing'
       subject.extend(MissingMethods)
 
-      allow(subject).
-        to receive(:attribute_defined_on_attribute).and_return result
+      allow(subject)
+        .to receive(:attribute_defined_on_attribute).and_return result
     end
 
     it "evaluates the attribute from the attribute" do
@@ -48,7 +49,7 @@ describe FactoryBot::Attribute::Dynamic do
     let(:block) do
       -> do
         FactoryBot::Internal.register_sequence(
-          FactoryBot::Sequence.new(:email, 1) { |n| "foo#{n}" },
+          FactoryBot::Sequence.new(:email, 1) { |n| "foo#{n}" }
         )
       end
     end
@@ -60,6 +61,6 @@ describe FactoryBot::Attribute::Dynamic do
 end
 
 describe FactoryBot::Attribute::Dynamic, "with a string name" do
-  subject    { FactoryBot::Attribute::Dynamic.new("name", false, -> {}) }
+  subject { FactoryBot::Attribute::Dynamic.new("name", false, -> {}) }
   its(:name) { should eq :name }
 end
