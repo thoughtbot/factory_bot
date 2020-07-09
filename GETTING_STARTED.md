@@ -37,6 +37,7 @@ Getting Started
 * [Associations](#associations)
   + [Implicit definition](#implicit-definition)
   + [Explicit definition](#explicit-definition)
+  + [Inline definition](#inline-definition)
   + [Specifying the factory](#specifying-the-factory)
   + [Overriding attributes](#overriding-attributes)
   + [Build strategies](#build-strategies-1)
@@ -505,6 +506,19 @@ factory :post do
 end
 ```
 
+### Inline definition
+
+You can also define associations inline within regular attributes,
+but note that the value will be `nil`
+when using the `attributes_for` strategy.
+
+```ruby
+factory :post do
+  # ...
+  author { association :author }
+end
+```
+
 ### Specifying the factory
 
 You can specify a different factory (although [Aliases](#aliases) might also
@@ -528,6 +542,16 @@ factory :post do
 end
 ```
 
+Inline:
+
+```ruby
+factory :post do
+  # ...
+  author { association :user }
+end
+```
+
+=======
 ### Overriding attributes
 
 You can also override attributes.
@@ -548,6 +572,16 @@ Explicitly:
 factory :post do
   # ...
   association :author, last_name: "Writely"
+end
+```
+
+Or inline using attributes from the factory:
+
+```rb
+factory :post do
+  # ...
+  author_last_name { "Writely" }
+  author { association :author, last_name: author_last_name }
 end
 ```
 
