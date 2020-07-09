@@ -654,7 +654,7 @@ factory :post do
 
 ### `has_many` associations
 
-There are a few ways to generate data for a `has_many` relationships. The
+There are a few ways to generate data for a `has_many` relationship. The
 simplest approach is to write a helper method in plain Ruby to tie together the
 different records:
 
