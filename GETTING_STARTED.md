@@ -789,7 +789,7 @@ object to the singular version of the attribute name.
 
 ```ruby
 def profile_with_languages(languages_count: 2)
-  FactoryBot.create(:profile) do |user|
+  FactoryBot.create(:profile) do |profile|
     FactoryBot.create_list(:language, languages_count, profiles: [profile])
   end
 end
