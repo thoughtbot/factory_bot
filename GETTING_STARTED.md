@@ -44,6 +44,7 @@ Getting Started
   + [`has_many` associations](#has_many-associations)
   + [`has_and_belongs_to_many` associations](#has_and_belongs_to_many-associations)
   + [Polymorphic associations](#polymorphic-associations)
+  + [Interconnected associations](#interconnected-associations)
 * [Sequences](#sequences)
   + [Global sequences](#global-sequences)
   + [With dynamic attributes](#with-dynamic-attributes)
@@ -653,27 +654,51 @@ factory :post do
 
 ### `has_many` associations
 
-Generating data for a `has_many` relationship is a bit more involved,
-depending on the amount of flexibility desired, but here's a surefire example
-of generating associated data.
+There are a few ways to generate data for a `has_many` relationship. The
+simplest approach is to write a helper method in plain Ruby to tie together the
+different records:
 
 ```ruby
 FactoryBot.define do
-
-  # post factory with a `belongs_to` association for the user
   factory :post do
     title { "Through the Looking Glass" }
     user
   end
 
-  # user factory without associated posts
+  factory :user do
+    name { "Rachel Sanchez" }
+  end
+end
+
+def user_with_posts(posts_count: 5)
+  FactoryBot.create(:user) do |user|
+    FactoryBot.create_list(:post, posts_count, user: user)
+  end
+end
+
+create(:user).posts.length # 0
+user_with_posts.posts.length # 5
+user_with_posts(posts_count: 15).posts.length # 15
+```
+
+If you prefer to keep the object creation fully within factory\_bot, you can
+build the posts in an `after(:create)` callback.
+
+
+```ruby
+FactoryBot.define do
+  factory :post do
+    title { "Through the Looking Glass" }
+    user
+  end
+
   factory :user do
     name { "John Doe" }
 
     # user_with_posts will create post data after the user has been created
     factory :user_with_posts do
-      # posts_count is declared as a transient attribute and available in
-      # attributes on the factory, as well as the callback via the evaluator
+      # posts_count is declared as a transient attribute avialabile in the
+      # callback via the evaluator
       transient do
         posts_count { 5 }
       end
@@ -684,71 +709,122 @@ FactoryBot.define do
       # to create and we make sure the user is associated properly to the post
       after(:create) do |user, evaluator|
         create_list(:post, evaluator.posts_count, user: user)
+
+        # You may need to reload the record here, depending on your application
+        user.reload
       end
     end
   end
 end
-```
 
-This allows us to do:
-
-```ruby
 create(:user).posts.length # 0
 create(:user_with_posts).posts.length # 5
 create(:user_with_posts, posts_count: 15).posts.length # 15
 ```
 
-### `has_and_belongs_to_many` associations
-
-Generating data for a `has_and_belongs_to_many` relationship is very similar
-to the above `has_many` relationship, with a small change, you need to pass an
-array of objects to the model's pluralized attribute name rather than a single
-object to the singular version of the attribute name.
-
-Here's an example with two models that are related via
- `has_and_belongs_to_many`:
+Or, for a solution that works with `build`, `build_stubbed`, and `create`
+(although it doesn't work well with `attributes_for`), you can use inline
+associations:
 
 ```ruby
 FactoryBot.define do
-
-  # language factory with a `belongs_to` association for the profile
-  factory :language do
+  factory :post do
     title { "Through the Looking Glass" }
-    profile
+    user
   end
 
-  # profile factory without associated languages
-  factory :profile do
-    name { "John Doe" }
+  factory :user do
+    name { "Taylor Kim" }
 
-    # profile_with_languages will create language data after the profile has
-    # been created
-    factory :profile_with_languages do
-      # languages_count is declared as an ignored attribute and available in
-      # attributes on the factory, as well as the callback via the evaluator
+    factory :user_with_posts do
+      posts { [association(:post)] }
+    end
+  end
+end
+
+create(:user).posts.length # 0
+create(:user_with_posts).posts.length # 1
+build(:user_with_posts).posts.length # 1
+build_stubbed(:user_with_posts).posts.length # 1
+```
+
+For more flexibility you can combine this with the `posts_count` transient
+attribute from the callback example:
+
+```ruby
+FactoryBot.define do
+  factory :post do
+    title { "Through the Looking Glass" }
+    user
+  end
+
+  factory :user do
+    name { "Adiza Kumato" }
+
+    factory :user_with_posts do
       transient do
-        languages_count { 5 }
+        posts_count { 5 }
       end
 
-      # the after(:create) yields two values; the profile instance itself and
-      # the evaluator, which stores all values from the factory, including
-      # ignored attributes; `create_list`'s second argument is the number of
-      # records to create and we make sure the profile is associated properly
-      # to the language
-      after(:create) do |profile, evaluator|
-        create_list(:language, evaluator.languages_count, profiles: [profile])
+      posts do
+        Array.new(posts_count) { association(:post) }
       end
     end
   end
 end
+
+create(:user_with_posts).posts.length # 5
+create(:user_with_posts, posts_count: 15).posts.length # 15
+build(:user_with_posts, posts_count: 15).posts.length # 15
+build_stubbed(:user_with_posts, posts_count: 15).posts.length # 15
 ```
 
-This allows us to do:
+### `has_and_belongs_to_many` associations
+
+Generating data for a `has_and_belongs_to_many` relationship is very similar
+to the above `has_many` relationship, with a small change: you need to pass an
+array of objects to the model's pluralized attribute name rather than a single
+object to the singular version of the attribute name.
+
 
 ```ruby
-create(:profile).languages.length # 0
-create(:profile_with_languages).languages.length # 5
-create(:profile_with_languages, languages_count: 15).languages.length # 15
+def profile_with_languages(languages_count: 2)
+  FactoryBot.create(:profile) do |profile|
+    FactoryBot.create_list(:language, languages_count, profiles: [profile])
+  end
+end
+```
+
+Or with the callback approach:
+
+```ruby
+factory :profile_with_languages do
+  transient do
+    languages_count { 2 }
+  end
+
+  after(:create) do |profile, evaluator|
+    create_list(:language, evaluator.languages_count, profiles: [profile])
+    profile.reload
+  end
+end
+```
+
+Or the inline association approach (note the use of the `instance` method here
+to refer to the profile being built):
+
+```ruby
+factory :profile_with_languages do
+  transient do
+    languages_count { 2 }
+  end
+
+  languages do
+    Array.new(languages_count) do
+      association(:language, profiles: [instance])
+    end
+  end
+end
 ```
 
 ### Polymorphic associations
@@ -782,6 +858,57 @@ create(:comment, :for_video)
 create(:comment, :for_photo)
 ```
 
+### Interconnected associations
+
+There are limitless ways objects might be interconnected, and
+factory\_bot may not always be suited to handle those relationships. In some
+cases it makes sense to use factory\_bot to build each individual object, and
+then to write helper methods in plain Ruby to tie those objects together.
+
+That said, some more complex, interconnected relationships can be built in factory\_bot
+using inline associations with reference to the `instance` being built.
+
+Let's say your models look like this, where an associated `Student` and
+`Profile` should both belong to the same `School`:
+
+```ruby
+class Student < ApplicationRecord
+  belongs_to :school
+  has_one :profile
+end
+
+class Profile < ApplicationRecord
+  belongs_to :school
+  belongs_to :student
+end
+
+class School < ApplicationRecord
+  has_many :students
+  has_many :profiles
+end
+```
+
+We can ensure the student and profile are connected to each other and to the
+same school with a factory like this:
+
+```ruby
+FactoryBot.define do
+  factory :student do
+    school
+    profile { association :profile, student: instance, school: school }
+  end
+
+  factory :profile do
+    school
+    student { association :student, profile: instance, school: school }
+  end
+
+  factory :school
+end
+```
+
+Note that this approach works with `build`, `build_stubbed`, and `create`, but
+the associations will return `nil` when using `attributes_for`.
 
 Sequences
 ---------
