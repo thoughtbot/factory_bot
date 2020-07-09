@@ -551,7 +551,6 @@ factory :post do
 end
 ```
 
-=======
 ### Overriding attributes
 
 You can also override attributes.
