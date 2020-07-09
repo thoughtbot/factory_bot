@@ -722,7 +722,7 @@ create(:user_with_posts).posts.length # 5
 create(:user_with_posts, posts_count: 15).posts.length # 15
 ```
 
-Or for a solution that works with `build`, `build_stubbed`, and `create`
+Or, for a solution that works with `build`, `build_stubbed`, and `create`
 (although it doesn't work well with `attributes_for`), you can use inline
 associations:
 
