@@ -59,48 +59,87 @@ describe "associations" do
     end
 
     it "connects records with interdependent relationships" do
-      define_model("User", school_id: :integer) do
+      define_model("Student", school_id: :integer) do
         belongs_to :school
         has_one :profile
       end
 
-      define_model("Profile", school_id: :integer, user_id: :integer) do
+      define_model("Profile", school_id: :integer, student_id: :integer) do
         belongs_to :school
-        belongs_to :user
+        belongs_to :student
       end
 
       define_model("School") do
-        has_many :users
+        has_many :students
         has_many :profiles
       end
 
       FactoryBot.define do
-        factory :user do
+        factory :student do
           school
-          profile { association :profile, user: instance, school: school }
+          profile { association :profile, student: instance, school: school }
         end
 
         factory :profile do
           school
-          user { association :user, profile: instance, school: school }
+          student { association :student, profile: instance, school: school }
         end
 
         factory :school
       end
 
-      user = FactoryBot.create(:user)
+      student = FactoryBot.create(:student)
 
-      expect(user.profile.school).to eq(user.school)
-      expect(user.profile.user).to eq(user)
-      expect(user.school.users.map(&:id)).to eq([user.id])
-      expect(user.school.profiles.map(&:id)).to eq([user.profile.id])
+      expect(student.profile.school).to eq(student.school)
+      expect(student.profile.student).to eq(student)
+      expect(student.school.students.map(&:id)).to eq([student.id])
+      expect(student.school.profiles.map(&:id)).to eq([student.profile.id])
 
       profile = FactoryBot.create(:profile)
 
-      expect(profile.user.school).to eq(profile.school)
-      expect(profile.user.profile).to eq(profile)
+      expect(profile.student.school).to eq(profile.school)
+      expect(profile.student.profile).to eq(profile)
       expect(profile.school.profiles.map(&:id)).to eq([profile.id])
-      expect(profile.school.users.map(&:id)).to eq([profile.user.id])
+      expect(profile.school.students.map(&:id)).to eq([profile.student.id])
+    end
+  end
+
+  context "when building collection associations" do
+    it "builds the association according to the given strategy" do
+      define_model("Photo", listing_id: :integer) do
+        belongs_to :listing
+        attr_accessor :name
+      end
+
+      define_model("Listing") do
+        has_many :photos
+      end
+
+      FactoryBot.define do
+        factory :photo
+
+        factory :listing do
+          photos { [association(:photo)] }
+        end
+      end
+
+      created_listing = FactoryBot.create(:listing)
+
+      expect(created_listing.photos.first).to be_a Photo
+      expect(created_listing.photos.first).to be_persisted
+
+      built_listing = FactoryBot.build(:listing)
+
+      expect(built_listing.photos.first).to be_a Photo
+      expect(built_listing.photos.first).not_to be_persisted
+
+      stubbed_listing = FactoryBot.build_stubbed(:listing)
+
+      expect(stubbed_listing.photos.first).to be_a Photo
+      expect(stubbed_listing.photos.first).to be_persisted
+      expect { stubbed_listing.photos.first.save! }.to raise_error(
+        "stubbed models are not allowed to access the database - Photo#save!()"
+      )
     end
   end
 end
