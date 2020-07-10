@@ -28,6 +28,15 @@ describe FactoryBot::Registry do
       .to raise_error(KeyError, "Great thing not registered: \"object_name\"")
   end
 
+  it "includes a did_you_mean message" do
+    registry = FactoryBot::Registry.new(:registry)
+    registered_object = double(:registered_object)
+    registry.register(:factory_bot, registered_object)
+
+    expect { registry.find(:factory_bit) }
+      .to raise_error(KeyError, /Did you mean\?  "factory_bot"/)
+  end
+
   it "adds and returns the object registered" do
     registry = FactoryBot::Registry.new("Great thing")
     registered_object = double("registered object")
