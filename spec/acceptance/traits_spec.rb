@@ -309,8 +309,27 @@ describe "looking up traits that don't exist" do
 
       expect { FactoryBot.build(:user) }.to raise_error(
         KeyError,
-        'Trait not registered: "inaccessible_trait" ' \
-        '(referenced within "user" definition)'
+        'Trait not registered: "inaccessible_trait" referenced within "user" definition'
+      )
+    end
+
+    it "maintains 'Did you mean?' suggestions at the end of the error message" do
+      define_class("User")
+
+      FactoryBot.define do
+        trait :not_quit
+
+        factory :user do
+          not_quite
+        end
+      end
+
+      expect { FactoryBot.build(:user) }.to raise_error(
+        KeyError,
+        <<~MSG.strip
+          Trait not registered: "not_quite" referenced within "user" definition
+          Did you mean?  "not_quit"
+        MSG
       )
     end
   end
@@ -333,8 +352,7 @@ describe "looking up traits that don't exist" do
 
       expect { FactoryBot.build(:user, :admin) }.to raise_error(
         KeyError,
-        'Trait not registered: "inaccessible_trait" ' \
-        '(referenced within "admin" definition)'
+        'Trait not registered: "inaccessible_trait" referenced within "admin" definition'
       )
     end
   end
