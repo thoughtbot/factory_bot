@@ -111,6 +111,20 @@ module FactoryBot
 
     def base_traits
       @base_traits.map { |name| trait_by_name(name) }
+    rescue KeyError => error
+      raise error_with_definition_name(error)
+    end
+
+    def error_with_definition_name(error)
+      message = error.message
+      message.insert(
+        message.index("\nDid you mean?") || message.length,
+        " referenced within \"#{name}\" definition"
+      )
+
+      error.class.new(message).tap do |new_error|
+        new_error.set_backtrace(error.backtrace)
+      end
     end
 
     def additional_traits
