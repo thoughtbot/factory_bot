@@ -1727,7 +1727,7 @@ factory :user do
 
   name "John Doe"
 
-  initialize_with { new(attributes) }
+  initialize_with { new(**attributes) }
 end
 ```
 
