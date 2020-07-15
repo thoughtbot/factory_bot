@@ -254,3 +254,23 @@ describe "initialize_with for a constructor that requires a block" do
     expect(FactoryBot.build(:awesome).output).to eq "Output"
   end
 end
+
+describe "initialize_with with a hash argument" do
+  it "builds the object correctly" do
+    define_class("Container") do
+      attr_reader :contents
+
+      def initialize(contents)
+        @contents = contents
+      end
+    end
+
+    FactoryBot.define do
+      factory :container do
+        initialize_with { new({key: :value}) }
+      end
+    end
+
+    expect(FactoryBot.build(:container).contents).to eq({key: :value})
+  end
+end
