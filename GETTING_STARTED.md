@@ -697,7 +697,7 @@ FactoryBot.define do
 
     # user_with_posts will create post data after the user has been created
     factory :user_with_posts do
-      # posts_count is declared as a transient attribute avialabile in the
+      # posts_count is declared as a transient attribute available in the
       # callback via the evaluator
       transient do
         posts_count { 5 }
