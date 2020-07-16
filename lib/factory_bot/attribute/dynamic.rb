@@ -12,7 +12,7 @@ module FactoryBot
 
         -> {
           value = case block.arity
-                  when 1, -1 then instance_exec(self, &block)
+                  when 1, -1, -2 then instance_exec(self, &block)
                   else instance_exec(&block)
           end
           raise SequenceAbuseError if FactoryBot::Sequence === value
