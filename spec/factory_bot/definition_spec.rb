@@ -31,22 +31,22 @@ describe FactoryBot::Definition do
   end
 
   it "maintains a list of traits" do
-    trait1 = double(:trait)
-    trait2 = double(:trait)
+    trait1 = double(:trait).as_null_object
+    trait2 = double(:trait).as_null_object
     definition = described_class.new(:name)
     definition.define_trait(trait1)
     definition.define_trait(trait2)
 
-    expect(definition.defined_traits).to include(trait1, trait2)
+    expect(definition.traits).to include(trait1, trait2)
   end
 
   it "adds only unique traits" do
-    trait1 = double(:trait)
+    trait1 = double(:trait).as_null_object
     definition = described_class.new(:name)
     definition.define_trait(trait1)
     definition.define_trait(trait1)
 
-    expect(definition.defined_traits.size).to eq 1
+    expect(definition.traits.size).to eq 1
   end
 
   it "maintains a list of callbacks" do

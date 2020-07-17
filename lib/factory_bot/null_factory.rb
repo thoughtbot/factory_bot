@@ -10,6 +10,9 @@ module FactoryBot
     delegate :defined_traits, :callbacks, :attributes, :constructor,
       :to_create, to: :definition
 
+    def trait_by_name(name)
+    end
+
     def compile
     end
 

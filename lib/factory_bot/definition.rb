@@ -1,17 +1,17 @@
 module FactoryBot
   # @api private
   class Definition
-    attr_reader :defined_traits, :declarations, :name, :registered_enums
+    attr_reader :traits, :declarations, :name, :registered_enums, :base_traits_, :additional_traits_
 
     def initialize(name, base_traits = [])
       @name = name
       @declarations = DeclarationList.new(name)
       @callbacks = []
-      @defined_traits = Set.new
+      @traits = ActiveSupport::HashWithIndifferentAccess.new
       @registered_enums = []
       @to_create = nil
-      @base_traits = base_traits
-      @additional_traits = []
+      @base_traits_ = base_traits
+      @additional_traits_ = []
       @constructor = nil
       @attributes = nil
       @compiled = false
@@ -33,16 +33,19 @@ module FactoryBot
       if block_given?
         @to_create = block
       else
-        aggregate_from_traits_and_self(:to_create) { @to_create }.last
+        # aggregate_from_traits_and_self(:to_create) { @to_create }.last
+        @to_create
       end
     end
 
     def constructor
-      aggregate_from_traits_and_self(:constructor) { @constructor }.last
+      # aggregate_from_traits_and_self(:constructor) { @constructor }.last
+      @constructor
     end
 
     def callbacks
-      aggregate_from_traits_and_self(:callbacks) { @callbacks }
+      # aggregate_from_traits_and_self(:callbacks) { @callbacks }
+      @callbacks
     end
 
     def compile(klass = nil)
@@ -50,11 +53,6 @@ module FactoryBot
         expand_enum_traits(klass) unless klass.nil?
 
         declarations.attributes
-
-        defined_traits.each do |defined_trait|
-          base_traits.each { |bt| bt.define_trait defined_trait }
-          additional_traits.each { |at| at.define_trait defined_trait }
-        end
 
         @compiled = true
       end
@@ -66,11 +64,11 @@ module FactoryBot
     end
 
     def inherit_traits(new_traits)
-      @base_traits += new_traits
+      @base_traits_ += new_traits
     end
 
     def append_traits(new_traits)
-      @additional_traits += new_traits
+      @additional_traits_ += new_traits
     end
 
     def add_callback(callback)
@@ -82,7 +80,7 @@ module FactoryBot
     end
 
     def define_trait(trait)
-      @defined_traits.add(trait)
+      @traits[trait.name] = trait unless @traits.key?(trait.name)
     end
 
     def register_enum(enum)
@@ -110,27 +108,21 @@ module FactoryBot
     private
 
     def base_traits
-      @base_traits.map { |name| trait_by_name(name) }
+      @base_traits_.map { |name| trait_by_name(name) }
     end
 
     def additional_traits
-      @additional_traits.map { |name| trait_by_name(name) }
+      @additional_traits_.map { |name| trait_by_name(name) }
     end
 
     def trait_by_name(name)
-      trait_for(name) || Internal.trait_by_name(name)
-    end
-
-    def trait_for(name)
-      @defined_traits_by_name ||= defined_traits.each_with_object({}) { |t, memo| memo[t.name] ||= t }
-      @defined_traits_by_name[name.to_s]
+      @traits[name] || Internal.trait_by_name(name)
     end
 
     def initialize_copy(source)
       super
       @attributes = nil
       @compiled = false
-      @defined_traits_by_name = nil
     end
 
     def aggregate_from_traits_and_self(method_name, &block)

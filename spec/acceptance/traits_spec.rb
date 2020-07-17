@@ -893,3 +893,43 @@ describe "when a self-referential trait is defined" do
     )
   end
 end
+
+describe "#968" do
+  before do
+    define_model("Demo", value: :string)
+
+    FactoryBot.define do
+      factory :parent, class: :demo do
+        trait :a do
+          value { "parent_value" }
+        end
+
+        trait :z do
+          a
+        end
+
+        factory :child do
+          trait :a do
+            value { "child_value" }
+          end
+        end
+      end
+    end
+  end
+
+  it "parent first" do
+    parent = FactoryBot.build(:parent, :z)
+    child = FactoryBot.build(:child, :z)
+
+    expect(parent.value).to eq "parent_value"
+    expect(child.value).to eq "child_value"
+  end
+
+  it "child first" do
+    child = FactoryBot.build(:child, :z)
+    parent = FactoryBot.build(:parent, :z)
+
+    expect(parent.value).to eq "parent_value"
+    expect(child.value).to eq "child_value"
+  end
+end

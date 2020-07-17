@@ -83,7 +83,6 @@ module FactoryBot
     def compile
       unless @compiled
         parent.compile
-        parent.defined_traits.each { |trait| define_trait(trait) }
         @definition.compile(build_class)
         build_hierarchy
         @compiled = true
@@ -96,8 +95,6 @@ module FactoryBot
       end
     end
 
-    protected
-
     def class_name
       @class_name || parent.class_name || name
     end
@@ -106,10 +103,38 @@ module FactoryBot
       @evaluator_class ||= EvaluatorClassDefiner.new(attributes, parent.evaluator_class).evaluator_class
     end
 
+    def trait_by_name(name)
+      @definition.traits[name.to_s] ||
+        parent.trait_by_name(name) ||
+        Internal.trait_by_name(name)
+    end
+
+    def base_traits
+      @definition.base_traits_.map { |name| trait_by_name(name) }
+    end
+
+    def additional_traits
+      @definition.additional_traits_.map { |name| trait_by_name(name) }
+    end
+
+    def add_trait_parent(trait)
+      trait.parent = self
+      trait
+    end
+
     def attributes
       compile
-      AttributeList.new(@name).tap do |list|
-        list.apply_attributes definition.attributes
+
+      AttributeList.new(@name).tap do |attribute_list|
+        attribute_lists = [
+          base_traits.map { |t| add_trait_parent(t) }.map(&:attributes),
+          @definition.declarations.attributes,
+          additional_traits.map { |t| add_trait_parent(t) }.map(&:attributes)
+        ].flatten.compact
+
+        attribute_lists.each do |attributes|
+          attribute_list.apply_attributes attributes
+        end
       end
     end
 

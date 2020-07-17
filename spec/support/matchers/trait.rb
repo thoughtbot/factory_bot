@@ -1,8 +1,7 @@
 RSpec::Matchers.define :have_trait do |trait_name|
   match do |instance|
-    instance.defined_traits.any? do |trait|
-      trait.name == trait_name.to_s && trait.send(:block) == @block
-    end
+    instance.traits.key?(trait_name.to_s) &&
+      instance.traits[trait_name.to_s].send(:block) == @block
   end
 
   chain :with_block do |block|
