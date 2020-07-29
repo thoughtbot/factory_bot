@@ -348,6 +348,7 @@ create(:user, last_name: "Doe").email
 
 Transient Attributes
 --------------------
+Transient attributes behave like virtual attributes without being available on the model itself. This allows for more complex logic inside factories without altering the model for this cause.
 
 ### With other attributes
 
