@@ -314,17 +314,17 @@ factory :user, aliases: [:author, :commenter] do
 end
 
 factory :post do
-  author
-  # instead of
+  # The alias allows us to write author instead of
   # association :author, factory: :user
+  author
   title { "How to read a book effectively" }
   body { "There are five steps involved." }
 end
 
 factory :comment do
-  commenter
-  # instead of
+  # The alias allows us to write commenter instead of
   # association :commenter, factory: :user
+  commenter
   body { "Great article!" }
 end
 ```
