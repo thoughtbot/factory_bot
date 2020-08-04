@@ -971,7 +971,7 @@ end
 
 ### Initial value
 
-You can override the initial value. Any value that response to the `#next`
+You can override the initial value. Any value that responds to the `#next`
 method will work (e.g. 1, 2, 3, 'a', 'b', 'c')
 
 ```ruby
