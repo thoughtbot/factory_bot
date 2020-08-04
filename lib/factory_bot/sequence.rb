@@ -55,15 +55,33 @@ module FactoryBot
       end
 
       def peek
-        @value
+        value
       end
 
       def next
-        @value = @value.next
+        @value = value.next
       end
 
       def rewind
-        @value = @first_value
+        @value = first_value
+      end
+
+      private
+
+      def value
+        if @value.respond_to?(:call)
+          @value = @value.call
+        else
+          @value
+        end
+      end
+
+      def first_value
+        if @first_value.respond_to?(:call)
+          @first_value = @first_value.call
+        else
+          @first_value
+        end
       end
     end
   end

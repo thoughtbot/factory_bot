@@ -102,6 +102,12 @@ describe FactoryBot::Sequence do
     it_behaves_like "a sequence", first_value: "=foo", second_value: "=bar"
   end
 
+  describe "a basic sequence with lambda function as custom value" do
+    subject { FactoryBot::Sequence.new(:name, -> { "A" }) }
+
+    it_behaves_like "a sequence", first_value: "A", second_value: "B"
+  end
+
   it "a custom sequence and scope increments within the correct scope" do
     sequence = FactoryBot::Sequence.new(:name, "A") { |n| "=#{n}#{foo}" }
     scope = double("scope", foo: "attribute")

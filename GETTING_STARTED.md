@@ -980,6 +980,14 @@ factory :user do
 end
 ```
 
+You can also pass a lambda function for a lazy evaluation of the initial value.
+
+```ruby
+factory :user do
+  sequence(:email, -> { User.count }) { |n| "person#{n}@example.com" }
+end
+```
+
 ### Without a block
 
 Without a block, the value will increment itself, starting at its initial value:
