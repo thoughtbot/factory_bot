@@ -31,17 +31,17 @@ end
 ## Replace All Constant References
 
 A global find-and-replace of `FactoryGirl` to `FactoryBot` across the codebase
-to replace all references with the new constant should do the trick. For
-example, on macOS:
+to replace all references with the new constant should do the trick.
+For macOS you can do:
 
 ```sh
 grep -e FactoryGirl **/*.rake **/*.rb -s -l | xargs sed -i "" "s|FactoryGirl|FactoryBot|g"
 ```
 
-Linux:
+For Linux:
 
 ```sh
-find . -type f -print0| xargs -0 sed -i 's/FactoryGirl/FactoryBot/g'
+grep -r -e FactoryGirl -i --include *.rake --include *.rb -l | xargs sed -i 's/FactoryGirl/FactoryBot/g'
 ```
 
 If these examples don't work for you, various other approaches
