@@ -11,7 +11,7 @@ module FactoryBot
         evaluation.notify(:before_create, instance)
         instance = evaluation.create(instance)
         evaluation.notify(:after_create, instance)
-        instance 
+        instance
       end
     end
   end

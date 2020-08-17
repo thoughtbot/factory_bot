@@ -93,7 +93,7 @@ describe "a custom create returning something different" do
   before do
     define_class("User") do
       def show
-        puts "hello user" 
+        puts "hello user"
       end
     end
 
@@ -116,7 +116,7 @@ describe "a custom create returning something different" do
   it "uses returns the value from the custom create block" do
     expect(subject).to eq("some-custom-return-value")
   end
-  
+
   it "calls after_create hooks with the returned value" do
     allow_any_instance_of(FactoryBot::Evaluation).to receive(:notify)
     expect_any_instance_of(FactoryBot::Evaluation).to receive(:notify).with(:after_create, "some-custom-return-value")

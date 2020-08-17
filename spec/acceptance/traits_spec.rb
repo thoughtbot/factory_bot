@@ -609,11 +609,17 @@ describe "traits with to_create" do
     FactoryBot.define do
       factory :user do
         trait :with_to_create do
-          to_create { |instance| instance.name = "to_create"; instance }
+          to_create do |instance|
+            instance.name = "to_create"
+            instance
+          end
         end
 
         factory :sub_user do
-          to_create { |instance| instance.name = "sub"; instance }
+          to_create do |instance|
+            instance.name = "sub"
+            instance
+          end
 
           factory :child_user
         end
@@ -626,7 +632,10 @@ describe "traits with to_create" do
 
         factory :sub_user_with_trait_and_override do
           with_to_create
-          to_create { |instance| instance.name = "sub with trait and override"; instance }
+          to_create do |instance|
+            instance.name = "sub with trait and override"
+            instance
+          end
 
           factory :child_user_with_trait_and_override
         end
@@ -661,7 +670,10 @@ describe "traits with to_create" do
   it "gives additional traits higher priority than base traits and factory definition" do
     FactoryBot.define do
       trait :overridden do
-        to_create { |instance| instance.name = "completely overridden"; instance }
+        to_create do |instance|
+          instance.name = "completely overridden"
+          instance
+        end
       end
     end
 
@@ -774,7 +786,10 @@ describe "nested implicit traits" do
       FactoryBot.define do
         trait :female do
           gender { "female" }
-          to_create { |instance| instance.gender = instance.gender.upcase; instance }
+          to_create do |instance|
+            instance.gender = instance.gender.upcase
+            instance
+          end
         end
 
         trait :jane_doe do
@@ -805,7 +820,10 @@ describe "nested implicit traits" do
         factory :user do
           trait :female do
             gender { "female" }
-            to_create { |instance| instance.gender = instance.gender.upcase; instance }
+            to_create do |instance|
+              instance.gender = instance.gender.upcase
+              instance
+            end
           end
 
           trait :jane_doe do
