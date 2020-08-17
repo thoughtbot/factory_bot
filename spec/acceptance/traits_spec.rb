@@ -609,11 +609,11 @@ describe "traits with to_create" do
     FactoryBot.define do
       factory :user do
         trait :with_to_create do
-          to_create { |instance| instance.name = "to_create" }
+          to_create { |instance| instance.name = "to_create"; instance }
         end
 
         factory :sub_user do
-          to_create { |instance| instance.name = "sub" }
+          to_create { |instance| instance.name = "sub"; instance }
 
           factory :child_user
         end
@@ -626,7 +626,7 @@ describe "traits with to_create" do
 
         factory :sub_user_with_trait_and_override do
           with_to_create
-          to_create { |instance| instance.name = "sub with trait and override" }
+          to_create { |instance| instance.name = "sub with trait and override"; instance }
 
           factory :child_user_with_trait_and_override
         end
@@ -661,7 +661,7 @@ describe "traits with to_create" do
   it "gives additional traits higher priority than base traits and factory definition" do
     FactoryBot.define do
       trait :overridden do
-        to_create { |instance| instance.name = "completely overridden" }
+        to_create { |instance| instance.name = "completely overridden"; instance }
       end
     end
 
@@ -774,7 +774,7 @@ describe "nested implicit traits" do
       FactoryBot.define do
         trait :female do
           gender { "female" }
-          to_create { |instance| instance.gender = instance.gender.upcase }
+          to_create { |instance| instance.gender = instance.gender.upcase; instance }
         end
 
         trait :jane_doe do
@@ -805,7 +805,7 @@ describe "nested implicit traits" do
         factory :user do
           trait :female do
             gender { "female" }
-            to_create { |instance| instance.gender = instance.gender.upcase }
+            to_create { |instance| instance.gender = instance.gender.upcase; instance }
           end
 
           trait :jane_doe do

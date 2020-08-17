@@ -6,12 +6,12 @@ module FactoryBot
       end
 
       def result(evaluation)
-        evaluation.object.tap do |instance|
-          evaluation.notify(:after_build, instance)
-          evaluation.notify(:before_create, instance)
-          evaluation.create(instance)
-          evaluation.notify(:after_create, instance)
-        end
+        instance = evaluation.object
+        evaluation.notify(:after_build, instance)
+        evaluation.notify(:before_create, instance)
+        instance = evaluation.create(instance)
+        evaluation.notify(:after_create, instance)
+        instance 
       end
     end
   end

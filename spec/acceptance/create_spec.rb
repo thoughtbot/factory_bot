@@ -74,13 +74,53 @@ describe "a custom create" do
 
     FactoryBot.define do
       factory :user do
-        to_create(&:persist)
+        to_create do |object|
+          object.persist
+          object
+        end
       end
     end
   end
 
   it "uses the custom create block instead of save" do
     expect(FactoryBot.create(:user)).to be_persisted
+  end
+end
+
+describe "a custom create returning something different" do
+  include FactoryBot::Syntax::Methods
+
+  before do
+    define_class("User") do
+      def show
+        puts "hello user" 
+      end
+    end
+
+    FactoryBot.define do
+      factory :user do
+        to_create do |object|
+          object.show
+          "some-custom-return-value"
+        end
+
+        after(:create) do |object|
+          "#{object}-string"
+        end
+      end
+    end
+  end
+
+  subject { FactoryBot.create(:user) }
+
+  it "uses returns the value from the custom create block" do
+    expect(subject).to eq("some-custom-return-value")
+  end
+  
+  it "calls after_create hooks with the returned value" do
+    allow_any_instance_of(FactoryBot::Evaluation).to receive(:notify)
+    expect_any_instance_of(FactoryBot::Evaluation).to receive(:notify).with(:after_create, "some-custom-return-value")
+    subject
   end
 end
 
@@ -96,6 +136,7 @@ describe "a custom create passing in an evaluator" do
 
         to_create do |user, evaluator|
           user.name = evaluator.creation_name
+          user
         end
       end
     end

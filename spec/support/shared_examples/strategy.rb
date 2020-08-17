@@ -76,7 +76,7 @@ shared_examples_for "strategy with callbacks" do |*callback_names|
   end
 
   let(:evaluation) do
-    double("evaluation", object: result_instance, notify: true, create: nil)
+    double("evaluation", object: result_instance, notify: true, create: result_instance)
   end
 
   it "runs the callbacks #{callback_names} with the evaluation's object" do

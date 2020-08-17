@@ -19,7 +19,10 @@ module FactoryBot
       @definition = Definition.new(:configuration)
       @inline_sequences = []
 
-      to_create(&:save!)
+      to_create do |object|
+        object.save!
+        object
+      end
       initialize_with { new }
     end
 

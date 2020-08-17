@@ -4,10 +4,10 @@ describe "global to_create" do
     define_model("Post", name: :string)
 
     FactoryBot.define do
-      to_create { |instance| instance.name = "persisted!" }
+      to_create { |instance| instance.name = "persisted!"; instance }
 
       trait :override_to_create do
-        to_create { |instance| instance.name = "override" }
+        to_create { |instance| instance.name = "override"; instance }
       end
 
       factory :user do
@@ -79,7 +79,7 @@ describe "global skip_create" do
       skip_create
 
       trait :override_to_create do
-        to_create { |instance| instance.name = "override" }
+        to_create { |instance| instance.name = "override"; instance }
       end
 
       factory :user do

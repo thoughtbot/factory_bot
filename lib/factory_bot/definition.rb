@@ -78,7 +78,7 @@ module FactoryBot
     end
 
     def skip_create
-      @to_create = ->(instance) {}
+      @to_create = ->(instance) { instance }
     end
 
     def define_trait(trait)
