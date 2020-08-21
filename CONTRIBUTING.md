@@ -51,6 +51,12 @@ Here are some ways *you* can contribute:
   asking for help. We love helping!
 * Please don't update the Gem version.
 
+## Setting up
+
+```sh
+bundle install
+```
+
 ## Running the test suite
 
 The default rake task will run the full test suite and [standard]:
