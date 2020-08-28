@@ -199,17 +199,15 @@ It is also possible to explicitly specify the class:
 
 ```ruby
 # This will use the User class (otherwise Admin would have been guessed)
-factory :admin, class: User
+factory :admin, class: "User"
 ```
 
-If the constant is not available
-(if you are using a Rails engine that waits to load models, for example),
-you can also pass a symbol or string,
-which factory\_bot will constantize later, once you start building objects:
+You can pass a constant as well, if the constant is available (note that this
+can cause test performance problems in large Rails applications, since
+referring to the constant will cause it to be eagerly loaded).
 
 ```ruby
-# It's OK if Doorkeeper::AccessToken isn't loaded yet
-factory :access_token, class: "Doorkeeper::AccessToken"
+factory :access_token, class: User
 ```
 
 ### Hash attributes
