@@ -40,6 +40,7 @@ Getting Started
   + [Inline definition](#inline-definition)
   + [Specifying the factory](#specifying-the-factory)
   + [Overriding attributes](#overriding-attributes)
+  + [Association overrides] (#association-overrides)
   + [Build strategies](#build-strategies-1)
   + [`has_many` associations](#has_many-associations)
   + [`has_and_belongs_to_many` associations](#has_and_belongs_to_many-associations)
@@ -584,23 +585,26 @@ factory :post do
 end
 ```
 
-Attribute overrides can be used to link associated child objects to their parent:
+### Association overrides
+
+Attribute overrides can be used to link associated objects:
+
 ```ruby
 # Define factories with associations
 FactoryBot.define do
-  factory :book do
-    title { 'A Farewell to Arms' }
-   end
-   
-   factory :chapter do
-    name { 'Chapter 1' }
-    book { association :book }
+  factory :author do
+   author_last_name { 'Writely' }
+  end
+
+  factory :post do
+    title { 'A Title' }
+    author { association :author }
    end
 end
 
-# Build a book and a chapter, with the chapter linked to the instantiated book (my_book)
-my_book = build(:book)
-my_chapter = build(:chapter, book: my_book)
+# Build a post and an author, with the post linked to the instantiated author
+author = build(:author)
+post = build(:post, author: author)
 ```
 
 ### Build strategies
