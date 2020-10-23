@@ -40,7 +40,7 @@ Getting Started
   + [Inline definition](#inline-definition)
   + [Specifying the factory](#specifying-the-factory)
   + [Overriding attributes](#overriding-attributes)
-  + [Association overrides] (#association-overrides)
+  + [Association overrides](#association-overrides)
   + [Build strategies](#build-strategies-1)
   + [`has_many` associations](#has_many-associations)
   + [`has_and_belongs_to_many` associations](#has_and_belongs_to_many-associations)
