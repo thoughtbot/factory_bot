@@ -909,7 +909,7 @@ end
 Note that this approach works with `build`, `build_stubbed`, and `create`, but
 the associations will return `nil` when using `attributes_for`.
 
-Also, note that `instance` is not available within `initialize_with`, which may produce unexpected behaviour when 
+Also, note that if you assign any attributes inside a custom `initialize_with` (e.g. `initialize_with { new(**attributes) }`), those attributes should not refer to `instance`, since it will be `nil`.
 objects are initialized via `initialize_with { new(attributes) }`.
 
 Sequences
@@ -1735,7 +1735,7 @@ end
 
 This will build a hash of all attributes to be passed to `new`. It won't
 include transient attributes, but everything else defined in the factory will be
-passed (associations, evaluated sequences, etc.). Also, references `instance` are not available.
+passed (associations, evaluated sequences, etc.).
 
 You can define `initialize_with` for all factories by including it in the
 `FactoryBot.define` block:
