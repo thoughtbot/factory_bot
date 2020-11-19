@@ -199,17 +199,15 @@ It is also possible to explicitly specify the class:
 
 ```ruby
 # This will use the User class (otherwise Admin would have been guessed)
-factory :admin, class: User
+factory :admin, class: "User"
 ```
 
-If the constant is not available
-(if you are using a Rails engine that waits to load models, for example),
-you can also pass a symbol or string,
-which factory\_bot will constantize later, once you start building objects:
+You can pass a constant as well, if the constant is available (note that this
+can cause test performance problems in large Rails applications, since
+referring to the constant will cause it to be eagerly loaded).
 
 ```ruby
-# It's OK if Doorkeeper::AccessToken isn't loaded yet
-factory :access_token, class: "Doorkeeper::AccessToken"
+factory :access_token, class: User
 ```
 
 ### Hash attributes
@@ -314,17 +312,17 @@ factory :user, aliases: [:author, :commenter] do
 end
 
 factory :post do
-  author
-  # instead of
+  # The alias allows us to write author instead of
   # association :author, factory: :user
+  author
   title { "How to read a book effectively" }
   body { "There are five steps involved." }
 end
 
 factory :comment do
-  commenter
-  # instead of
+  # The alias allows us to write commenter instead of
   # association :commenter, factory: :user
+  commenter
   body { "Great article!" }
 end
 ```
@@ -348,6 +346,7 @@ create(:user, last_name: "Doe").email
 
 Transient Attributes
 --------------------
+Transient attributes are attributes only available within the factory definition, and not set on the object being built. This allows for more complex logic inside factories.
 
 ### With other attributes
 
@@ -910,7 +909,7 @@ end
 Note that this approach works with `build`, `build_stubbed`, and `create`, but
 the associations will return `nil` when using `attributes_for`.
 
-Also, note that `instance` is not available within `initialize_with`, which may produce unexpected behaviour when 
+Also, note that if you assign any attributes inside a custom `initialize_with` (e.g. `initialize_with { new(**attributes) }`), those attributes should not refer to `instance`, since it will be `nil`.
 objects are initialized via `initialize_with { new(attributes) }`.
 
 Sequences
@@ -974,7 +973,7 @@ end
 
 ### Initial value
 
-You can override the initial value. Any value that response to the `#next`
+You can override the initial value. Any value that responds to the `#next`
 method will work (e.g. 1, 2, 3, 'a', 'b', 'c')
 
 ```ruby
@@ -1736,7 +1735,7 @@ end
 
 This will build a hash of all attributes to be passed to `new`. It won't
 include transient attributes, but everything else defined in the factory will be
-passed (associations, evaluated sequences, etc.). Also, references `instance` are not available.
+passed (associations, evaluated sequences, etc.).
 
 You can define `initialize_with` for all factories by including it in the
 `FactoryBot.define` block:
