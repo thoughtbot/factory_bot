@@ -909,6 +909,10 @@ end
 Note that this approach works with `build`, `build_stubbed`, and `create`, but
 the associations will return `nil` when using `attributes_for`.
 
+Also, note that if you assign any attributes inside a custom `initialize_with` 
+(e.g. `initialize_with { new(**attributes) }`), those attributes should not refer to `instance`,
+since it will be `nil`.
+
 Sequences
 ---------
 
