@@ -590,21 +590,18 @@ end
 Attribute overrides can be used to link associated objects:
 
 ```ruby
-# Define factories with associations
 FactoryBot.define do
   factory :author do
-   author_last_name { 'Writely' }
+   author_last_name { 'Taylor' }
   end
 
   factory :post do
-    title { 'A Title' }
-    author { association :author }
+    author
    end
 end
 
-# Build a post and an author, with the post linked to the instantiated author
-author = build(:author)
-post = build(:post, author: author)
+eunji = build(:author, name: 'Eunji')
+post = build(:post, author: eunji)
 ```
 
 ### Build strategies
