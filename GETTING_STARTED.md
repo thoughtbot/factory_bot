@@ -40,6 +40,7 @@ Getting Started
   + [Inline definition](#inline-definition)
   + [Specifying the factory](#specifying-the-factory)
   + [Overriding attributes](#overriding-attributes)
+  + [Association overrides](#association-overrides)
   + [Build strategies](#build-strategies-1)
   + [`has_many` associations](#has_many-associations)
   + [`has_and_belongs_to_many` associations](#has_and_belongs_to_many-associations)
@@ -582,6 +583,25 @@ factory :post do
   author_last_name { "Writely" }
   author { association :author, last_name: author_last_name }
 end
+```
+
+### Association overrides
+
+Attribute overrides can be used to link associated objects:
+
+```ruby
+FactoryBot.define do
+  factory :author do
+   author_last_name { 'Taylor' }
+  end
+
+  factory :post do
+    author
+   end
+end
+
+eunji = build(:author, name: 'Eunji')
+post = build(:post, author: eunji)
 ```
 
 ### Build strategies
