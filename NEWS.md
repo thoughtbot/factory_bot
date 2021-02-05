@@ -20,6 +20,7 @@
   * Added: `build_stubbed_starting_id=` option to define the starting id for `build_stubbed`
   * Removed: deprecated methods on the top-level `FactoryBot` module meant only for internal use
   * Removed: support for EOL versions of Ruby (2.3, 2.4) and Rails (4.2)
+  * Removed: support for "abstract" factories with no associated class; use traits instead.
 
 ## 5.2.0 (April 24, 2020)
   * Added: Pass index to block for `*_list` methods
