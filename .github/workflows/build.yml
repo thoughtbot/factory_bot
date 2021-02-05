@@ -1,0 +1,91 @@
+on:
+  - push
+  - pull_request
+
+jobs:
+  build:
+    continue-on-error: ${{ matrix.allow_failure || false }}
+    strategy:
+      fail-fast: false
+      matrix:
+        ruby:
+          - jruby-9.2.16.0
+          - ruby-head
+          - "3.0"
+          - "2.7"
+          - "2.6"
+          - "2.5"
+        rails:
+          - "5.0"
+          - "5.1"
+          - "5.2"
+          - "6.0"
+          - main
+        exclude:
+          - ruby: 2.5
+            rails: "main"
+          - ruby: 2.6
+            rails: "main"
+          - ruby: 3.0
+            rails: "5.0"
+          - ruby: 3.0
+            rails: "5.1"
+          - ruby: 3.0
+            rails: "5.2"
+          - ruby: ruby-head
+            rails: "5.0"
+          - ruby: ruby-head
+            rails: "5.1"
+          - ruby: ruby-head
+            rails: "5.2"
+        include:
+          - allow_failure: true
+            ruby: ruby-head
+            rails: "6.0"
+          - allow_failure: true
+            ruby: ruby-head
+            rails: main
+
+          - allow_failure: true
+            ruby: jruby-9.2.16.0
+            rails: "5.0"
+          - allow_failure: true
+            ruby: jruby-9.2.16.0
+            rails: "5.1"
+          - allow_failure: true
+            ruby: jruby-9.2.16.0
+            rails: "5.2"
+          - allow_failure: true
+            ruby: jruby-9.2.16.0
+            rails: "6.0"
+          - allow_failure: true
+            ruby: jruby-9.2.16.0
+            rails: main
+
+          - allow_failure: true
+            ruby: jruby-9.2.16.0
+            rails: main
+          - allow_failure: true
+            ruby: ruby-head
+            rails: main
+          - allow_failure: true
+            ruby: "3.0"
+            rails: main
+          - allow_failure: true
+            ruby: "2.7"
+            rails: main
+
+    runs-on: 'ubuntu-latest'
+
+    env:
+      BUNDLE_GEMFILE: gemfiles/${{ matrix.rails }}.gemfile
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+      - name: Setup project
+        run: bundle install
+      - name: Run test
+        run: bundle exec rake
