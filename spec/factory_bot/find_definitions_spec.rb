@@ -138,5 +138,16 @@ describe "definition loading" do
     ensure
       FactoryBot.definition_file_paths = old_paths
     end
+
+    it "supports files with extension" do
+      old_paths = FactoryBot.definition_file_paths
+      FactoryBot.definition_file_paths = ["spec/my_factories/factory_one.rb"]
+
+      FactoryBot.find_definitions
+
+      expect(FactoryBot).to have_received(:load).once.with(File.expand_path("spec/my_factories/factory_one.rb"))
+    ensure
+      FactoryBot.definition_file_paths = old_paths
+    end
   end
 end
