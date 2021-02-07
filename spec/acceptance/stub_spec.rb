@@ -99,3 +99,21 @@ describe "a stubbed instance with no primary key" do
     end
   end
 end
+
+describe "a stubbed instance for non active record models" do
+  it "builds a stubbed instance" do
+    define_class("NonArModel")
+
+    FactoryBot.define do
+      factory :non_ar_model do
+        skip_create
+      end
+    end
+
+    model = FactoryBot.build_stubbed(:non_ar_model)
+
+    expect(model).to be_truthy
+    expect(model).to be_persisted
+    expect(model).not_to be_new_record
+  end
+end
