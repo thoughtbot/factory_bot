@@ -1,0 +1,57 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        ruby:
+          - head
+          - '3.0'
+          - '2.7'
+          - '2.6'
+          - '2.5'
+          - jruby
+        activerecord:
+          - '5.0'
+          - '5.1'
+          - '5.2'
+          - '6.0'
+          - '6.1'
+          - main
+        exclude:
+          - ruby: head
+            activerecord: '5.0'
+          - ruby: head
+            activerecord: '5.1'
+          - ruby: head
+            activerecord: '5.2'
+          - ruby: '3.0'
+            activerecord: '5.0'
+          - ruby: '3.0'
+            activerecord: '5.1'
+          - ruby: '3.0'
+            activerecord: '5.2'
+          - ruby: '2.5'
+            activerecord: 'main'
+          - ruby: '2.6'
+            activerecord: 'main'
+    continue-on-error: ${{ matrix.ruby == 'head' || matrix.ruby == 'jruby' || matrix.activerecord == 'main' }}
+    name: Ruby ${{ matrix.ruby }} / ActiveRecord ${{ matrix.activerecord }}
+    env:
+      BUNDLE_GEMFILE: gemfiles/${{ matrix.activerecord }}.gemfile
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+          bundler-cache: true
+      - run: |
+          bundle exec rake --trace
