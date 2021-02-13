@@ -6,22 +6,11 @@ module FactoryBot
         @invoked_methods = []
       end
 
-      if ::Gem::Version.new(::RUBY_VERSION) >= ::Gem::Version.new("3.0")
-        def method_missing(name, *args, **kwargs, &block) # rubocop:disable Style/MissingRespondToMissing
-          @invoked_methods << name
-          super
-        end
-      elsif ::Gem::Version.new(::RUBY_VERSION) >= ::Gem::Version.new("2.7")
-        ruby2_keywords def method_missing(name, *args, &block) # rubocop:disable Style/MissingRespondToMissing
-          @invoked_methods << name
-          super
-        end
-      else
-        def method_missing(name, *args, &block) # rubocop:disable Style/MissingRespondToMissing
-          @invoked_methods << name
-          super
-        end
+      def method_missing(name, *args, &block) # rubocop:disable Style/MissingRespondToMissing
+        @invoked_methods << name
+        super
       end
+      ruby2_keywords :method_missing if respond_to?(:ruby2_keywords, true)
 
       def __invoked_methods__
         @invoked_methods.uniq

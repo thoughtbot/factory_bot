@@ -35,23 +35,14 @@ module FactoryBot
 
     attr_accessor :instance
 
-    if ::Gem::Version.new(::RUBY_VERSION) >= ::Gem::Version.new("2.7")
-      def method_missing(method_name, *args, **kwargs, &block) # rubocop:disable Style/MethodMissingSuper, Style/MissingRespondToMissing
-        if @instance.respond_to?(method_name)
-          @instance.send(method_name, *args, **kwargs, &block)
-        else
-          SyntaxRunner.new.send(method_name, *args, **kwargs, &block)
-        end
-      end
-    else
-      def method_missing(method_name, *args, &block) # rubocop:disable Style/MethodMissingSuper, Style/MissingRespondToMissing
-        if @instance.respond_to?(method_name)
-          @instance.send(method_name, *args, &block)
-        else
-          SyntaxRunner.new.send(method_name, *args, &block)
-        end
+    def method_missing(method_name, *args, &block) # rubocop:disable Style/MethodMissingSuper, Style/MissingRespondToMissing
+      if @instance.respond_to?(method_name)
+        @instance.send(method_name, *args, &block)
+      else
+        SyntaxRunner.new.send(method_name, *args, &block)
       end
     end
+    ruby2_keywords :method_missing if respond_to?(:ruby2_keywords, true)
 
     def respond_to_missing?(method_name, _include_private = false)
       @instance.respond_to?(method_name) || SyntaxRunner.new.respond_to?(method_name)
