@@ -6,15 +6,14 @@ describe FactoryBot::Attribute::Association do
 
   subject { FactoryBot::Attribute::Association.new(name, factory, overrides) }
 
-  module MissingMethods
-    def association(*args)
-    end
-  end
-
   before do
     # Define an '#association' instance method allowing it to be mocked.
     # Ususually this is determined via '#method_missing'
-    subject.extend(MissingMethods)
+    missing_methods = Module.new {
+      def association(*args)
+      end
+    }
+    subject.extend(missing_methods)
 
     allow(subject)
       .to receive(:association).with(any_args).and_return association
