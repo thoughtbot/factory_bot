@@ -1,3 +1,20 @@
+GIT
+  remote: https://github.com/rails/rails.git
+  revision: 146f0e78474cecfb3a25a089efe50c8685739428
+  branch: main
+  specs:
+    activemodel (7.0.0.alpha)
+      activesupport (= 7.0.0.alpha)
+    activerecord (7.0.0.alpha)
+      activemodel (= 7.0.0.alpha)
+      activesupport (= 7.0.0.alpha)
+    activesupport (7.0.0.alpha)
+      concurrent-ruby (~> 1.0, >= 1.0.2)
+      i18n (>= 1.6, < 2)
+      minitest (>= 5.1)
+      tzinfo (~> 2.0)
+      zeitwerk (~> 2.3)
+
 PATH
   remote: ..
   specs:
@@ -7,17 +24,6 @@ PATH
 GEM
   remote: https://rubygems.org/
   specs:
-    activemodel (6.0.3.5)
-      activesupport (= 6.0.3.5)
-    activerecord (6.0.3.5)
-      activemodel (= 6.0.3.5)
-      activesupport (= 6.0.3.5)
-    activesupport (6.0.3.5)
-      concurrent-ruby (~> 1.0, >= 1.0.2)
-      i18n (>= 0.7, < 2)
-      minitest (~> 5.1)
-      tzinfo (~> 1.1)
-      zeitwerk (~> 2.2, >= 2.2.2)
     appraisal (2.3.0)
       bundler
       rake
@@ -129,8 +135,8 @@ GEM
       ffi (~> 1.1)
     thor (1.1.0)
     thread_safe (0.3.6)
-    tzinfo (1.2.9)
-      thread_safe (~> 0.1)
+    tzinfo (2.0.4)
+      concurrent-ruby (~> 1.0)
     unicode-display_width (2.0.0)
     yard (0.9.26)
     zeitwerk (2.4.2)
@@ -139,8 +145,8 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  activerecord (~> 6.0.0)
-  activerecord-jdbcsqlite3-adapter (~> 60.0.rc1)
+  activerecord!
+  activerecord-jdbcsqlite3-adapter (~> 60.0)
   appraisal
   aruba
   cucumber
