@@ -4,6 +4,6 @@ source "https://rubygems.org"
 
 gem "activerecord-jdbcsqlite3-adapter", "~> 60.0", platforms: [:jruby]
 gem "sqlite3", platforms: [:ruby]
-gem "activerecord", git: "git@github.com:rails/rails.git"
+gem "activerecord", git: "https://github.com/rails/rails.git", branch: "main"
 
 gemspec name: "factory_bot", path: "../"
