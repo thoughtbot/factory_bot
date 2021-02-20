@@ -33,6 +33,10 @@ matrix:
       gemfile: gemfiles/5.2.gemfile
     - rvm: ruby-head
       gemfile: gemfiles/5.0.gemfile
+    - rvm: ruby-head
+      gemfile: gemfiles/5.1.gemfile
+    - rvm: ruby-head
+      gemfile: gemfiles/5.2.gemfile
   allow_failures:
     - rvm: ruby-head
     - rvm: jruby-9.2.8.0
