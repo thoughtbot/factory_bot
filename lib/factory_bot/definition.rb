@@ -30,7 +30,7 @@ module FactoryBot
     end
 
     def to_create(&block)
-      if block_given?
+      if block
         @to_create = block
       else
         aggregate_from_traits_and_self(:to_create) { @to_create }.last

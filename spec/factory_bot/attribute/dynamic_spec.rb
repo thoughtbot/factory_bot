@@ -26,15 +26,14 @@ describe FactoryBot::Attribute::Dynamic do
     let(:block) { -> { attribute_defined_on_attribute } }
     let(:result) { "other attribute value" }
 
-    module MissingMethods
-      def attribute_defined_on_attribute(*args)
-      end
-    end
-
     before do
       # Define an '#attribute_defined_on_attribute' instance method allowing it
       # be mocked. Ususually this is determined via '#method_missing'
-      subject.extend(MissingMethods)
+      missing_methods = Module.new {
+        def attribute_defined_on_attribute(*args)
+        end
+      }
+      subject.extend(missing_methods)
 
       allow(subject)
         .to receive(:attribute_defined_on_attribute).and_return result
