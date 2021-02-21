@@ -28,7 +28,7 @@ describe FactoryBot::Registry do
       .to raise_error(KeyError, "Great thing not registered: \"object_name\"")
   end
 
-  it "includes a did_you_mean message", pending: RUBY_VERSION < "2.7.0" do
+  it "includes a did_you_mean message" do
     registry = FactoryBot::Registry.new(:registry)
     registered_object = double(:registered_object)
     registry.register(:factory_bot, registered_object)
