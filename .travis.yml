@@ -39,7 +39,6 @@ matrix:
       gemfile: gemfiles/5.2.gemfile
   allow_failures:
     - rvm: ruby-head
-    - rvm: jruby-9.2.8.0
     - gemfile: gemfiles/main.gemfile
 branches:
   only:
