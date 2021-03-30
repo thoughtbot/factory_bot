@@ -313,7 +313,7 @@ describe "looking up traits that don't exist" do
       )
     end
 
-    it "maintains 'Did you mean?' suggestions at the end of the error message" do
+    it "maintains 'Did you mean?' suggestions at the end of the error message", skip: !defined?(DidYouMean) do
       define_class("User")
 
       FactoryBot.define do
