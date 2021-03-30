@@ -5,6 +5,14 @@ require "simplecov"
 
 require "factory_bot"
 
+if RUBY_ENGINE == "jruby"
+  # Workaround for issue in I18n/JRuby combo.
+  # See https://github.com/jruby/jruby/issues/6547 and
+  # https://github.com/ruby-i18n/i18n/issues/555
+  require "i18n/backend"
+  require "i18n/backend/simple"
+end
+
 Dir["spec/support/**/*.rb"].each { |f| require File.expand_path(f) }
 
 RSpec.configure do |config|
