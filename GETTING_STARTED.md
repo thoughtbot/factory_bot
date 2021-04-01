@@ -1154,6 +1154,12 @@ factory :user do
     gender { "Female" }
     login { "#{name} (F)" }
   end
+  
+  trait :other do
+    name { "It Doe" }
+    gender { "Other" }
+    login { "#{name} (O)" }
+  end
 
   trait :admin do
     admin { true }
@@ -1162,6 +1168,7 @@ factory :user do
 
   factory :male_admin,   traits: [:male, :admin]   # login will be "admin-John Doe"
   factory :female_admin, traits: [:admin, :female] # login will be "Jane Doe (F)"
+  factory :other_admin,  traits: [:admin, :other]  # login will be "It Doe (O)"
 end
 ```
 
