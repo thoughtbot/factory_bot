@@ -1143,16 +1143,16 @@ factory :user do
   name { "Friendly User" }
   login { name }
 
-  trait :male do
+  trait :active do
     name { "John Doe" }
-    gender { "Male" }
-    login { "#{name} (M)" }
+    status { :active }
+    login { "#{name} (active)" }
   end
 
-  trait :female do
+  trait :inactive do
     name { "Jane Doe" }
-    gender { "Female" }
-    login { "#{name} (F)" }
+    status { :inactive }
+    login { "#{name} (inactive)" }
   end
 
   trait :admin do
@@ -1160,8 +1160,8 @@ factory :user do
     login { "admin-#{name}" }
   end
 
-  factory :male_admin,   traits: [:male, :admin]   # login will be "admin-John Doe"
-  factory :female_admin, traits: [:admin, :female] # login will be "Jane Doe (F)"
+  factory :active_admin,   traits: [:active, :admin]   # login will be "admin-John Doe"
+  factory :inactive_admin, traits: [:admin, :inactive] # login will be "Jane Doe (inactive)"
 end
 ```
 
@@ -1174,14 +1174,14 @@ factory :user do
   name { "Friendly User" }
   login { name }
 
-  trait :male do
+  trait :active do
     name { "John Doe" }
-    gender { "Male" }
+    status { :active }
     login { "#{name} (M)" }
   end
 
   factory :brandon do
-    male
+    active
     name { "Brandon" }
   end
 end
@@ -1196,9 +1196,9 @@ from factory\_bot.
 factory :user do
   name { "Friendly User" }
 
-  trait :male do
+  trait :active do
     name { "John Doe" }
-    gender { "Male" }
+    status { :active }
   end
 
   trait :admin do
@@ -1206,8 +1206,8 @@ factory :user do
   end
 end
 
-# creates an admin user with gender "Male" and name "Jon Snow"
-create(:user, :admin, :male, name: "Jon Snow")
+# creates an admin user with :active status and name "Jon Snow"
+create(:user, :admin, :active, name: "Jon Snow")
 ```
 
 This ability works with `build`, `build_stubbed`, `attributes_for`, and `create`.
@@ -1225,8 +1225,8 @@ factory :user do
   end
 end
 
-# creates 3 admin users with gender "Male" and name "Jon Snow"
-create_list(:user, 3, :admin, :male, name: "Jon Snow")
+# creates 3 admin users with :active status and name "Jon Snow"
+create_list(:user, 3, :admin, :active, name: "Jon Snow")
 ```
 
 ### With associations
@@ -1525,7 +1525,6 @@ FactoryBot.define do
   factory :application_user, parent: :user do
     full_name { "Jane Doe" }
     date_of_birth { 21.years.ago }
-    gender { "Female" }
     health { 90 }
   end
 end
@@ -1538,7 +1537,6 @@ FactoryBot.modify do
   factory :user do
     full_name { "Jane Doe" }
     date_of_birth { 21.years.ago }
-    gender { "Female" }
     health { 90 }
   end
 end
