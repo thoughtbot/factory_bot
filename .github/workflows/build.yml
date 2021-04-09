@@ -20,12 +20,13 @@ jobs:
           - "5.1"
           - "5.2"
           - "6.0"
+          - "6.1"
           - main
         exclude:
           - ruby: 2.5
-            rails: "main"
+            rails: main
           - ruby: 2.6
-            rails: "main"
+            rails: main
           - ruby: 3.0
             rails: "5.0"
           - ruby: 3.0
@@ -39,29 +40,15 @@ jobs:
           - ruby: ruby-head
             rails: "5.2"
         include:
+          # Failures permitted on latest ruby but useful for visibility
           - allow_failure: true
             ruby: ruby-head
             rails: "6.0"
           - allow_failure: true
             ruby: ruby-head
-            rails: main
+            rails: "6.1"
 
-          - allow_failure: true
-            ruby: jruby-9.2.16.0
-            rails: "5.0"
-          - allow_failure: true
-            ruby: jruby-9.2.16.0
-            rails: "5.1"
-          - allow_failure: true
-            ruby: jruby-9.2.16.0
-            rails: "5.2"
-          - allow_failure: true
-            ruby: jruby-9.2.16.0
-            rails: "6.0"
-          - allow_failure: true
-            ruby: jruby-9.2.16.0
-            rails: main
-
+          # Failures permitted on latest rails but useful for visibility
           - allow_failure: true
             ruby: jruby-9.2.16.0
             rails: main
