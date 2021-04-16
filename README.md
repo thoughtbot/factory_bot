@@ -94,8 +94,8 @@ See [our other projects][community] or
 
 [community]: https://thoughtbot.com/community?utm_source=github
 [hire]: https://thoughtbot.com/hire-us?utm_source=github
-[ci-image]: https://github.com/thoughtbot/factory_bot/workflows/build/badge.svg
-[ci]: https://github.com/thoughtbot/factory_bot/actions?query=workflow%3Abuild
+[ci-image]: https://github.com/thoughtbot/factory_bot/actions/workflows/build.yml/badge.svg
+[ci]: https://github.com/thoughtbot/factory_bot/actions?query=workflow%3A.github%2Fworkflows%2Fbuild.yml+branch%3Amaster++
 [grade-image]: https://codeclimate.com/github/thoughtbot/factory_bot/badges/gpa.svg
 [grade]: https://codeclimate.com/github/thoughtbot/factory_bot
 [version-image]: https://badge.fury.io/rb/factory_bot.svg
