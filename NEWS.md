@@ -1,5 +1,11 @@
 # News
 
+## 6.2.0 (May 7, 2021)
+  * Added: support for Ruby 3.0
+  * Changed: Include factory or trait name in error messages for missing traits. d05a9a3c
+  * Changed: Switched from Travis CI to GitHub Actions
+  * Fixed: More Ruby 2.7 kwarg deprecation warnings
+
 ## 6.1.0 (July 8, 2020)
   * Added: public reader for the evaluation instance, helpful for building interrelated associations
   * Changed: raise a more helpful error when passing an invalid argument to an association
