@@ -12,6 +12,7 @@ jobs:
       matrix:
         ruby:
           - jruby-9.2.16.0
+          - truffleruby
           - ruby-head
           - "3.0"
           - "2.7"
@@ -53,6 +54,9 @@ jobs:
           # Failures permitted on latest rails but useful for visibility
           - allow_failure: true
             ruby: jruby-9.2.16.0
+            rails: main
+          - allow_failure: true
+            ruby: truffleruby
             rails: main
           - allow_failure: true
             ruby: ruby-head
