@@ -11,6 +11,7 @@ jobs:
       matrix:
         ruby:
           - jruby-9.2.16.0
+          - truffleruby
           - "3.0"
           - "2.7"
           - "2.6"
