@@ -56,6 +56,7 @@ Getting Started
   + [Aliases](#aliases-1)
   + [Rewinding](#rewinding)
   + [Uniqueness](#uniqueness)
+  + [Arrays](#arrays)
 * [Traits](#traits)
   + [Defining traits](#defining-traits)
   + [As implicit attributes](#as-implicit-attributes-1)
@@ -1075,6 +1076,17 @@ end
 
 FactoryBot.create(:user, email: "person1@example.com")
 FactoryBot.create(:user)
+```
+
+
+### Arrays
+
+If you need sequence to use array values in cycle, use `Array#cycle` method:
+
+```rb
+factory :task do
+  sequence :priority, %i[low medium high urgent].cycle
+end
 ```
 
 
