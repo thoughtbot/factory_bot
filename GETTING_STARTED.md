@@ -1014,6 +1014,15 @@ factory :post do
 end
 ```
 
+Please note, that the value for the sequence could be any Enumerable instance,
+as long as it responds to `#next`:
+
+```ruby
+factory :task do
+  sequence :priority, %i[low medium high urgent].cycle
+end
+```
+
 ### Aliases
 
 Sequences can also have aliases. The sequence aliases share the same counter:
@@ -1076,17 +1085,6 @@ end
 
 FactoryBot.create(:user, email: "person1@example.com")
 FactoryBot.create(:user)
-```
-
-
-### Arrays
-
-If you need sequence to use array values in cycle, use `Array#cycle` method:
-
-```rb
-factory :task do
-  sequence :priority, %i[low medium high urgent].cycle
-end
 ```
 
 
