@@ -56,7 +56,6 @@ Getting Started
   + [Aliases](#aliases-1)
   + [Rewinding](#rewinding)
   + [Uniqueness](#uniqueness)
-  + [Arrays](#arrays)
 * [Traits](#traits)
   + [Defining traits](#defining-traits)
   + [As implicit attributes](#as-implicit-attributes-1)
