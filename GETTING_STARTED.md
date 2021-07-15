@@ -592,7 +592,7 @@ Attribute overrides can be used to link associated objects:
 ```ruby
 FactoryBot.define do
   factory :author do
-    author_last_name { 'Taylor' }
+    name { 'Taylor' }
   end
 
   factory :post do
