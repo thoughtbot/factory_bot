@@ -108,17 +108,17 @@ Each factory has a name and a set of attributes. The name is used to guess the c
 
 ```ruby
 # This will guess the User class
-FactoryGirl.define do
+FactoryBot.define do
   factory :user do
-    first_name "John"
-    last_name  "Doe"
+    first_name { "John" }
+    last_name  { "Doe" }
     admin false
   end
 
   # This will use the User class (Admin would have been guessed)
   factory :admin, class: User do
-    first_name "Admin"
-    last_name  "User"
+    first_name { "Admin" }
+    last_name  { "User" }
     admin      true
   end
 end
