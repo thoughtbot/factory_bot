@@ -1323,7 +1323,7 @@ Given an Active Record model with an enum attribute:
 
 ```rb
 class Task < ActiveRecord::Base
-  enum status: {queued: 0, started: 1, finished: 2}
+  enum status: { queued: 0, started: 1, finished: 2 }
 end
 
 ```
