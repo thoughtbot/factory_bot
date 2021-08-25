@@ -55,3 +55,7 @@ you'll have to update the paths.
 ```sh
 grep -e factory_girl **/*.rake **/*.rb -s -l | xargs sed -i "" "s|factory_girl|factory_bot|g"
 ```
+
+```zsh
+sed  -i '' -e 's/factory_girl/factory_bot/g' **/*(-.)
+```
