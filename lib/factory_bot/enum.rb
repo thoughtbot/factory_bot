@@ -1,9 +1,20 @@
 module FactoryBot
   # @api private
   class Enum
-    def initialize(attribute_name, values = nil)
+    def initialize(attribute_name, values = nil, prefix: false, suffix: false)
       @attribute_name = attribute_name
       @values = values
+      @prefix = if prefix == true
+                  "#{@attribute_name}_"
+                elsif prefix
+                  "#{prefix}_"
+                end
+
+      @suffix = if suffix == true
+                  "_#{@attribute_name}"
+                elsif suffix
+                  "_#{suffix}"
+                end
     end
 
     def build_traits(klass)
@@ -12,6 +23,8 @@ module FactoryBot
       end
     end
 
+    attr_reader :attribute_name
+
     private
 
     def enum_values(klass)
@@ -19,7 +32,7 @@ module FactoryBot
     end
 
     def build_trait(trait_name, attribute_name, value)
-      Trait.new(trait_name) do
+      Trait.new("#{@prefix}#{trait_name}#{@suffix}") do
         add_attribute(attribute_name) { value }
       end
     end

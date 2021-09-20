@@ -173,7 +173,12 @@ module FactoryBot
     end
 
     def automatically_register_defined_enums(klass)
-      klass.defined_enums.each_key { |name| register_enum(Enum.new(name)) }
+      klass.defined_enums.each_key do |name|
+        next if registered_enums.any? do |registered_enum|
+          registered_enum.attribute_name.to_s == name
+        end
+        register_enum(Enum.new(name))
+      end
     end
 
     def automatically_register_defined_enums?(klass)

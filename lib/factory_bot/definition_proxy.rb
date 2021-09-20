@@ -221,6 +221,50 @@ module FactoryBot
     #     end
     #   end
     #
+    # Prefix and Suffixes can be used for trait definition.
+    # both can be set to true (prefix/suffix will be set to enum name), or to a custom string
+    #
+    # Example:
+    #   factory :task do
+    #     traits_for_enum :status, [:started, :finished], _prefix: true
+    #   end
+    #
+    # Equivalent to:
+    #   factory :task do
+    #     traits_for_enum :status, [:started, :finished], _prefix: 'status'
+    #   end
+    #
+    # Both Equivalent to:
+    #   factory :task do
+    #     trait :status_started do
+    #       status { :started }
+    #     end
+    #
+    #     trait :status_finished do
+    #       status { :finished }
+    #     end
+    #   end
+    #
+    # Example:
+    #   factory :task do
+    #     traits_for_enum :status, [:started, :finished], _suffix: true
+    #   end
+    #
+    # Equivalent to:
+    #   factory :task do
+    #     traits_for_enum :status, [:started, :finished], _suffix: 'status'
+    #   end
+    #
+    # Both Equivalent to:
+    #   factory :task do
+    #     trait :started_status do
+    #       status { :started }
+    #     end
+    #
+    #     trait :finished_status do
+    #       status { :finished }
+    #     end
+    #   end
     #
     # Arguments:
     #   attribute_name: +Symbol+ or +String+
@@ -230,8 +274,11 @@ module FactoryBot
     #     those traits. When this argument is not provided, factory_bot will
     #     attempt to get the values by calling the pluralized `attribute_name`
     #     class method.
-    def traits_for_enum(attribute_name, values = nil)
-      @definition.register_enum(Enum.new(attribute_name, values))
+    def traits_for_enum(attribute_name, values = nil, _prefix: false, _suffix: false, **values_as_hash)
+      enum_prefix = _prefix || (values.delete(:_prefix) if values.respond_to?(:delete))
+      enum_suffix = _suffix || (values.delete(:_suffix) if values.respond_to?(:delete))
+      values ||= values_as_hash.present? ? values_as_hash : nil
+      @definition.register_enum(Enum.new(attribute_name, values, prefix: enum_prefix, suffix: enum_suffix))
     end
 
     def initialize_with(&block)
