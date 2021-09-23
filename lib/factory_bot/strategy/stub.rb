@@ -43,13 +43,17 @@ module FactoryBot
 
       private
 
-      def next_id
-        @@next_id += 1
+      def next_id(result_instance)
+        if uuid_primary_key?(result_instance)
+          SecureRandom.uuid
+        else
+          @@next_id += 1
+        end
       end
 
       def stub_database_interaction_on_result(result_instance)
         if has_settable_id?(result_instance)
-          result_instance.id ||= next_id
+          result_instance.id ||= next_id(result_instance)
         end
 
         result_instance.instance_eval do
@@ -77,6 +81,11 @@ module FactoryBot
       def has_settable_id?(result_instance)
         !result_instance.class.respond_to?(:primary_key) ||
           result_instance.class.primary_key
+      end
+
+      def uuid_primary_key?(result_instance)
+        result_instance.respond_to?(:column_for_attribute) &&
+          result_instance.column_for_attribute(result_instance.class.primary_key).sql_type == "uuid"
       end
 
       def clear_changes_information(result_instance)
