@@ -648,7 +648,7 @@ post = build(:post, author: eunji)
 
 ### Build strategies
 
-In factory\_bot 5, associations default to using the same build strategy as
+Starting with factory\_bot 5, associations default to using the same build strategy as
 their parent object:
 
 ```ruby
