@@ -13,14 +13,18 @@ module FactoryBot
     absolute_definition_file_paths = definition_file_paths.map { |path| File.expand_path(path) }
 
     absolute_definition_file_paths.uniq.each do |path|
-      load("#{path}.rb") if File.exist?("#{path}.rb")
+      load_file_or_directory(path)
+    end
+  end
 
-      load path if File.file? path
+  def self.load_file_or_directory(path)
+    load("#{path}.rb") if File.exist?("#{path}.rb")
 
-      if File.directory? path
-        Dir[File.join(path, "**", "*.rb")].sort.each do |file|
-          load file
-        end
+    load path if File.file? path
+
+    if File.directory? path
+      Dir[File.join(path, "**", "*.rb")].sort.each do |file|
+        load file
       end
     end
   end
