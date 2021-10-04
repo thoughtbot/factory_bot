@@ -59,43 +59,81 @@ describe "a stubbed instance overriding strategy" do
   end
 end
 
-describe "a stubbed instance with no primary key" do
-  it "builds a stubbed instance" do
-    using_model_without_pk do
-      FactoryBot.define do
-        factory :model_without_pk
-      end
+describe "overridden primary keys conventions" do
+  describe "a stubbed instance with a uuid primary key" do
+    it "builds a stubbed instance" do
+      using_model("ModelWithUuid", primary_key: :uuid) do
+        FactoryBot.define do
+          factory :model_with_uuid
+        end
 
-      model = FactoryBot.build_stubbed(:model_without_pk)
-      expect(model).to be_truthy
+        model = FactoryBot.build_stubbed(:model_with_uuid)
+        expect(model).to be_truthy
+      end
+    end
+
+    it "behaves like a persisted record" do
+      using_model("ModelWithUuid", primary_key: :uuid) do
+        FactoryBot.define do
+          factory :model_with_uuid
+        end
+
+        model = FactoryBot.build_stubbed(:model_with_uuid)
+        expect(model).to be_persisted
+        expect(model).not_to be_new_record
+      end
+    end
+
+    it "has a uuid primary key" do
+      using_model("ModelWithUuid", primary_key: :uuid) do
+        FactoryBot.define do
+          factory :model_with_uuid
+        end
+
+        model = FactoryBot.build_stubbed(:model_with_uuid)
+        expect(model.id).to be_a(String)
+      end
     end
   end
 
-  it "behaves like a persisted record" do
-    using_model_without_pk do
-      FactoryBot.define do
-        factory :model_without_pk
-      end
+  describe "a stubbed instance with no primary key" do
+    it "builds a stubbed instance" do
+      using_model("ModelWithoutPk", primary_key: false) do
+        FactoryBot.define do
+          factory :model_without_pk
+        end
 
-      model = FactoryBot.build_stubbed(:model_without_pk)
-      expect(model).to be_persisted
-      expect(model).not_to be_new_record
+        model = FactoryBot.build_stubbed(:model_without_pk)
+        expect(model).to be_truthy
+      end
+    end
+
+    it "behaves like a persisted record" do
+      using_model("ModelWithoutPk", primary_key: false) do
+        FactoryBot.define do
+          factory :model_without_pk
+        end
+
+        model = FactoryBot.build_stubbed(:model_without_pk)
+        expect(model).to be_persisted
+        expect(model).not_to be_new_record
+      end
     end
   end
 
-  def using_model_without_pk
-    define_class("ModelWithoutPk", ActiveRecord::Base)
+  def using_model(name, primary_key:)
+    define_class(name, ActiveRecord::Base)
 
     connection = ActiveRecord::Base.connection
     begin
-      clear_generated_table("model_without_pks")
-      connection.create_table("model_without_pks", id: false) do |t|
+      clear_generated_table(name.tableize)
+      connection.create_table(name.tableize, id: primary_key) do |t|
         t.column :updated_at, :datetime
       end
 
       yield
     ensure
-      clear_generated_table("model_without_pks")
+      clear_generated_table(name.tableize)
     end
   end
 end
