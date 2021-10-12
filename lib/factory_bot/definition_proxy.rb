@@ -94,7 +94,7 @@ module FactoryBot
       if association_options.nil?
         __declare_attribute__(name, block)
       elsif __valid_association_options?(association_options)
-        association(name, association_options)
+        association(name, association_options, &block)
       else
         raise NoMethodError.new(<<~MSG)
           undefined method '#{name}' in '#{@definition.name}' factory
