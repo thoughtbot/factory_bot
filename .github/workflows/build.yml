@@ -86,8 +86,7 @@ jobs:
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ matrix.ruby }}
-      - name: Setup project
-        run: bundle install
+          bundler-cache: true # runs 'bundle install' and caches installed gems automatically
       - name: Run test
         run: bundle exec rake all_specs
 
