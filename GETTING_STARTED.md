@@ -1583,6 +1583,15 @@ twenty_somethings = build_list(:user, 10) do |user, i|
 end
 ```
 
+`create_list` passes saved instances into the block. If you modify the instance, you must save it again:
+
+```ruby
+twenty_somethings = create_list(:user, 10) do |user, i|
+  user.date_of_birth = (20 + i).years.ago
+  user.save!
+end
+```
+
 `build_stubbed_list` will give you fully stubbed out instances:
 
 ```ruby
