@@ -28,7 +28,9 @@
   * Added: automatic definition of traits for Active Record enum attributes, enabled by default
     (Note that this required changing where factory_bot constantizes the build
      class, which may affect applications that were using abstract factories for
-     inheritance. See issue #1409.)
+     inheritance. See issue #1409.) (This may break `FactoryBot.lint` because
+     there may be previously non-existing factory+trait combinations being
+     defined and checked)
   * Added: `traits_for_enum` method to define traits for non-Active Record enums
   * Added: `build_stubbed_starting_id=` option to define the starting id for `build_stubbed`
   * Removed: deprecated methods on the top-level `FactoryBot` module meant only for internal use
