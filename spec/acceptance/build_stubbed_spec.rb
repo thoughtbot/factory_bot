@@ -167,7 +167,7 @@ describe "defaulting `created_at`" do
   it "allows overriding created_at for objects with created_at" do
     created_at = 3.days.ago
     stubbed = build_stubbed(:thing_with_timestamp, created_at: created_at)
-    expect(stubbed.created_at).to eq created_at
+    expect(stubbed.created_at).to be_within(1.second).of created_at
   end
 
   it "doesn't allow setting created_at on an object that doesn't define it" do
@@ -180,7 +180,7 @@ describe "defaulting `created_at`" do
     expect(stub.created_at).to be_about_now
     past_time = 3.days.ago
     stub.created_at = past_time
-    expect(stub.created_at).to eq past_time
+    expect(stub.created_at).to be_within(1.second).of past_time
   end
 
   it "behaves the same as a non-stubbed created_at" do
@@ -231,7 +231,7 @@ describe "defaulting `updated_at`" do
   it "allows overriding updated_at for objects with updated_at" do
     past_time = 3.days.ago
     stubbed = build_stubbed(:thing_with_timestamp, updated_at: past_time)
-    expect(stubbed.updated_at).to eq past_time
+    expect(stubbed.updated_at).to be_within(1.second).of past_time
   end
 
   it "doesn't allow setting updated_at on an object that doesn't define it" do
@@ -245,7 +245,7 @@ describe "defaulting `updated_at`" do
     expect(stub.updated_at).to be_about_now
     past_time = 3.days.ago
     stub.updated_at = past_time
-    expect(stub.updated_at).to eq past_time
+    expect(stub.updated_at).to be_within(1.second).of past_time
   end
 
   it "behaves the same as a non-stubbed updated_at" do
