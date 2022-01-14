@@ -17,7 +17,7 @@ module FactoryBot
         end
       RUBY
     else
-      def method_missing(name, *args, &block) # rubocop:disable Style/MethodMissingSuper, Style/MissingRespondToMissing
+      def method_missing(name, *args, &block) # rubocop:disable Style/MissingRespondToMissing
         @component.send(name, *args, &block)
       end
 
