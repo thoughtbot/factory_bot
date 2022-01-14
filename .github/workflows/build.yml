@@ -13,6 +13,7 @@ jobs:
         ruby:
           - jruby-9.2.16.0
           - truffleruby
+          - "3.1"
           - "3.0"
           - "2.7"
           - "2.6"
@@ -23,17 +24,19 @@ jobs:
           - "5.2"
           - "6.0"
           - "6.1"
+          - "7.0"
           - main
-        include:
-          - ruby: "3.1"
-            rails: "7.0"
-          - ruby: "3.1"
-            rails: "6.1"
         exclude:
+          - ruby: 2.5
+            rails: "7.0"
           - ruby: 2.5
             rails: main
           - ruby: 2.6
+            rails: "7.0"
+          - ruby: 2.6
             rails: main
+          - ruby: jruby-9.2.16.0
+            rails: "7.0"
           - ruby: jruby-9.2.16.0
             rails: main
           - ruby: "3.0"
@@ -42,6 +45,14 @@ jobs:
             rails: "5.1"
           - ruby: "3.0"
             rails: "5.2"
+          - ruby: "3.1"
+            rails: "5.0"
+          - ruby: "3.1"
+            rails: "5.1"
+          - ruby: "3.1"
+            rails: "5.2"
+          - ruby: "3.1"
+            rails: "6.0"
 
     runs-on: 'ubuntu-latest'
 
