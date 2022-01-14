@@ -35,7 +35,7 @@ module FactoryBot
 
     attr_accessor :instance
 
-    def method_missing(method_name, *args, &block) # rubocop:disable Style/MethodMissingSuper, Style/MissingRespondToMissing
+    def method_missing(method_name, *args, &block)
       if @instance.respond_to?(method_name)
         @instance.send(method_name, *args, &block)
       else
