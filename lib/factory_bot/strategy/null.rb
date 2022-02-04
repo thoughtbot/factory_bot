@@ -6,6 +6,10 @@ module FactoryBot
 
       def result(evaluation)
       end
+
+      def to_sym
+        :null
+      end
     end
   end
 end
