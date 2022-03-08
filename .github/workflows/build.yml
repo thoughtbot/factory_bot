@@ -65,8 +65,7 @@ jobs:
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ matrix.ruby }}
-      - name: Setup project
-        run: bundle install
+          bundler-cache: true
       - name: Run test
         run: bundle exec rake all_specs
 
@@ -78,6 +77,7 @@ jobs:
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: "3.1"
+          bundler-cache: true
       - name: Setup project
         run: bundle install
       - name: Run test
