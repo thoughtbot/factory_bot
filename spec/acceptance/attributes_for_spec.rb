@@ -6,9 +6,9 @@ describe "a generated attributes hash" do
     define_model("Comment")
 
     define_model("Post", title: :string,
-                         body: :string,
-                         summary: :string,
-                         user_id: :integer) do
+      body: :string,
+      summary: :string,
+      user_id: :integer) do
       belongs_to :user
       has_many :comments
     end
