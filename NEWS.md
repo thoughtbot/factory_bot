@@ -1,5 +1,11 @@
 # News
 
+## 6.2.1 (March 8, 2022)
+  * Added: CI testing against truffleruby
+  * Changed: Documentation improvements for sequences and traits
+  * Fixed: ActiveSupport::Notifications reporting strategy through associations now report as symbols
+  * Fixed: `add_attribute` with reserved keywords assigns values correctly
+
 ## 6.2.0 (May 7, 2021)
   * Added: support for Ruby 3.0
   * Changed: Include factory or trait name in error messages for missing traits. d05a9a3c
