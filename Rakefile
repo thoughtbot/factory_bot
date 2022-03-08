@@ -8,8 +8,11 @@ require "standard/rake"
 
 Bundler::GemHelper.install_tasks(name: "factory_bot")
 
-desc "Default: run the specs, features, and standard ."
-task default: %w[spec:unit spec:acceptance features standard]
+desc "Default: run all specs and standard"
+task default: %w[all_specs standard]
+
+desc "Run all specs and features"
+task all_specs: %w[spec:unit spec:acceptance features]
 
 namespace :spec do
   desc "Run unit specs"
