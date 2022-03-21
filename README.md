@@ -26,13 +26,11 @@ have [a detailed introductory video][], available for free on Upcase.
 Install
 --------
 
-Add the following line to Gemfile:
+Run:
 
 ```ruby
-gem 'factory_bot'
+bundle add factory_bot
 ```
-
-and run `bundle install` from your shell.
 
 To install the gem manually from your shell, run:
 
