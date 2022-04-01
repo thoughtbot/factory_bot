@@ -4,6 +4,7 @@
   * Added: CI testing against truffleruby
   * Changed: Documentation improvements for sequences and traits
   * Fixed: ActiveSupport::Notifications reporting strategy through associations now report as symbols
+    * BREAKING CHANGE: Custom strategies now need to define a `to_sym` method to specify the strategy identifier
   * Fixed: `add_attribute` with reserved keywords assigns values correctly
 
 ## 6.2.0 (May 7, 2021)
