@@ -1872,6 +1872,10 @@ class JsonStrategy
   def result(evaluation)
     @strategy.result(evaluation).to_json
   end
+
+  def to_sym
+    :json
+  end
 end
 ```
 
@@ -1911,6 +1915,10 @@ class JsonStrategy
       evaluation.notify(:after_json, json)
       evaluation.notify(:make_json_awesome, json)
     end
+  end
+
+  def to_sym
+    :json
   end
 end
 
