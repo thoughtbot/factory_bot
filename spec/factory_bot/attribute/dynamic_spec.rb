@@ -28,7 +28,7 @@ describe FactoryBot::Attribute::Dynamic do
 
     before do
       # Define an '#attribute_defined_on_attribute' instance method allowing it
-      # be mocked. Ususually this is determined via '#method_missing'
+      # be mocked. Usually this is determined via '#method_missing'
       missing_methods = Module.new {
         def attribute_defined_on_attribute(*args)
         end
