@@ -274,11 +274,18 @@ module FactoryBot
     #     those traits. When this argument is not provided, factory_bot will
     #     attempt to get the values by calling the pluralized `attribute_name`
     #     class method.
-    def traits_for_enum(attribute_name, values = nil, _prefix: false, _suffix: false, **values_as_hash)
-      enum_prefix = _prefix || (values.delete(:_prefix) if values.respond_to?(:delete))
-      enum_suffix = _suffix || (values.delete(:_suffix) if values.respond_to?(:delete))
-      values ||= values_as_hash.present? ? values_as_hash : nil
-      @definition.register_enum(Enum.new(attribute_name, values, prefix: enum_prefix, suffix: enum_suffix))
+    def traits_for_enum(attribute_name, values = nil, options = {})
+      if options.empty? && values.is_a?(Hash)
+        prefix = values.delete(:_prefix) { false }
+        suffix = values&.delete(:_suffix) { false }
+        values = nil if values.empty?
+        enum = Enum.new(attribute_name, values, prefix: prefix, suffix: suffix)
+      else
+        prefix = options.fetch(:_prefix, false)
+        suffix = options.fetch(:_suffix, false)
+        enum = Enum.new(attribute_name, values, prefix: prefix, suffix: suffix)
+      end
+      @definition.register_enum enum
     end
 
     def initialize_with(&block)

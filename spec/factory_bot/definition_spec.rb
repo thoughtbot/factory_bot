@@ -76,10 +76,10 @@ describe FactoryBot::Definition do
   it "maintains a list of enum fields" do
     definition = described_class.new(:name)
 
-    enum_field = double("enum_field")
+    enum_field = double("enum_field", attribute_name: 'enum')
 
     definition.register_enum(enum_field)
 
-    expect(definition.registered_enums).to include(enum_field)
+    expect(definition.registered_enums[:enum]).to eq enum_field
   end
 end

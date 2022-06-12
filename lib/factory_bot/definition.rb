@@ -8,7 +8,7 @@ module FactoryBot
       @declarations = DeclarationList.new(name)
       @callbacks = []
       @defined_traits = Set.new
-      @registered_enums = []
+      @registered_enums = {}
       @to_create = nil
       @base_traits = base_traits
       @additional_traits = []
@@ -86,7 +86,7 @@ module FactoryBot
     end
 
     def register_enum(enum)
-      @registered_enums << enum
+      @registered_enums[enum.attribute_name.to_sym] = enum
     end
 
     def define_constructor(&block)
@@ -164,7 +164,7 @@ module FactoryBot
         automatically_register_defined_enums(klass)
       end
 
-      registered_enums.each do |enum|
+      registered_enums.each do |_name, enum|
         traits = enum.build_traits(klass)
         traits.each { |trait| define_trait(trait) }
       end
@@ -174,10 +174,7 @@ module FactoryBot
 
     def automatically_register_defined_enums(klass)
       klass.defined_enums.each_key do |name|
-        next if registered_enums.any? do |registered_enum|
-          registered_enum.attribute_name.to_s == name
-        end
-        register_enum(Enum.new(name))
+        register_enum(Enum.new(name)) unless registered_enums.key? name.to_sym
       end
     end
 

@@ -57,7 +57,7 @@ describe "enum traits" do
 
       FactoryBot.define do
         factory :task do
-          traits_for_enum :status, **statuses
+          traits_for_enum :status, statuses
         end
       end
 
