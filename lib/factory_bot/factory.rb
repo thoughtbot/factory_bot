@@ -7,8 +7,10 @@ module FactoryBot
     attr_reader :name, :definition
 
     def initialize(name, options = {})
-      assert_valid_options(options)
       @name = name.respond_to?(:to_sym) ? name.to_sym : name.to_s.underscore.to_sym
+
+      assert_valid_options(options)
+
       @parent = options[:parent]
       @aliases = options[:aliases] || []
       @class_name = options[:class]
@@ -140,6 +142,8 @@ module FactoryBot
     private
 
     def assert_valid_options(options)
+      raise ArgumentError, "Expected a Hash of options for factory '#{name.inspect}', got '#{options.inspect}'" unless options.is_a?(Hash)
+
       options.assert_valid_keys(:class, :parent, :aliases, :traits)
     end
 

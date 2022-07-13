@@ -185,6 +185,12 @@ describe FactoryBot::Factory, "when defined with a class instead of a name" do
   end
 end
 
+describe FactoryBot::Factory, "when options are not a Hash" do
+  it "raises an ArgumentError" do
+    expect { FactoryBot::Factory.new(:author, Class.new) }.to raise_error(ArgumentError, /^Expected a Hash of options for factory ':author', got '#<Class:/)
+  end
+end
+
 describe FactoryBot::Factory, "when defined with a custom class name" do
   it "has a build_class equal to its custom class name" do
     factory = FactoryBot::Factory.new(:author, class: :argument_error)
