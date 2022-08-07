@@ -94,12 +94,12 @@ Use [standard] to automatically format your code:
 bundle exec rake standard:fix
 ```
 
-[repo]: https://github.com/thoughtbot/factory_bot/tree/master
+[repo]: https://github.com/thoughtbot/factory_bot/tree/main
 [fork]: https://help.github.com/articles/fork-a-repo/
 [branch]: https://help.github.com/articles/creating-and-deleting-branches-within-your-repository/
 [pr]: https://help.github.com/articles/using-pull-requests/
 [standard]: https://github.com/testdouble/standard
 [appraisal]: https://github.com/thoughtbot/appraisal
-[reproduction script]: https://github.com/thoughtbot/factory_bot/blob/master/.github/REPRODUCTION_SCRIPT.rb
+[reproduction script]: https://github.com/thoughtbot/factory_bot/blob/main/.github/REPRODUCTION_SCRIPT.rb
 
 Inspired by https://github.com/middleman/middleman-heroku/blob/master/CONTRIBUTING.md

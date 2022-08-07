@@ -43,7 +43,7 @@ gem install factory_bot
 Supported Ruby versions
 -----------------------
 
-Supported Ruby versions are listed in [`.github/workflows/build.yml`](https://github.com/thoughtbot/factory_bot/blob/master/.github/workflows/build.yml)
+Supported Ruby versions are listed in [`.github/workflows/build.yml`](https://github.com/thoughtbot/factory_bot/blob/main/.github/workflows/build.yml)
 
 More Information
 ----------------
@@ -53,8 +53,8 @@ More Information
 * [Issues](https://github.com/thoughtbot/factory_bot/issues)
 * [GIANT ROBOTS SMASHING INTO OTHER GIANT ROBOTS](https://robots.thoughtbot.com/)
 
-[GETTING_STARTED]: https://github.com/thoughtbot/factory_bot/blob/master/GETTING_STARTED.md
-[NAME]: https://github.com/thoughtbot/factory_bot/blob/master/NAME.md
+[GETTING_STARTED]: https://github.com/thoughtbot/factory_bot/blob/main/GETTING_STARTED.md
+[NAME]: https://github.com/thoughtbot/factory_bot/blob/main/NAME.md
 
 Useful Tools
 ------------
@@ -64,7 +64,7 @@ Useful Tools
 Contributing
 ------------
 
-Please see [CONTRIBUTING.md](https://github.com/thoughtbot/factory_bot/blob/master/CONTRIBUTING.md).
+Please see [CONTRIBUTING.md](https://github.com/thoughtbot/factory_bot/blob/main/CONTRIBUTING.md).
 
 factory_bot was originally written by Joe Ferris and is maintained by thoughtbot.
 Many improvements and bugfixes were contributed by the [open source
@@ -77,7 +77,7 @@ factory_bot is Copyright © 2008-2022 Joe Ferris and thoughtbot. It is free
 software, and may be redistributed under the terms specified in the
 [LICENSE] file.
 
-[LICENSE]: https://github.com/thoughtbot/factory_bot/blob/master/LICENSE
+[LICENSE]: https://github.com/thoughtbot/factory_bot/blob/main/LICENSE
 
 
 About thoughtbot
