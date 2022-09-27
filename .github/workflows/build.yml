@@ -27,6 +27,22 @@ jobs:
             rails: "7.1"
           - ruby: jruby-9.4
             rails: main
+          - ruby: 2.6
+            rails: main
+          - ruby: jruby-9.2.16.0
+            rails: main
+          - ruby: 3.0
+            rails: "5.0"
+          - ruby: 3.0
+            rails: "5.1"
+          - ruby: 3.0
+            rails: "5.2"
+          - ruby: truffleruby
+            rails: "5.0"
+          - ruby: truffleruby
+            rails: "5.1"
+          - ruby: truffleruby
+            rails: "5.2"
 
     runs-on: 'ubuntu-latest'
 
