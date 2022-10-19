@@ -24,7 +24,7 @@ module FactoryBot
     def association(factory_name, *traits_and_overrides)
       overrides = traits_and_overrides.extract_options!
       strategy_override = overrides.fetch(:strategy) {
-        FactoryBot.use_parent_strategy ? @build_strategy.class : :create
+        FactoryBot.use_parent_strategy ? @build_strategy.to_sym : :create
       }
 
       traits_and_overrides += [overrides.except(:strategy)]
@@ -35,7 +35,7 @@ module FactoryBot
 
     attr_accessor :instance
 
-    def method_missing(method_name, *args, &block) # rubocop:disable Style/MethodMissingSuper, Style/MissingRespondToMissing
+    def method_missing(method_name, *args, &block)
       if @instance.respond_to?(method_name)
         @instance.send(method_name, *args, &block)
       else

@@ -13,6 +13,10 @@ module FactoryBot
           evaluation.notify(:after_create, instance)
         end
       end
+
+      def to_sym
+        :create
+      end
     end
   end
 end

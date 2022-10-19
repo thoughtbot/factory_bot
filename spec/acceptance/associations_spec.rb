@@ -1,5 +1,5 @@
 describe "associations" do
-  context "when accidentally using an implicit delcaration for the factory" do
+  context "when accidentally using an implicit declaration for the factory" do
     it "raises an error" do
       define_class("Post")
 
@@ -17,7 +17,7 @@ describe "associations" do
     end
   end
 
-  context "when accidentally using an implicit delcaration as an override" do
+  context "when accidentally using an implicit declaration as an override" do
     it "raises an error" do
       define_class("Post")
 

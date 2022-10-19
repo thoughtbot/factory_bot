@@ -8,7 +8,7 @@ describe FactoryBot::Attribute::Association do
 
   before do
     # Define an '#association' instance method allowing it to be mocked.
-    # Ususually this is determined via '#method_missing'
+    # Usually this is determined via '#method_missing'
     missing_methods = Module.new {
       def association(*args)
       end

@@ -1196,6 +1196,28 @@ factory :user do
 end
 ```
 
+### As mixins
+
+Traits can be defined outside of factories and used as mixins to compose shared attributes
+
+```ruby
+FactoryBot.define do
+  trait :timestamps do
+    created_at { 8.days.ago }
+    updated_at { 4.days.ago }
+  end
+  
+  factory :user, traits: [:timestamps] do
+    username { "john_doe" }
+  end
+  
+  factory :post do
+    timestamps
+    title { "Traits rock" }
+  end
+end
+```
+
 ### Using traits
 
 Traits can also be passed in as a list of symbols when you construct an instance
@@ -1580,6 +1602,15 @@ In order to set different attributes for each factory, these methods may be pass
 ```ruby
 twenty_somethings = build_list(:user, 10) do |user, i|
   user.date_of_birth = (20 + i).years.ago
+end
+```
+
+`create_list` passes saved instances into the block. If you modify the instance, you must save it again:
+
+```ruby
+twenty_somethings = create_list(:user, 10) do |user, i|
+  user.date_of_birth = (20 + i).years.ago
+  user.save!
 end
 ```
 

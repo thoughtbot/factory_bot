@@ -41,6 +41,10 @@ module FactoryBot
         end
       end
 
+      def to_sym
+        :stub
+      end
+
       private
 
       def next_id

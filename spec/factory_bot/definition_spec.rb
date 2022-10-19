@@ -67,7 +67,7 @@ describe FactoryBot::Definition do
 
   it "exposes a non-default create strategy when one is provided by the user" do
     definition = described_class.new(:name)
-    block = proc { nil }
+    block = proc {}
     definition.to_create(&block)
 
     expect(definition.to_create).to eq block

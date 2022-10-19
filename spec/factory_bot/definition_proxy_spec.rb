@@ -91,7 +91,7 @@ describe FactoryBot::DefinitionProxy, "#sequence" do
     expect(FactoryBot::Sequence).to have_received(:new).with(:sequence)
   end
 
-  it "creates a new sequence with an overridden starting vaue" do
+  it "creates a new sequence with an overridden starting value" do
     allow(FactoryBot::Sequence).to receive(:new).and_call_original
     proxy = build_proxy(:factory)
     override = "override"

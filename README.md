@@ -73,7 +73,7 @@ community](https://github.com/thoughtbot/factory_bot/graphs/contributors).
 License
 -------
 
-factory_bot is Copyright © 2008-2020 Joe Ferris and thoughtbot. It is free
+factory_bot is Copyright © 2008-2022 Joe Ferris and thoughtbot. It is free
 software, and may be redistributed under the terms specified in the
 [LICENSE] file.
 
@@ -94,8 +94,8 @@ See [our other projects][community] or
 
 [community]: https://thoughtbot.com/community?utm_source=github
 [hire]: https://thoughtbot.com/hire-us?utm_source=github
-[ci-image]: https://github.com/thoughtbot/factory_bot/actions/workflows/build.yml/badge.svg
-[ci]: https://github.com/thoughtbot/factory_bot/actions?query=workflow%3A.github%2Fworkflows%2Fbuild.yml+branch%3Amaster++
+[ci-image]: https://github.com/thoughtbot/factory_bot/actions/workflows/build.yml/badge.svg?branch=main
+[ci]: https://github.com/thoughtbot/factory_bot/actions?query=workflow%3ABuild+branch%3Amain
 [grade-image]: https://codeclimate.com/github/thoughtbot/factory_bot/badges/gpa.svg
 [grade]: https://codeclimate.com/github/thoughtbot/factory_bot
 [version-image]: https://badge.fury.io/rb/factory_bot.svg
