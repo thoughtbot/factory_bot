@@ -15,7 +15,7 @@ module FactoryBot
         def factory(name, options = {}, &block)
           factory = Factory.new(name, options)
           proxy = FactoryBot::DefinitionProxy.new(factory.definition)
-          proxy.instance_eval(&block) if block_given?
+          proxy.instance_eval(&block) if block
 
           Internal.register_factory(factory)
 

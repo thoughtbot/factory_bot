@@ -25,7 +25,7 @@ module FactoryBot
       raise key_error_with_custom_message(e)
     end
 
-    alias [] find
+    alias_method :[], :find
 
     def register(name, item)
       @items[name] = item

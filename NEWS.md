@@ -1,5 +1,18 @@
 # News
 
+## 6.2.1 (March 8, 2022)
+  * Added: CI testing against truffleruby
+  * Changed: Documentation improvements for sequences and traits
+  * Fixed: ActiveSupport::Notifications reporting strategy through associations now report as symbols
+    * BREAKING CHANGE: Custom strategies now need to define a `to_sym` method to specify the strategy identifier
+  * Fixed: `add_attribute` with reserved keywords assigns values correctly
+
+## 6.2.0 (May 7, 2021)
+  * Added: support for Ruby 3.0
+  * Changed: Include factory or trait name in error messages for missing traits. d05a9a3c
+  * Changed: Switched from Travis CI to GitHub Actions
+  * Fixed: More Ruby 2.7 kwarg deprecation warnings
+
 ## 6.1.0 (July 8, 2020)
   * Added: public reader for the evaluation instance, helpful for building interrelated associations
   * Changed: raise a more helpful error when passing an invalid argument to an association
@@ -20,6 +33,7 @@
   * Added: `build_stubbed_starting_id=` option to define the starting id for `build_stubbed`
   * Removed: deprecated methods on the top-level `FactoryBot` module meant only for internal use
   * Removed: support for EOL versions of Ruby (2.3, 2.4) and Rails (4.2)
+  * Removed: support for "abstract" factories with no associated class; use traits instead.
 
 ## 5.2.0 (April 24, 2020)
   * Added: Pass index to block for `*_list` methods

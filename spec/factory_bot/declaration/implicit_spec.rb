@@ -21,7 +21,7 @@ describe FactoryBot::Declaration::Implicit do
   end
 
   context "with a known sequence" do
-    it "does not create an assocition attribute" do
+    it "does not create an association attribute" do
       allow(FactoryBot::Internal.sequences).to receive(:registered?).and_return true
 
       declaration = FactoryBot::Declaration::Implicit.new(:name)

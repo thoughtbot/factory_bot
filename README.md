@@ -43,7 +43,7 @@ gem install factory_bot
 Supported Ruby versions
 -----------------------
 
-Supported Ruby versions are listed in [`.travis.yml`](https://github.com/thoughtbot/factory_bot/blob/master/.travis.yml)
+Supported Ruby versions are listed in [`.github/workflows/build.yml`](https://github.com/thoughtbot/factory_bot/blob/master/.github/workflows/build.yml)
 
 More Information
 ----------------
@@ -73,7 +73,7 @@ community](https://github.com/thoughtbot/factory_bot/graphs/contributors).
 License
 -------
 
-factory_bot is Copyright © 2008-2020 Joe Ferris and thoughtbot. It is free
+factory_bot is Copyright © 2008-2022 Joe Ferris and thoughtbot. It is free
 software, and may be redistributed under the terms specified in the
 [LICENSE] file.
 
@@ -94,8 +94,8 @@ See [our other projects][community] or
 
 [community]: https://thoughtbot.com/community?utm_source=github
 [hire]: https://thoughtbot.com/hire-us?utm_source=github
-[ci-image]: https://travis-ci.org/thoughtbot/factory_bot.svg
-[ci]: https://travis-ci.org/thoughtbot/factory_bot?branch=master
+[ci-image]: https://github.com/thoughtbot/factory_bot/actions/workflows/build.yml/badge.svg?branch=main
+[ci]: https://github.com/thoughtbot/factory_bot/actions?query=workflow%3ABuild+branch%3Amain
 [grade-image]: https://codeclimate.com/github/thoughtbot/factory_bot/badges/gpa.svg
 [grade]: https://codeclimate.com/github/thoughtbot/factory_bot
 [version-image]: https://badge.fury.io/rb/factory_bot.svg

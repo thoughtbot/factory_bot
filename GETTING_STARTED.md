@@ -40,6 +40,7 @@ Getting Started
   + [Inline definition](#inline-definition)
   + [Specifying the factory](#specifying-the-factory)
   + [Overriding attributes](#overriding-attributes)
+  + [Association overrides](#association-overrides)
   + [Build strategies](#build-strategies-1)
   + [`has_many` associations](#has_many-associations)
   + [`has_and_belongs_to_many` associations](#has_and_belongs_to_many-associations)
@@ -584,6 +585,25 @@ factory :post do
 end
 ```
 
+### Association overrides
+
+Attribute overrides can be used to link associated objects:
+
+```ruby
+FactoryBot.define do
+  factory :author do
+    name { 'Taylor' }
+  end
+
+  factory :post do
+    author
+  end
+end
+
+eunji = build(:author, name: 'Eunji')
+post = build(:post, author: eunji)
+```
+
 ### Build strategies
 
 In factory\_bot 5, associations default to using the same build strategy as
@@ -909,6 +929,10 @@ end
 Note that this approach works with `build`, `build_stubbed`, and `create`, but
 the associations will return `nil` when using `attributes_for`.
 
+Also, note that if you assign any attributes inside a custom `initialize_with` 
+(e.g. `initialize_with { new(**attributes) }`), those attributes should not refer to `instance`,
+since it will be `nil`.
+
 Sequences
 ---------
 
@@ -986,6 +1010,15 @@ Without a block, the value will increment itself, starting at its initial value:
 ```ruby
 factory :post do
   sequence(:position)
+end
+```
+
+Please note, that the value for the sequence could be any Enumerable instance,
+as long as it responds to `#next`:
+
+```ruby
+factory :task do
+  sequence :priority, %i[low medium high urgent].cycle
 end
 ```
 
@@ -1119,16 +1152,16 @@ factory :user do
   name { "Friendly User" }
   login { name }
 
-  trait :male do
+  trait :active do
     name { "John Doe" }
-    gender { "Male" }
-    login { "#{name} (M)" }
+    status { :active }
+    login { "#{name} (active)" }
   end
 
-  trait :female do
+  trait :inactive do
     name { "Jane Doe" }
-    gender { "Female" }
-    login { "#{name} (F)" }
+    status { :inactive }
+    login { "#{name} (inactive)" }
   end
 
   trait :admin do
@@ -1136,8 +1169,8 @@ factory :user do
     login { "admin-#{name}" }
   end
 
-  factory :male_admin,   traits: [:male, :admin]   # login will be "admin-John Doe"
-  factory :female_admin, traits: [:admin, :female] # login will be "Jane Doe (F)"
+  factory :active_admin,   traits: [:active, :admin]   # login will be "admin-John Doe"
+  factory :inactive_admin, traits: [:admin, :inactive] # login will be "Jane Doe (inactive)"
 end
 ```
 
@@ -1150,15 +1183,37 @@ factory :user do
   name { "Friendly User" }
   login { name }
 
-  trait :male do
+  trait :active do
     name { "John Doe" }
-    gender { "Male" }
+    status { :active }
     login { "#{name} (M)" }
   end
 
   factory :brandon do
-    male
+    active
     name { "Brandon" }
+  end
+end
+```
+
+### As mixins
+
+Traits can be defined outside of factories and used as mixins to compose shared attributes
+
+```ruby
+FactoryBot.define do
+  trait :timestamps do
+    created_at { 8.days.ago }
+    updated_at { 4.days.ago }
+  end
+  
+  factory :user, traits: [:timestamps] do
+    username { "john_doe" }
+  end
+  
+  factory :post do
+    timestamps
+    title { "Traits rock" }
   end
 end
 ```
@@ -1172,9 +1227,9 @@ from factory\_bot.
 factory :user do
   name { "Friendly User" }
 
-  trait :male do
+  trait :active do
     name { "John Doe" }
-    gender { "Male" }
+    status { :active }
   end
 
   trait :admin do
@@ -1182,8 +1237,8 @@ factory :user do
   end
 end
 
-# creates an admin user with gender "Male" and name "Jon Snow"
-create(:user, :admin, :male, name: "Jon Snow")
+# creates an admin user with :active status and name "Jon Snow"
+create(:user, :admin, :active, name: "Jon Snow")
 ```
 
 This ability works with `build`, `build_stubbed`, `attributes_for`, and `create`.
@@ -1201,8 +1256,8 @@ factory :user do
   end
 end
 
-# creates 3 admin users with gender "Male" and name "Jon Snow"
-create_list(:user, 3, :admin, :male, name: "Jon Snow")
+# creates 3 admin users with :active status and name "Jon Snow"
+create_list(:user, 3, :admin, :active, name: "Jon Snow")
 ```
 
 ### With associations
@@ -1501,7 +1556,6 @@ FactoryBot.define do
   factory :application_user, parent: :user do
     full_name { "Jane Doe" }
     date_of_birth { 21.years.ago }
-    gender { "Female" }
     health { 90 }
   end
 end
@@ -1514,7 +1568,6 @@ FactoryBot.modify do
   factory :user do
     full_name { "Jane Doe" }
     date_of_birth { 21.years.ago }
-    gender { "Female" }
     health { 90 }
   end
 end
@@ -1549,6 +1602,15 @@ In order to set different attributes for each factory, these methods may be pass
 ```ruby
 twenty_somethings = build_list(:user, 10) do |user, i|
   user.date_of_birth = (20 + i).years.ago
+end
+```
+
+`create_list` passes saved instances into the block. If you modify the instance, you must save it again:
+
+```ruby
+twenty_somethings = create_list(:user, 10) do |user, i|
+  user.date_of_birth = (20 + i).years.ago
+  user.save!
 end
 ```
 

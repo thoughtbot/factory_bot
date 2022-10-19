@@ -3,7 +3,7 @@ require "active_record"
 module DefineConstantMacros
   def define_class(path, base = Object, &block)
     const = stub_const(path, Class.new(base))
-    const.class_eval(&block) if block_given?
+    const.class_eval(&block) if block
     const
   end
 

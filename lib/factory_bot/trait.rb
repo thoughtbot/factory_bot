@@ -9,7 +9,7 @@ module FactoryBot
       @definition = Definition.new(@name)
       proxy = FactoryBot::DefinitionProxy.new(@definition)
 
-      if block_given?
+      if block
         proxy.instance_eval(&@block)
       end
     end
