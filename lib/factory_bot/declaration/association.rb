@@ -7,7 +7,7 @@ module FactoryBot
         @options = options.dup
         @overrides = options.extract_options!
         @factory_name = @overrides.delete(:factory) || name
-        @traits = options
+        @traits = options + (@overrides.delete(:traits) || [])
       end
 
       def ==(other)

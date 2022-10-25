@@ -1296,6 +1296,8 @@ factory :post do
   association :author, :admin, factory: :user, name: 'John Doe'
   # or
   association :author, factory: [:user, :admin], name: 'John Doe'
+  # or
+  author factory: :user, traits: [:admin], name: 'John Doe'
 end
 
 # creates an admin user with name "John Doe"
