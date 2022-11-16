@@ -151,7 +151,7 @@ module FactoryBot
     def association(name, *options)
       if block_given?
         raise AssociationDefinitionError.new(
-          "Unexpected block passed to '#{name}' association "\
+          "Unexpected block passed to '#{name}' association " \
           "in '#{@definition.name}' factory"
         )
       else

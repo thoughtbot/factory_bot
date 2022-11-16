@@ -71,7 +71,7 @@ module FactoryBot
 
           DISABLED_PERSISTENCE_METHODS.each do |write_method|
             define_singleton_method(write_method) do |*args|
-              raise "stubbed models are not allowed to access the database - "\
+              raise "stubbed models are not allowed to access the database - " \
                     "#{self.class}##{write_method}(#{args.join(",")})"
             end
           end

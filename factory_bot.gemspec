@@ -4,10 +4,10 @@ require "factory_bot/version"
 Gem::Specification.new do |s|
   s.name = "factory_bot"
   s.version = FactoryBot::VERSION
-  s.summary = "factory_bot provides a framework and DSL for defining and "\
+  s.summary = "factory_bot provides a framework and DSL for defining and " \
                   "using model instance factories."
-  s.description = "factory_bot provides a framework and DSL for defining and "\
-                  "using factories - less error-prone, more explicit, and "\
+  s.description = "factory_bot provides a framework and DSL for defining and " \
+                  "using factories - less error-prone, more explicit, and " \
                   "all-around easier to work with than fixtures."
 
   s.files =
