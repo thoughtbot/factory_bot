@@ -209,8 +209,8 @@ describe "global callbacks" do
     FactoryBot.define do
       after :build do |object|
         object.name = case object.class.to_s
-                      when "User" then "John Doe"
-                      when "Company" then "Acme Suppliers"
+        when "User" then "John Doe"
+        when "Company" then "Acme Suppliers"
         end
       end
 
