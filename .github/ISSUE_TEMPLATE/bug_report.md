@@ -22,7 +22,7 @@ problem are especially helpful. -->
 
 <!-- You can create a reproduction script by copying this sample reproduction
 script and adding whatever code is necessary to get a failing test case:
-https://github.com/thoughtbot/factory_bot/blob/master/.github/REPRODUCTION_SCRIPT.rb -->
+https://github.com/thoughtbot/factory_bot/blob/main/.github/REPRODUCTION_SCRIPT.rb -->
 
 ### Expected behavior
 
