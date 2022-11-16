@@ -81,6 +81,7 @@ describe "`attributes_for` for a class whose constructor has required params" do
   before do
     define_model("User", name: :string) do
       def initialize(arg1, arg2)
+        # Constructor requesting params to be used for testing
       end
     end
 
