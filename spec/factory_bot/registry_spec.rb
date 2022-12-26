@@ -33,8 +33,7 @@ describe FactoryBot::Registry do
     registered_object = double(:registered_object)
     registry.register(:factory_bot, registered_object)
 
-    expect { registry.find(:factory_bit) }
-      .to raise_error(KeyError, /Did you mean\?  "factory_bot"/)
+    expect { registry.find(:factory_bit) }.to raise_did_you_mean_error
   end
 
   it "adds and returns the object registered" do

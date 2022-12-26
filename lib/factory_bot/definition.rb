@@ -115,15 +115,26 @@ module FactoryBot
       raise error_with_definition_name(error)
     end
 
-    def error_with_definition_name(error)
-      message = error.message
-      message.insert(
-        message.index("\nDid you mean?") || message.length,
-        " referenced within \"#{name}\" definition"
-      )
+    # detailed_message introduced in Ruby 3.2 for cleaner integration with
+    # did_you_mean. See https://bugs.ruby-lang.org/issues/18564
+    if KeyError.method_defined?(:detailed_message)
+      def error_with_definition_name(error)
+        message = error.message + " referenced within \"#{name}\" definition"
 
-      error.class.new(message).tap do |new_error|
-        new_error.set_backtrace(error.backtrace)
+        error.class.new(message, key: error.key, receiver: error.receiver)
+          .tap { |new_error| new_error.set_backtrace(error.backtrace) }
+      end
+    else
+      def error_with_definition_name(error)
+        message = error.message
+        message.insert(
+          message.index("\nDid you mean?") || message.length,
+          " referenced within \"#{name}\" definition"
+        )
+
+        error.class.new(message).tap do |new_error|
+          new_error.set_backtrace(error.backtrace)
+        end
       end
     end
 
