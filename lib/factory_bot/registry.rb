@@ -39,9 +39,21 @@ module FactoryBot
 
     def key_error_with_custom_message(key_error)
       message = key_error.message.sub("key not found", "#{@name} not registered")
-      error = KeyError.new(message)
-      error.set_backtrace(key_error.backtrace)
-      error
+      new_key_error(message, key_error).tap do |error|
+        error.set_backtrace(key_error.backtrace)
+      end
+    end
+
+    # detailed_message introduced in Ruby 3.2 for cleaner integration with
+    # did_you_mean. See https://bugs.ruby-lang.org/issues/18564
+    if KeyError.method_defined?(:detailed_message)
+      def new_key_error(message, key_error)
+        KeyError.new(message, key: key_error.key, receiver: key_error.receiver)
+      end
+    else
+      def new_key_error(message, _)
+        KeyError.new(message)
+      end
     end
   end
 end
