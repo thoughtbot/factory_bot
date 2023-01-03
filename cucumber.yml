@@ -1,1 +1,1 @@
-default: -r features features
+default: --publish-quiet -r features features
