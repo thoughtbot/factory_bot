@@ -1,7 +1,7 @@
 require "rspec"
 require "rspec/its"
 
-require "simplecov"
+require "simplecov" if RUBY_ENGINE == "ruby"
 
 require "factory_bot"
 

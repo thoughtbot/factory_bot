@@ -1,6 +1,6 @@
 PROJECT_ROOT = File.expand_path(File.join(File.dirname(__FILE__), "..", ".."))
 
-require "simplecov"
+require "simplecov" if RUBY_ENGINE == "ruby"
 
 $: << File.join(PROJECT_ROOT, "lib")
 
