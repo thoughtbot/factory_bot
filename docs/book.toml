@@ -1,0 +1,6 @@
+[book]
+authors = ["Mike Burns"]
+language = "en"
+multilingual = false
+src = "src"
+title = "factory_bot"
