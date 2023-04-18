@@ -22,8 +22,8 @@ factory :profile_with_languages do
     languages_count { 2 }
   end
 
-  after(:create) do |profile, evaluator|
-    create_list(:language, evaluator.languages_count, profiles: [profile])
+  after(:create) do |profile, context|
+    create_list(:language, context.languages_count, profiles: [profile])
     profile.reload
   end
 end

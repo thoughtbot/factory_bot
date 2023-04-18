@@ -1,7 +1,7 @@
 # Nested factories
 
-You can easily create multiple factories for the same class without repeating
-common attributes by nesting factories:
+You can create multiple factories for the same class without repeating common
+attributes by nesting factories:
 
 ```ruby
 factory :post do

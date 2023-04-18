@@ -1,7 +1,6 @@
 # Build strategies
 
-In factory\_bot 5, associations default to using the same build strategy as
-their parent object:
+Associations default to using the same build strategy as their parent object:
 
 ```ruby
 FactoryBot.define do

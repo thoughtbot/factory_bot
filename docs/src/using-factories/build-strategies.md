@@ -1,7 +1,7 @@
 # Build strategies
 
-factory\_bot supports several different build strategies: build, create,
-attributes\_for and build\_stubbed:
+factory\_bot supports several different build strategies: `build`, `create`,
+`attributes_for` and `build_stubbed`:
 
 ```ruby
 # Returns a User instance that's not saved
@@ -10,7 +10,7 @@ user = build(:user)
 # Returns a saved User instance
 user = create(:user)
 
-# Returns a hash of attributes that can be used to build a User instance
+# Returns a hash of attributes, which can be used to build a User instance for example
 attrs = attributes_for(:user)
 
 # Returns an object with all defined attributes stubbed out
@@ -21,3 +21,8 @@ create(:user) do |user|
   user.posts.create(attributes_for(:post))
 end
 ```
+
+# build_stubbed and Marshal.dump
+
+Note that objects created with `build_stubbed` cannot be serialized with
+`Marshal.dump`, since factory\_bot defines singleton methods on these objects.

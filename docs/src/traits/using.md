@@ -1,6 +1,6 @@
 # Using traits
 
-Traits can also be passed in as a list of symbols when you construct an instance
+Traits can also be passed in as a list of Symbols when you construct an instance
 from factory\_bot.
 
 ```ruby

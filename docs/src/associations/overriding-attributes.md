@@ -1,6 +1,6 @@
 # Overriding attributes
 
-You can also override attributes.
+You can also override attributes on associations.
 
 Implicitly:
 

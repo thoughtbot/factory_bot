@@ -1,6 +1,6 @@
 # Dependent Attributes
 
-Attributes can be based on the values of other attributes using the evaluator
+Attributes can be based on the values of other attributes using the context
 that is yielded to dynamic attribute blocks:
 
 ```ruby

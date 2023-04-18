@@ -9,8 +9,8 @@ factory :invoice do
       amount { 1 }
     end
 
-    after(:create) do |invoice, evaluator|
-      create :line_item, invoice: invoice, amount: evaluator.amount
+    after(:create) do |invoice, context|
+      create :line_item, invoice: invoice, amount: context.amount
     end
   end
 end

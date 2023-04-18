@@ -19,7 +19,7 @@ end
 create(:post).user
 ```
 
-When you're using association names that're different than the factory:
+When you're using association names that are different than the factory:
 
 ```ruby
 factory :user do

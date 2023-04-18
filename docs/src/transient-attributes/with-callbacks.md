@@ -1,8 +1,8 @@
 # With callbacks
 
-If you need to access the evaluator in a factory\_bot callback,
-you'll need to declare a second block argument (for the evaluator) and access
-transient attributes from there.
+If you need to access the evaluated definition itself in a factory\_bot callback, you'll
+need to declare a second block argument (for the definition) and access transient
+attributes from there. This represents the final, evaluated value.
 
 ```ruby
 factory :user do
@@ -12,8 +12,8 @@ factory :user do
 
   name { "John Doe" }
 
-  after(:create) do |user, evaluator|
-    user.name.upcase! if evaluator.upcased
+  after(:create) do |user, context|
+    user.name.upcase! if context.upcased
   end
 end
 
