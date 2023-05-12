@@ -1,3 +1,19 @@
+**Deprecated**
+
+See our extensive reference, guides, and cookbook in [the factory_bot book][].
+
+For information on integrations with third party libraries, such as RSpec or
+Rails, see [the factory_bot wiki][].
+
+ We also have [a detailed introductory video][], available for free on Upcase.
+
+[a detailed introductory video]: https://upcase.com/videos/factory-bot?utm_source=github&utm_medium=open-source&utm_campaign=factory-girl
+[the factory_bot book]: https://thoughtbot.github.io/factory_bot
+[the factory_bot wiki]: https://github.com/thoughtbot/factory_bot/wiki
+
+This document is deprecated and preserved for historical use. It may disappear
+at any time.
+
 Getting Started
 ===============
 
