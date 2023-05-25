@@ -1,5 +1,10 @@
 # News
 
+## Unreleased
+
+  * Changed: Explicitly define `#destroyed?` within the `Stub` strategy to return `false` to be consistent
+    with `#new_record?` and `#persisted?`.
+
 ## 6.2.1 (March 8, 2022)
   * Added: CI testing against truffleruby
   * Changed: Documentation improvements for sequences and traits

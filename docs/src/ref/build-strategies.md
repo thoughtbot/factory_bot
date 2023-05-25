@@ -76,7 +76,7 @@ data as appropriate:
 - all [ActiveModel::Dirty] change tracking is cleared
 - `persisted?` is true
 - `new_record?` is false
-- `destroyed?` is nil
+- `destroyed?` is false
 - persistence methods raise a `RuntimeError` (`#connection`, `#delete`, `#save`, `#update`, etc.)
 
 [ActiveModel::Dirty]: https://api.rubyonrails.org/classes/ActiveModel/Dirty.html

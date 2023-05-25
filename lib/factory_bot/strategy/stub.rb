@@ -66,7 +66,7 @@ module FactoryBot
           end
 
           def destroyed?
-            nil
+            false
           end
 
           DISABLED_PERSISTENCE_METHODS.each do |write_method|
