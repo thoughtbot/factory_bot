@@ -10,4 +10,4 @@ defined. The block is a normal [factory definition block](factory.html). Take
 note that [hooks](hooks.html) cannot be cleared and continue to compound.
 
 For details on why you'd want to use this, see [the
-guide](/modifying-factories/summary.html).
+guide](./modifying-factories/summary.html).
