@@ -1,3 +1,8 @@
+⚠️ **Warning:** You are viewing this file on the `master` branch, which is no
+longer used and does not receive any updates. Please view [this file on the
+`main` branch](https://github.com/thoughtbot/factory_bot/blob/main/RELEASING.md)
+for up-to-date information.
+
 # Releasing
 
 1. Update version file accordingly and run `bundle install` to update the
