@@ -1,34 +1,97 @@
-# Intro
+# Summary
 
-factory_bot is a fixtures replacement with a straightforward definition syntax,
-support for multiple build strategies (saved instances, unsaved instances,
-attribute hashes, and stubbed objects), and support for multiple factories for
-the same class (user, admin_user, and so on), including factory inheritance.
+[Intro](summary.md)
 
-Its documentation is split as such:
+# Reference
 
-- the [guide](setup/summary.html) is a great place to start for first-time users.
-- the [cookbook](cookbook/has_many-associations.html) is the go-to place for creative solutions to common situations.
-- the [wiki](https://github.com/thoughtbot/factory_bot/wiki) details considerations for integrating with other software.
-- the [reference](ref/build-strategies.html) is terse facts for those who use this project often.
+- [Build strategies](ref/build-strategies.md)
+- [FactoryBot.find_definitions](ref/find_definitions.md)
+- [FactoryBot.define](ref/define.md)
+- [factory](ref/factory.md)
+- [add_attribute](ref/add_attribute.md)
+- [association](ref/association.md)
+- [sequence](ref/sequence.md)
+- [trait](ref/trait.md)
+- [method_missing](ref/method_missing.md)
+- [traits_for_enum](ref/traits_for_enum.md)
+- [skip_create, to_create, and initialize_with](ref/build-and-create.md)
+- [transient](ref/transient.md)
+- [Hooks](ref/hooks.md)
+- [FactoryBot.modify](ref/modify.md)
+- [FactoryBot.lint](ref/lint.md)
+- [FactoryBot.register_strategy](ref/register_strategy.md)
 
-## License
+# Guide
 
-factory_bot is Copyright © 2008 Joe Ferris and thoughtbot. It is free
-software, and may be redistributed under the terms specified in the
-[LICENSE] file.
+- [Setup](setup/summary.md)
+  - [Using Without Bundler](using-without-bundler/summary.md)
+  - [Rails Preloaders and RSpec](rails-preloaders-and-rspec/summary.md)
+- [Defining factories]()
+  - [Factory name and attributes](defining/name-attributes.md)
+  - [Specifying the class explicitly](defining/explicit-class.md)
+  - [Definition file paths](defining/file-paths.md)
+  - [Hash attributes](defining/hash-attributes.md)
+  - [Best practices](defining/best-practices.md)
+  - [Static Attributes (deprecated)](defining/static-attributes.md)
+- [Using factories]()
+  - [Build strategies](using-factories/build-strategies.md)
+  - [Building or Creating Multiple Records](building-or-creating-multiple-records/summary.md)
+  - [Attribute overrides](using-factories/attribute-overrides.md)
+- [Aliases](aliases/summary.md)
+- [Dependent Attributes](dependent-attributes/summary.md)
+- [Transient Attributes](transient-attributes/summary.md)
+  - [With other attributes](transient-attributes/with-other-attributes.md)
+  - [With `attributes_for`](transient-attributes/with-attributes_for.md)
+  - [With callbacks](transient-attributes/with-callbacks.md)
+  - [With associations](transient-attributes/with-associations.md)
+- [Method Name / Reserved Word Attributes](method-name-reserved-word-attributes/summary.md)
+- [Inheritance]()
+  - [Nested factories](inheritance/nested-factories.md)
+  - [Assigning parent explicitly](inheritance/assigning-parent-explicitly.md)
+  - [Best practices](inheritance/best-practices.md)
+- [Associations]()
+  - [Implicit definition](associations/implicit-definition.md)
+  - [Explicit definition](associations/explicit-definition.md)
+  - [Inline definition](associations/inline-definition.md)
+  - [Specifying the factory](associations/specifying-the-factory.md)
+  - [Overriding attributes](associations/overriding-attributes.md)
+  - [Association overrides](associations/association-overrides.md)
+  - [Build strategies](associations/build-strategies.md)
+- [Sequences]()
+  - [Global sequences](sequences/global-sequences.md)
+  - [With dynamic attributes](sequences/with-dynamic-attributes.md)
+  - [As implicit attributes](sequences/as-implicit-attributes.md)
+  - [Inline sequences](sequences/inline-sequences.md)
+  - [Initial value](sequences/initial-value.md)
+  - [Without a block](sequences/without-a-block.md)
+  - [Aliases](sequences/aliases.md)
+  - [Rewinding](sequences/rewinding.md)
+  - [Uniqueness](sequences/uniqueness.md)
+- [Traits](traits/summary.md)
+  - [As implicit attributes](traits/as-implicit-attributes.md)
+  - [Using traits](traits/using.md)
+  - [Enum traits](traits/enum.md)
+  - [Attribute precedence](traits/attribute-precedence.md)
+  - [In child factories](traits/in-child-factories.md)
+  - [As mixins](traits/mixins.md)
+  - [With associations](traits/with-associations.md)
+  - [Traits within traits](traits/traits-within-traits.md)
+  - [With transient attributes](traits/with-transient-attributes.md)
+- [Callbacks](callbacks/summary.md)
+  - [Multiple callbacks](callbacks/multiple-callbacks.md)
+  - [Global callbacks](callbacks/global-callbacks.md)
+  - [Symbol#to_proc](callbacks/symbol-to_proc.md)
+- [Modifying factories](modifying-factories/summary.md)
+- [Linting Factories](linting-factories/summary.md)
+- [Custom Construction](custom-construction/summary.md)
+- [Custom Strategies](custom-strategies/summary.md)
+- [Custom Callbacks](custom-callbacks/summary.md)
+- [Custom Methods to Persist Objects](custom-methods-to-persist-objects/summary.md)
+- [ActiveSupport Instrumentation](activesupport-instrumentation/summary.md)
 
-[LICENSE]: https://github.com/thoughtbot/factory_bot/blob/main/LICENSE
+# Cookbook
 
-
-## About thoughtbot
-
-factory_bot is maintained and funded by thoughtbot, inc.
-The names and logos for thoughtbot are trademarks of thoughtbot, inc.
-
-We love open source software!
-See [our other projects][community] or
-[hire us][hire] to design, develop, and grow your product.
-
-[community]: https://thoughtbot.com/community?utm_source=github
-[hire]: https://thoughtbot.com/hire-us?utm_source=github
+- [`has_many` associations](cookbook/has_many-associations.md)
+- [`has_and_belongs_to_many` associations](cookbook/has_and_belongs_to_many-associations.md)
+- [Polymorphic associations](cookbook/polymorphic-associations.md)
+- [Interconnected associations](cookbook/interconnected-associations.md)
