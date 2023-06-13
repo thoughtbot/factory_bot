@@ -73,6 +73,19 @@ describe FactoryBot::DefinitionProxy, "#method_missing" do
       /'static_attributes_are_gone'.*'broken' factory.*Did you mean\? 'static_attributes_are_gone \{ "true" \}'/m
     )
   end
+
+  it "raises an AssociationDefinitionError when called with a `:factory`-key and providing a block" do
+    definition = FactoryBot::Definition.new(:user)
+    proxy = FactoryBot::DefinitionProxy.new(definition)
+    invalid_call = lambda do
+      proxy.author(factory: :user) { :this_should_raise_an_error }
+    end
+
+    expect(invalid_call).to raise_error(
+      FactoryBot::AssociationDefinitionError,
+      "Unexpected block passed to 'author' association in 'user' factory"
+    )
+  end
 end
 
 describe FactoryBot::DefinitionProxy, "#sequence" do
