@@ -49,7 +49,9 @@ module FactoryBot
       unless @compiled
         expand_enum_traits(klass) unless klass.nil?
 
-        declarations.attributes
+        declarations.attributes.each do |attribute|
+          ensure_attribute_not_generating_primary_key! attribute, for_class: klass
+        end
 
         defined_traits.each do |defined_trait|
           base_traits.each { |bt| bt.define_trait defined_trait }
@@ -190,6 +192,15 @@ module FactoryBot
     def automatically_register_defined_enums?(klass)
       FactoryBot.automatically_define_enum_traits &&
         klass.respond_to?(:defined_enums)
+    end
+
+    def ensure_attribute_not_generating_primary_key!(attribute, for_class:)
+      case attribute
+      when FactoryBot::Attribute::Sequence
+        if for_class < ActiveRecord::Base && for_class.primary_key == attribute.name.to_s
+          raise AttributeDefinitionError, "Attribute generates an Active Record primary key"
+        end
+      end
     end
   end
 end

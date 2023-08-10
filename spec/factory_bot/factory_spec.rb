@@ -153,6 +153,27 @@ describe FactoryBot::Factory, "when defined with a custom class" do
   end
 end
 
+describe FactoryBot::Factory, "when defined with a class that descends from ActiveRecord::Base" do
+  context "with a sequence generating its primary key" do
+    it "raises an error" do
+      model = define_model "Article" do
+        self.primary_key = :an_id
+      end
+      sequence = FactoryBot::Sequence.new(model.primary_key)
+      FactoryBot::Internal.register_sequence(sequence)
+      factory = FactoryBot::Factory.new(:record, class: model)
+      factory.declare_attribute(FactoryBot::Declaration::Implicit.new(sequence.name))
+
+      expect { factory.run(FactoryBot::Strategy::AttributesFor, {}) }
+        .to raise_error(FactoryBot::AttributeDefinitionError)
+      expect { factory.run(FactoryBot::Strategy::Build, {}) }
+        .to raise_error(FactoryBot::AttributeDefinitionError)
+      expect { factory.run(FactoryBot::Strategy::Create, {}) }
+        .to raise_error(FactoryBot::AttributeDefinitionError)
+    end
+  end
+end
+
 describe FactoryBot::Factory, "when given a class that overrides #to_s" do
   it "sets build_class correctly" do
     define_class("Overriding")
