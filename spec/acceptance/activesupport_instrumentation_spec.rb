@@ -11,7 +11,7 @@ unless ActiveSupport::Notifications.respond_to?(:subscribed)
   ActiveSupport::Notifications.extend SubscribedBehavior
 end
 
-describe "using ActiveSupport::Instrumentation to track factory interaction" do
+describe "using ActiveSupport::Instrumentation to track run_factory interaction" do
   let(:slow_user_factory) { FactoryBot::Internal.factory_by_name("slow_user") }
   let(:user_factory) { FactoryBot::Internal.factory_by_name("user") }
   before do
@@ -76,5 +76,47 @@ describe "using ActiveSupport::Instrumentation to track factory interaction" do
     expect(tracked_invocations[:user][:build]).to eq(5)
     expect(tracked_invocations[:user][:factory]).to eq(user_factory)
     expect(tracked_invocations[:user][:create]).to eq(5)
+  end
+end
+
+describe "using ActiveSupport::Instrumentation to track compile_factory interaction" do
+  before do
+    define_model("User", name: :string, email: :string)
+
+    FactoryBot.define do
+      factory :user do
+        sequence(:email) { |n| "user_#{n}@example.com" }
+
+        name { "User" }
+
+        trait :special do
+          name { "Special User" }
+        end
+      end
+    end
+  end
+
+  it "tracks proper time of compiling the factory" do
+    time_to_execute = 0
+    callback = ->(_name, start, finish, _id, _payload) { time_to_execute = finish - start }
+    ActiveSupport::Notifications.subscribed(callback, "factory_bot.compile_factory") do
+      FactoryBot.build(:user)
+    end
+
+    expect(time_to_execute).to be > 0
+  end
+
+  it "builds the correct payload" do
+    tracked_payloads = []
+    callback = ->(_name, _start, _finish, _id, payload) { tracked_payloads << payload }
+
+    ActiveSupport::Notifications.subscribed(callback, "factory_bot.compile_factory") do
+      FactoryBot.build(:user)
+    end
+
+    payload = tracked_payloads.detect { |payload| payload[:name] == :user }
+    expect(payload[:class]).to eq(User)
+    expect(payload[:attributes].map(&:name)).to eq([:email, :name])
+    expect(payload[:traits].map(&:name)).to eq(["special"])
   end
 end
