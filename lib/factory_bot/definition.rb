@@ -57,6 +57,13 @@ module FactoryBot
         end
 
         @compiled = true
+
+        ActiveSupport::Notifications.instrument "factory_bot.compile_factory", {
+          name: name,
+          attributes: declarations.attributes,
+          traits: defined_traits,
+          class: klass
+        }
       end
     end
 
