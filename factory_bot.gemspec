@@ -22,6 +22,10 @@ Gem::Specification.new do |s|
 
   s.homepage = "https://github.com/thoughtbot/factory_bot"
 
+  s.metadata = {
+    "changelog_uri" => "https://github.com/thoughtbot/factory_bot/blob/main/NEWS.md"
+  }
+
   s.add_dependency("activesupport", ">= 5.0.0")
 
   s.add_development_dependency("activerecord")
