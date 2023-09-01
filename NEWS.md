@@ -1,9 +1,27 @@
 # News
 
-## Unreleased
+## 6.3.0 (September 1, 2023)
 
-  * Changed: Explicitly define `#destroyed?` within the `Stub` strategy to return `false` to be consistent
-    with `#new_record?` and `#persisted?`.
+  * Fix: link to changelog for RubyGems (Berkan Ünal).
+  * Fix: integrate with Ruby 3.2's `did_you_mean` library (Daniel Colson).
+  * Changed: explicitly define `#destroyed?` within the `Stub` strategy to return `false` to be consistent
+    with ActiveRecord (Benjamin Fleischer).
+  * Added: announce `factory_bot.compile_factory` notification (Sean Doyle).
+  * Docs: clarify that custom strategies need to define `#to_sym` (Edmund Korley, Jonas S).
+  * Docs: fix CI link in README (Mark Huk).
+  * Docs: fix GitHub links (Robert Fletcher).
+  * Docs: install this library with `bundle add` (Glauco Custódio).
+  * Docs: re-write into mdBook (Mike Burns, Sara Jackson, Stefanni Brasil)
+  * Docs: clarify that automatic trait definitions could introduce new linting errors (Lawrence Chou).
+  * Internal: skip TruffleRuby on Rails 5.0, 5.1, 5.2 (Andrii Konchyn).
+  * Internal: fix typoes throughout codebase (Yudai Takada).
+  * Internal: run CI on `actions/checkout` v3 (Yudai Takada).
+  * Internal: follow standardrb code style (Yudai Takada).
+  * Internal: stop using Hound (Daniel Nolan).
+  * Internal: only run simplecov on C Ruby (Daniel Colson).
+  * Internal: quieter Cucumber (Daniel Colson).
+  * Internal: Ruby 3.2 support (Daniel Colson).
+  * Internal: Mike Burns is the CODEOWNER (Stefanni Brasil).
 
 ## 6.2.1 (March 8, 2022)
   * Added: CI testing against truffleruby

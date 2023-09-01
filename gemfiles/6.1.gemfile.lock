@@ -1,7 +1,7 @@
 PATH
   remote: ..
   specs:
-    factory_bot (6.1.0)
+    factory_bot (6.3.0)
       activesupport (>= 5.0.0)
 
 GEM
@@ -140,7 +140,7 @@ PLATFORMS
 
 DEPENDENCIES
   activerecord (~> 6.1.0)
-  activerecord-jdbcsqlite3-adapter (~> 60.0.rc1)
+  activerecord-jdbcsqlite3-adapter (~> 61.0)
   appraisal
   aruba
   cucumber
@@ -154,4 +154,4 @@ DEPENDENCIES
   yard
 
 BUNDLED WITH
-   2.1.4
+   2.3.25
