@@ -1,3 +1,7 @@
+if RUBY_VERSION >= "3.0" && RUBY_ENGINE != "truffleruby"
+  require_relative "./attributes_for_destructuring"
+end
+
 describe "a generated attributes hash" do
   include FactoryBot::Syntax::Methods
 
