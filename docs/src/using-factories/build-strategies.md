@@ -13,6 +13,9 @@ user = create(:user)
 # Returns a hash of attributes, which can be used to build a User instance for example
 attrs = attributes_for(:user)
 
+# Integrates with Ruby 3.0's support for pattern matching assignment
+attributes_for(:user) => {email:, name:, **attrs}
+
 # Returns an object with all defined attributes stubbed out
 stub = build_stubbed(:user)
 

@@ -285,6 +285,9 @@ user = create(:user)
 # Returns a hash of attributes that can be used to build a User instance
 attrs = attributes_for(:user)
 
+# Integrates with Ruby 3.0's support for pattern matching assignment
+attributes_for(:user) => {email:, name:, **attrs}
+
 # Returns an object with all defined attributes stubbed out
 stub = build_stubbed(:user)
 
@@ -297,7 +300,7 @@ end
 ### Attribute overrides
 
 No matter which strategy is used, it's possible to override the defined
-attributes by passing a hash:
+attributes by passing a Hash:
 
 ```ruby
 # Build a User instance and override the first_name property
@@ -305,6 +308,29 @@ user = build(:user, first_name: "Joe")
 user.first_name
 # => "Joe"
 ```
+
+Overriding associations is also supported:
+
+```ruby
+account = build(:account, :deluxe)
+friends = build_list(:user, 2)
+
+user = build(:user, account: account, friends: friends)
+```
+
+Ruby 3.1's support for [omitting values][] from `Hash` literals dovetails with
+attribute overrides and provides an opportunity to limit the repetition of
+variable names:
+
+```ruby
+account = build(:account, :deluxe)
+friends = build_list(:user, 2)
+
+# The keyword arguments correspond to local variable names, so omit their values
+user = build(:user, account:, friends:)
+```
+
+[omitting values]: https://docs.ruby-lang.org/en/3.1/syntax/literals_rdoc.html#label-Hash+Literals
 
 ### `build_stubbed` and `Marshal.dump`
 
@@ -945,7 +971,7 @@ end
 Note that this approach works with `build`, `build_stubbed`, and `create`, but
 the associations will return `nil` when using `attributes_for`.
 
-Also, note that if you assign any attributes inside a custom `initialize_with` 
+Also, note that if you assign any attributes inside a custom `initialize_with`
 (e.g. `initialize_with { new(**attributes) }`), those attributes should not refer to `instance`,
 since it will be `nil`.
 
@@ -1007,6 +1033,17 @@ factory :user do
   sequence(:email) { |n| "person#{n}@example.com" }
 end
 ```
+
+With Ruby 2.7's support for [numbered parameters][], inline definitions can be
+even more abbreviated:
+
+```ruby
+factory :user do
+  sequence(:email) { "person#{_1}@example.com" }
+end
+```
+
+[numbered parameters]: https://ruby-doc.org/core-2.7.1/Proc.html#class-Proc-label-Numbered+parameters
 
 ### Initial value
 
@@ -1222,11 +1259,11 @@ FactoryBot.define do
     created_at { 8.days.ago }
     updated_at { 4.days.ago }
   end
-  
+
   factory :user, traits: [:timestamps] do
     username { "john_doe" }
   end
-  
+
   factory :post do
     timestamps
     title { "Traits rock" }
