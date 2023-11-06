@@ -3,7 +3,7 @@ module FactoryBot
   class Definition
     attr_reader :defined_traits, :declarations, :name, :registered_enums
 
-    def initialize(name, base_traits = [])
+    def initialize(name, base_traits = [], automatically_define_enum_traits = nil)
       @name = name
       @declarations = DeclarationList.new(name)
       @callbacks = []
@@ -15,6 +15,7 @@ module FactoryBot
       @constructor = nil
       @attributes = nil
       @compiled = false
+      @automatically_define_enum_traits = automatically_define_enum_traits
       @expanded_enum_traits = false
     end
 
@@ -195,8 +196,13 @@ module FactoryBot
     end
 
     def automatically_register_defined_enums?(klass)
-      FactoryBot.automatically_define_enum_traits &&
-        klass.respond_to?(:defined_enums)
+      automatically_define_enum_traits = if @automatically_define_enum_traits.nil?
+        FactoryBot.automatically_define_enum_traits
+      else
+        @automatically_define_enum_traits
+      end
+
+      automatically_define_enum_traits && klass.respond_to?(:defined_enums)
     end
   end
 end
