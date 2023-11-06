@@ -13,7 +13,12 @@ module FactoryBot
       @aliases = options[:aliases] || []
       @class_name = options[:class]
       @uri_manager = FactoryBot::UriManager.new(names)
-      @definition = Definition.new(@name, options[:traits] || [], uri_manager: @uri_manager)
+      @definition = Definition.new(
+        @name,
+        options[:traits] || [],
+        automatically_define_enum_traits: options[:automatically_define_enum_traits],
+        uri_manager: @uri_manager
+      )
       @compiled = false
     end
 
@@ -148,7 +153,7 @@ module FactoryBot
     private
 
     def assert_valid_options(options)
-      options.assert_valid_keys(:class, :parent, :aliases, :traits)
+      options.assert_valid_keys(:class, :parent, :aliases, :traits, :automatically_define_enum_traits)
     end
 
     def parent

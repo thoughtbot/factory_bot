@@ -17,6 +17,7 @@ module FactoryBot
       @constructor = nil
       @attributes = nil
       @compiled = false
+      @automatically_define_enum_traits = opts[:automatically_define_enum_traits]
       @expanded_enum_traits = false
     end
 
@@ -203,8 +204,13 @@ module FactoryBot
     end
 
     def automatically_register_defined_enums?(klass)
-      FactoryBot.automatically_define_enum_traits &&
-        klass.respond_to?(:defined_enums)
+      automatically_define_enum_traits = if @automatically_define_enum_traits.nil?
+        FactoryBot.automatically_define_enum_traits
+      else
+        @automatically_define_enum_traits
+      end
+
+      automatically_define_enum_traits && klass.respond_to?(:defined_enums)
     end
   end
 end
