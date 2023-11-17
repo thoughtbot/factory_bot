@@ -1,5 +1,13 @@
 # News
 
+## 6.4.0 (November 17, 2023)
+
+  * Added: if `build_stubbed` detects a UUID primary key, generate the correct
+    type (Peter Boling, Alexandre Ruban).
+  * Docs: show examples of Ruby 3 syntactic sugars (Sean Doyle).
+  * Internal: resolve test warning messages (Mike Burns).
+
+
 ## 6.3.0 (September 1, 2023)
 
   * Fix: link to changelog for RubyGems (Berkan Ünal).
