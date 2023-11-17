@@ -13,6 +13,6 @@ RSpec::Matchers.define :raise_did_you_mean_error do
       raise_error(KeyError, /Did you mean\?/)
     end
 
-    expect(actual).to matcher
+    expect(&actual).to matcher
   end
 end

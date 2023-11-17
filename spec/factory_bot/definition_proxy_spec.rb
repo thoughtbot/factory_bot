@@ -68,7 +68,7 @@ describe FactoryBot::DefinitionProxy, "#method_missing" do
     proxy = FactoryBot::DefinitionProxy.new(definition)
     invalid_call = -> { proxy.static_attributes_are_gone "true" }
 
-    expect(invalid_call).to raise_error(
+    expect(&invalid_call).to raise_error(
       NoMethodError,
       "undefined method 'static_attributes_are_gone' in 'broken' factory\n" \
       "Did you mean? 'static_attributes_are_gone { \"true\" }'\n"

@@ -12,7 +12,7 @@ describe "defining methods inside FactoryBot" do
       end
     end
 
-    expect(bad_factory_definition).to raise_error(
+    expect(&bad_factory_definition).to raise_error(
       FactoryBot::MethodDefinitionError,
       /Defining methods in blocks \(trait or factory\) is not supported \(generate_name\)/
     )
