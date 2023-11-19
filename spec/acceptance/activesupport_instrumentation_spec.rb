@@ -111,12 +111,17 @@ describe "using ActiveSupport::Instrumentation to track compile_factory interact
     callback = ->(_name, _start, _finish, _id, payload) { tracked_payloads << payload }
 
     ActiveSupport::Notifications.subscribed(callback, "factory_bot.compile_factory") do
-      FactoryBot.build(:user)
+      FactoryBot.build(:user, :special)
     end
 
-    payload = tracked_payloads.detect { |payload| payload[:name] == :user }
-    expect(payload[:class]).to eq(User)
-    expect(payload[:attributes].map(&:name)).to eq([:email, :name])
-    expect(payload[:traits].map(&:name)).to eq(["special"])
+    user_payload = tracked_payloads.detect { |payload| payload[:name] == :user }
+    expect(user_payload[:class]).to eq(User)
+    expect(user_payload[:attributes].map(&:name)).to eq([:email, :name])
+    expect(user_payload[:traits].map(&:name)).to eq(["special"])
+
+    special_payload = tracked_payloads.detect { |payload| payload[:name] == "special" }
+    expect(special_payload[:class]).to eq(User)
+    expect(special_payload[:attributes].map(&:name)).to eq([:name])
+    expect(special_payload[:traits].map(&:name)).to eq(["special"])
   end
 end

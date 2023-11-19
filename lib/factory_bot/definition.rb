@@ -2,6 +2,7 @@ module FactoryBot
   # @api private
   class Definition
     attr_reader :defined_traits, :declarations, :name, :registered_enums
+    attr_accessor :klass
 
     def initialize(name, base_traits = [])
       @name = name
@@ -52,6 +53,7 @@ module FactoryBot
         declarations.attributes
 
         defined_traits.each do |defined_trait|
+          defined_trait.klass ||= klass
           base_traits.each { |bt| bt.define_trait defined_trait }
           additional_traits.each { |at| at.define_trait defined_trait }
         end
@@ -62,7 +64,7 @@ module FactoryBot
           name: name,
           attributes: declarations.attributes,
           traits: defined_traits,
-          class: klass
+          class: klass || self.klass
         }
       end
     end
