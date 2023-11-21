@@ -20,9 +20,12 @@ describe FactoryBot::Internal do
   describe ".trait_by_name" do
     it "finds a previously registered trait" do
       trait = FactoryBot::Trait.new(:admin)
+      klass = instance_double("klass")
       FactoryBot::Internal.register_trait(trait)
 
-      expect(FactoryBot::Internal.trait_by_name(trait.name)).to eq trait
+      expect(trait.klass).to be_nil
+      expect(FactoryBot::Internal.trait_by_name(trait.name, klass)).to eq trait
+      expect(trait.klass).to eq klass
     end
   end
 

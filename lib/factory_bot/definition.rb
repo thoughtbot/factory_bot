@@ -52,6 +52,7 @@ module FactoryBot
 
         declarations.attributes
 
+        self.klass ||= klass
         defined_traits.each do |defined_trait|
           defined_trait.klass ||= klass
           base_traits.each { |bt| bt.define_trait defined_trait }
@@ -152,7 +153,7 @@ module FactoryBot
     end
 
     def trait_by_name(name)
-      trait_for(name) || Internal.trait_by_name(name)
+      trait_for(name) || Internal.trait_by_name(name, klass)
     end
 
     def trait_for(name)

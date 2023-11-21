@@ -114,14 +114,84 @@ describe "using ActiveSupport::Instrumentation to track compile_factory interact
       FactoryBot.build(:user, :special)
     end
 
-    user_payload = tracked_payloads.detect { |payload| payload[:name] == :user }
-    expect(user_payload[:class]).to eq(User)
-    expect(user_payload[:attributes].map(&:name)).to eq([:email, :name])
-    expect(user_payload[:traits].map(&:name)).to eq(["special"])
+    factory_payload = tracked_payloads.detect { |payload| payload[:name] == :user }
+    expect(factory_payload[:class]).to eq(User)
+    expect(factory_payload[:attributes].map(&:name)).to eq([:email, :name])
+    expect(factory_payload[:traits].map(&:name)).to eq(["special"])
 
-    special_payload = tracked_payloads.detect { |payload| payload[:name] == "special" }
-    expect(special_payload[:class]).to eq(User)
-    expect(special_payload[:attributes].map(&:name)).to eq([:name])
-    expect(special_payload[:traits].map(&:name)).to eq(["special"])
+    trait_payload = tracked_payloads.detect { |payload| payload[:name] == "special" }
+    expect(trait_payload[:class]).to eq(User)
+    expect(trait_payload[:attributes].map(&:name)).to eq([:name])
+    expect(trait_payload[:traits].map(&:name)).to eq(["special"])
+  end
+
+  context "when factory with base traits" do
+    before do
+      define_model("Company", name: :string, email: :string)
+
+      FactoryBot.define do
+        trait :email do
+          email { "#{name}@example.com" }
+        end
+
+        factory :company, traits: [:email] do
+          name { "Charlie" }
+        end
+      end
+    end
+
+    it "builds the correct payload" do
+      tracked_payloads = []
+      callback = ->(_name, _start, _finish, _id, payload) { tracked_payloads << payload }
+
+      ActiveSupport::Notifications.subscribed(callback, "factory_bot.compile_factory") do
+        FactoryBot.build(:company)
+      end
+
+      factory_payload = tracked_payloads.detect { |payload| payload[:name] == :company }
+      expect(factory_payload[:class]).to eq(Company)
+      expect(factory_payload[:attributes].map(&:name)).to eq([:name])
+      expect(factory_payload[:traits].map(&:name)).to eq([])
+
+      trait_payload = tracked_payloads.detect { |payload| payload[:name] == "email" }
+      expect(trait_payload[:class]).to eq(Company)
+      expect(trait_payload[:attributes].map(&:name)).to eq([:email])
+      expect(trait_payload[:traits].map(&:name)).to eq([])
+    end
+  end
+
+  context "when factory with additional traits" do
+    before do
+      define_model("Company", name: :string, email: :string)
+
+      FactoryBot.define do
+        trait :email do
+          email { "#{name}@example.com" }
+        end
+
+        factory :company do
+          name { "Charlie" }
+        end
+      end
+    end
+
+    it "builds the correct payload" do
+      tracked_payloads = []
+      callback = ->(_name, _start, _finish, _id, payload) { tracked_payloads << payload }
+
+      ActiveSupport::Notifications.subscribed(callback, "factory_bot.compile_factory") do
+        FactoryBot.build(:company, :email)
+      end
+
+      factory_payload = tracked_payloads.detect { |payload| payload[:name] == :company }
+      expect(factory_payload[:class]).to eq(Company)
+      expect(factory_payload[:attributes].map(&:name)).to eq([:name])
+      expect(factory_payload[:traits].map(&:name)).to eq([])
+
+      trait_payload = tracked_payloads.detect { |payload| payload[:name] == "email" }
+      expect(trait_payload[:class]).to eq(Company)
+      expect(trait_payload[:attributes].map(&:name)).to eq([:email])
+      expect(trait_payload[:traits].map(&:name)).to eq([])
+    end
   end
 end

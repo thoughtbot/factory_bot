@@ -39,8 +39,8 @@ module FactoryBot
         trait
       end
 
-      def trait_by_name(name)
-        traits.find(name)
+      def trait_by_name(name, klass)
+        traits.find(name).tap { |t| t.klass = klass }
       end
 
       def register_sequence(sequence)
