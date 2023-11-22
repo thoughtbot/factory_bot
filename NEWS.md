@@ -1,5 +1,10 @@
 # News
 
+## 6.4.2 (November 22, 2023)
+
+  * Fix: top-level traits pass their class to ActiveSupport::Notifications
+    (makicamel).
+
 ## 6.4.1 (November 20, 2023)
 
   * Fix: factories with traits pass their class to ActiveSupport::Notifications
