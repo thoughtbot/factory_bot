@@ -26,18 +26,25 @@ jobs:
           - "6.0"
           - "6.1"
           - "7.0"
+          - "7.1"
           - main
         exclude:
           - ruby: 2.5
             rails: "7.0"
           - ruby: 2.5
+            rails: "7.1"
+          - ruby: 2.5
             rails: main
           - ruby: 2.6
             rails: "7.0"
+          - ruby: 2.6
+            rails: "7.1"
           - ruby: 2.6
             rails: main
           - ruby: jruby-9.2.16.0
             rails: "7.0"
+          - ruby: jruby-9.2.16.0
+            rails: "7.1"
           - ruby: jruby-9.2.16.0
             rails: main
           - ruby: "3.0"
@@ -76,7 +83,7 @@ jobs:
       RUBYOPT: "--disable-error_highlight"
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ matrix.ruby }}
@@ -89,7 +96,7 @@ jobs:
     name: Run standard
     runs-on: 'ubuntu-latest'
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: "3.1"
