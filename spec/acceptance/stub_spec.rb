@@ -121,6 +121,17 @@ describe "overridden primary keys conventions" do
     end
   end
 
+  describe "a stubbed instance with no id setter" do
+    it "builds a stubbed instance" do
+      FactoryBot.define do
+        factory :model_hash, class: Hash
+      end
+
+      model = FactoryBot.build_stubbed(:model_hash)
+      expect(model).to be_truthy
+    end
+  end
+
   def using_model(name, primary_key:)
     define_class(name, ActiveRecord::Base)
 

@@ -83,8 +83,9 @@ module FactoryBot
       end
 
       def has_settable_id?(result_instance)
-        !result_instance.class.respond_to?(:primary_key) ||
-          result_instance.class.primary_key
+        result_instance.respond_to?(:id=) &&
+          (!result_instance.class.respond_to?(:primary_key) ||
+          result_instance.class.primary_key)
       end
 
       def uuid_primary_key?(result_instance)
