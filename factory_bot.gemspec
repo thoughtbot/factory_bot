@@ -27,7 +27,7 @@ Gem::Specification.new do |s|
   }
 
   s.add_dependency("activesupport", ">= 5.0.0")
-  s.add_dependency("observer") if Gem::Version.new(RUBY_VERSION) >= Gem::Version.new("3.3")
+  s.add_dependency("observer")
 
   s.add_development_dependency("activerecord")
   s.add_development_dependency("appraisal")
