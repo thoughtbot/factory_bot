@@ -80,7 +80,6 @@ jobs:
 
     env:
       BUNDLE_GEMFILE: gemfiles/${{ matrix.rails }}.gemfile
-      RUBYOPT: "--disable-error_highlight"
 
     steps:
       - uses: actions/checkout@v4
