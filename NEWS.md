@@ -1,5 +1,14 @@
 # News
 
+## 6.4.3 (December 26, 2023)
+
+  * Fix: Support models without ID setters in build_stubbed (Olivier Bellone).
+  * Fix: Explicit observer dependency (Oleg Antonyan).
+  * Internal: Add Rails 7.1 to CI (Olivier Bellone).
+  * Internal: Bump github actions/checkout to v4 (Lorenzo Zabot)
+  * Internal: Stop passing disable-error_highlight in CI (Mike Burns).
+  * Internal: Relax the exception message check (Mike Burns).
+
 ## 6.4.2 (November 22, 2023)
 
   * Fix: top-level traits pass their class to ActiveSupport::Notifications
