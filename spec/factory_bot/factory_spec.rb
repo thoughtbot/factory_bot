@@ -294,7 +294,7 @@ describe FactoryBot::Factory, "running a factory" do
     attribute = FactoryBot::Attribute::Dynamic.new(:name, false, -> { "value" })
     attributes = [attribute]
     declaration = FactoryBot::Declaration::Dynamic.new(:name, false, -> { "value" })
-    strategy = double("strategy", result: "result", add_observer: true)
+    strategy = double("strategy", result: "result")
     define_model("User", name: :string)
     allow(FactoryBot::Declaration::Dynamic).to receive(:new)
       .and_return declaration
