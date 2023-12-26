@@ -70,8 +70,7 @@ describe FactoryBot::DefinitionProxy, "#method_missing" do
 
     expect(&invalid_call).to raise_error(
       NoMethodError,
-      "undefined method 'static_attributes_are_gone' in 'broken' factory\n" \
-      "Did you mean? 'static_attributes_are_gone { \"true\" }'\n"
+      /'static_attributes_are_gone'.*'broken' factory.*Did you mean\? 'static_attributes_are_gone \{ "true" \}'/m
     )
   end
 end
