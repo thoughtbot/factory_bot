@@ -3,7 +3,6 @@ PATH
   specs:
     factory_bot (6.4.3)
       activesupport (>= 5.0.0)
-      observer
 
 GEM
   remote: https://rubygems.org/
@@ -74,7 +73,6 @@ GEM
     middleware (0.1.0)
     minitest (5.14.3)
     multi_test (0.1.2)
-    observer (0.1.2)
     parallel (1.22.1)
     parser (3.1.2.1)
       ast (~> 2.4.1)

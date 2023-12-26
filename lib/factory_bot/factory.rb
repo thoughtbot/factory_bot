@@ -36,9 +36,9 @@ module FactoryBot
       evaluator = evaluator_class.new(strategy, overrides.symbolize_keys)
       attribute_assigner = AttributeAssigner.new(evaluator, build_class, &compiled_constructor)
 
+      observer = CallbacksObserver.new(callbacks, evaluator)
       evaluation =
-        Evaluation.new(evaluator, attribute_assigner, compiled_to_create)
-      evaluation.add_observer(CallbacksObserver.new(callbacks, evaluator))
+        Evaluation.new(evaluator, attribute_assigner, compiled_to_create, observer)
 
       strategy.result(evaluation).tap(&block)
     end
