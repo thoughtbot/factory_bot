@@ -22,7 +22,7 @@ GIT
 PATH
   remote: ..
   specs:
-    factory_bot (6.4.3)
+    factory_bot (6.4.4)
       activesupport (>= 5.0.0)
 
 GEM
@@ -134,7 +134,6 @@ GEM
     simplecov_json_formatter (0.1.4)
     sqlite3 (1.6.9)
       mini_portile2 (~> 2.8.0)
-    sqlite3 (1.6.9-arm64-darwin)
     standard (1.32.1)
       language_server-protocol (~> 3.17.0.2)
       lint_roller (~> 1.0)
@@ -176,4 +175,4 @@ DEPENDENCIES
   yard
 
 BUNDLED WITH
-   2.4.10
+   2.4.22

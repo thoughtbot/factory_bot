@@ -1,5 +1,9 @@
 # News
 
+## 6.4.4 (December 27, 2023)
+
+  * Internal: Remove observer dependency (Earlopain).
+
 ## 6.4.3 (December 26, 2023)
 
   * Fix: Support models without ID setters in build_stubbed (Olivier Bellone).

@@ -1,7 +1,7 @@
 PATH
   remote: ..
   specs:
-    factory_bot (6.4.3)
+    factory_bot (6.4.4)
       activesupport (>= 5.0.0)
 
 GEM
@@ -140,7 +140,6 @@ GEM
       webrick (~> 1.7.0)
 
 PLATFORMS
-  ruby
   x86_64-linux
 
 DEPENDENCIES
@@ -159,4 +158,4 @@ DEPENDENCIES
   yard
 
 BUNDLED WITH
-   2.3.25
+   2.4.22
