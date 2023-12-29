@@ -161,7 +161,7 @@ PLATFORMS
 
 DEPENDENCIES
   activerecord!
-  activerecord-jdbcsqlite3-adapter (~> 61.0)
+  activerecord-jdbcsqlite3-adapter (~> 70.0)
   appraisal
   aruba
   cucumber

@@ -1,27 +1,3 @@
-appraise "5.0" do
-  gem "activerecord", "~> 5.0.7"
-  gem "activerecord-jdbcsqlite3-adapter", platforms: [:jruby]
-  gem "sqlite3", "~> 1.3.6", platforms: [:ruby]
-end
-
-appraise "5.1" do
-  gem "activerecord", "~> 5.1.7"
-  gem "activerecord-jdbcsqlite3-adapter", platforms: [:jruby]
-  gem "sqlite3", platforms: [:ruby]
-end
-
-appraise "5.2" do
-  gem "activerecord", "~> 5.2.3"
-  gem "activerecord-jdbcsqlite3-adapter", platforms: [:jruby]
-  gem "sqlite3", platforms: [:ruby]
-end
-
-appraise "6.0" do
-  gem "activerecord", "~> 6.0.0"
-  gem "activerecord-jdbcsqlite3-adapter", "~> 60.0", platforms: [:jruby]
-  gem "sqlite3", platforms: [:ruby]
-end
-
 appraise "6.1" do
   gem "activerecord", "~> 6.1.0"
   gem "activerecord-jdbcsqlite3-adapter", "~> 61.0", platforms: [:jruby]
@@ -30,18 +6,20 @@ end
 
 appraise "7.0" do
   gem "activerecord", "~> 7.0.0"
-  gem "activerecord-jdbcsqlite3-adapter", "~> 61.0", platforms: [:jruby]
+  gem "activerecord-jdbcsqlite3-adapter", "~> 70.0", platforms: [:jruby]
   gem "sqlite3", platforms: [:ruby]
 end
 
 appraise "7.1" do
   gem "activerecord", "~> 7.1.0"
-  gem "activerecord-jdbcsqlite3-adapter", "~> 70.0", platforms: [:jruby]
+  # When version 71 is released, uncomment this and also allow it in the GitHub
+  # Action build workflow.
+  # gem "activerecord-jdbcsqlite3-adapter", "~> 71.0", platforms: [:jruby]
   gem "sqlite3", platforms: [:ruby]
 end
 
 appraise "main" do
   gem "activerecord", git: "https://github.com/rails/rails.git", branch: "main"
-  gem "activerecord-jdbcsqlite3-adapter", "~> 61.0", platforms: [:jruby]
+  gem "activerecord-jdbcsqlite3-adapter", "~> 70.0", platforms: [:jruby]
   gem "sqlite3", platforms: [:ruby]
 end
