@@ -1,7 +1,7 @@
 PATH
   remote: ..
   specs:
-    factory_bot (6.4.2)
+    factory_bot (6.4.4)
       activesupport (>= 5.0.0)
 
 GEM
@@ -127,7 +127,7 @@ GEM
       simplecov_json_formatter (~> 0.1)
     simplecov-html (0.12.3)
     simplecov_json_formatter (0.1.4)
-    sqlite3 (1.6.9-arm64-darwin)
+    sqlite3 (1.7.0-x86_64-linux)
     standard (1.32.1)
       language_server-protocol (~> 3.17.0.2)
       lint_roller (~> 1.0)
@@ -150,12 +150,11 @@ GEM
     yard (0.9.34)
 
 PLATFORMS
-  ruby
   x86_64-linux
 
 DEPENDENCIES
   activerecord (~> 7.1.0)
-  activerecord-jdbcsqlite3-adapter (~> 61.0)
+  activerecord-jdbcsqlite3-adapter (~> 70.0)
   appraisal
   aruba
   cucumber
