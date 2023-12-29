@@ -15,7 +15,7 @@ describe "Ruby 3.0: attributes_for destructuring syntax" do
   it "supports being destructured" do
     # rubocop:disable Lint/Syntax
     attributes_for(:user) => {name:, **attributes}
-    # rubocop:disable Lint/Syntax
+    # rubocop:enable Lint/Syntax
 
     expect(name).to eq("John Doe")
     expect(attributes.keys).to eq([:email])

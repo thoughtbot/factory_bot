@@ -6,24 +6,12 @@ module FactoryBot
       @component = component
     end
 
-    if ::Gem::Version.new(::RUBY_VERSION) >= ::Gem::Version.new("2.7")
-      class_eval(<<~RUBY, __FILE__, __LINE__ + 1)
-          def method_missing(...) # rubocop:disable Style/MethodMissingSuper, Style/MissingRespondToMissing
-          @component.send(...)
-        end
+    def method_missing(...) # rubocop:disable Style/MethodMissingSuper
+      @component.send(...)
+    end
 
-        def send(...)
-          __send__(...)
-        end
-      RUBY
-    else
-      def method_missing(name, *args, &block) # rubocop:disable Style/MissingRespondToMissing
-        @component.send(name, *args, &block)
-      end
-
-      def send(symbol, *args, &block)
-        __send__(symbol, *args, &block)
-      end
+    def send(...)
+      __send__(...)
     end
 
     def respond_to_missing?(name, include_private = false)

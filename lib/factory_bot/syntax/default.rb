@@ -25,8 +25,8 @@ module FactoryBot
           end
         end
 
-        def sequence(name, *args, &block)
-          Internal.register_sequence(Sequence.new(name, *args, &block))
+        def sequence(name, ...)
+          Internal.register_sequence(Sequence.new(name, ...))
         end
 
         def trait(name, &block)

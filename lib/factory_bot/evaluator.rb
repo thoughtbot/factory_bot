@@ -35,14 +35,13 @@ module FactoryBot
 
     attr_accessor :instance
 
-    def method_missing(method_name, *args, &block)
+    def method_missing(method_name, ...)
       if @instance.respond_to?(method_name)
-        @instance.send(method_name, *args, &block)
+        @instance.send(method_name, ...)
       else
-        SyntaxRunner.new.send(method_name, *args, &block)
+        SyntaxRunner.new.send(method_name, ...)
       end
     end
-    ruby2_keywords :method_missing if respond_to?(:ruby2_keywords, true)
 
     def respond_to_missing?(method_name, _include_private = false)
       @instance.respond_to?(method_name) || SyntaxRunner.new.respond_to?(method_name)
