@@ -1,5 +1,9 @@
 # News
 
+## 6.4.5 (December 29, 2023)
+
+  * Changed: Support Ruby 3.0+, Rails 6.1+ (Mike Burns).
+
 ## 6.4.4 (December 27, 2023)
 
   * Internal: Remove observer dependency (Earlopain).

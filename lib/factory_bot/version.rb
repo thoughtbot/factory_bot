@@ -1,3 +1,3 @@
 module FactoryBot
-  VERSION = "6.4.4".freeze
+  VERSION = "6.4.5".freeze
 end
