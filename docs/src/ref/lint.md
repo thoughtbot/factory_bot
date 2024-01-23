@@ -13,4 +13,4 @@ It can take the following optional arguments:
 [build strategy]: build-strategies.html
 
 Suggested techniques for hooking `.lint` into your system is discussed in [the
-guide](/linting-factories/summary.html).
+guide](../linting-factories/summary.html).
