@@ -1,5 +1,11 @@
 # News
 
+## 6.4.6 (January 30, 2023)
+
+ * Fix: Bump minimum required Ruby in gemspec (Earlopain).
+ * Fix: Broken link in `FactoryBot.modify` docs (Matt Brictson).
+ * Fix: Broken link in `FactoryBot.lint` docs (Anton Dieterle).
+
 ## 6.4.5 (December 29, 2023)
 
   * Changed: Support Ruby 3.0+, Rails 6.1+ (Mike Burns).
