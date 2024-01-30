@@ -15,7 +15,7 @@ Gem::Specification.new do |s|
     %w[CONTRIBUTING.md GETTING_STARTED.md LICENSE NAME.md NEWS.md README.md .yardopts]
 
   s.require_path = "lib"
-  s.required_ruby_version = Gem::Requirement.new(">= 2.5.0")
+  s.required_ruby_version = Gem::Requirement.new(">= 3.0.0")
 
   s.authors = ["Josh Clayton", "Joe Ferris"]
   s.email = ["jclayton@thoughtbot.com", "jferris@thoughtbot.com"]
