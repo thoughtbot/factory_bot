@@ -24,19 +24,19 @@ The name is expected to be a Symbol.
 
 You can use the block to define your factory. Within here you have access to the following methods:
 
-- [`add_attribute`](ref/add_attribute.md)
-- [`association`](ref/association.md)
-- [`sequence`](ref/sequence.md)
-- [`trait`](ref/trait.md)
-- [`method_missing`](ref/method_missing.html)
-- [`transient`](ref/transient.md)
-- [`traits_for_enum`](ref/traits_for_enum.md)
-- [`initialize_with`](ref/build-and-create.md)
-- [`skip_create`](ref/build-and-create.md)
-- [`to_create`](ref/build-and-create.md)
-- [`before`](ref/hooks.md)
-- [`after`](ref/hooks.md)
-- [`callback`](ref/hooks.md)
+- [`add_attribute`](add_attribute.md)
+- [`association`](association.md)
+- [`sequence`](sequence.md)
+- [`trait`](trait.md)
+- [`method_missing`](method_missing.md)
+- [`transient`](transient.md)
+- [`traits_for_enum`](traits_for_enum.md)
+- [`initialize_with`](build-and-create.md#initialize_with)
+- [`skip_create`](build-and-create.md)
+- [`to_create`](build-and-create.md#to_create)
+- [`before`](hooks.md#after-and-before-methods)
+- [`after`](hooks.md#after-and-before-methods)
+- [`callback`](hooks.md#callback)
 - `factory`
 
 You can use `factory` inside a `factory` block to define a new factory with an
