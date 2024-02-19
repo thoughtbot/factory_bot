@@ -31,7 +31,7 @@ task spec: ["spec:unit", "spec:acceptance"]
 
 Cucumber::Rake::Task.new(:features) do |t|
   t.fork = true
-  t.cucumber_opts = ["--format", (ENV["CUCUMBER_FORMAT"] || "progress")]
+  t.cucumber_opts = ["--format", ENV["CUCUMBER_FORMAT"] || "progress"]
 end
 
 YARD::Rake::YardocTask.new do |t|
