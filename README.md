@@ -82,7 +82,6 @@ software, and may be redistributed under the terms specified in the
 [LICENSE]: https://github.com/thoughtbot/factory_bot/blob/main/LICENSE
 
 <!-- START /templates/footer.md -->
-
 <!-- END /templates/footer.md -->
 
 [ci-image]: https://github.com/thoughtbot/factory_bot/actions/workflows/build.yml/badge.svg?branch=main
