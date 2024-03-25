@@ -1,0 +1,56 @@
+name: Build
+on:
+  - push
+  - pull_request
+
+jobs:
+  build:
+    name: Ruby ${{ matrix.ruby }} / Rails ${{ matrix.rails }}
+    if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name != github.repository
+    strategy:
+      fail-fast: false
+      matrix:
+        ruby:
+          - jruby-9.4
+          - truffleruby
+          - "3.2"
+          - "3.1"
+          - "3.0"
+        rails:
+          - "6.1"
+          - "7.0"
+          - "7.1"
+          - main
+        exclude:
+          - ruby: jruby-9.4
+            rails: "7.1"
+          - ruby: jruby-9.4
+            rails: main
+
+    runs-on: 'ubuntu-latest'
+
+    env:
+      BUNDLE_GEMFILE: gemfiles/${{ matrix.rails }}.gemfile
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+      - name: Setup project
+        run: bundle install
+      - name: Run test
+        run: bundle exec rake all_specs
+
+  standard:
+    name: Run standard
+    runs-on: 'ubuntu-latest'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.1"
+      - name: Setup project
+        run: bundle install
+      - name: Run test
+        run: bundle exec rake standard

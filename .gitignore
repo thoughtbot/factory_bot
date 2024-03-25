@@ -1,0 +1,11 @@
+*.swp
+test.db
+factory_girl-*.gem
+factory_bot-*.gem
+docs/book
+.yardoc
+coverage
+.bundle
+tmp
+bin
+.rubocop-https*
