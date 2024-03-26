@@ -1,6 +1,6 @@
 # Summary
 
-[Intro](summary.md)
+[Intro](intro.md)
 
 # Reference
 

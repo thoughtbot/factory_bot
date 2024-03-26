@@ -6,6 +6,7 @@ src = "src"
 title = "factory_bot"
 
 [output.html.redirect]
+"summary.html" = "intro.html"
 "/setup/rspec.html" = "https://github.com/thoughtbot/factory_bot/wiki/Integration:-RSpec"
 "/setup/cucumber.html" = "https://github.com/thoughtbot/factory_bot/wiki/Integration:-Cucumber"
 "/setup/minitest-rails.html" = "https://github.com/thoughtbot/factory_bot/wiki/Integration:-minitest-rails"
