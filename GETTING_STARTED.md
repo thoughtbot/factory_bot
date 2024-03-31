@@ -124,6 +124,8 @@ If you're using Rails, add the following configuration to
 `rails_helper.rb`:
 
 ```ruby
+require 'factory_bot'
+
 RSpec.configure do |config|
   config.include FactoryBot::Syntax::Methods
 end
