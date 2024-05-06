@@ -112,6 +112,43 @@ describe FactoryBot::DefinitionProxy, "#sequence" do
   end
 end
 
+describe FactoryBot::DefinitionProxy, "#scoped_sequence" do
+  def build_proxy(factory_name)
+    definition = FactoryBot::Definition.new(factory_name)
+    FactoryBot::DefinitionProxy.new(definition)
+  end
+
+  it "creates a new scoped sequence starting at 1" do
+    allow(FactoryBot::ScopedSequence).to receive(:new).and_call_original
+    proxy = build_proxy(:factory)
+
+    proxy.scoped_sequence(:sequence_name, :scope_name)
+
+    expect(FactoryBot::ScopedSequence).to have_received(:new).with(:sequence_name, :scope_name)
+  end
+
+  it "creates a new scoped sequence with an overridden starting value" do
+    allow(FactoryBot::ScopedSequence).to receive(:new).and_call_original
+    proxy = build_proxy(:factory)
+    override = "override"
+
+    proxy.scoped_sequence(:sequence_name, :scope_name, override)
+
+    expect(FactoryBot::ScopedSequence).to have_received(:new)
+      .with(:sequence_name, :scope_name, override)
+  end
+
+  it "creates a new scoped sequence with a block" do
+    allow(FactoryBot::ScopedSequence).to receive(:new).and_call_original
+    sequence_block = proc { |n| "user+#{n}@example.com" }
+    proxy = build_proxy(:factory)
+    proxy.scoped_sequence(:sequence_name, :scope_name, 1, &sequence_block)
+
+    expect(FactoryBot::ScopedSequence).to have_received(:new)
+      .with(:sequence_name, :scope_name, 1, &sequence_block)
+  end
+end
+
 describe FactoryBot::DefinitionProxy, "#association" do
   it "declares an association" do
     definition = FactoryBot::Definition.new(:definition_name)

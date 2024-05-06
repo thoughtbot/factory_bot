@@ -55,6 +55,11 @@ module FactoryBot
       sequence.next(self)
     end
 
+    def increment_scoped_sequence(sequence)
+      scope_value = send(sequence.scope_name)
+      sequence.next(scope_value, self)
+    end
+
     def self.attribute_list
       AttributeList.new.tap do |list|
         attribute_lists.each do |attribute_list|
