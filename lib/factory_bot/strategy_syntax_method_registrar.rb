@@ -39,7 +39,7 @@ module FactoryBot
 
         Array.new(amount) do |i|
           block_with_index = StrategySyntaxMethodRegistrar.with_index(block, i)
-          send(strategy_name, name, *traits_and_overrides, &block_with_index)
+          send(strategy_name, name, *evaluate_sequence_attributes(traits_and_overrides, i), &block_with_index)
         end
       end
     end
