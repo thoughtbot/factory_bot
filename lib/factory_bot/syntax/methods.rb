@@ -131,15 +131,7 @@ module FactoryBot
       end
 
       def build_sequence(&block)
-        block
-      end
-
-      def evaluate_sequence_attributes(traits_and_overrides, i)
-        traits_and_overrides.map do |attribute|
-          next attribute unless attribute.is_a?(Hash)
-
-          attribute.transform_values { |value| value.respond_to?(:call) ? value.call(i) : value }
-        end    
+        FactoryBot::AttributeSequence.new(&block)
       end
     end
   end

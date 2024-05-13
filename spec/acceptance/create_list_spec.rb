@@ -39,7 +39,7 @@ describe "create multiple instances" do
   end
 
   context "with sequencial attributes" do
-    subject { FactoryBot.create_list(:post, 20, title: FactoryBot.build_sequence{|n| "title_#{n}"}) }
+    subject { FactoryBot.create_list(:post, 20, title: FactoryBot.build_sequence{ |n| "title_#{n}" }) }
 
     it "create sequencial attribute values" do
       subject.each_with_index do |record, i|
