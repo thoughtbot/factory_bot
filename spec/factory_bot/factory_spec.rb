@@ -215,6 +215,15 @@ describe FactoryBot::Factory, "with a string for a name" do
 
     expect(factory.name).to eq name
   end
+
+  it "sets build_class correctly with a class with an underscore" do
+    name = :settings
+    define_class("Admin_Settings_1")
+    settings_class = Admin_Settings_1
+    factory = FactoryBot::Factory.new(name, class: "Admin_Settings_1")
+
+    expect(factory.build_class).to eq settings_class
+  end
 end
 
 describe FactoryBot::Factory, "for namespaced class" do

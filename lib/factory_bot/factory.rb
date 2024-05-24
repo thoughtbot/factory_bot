@@ -22,6 +22,8 @@ module FactoryBot
     def build_class
       @build_class ||= if class_name.is_a? Class
         class_name
+      elsif class_name.to_s.safe_constantize
+        class_name.to_s.safe_constantize
       else
         class_name.to_s.camelize.constantize
       end
