@@ -127,6 +127,7 @@ GEM
       simplecov_json_formatter (~> 0.1)
     simplecov-html (0.12.3)
     simplecov_json_formatter (0.1.4)
+    sqlite3 (1.7.0-arm64-darwin)
     sqlite3 (1.7.0-x86_64-linux)
     standard (1.32.1)
       language_server-protocol (~> 3.17.0.2)
@@ -150,6 +151,7 @@ GEM
     yard (0.9.34)
 
 PLATFORMS
+  arm64-darwin-23
   x86_64-linux
 
 DEPENDENCIES
@@ -163,7 +165,7 @@ DEPENDENCIES
   rspec
   rspec-its
   simplecov
-  sqlite3
+  sqlite3 (> 1.6.9)
   standard
   yard
 
