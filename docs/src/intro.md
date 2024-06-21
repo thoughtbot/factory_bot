@@ -20,7 +20,6 @@ software, and may be redistributed under the terms specified in the
 
 [LICENSE]: https://github.com/thoughtbot/factory_bot/blob/main/LICENSE
 
-
 ## About thoughtbot
 
 factory_bot is maintained and funded by thoughtbot, inc.
