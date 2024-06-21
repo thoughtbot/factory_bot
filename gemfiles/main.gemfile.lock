@@ -80,7 +80,7 @@ GEM
     language_server-protocol (3.17.0.3)
     lint_roller (1.1.0)
     mini_mime (1.1.5)
-    mini_portile2 (2.8.5)
+    mini_portile2 (2.8.7)
     minitest (5.20.0)
     multi_test (1.1.0)
     parallel (1.23.0)
@@ -132,8 +132,9 @@ GEM
       simplecov_json_formatter (~> 0.1)
     simplecov-html (0.12.3)
     simplecov_json_formatter (0.1.4)
-    sqlite3 (1.6.9)
+    sqlite3 (1.7.3)
       mini_portile2 (~> 2.8.0)
+    sqlite3 (1.7.3-x86_64-linux)
     standard (1.32.1)
       language_server-protocol (~> 3.17.0.2)
       lint_roller (~> 1.0)
@@ -170,7 +171,7 @@ DEPENDENCIES
   rspec
   rspec-its
   simplecov
-  sqlite3
+  sqlite3 (> 1.6.9)
   standard
   yard
 
