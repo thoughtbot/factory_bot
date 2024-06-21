@@ -1,8 +1,8 @@
 # Summary
 
-[Intro](summary.md)
+[Intro](intro.md)
 
-# Reference
+## Reference
 
 - [Build strategies](ref/build-strategies.md)
 - [FactoryBot.find_definitions](ref/find_definitions.md)
@@ -21,19 +21,19 @@
 - [FactoryBot.lint](ref/lint.md)
 - [FactoryBot.register_strategy](ref/register_strategy.md)
 
-# Guide
+## Guide
 
 - [Setup](setup/summary.md)
   - [Using Without Bundler](using-without-bundler/summary.md)
   - [Rails Preloaders and RSpec](rails-preloaders-and-rspec/summary.md)
-- [Defining factories]()
+- [Defining factories](defining/summary.md)
   - [Factory name and attributes](defining/name-attributes.md)
   - [Specifying the class explicitly](defining/explicit-class.md)
   - [Definition file paths](defining/file-paths.md)
   - [Hash attributes](defining/hash-attributes.md)
   - [Best practices](defining/best-practices.md)
   - [Static Attributes (deprecated)](defining/static-attributes.md)
-- [Using factories]()
+- [Using factories](using-factories/summary.md)
   - [Build strategies](using-factories/build-strategies.md)
   - [Building or Creating Multiple Records](building-or-creating-multiple-records/summary.md)
   - [Attribute overrides](using-factories/attribute-overrides.md)
@@ -45,11 +45,11 @@
   - [With callbacks](transient-attributes/with-callbacks.md)
   - [With associations](transient-attributes/with-associations.md)
 - [Method Name / Reserved Word Attributes](method-name-reserved-word-attributes/summary.md)
-- [Inheritance]()
+- [Inheritance](inheritance/summary.md)
   - [Nested factories](inheritance/nested-factories.md)
   - [Assigning parent explicitly](inheritance/assigning-parent-explicitly.md)
   - [Best practices](inheritance/best-practices.md)
-- [Associations]()
+- [Associations](associations/summary.md)
   - [Implicit definition](associations/implicit-definition.md)
   - [Explicit definition](associations/explicit-definition.md)
   - [Inline definition](associations/inline-definition.md)
@@ -57,7 +57,7 @@
   - [Overriding attributes](associations/overriding-attributes.md)
   - [Association overrides](associations/association-overrides.md)
   - [Build strategies](associations/build-strategies.md)
-- [Sequences]()
+- [Sequences](sequences/summary.md)
   - [Global sequences](sequences/global-sequences.md)
   - [With dynamic attributes](sequences/with-dynamic-attributes.md)
   - [As implicit attributes](sequences/as-implicit-attributes.md)
@@ -89,7 +89,7 @@
 - [Custom Methods to Persist Objects](custom-methods-to-persist-objects/summary.md)
 - [ActiveSupport Instrumentation](activesupport-instrumentation/summary.md)
 
-# Cookbook
+## Cookbook
 
 - [`has_many` associations](cookbook/has_many-associations.md)
 - [`has_and_belongs_to_many` associations](cookbook/has_and_belongs_to_many-associations.md)
