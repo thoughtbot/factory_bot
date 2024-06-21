@@ -129,6 +129,10 @@ module FactoryBot
           Internal.sequence_by_name(name).next
         end
       end
+
+      def build_sequence(&block)
+        FactoryBot::AttributeSequence.new(&block)
+      end
     end
   end
 end
