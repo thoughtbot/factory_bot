@@ -29,6 +29,24 @@ describe "a stubbed instance" do
   end
 end
 
+describe "a stubbed instance with timestamps" do
+  include FactoryBot::Syntax::Methods
+
+  before do
+    define_model("ModelWithTimestamps", created_at: :datetime, updated_at: :datetime)
+
+    FactoryBot.define do
+      factory :model_with_timestamps
+    end
+  end
+
+  subject { build_stubbed(:model_with_timestamps) }
+
+  it "assigns the exact same datetime" do
+    expect(subject.created_at).to eq(subject.updated_at)
+  end
+end
+
 describe "a stubbed instance overriding strategy" do
   include FactoryBot::Syntax::Methods
 
