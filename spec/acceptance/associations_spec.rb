@@ -142,4 +142,32 @@ describe "associations" do
       )
     end
   end
+
+  context "when building implicit association with :traits option" do
+    it "builds the association according to the given strategy" do
+      define_model("Article", user_id: :integer) do
+        belongs_to :user
+      end
+
+      define_model("User") do
+        has_many :articles
+        attr_accessor :active
+      end
+
+      FactoryBot.define do
+        factory :article do
+          user traits: [:active]
+        end
+
+        factory :user do
+          trait :active do
+            active { true }
+          end
+        end
+      end
+
+      article = FactoryBot.create(:article)
+      expect(article.user.active).to be true
+    end
+  end
 end
