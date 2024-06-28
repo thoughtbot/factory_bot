@@ -219,6 +219,26 @@ It is also possible to explicitly specify the class:
 factory :admin, class: "User"
 ```
 
+Explicit specification of the class, _with the full namespace_, is necessary when defining factories for classes within modules in non-Rails applications:
+
+```
+# foo/bar.rb
+module Foo
+  class Bar
+    ...
+  end
+end
+
+# factories.rb
+FactoryBot.define do
+   factory :bar, class: 'Foo::Bar' do
+    ...
+  end
+end
+```
+
+If the full namespace is not provided in the `factory` statement, you will receive a `NameError: uninitialized constant Bar` error.
+
 You can pass a constant as well, if the constant is available (note that this
 can cause test performance problems in large Rails applications, since
 referring to the constant will cause it to be eagerly loaded).
