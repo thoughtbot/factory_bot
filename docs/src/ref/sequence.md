@@ -13,7 +13,7 @@ The `sequence` method takes a name, optional arguments, and a block. The name
 is expected to be a Symbol.
 
 The supported arguments are a number representing the starting value (default:
-`1`), and `:aliases` (default `[]`). The starting value must respond to `#next`.
+`1`), `:aliases` (default `[]`), and `lazy` (default:`nil`). The starting value must respond to `#next`.
 
 The block takes a value as an argument, and returns a result.
 

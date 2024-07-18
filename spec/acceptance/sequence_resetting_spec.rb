@@ -5,20 +5,24 @@ describe "FactoryBot.rewind_sequences" do
     FactoryBot.define do
       sequence(:email) { |n| "somebody#{n}@example.com" }
       sequence(:name, %w[Joe Josh].to_enum)
+      sequence(:age, lazy: -> { 21 })
     end
 
     2.times do
       generate(:email)
       generate(:name)
+      generate(:age)
     end
 
     FactoryBot.rewind_sequences
 
     email = generate(:email)
     name = generate(:name)
+    age = generate(:age)
 
     expect(email).to eq "somebody1@example.com"
     expect(name).to eq "Joe"
+    expect(age).to eq 21
   end
 
   it "resets inline sequences back to their starting value" do

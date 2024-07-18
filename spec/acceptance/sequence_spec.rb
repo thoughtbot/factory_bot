@@ -57,6 +57,24 @@ describe "sequences" do
     expect(third_value).to eq "called-c"
   end
 
+  it "generates sequences after lazy loading an initial value" do
+    loaded = false
+
+    FactoryBot.define do
+      sequence :count, lazy: -> { loaded = true; "d" }
+    end
+
+    expect(loaded).to be false
+
+    first_value = generate(:count)
+    another_value = generate(:count)
+
+    expect(loaded).to be true
+
+    expect(first_value).to eq "d"
+    expect(another_value).to eq "e"
+  end
+
   it "generates few values of the sequence" do
     FactoryBot.define do
       sequence :email do |n|
