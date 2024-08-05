@@ -12,7 +12,7 @@ module FactoryBot
       @parent = options[:parent]
       @aliases = options[:aliases] || []
       @class_name = options[:class]
-      @definition = Definition.new(@name, options[:traits] || [])
+      @definition = Definition.new(@name, options[:traits] || [], options[:automatically_define_enum_traits])
       @compiled = false
     end
 
@@ -142,7 +142,7 @@ module FactoryBot
     private
 
     def assert_valid_options(options)
-      options.assert_valid_keys(:class, :parent, :aliases, :traits)
+      options.assert_valid_keys(:class, :parent, :aliases, :traits, :automatically_define_enum_traits)
     end
 
     def parent
