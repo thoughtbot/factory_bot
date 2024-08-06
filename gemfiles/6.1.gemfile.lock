@@ -70,6 +70,7 @@ GEM
     i18n (1.8.9)
       concurrent-ruby (~> 1.0)
     middleware (0.1.0)
+    mini_portile2 (2.8.7)
     minitest (5.14.3)
     multi_test (0.1.2)
     parallel (1.20.1)
@@ -121,7 +122,8 @@ GEM
       simplecov_json_formatter (~> 0.1)
     simplecov-html (0.12.3)
     simplecov_json_formatter (0.1.2)
-    sqlite3 (1.4.2)
+    sqlite3 (1.7.3)
+      mini_portile2 (~> 2.8.0)
     standard (0.13.0)
       rubocop (= 1.10.0)
       rubocop-performance (= 1.9.2)
@@ -149,7 +151,7 @@ DEPENDENCIES
   rspec
   rspec-its
   simplecov
-  sqlite3
+  sqlite3 (> 1.6.9)
   standard
   yard
 
