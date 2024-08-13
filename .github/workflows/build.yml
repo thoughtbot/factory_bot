@@ -21,12 +21,20 @@ jobs:
           - "6.1"
           - "7.0"
           - "7.1"
+          - "7.2"
           - main
         exclude:
           - ruby: jruby-9.4
             rails: "7.1"
           - ruby: jruby-9.4
+            rails: "7.2"
+          - ruby: jruby-9.4
             rails: main
+          # Rails >= 7.2 requires Ruby 3.1
+          - ruby: "3.0"
+            rails: "7.2"
+          - ruby: "3.0"
+            rails: "main"
 
     runs-on: 'ubuntu-latest'
 
