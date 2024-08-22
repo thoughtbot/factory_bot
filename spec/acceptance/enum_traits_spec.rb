@@ -1,9 +1,17 @@
 describe "enum traits" do
+  def define_model_with_enum(class_name, field, values)
+    define_model(class_name, status: :integer) do
+      if ActiveRecord::VERSION::STRING >= "7.0"
+        enum field, values
+      else
+        enum field => values
+      end
+    end
+  end
+
   context "when automatically_define_enum_traits is true" do
     it "builds traits automatically for model enum field" do
-      define_model("Task", status: :integer) do
-        enum status: {queued: 0, started: 1, finished: 2}
-      end
+      define_model_with_enum("Task", :status, {queued: 0, started: 1, finished: 2})
 
       FactoryBot.define do
         factory :task
@@ -19,9 +27,7 @@ describe "enum traits" do
     end
 
     it "prefers user defined traits over automatically built traits" do
-      define_model("Task", status: :integer) do
-        enum status: {queued: 0, started: 1, finished: 2}
-      end
+      define_model_with_enum("Task", :status, {queued: 0, started: 1, finished: 2})
 
       FactoryBot.define do
         factory :task do
@@ -118,9 +124,7 @@ describe "enum traits" do
   context "when automatically_define_enum_traits is false" do
     it "raises an error for undefined traits" do
       with_temporary_assignment(FactoryBot, :automatically_define_enum_traits, false) do
-        define_model("Task", status: :integer) do
-          enum status: {queued: 0, started: 1, finished: 2}
-        end
+        define_model_with_enum("Task", :status, {queued: 0, started: 1, finished: 2})
 
         FactoryBot.define do
           factory :task
@@ -138,9 +142,7 @@ describe "enum traits" do
 
     it "builds traits for each enumerated value when traits_for_enum are specified" do
       with_temporary_assignment(FactoryBot, :automatically_define_enum_traits, false) do
-        define_model("Task", status: :integer) do
-          enum status: {queued: 0, started: 1, finished: 2}
-        end
+        define_model_with_enum("Task", :status, {queued: 0, started: 1, finished: 2})
 
         FactoryBot.define do
           factory :task do
