@@ -31,6 +31,11 @@ the "Building or Creating Multiple Records" section of this file.
 factory :user do
   name { "Friendly User" }
 
+  trait :active do
+    name { "John Doe" }
+    status { :active }
+  end
+
   trait :admin do
     admin { true }
   end
