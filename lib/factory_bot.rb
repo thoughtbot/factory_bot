@@ -4,6 +4,7 @@ require "active_support/core_ext/module/delegation"
 require "active_support/core_ext/module/attribute_accessors"
 require "active_support/deprecation"
 require "active_support/notifications"
+require "active_support/inflector"
 
 require "factory_bot/internal"
 require "factory_bot/definition_hierarchy"
