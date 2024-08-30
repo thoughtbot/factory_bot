@@ -465,29 +465,29 @@ describe "global callbacks" do
 end
 
 describe "before build callback" do
-  class TitleSetter
-    def self.title=(new_title)
-      @@title = new_title
-    end
-  
-    def self.title
-      @@title
-    end
-  end
-  
   before do
+    define_class("TitleSetter") do
+      def self.title=(new_title)
+        class_variable_set(:@@title, new_title)
+      end
+
+      def self.title
+        class_variable_get(:@@title)
+      end
+    end
+
     define_model("Article", title: :string)
-    
+
     FactoryBot.define do
       factory :article_with_before_callbacks, class: :article do
         before(:build) { TitleSetter.title = "title from before build" }
         after(:build) { TitleSetter.title = "title from after build" }
-    
+
         title { TitleSetter.title }
       end
     end
   end
-  
+
   it "runs the before callback" do
     article = FactoryBot.build(:article_with_before_callbacks)
     expect(article.title).to eq("title from before build")
