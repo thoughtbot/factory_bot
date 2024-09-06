@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    factory_bot (6.4.6)
+    factory_bot (6.5.0)
       activesupport (>= 5.0.0)
 
 GEM
@@ -173,4 +173,4 @@ DEPENDENCIES
   yard
 
 BUNDLED WITH
-   2.3.25
+   2.5.18
