@@ -1,5 +1,23 @@
 # News
 
+## 6.5.0 (September 6, 2024)
+
+  * fix: issue 1621 broken links in ref/factory.md by @elasticspoon in https://github.com/thoughtbot/factory_bot/pull/1623
+  * Add standard settings by @ydah in https://github.com/thoughtbot/factory_bot/pull/1625
+  * Call dynamic-readme reusable workflow by @stefannibrasil in https://github.com/thoughtbot/factory_bot/pull/1628
+  * Update README again by @stefannibrasil in https://github.com/thoughtbot/factory_bot/pull/1630
+  * Only run this workflow if the README has been updated by @stefannibrasil in https://github.com/thoughtbot/factory_bot/pull/1635
+  * Automatically Generated: Update Dynamic Section in README by @github-actions in https://github.com/thoughtbot/factory_bot/pull/1637
+  * Added a case for build_class to handle class names with underscores passed as a string by @m-gizzi in https://github.com/thoughtbot/factory_bot/pull/1642
+  * Add Ruby 3.3 to CI by @berkos in https://github.com/thoughtbot/factory_bot/pull/1615
+  * Update Dependabot configuration by @smaboshe in https://github.com/thoughtbot/factory_bot/pull/1655
+  * Add new maintainers to CODEOWNERS by @sarahraqueld in https://github.com/thoughtbot/factory_bot/pull/1651
+  * Improve docs formatting and fix filename conflicts by @sarahraqueld in https://github.com/thoughtbot/factory_bot/pull/1666
+  * Add a dynamic security workflow and a SECURITY.md file by @sarahraqueld in https://github.com/thoughtbot/factory_bot/pull/1677
+  * Automatically Generated: Update Dynamic Section in SECURITY by @github-actions in https://github.com/thoughtbot/factory_bot/pull/1678
+  * Ensure rails 7.2 compatibility by @Earlopain in https://github.com/thoughtbot/factory_bot/pull/1686
+  * Fix the factory definition in traits documentation by @ddieulivol in https://github.com/thoughtbot/factory_bot/pull/1688
+
 ## 6.4.6 (January 30, 2023)
 
  * Fix: Bump minimum required Ruby in gemspec (Earlopain).
