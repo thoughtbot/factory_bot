@@ -46,6 +46,7 @@ require "factory_bot/decorator/attribute_hash"
 require "factory_bot/decorator/disallows_duplicates_registry"
 require "factory_bot/decorator/invocation_tracker"
 require "factory_bot/decorator/new_constructor"
+require "factory_bot/inquiry"
 require "factory_bot/linter"
 require "factory_bot/version"
 

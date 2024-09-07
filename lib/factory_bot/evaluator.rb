@@ -13,6 +13,7 @@ module FactoryBot
     def initialize(build_strategy, overrides = {})
       @build_strategy = build_strategy
       @overrides = overrides
+      @user_overrides = overrides.keys
       @cached_attributes = overrides
       @instance = nil
 
@@ -34,6 +35,24 @@ module FactoryBot
     end
 
     attr_accessor :instance
+
+    def strategy
+      @build_strategy.to_sym.to_s.extend(FactoryBot::Inquiry)
+    rescue NoMethodError # for custom strategies without :to_sym
+      "unknown".extend(FactoryBot::Inquiry)
+    end
+
+    def defined_attributes
+      __override_names__.sort.extend(FactoryBot::Inquiry)
+    end
+
+    def user_defined_attributes
+      @user_overrides.sort.extend(FactoryBot::Inquiry)
+    end
+
+    def factory_defined_attributes
+      (__override_names__ - @user_overrides).sort.extend(FactoryBot::Inquiry)
+    end
 
     def method_missing(method_name, ...)
       if @instance.respond_to?(method_name)
