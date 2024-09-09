@@ -102,12 +102,14 @@ module FactoryBot
       end
 
       def set_timestamps(result_instance)
+        timestamp = Time.current
+
         if missing_created_at?(result_instance)
-          result_instance.created_at = Time.current
+          result_instance.created_at = timestamp
         end
 
         if missing_updated_at?(result_instance)
-          result_instance.updated_at = Time.current
+          result_instance.updated_at = timestamp
         end
       end
 
