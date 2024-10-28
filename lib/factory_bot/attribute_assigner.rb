@@ -72,7 +72,7 @@ module FactoryBot
         non_ignored_attribute_names +
         override_names -
         ignored_attribute_names -
-        alias_names_to_ignore
+        aliased_attribute_names_to_ignore
     end
 
     def non_ignored_attribute_names
@@ -91,22 +91,39 @@ module FactoryBot
       @evaluator.__override_names__
     end
 
+    def attribute_names
+      @attribute_list.names
+    end
+
     def hash_instance_methods_to_respond_to
       @attribute_list.names + override_names + @build_class.instance_methods
     end
 
-    def alias_names_to_ignore
+    ##
+    # Creat a list of attribute names that will be
+    # overridden by an alias, so any defaults can
+    # ignored.
+    #
+    def aliased_attribute_names_to_ignore
       @attribute_list.non_ignored.flat_map { |attribute|
         override_names.map do |override|
-          attribute.name if ignorable_alias?(attribute, override)
+          attribute.name if aliased_attribute?(attribute, override)
         end
       }.compact
     end
 
-    def ignorable_alias?(attribute, override)
-      attribute.alias_for?(override) &&
-        attribute.name != override &&
-        !ignored_attribute_names.include?(override)
+    ##
+    # Is the override an alias for the attribute and not the
+    # actual name of another attribute?
+    #
+    # Note: Checking against the names of all attributes, resolves any
+    #       issues with having both <attribute> and <attribute>_id
+    #       in the same factory.
+    #
+    def aliased_attribute?(attribute, override)
+      return false if attribute_names.include?(override)
+
+      attribute.alias_for?(override)
     end
   end
 end
