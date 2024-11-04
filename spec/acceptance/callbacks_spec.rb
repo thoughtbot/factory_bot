@@ -13,6 +13,15 @@ describe "callbacks" do
         after(:stub) { |user| user.last_name = "Double-Stubby" }
         after(:build) { |user| user.first_name = "Child-Buildy" }
       end
+
+      factory :user_with_multi_called_callbacks, class: :user do
+        first_name { "Jane" }
+        trait :alias_2 do alias_1 end
+        trait :alias_1 do surname end
+        trait :surname do
+          after(:build) { |user| user.first_name += " Doe" }
+        end
+      end
     end
   end
 
@@ -41,6 +50,15 @@ describe "callbacks" do
   it "runs child callback after parent callback" do
     user = FactoryBot.build(:user_with_inherited_callbacks)
     expect(user.first_name).to eq "Child-Buildy"
+  end
+
+  it "only runs each callback once per instance" do
+    user_1 = FactoryBot.build(:user_with_multi_called_callbacks, :surname, :alias_1, :alias_2)
+    user_2 = FactoryBot.build(:user_with_multi_called_callbacks, :alias_1, :alias_2, :surname)
+    user_3 = FactoryBot.build(:user_with_multi_called_callbacks, :alias_2, :surname, :alias_1)
+    expect(user_1.first_name).to eq "Jane Doe"
+    expect(user_2.first_name).to eq "Jane Doe"
+    expect(user_3.first_name).to eq "Jane Doe"
   end
 end
 
