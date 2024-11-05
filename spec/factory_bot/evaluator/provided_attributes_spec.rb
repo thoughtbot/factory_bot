@@ -3,7 +3,11 @@ describe FactoryBot::Evaluator do
     before(:all) {
       unless defined?(ContextAttributeTest)
         class ContextAttributeTest
-          attr_accessor :name, :age, :admin
+          attr_accessor :name, :age, :admin, :results
+
+          def initialize
+            self.results = {}
+          end
         end
       end
     }
@@ -26,9 +30,9 @@ describe FactoryBot::Evaluator do
           admin { false }
 
           after(:build) do |object, context|
-            puts "defined_attributes: #{context.defined_attributes}"
-            puts "user_defined_attributes: #{context.user_defined_attributes}"
-            puts "factory_defined_attributes: #{context.factory_defined_attributes}"
+            object.results[:defined_attributes] = context.defined_attributes
+            object.results[:user_defined_attributes] = context.user_defined_attributes
+            object.results[:factory_defined_attributes] = context.factory_defined_attributes
           end
         end
       end
@@ -36,27 +40,18 @@ describe FactoryBot::Evaluator do
 
     context ":defined_attributes" do
       it "lists all provided attributes" do
-        output = capture_stdout do
-          FactoryBot.build :context_attribute_test, admin: true, trans_attr: true
-        end
-
-        expect(output).to include "defined_attributes: [:admin, :age, :name, :trans_attr]"
+        obj = FactoryBot.build :context_attribute_test, admin: true, trans_attr: true
+        expect(obj.results[:defined_attributes]).to eq [:admin, :age, :name, :trans_attr]
       end
 
       it "lists the user provided attributes" do
-        output = capture_stdout do
-          FactoryBot.build :context_attribute_test, admin: true, trans_attr: true
-        end
-
-        expect(output).to include "user_defined_attributes: [:admin, :trans_attr]"
+        obj = FactoryBot.build :context_attribute_test, admin: true, trans_attr: true
+        expect(obj.results[:user_defined_attributes]).to eq [:admin, :trans_attr]
       end
 
       it "lists the factory provided attributes" do
-        output = capture_stdout do
-          FactoryBot.build :context_attribute_test, admin: true, trans_attr: true
-        end
-
-        expect(output).to include "factory_defined_attributes: [:age, :name]"
+        obj = FactoryBot.build :context_attribute_test, admin: true, trans_attr: true
+        expect(obj.results[:factory_defined_attributes]).to eq [:age, :name]
       end
     end
   end
