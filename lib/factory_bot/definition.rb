@@ -95,6 +95,10 @@ module FactoryBot
       @defined_traits.add(trait)
     end
 
+    def defined_traits_names
+      @defined_traits.map(&:name)
+    end
+
     def register_enum(enum)
       @registered_enums << enum
     end

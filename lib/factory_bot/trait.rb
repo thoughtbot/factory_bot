@@ -14,6 +14,10 @@ module FactoryBot
       end
     end
 
+    def clone
+      Trait.new(name, &block)
+    end
+
     delegate :add_callback, :declare_attribute, :to_create, :define_trait, :constructor,
       :callbacks, :attributes, :klass, :klass=, to: :@definition
 
