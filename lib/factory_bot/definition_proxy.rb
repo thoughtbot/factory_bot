@@ -88,6 +88,8 @@ module FactoryBot
     #   end
     #
     # are equivalent.
+
+    
     def method_missing(name, *args, &block) # rubocop:disable Style/MissingRespondToMissing
       association_options = args.first
 
@@ -119,8 +121,8 @@ module FactoryBot
     #   end
     #
     # Except that no globally available sequence will be defined.
-    def sequence(name, ...)
-      sequence = Sequence.new(name, ...)
+    def sequence(name, *args, &block)
+      sequence = Sequence.new(name, *args, &block)
       FactoryBot::Internal.register_inline_sequence(sequence)
       add_attribute(name) { increment_sequence(sequence) }
     end

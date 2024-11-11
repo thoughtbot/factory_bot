@@ -35,11 +35,11 @@ module FactoryBot
 
     attr_accessor :instance
 
-    def method_missing(method_name, ...)
+    def method_missing(method_name, *args, &block) # Correção: adicionados *args e &block
       if @instance.respond_to?(method_name)
-        @instance.send(method_name, ...)
+        @instance.send(method_name, *args, &block) # Correção: adicionados *args e &block
       else
-        SyntaxRunner.new.send(method_name, ...)
+        SyntaxRunner.new.send(method_name, *args, &block) # Correção: adicionados *args e &block
       end
     end
 
