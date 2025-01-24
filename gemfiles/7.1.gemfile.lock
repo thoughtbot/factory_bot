@@ -73,6 +73,8 @@ GEM
     docile (1.4.1)
     drb (2.2.1)
     ffi (1.17.1)
+    ffi (1.17.1-arm64-darwin)
+    ffi (1.17.1-x86_64-linux-gnu)
     i18n (1.14.7)
       concurrent-ruby (~> 1.0)
     json (2.9.1)
@@ -80,6 +82,7 @@ GEM
     lint_roller (1.1.0)
     logger (1.6.5)
     mini_mime (1.1.5)
+    mini_portile2 (2.8.8)
     minitest (5.25.4)
     multi_test (1.1.0)
     mutex_m (0.3.0)
@@ -123,13 +126,15 @@ GEM
       rubocop (>= 1.48.1, < 2.0)
       rubocop-ast (>= 1.31.1, < 2.0)
     ruby-progressbar (1.13.0)
-    securerandom (0.3.2)
+    securerandom (0.4.1)
     simplecov (0.22.0)
       docile (~> 1.1)
       simplecov-html (~> 0.11)
       simplecov_json_formatter (~> 0.1)
     simplecov-html (0.13.1)
     simplecov_json_formatter (0.1.4)
+    sqlite3 (1.7.3)
+      mini_portile2 (~> 2.8.0)
     sqlite3 (1.7.3-arm64-darwin)
     sqlite3 (1.7.3-x86_64-linux)
     standard (1.44.0)
@@ -157,6 +162,7 @@ GEM
 
 PLATFORMS
   arm64-darwin-24
+  ruby
   x86_64-linux
 
 DEPENDENCIES
