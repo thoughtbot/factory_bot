@@ -26,6 +26,24 @@ describe "FactoryBot.lint" do
     }.to raise_error FactoryBot::InvalidFactoryError, error_message
   end
 
+  it "executes linting in an ActiveRecord::Base transaction" do
+    define_model "User", name: :string do
+      validates :name, uniqueness: true
+    end
+
+    define_model "AlwaysValid"
+
+    FactoryBot.define do
+      factory :user do
+        factory :admin_user
+      end
+
+      factory :always_valid
+    end
+
+    expect { FactoryBot.lint }.to_not raise_error
+  end
+
   it "does not raise when all factories are valid" do
     define_model "User", name: :string do
       validates :name, presence: true

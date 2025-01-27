@@ -1,5 +1,9 @@
 # News
 
+## Unreleased
+
+  * Changed: execute linting tests within ActiveRecord transactions when available
+
 ## 6.5.0 (September 6, 2024)
 
   * fix: issue 1621 broken links in ref/factory.md by @elasticspoon in https://github.com/thoughtbot/factory_bot/pull/1623
