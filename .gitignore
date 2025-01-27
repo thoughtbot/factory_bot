@@ -9,3 +9,5 @@ coverage
 tmp
 bin
 .rubocop-https*
+
+gemfiles/*.lock
