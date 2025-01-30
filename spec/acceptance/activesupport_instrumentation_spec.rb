@@ -98,8 +98,8 @@ describe "using ActiveSupport::Instrumentation to track compile_factory interact
 
   it "tracks proper time of compiling the factory" do
     time_to_execute = {user: 0}
-    callback = ->(_name, start, finish, _id, _payload) {
-      time_to_execute[_payload[:name]] = (finish - start)
+    callback = ->(_name, start, finish, _id, payload) {
+      time_to_execute[payload[:name]] = (finish - start)
     }
     ActiveSupport::Notifications.subscribed(callback, "factory_bot.compile_factory") do
       FactoryBot.build(:user)
