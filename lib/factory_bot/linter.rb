@@ -70,7 +70,7 @@ module FactoryBot
     def lint_factory(factory)
       result = []
       begin
-        FactoryBot.public_send(factory_strategy, factory.name)
+        in_transaction { FactoryBot.public_send(factory_strategy, factory.name) }
       rescue => e
         result |= [FactoryError.new(e, factory)]
       end
@@ -80,7 +80,7 @@ module FactoryBot
     def lint_traits(factory)
       result = []
       factory.definition.defined_traits.map(&:name).each do |trait_name|
-        FactoryBot.public_send(factory_strategy, factory.name, trait_name)
+        in_transaction { FactoryBot.public_send(factory_strategy, factory.name, trait_name) }
       rescue => e
         result |= [FactoryTraitError.new(e, factory, trait_name)]
       end
@@ -104,6 +104,17 @@ module FactoryBot
         :verbose_message
       else
         :message
+      end
+    end
+
+    def in_transaction
+      if defined?(ActiveRecord::Base)
+        ActiveRecord::Base.transaction do
+          yield
+          raise ActiveRecord::Rollback
+        end
+      else
+        yield
       end
     end
   end
