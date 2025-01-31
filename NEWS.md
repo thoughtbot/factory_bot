@@ -1,8 +1,11 @@
 # News
 
-## Unreleased
+## 6.5.1 (January 31, 2025)
 
-  * Changed: execute linting tests within ActiveRecord transactions when available
+  * Changed: execute linting tests within ActiveRecord transactions when available (Sean Doyle)
+  * Fix: Random test failure when tracking compilation time (CodeMeinster)
+  * Fix: Bump the minimum required activesupport version to 6.1 (Earlopain)
+  * Internal: Update development dependencies (Neil Carvalho)
 
 ## 6.5.0 (September 6, 2024)
 
