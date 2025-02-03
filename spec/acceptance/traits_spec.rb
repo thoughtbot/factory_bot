@@ -333,9 +333,15 @@ describe "looking up traits that don't exist" do
         end
       end
 
+      expected_message = [
+        "Trait not registered: \"inaccessible_trait\".",
+        "Registered traits: [].",
+        "Referenced within \"user\" definition"
+      ].join(" ")
+
       expect { FactoryBot.build(:user) }.to raise_error(
         KeyError,
-        'Trait not registered: "inaccessible_trait" referenced within "user" definition'
+        expected_message
       )
     end
 
@@ -370,10 +376,229 @@ describe "looking up traits that don't exist" do
         end
       end
 
+      expected_message = [
+        "Trait not registered: \"inaccessible_trait\".",
+        "Registered traits: [:admin].",
+        "Referenced within \"admin\" definition"
+      ].join(" ")
+
       expect { FactoryBot.build(:user, :admin) }.to raise_error(
         KeyError,
-        'Trait not registered: "inaccessible_trait" referenced within "admin" definition'
+        expected_message
       )
+    end
+  end
+end
+
+describe "trait exception error messages" do
+  before { define_model("User", name: :string) }
+
+  context "when a missing trait is defined within the factory" do
+    it "includes the definition name where the missing trait was called" do
+      FactoryBot.define do
+        factory :user do
+          inaccessible_trait
+        end
+      end
+
+      expect { FactoryBot.build(:user) }.to raise_error(
+        KeyError,
+        /Referenced within "user" definition/
+      )
+    end
+  end
+
+  context "when a missing trait is called by the user" do
+    it "excludes the factory definition name" do
+      FactoryBot.define do
+        factory :user
+      end
+
+      expect { FactoryBot.build(:user, :missing_trait) }.to raise_error(KeyError) do |error|
+        expect(error.message).not_to include "Referenced within \"user\" definition"
+      end
+    end
+  end
+
+  context "when no defined traits" do
+    context "includes an empty list" do
+      it "when the factory references a missing trait internally" do
+        FactoryBot.define do
+          factory :user do
+            inaccessible_trait
+          end
+        end
+
+        expect { FactoryBot.build(:user) }.to raise_error(
+          KeyError,
+          /Registered traits: \[\]/
+        )
+      end
+
+      it "when a missing trait is called by the user" do
+        FactoryBot.define do
+          factory :user
+        end
+
+        expect { FactoryBot.build(:user, :missing_trait) }.to raise_error(
+          KeyError,
+          "Trait not registered: \"missing_trait\". Registered traits: []"
+        )
+      end
+    end
+  end
+
+  context "with a single defined trait" do
+    context "includes a list if the single trait" do
+      it "when the factory references a missing trait internally" do
+        FactoryBot.define do
+          factory :user do
+            trait :trait_1
+
+            inaccessible_trait
+          end
+        end
+
+        expected_message = [
+          "Trait not registered: \"inaccessible_trait\".",
+          "Registered traits: [:trait_1].",
+          "Referenced within \"user\" definition"
+        ].join(" ")
+
+        expect { FactoryBot.build(:user) }.to raise_error(
+          KeyError,
+          expected_message
+        )
+      end
+
+      it "when a missing trait is called by the user" do
+        FactoryBot.define do
+          factory :user do
+            trait :trait_1
+          end
+        end
+
+        expect { FactoryBot.build(:user, :missing_trait) }.to raise_error(
+          KeyError,
+          "Trait not registered: \"missing_trait\". Registered traits: [:trait_1]"
+        )
+      end
+    end
+  end
+
+  context "with multiple defined traits" do
+    context "includes a list of all traits" do
+      it "when the factory references a missing trait internally" do
+        FactoryBot.define do
+          factory :user do
+            trait :trait_1
+            trait :trait_2
+            trait :trait_3
+            trait :trait_4
+
+            inaccessible_trait
+          end
+        end
+
+        expected_message = [
+          "Trait not registered: \"inaccessible_trait\".",
+          "Registered traits: [:trait_1, :trait_2, :trait_3, :trait_4].",
+          "Referenced within \"user\" definition"
+        ].join(" ")
+
+        expect { FactoryBot.build(:user) }.to raise_error(
+          KeyError,
+          expected_message
+        )
+      end
+
+      it "when a missing trait is called by the user" do
+        FactoryBot.define do
+          factory :user do
+            trait :trait_1
+            trait :trait_2
+            trait :trait_3
+            trait :trait_4
+          end
+        end
+
+        expected_message = [
+          "Trait not registered: \"missing_trait\".",
+          "Registered traits: [:trait_1, :trait_2, :trait_3, :trait_4]"
+        ].join(" ")
+
+        expect { FactoryBot.build(:user, :missing_trait) }.to raise_error(
+          KeyError,
+          expected_message
+        )
+      end
+    end
+  end
+
+  context "with both defined and inherited traits" do
+    context "includes a list of all traits" do
+      it "when the factory references a missing trait internally" do
+        FactoryBot.define do
+          factory :user do
+            trait :user_trait_1
+            trait :user_trait_2
+
+            factory :admin do
+              trait :admin_trait_1
+              trait :admin_trait_2
+
+              factory :dev do
+                trait :dev_trait_1
+                trait :dev_trait_2
+
+                inaccessible_trait
+              end
+            end
+          end
+        end
+
+        expected_message = [
+          "Trait not registered: \"inaccessible_trait\".",
+          "Registered traits: [:admin_trait_1, :admin_trait_2,",
+          ":dev_trait_1, :dev_trait_2, :user_trait_1, :user_trait_2].",
+          "Referenced within \"dev\" definition"
+        ].join(" ")
+
+        expect { FactoryBot.build(:dev) }.to raise_error(
+          KeyError,
+          expected_message
+        )
+      end
+
+      it "when a missing trait is called by the user" do
+        FactoryBot.define do
+          factory :user do
+            trait :user_trait_1
+            trait :user_trait_2
+
+            factory :admin do
+              trait :admin_trait_1
+              trait :admin_trait_2
+
+              factory :dev do
+                trait :dev_trait_1
+                trait :dev_trait_2
+              end
+            end
+          end
+        end
+
+        expected_message = [
+          "Trait not registered: \"missing_trait\".",
+          "Registered traits: [:admin_trait_1, :admin_trait_2,",
+          ":dev_trait_1, :dev_trait_2, :user_trait_1, :user_trait_2]"
+        ].join(" ")
+
+        expect { FactoryBot.build(:dev, :missing_trait) }.to raise_error(
+          KeyError,
+          expected_message
+        )
+      end
     end
   end
 end
