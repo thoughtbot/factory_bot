@@ -211,7 +211,7 @@ describe "FactoryBot.lint" do
         FactoryBot.lint(verbose: true)
       }.to raise_error(
         FactoryBot::InvalidFactoryError,
-        %r{#{__FILE__}:\d*:in `save!'}
+        %r{#{__FILE__}:\d*:in ('InvalidThing#save!'|`save!')}
       )
     end
   end
