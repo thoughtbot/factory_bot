@@ -68,7 +68,20 @@ create(:user_with_posts).posts.length # 5
 create(:user_with_posts, posts_count: 15).posts.length # 15
 ```
 
-Or, for a solution that works with `build`, `build_stubbed`, and `create`
+A simple example that works for build without having to save to a database:
+```ruby
+    trait :with_completed_survey_visit do
+      after(:build) do |home, evaluator|
+        survey_visit = build(:survey_visit, home: home) #belongs_to association
+        # Below line is required for the association to work from home.survey_visits without saving to the database
+        # Otherwise it only works in one direction: survey_visit.home
+        home.survey_visits << survey_visit # has_many association
+      end
+    end
+  end
+```
+
+Or, for another solution that works with `build`, `build_stubbed`, and `create`
 (although it doesn't work well with `attributes_for`), you can use inline
 associations:
 
