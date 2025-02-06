@@ -75,6 +75,22 @@ describe FactoryBot::DefinitionProxy, "#method_missing" do
   end
 end
 
+describe FactoryBot::DefinitionProxy, "#log" do
+  it "ensures that `log` can be declared on the factory" do
+    begin
+      Kernel.define_method(:log) { raise "I SHOULDN'T BE CALLED" }
+
+      definition = FactoryBot::Definition.new(:name)
+      proxy = FactoryBot::DefinitionProxy.new(definition)
+      proxy.log
+
+      expect(definition).to have_implicit_declaration(:log).with_factory(definition)
+    ensure
+      Kernel.send(:remove_method, :log)
+    end
+  end
+end
+
 describe FactoryBot::DefinitionProxy, "#sequence" do
   def build_proxy(factory_name)
     definition = FactoryBot::Definition.new(factory_name)
