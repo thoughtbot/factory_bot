@@ -96,7 +96,7 @@ module FactoryBot
     end
 
     def hash_instance_methods_to_respond_to
-      @attribute_list.names + override_names + @build_class.instance_methods
+      attribute_names + override_names + @build_class.instance_methods
     end
 
     ##
