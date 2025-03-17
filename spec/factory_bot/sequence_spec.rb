@@ -74,10 +74,44 @@ describe FactoryBot::Sequence do
     it_behaves_like "a sequence", first_value: "=3", second_value: "=4"
   end
 
+  describe "a sequence with lazy initial value and a block" do
+    subject do
+      FactoryBot::Sequence.new(:test, lazy: -> { "J" }) do |n|
+        "=#{n}"
+      end
+    end
+
+    it_behaves_like "a sequence", first_value: "=J", second_value: "=K"
+  end
+
+  describe "a sequence with value and a lazy initial value and a block" do
+    it "uses the lazy value as the initial value" do
+      sequence = FactoryBot::Sequence.new(:test, 3, lazy: -> { "x" }) do |n|
+        "=#{n}"
+      end
+
+      expect(sequence.next).to eq "=x"
+    end
+  end
+
+  describe "a sequence with lazy initial value that is not a proc" do
+    it "raises an error" do
+      expect { FactoryBot::Sequence.new(:test, lazy: 1) }.to raise_error(ArgumentError, "The 'lazy' argument value must be a Proc")
+    end
+  end
+
   describe "a basic sequence without a block" do
     subject { FactoryBot::Sequence.new(:name) }
 
     it_behaves_like "a sequence", first_value: 1, second_value: 2
+  end
+
+  describe "a sequence with lazy initial value without a block" do
+    subject do
+      FactoryBot::Sequence.new(:test, lazy: -> { 3 })
+    end
+
+    it_behaves_like "a sequence", first_value: 3, second_value: 4
   end
 
   describe "a custom sequence without a block" do
@@ -107,6 +141,14 @@ describe FactoryBot::Sequence do
     scope = double("scope", foo: "attribute")
 
     expect(sequence.next(scope)).to eq "=Aattribute"
+  end
+
+  it "a custom lazy sequence and scope increments within the correct scope" do
+    sequence = FactoryBot::Sequence.new(:name, lazy: -> { "A" }) { |n| "=#{n}#{foo}" }
+    scope = double("scope", foo: "attribute")
+
+    expect(sequence.next(scope)).to eq "=Aattribute"
+    expect(sequence.next(scope)).to eq "=Battribute"
   end
 
   it "a custom sequence and scope increments within the correct scope when incrementing" do
