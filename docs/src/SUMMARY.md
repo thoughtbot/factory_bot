@@ -81,6 +81,7 @@
   - [Multiple callbacks](callbacks/multiple-callbacks.md)
   - [Global callbacks](callbacks/global-callbacks.md)
   - [Symbol#to_proc](callbacks/symbol-to_proc.md)
+  - [Callback parameters](callbacks/callback-parameters.md)
 - [Modifying factories](modifying-factories/summary.md)
 - [Linting Factories](linting-factories/summary.md)
 - [Custom Construction](custom-construction/summary.md)
