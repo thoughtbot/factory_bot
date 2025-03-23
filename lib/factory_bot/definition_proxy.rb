@@ -120,9 +120,16 @@ module FactoryBot
     #
     # Except that no globally available sequence will be defined.
     def sequence(name, ...)
-      sequence = Sequence.new(name, ...)
-      FactoryBot::Internal.register_inline_sequence(sequence)
-      add_attribute(name) { increment_sequence(sequence) }
+      new_sequence = Sequence.new(name, ...)
+      registered_sequence = __fetch_or_register_sequence(new_sequence)
+      # FactoryBot::Internal.register_inline_sequence(sequence)
+      add_attribute(name) { increment_sequence(registered_sequence) }
+
+      # unless sequence = FactoryBot::Internal.inline_sequences.select { |s| s.name == name }.first
+      #   sequence = Sequence.new(name, ...)
+      #   FactoryBot::Internal.register_inline_sequence(sequence)
+      # end
+      # add_attribute(name) { increment_sequence(sequence) }
     end
 
     # Adds an attribute that builds an association. The associated instance will
@@ -251,6 +258,20 @@ module FactoryBot
 
     def __valid_association_options?(options)
       options.respond_to?(:has_key?) && options.has_key?(:factory)
+    end
+
+    ##
+    # If the sequence has aready been registered by a parent, return that one,
+    # otherwise register and return the given sequence
+    #
+    def __fetch_or_register_sequence(sequence)
+      FactoryBot::Internal.inline_sequences
+        .each do |registered_sequence|
+        return registered_sequence if registered_sequence.matches?(sequence)
+      end
+
+      FactoryBot::Internal.register_inline_sequence(sequence)
+      sequence
     end
   end
 end
