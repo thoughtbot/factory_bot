@@ -122,14 +122,7 @@ module FactoryBot
     def sequence(name, ...)
       new_sequence = Sequence.new(name, ...)
       registered_sequence = __fetch_or_register_sequence(new_sequence)
-      # FactoryBot::Internal.register_inline_sequence(sequence)
       add_attribute(name) { increment_sequence(registered_sequence) }
-
-      # unless sequence = FactoryBot::Internal.inline_sequences.select { |s| s.name == name }.first
-      #   sequence = Sequence.new(name, ...)
-      #   FactoryBot::Internal.register_inline_sequence(sequence)
-      # end
-      # add_attribute(name) { increment_sequence(sequence) }
     end
 
     # Adds an attribute that builds an association. The associated instance will
@@ -261,7 +254,7 @@ module FactoryBot
     end
 
     ##
-    # If the sequence has aready been registered by a parent, return that one,
+    # If the sequence has already been registered by a parent, return that one,
     # otherwise register and return the given sequence
     #
     def __fetch_or_register_sequence(sequence)
