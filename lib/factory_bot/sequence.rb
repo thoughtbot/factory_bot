@@ -38,6 +38,17 @@ module FactoryBot
       @value.rewind
     end
 
+    def matches?(test_sequence)
+      return false unless name == test_sequence.name
+      return false unless proc.source_location == test_sequence.proc.source_location
+
+      proc.parameters == test_sequence.proc.parameters
+    end
+
+    protected
+
+    attr_reader :proc
+
     private
 
     def value
