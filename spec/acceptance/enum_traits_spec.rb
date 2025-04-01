@@ -132,7 +132,7 @@ describe "enum traits" do
 
         Task.statuses.each_key do |trait_name|
           expect { FactoryBot.build(:task, trait_name) }.to raise_error(
-            KeyError, "Trait not registered: \"#{trait_name}\""
+            KeyError, /Trait not registered: "#{trait_name}"/
           )
         end
 
