@@ -125,31 +125,8 @@ module FactoryBot
 
     def base_traits
       @base_traits.map { |name| trait_by_name(name) }
-    rescue KeyError => error
-      raise error_with_definition_name(error)
-    end
-
-    # detailed_message introduced in Ruby 3.2 for cleaner integration with
-    # did_you_mean. See https://bugs.ruby-lang.org/issues/18564
-    if KeyError.method_defined?(:detailed_message)
-      def error_with_definition_name(error)
-        message = error.message + " referenced within \"#{name}\" definition"
-
-        error.class.new(message, key: error.key, receiver: error.receiver)
-          .tap { |new_error| new_error.set_backtrace(error.backtrace) }
-      end
-    else
-      def error_with_definition_name(error)
-        message = error.message
-        message.insert(
-          message.index("\nDid you mean?") || message.length,
-          " referenced within \"#{name}\" definition"
-        )
-
-        error.class.new(message).tap do |new_error|
-          new_error.set_backtrace(error.backtrace)
-        end
-      end
+    rescue KeyError => key_error
+      raise error_with_definition_name key_error
     end
 
     def additional_traits
@@ -158,6 +135,8 @@ module FactoryBot
 
     def trait_by_name(name)
       trait_for(name) || Internal.trait_by_name(name, klass)
+    rescue KeyError => key_error
+      raise error_with_defined_traits key_error
     end
 
     def trait_for(name)
@@ -204,6 +183,30 @@ module FactoryBot
     def automatically_register_defined_enums?(klass)
       FactoryBot.automatically_define_enum_traits &&
         klass.respond_to?(:defined_enums)
+    end
+
+    def error_with_definition_name(key_error)
+      message = key_error.message + ". Referenced within \"#{name}\" definition"
+      new_trait_error(message, key_error)
+    end
+
+    def error_with_defined_traits(key_error)
+      trait_names = defined_traits_names.sort.map { |n| ":#{n}" }.join(", ")
+      message = "#{key_error.message}. Registered traits: [#{trait_names}]"
+
+      new_trait_error(message, key_error)
+    end
+
+    def new_trait_error(message, key_error)
+      # detailed_message introduced in Ruby 3.2 for cleaner integration with
+      # did_you_mean. See https://bugs.ruby-lang.org/issues/18564
+      if KeyError.method_defined?(:detailed_message)
+        KeyError.new(message, key: key_error.key, receiver: key_error.receiver)
+      else
+        KeyError.new(message)
+      end.tap do |error|
+        error.set_backtrace(key_error.backtrace)
+      end
     end
   end
 end
