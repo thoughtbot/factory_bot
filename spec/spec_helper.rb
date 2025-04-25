@@ -1,3 +1,6 @@
+# Set timeout when setting sequences
+ENV["FACTORY_BOT_SET_SEQUENCE_TIMEOUT"] = "0.5"
+
 require "rspec"
 require "rspec/its"
 
