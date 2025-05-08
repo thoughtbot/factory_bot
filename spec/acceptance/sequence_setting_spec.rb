@@ -342,7 +342,6 @@ describe "FactoryBot.set_sequence" do
       it "fails with an unmatched Enumerable value" do
         names = %w[Jane Joe Josh Jayde John].to_enum
 
-        allow(names).to receive(:next).and_raise(StopIteration)
         allow_any_instance_of(FactoryBot::Sequence).to receive(:can_set_value_by_index?).and_return(false)
 
         FactoryBot.define do
