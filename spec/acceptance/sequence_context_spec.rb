@@ -1,7 +1,7 @@
 describe "sequences are evaluated in the correct context" do
   before do
     define_class("User") do
-      attr_accessor :id
+      attr_accessor :id, :name
 
       def awesome
         "aw yeah"
@@ -70,6 +70,7 @@ describe "sequences are evaluated in the correct context" do
 
     it "invokes the parent's sequenced trait from within a child's inherited trait" do
       FactoryBot.define do
+        sequence :global_seq
         factory :parent, class: User do
           trait :with_sequenced_id do
             sequence(:id) { |n| "id_#{n}" }
@@ -79,15 +80,44 @@ describe "sequences are evaluated in the correct context" do
         end
       end
 
+      parent_ids = FactoryBot.build_list(:parent, 3, :with_sequenced_id).map(&:id)
+      expect(parent_ids).to eq ["id_1", "id_2", "id_3"]
+
+      child_ids = FactoryBot.build_list(:child, 3, :with_sequenced_id).map(&:id)
+      expect(child_ids).to eq ["id_4", "id_5", "id_6"]
+    end
+
+    it "invokes the child's sequenced trait from within the child's own trait" do
+      FactoryBot.define do
+        sequence :global_sequence
+        factory :parent, class: User do
+          trait :with_sequenced_id do
+            sequence(:id) { |n| "id_#{n}" }
+          end
+
+          factory :child, class: User, aliases: [:toddler, :teen] do
+            sequence(:id) { |n| "id_#{n}" }
+            trait :with_own_sequence do
+              sequence(:id, 1000, aliases: [:woo_hoo, :woo_hoo_2]) { |n| "id_#{n}" }
+            end
+          end
+        end
+      end
+
       parents = FactoryBot.build_list(:parent, 3, :with_sequenced_id)
       expect(parents[0].id).to eq "id_1"
       expect(parents[1].id).to eq "id_2"
       expect(parents[2].id).to eq "id_3"
 
-      children = FactoryBot.build_list(:child, 3, :with_sequenced_id)
-      expect(children[0].id).to eq "id_4"
-      expect(children[1].id).to eq "id_5"
-      expect(children[2].id).to eq "id_6"
+      children = FactoryBot.build_list(:child, 3)
+      expect(children[0].id).to eq "id_1"
+      expect(children[1].id).to eq "id_2"
+      expect(children[2].id).to eq "id_3"
+
+      children = FactoryBot.build_list(:child, 3, :with_sequenced_id, :with_own_sequence)
+      expect(children[0].id).to eq "id_1000"
+      expect(children[1].id).to eq "id_1001"
+      expect(children[2].id).to eq "id_1002"
     end
 
     it "redefines a child's sequence" do
@@ -129,7 +159,7 @@ describe "sequences are evaluated in the correct context" do
         end
       end
 
-      globals = [FactoryBot.generate(:id), FactoryBot.generate(:id), FactoryBot.generate(:id)]
+      globals = FactoryBot.generate_list(:id, 3)
       expect(globals[0]).to eq "global_1"
       expect(globals[1]).to eq "global_2"
       expect(globals[2]).to eq "global_3"
