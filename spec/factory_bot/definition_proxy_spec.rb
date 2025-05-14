@@ -87,7 +87,7 @@ describe FactoryBot::DefinitionProxy, "#sequence" do
 
     proxy.sequence(:sequence)
 
-    expect(FactoryBot::Sequence).to have_received(:new).with(:sequence)
+    expect(FactoryBot::Sequence).to have_received(:new).with(:sequence, {uri_paths: []})
   end
 
   it "creates a new sequence with an overridden starting value" do
@@ -98,7 +98,7 @@ describe FactoryBot::DefinitionProxy, "#sequence" do
     proxy.sequence(:sequence, override)
 
     expect(FactoryBot::Sequence).to have_received(:new)
-      .with(:sequence, override)
+      .with(:sequence, override, {uri_paths: []})
   end
 
   it "creates a new sequence with a block" do
@@ -108,7 +108,7 @@ describe FactoryBot::DefinitionProxy, "#sequence" do
     proxy.sequence(:sequence, 1, &sequence_block)
 
     expect(FactoryBot::Sequence).to have_received(:new)
-      .with(:sequence, 1, &sequence_block)
+      .with(:sequence, 1, {uri_paths: []}, &sequence_block)
   end
 end
 

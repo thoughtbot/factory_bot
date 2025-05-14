@@ -1,6 +1,6 @@
-# Inline sequences
+# Factory sequences
 
-And it's also possible to define an in-line sequence that is only used in
+And it's also possible to define a sequence that is only used in
 a particular factory:
 
 ```ruby
