@@ -10,7 +10,7 @@ _[Interested in the history of the project name?][NAME]_
 
 ### Transitioning from factory\_girl?
 
-Check out the [guide](https://github.com/thoughtbot/factory_bot/blob/4-9-0-stable/UPGRADE_FROM_FACTORY_GIRL.md).
+Check out the [guide](https://github.com/thoughtbot/factory_bot/blob/v4.9.0/UPGRADE_FROM_FACTORY_GIRL.md).
 
 
 Documentation
