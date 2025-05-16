@@ -83,20 +83,20 @@ module FactoryBot
       # (see #strategy_method_pair)
       # @return [Array<Hash>] pair of attribute hashes for the factory
 
-      # @!method strategy_method
+      # @!method strategy_method(name, traits_and_overrides, &block)
       # @!visibility private
       # @param [Symbol] name the name of the factory to build
       # @param [Array<Symbol, Symbol, Hash>] traits_and_overrides splat args traits and a hash of overrides
       # @param [Proc] block block to be executed
 
-      # @!method strategy_method_list
+      # @!method strategy_method_list(name, amount, traits_and_overrides, &block)
       # @!visibility private
       # @param [Symbol] name the name of the factory to execute
       # @param [Integer] amount the number of instances to execute
       # @param [Array<Symbol, Symbol, Hash>] traits_and_overrides splat args traits and a hash of overrides
       # @param [Proc] block block to be executed
 
-      # @!method strategy_method_pair
+      # @!method strategy_method_pair(name, traits_and_overrides, &block)
       # @!visibility private
       # @param [Symbol] name the name of the factory to execute
       # @param [Array<Symbol, Symbol, Hash>] traits_and_overrides splat args traits and a hash of overrides
