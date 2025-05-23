@@ -1,15 +1,11 @@
 module FactoryBot
+  # @api private
   class UriManager
     attr_reader :endpoints, :paths, :uri_list
 
     delegate :size, :any?, :empty?, :each?, :include?, :first, to: :@uri_list
     delegate :build_uri, to: :class
 
-    # ======================================================================
-    # = Class methods
-    # ======================================================================
-
-    ##
     # Concatenate the parts, sripping leading/following slashes
     # and returning a Symbolized String or nil.
     #
@@ -27,23 +23,18 @@ module FactoryBot
         .to_sym
     end
 
-    # ======================================================================
-    # = Instance Methods
-    # ======================================================================
-
-    ##
     # Configures the new UriManager
     #
     # Arguments:
     #   endpoints: (Array of Strings or Symbols)
     #     the objects endpoints.
     #
-    #   paths: (UriManager)
+    #   paths: (Array of Strings or Symbols)
     #     the parent URIs to prepend to each endpoint
     #
     def initialize(*endpoints, paths: [])
       if endpoints.empty?
-        fail ArgumentError, "wrong number of argments (given 0, expected 1+)"
+        fail ArgumentError, "wrong number of arguments (given 0, expected 1+)"
       end
 
       @uri_list = []
@@ -57,15 +48,8 @@ module FactoryBot
       @uri_list.dup
     end
 
-    # ======================================================================
-    # = PRIVATE
-    # ======================================================================
-    #
     private
 
-    ##
-    # Adds a URI for each combination of path and endpoint.
-    #
     def build_uri_list
       @endpoints.each do |endpoint|
         if @paths.any?

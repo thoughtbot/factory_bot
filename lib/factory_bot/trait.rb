@@ -9,9 +9,9 @@ module FactoryBot
     def initialize(name, **options, &block)
       @name = name.to_s
       @block = block
-      @uri_mgr = FactoryBot::UriManager.new(names, paths: options[:uri_paths])
+      @uri_manager = FactoryBot::UriManager.new(names, paths: options[:uri_paths])
 
-      @definition = Definition.new(@name, uri_mgr: @uri_mgr)
+      @definition = Definition.new(@name, uri_manager: @uri_manager)
       proxy = FactoryBot::DefinitionProxy.new(@definition)
 
       if block
@@ -20,7 +20,7 @@ module FactoryBot
     end
 
     def clone
-      Trait.new(name, uri_paths: definition.uri_mgr.paths, &block)
+      Trait.new(name, uri_paths: definition.uri_manager.paths, &block)
     end
 
     def names

@@ -60,18 +60,6 @@ module FactoryBot
         rewind_inline_sequences
       end
 
-      ##
-      # Rewind an individual global or inline sequence.
-      #
-      # Arguments:
-      #   uri_parts: (Array of Symbols)
-      #     The components of the sequence URI
-      #
-      # Example:
-      #  rewind_sequence(:factory_name, :trait_name, :sequence_name)
-      #          or
-      #  rewind_sequence("factory_name/trait_name/sequence_name")
-      #
       def rewind_sequence(*uri_parts)
         fail_argument_count(0, "1+") if uri_parts.empty?
 
@@ -81,25 +69,6 @@ module FactoryBot
         sequence.rewind
       end
 
-      ##
-      # Set the squence to a specific value, providing the new value is
-      #   within the sequence set.
-      #
-      # Arguments:
-      #   uri_parts: (Array of Symbols)
-      #     The URI components of the sequence
-      #   value: (Object)
-      #     The new value for the sequence. This must be a value that is
-      #     within the sequence definition. For example, you cannot set
-      #     a String sequence to an Integer value.
-      #
-      # Example:
-      #  set_sequence(:factory_name, :trait_name, :sequence_name, 450)
-      #  or
-      #  set_sequence([:factory_name, :trait_name, :sequence_name], 450)
-      #  or
-      #  set_sequence("factory_name/trait_name/sequence_name", 450)
-      #
       def set_sequence(*uri_parts, value)
         uri = build_uri(uri_parts) || fail_argument_count(uri_parts.size, "2+")
         sequence = Sequence.find(*uri) || fail_unregistered_sequence(uri)
@@ -135,10 +104,6 @@ module FactoryBot
         register_strategy(:null, FactoryBot::Strategy::Null)
       end
 
-      # ======================================================================
-      # = PRIVATE
-      # ======================================================================
-      #
       private
 
       def build_uri(...)

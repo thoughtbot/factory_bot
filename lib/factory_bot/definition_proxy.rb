@@ -121,7 +121,7 @@ module FactoryBot
     # Except that no globally available sequence will be defined.
     def sequence(name, *args, &block)
       options = args.extract_options!
-      options[:uri_paths] = definition.uri_mgr.to_a
+      options[:uri_paths] = definition.uri_manager.to_a
       args << options
 
       new_sequence = Sequence.new(name, *args, &block)
@@ -177,7 +177,7 @@ module FactoryBot
     end
 
     def trait(name, &block)
-      @definition.define_trait(Trait.new(name, uri_paths: definition.uri_mgr.to_a, &block))
+      @definition.define_trait(Trait.new(name, uri_paths: definition.uri_manager.to_a, &block))
     end
 
     # Creates traits for enumerable values.
@@ -262,7 +262,7 @@ module FactoryBot
     # return that one, otherwise register and return the given sequence
     #
     def __fetch_or_register_sequence(sequence)
-      FactoryBot::Sequence.find_by_uri(sequence.uri_mgr.first) ||
+      FactoryBot::Sequence.find_by_uri(sequence.uri_manager.first) ||
         FactoryBot::Internal.register_inline_sequence(sequence)
     end
   end

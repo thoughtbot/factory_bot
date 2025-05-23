@@ -1,12 +1,12 @@
 # Set timeout when setting sequences
-ENV["FACTORY_BOT_SET_SEQUENCE_TIMEOUT"] = "0.5"
-
 require "rspec"
 require "rspec/its"
 
 require "simplecov" if RUBY_ENGINE == "ruby"
 
 require "factory_bot"
+
+FactoryBot.sequence_setting_timeout = 0.5
 
 if RUBY_ENGINE == "jruby"
   # Workaround for issue in I18n/JRuby combo.

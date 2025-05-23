@@ -48,8 +48,8 @@ generate(:user, :with_email, :email) # "user_1234567@example.com"
 
 - A fixed collection sequence can accept any value within the collection.
 
-- An unlimited sequence, such as a charcter `sequence(:unlimited,'a')` will timeout if not found within the default maximum search time of three seconds.
+- An unlimited sequence, such as a character `sequence(:unlimited,'a')` will timeout if not found within the default maximum search time of three seconds.
 
-- The timeout can be set with: `ENV["FACTORY_BOT_SET_SEQUENCE_TIMEOUT"] = "1.5"`
+- The timeout can be configured with: `FactoryBot.sequence_setting_timeout = 1.5`
 
 </div>
