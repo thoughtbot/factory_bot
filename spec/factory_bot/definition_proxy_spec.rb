@@ -145,6 +145,26 @@ describe FactoryBot::DefinitionProxy, "#association" do
 end
 
 describe FactoryBot::DefinitionProxy, "adding callbacks" do
+  it "adding a :before_all callback succeeds" do
+    definition = FactoryBot::Definition.new(:name)
+    proxy = FactoryBot::DefinitionProxy.new(definition)
+    callback = -> { "my awesome callback!" }
+
+    proxy.before(:all, &callback)
+
+    expect(definition).to have_callback(:before_all).with_block(callback)
+  end
+
+  it "adding an :after_all callback succeeds" do
+    definition = FactoryBot::Definition.new(:name)
+    proxy = FactoryBot::DefinitionProxy.new(definition)
+    callback = -> { "my awesome callback!" }
+
+    proxy.after(:all, &callback)
+
+    expect(definition).to have_callback(:after_all).with_block(callback)
+  end
+
   it "adding an :after_build callback succeeds" do
     definition = FactoryBot::Definition.new(:name)
     proxy = FactoryBot::DefinitionProxy.new(definition)
