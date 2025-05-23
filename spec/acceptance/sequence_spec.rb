@@ -1,72 +1,166 @@
 describe "sequences" do
   include FactoryBot::Syntax::Methods
+  require "ostruct"
 
-  it "generates several values in the correct format" do
-    FactoryBot.define do
-      sequence :email do |n|
-        "somebody#{n}@example.com"
+  # = On Success
+  # ======================================================================
+  #
+  describe "on success" do
+    it "generates several values in the correct format" do
+      define_class("User") { attr_accessor :email }
+
+      FactoryBot.define do
+        sequence(:email) { |n| "global-#{n}@example.com" }
+
+        factory :user do
+          sequence(:email) { |n| "user-#{n}@example.com" }
+        end
       end
+
+      expect(generate(:email)).to eq "global-1@example.com"
+      expect(generate(:email)).to eq "global-2@example.com"
+      expect(generate(:email)).to eq "global-3@example.com"
+
+      expect(generate(:user, :email)).to eq "user-1@example.com"
+      expect(generate(:user, :email)).to eq "user-2@example.com"
+      expect(generate(:user, :email)).to eq "user-3@example.com"
     end
 
-    first_value = generate(:email)
-    another_value = generate(:email)
+    it "generates sequential numbers if no block is given" do
+      define_class("User") { attr_accessor :email }
 
-    expect(first_value).to match(/^somebody\d+@example\.com$/)
-    expect(another_value).to match(/^somebody\d+@example\.com$/)
-    expect(first_value).not_to eq another_value
-  end
+      FactoryBot.define do
+        sequence :global_order
 
-  it "generates sequential numbers if no block is given" do
-    FactoryBot.define do
-      sequence :order
-    end
-
-    first_value = generate(:order)
-    another_value = generate(:order)
-
-    expect(first_value).to eq 1
-    expect(another_value).to eq 2
-    expect(first_value).not_to eq another_value
-  end
-
-  it "generates aliases for the sequence that reference the same block" do
-    FactoryBot.define do
-      sequence(:size, aliases: [:count, :length]) { |n| "called-#{n}" }
-    end
-
-    first_value = generate(:size)
-    second_value = generate(:count)
-    third_value = generate(:length)
-
-    expect(first_value).to eq "called-1"
-    expect(second_value).to eq "called-2"
-    expect(third_value).to eq "called-3"
-  end
-
-  it "generates aliases for the sequence that reference the same block and retains value" do
-    FactoryBot.define do
-      sequence(:size, "a", aliases: [:count, :length]) { |n| "called-#{n}" }
-    end
-
-    first_value = generate(:size)
-    second_value = generate(:count)
-    third_value = generate(:length)
-
-    expect(first_value).to eq "called-a"
-    expect(second_value).to eq "called-b"
-    expect(third_value).to eq "called-c"
-  end
-
-  it "generates few values of the sequence" do
-    FactoryBot.define do
-      sequence :email do |n|
-        "somebody#{n}@example.com"
+        factory :user do
+          sequence :user_order
+        end
       end
+
+      expect(generate(:global_order)).to eq 1
+      expect(generate(:global_order)).to eq 2
+      expect(generate(:global_order)).to eq 3
+
+      expect(generate(:user, :user_order)).to eq 1
+      expect(generate(:user, :user_order)).to eq 2
+      expect(generate(:user, :user_order)).to eq 3
     end
 
-    values = generate_list(:email, 2)
+    it "generates aliases for the sequence that reference the same block" do
+      define_class("User") { attr_accessor :email }
 
-    expect(values.first).to eq("somebody1@example.com")
-    expect(values.second).to eq("somebody2@example.com")
-  end
+      FactoryBot.define do
+        sequence(:size, aliases: [:count, :length]) { |n| "global-called-#{n}" }
+
+        factory :user, aliases: [:author, :commenter] do
+          sequence(:size, aliases: [:count, :length]) { |n| "user-called-#{n}" }
+        end
+      end
+
+      expect(generate(:size)).to eq "global-called-1"
+      expect(generate(:count)).to eq "global-called-2"
+      expect(generate(:length)).to eq "global-called-3"
+
+      expect(generate(:user, :size)).to eq "user-called-1"
+      expect(generate(:author, :count)).to eq "user-called-2"
+      expect(generate(:commenter, :length)).to eq "user-called-3"
+    end
+
+    it "generates aliases for the sequence that reference the same block and retains value" do
+      define_class("User") { attr_accessor :email }
+
+      FactoryBot.define do
+        sequence(:size, "a", aliases: [:count, :length]) { |n| "global-called-#{n}" }
+
+        factory :user, aliases: [:author, :commenter] do
+          sequence(:size, "x", aliases: [:count, :length]) { |n| "user-called-#{n}" }
+        end
+      end
+
+      expect(generate(:size)).to eq "global-called-a"
+      expect(generate(:count)).to eq "global-called-b"
+      expect(generate(:length)).to eq "global-called-c"
+
+      expect(generate(:user, :size)).to eq "user-called-x"
+      expect(generate(:author, :count)).to eq "user-called-y"
+      expect(generate(:commenter, :length)).to eq "user-called-z"
+    end
+
+    it "generates few values of the sequence" do
+      define_class("User") { attr_accessor :email }
+
+      FactoryBot.define do
+        sequence(:email) { |n| "global-#{n}@example.com" }
+
+        factory :user do
+          sequence(:email) { |n| "user-#{n}@example.com" }
+        end
+      end
+
+      global_values = generate_list(:email, 3)
+      expect(global_values[0]).to eq "global-1@example.com"
+      expect(global_values[1]).to eq "global-2@example.com"
+      expect(global_values[2]).to eq "global-3@example.com"
+
+      user_values = generate_list(:user, :email, 3)
+      expect(user_values[0]).to eq "user-1@example.com"
+      expect(user_values[1]).to eq "user-2@example.com"
+      expect(user_values[2]).to eq "user-3@example.com"
+    end
+
+    it "generates few values of the sequence with a given scope" do
+      define_class("User") { attr_accessor :name, :email }
+
+      FactoryBot.define do
+        factory :user do
+          sequence(:email) { |n| "#{name}-#{n}@example.com" }
+        end
+      end
+
+      test_scope = OpenStruct.new(name: "Jester")
+      user_values = generate_list(:user, :email, 3, scope: test_scope)
+
+      expect(user_values[0]).to eq "Jester-1@example.com"
+      expect(user_values[1]).to eq "Jester-2@example.com"
+      expect(user_values[2]).to eq "Jester-3@example.com"
+    end
+  end # "on success"
+
+  # = On Failure
+  # ======================================================================
+  #
+  describe "on failure" do
+    it "it fails with an unknown sequence or factory name" do
+      define_class("User") { attr_accessor :email }
+
+      FactoryBot.define do
+        sequence :counter
+        factory :user do
+          sequence counter
+        end
+      end
+
+      expect { generate(:test).to raise_error KeyError, /Sequence not registered: :test/ }
+      expect { generate(:user, :test).to raise_error KeyError, /Sequence not registered: user:test/ }
+      expect { generate(:admin, :counter).to raise_error KeyError, /Sequence not registered: "admin:counter"/ }
+    end
+
+    it "it fails with a sequence that references a scoped attribute, but no scope given" do
+      define_class("User") { attr_accessor :name, :age, :info }
+
+      FactoryBot.define do
+        factory :user do
+          sequence(:info) { |n| "#{name}:#{age + n}" }
+        end
+      end
+
+      jester = FactoryBot.build(:user, name: "Jester", age: 21)
+
+      expect(generate(:user, :info, scope: jester)).to eq "Jester:23"
+
+      expect { generate(:user, :info) }
+        .to raise_error ArgumentError, "Sequence 'user/info' failed to return a value. " \
+                                       "Perhaps it needs a scope to operate? (scope: <object>)"
+    end
+  end # "on failure"
 end
