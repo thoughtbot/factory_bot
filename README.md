@@ -97,7 +97,6 @@ We are [available for hire][hire].
 [community]: https://thoughtbot.com/community?utm_source=github
 [hire]: https://thoughtbot.com/hire-us?utm_source=github
 
-
 <!-- END /templates/footer.md -->
 
 [ci-image]: https://github.com/thoughtbot/factory_bot/actions/workflows/build.yml/badge.svg?branch=main
