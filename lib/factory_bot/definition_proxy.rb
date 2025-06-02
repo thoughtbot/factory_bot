@@ -19,12 +19,12 @@ module FactoryBot
       undef_method(method) unless UNPROXIED_METHODS.include?(method.to_s)
     end
 
-    delegate :before, :after, :callback, to: :@definition
+    delegate :before, :after, :callback, to: :@root_definition
 
-    attr_reader :child_factories, :definition
+    attr_reader :child_factories, :root_definition
 
-    def initialize(definition, ignore = false)
-      @definition = definition
+    def initialize(root_definition, ignore = false)
+      @root_definition = root_definition
       @ignore = ignore
       @child_factories = []
     end
@@ -46,11 +46,11 @@ module FactoryBot
     #   generated instances.
     def add_attribute(name, &block)
       declaration = Declaration::Dynamic.new(name, @ignore, block)
-      @definition.declare_attribute(declaration)
+      @root_definition.declare_attribute(declaration)
     end
 
     def transient(&block)
-      proxy = DefinitionProxy.new(@definition, true)
+      proxy = DefinitionProxy.new(@root_definition, true)
       proxy.instance_eval(&block)
     end
 
@@ -97,7 +97,7 @@ module FactoryBot
         association(name, association_options)
       else
         raise NoMethodError.new(<<~MSG)
-          undefined method '#{name}' in '#{@definition.name}' factory
+          undefined method '#{name}' in '#{@root_definition.name}' factory
           Did you mean? '#{name} { #{association_options.inspect} }'
         MSG
       end
@@ -121,7 +121,7 @@ module FactoryBot
     # Except that no globally available sequence will be defined.
     def sequence(name, *args, &block)
       options = args.extract_options!
-      options[:uri_paths] = definition.uri_manager.to_a
+      options[:uri_paths] = root_definition.uri_manager.to_a
       args << options
 
       new_sequence = Sequence.new(name, *args, &block)
@@ -156,20 +156,20 @@ module FactoryBot
       if block_given?
         raise AssociationDefinitionError.new(
           "Unexpected block passed to '#{name}' association " \
-          "in '#{@definition.name}' factory"
+          "in '#{@root_definition.name}' factory"
         )
       else
         declaration = Declaration::Association.new(name, *options)
-        @definition.declare_attribute(declaration)
+        @root_definition.declare_attribute(declaration)
       end
     end
 
     def to_create(&block)
-      @definition.to_create(&block)
+      @root_definition.to_create(&block)
     end
 
     def skip_create
-      @definition.skip_create
+      @root_definition.skip_create
     end
 
     def factory(name, options = {}, &block)
@@ -177,7 +177,7 @@ module FactoryBot
     end
 
     def trait(name, &block)
-      @definition.define_trait(Trait.new(name, uri_paths: definition.uri_manager.to_a, &block))
+      @root_definition.define_trait(Trait.new(name, uri_paths: root_definition.uri_manager.to_a, &block))
     end
 
     # Creates traits for enumerable values.
@@ -235,19 +235,19 @@ module FactoryBot
     #     attempt to get the values by calling the pluralized `attribute_name`
     #     class method.
     def traits_for_enum(attribute_name, values = nil)
-      @definition.register_enum(Enum.new(attribute_name, values))
+      @root_definition.register_enum(Enum.new(attribute_name, values))
     end
 
     def initialize_with(&block)
-      @definition.define_constructor(&block)
+      @root_definition.define_constructor(&block)
     end
 
     private
 
     def __declare_attribute__(name, block)
       if block.nil?
-        declaration = Declaration::Implicit.new(name, @definition, @ignore)
-        @definition.declare_attribute(declaration)
+        declaration = Declaration::Implicit.new(name, @root_definition, @ignore)
+        @root_definition.declare_attribute(declaration)
       else
         add_attribute(name, &block)
       end
