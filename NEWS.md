@@ -1,5 +1,10 @@
 # News
 
+## 6.5.3 (June 2, 2025)
+
+  * Fix: Factory sequences without blocks (CodeMeister)
+  * Added: New methods for setting, generating and rewinding sequences (CodeMeister)
+
 ## 6.5.2 (May 30, 2025)
 
     * Changed: Updated "verbose linting" test to allow for backtrace changes in Ruby 3.4 (CodeMeister)
