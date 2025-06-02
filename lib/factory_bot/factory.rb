@@ -12,7 +12,8 @@ module FactoryBot
       @parent = options[:parent]
       @aliases = options[:aliases] || []
       @class_name = options[:class]
-      @definition = Definition.new(@name, options[:traits] || [])
+      @uri_manager = FactoryBot::UriManager.new(names)
+      @definition = Definition.new(@name, options[:traits] || [], uri_manager: @uri_manager)
       @compiled = false
     end
 

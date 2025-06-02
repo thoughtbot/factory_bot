@@ -46,6 +46,7 @@ require "factory_bot/decorator/attribute_hash"
 require "factory_bot/decorator/disallows_duplicates_registry"
 require "factory_bot/decorator/invocation_tracker"
 require "factory_bot/decorator/new_constructor"
+require "factory_bot/uri_manager"
 require "factory_bot/linter"
 require "factory_bot/version"
 
@@ -57,6 +58,9 @@ module FactoryBot
 
   mattr_accessor :automatically_define_enum_traits, instance_accessor: false
   self.automatically_define_enum_traits = true
+
+  mattr_accessor :sequence_setting_timeout, instance_accessor: false
+  self.sequence_setting_timeout = 3
 
   # Look for errors in factories and (optionally) their traits.
   # Parameters:
@@ -73,17 +77,43 @@ module FactoryBot
 
   # Set the starting value for ids when using the build_stubbed strategy
   #
-  # Arguments:
-  # * starting_id +Integer+
-  #   The new starting id value.
+  # @param [Integer] starting_id The new starting id value.
   def self.build_stubbed_starting_id=(starting_id)
     Strategy::Stub.next_id = starting_id - 1
   end
 
   class << self
+    # @!method rewind_sequence(*uri_parts)
+    #   Rewind an individual global or inline sequence.
+    #
+    #   @param [Array<Symbol>, String] uri_parts The components of the sequence URI.
+    #
+    #   @example Rewinding a sequence by its URI parts
+    #     rewind_sequence(:factory_name, :trait_name, :sequence_name)
+    #
+    #   @example Rewinding a sequence by its URI string
+    #     rewind_sequence("factory_name/trait_name/sequence_name")
+    #
+    # @!method set_sequence(*uri_parts, value)
+    #   Set the sequence to a specific value, providing the new value is within
+    #   the sequence set.
+    #
+    #   @param [Array<Symbol>, String] uri_parts The components of the sequence URI.
+    #   @param [Object] value The new value for the sequence. This must be a value that is
+    #     within the sequence definition. For example, you cannot set
+    #     a String sequence to an Integer value.
+    #
+    #   @example
+    #     set_sequence(:factory_name, :trait_name, :sequence_name, 450)
+    #   @example
+    #     set_sequence([:factory_name, :trait_name, :sequence_name], 450)
+    #   @example
+    #     set_sequence("factory_name/trait_name/sequence_name", 450)
     delegate :factories,
       :register_strategy,
       :rewind_sequences,
+      :rewind_sequence,
+      :set_sequence,
       :strategy_by_name,
       to: Internal
   end

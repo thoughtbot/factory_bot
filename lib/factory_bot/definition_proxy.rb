@@ -21,7 +21,7 @@ module FactoryBot
 
     delegate :before, :after, :callback, to: :@definition
 
-    attr_reader :child_factories
+    attr_reader :child_factories, :definition
 
     def initialize(definition, ignore = false)
       @definition = definition
@@ -119,8 +119,12 @@ module FactoryBot
     #   end
     #
     # Except that no globally available sequence will be defined.
-    def sequence(name, ...)
-      new_sequence = Sequence.new(name, ...)
+    def sequence(name, *args, &block)
+      options = args.extract_options!
+      options[:uri_paths] = definition.uri_manager.to_a
+      args << options
+
+      new_sequence = Sequence.new(name, *args, &block)
       registered_sequence = __fetch_or_register_sequence(new_sequence)
       add_attribute(name) { increment_sequence(registered_sequence) }
     end
@@ -169,11 +173,11 @@ module FactoryBot
     end
 
     def factory(name, options = {}, &block)
-      @child_factories << [name, options, block]
+      child_factories << [name, options, block]
     end
 
     def trait(name, &block)
-      @definition.define_trait(Trait.new(name, &block))
+      @definition.define_trait(Trait.new(name, uri_paths: definition.uri_manager.to_a, &block))
     end
 
     # Creates traits for enumerable values.
@@ -254,17 +258,12 @@ module FactoryBot
     end
 
     ##
-    # If the sequence has already been registered by a parent, return that one,
-    # otherwise register and return the given sequence
+    # If the inline sequence has already been registered by a parent,
+    # return that one, otherwise register and return the given sequence
     #
     def __fetch_or_register_sequence(sequence)
-      FactoryBot::Internal.inline_sequences
-        .each do |registered_sequence|
-        return registered_sequence if registered_sequence.matches?(sequence)
-      end
-
-      FactoryBot::Internal.register_inline_sequence(sequence)
-      sequence
+      FactoryBot::Sequence.find_by_uri(sequence.uri_manager.first) ||
+        FactoryBot::Internal.register_inline_sequence(sequence)
     end
   end
 end

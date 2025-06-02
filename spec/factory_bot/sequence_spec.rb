@@ -21,6 +21,72 @@ shared_examples "a sequence" do |options|
 end
 
 describe FactoryBot::Sequence do
+  describe ".find" do
+    before(:each) do
+      define_class("User") { attr_accessor :name }
+
+      FactoryBot.define do
+        factory :user do
+          trait :with_email do
+            sequence(:email) { |n| "user_#{n}@example.com" }
+          end
+        end
+      end
+    end
+
+    it "accepts a list of symbols" do
+      expect(described_class.find(:user, :with_email, :email)).to be_truthy
+    end
+
+    it "accepts a list of strings" do
+      expect(described_class.find("user", "with_email", "email")).to be_truthy
+    end
+
+    it "accepts a mixture of symbols & strings" do
+      expect(described_class.find(:user, "with_email", :email)).to be_truthy
+    end
+
+    it "returns nil with a non-matching URI" do
+      expect(described_class.find(:user, :email)).to be_nil
+    end
+
+    it "raises an exception with no arguments given" do
+      expect { described_class.find }
+        .to raise_error ArgumentError, /wrong number of arguments, expected 1\+/
+    end
+  end
+
+  describe ".find_by_uri" do
+    before(:each) do
+      define_class("User") { attr_accessor :name }
+
+      FactoryBot.define do
+        factory :user do
+          trait :with_email do
+            sequence(:email) { |n| "user_#{n}@example.com" }
+          end
+        end
+      end
+    end
+
+    it "accepts a String" do
+      expect(described_class.find_by_uri("user/with_email/email")).to be_truthy
+    end
+
+    it "accepts a Symbol" do
+      expect(described_class.find_by_uri(:"user/with_email/email")).to be_truthy
+    end
+
+    it "returns nil with a non-matching URI" do
+      expect(described_class.find_by_uri("user/email")).to be_nil
+    end
+
+    it "raises an exception with no arguments given" do
+      expect { described_class.find_by_uri }
+        .to raise_error ArgumentError, /wrong number of arguments \(given 0, expected 1\)/
+    end
+  end
+
   describe "a basic sequence" do
     let(:name) { :test }
     subject { FactoryBot::Sequence.new(name) { |n| "=#{n}" } }

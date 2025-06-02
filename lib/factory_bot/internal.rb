@@ -26,6 +26,7 @@ module FactoryBot
 
       def register_inline_sequence(sequence)
         inline_sequences.push(sequence)
+        sequence
       end
 
       def rewind_inline_sequences
@@ -59,6 +60,22 @@ module FactoryBot
         rewind_inline_sequences
       end
 
+      def rewind_sequence(*uri_parts)
+        fail_argument_count(0, "1+") if uri_parts.empty?
+
+        uri = build_uri(uri_parts)
+        sequence = Sequence.find_by_uri(uri) || fail_unregistered_sequence(uri)
+
+        sequence.rewind
+      end
+
+      def set_sequence(*uri_parts, value)
+        uri = build_uri(uri_parts) || fail_argument_count(uri_parts.size, "2+")
+        sequence = Sequence.find(*uri) || fail_unregistered_sequence(uri)
+
+        sequence.set_value(value)
+      end
+
       def register_factory(factory)
         factory.names.each do |name|
           factories.register(name, factory)
@@ -85,6 +102,22 @@ module FactoryBot
         register_strategy(:attributes_for, FactoryBot::Strategy::AttributesFor)
         register_strategy(:build_stubbed, FactoryBot::Strategy::Stub)
         register_strategy(:null, FactoryBot::Strategy::Null)
+      end
+
+      private
+
+      def build_uri(...)
+        FactoryBot::UriManager.build_uri(...)
+      end
+
+      def fail_argument_count(received, expected)
+        fail ArgumentError,
+          "wrong number of arguments (given #{received}, expected #{expected})"
+      end
+
+      def fail_unregistered_sequence(uri)
+        fail KeyError,
+          "Sequence not registered: '#{uri}'."
       end
     end
   end
