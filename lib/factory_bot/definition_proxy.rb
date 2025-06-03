@@ -21,7 +21,7 @@ module FactoryBot
 
     delegate :before, :after, :callback, to: :@definition
 
-    attr_reader :child_factories, :definition
+    attr_reader :child_factories
 
     def initialize(definition, ignore = false)
       @definition = definition
@@ -121,7 +121,7 @@ module FactoryBot
     # Except that no globally available sequence will be defined.
     def sequence(name, *args, &block)
       options = args.extract_options!
-      options[:uri_paths] = definition.uri_manager.to_a
+      options[:uri_paths] = @definition.uri_manager.to_a
       args << options
 
       new_sequence = Sequence.new(name, *args, &block)
@@ -177,7 +177,7 @@ module FactoryBot
     end
 
     def trait(name, &block)
-      @definition.define_trait(Trait.new(name, uri_paths: definition.uri_manager.to_a, &block))
+      @definition.define_trait(Trait.new(name, uri_paths: @definition.uri_manager.to_a, &block))
     end
 
     # Creates traits for enumerable values.
