@@ -1,5 +1,9 @@
 # News
 
+## 6.5.4 (June 13, 2025)
+
+  * Fix bug where user-defined method named `definition` could not be set through `method_missing` in factories. (CodeMeister)
+
 ## 6.5.3 (June 2, 2025)
 
   * Fix: Factory sequences without blocks (CodeMeister)
