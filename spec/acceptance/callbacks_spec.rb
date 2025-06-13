@@ -1,48 +1,244 @@
 describe "callbacks" do
   before do
     define_model("User", first_name: :string, last_name: :string)
+  end
 
-    FactoryBot.define do
-      factory :user_with_callbacks, class: :user do
-        after(:stub) { |user| user.first_name = "Stubby" }
-        after(:build) { |user| user.first_name = "Buildy" }
-        after(:create) { |user| user.last_name = "Createy" }
-      end
+  context "with strategy callbacks" do
+    before do
+      FactoryBot.define do
+        factory :user_with_callbacks, class: :user do
+          after(:stub) { |user| user.first_name = "Stubby" }
+          after(:build) { |user| user.first_name = "Buildy" }
+          after(:create) { |user| user.last_name = "Createy" }
+        end
 
-      factory :user_with_inherited_callbacks, parent: :user_with_callbacks do
-        after(:stub) { |user| user.last_name = "Double-Stubby" }
-        after(:build) { |user| user.first_name = "Child-Buildy" }
+        factory :user_with_inherited_callbacks, parent: :user_with_callbacks do
+          after(:stub) { |user| user.last_name = "Double-Stubby" }
+          after(:build) { |user| user.first_name = "Child-Buildy" }
+        end
       end
     end
-  end
 
-  it "runs the after(:stub) callback when stubbing" do
-    user = FactoryBot.build_stubbed(:user_with_callbacks)
-    expect(user.first_name).to eq "Stubby"
-  end
+    it "runs the after(:stub) callback when stubbing" do
+      user = FactoryBot.build_stubbed(:user_with_callbacks)
+      expect(user.first_name).to eq "Stubby"
+    end
 
-  it "runs the after(:build) callback when building" do
-    user = FactoryBot.build(:user_with_callbacks)
-    expect(user.first_name).to eq "Buildy"
-  end
+    it "runs the after(:build) callback when building" do
+      user = FactoryBot.build(:user_with_callbacks)
+      expect(user.first_name).to eq "Buildy"
+    end
 
-  it "runs both the after(:build) and after(:create) callbacks when creating" do
-    user = FactoryBot.create(:user_with_callbacks)
-    expect(user.first_name).to eq "Buildy"
-    expect(user.last_name).to eq "Createy"
-  end
+    it "runs both the after(:build) and after(:create) callbacks when creating" do
+      user = FactoryBot.create(:user_with_callbacks)
+      expect(user.first_name).to eq "Buildy"
+      expect(user.last_name).to eq "Createy"
+    end
 
-  it "runs both the after(:stub) callback on the factory and the inherited after(:stub) callback" do
-    user = FactoryBot.build_stubbed(:user_with_inherited_callbacks)
-    expect(user.first_name).to eq "Stubby"
-    expect(user.last_name).to eq "Double-Stubby"
-  end
+    it "runs both the after(:stub) callback on the factory and the inherited after(:stub) callback" do
+      user = FactoryBot.build_stubbed(:user_with_inherited_callbacks)
+      expect(user.first_name).to eq "Stubby"
+      expect(user.last_name).to eq "Double-Stubby"
+    end
 
-  it "runs child callback after parent callback" do
-    user = FactoryBot.build(:user_with_inherited_callbacks)
-    expect(user.first_name).to eq "Child-Buildy"
-  end
-end
+    it "runs child callback after parent callback" do
+      user = FactoryBot.build(:user_with_inherited_callbacks)
+      expect(user.first_name).to eq "Child-Buildy"
+    end
+  end # with strategy callbacks
+
+  context "with before(:all) and after(:all) included" do
+    context "are executed in the correct order" do
+      before do
+        FactoryBot.define do
+          before(:all) { TestLog << "global before-all called" }
+          after(:all) { TestLog << "global after-all called" }
+          after(:build) { TestLog << "global after-build called" }
+          before(:create) { TestLog << "global before-create called" }
+          after(:create) { TestLog << "global after-create called" }
+
+          factory :parent, class: :user do
+            before(:all) { TestLog << "parent before-all called" }
+            after(:all) { TestLog << "parent after-all called" }
+            after(:build) { TestLog << "parent after-build called" }
+            before(:create) { TestLog << "parent before-create called" }
+            after(:create) { TestLog << "parent after-create called" }
+
+            trait :parent_trait_1 do
+              before(:all) { TestLog << "parent-trait-1 before-all called" }
+              after(:all) { TestLog << "parent-trait-1 after-all called" }
+              after(:build) { TestLog << "parent-trait-1 after-build called" }
+              before(:create) { TestLog << "parent-trait-1 before-create called" }
+              after(:create) { TestLog << "parent-trait-1 after-create called" }
+            end
+
+            trait :parent_trait_2 do
+              before(:all) { TestLog << "parent-trait-2 before-all called" }
+              after(:all) { TestLog << "parent-trait-2 after-all called" }
+              after(:build) { TestLog << "parent-trait-2 after-build called" }
+              before(:create) { TestLog << "parent-trait-2 before-create called" }
+              after(:create) { TestLog << "parent-trait-2 after-create called" }
+            end
+          end
+
+          factory :child, parent: :parent do
+            before(:all) { TestLog << "child before-all called" }
+            after(:create) { TestLog << "child after-create called" }
+            after(:build) { TestLog << "child after-build called" }
+            before(:create) { TestLog << "child before-create called" }
+            after(:all) { TestLog << "child after-all called" }
+
+            trait :child_trait do
+              before(:all) { TestLog << "child-trait before-all called" }
+              after(:all) { TestLog << "child-trait after-all called" }
+              after(:build) { TestLog << "child-trait after-build called" }
+              before(:create) { TestLog << "child-trait before-create called" }
+              after(:create) { TestLog << "child-trait after-create called" }
+            end
+          end
+        end
+      end
+
+      before(:each) { TestLog.reset! }
+
+      it "with trait callbacks executed in the order requested" do
+        # Note: trait callbacks are executed AFTER any factory callbacks and
+        #       in the order they are requested.
+        #
+        FactoryBot.create(:child, :parent_trait_2, :child_trait, :parent_trait_1)
+
+        expect(TestLog.size).to eq 30
+
+        # before(:all)
+        expect(TestLog[0..5]).to eq [
+          "global before-all called",
+          "parent before-all called",
+          "child before-all called",
+          "parent-trait-2 before-all called",
+          "child-trait before-all called",
+          "parent-trait-1 before-all called"
+        ]
+
+        # after(:build)
+        expect(TestLog[6..11]).to eq [
+          "global after-build called",
+          "parent after-build called",
+          "child after-build called",
+          "parent-trait-2 after-build called",
+          "child-trait after-build called",
+          "parent-trait-1 after-build called"
+        ]
+
+        # before(:create)
+        expect(TestLog[12..17]).to eq [
+          "global before-create called",
+          "parent before-create called",
+          "child before-create called",
+          "parent-trait-2 before-create called",
+          "child-trait before-create called",
+          "parent-trait-1 before-create called"
+        ]
+
+        # after(:create)
+        expect(TestLog[18..23]).to eq [
+          "global after-create called",
+          "parent after-create called",
+          "child after-create called",
+          "parent-trait-2 after-create called",
+          "child-trait after-create called",
+          "parent-trait-1 after-create called"
+        ]
+
+        # after(:all)
+        expect(TestLog[24..29]).to eq [
+          "global after-all called",
+          "parent after-all called",
+          "child after-all called",
+          "parent-trait-2 after-all called",
+          "child-trait after-all called",
+          "parent-trait-1 after-all called"
+        ]
+      end
+    end # ordered correctly
+
+    context "with context provided to before(:all)" do
+      before(:each) { TestLog.reset! }
+
+      it "receives 'nil' as the instance" do
+        FactoryBot.define do
+          before(:all) { |user| TestLog << "Global instance: #{user}" }
+
+          factory :user do
+            before(:all) { |user| TestLog << "Factory instance: #{user}" }
+          end
+        end
+
+        FactoryBot.build(:user)
+        expect(TestLog.first).to eq "Global instance: "
+        expect(TestLog.last).to eq "Factory instance: "
+      end
+
+      it "receives the context, without an instance" do
+        FactoryBot.define do
+          before(:all) do |user, context|
+            TestLog << "Global strategy: #{context.instance_values["build_strategy"].to_sym}"
+            TestLog << "Global instance: #{context.instance}"
+          end
+
+          factory :user do
+            before(:all) do |user, context|
+              TestLog << "Factory strategy: #{context.instance_values["build_strategy"].to_sym}"
+              TestLog << "Factory instance: #{context.instance}"
+            end
+          end
+        end
+
+        FactoryBot.build(:user)
+        expect(TestLog.all).to eq [
+          "Global strategy: build",
+          "Global instance: ",
+          "Factory strategy: build",
+          "Factory instance: "
+        ]
+      end
+    end # context: with context provided to before(:all)
+
+    context "with context provided to after(:all)" do
+      it "succeeds with the instance provided" do
+        FactoryBot.define do
+          after(:all) { |user| user.first_name = "Globy" }
+
+          factory :user do
+            after(:all) { |user| user.last_name = "Lasty" }
+          end
+        end
+
+        user = FactoryBot.build(:user)
+        expect(user.first_name).to eq "Globy"
+        expect(user.last_name).to eq "Lasty"
+      end
+
+      it "succeeds with both the instance and context provided" do
+        FactoryBot.define do
+          after(:all) { |user, context| user.first_name = context.new_first_name }
+
+          factory :user do
+            transient do
+              new_first_name { "New First Name" }
+              new_last_name { "New Last Name" }
+            end
+
+            after(:all) { |user, context| user.last_name = context.new_last_name }
+          end
+        end
+
+        user = FactoryBot.build(:user)
+        expect(user.first_name).to eq "New First Name"
+        expect(user.last_name).to eq "New Last Name"
+      end
+    end # context: with context provided to after(:all)
+  end # context: with before(:all) and after(:all) callbacks included
+end # describe: callbacks
 
 describe "callbacks using Symbol#to_proc" do
   before do
