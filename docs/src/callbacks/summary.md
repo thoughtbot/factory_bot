@@ -14,7 +14,7 @@ factory\_bot makes six callbacks available:
 
 ## Examples
 
-### Calling an object's own method after building.
+### Calling an object's own method after building
 
 ```ruby
 ## 
