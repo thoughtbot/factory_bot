@@ -2,14 +2,14 @@
 
 factory\_bot makes six callbacks available:
 
-|Callback|Timing|
-|---|---|
-|before(:all)   |called before a factory begins generating the object.|
-|after(:all)    |called after a factory has generated the object.|
-|after(:build)  |called after a factory is built (via `FactoryBot.build`, `FactoryBot.create`)|
-|before(:create)|called before a factory is saved (via `FactoryBot.create`)|
-|after(:create) |called after a factory is saved (via `FactoryBot.create`)|
-|after(:stub)   |called after a factory is stubbed (via `FactoryBot.build_stubbed`)|
+| Callback        | Timing                                                                                                                    |
+| --------------- | ------------------------------------------------------------------------------------------------------------------------- |
+| before(:all)    | called before a factory constructs an object (via `FactoryBot.build`, `FactoryBot.create`, or `FactoryBot.build_stubbed`) |
+| after(:build)   | called after a factory builds an object (via `FactoryBot.build` or `FactoryBot.create`)                                   |
+| before(:create) | called before a factory saves an object (via `FactoryBot.create`)                                                         |
+| after(:create)  | called after a factory saves an object (via `FactoryBot.create`)                                                          |
+| after(:stub)    | called after a factory stubs an object (via `FactoryBot.build_stubbed`)                                                   |
+| after(:all)     | called after a factory constructs an object (via `FactoryBot.build`, `FactoryBot.create`, or `FactoryBot.build_stubbed`)  |
 
 
 ## Examples
