@@ -13,7 +13,7 @@ factory. Within a `FactoryBot.define` block, they are global to all factories.
 
 The `callback` method allows you to hook into any factory\_bot callback by
 name. The pre-defined names, as seen in the [build strategies] reference, are
-`before_all`, `after_all`, `after_build`, `before_create`, `after_create`, and `after_stub`.
+`before_all`, `after_build`, `before_create`, `after_create`, `after_stub`, and `after_all`.
 
 This method takes a splat of names, and a block. It invokes the block any time
 one of the names is activated. The block can be anything that responds to
