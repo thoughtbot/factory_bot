@@ -1,9 +1,10 @@
+require "forwardable"
+
 ##
 # Designed for tests to log output for later evaluation
 #
 module TestLog
   class << self
-    require "forwardable"
     extend Forwardable
 
     def_delegators :log_array, :<<, :[], :size, :first, :last

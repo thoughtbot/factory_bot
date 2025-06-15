@@ -40,5 +40,3 @@ factory :user do
   after(:all){ User.set_callback(:create, :after, :send_welcome_email) }
 end
 ```
-
-
