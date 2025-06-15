@@ -12,7 +12,7 @@ factory\_bot makes six callbacks available:
 |after(:stub)   |called after a factory is stubbed (via `FactoryBot.build_stubbed`)|
 
 
-## Examples:
+## Examples
 
 ### Calling an object's own method after building.
 
