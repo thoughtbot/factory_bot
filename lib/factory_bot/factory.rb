@@ -33,6 +33,7 @@ module FactoryBot
 
     def run(build_strategy, overrides, &block)
       block ||= ->(result) { result }
+
       compile
 
       strategy = StrategyCalculator.new(build_strategy).strategy.new
@@ -44,7 +45,11 @@ module FactoryBot
       evaluation =
         Evaluation.new(evaluator, attribute_assigner, compiled_to_create, observer)
 
-      strategy.result(evaluation).tap(&block)
+      evaluation.notify(:before_all, nil)
+      instance = strategy.result(evaluation).tap(&block)
+      evaluation.notify(:after_all, instance)
+
+      instance
     end
 
     def human_names
