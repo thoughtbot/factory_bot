@@ -1,0 +1,14 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+lib = File.expand_path("../lib", __dir__)
+$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
+
+require "bundler/setup"
+require "factory_bot"
+
+# Add any other fixtures and/or initialization code here.
+
+require "irb"
+require "irb/completion"
+IRB.start(__FILE__)
