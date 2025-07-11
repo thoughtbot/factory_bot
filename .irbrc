@@ -1,5 +1,5 @@
 def reload!
-  # Undefine FactoryBot so we can reload Constants and fresh code
+  # Undefine FactoryBot so we can reload constants and fresh code
   Object.send(:remove_const, :FactoryBot) if Object.const_defined?(:FactoryBot)
 
   # Remove all files from the 'loaded' register
