@@ -3,9 +3,7 @@ def reload!
   Object.send(:remove_const, :FactoryBot) if Object.const_defined?(:FactoryBot)
 
   # Remove all files from the 'loaded' register
-  $LOADED_FEATURES.grep(/factory_bot/).each do |path|
-    $LOADED_FEATURES.delete(path)
-  end
+  $LOADED_FEATURES.delete_if { |path| path.match?(/factory_bot/) }
 
   # re-load it again
   require "factory_bot"
