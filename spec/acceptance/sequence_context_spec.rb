@@ -1,4 +1,6 @@
-describe "sequences are evaluated in the correct context" do
+describe "sequences are evaluated in the correct context, directly & implicitly" do
+  include FactoryBot::Syntax::Methods
+
   before do
     define_class("User") do
       attr_accessor :id, :name
@@ -17,6 +19,7 @@ describe "sequences are evaluated in the correct context" do
     end
 
     expect(FactoryBot.build(:sequence_with_sprintf).id).to eq "foo1"
+    expect(build(:sequence_with_sprintf).id).to eq "foo2"
   end
 
   it "invokes the correct method on the instance" do
@@ -27,6 +30,7 @@ describe "sequences are evaluated in the correct context" do
     end
 
     expect(FactoryBot.build(:sequence_with_public_method).id).to eq "aw yeah"
+    expect(build(:sequence_with_public_method).id).to eq "aw yeah"
   end
 
   it "invokes a method with no arguments on the instance" do
@@ -37,6 +41,7 @@ describe "sequences are evaluated in the correct context" do
     end
 
     expect(FactoryBot.build(:sequence_with_frozen).id).to be false
+    expect(build(:sequence_with_frozen).id).to be false
   end
 
   it "allows direct reference of a method in a sequence" do
@@ -46,6 +51,7 @@ describe "sequences are evaluated in the correct context" do
       end
     end
     expect(FactoryBot.build(:sequence_referencing_attribute_directly).id).to eq "aw yeah1"
+    expect(build(:sequence_referencing_attribute_directly).id).to eq "aw yeah2"
   end
 
   context "with inherited factories" do
@@ -62,7 +68,7 @@ describe "sequences are evaluated in the correct context" do
       expect(parents[1].id).to eq "id_2"
       expect(parents[2].id).to eq "id_3"
 
-      children = FactoryBot.build_list(:child, 3)
+      children = build_list(:child, 3)
       expect(children[0].id).to eq "id_4"
       expect(children[1].id).to eq "id_5"
       expect(children[2].id).to eq "id_6"
@@ -83,7 +89,7 @@ describe "sequences are evaluated in the correct context" do
       parent_ids = FactoryBot.build_list(:parent, 3, :with_sequenced_id).map(&:id)
       expect(parent_ids).to eq ["id_1", "id_2", "id_3"]
 
-      child_ids = FactoryBot.build_list(:child, 3, :with_sequenced_id).map(&:id)
+      child_ids = build_list(:child, 3, :with_sequenced_id).map(&:id)
       expect(child_ids).to eq ["id_4", "id_5", "id_6"]
     end
 
@@ -109,7 +115,7 @@ describe "sequences are evaluated in the correct context" do
       expect(parents[1].id).to eq "id_2"
       expect(parents[2].id).to eq "id_3"
 
-      children = FactoryBot.build_list(:child, 3)
+      children = build_list(:child, 3)
       expect(children[0].id).to eq "id_1"
       expect(children[1].id).to eq "id_2"
       expect(children[2].id).to eq "id_3"
@@ -136,7 +142,7 @@ describe "sequences are evaluated in the correct context" do
       expect(parents[1].id).to eq "parent_2"
       expect(parents[2].id).to eq "parent_3"
 
-      children = FactoryBot.build_list(:child, 3)
+      children = build_list(:child, 3)
       expect(children[0].id).to eq "child_1"
       expect(children[1].id).to eq "child_2"
       expect(children[2].id).to eq "child_3"
@@ -164,7 +170,7 @@ describe "sequences are evaluated in the correct context" do
       expect(globals[1]).to eq "global_2"
       expect(globals[2]).to eq "global_3"
 
-      parents = FactoryBot.build_list(:parent, 3)
+      parents = build_list(:parent, 3)
       expect(parents[0].id).to eq "parent_1"
       expect(parents[1].id).to eq "parent_2"
       expect(parents[2].id).to eq "parent_3"
@@ -174,7 +180,7 @@ describe "sequences are evaluated in the correct context" do
       expect(children[1].id).to eq "child_2"
       expect(children[2].id).to eq "child_3"
 
-      siblings = FactoryBot.build_list(:sibling, 3)
+      siblings = build_list(:sibling, 3)
       expect(siblings[0].id).to eq "sibling_1"
       expect(siblings[1].id).to eq "sibling_2"
       expect(siblings[2].id).to eq "sibling_3"

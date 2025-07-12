@@ -123,7 +123,7 @@ module FactoryBot
           raise(KeyError,
             "Sequence not registered: #{FactoryBot::UriManager.build_uri(uri_parts)}")
 
-        increment_sequence(uri, sequence, scope: scope)
+        increment_sequence(sequence, scope: scope)
       end
 
       # Generates and returns the list of values in a global or factory sequence.
@@ -147,7 +147,7 @@ module FactoryBot
           raise(KeyError, "Sequence not registered: '#{uri}'")
 
         (1..count).map do
-          increment_sequence(uri, sequence, scope: scope)
+          increment_sequence(sequence, scope: scope)
         end
       end
 
@@ -161,21 +161,19 @@ module FactoryBot
       # Increments the given sequence and returns the value.
       #
       # Arguments:
-      #   uri: (Symbol)
-      #     The URI for the sequence
       #   sequence:
       #     The sequence instance
       #   scope: (object)(optional)
       #     The object the sequence should be evaluated within
       #
-      def increment_sequence(uri, sequence, scope: nil)
+      def increment_sequence(sequence, scope: nil)
         value = sequence.next(scope)
 
         raise if value.respond_to?(:start_with?) && value.start_with?("#<FactoryBot::Declaration")
 
         value
       rescue
-        raise ArgumentError, "Sequence '#{uri}' failed to " \
+        raise ArgumentError, "Sequence '#{sequence.uri_manager.first}' failed to " \
                             "return a value. Perhaps it needs a scope to operate? (scope: <object>)"
       end
     end

@@ -51,8 +51,15 @@ module FactoryBot
       @overrides.keys
     end
 
-    def increment_sequence(sequence)
-      sequence.next(self)
+    def increment_sequence(sequence, scope: self)
+      value = sequence.next(scope)
+
+      raise if value.respond_to?(:start_with?) && value.start_with?("#<FactoryBot::Declaration")
+
+      value
+    rescue
+      raise ArgumentError, "Sequence '#{sequence.uri_manager.first}' failed to " \
+                          "return a value. Perhaps it needs a scope to operate? (scope: <object>)"
     end
 
     def self.attribute_list
