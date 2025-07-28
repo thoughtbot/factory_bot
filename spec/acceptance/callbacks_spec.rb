@@ -16,14 +16,14 @@ describe "callbacks" do
           after(:stub) { |user| user.last_name = "Double-Stubby" }
           after(:build) { |user| user.first_name = "Child-Buildy" }
         end
-      end
 
-      factory :user_with_multi_called_callbacks, class: :user do
-        first_name { "Jane" }
-        trait :alias_2 do alias_1 end
-        trait :alias_1 do surname end
-        trait :surname do
-          after(:build) { |user| user.first_name += " Doe" }
+        factory :user_with_multi_called_callbacks, class: :user do
+          first_name { "Jane" }
+          trait(:alias_2) { alias_1 }
+          trait(:alias_1) { surname }
+          trait :surname do
+            after(:build) { |user| user.first_name += " Doe" }
+          end
         end
       end
     end
