@@ -26,12 +26,13 @@ Gem::Specification.new do |s|
     "changelog_uri" => "https://github.com/thoughtbot/factory_bot/blob/main/NEWS.md"
   }
 
-  s.add_dependency("activesupport", ">= 5.0.0")
+  s.add_dependency("activesupport", ">= 6.1.0")
 
   s.add_development_dependency("activerecord")
   s.add_development_dependency("appraisal")
   s.add_development_dependency("aruba")
   s.add_development_dependency("cucumber")
+  s.add_development_dependency("mutex_m")
   s.add_development_dependency("rake")
   s.add_development_dependency("rspec")
   s.add_development_dependency("rspec-its")

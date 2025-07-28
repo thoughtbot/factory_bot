@@ -12,12 +12,14 @@ module FactoryBot
       @parent = options[:parent]
       @aliases = options[:aliases] || []
       @class_name = options[:class]
-      @definition = Definition.new(@name, options[:traits] || [])
+      @uri_manager = FactoryBot::UriManager.new(names)
+      @definition = Definition.new(@name, options[:traits] || [], uri_manager: @uri_manager)
       @compiled = false
     end
 
     delegate :add_callback, :declare_attribute, :to_create, :define_trait, :constructor,
-      :defined_traits, :inherit_traits, :append_traits, to: :@definition
+      :defined_traits, :defined_traits_names, :inherit_traits, :append_traits,
+      to: :@definition
 
     def build_class
       @build_class ||= if class_name.is_a? Class
@@ -31,6 +33,7 @@ module FactoryBot
 
     def run(build_strategy, overrides, &block)
       block ||= ->(result) { result }
+
       compile
 
       strategy = StrategyCalculator.new(build_strategy).strategy.new
@@ -42,7 +45,11 @@ module FactoryBot
       evaluation =
         Evaluation.new(evaluator, attribute_assigner, compiled_to_create, observer)
 
-      strategy.result(evaluation).tap(&block)
+      evaluation.notify(:before_all, nil)
+      instance = strategy.result(evaluation).tap(&block)
+      evaluation.notify(:after_all, instance)
+
+      instance
     end
 
     def human_names
@@ -85,7 +92,7 @@ module FactoryBot
     def compile
       unless @compiled
         parent.compile
-        parent.defined_traits.each { |trait| define_trait(trait) }
+        inherit_parent_traits
         @definition.compile(build_class)
         build_hierarchy
         @compiled = true
@@ -150,6 +157,13 @@ module FactoryBot
         FactoryBot::Internal.factory_by_name(@parent)
       else
         NullFactory.new
+      end
+    end
+
+    def inherit_parent_traits
+      parent.defined_traits.each do |trait|
+        next if defined_traits_names.include?(trait.name)
+        define_trait(trait.clone)
       end
     end
 

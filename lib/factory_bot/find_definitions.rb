@@ -2,8 +2,8 @@ module FactoryBot
   class << self
     # An Array of strings specifying locations that should be searched for
     # factory definitions. By default, factory_bot will attempt to require
-    # "factories", "test/factories" and "spec/factories". Only the first
-    # existing file will be loaded.
+    # "factories.rb", "factories/**/*.rb", "test/factories.rb",
+    # "test/factories/**.rb", "spec/factories.rb", and "spec/factories/**.rb".
     attr_accessor :definition_file_paths
   end
 

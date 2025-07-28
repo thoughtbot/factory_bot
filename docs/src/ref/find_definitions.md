@@ -7,6 +7,7 @@ The load order is controlled by the `FactoryBot.definition_file_paths`
 attribute. The default load order is:
 
 1. `factories.rb`
+1. `factories/**/*.rb`
 1. `test/factories.rb`
 1. `test/factories/**/*.rb`
 1. `spec/factories.rb`

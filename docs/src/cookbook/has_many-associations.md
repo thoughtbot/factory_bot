@@ -68,9 +68,9 @@ create(:user_with_posts).posts.length # 5
 create(:user_with_posts, posts_count: 15).posts.length # 15
 ```
 
-Or, for a solution that works with `build`, `build_stubbed`, and `create`
-(although it doesn't work well with `attributes_for`), you can use inline
-associations:
+The following is a simple example that works without having to save to the
+database. It works with `build`, `build_stubbed`, and `create` (although it
+doesn't work well with `attributes_for`), you can use inline associations:
 
 ```ruby
 FactoryBot.define do
@@ -83,6 +83,12 @@ FactoryBot.define do
     name { "Taylor Kim" }
 
     factory :user_with_posts do
+      posts { [association(:post)] }
+    end
+
+    # or
+
+    trait :with_posts do
       posts { [association(:post)] }
     end
   end

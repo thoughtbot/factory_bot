@@ -102,32 +102,79 @@ module FactoryBot
       # @param [Array<Symbol, Symbol, Hash>] traits_and_overrides splat args traits and a hash of overrides
       # @param [Proc] block block to be executed
 
-      # Generates and returns the next value in a sequence.
+      # Generates and returns the next value in a global or factory sequence.
       #
       # Arguments:
-      #   name: (Symbol)
-      #     The name of the sequence that a value should be generated for.
+      #   context: (Array of Symbols)
+      #     The definition context of the sequence, with the sequence name
+      #     as the final entry
+      #   scope: (object)(optional)
+      #     The object the sequence should be evaluated within
       #
       # Returns:
       #   The next value in the sequence. (Object)
-      def generate(name)
-        Internal.sequence_by_name(name).next
+      #
+      # Example:
+      #   generate(:my_factory, :my_trair, :my_sequence)
+      #
+      def generate(*uri_parts, scope: nil)
+        uri = FactoryBot::UriManager.build_uri(uri_parts)
+        sequence = Sequence.find_by_uri(uri) ||
+          raise(KeyError,
+            "Sequence not registered: #{FactoryBot::UriManager.build_uri(uri_parts)}")
+
+        increment_sequence(sequence, scope: scope)
       end
 
-      # Generates and returns the list of values in a sequence.
+      # Generates and returns the list of values in a global or factory sequence.
       #
       # Arguments:
-      #   name: (Symbol)
-      #     The name of the sequence that a value should be generated for.
-      #   count: (Fixnum)
-      #     Count of values
+      #   uri_parts: (Array of Symbols)
+      #     The definition context of the sequence, with the sequence name
+      #     as the final entry
+      #   scope: (object)(optional)
+      #     The object the sequence should be evaluated within
       #
       # Returns:
       #   The next value in the sequence. (Object)
-      def generate_list(name, count)
+      #
+      # Example:
+      #   generate_list(:my_factory, :my_trair, :my_sequence, 5)
+      #
+      def generate_list(*uri_parts, count, scope: nil)
+        uri = FactoryBot::UriManager.build_uri(uri_parts)
+        sequence = Sequence.find_by_uri(uri) ||
+          raise(KeyError, "Sequence not registered: '#{uri}'")
+
         (1..count).map do
-          Internal.sequence_by_name(name).next
+          increment_sequence(sequence, scope: scope)
         end
+      end
+
+      # ======================================================================
+      # = PRIVATE
+      # ======================================================================
+      #
+      private
+
+      ##
+      # Increments the given sequence and returns the value.
+      #
+      # Arguments:
+      #   sequence:
+      #     The sequence instance
+      #   scope: (object)(optional)
+      #     The object the sequence should be evaluated within
+      #
+      def increment_sequence(sequence, scope: nil)
+        value = sequence.next(scope)
+
+        raise if value.respond_to?(:start_with?) && value.start_with?("#<FactoryBot::Declaration")
+
+        value
+      rescue
+        raise ArgumentError, "Sequence '#{sequence.uri_manager.first}' failed to " \
+                            "return a value. Perhaps it needs a scope to operate? (scope: <object>)"
       end
     end
   end

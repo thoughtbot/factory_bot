@@ -1,5 +1,32 @@
 # News
 
+## 6.5.4 (June 13, 2025)
+
+  * Fix bug where user-defined method named `definition` could not be set through `method_missing` in factories. (CodeMeister)
+
+## 6.5.3 (June 2, 2025)
+
+  * Fix: Factory sequences without blocks (CodeMeister)
+  * Added: New methods for setting, generating and rewinding sequences (CodeMeister)
+
+## 6.5.2 (May 30, 2025)
+
+    * Changed: Updated "verbose linting" test to allow for backtrace changes in Ruby 3.4 (CodeMeister)
+    * Fix: Set the same timestamps for `created_at` and `updated_at` on `build_stubbed` (Kim Emmanuel)
+    * Fix: Refactored sequences to ensure cloned traits use parent sequences. (CodeMeister)
+    * Docs: Fix definition_file_paths comment (Milo Winningham)
+    * Docs: Add ruby-lsp extensions to Useful Tools in README.md (johansenja)
+    * Docs: Fix docs about definition file paths (Ryo Nakamura)
+    * Docs: Update has_many-associations.md to mention that traits can use inline associations (Matthew Zagaja)
+    * Docs: Fix "Transitioning from Factory Girl" guide link (Neil Carvalho)
+
+## 6.5.1 (January 31, 2025)
+
+  * Changed: execute linting tests within ActiveRecord transactions when available (Sean Doyle)
+  * Fix: Random test failure when tracking compilation time (CodeMeister)
+  * Fix: Bump the minimum required activesupport version to 6.1 (Earlopain)
+  * Internal: Update development dependencies (Neil Carvalho)
+
 ## 6.5.0 (September 6, 2024)
 
   * fix: issue 1621 broken links in ref/factory.md by @elasticspoon in https://github.com/thoughtbot/factory_bot/pull/1623

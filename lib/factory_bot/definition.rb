@@ -1,11 +1,12 @@
 module FactoryBot
   # @api private
   class Definition
-    attr_reader :defined_traits, :declarations, :name, :registered_enums
+    attr_reader :defined_traits, :declarations, :name, :registered_enums, :uri_manager
     attr_accessor :klass
 
-    def initialize(name, base_traits = [])
+    def initialize(name, base_traits = [], **opts)
       @name = name
+      @uri_manager = opts[:uri_manager]
       @declarations = DeclarationList.new(name)
       @callbacks = []
       @defined_traits = Set.new
@@ -93,6 +94,10 @@ module FactoryBot
 
     def define_trait(trait)
       @defined_traits.add(trait)
+    end
+
+    def defined_traits_names
+      @defined_traits.map(&:name)
     end
 
     def register_enum(enum)
