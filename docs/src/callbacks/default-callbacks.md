@@ -2,10 +2,13 @@
 
 factory\_bot makes available four callbacks for injecting some code:
 
-* after(:build)   - called after a factory is built   (via `FactoryBot.build`, `FactoryBot.create`)
-* before(:create) - called before a factory is saved  (via `FactoryBot.create`)
-* after(:create)  - called after a factory is saved   (via `FactoryBot.create`)
-* after(:stub)    - called after a factory is stubbed (via `FactoryBot.build_stubbed`)
+* before(:all)    - called before any strategy is used (e.g., `FactoryBot.build`, `FactoryBot.create`, `FactoryBot.build_stubbed`)
+* before(:build)  - called before a factory is built   (via `FactoryBot.build`, `FactoryBot.create`)
+* after(:build)   - called after a factory is built    (via `FactoryBot.build`, `FactoryBot.create`)
+* before(:create) - called before a factory is saved   (via `FactoryBot.create`)
+* after(:create)  - called after a factory is saved    (via `FactoryBot.create`)
+* after(:stub)    - called after a factory is stubbed  (via `FactoryBot.build_stubbed`)
+* after(:all)     - called after any strategy is used  (e.g., `FactoryBot.build`, `FactoryBot.create`, `FactoryBot.build_stubbed`)
 
 Examples:
 
