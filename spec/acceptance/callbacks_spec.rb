@@ -71,6 +71,7 @@ describe "callbacks" do
         FactoryBot.define do
           before(:all) { TestLog << "global before-all called" }
           after(:all) { TestLog << "global after-all called" }
+          before(:build) { TestLog << "global before-build called" }
           after(:build) { TestLog << "global after-build called" }
           before(:create) { TestLog << "global before-create called" }
           after(:create) { TestLog << "global after-create called" }
@@ -78,6 +79,7 @@ describe "callbacks" do
           factory :parent, class: :user do
             before(:all) { TestLog << "parent before-all called" }
             after(:all) { TestLog << "parent after-all called" }
+            before(:build) { TestLog << "parent before-build called" }
             after(:build) { TestLog << "parent after-build called" }
             before(:create) { TestLog << "parent before-create called" }
             after(:create) { TestLog << "parent after-create called" }
@@ -85,6 +87,7 @@ describe "callbacks" do
             trait :parent_trait_1 do
               before(:all) { TestLog << "parent-trait-1 before-all called" }
               after(:all) { TestLog << "parent-trait-1 after-all called" }
+              before(:build) { TestLog << "parent-trait-1 before-build called" }
               after(:build) { TestLog << "parent-trait-1 after-build called" }
               before(:create) { TestLog << "parent-trait-1 before-create called" }
               after(:create) { TestLog << "parent-trait-1 after-create called" }
@@ -93,6 +96,7 @@ describe "callbacks" do
             trait :parent_trait_2 do
               before(:all) { TestLog << "parent-trait-2 before-all called" }
               after(:all) { TestLog << "parent-trait-2 after-all called" }
+              before(:build) { TestLog << "parent-trait-2 before-build called" }
               after(:build) { TestLog << "parent-trait-2 after-build called" }
               before(:create) { TestLog << "parent-trait-2 before-create called" }
               after(:create) { TestLog << "parent-trait-2 after-create called" }
@@ -103,12 +107,14 @@ describe "callbacks" do
             before(:all) { TestLog << "child before-all called" }
             after(:create) { TestLog << "child after-create called" }
             after(:build) { TestLog << "child after-build called" }
+            before(:build) { TestLog << "child before-build called" }
             before(:create) { TestLog << "child before-create called" }
             after(:all) { TestLog << "child after-all called" }
 
             trait :child_trait do
               before(:all) { TestLog << "child-trait before-all called" }
               after(:all) { TestLog << "child-trait after-all called" }
+              before(:build) { TestLog << "child-trait before-build called" }
               after(:build) { TestLog << "child-trait after-build called" }
               before(:create) { TestLog << "child-trait before-create called" }
               after(:create) { TestLog << "child-trait after-create called" }
@@ -125,7 +131,7 @@ describe "callbacks" do
         #
         FactoryBot.create(:child, :parent_trait_2, :child_trait, :parent_trait_1)
 
-        expect(TestLog.size).to eq 30
+        expect(TestLog.size).to eq 36
 
         # before(:all)
         expect(TestLog[0..5]).to eq [
@@ -137,8 +143,18 @@ describe "callbacks" do
           "parent-trait-1 before-all called"
         ]
 
-        # after(:build)
+        # before(:build)
         expect(TestLog[6..11]).to eq [
+          "global before-build called",
+          "parent before-build called",
+          "child before-build called",
+          "parent-trait-2 before-build called",
+          "child-trait before-build called",
+          "parent-trait-1 before-build called"
+        ]
+
+        # after(:build)
+        expect(TestLog[12..17]).to eq [
           "global after-build called",
           "parent after-build called",
           "child after-build called",
@@ -148,7 +164,7 @@ describe "callbacks" do
         ]
 
         # before(:create)
-        expect(TestLog[12..17]).to eq [
+        expect(TestLog[18..23]).to eq [
           "global before-create called",
           "parent before-create called",
           "child before-create called",
@@ -158,7 +174,7 @@ describe "callbacks" do
         ]
 
         # after(:create)
-        expect(TestLog[18..23]).to eq [
+        expect(TestLog[24..29]).to eq [
           "global after-create called",
           "parent after-create called",
           "child after-create called",
@@ -168,7 +184,7 @@ describe "callbacks" do
         ]
 
         # after(:all)
-        expect(TestLog[24..29]).to eq [
+        expect(TestLog[30..35]).to eq [
           "global after-all called",
           "parent after-all called",
           "child after-all called",

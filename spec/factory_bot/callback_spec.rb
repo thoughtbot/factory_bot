@@ -24,15 +24,4 @@ describe FactoryBot::Callback do
     FactoryBot::Callback.new(:after_create, ->(one, two) { ran_with = [one, two] }).run(:one, :two)
     expect(ran_with).to eq [:one, :two]
   end
-
-  it "runs run_before_build callback without attributes" do
-    ran_with = nil
-    FactoryBot::Callback.new(:before_build, -> { ran_with = "before build" }).run_before_build
-    expect(ran_with).to eq "before build"
-  end
-
-  it "#before_build?" do
-    expect(FactoryBot::Callback.new(:before_build, -> {}).before_build?).to be true
-    expect(FactoryBot::Callback.new(:after_create, -> {}).before_build?).to be false
-  end
 end

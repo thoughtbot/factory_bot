@@ -35,7 +35,6 @@ module FactoryBot
       block ||= ->(result) { result }
 
       compile
-      run_before_build_callbacks
 
       strategy = StrategyCalculator.new(build_strategy).strategy.new
 
@@ -145,12 +144,6 @@ module FactoryBot
 
     def compiled_constructor
       hierarchy_instance.constructor
-    end
-
-    def run_before_build_callbacks
-      callbacks.each do |callback|
-        callback.run_before_build if callback.before_build?
-      end
     end
 
     private
