@@ -4,12 +4,13 @@ factory\_bot makes six callbacks available:
 
 | Callback        | Timing                                                                                                                    |
 | --------------- | ------------------------------------------------------------------------------------------------------------------------- |
-| before(:all)    | called before a factory constructs an object (via `FactoryBot.build`, `FactoryBot.create`, or `FactoryBot.build_stubbed`) |
+| before(:all)    | called before any strategy is used to construct an object, including custom strategies                                    |
+| before(:build)  | called before a factory builds an object (via `FactoryBot.build` or `FactoryBot.create`)                                  |
 | after(:build)   | called after a factory builds an object (via `FactoryBot.build` or `FactoryBot.create`)                                   |
 | before(:create) | called before a factory saves an object (via `FactoryBot.create`)                                                         |
 | after(:create)  | called after a factory saves an object (via `FactoryBot.create`)                                                          |
 | after(:stub)    | called after a factory stubs an object (via `FactoryBot.build_stubbed`)                                                   |
-| after(:all)     | called after a factory constructs an object (via `FactoryBot.build`, `FactoryBot.create`, or `FactoryBot.build_stubbed`)  |
+| after(:all)     | called after any strategy has completed, including custom strategies                                                      |
 
 
 ## Examples
@@ -17,7 +18,7 @@ factory\_bot makes six callbacks available:
 ### Calling an object's own method after building
 
 ```ruby
-## 
+##
 # Define a factory that calls the generate_hashed_password method
 # after the user factory is built.
 #
@@ -32,7 +33,7 @@ end
 
 ```ruby
 ##
-# Disable a model's own :after_create callback that sends an email 
+# Disable a model's own :after_create callback that sends an email
 # on creation, then re-enable it afterwards
 #
 factory :user do
