@@ -86,6 +86,27 @@ describe "sequences" do
       expect(generate(:commenter, :length)).to eq "user-called-z"
     end
 
+    it "generates sequences after lazy loading an initial value" do
+      loaded = false
+
+      FactoryBot.define do
+        sequence :count, proc {
+          loaded = true
+          "d"
+        }
+      end
+
+      expect(loaded).to be false
+
+      first_value = generate(:count)
+      another_value = generate(:count)
+
+      expect(loaded).to be true
+
+      expect(first_value).to eq "d"
+      expect(another_value).to eq "e"
+    end
+
     it "generates few values of the sequence" do
       define_class("User") { attr_accessor :email }
 

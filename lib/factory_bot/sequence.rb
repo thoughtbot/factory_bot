@@ -150,25 +150,32 @@ module FactoryBot
     end
 
     class EnumeratorAdapter
-      def initialize(value)
-        @first_value = value
-        @value = value
+      def initialize(initial_value)
+        if initial_value.is_a?(Proc)
+          @first_value = nil
+          @loaded = false
+        else
+          @first_value = initial_value
+          @loaded = true
+        end
+
+        @value = initial_value
       end
 
       def peek
-        @value
+        value
       end
 
       def next
-        @value = @value.next
+        @value = value.next
       end
 
       def rewind
-        @value = @first_value
+        @value = first_value
       end
 
       def set_value(new_value)
-        if new_value >= @first_value
+        if new_value >= first_value
           @value = new_value
         else
           fail ArgumentError, "Value cannot be less than: #{@first_value}"
@@ -176,7 +183,31 @@ module FactoryBot
       end
 
       def integer_value?
-        @first_value.is_a?(Integer)
+        first_value.is_a?(Integer)
+      end
+
+      private
+
+      def first_value
+        load_initial_value unless loaded?
+
+        @first_value
+      end
+
+      def value
+        load_initial_value unless loaded?
+
+        @value
+      end
+
+      def load_initial_value
+        @value = @value.call
+        @first_value = @value
+        @loaded = true
+      end
+
+      def loaded?
+        @loaded
       end
     end
   end

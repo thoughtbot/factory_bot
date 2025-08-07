@@ -152,6 +152,24 @@ describe FactoryBot::Sequence do
     it_behaves_like "a sequence", first_value: "A", second_value: "B"
   end
 
+  describe "a sequence with lazy initial value and a block" do
+    subject do
+      FactoryBot::Sequence.new(:test, proc { "J" }) do |n|
+        "=#{n}"
+      end
+    end
+
+    it_behaves_like "a sequence", first_value: "=J", second_value: "=K"
+  end
+
+  describe "a sequence with lazy initial value without a block" do
+    subject do
+      FactoryBot::Sequence.new(:test, proc { 3 })
+    end
+
+    it_behaves_like "a sequence", first_value: 3, second_value: 4
+  end
+
   describe "iterating over items in an enumerator" do
     subject do
       FactoryBot::Sequence.new(:name, %w[foo bar].to_enum) { |n| "=#{n}" }
@@ -175,6 +193,14 @@ describe FactoryBot::Sequence do
     expect(sequence.next(scope)).to eq "=Aattribute"
   end
 
+  it "a custom lazy sequence and scope increments within the correct scope" do
+    sequence = FactoryBot::Sequence.new(:name, proc { "A" }) { |n| "=#{n}#{foo}" }
+    scope = double("scope", foo: "attribute")
+
+    expect(sequence.next(scope)).to eq "=Aattribute"
+    expect(sequence.next(scope)).to eq "=Battribute"
+  end
+
   it "a custom sequence and scope increments within the correct scope when incrementing" do
     sequence = FactoryBot::Sequence.new(:name, "A") { |n| "=#{n}#{foo}" }
     scope = double("scope", foo: "attribute")
@@ -183,8 +209,25 @@ describe FactoryBot::Sequence do
     expect(sequence.next(scope)).to eq "=Battribute"
   end
 
+  it "a custom lazy sequence and scope increments within the correct scope when incrementing" do
+    sequence = FactoryBot::Sequence.new(:name, proc { "A" }) { |n| "=#{n}#{foo}" }
+    scope = double("scope", foo: "attribute")
+    sequence.next(scope)
+
+    expect(sequence.next(scope)).to eq "=Battribute"
+  end
+
   it "a custom scope increments within the correct scope after rewinding" do
     sequence = FactoryBot::Sequence.new(:name, "A") { |n| "=#{n}#{foo}" }
+    scope = double("scope", foo: "attribute")
+    sequence.next(scope)
+    sequence.rewind
+
+    expect(sequence.next(scope)).to eq "=Aattribute"
+  end
+
+  it "a custom scope with a lazy sequence increments within the correct scope after rewinding" do
+    sequence = FactoryBot::Sequence.new(:name, proc { "A" }) { |n| "=#{n}#{foo}" }
     scope = double("scope", foo: "attribute")
     sequence.next(scope)
     sequence.rewind
