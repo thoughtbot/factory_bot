@@ -219,9 +219,9 @@ It is also possible to explicitly specify the class:
 factory :admin, class: "User"
 ```
 
-Explicit specification of the class, _with the full namespace_, is necessary when defining factories for classes within modules in non-Rails applications:
+Explicit specification of the class, _with the full namespace_, is necessary when defining factories for classes nested within other modules or classes:
 
-```
+```ruby
 # foo/bar.rb
 module Foo
   class Bar
@@ -231,7 +231,7 @@ end
 
 # factories.rb
 FactoryBot.define do
-   factory :bar, class: 'Foo::Bar' do
+  factory :bar, class: 'Foo::Bar' do
     ...
   end
 end
