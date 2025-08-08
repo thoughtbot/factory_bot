@@ -4,6 +4,8 @@
    Gemfile.lock and `bundle exec appraisal install` to update the Appraisal
    gemfile.lock files.
 1. Update `NEWS.md` to reflect the changes since last release.
+   A useful GitHub URL to compare the changes is:
+   https://github.com/thoughtbot/factory_bot/compare/vLAST_VERSION...main
 1. Commit changes.
    There shouldn't be code changes,
    and thus CI doesn't need to run,

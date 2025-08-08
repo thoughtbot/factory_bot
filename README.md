@@ -10,7 +10,7 @@ _[Interested in the history of the project name?][NAME]_
 
 ### Transitioning from factory\_girl?
 
-Check out the [guide](https://github.com/thoughtbot/factory_bot/blob/4-9-0-stable/UPGRADE_FROM_FACTORY_GIRL.md).
+Check out the [guide](https://github.com/thoughtbot/factory_bot/blob/v4.9.0/UPGRADE_FROM_FACTORY_GIRL.md).
 
 
 Documentation
@@ -62,6 +62,7 @@ Useful Tools
 ------------
 
 * [FactoryTrace](https://github.com/djezzzl/factory_trace) - helps to find unused factories and traits.
+* [ruby-lsp-factory_bot](https://github.com/donny741/ruby-lsp-factory_bot) / [ruby-lsp-rails-factory-bot](https://github.com/johansenja/ruby-lsp-rails-factory-bot) - integration with [ruby-lsp](https://github.com/Shopify/ruby-lsp) to provide intellisense
 
 Contributing
 ------------
@@ -95,7 +96,6 @@ We are [available for hire][hire].
 
 [community]: https://thoughtbot.com/community?utm_source=github
 [hire]: https://thoughtbot.com/hire-us?utm_source=github
-
 
 <!-- END /templates/footer.md -->
 
