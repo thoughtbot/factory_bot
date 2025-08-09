@@ -151,15 +151,7 @@ module FactoryBot
 
     class EnumeratorAdapter
       def initialize(initial_value)
-        if initial_value.is_a?(Proc)
-          @first_value = nil
-          @loaded = false
-        else
-          @first_value = initial_value
-          @loaded = true
-        end
-
-        @value = initial_value
+        @initial_value = initial_value
       end
 
       def peek
@@ -189,25 +181,16 @@ module FactoryBot
       private
 
       def first_value
-        load_initial_value unless loaded?
-
-        @first_value
+        @first_value ||= initial_value
       end
 
       def value
-        load_initial_value unless loaded?
-
-        @value
+        @value ||= initial_value
       end
 
-      def load_initial_value
-        @value = @value.call
+      def initial_value
+        @value = @initial_value.respond_to?(:call) ? @initial_value.call : @initial_value
         @first_value = @value
-        @loaded = true
-      end
-
-      def loaded?
-        @loaded
       end
     end
   end
