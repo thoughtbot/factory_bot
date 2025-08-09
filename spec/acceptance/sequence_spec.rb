@@ -86,7 +86,7 @@ describe "sequences" do
       expect(generate(:commenter, :length)).to eq "user-called-z"
     end
 
-    it "generates sequences after lazy loading an initial value" do
+    it "generates sequences after lazy loading an initial value from a proc" do
       loaded = false
 
       FactoryBot.define do
@@ -105,6 +105,39 @@ describe "sequences" do
 
       expect(first_value).to eq "d"
       expect(another_value).to eq "e"
+    end
+
+    it "generates sequences after lazy loading an initial value from an object responding to call" do
+      define_class("HasCallMethod") do
+        def initialise
+          @called = false
+        end
+
+        def called?
+          @called
+        end
+
+        def call
+          @called = true
+          "ABC"
+        end
+      end
+
+      has_call_method_instance = HasCallMethod.new
+
+      FactoryBot.define do
+        sequence :letters, has_call_method_instance
+      end
+
+      expect(has_call_method_instance).not_to be_called
+
+      first_value = generate(:letters)
+      another_value = generate(:letters)
+
+      expect(has_call_method_instance).to be_called
+
+      expect(first_value).to eq "ABC"
+      expect(another_value).to eq "ABD"
     end
 
     it "generates few values of the sequence" do

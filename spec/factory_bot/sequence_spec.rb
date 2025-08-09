@@ -162,7 +162,7 @@ describe FactoryBot::Sequence do
     it_behaves_like "a sequence", first_value: "=J", second_value: "=K"
   end
 
-  describe "a sequence with lazy initial value without a block" do
+  describe "a sequence with a lazy initial value without a block" do
     subject do
       FactoryBot::Sequence.new(:test, proc { 3 })
     end
