@@ -8,3 +8,11 @@ factory :user do
   sequence(:email, 1000) { |n| "person#{n}@example.com" }
 end
 ```
+
+The initial value can also be lazily set by passing a Proc as the value. This Proc will be called the first time the `sequence.next` is called.
+
+```ruby
+factory :user do
+  sequence(:email, proc { Person.count + 1 }) { |n| "person#{n}@example.com" }
+end
+```

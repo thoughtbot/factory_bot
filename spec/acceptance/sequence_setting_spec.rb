@@ -72,6 +72,16 @@ describe "FactoryBot.set_sequence" do
         expect(generate_list(:jet_pilot, :dob, 3).last).to eq Date.parse("2025-05-03")
       end
 
+      it "works with lazy Integer sequences" do
+        FactoryBot.define do
+          sequence(:email, proc { 42 }) { |n| "somebody#{n}@example.com" }
+        end
+
+        expect(generate_list(:email, 3).last).to eq "somebody44@example.com"
+        FactoryBot.set_sequence(:email, 54321)
+        expect(generate_list(:email, 3).last).to eq "somebody54323@example.com"
+      end
+
       it "does not collide with other factory or global sequences" do
         define_class("User") { attr_accessor :email }
         define_class("Admin") { attr_accessor :email }
