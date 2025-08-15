@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    factory_bot (6.5.4)
+    factory_bot (6.5.5)
       activesupport (>= 6.1.0)
 
 GEM

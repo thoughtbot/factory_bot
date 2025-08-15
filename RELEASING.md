@@ -1,5 +1,6 @@
 # Releasing
 
+1. Bump the `VERSION` inside `lib/factory_bot/version.rb`
 1. Update version file accordingly and run `bundle install` to ensure the
    `Gemfile.lock` file is up to date.
 1. Update `NEWS.md` to reflect the changes since last release.
