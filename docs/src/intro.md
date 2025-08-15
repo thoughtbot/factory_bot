@@ -5,12 +5,13 @@ support for multiple build strategies (saved instances, unsaved instances,
 attribute hashes, and stubbed objects); and support for multiple factories for
 the same class (`:user`, `:admin_user`, and so on), including factory inheritance.
 
-Its documentation is split as such:
+This book contains the following sections:
 
-- the [guide](setup/summary.html) is a great place to start for first-time users.
-- the [cookbook](cookbook/has_many-associations.html) is the go-to place for creative solutions to common situations.
-- the [wiki](https://github.com/thoughtbot/factory_bot/wiki) details considerations for integrating with other software.
-- the [reference](ref/build-strategies.html) is terse facts for those who use this project often.
+- The [guide](setup/summary.md) is a great place to start for first-time users.
+- The [reference](ref/build-strategies.md) is terse facts for those who use this project often.
+- The [cookbook](cookbook/has_many-associations.md) is the go-to place for creative solutions to common situations.
+
+The [wiki](https://github.com/thoughtbot/factory_bot/wiki) details considerations for integrating with other software.
 
 ## License
 
