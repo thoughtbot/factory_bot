@@ -8,7 +8,7 @@ the same class (`:user`, `:admin_user`, and so on), including factory inheritanc
 This book contains the following sections:
 
 - The [guide](setup/summary.md) is a great place to start for first-time users.
-- The [reference](ref/build-strategies.md) is terse facts for those who use this project often.
+- The [reference](ref/build-strategies.md) contains terse facts for those who use this project often.
 - The [cookbook](cookbook/has_many-associations.md) is the go-to place for creative solutions to common situations.
 
 The [wiki](https://github.com/thoughtbot/factory_bot/wiki) details considerations for integrating with other software.
