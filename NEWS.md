@@ -1,5 +1,25 @@
 # News
 
+## 6.5.5 (August 15, 2025)
+
+* Feat: Adds developer console features (CodeMeister)
+  * adds `bin/setup` to run bundle install
+  * adds `bin/console` to open an IRB console with factory_bot loaded
+  * adds a session method `reload!` will reload all gem files.
+* Feat: Before(:all) and after(:all) callbacks added (CodeMeister)
+* Feat: Adds support for before build callback (Mohammed Nasser and Neil Carvalho)
+* Feat: Adds support for lazy loaded initial value sequences (AJ Esler)
+* Fix: Refactors the removal of files from the loaded register in `.irbrc` (CodeMeister)
+* Fix: Improves the sequence handling with better context support (CodeMeister)
+  * Fixes issue #1754 where `#generate` was throwing an error
+  * Refactors the `#increment_sequence` method to remove the URI requirement
+* Fix: Cleans up ActiveSupport core extensions (Neil Carvalho)
+* Fix: Addresses issue #1709 with resolution of conflict between '<attribute>' and '<attribute_id>` (CodeMeister)
+* Fix: Addresses issue #1712 by ensuring callbacks only run once per instance (CodeMeister)
+* Docs: Downcase of the word "constants" in  `.irbrc` file (CodeMeister)
+* Docs: Update docs with note clarifying when the full namespace is required in a factory (John Pitchko)
+* Chore: Add new maintainers to CODEOWNERS (Ajina Slater)
+
 ## 6.5.4 (June 13, 2025)
 
 * Fix bug where user-defined method named `definition` could not be set through `method_missing` in factories. (CodeMeister)
