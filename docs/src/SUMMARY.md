@@ -2,25 +2,6 @@
 
 [Intro](intro.md)
 
-# Reference
-
-- [Build strategies](ref/build-strategies.md)
-- [FactoryBot.find_definitions](ref/find_definitions.md)
-- [FactoryBot.define](ref/define.md)
-- [factory](ref/factory.md)
-- [add_attribute](ref/add_attribute.md)
-- [association](ref/association.md)
-- [sequence](ref/sequence.md)
-- [trait](ref/trait.md)
-- [method_missing](ref/method_missing.md)
-- [traits_for_enum](ref/traits_for_enum.md)
-- [skip_create, to_create, and initialize_with](ref/build-and-create.md)
-- [transient](ref/transient.md)
-- [Hooks](ref/hooks.md)
-- [FactoryBot.modify](ref/modify.md)
-- [FactoryBot.lint](ref/lint.md)
-- [FactoryBot.register_strategy](ref/register_strategy.md)
-
 # Guide
 
 - [Setup](setup/summary.md)
@@ -92,6 +73,25 @@
 - [Custom Callbacks](custom-callbacks/summary.md)
 - [Custom Methods to Persist Objects](custom-methods-to-persist-objects/summary.md)
 - [ActiveSupport Instrumentation](activesupport-instrumentation/summary.md)
+
+# Reference
+
+- [Build strategies](ref/build-strategies.md)
+- [FactoryBot.find_definitions](ref/find_definitions.md)
+- [FactoryBot.define](ref/define.md)
+- [factory](ref/factory.md)
+- [add_attribute](ref/add_attribute.md)
+- [association](ref/association.md)
+- [sequence](ref/sequence.md)
+- [trait](ref/trait.md)
+- [method_missing](ref/method_missing.md)
+- [traits_for_enum](ref/traits_for_enum.md)
+- [skip_create, to_create, and initialize_with](ref/build-and-create.md)
+- [transient](ref/transient.md)
+- [Hooks](ref/hooks.md)
+- [FactoryBot.modify](ref/modify.md)
+- [FactoryBot.lint](ref/lint.md)
+- [FactoryBot.register_strategy](ref/register_strategy.md)
 
 # Cookbook
 
