@@ -1,9 +1,9 @@
 # Intro
 
-factory_bot is a fixtures replacement with a straightforward definition syntax,
+factory_bot is a fixtures replacement with a straightforward definition syntax;
 support for multiple build strategies (saved instances, unsaved instances,
-attribute hashes, and stubbed objects), and support for multiple factories for
-the same class (user, admin_user, and so on), including factory inheritance.
+attribute hashes, and stubbed objects); and support for multiple factories for
+the same class (`:user`, `:admin_user`, and so on), including factory inheritance.
 
 Its documentation is split as such:
 
