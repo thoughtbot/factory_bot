@@ -2,7 +2,7 @@
 
 [Intro](intro.md)
 
-## Reference
+# Reference
 
 - [Build strategies](ref/build-strategies.md)
 - [FactoryBot.find_definitions](ref/find_definitions.md)
@@ -21,7 +21,7 @@
 - [FactoryBot.lint](ref/lint.md)
 - [FactoryBot.register_strategy](ref/register_strategy.md)
 
-## Guide
+# Guide
 
 - [Setup](setup/summary.md)
   - [Using Without Bundler](using-without-bundler/summary.md)
@@ -93,7 +93,7 @@
 - [Custom Methods to Persist Objects](custom-methods-to-persist-objects/summary.md)
 - [ActiveSupport Instrumentation](activesupport-instrumentation/summary.md)
 
-## Cookbook
+# Cookbook
 
 - [`has_many` associations](cookbook/has_many-associations.md)
 - [`has_and_belongs_to_many` associations](cookbook/has_and_belongs_to_many-associations.md)
