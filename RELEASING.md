@@ -1,7 +1,7 @@
 # Releasing
 
-1. Update version file accordingly and run `bundle install` to ensure the `Gemfile.lock` file 
-   is up to date.
+1. Update version file accordingly and run `bundle install` to ensure the
+   `Gemfile.lock` file is up to date.
 1. Update `NEWS.md` to reflect the changes since last release.
    A useful GitHub URL to compare the changes is:
    <https://github.com/thoughtbot/factory_bot/compare/vLAST_VERSION...main>
