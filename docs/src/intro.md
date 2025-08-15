@@ -16,7 +16,7 @@ The [wiki](https://github.com/thoughtbot/factory_bot/wiki) details consideration
 ## License
 
 factory_bot is Copyright © 2008 Joe Ferris and thoughtbot. It is free
-software, and may be redistributed under the terms specified in the
+software, and is redistributable under the terms specified in the
 [LICENSE] file.
 
 [LICENSE]: https://github.com/thoughtbot/factory_bot/blob/main/LICENSE
