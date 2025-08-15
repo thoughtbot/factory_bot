@@ -1,20 +1,17 @@
-# factory_bot [![Build Status][ci-image]][ci] [![Code Climate][grade-image]][grade] [![Gem Version][version-image]][version]
+# factory_bot 
+
+[![Build Status][ci-image]][ci] [![Code Climate][grade-image]][grade] [![Gem Version][version-image]][version]
 
 factory_bot is a fixtures replacement with a straightforward definition syntax, support for multiple build strategies (saved instances, unsaved instances, attribute hashes, and stubbed objects), and support for multiple factories for the same class (user, admin_user, and so on), including factory inheritance.
 
 If you want to use factory_bot with Rails, see
 [factory_bot_rails](https://github.com/thoughtbot/factory_bot_rails).
 
-_[Interested in the history of the project name?][NAME]_
+Interested in the history of the project name? You can find the history [here](https://github.com/thoughtbot/factory_bot/blob/main/NAME.md)
 
+Transitioning from factory\_girl? Check out the [upgrade guide](https://github.com/thoughtbot/factory_bot/blob/4-9-0-stable/UPGRADE_FROM_FACTORY_GIRL.md).
 
-### Transitioning from factory\_girl?
-
-Check out the [guide](https://github.com/thoughtbot/factory_bot/blob/v4.9.0/UPGRADE_FROM_FACTORY_GIRL.md).
-
-
-Documentation
--------------
+## Documentation
 
 See our extensive reference, guides, and cookbook in [the factory_bot book][].
 
@@ -27,8 +24,7 @@ Rails, see [the factory_bot wiki][].
 [the factory_bot book]: https://thoughtbot.github.io/factory_bot
 [the factory_bot wiki]: https://github.com/thoughtbot/factory_bot/wiki
 
-Install
---------
+## Install
 
 Run:
 
@@ -42,13 +38,11 @@ To install the gem manually from your shell, run:
 gem install factory_bot
 ```
 
-Supported Ruby versions
------------------------
+## Supported Ruby versions
 
-Supported Ruby versions are listed in [`.github/workflows/build.yml`](https://github.com/thoughtbot/factory_bot/blob/main/.github/workflows/build.yml)
+Supported Ruby versions are listed in `.github/workflows/build.yml` ([source](https://github.com/thoughtbot/factory_bot/blob/main/.github/workflows/build.yml))
 
-More Information
-----------------
+## More Information
 
 * [Rubygems](https://rubygems.org/gems/factory_bot)
 * [Stack Overflow](https://stackoverflow.com/questions/tagged/factory-bot)
@@ -56,10 +50,8 @@ More Information
 * [GIANT ROBOTS SMASHING INTO OTHER GIANT ROBOTS](https://robots.thoughtbot.com/)
 
 [GETTING_STARTED]: https://github.com/thoughtbot/factory_bot/blob/main/GETTING_STARTED.md
-[NAME]: https://github.com/thoughtbot/factory_bot/blob/main/NAME.md
 
-Useful Tools
-------------
+## Useful Tools
 
 * [FactoryTrace](https://github.com/djezzzl/factory_trace) - helps to find unused factories and traits.
 * [ruby-lsp-factory_bot](https://github.com/donny741/ruby-lsp-factory_bot) / [ruby-lsp-rails-factory-bot](https://github.com/johansenja/ruby-lsp-rails-factory-bot) - integration with [ruby-lsp](https://github.com/Shopify/ruby-lsp) to provide intellisense

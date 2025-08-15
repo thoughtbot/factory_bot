@@ -17,9 +17,9 @@ at any time.
 Getting Started
 ===============
 
-* [Setup](#setup)
-  + [Update Your Gemfile](#update-your-gemfile)
-  + [Configure your test suite](#configure-your-test-suite)
+- [Setup](#setup)
+  - [Update Your Gemfile](#update-your-gemfile)
+  - [Configure your test suite](#configure-your-test-suite)
     - [RSpec](#rspec)
     - [Test::Unit](#testunit)
     - [Cucumber](#cucumber)
@@ -27,76 +27,77 @@ Getting Started
     - [Minitest](#minitest)
     - [Minitest::Spec](#minitestspec)
     - [minitest-rails](#minitest-rails)
-* [Defining factories](#defining-factories)
-  + [Factory name and attributes](#factory-name-and-attributes)
-  + [Specifying the class explicitly](#specifying-the-class-explicitly)
-  + [Hash attributes](#hash-attributes)
-  + [Best practices](#best-practices)
-  + [Definition file paths](#definition-file-paths)
-  + [Static Attributes](#static-attributes)
-* [Using factories](#using-factories)
-  + [Build strategies](#build-strategies)
-  + [Attribute overrides](#attribute-overrides)
-  + [`build_stubbed` and `Marshal.dump`](#build_stubbed-and-marshaldump)
-* [Aliases](#aliases)
-* [Dependent Attributes](#dependent-attributes)
-* [Transient Attributes](#transient-attributes)
-  + [With other attributes](#with-other-attributes)
-  + [With `attributes_for`](#with-attributes_for)
-  + [With callbacks](#with-callbacks)
-  + [With associations](#with-associations)
-* [Method Name / Reserved Word Attributes](#method-name--reserved-word-attributes)
-* [Inheritance](#inheritance)
-  + [Nested factories](#nested-factories)
-  + [Assigning parent explicitly](#assigning-parent-explicitly)
-  + [Best practices](#best-practices-1)
-* [Associations](#associations)
-  + [Implicit definition](#implicit-definition)
-  + [Explicit definition](#explicit-definition)
-  + [Inline definition](#inline-definition)
-  + [Specifying the factory](#specifying-the-factory)
-  + [Overriding attributes](#overriding-attributes)
-  + [Association overrides](#association-overrides)
-  + [Build strategies](#build-strategies-1)
-  + [`has_many` associations](#has_many-associations)
-  + [`has_and_belongs_to_many` associations](#has_and_belongs_to_many-associations)
-  + [Polymorphic associations](#polymorphic-associations)
-  + [Interconnected associations](#interconnected-associations)
-* [Sequences](#sequences)
-  + [Global sequences](#global-sequences)
-  + [With dynamic attributes](#with-dynamic-attributes)
-  + [As implicit attributes](#as-implicit-attributes)
-  + [Inline sequences](#inline-sequences)
-  + [Initial value](#initial-value)
-  + [Without a block](#without-a-block)
-  + [Aliases](#aliases-1)
-  + [Rewinding](#rewinding)
-  + [Uniqueness](#uniqueness)
-* [Traits](#traits)
-  + [Defining traits](#defining-traits)
-  + [As implicit attributes](#as-implicit-attributes-1)
-  + [Attribute precedence](#attribute-precedence)
-  + [In child factories](#in-child-factories)
-  + [Using traits](#using-traits)
-  + [With associations](#with-associations-1)
-  + [Traits within traits](#traits-within-traits)
-  + [With transient attributes](#with-transient-attributes)
-  + [Enum traits](#enum-traits)
-* [Callbacks](#callbacks)
-  + [Default callbacks](#default-callbacks)
-  + [Multiple callbacks](#multiple-callbacks)
-  + [Global callbacks](#global-callbacks)
-  + [Symbol#to_proc](#symbolto_proc)
-* [Modifying factories](#modifying-factories)
-* [Building or Creating Multiple Records](#building-or-creating-multiple-records)
-* [Linting Factories](#linting-factories)
-* [Custom Construction](#custom-construction)
-* [Custom Strategies](#custom-strategies)
-* [Custom Callbacks](#custom-callbacks)
-* [Custom Methods to Persist Objects](#custom-methods-to-persist-objects)
-* [ActiveSupport Instrumentation](#activesupport-instrumentation)
-* [Rails Preloaders and RSpec](#rails-preloaders-and-rspec)
-* [Using Without Bundler](#using-without-bundler)
+- [Defining factories](#defining-factories)
+  - [Factory name and attributes](#factory-name-and-attributes)
+  - [Specifying the class explicitly](#specifying-the-class-explicitly)
+  - [Hash attributes](#hash-attributes)
+  - [Best practices](#best-practices)
+  - [Definition file paths](#definition-file-paths)
+  - [Static Attributes](#static-attributes)
+- [Using factories](#using-factories)
+  - [Build strategies](#build-strategies)
+  - [Attribute overrides](#attribute-overrides)
+  - [build\_stubbed and Marshal.dump](#build_stubbed-and-marshaldump)
+- [Aliases](#aliases)
+- [Dependent Attributes](#dependent-attributes)
+- [Transient Attributes](#transient-attributes)
+  - [With other attributes](#with-other-attributes)
+  - [With attributes\_for](#with-attributes_for)
+  - [With callbacks](#with-callbacks)
+  - [With associations](#with-associations)
+- [Method Name / Reserved Word Attributes](#method-name--reserved-word-attributes)
+- [Inheritance](#inheritance)
+  - [Nested factories](#nested-factories)
+  - [Assigning parent explicitly](#assigning-parent-explicitly)
+  - [Best practices](#best-practices-1)
+- [Associations](#associations)
+  - [Implicit definition](#implicit-definition)
+  - [Explicit definition](#explicit-definition)
+  - [Inline definition](#inline-definition)
+  - [Specifying the factory](#specifying-the-factory)
+  - [Overriding attributes](#overriding-attributes)
+  - [Association overrides](#association-overrides)
+  - [Build strategies](#build-strategies-1)
+  - [has\_many associations](#has_many-associations)
+  - [has\_and\_belongs\_to\_many associations](#has_and_belongs_to_many-associations)
+  - [Polymorphic associations](#polymorphic-associations)
+  - [Interconnected associations](#interconnected-associations)
+- [Sequences](#sequences)
+  - [Global sequences](#global-sequences)
+  - [With dynamic attributes](#with-dynamic-attributes)
+  - [As implicit attributes](#as-implicit-attributes)
+  - [Inline sequences](#inline-sequences)
+  - [Initial value](#initial-value)
+  - [Without a block](#without-a-block)
+  - [Aliases](#aliases-1)
+  - [Rewinding](#rewinding)
+  - [Uniqueness](#uniqueness)
+- [Traits](#traits)
+  - [Defining traits](#defining-traits)
+  - [As implicit attributes](#as-implicit-attributes-1)
+  - [Attribute precedence](#attribute-precedence)
+  - [In child factories](#in-child-factories)
+  - [As mixins](#as-mixins)
+  - [Using traits](#using-traits)
+  - [With associations](#with-associations-1)
+  - [Traits within traits](#traits-within-traits)
+  - [With transient attributes](#with-transient-attributes)
+  - [Enum traits](#enum-traits)
+- [Callbacks](#callbacks)
+  - [Default callbacks](#default-callbacks)
+  - [Multiple callbacks](#multiple-callbacks)
+  - [Global callbacks](#global-callbacks)
+  - [Symbol#to\_proc](#symbolto_proc)
+- [Modifying factories](#modifying-factories)
+- [Building or Creating Multiple Records](#building-or-creating-multiple-records)
+- [Linting Factories](#linting-factories)
+- [Custom Construction](#custom-construction)
+- [Custom Strategies](#custom-strategies)
+- [Custom Callbacks](#custom-callbacks)
+- [Custom Methods to Persist Objects](#custom-methods-to-persist-objects)
+- [ActiveSupport Instrumentation](#activesupport-instrumentation)
+- [Rails Preloaders and RSpec](#rails-preloaders-and-rspec)
+- [Using Without Bundler](#using-without-bundler)
 
 Setup
 -----
@@ -354,7 +355,7 @@ user = build(:user, account:, friends:)
 
 [omitting values]: https://docs.ruby-lang.org/en/3.1/syntax/literals_rdoc.html#label-Hash+Literals
 
-### `build_stubbed` and `Marshal.dump`
+### build_stubbed and Marshal.dump
 
 Note that objects created with `build_stubbed` cannot be serialized with
 `Marshal.dump`, since factory\_bot defines singleton methods on these objects.
@@ -435,7 +436,7 @@ create(:user, rockstar: false).name
 #=> "John Doe"
 ```
 
-### With `attributes_for`
+### With attributes_for
 
 Transient attributes will be ignored within attributes\_for and won't be set on
 the model, even if the attribute exists or you attempt to override it.
@@ -735,7 +736,7 @@ factory :post do
   author strategy: :build    # <<< this does *not* work; causes author_id to be nil
 ```
 
-### `has_many` associations
+### has_many associations
 
 There are a few ways to generate data for a `has_many` relationship. The
 simplest approach is to write a helper method in plain Ruby to tie together the
@@ -862,7 +863,7 @@ build(:user_with_posts, posts_count: 15).posts.length # 15
 build_stubbed(:user_with_posts, posts_count: 15).posts.length # 15
 ```
 
-### `has_and_belongs_to_many` associations
+### has_and_belongs_to_many associations
 
 Generating data for a `has_and_belongs_to_many` relationship is very similar
 to the above `has_many` relationship, with a small change: you need to pass an
