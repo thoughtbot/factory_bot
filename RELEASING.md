@@ -5,10 +5,9 @@
 1. Update `NEWS.md` to reflect the changes since last release.
    A useful GitHub URL to compare the changes is:
    <https://github.com/thoughtbot/factory_bot/compare/vLAST_VERSION...main>
-1. Commit changes.
-   There shouldn't be code changes,
-   and thus CI doesn't need to run,
-   so you can add "[ci skip]" to the commit message.
+1. Commit changes.  
+   Note: As there shouldn't be code changes, CI doesn't need to run.
+   You can add `[ci skip]` to the commit message to skip it.
 1. Tag the release: `git tag -s vVERSION`
     - We recommend the [_quick guide on how to sign a release_] from git ready.
 1. Push changes: `git push && git push --tags`
