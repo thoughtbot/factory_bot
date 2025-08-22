@@ -4,31 +4,17 @@
     "type": "split",
     "children": [
       {
-        "id": "5833d3cd838d4d0a",
+        "id": "b75901b553c2cfef",
         "type": "tabs",
         "children": [
           {
-            "id": "7d1eecada3c3d104",
+            "id": "b05f86b83e5f26ad",
             "type": "leaf",
             "state": {
-              "type": "markdown",
-              "state": {
-                "file": "SUMMARY.md",
-                "mode": "source",
-                "source": true,
-                "backlinks": true,
-                "backlinkOpts": {
-                  "collapseAll": false,
-                  "extraContext": false,
-                  "sortOrder": "alphabetical",
-                  "showSearch": false,
-                  "searchQuery": "",
-                  "backlinkCollapsed": false,
-                  "unlinkedCollapsed": true
-                }
-              },
+              "type": "empty",
+              "state": {},
               "icon": "lucide-file",
-              "title": "SUMMARY"
+              "title": "New tab"
             }
           }
         ]
@@ -177,8 +163,11 @@
       "open-vscode:VSCode": false
     }
   },
-  "active": "7d1eecada3c3d104",
+  "active": "b05f86b83e5f26ad",
   "lastOpenFiles": [
+    "sequences/without-a-block.md",
+    "SUMMARY.md",
+    "setup.md",
     "attributes.md",
     "traits.md",
     "traits/traits.md",
@@ -202,9 +191,6 @@
     "modifying-factories.md",
     "modifying-factories/modifying-factories.md",
     "linting-factories.md",
-    "linting-factories/linting-factories.md",
-    "inheritance.md",
-    "inheritance/inheritance.md",
     "attributes/transient-attributes",
     "attributes",
     "using-without-bundler",
