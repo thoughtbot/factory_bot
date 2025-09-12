@@ -272,5 +272,59 @@ describe "attribute aliases" do
       expect(user.response).to eq "new response"
       expect(user.response_id).to eq 13.75
     end
+
+    context "when association overrides trait foreign key" do
+      before do
+        define_model("User", name: :string)
+        define_model("Post", user_id: :integer, title: :string) do
+          belongs_to :user, optional: true
+        end
+
+        FactoryBot.define do
+          factory :user do
+            name { "Test User" }
+          end
+
+          factory :post do
+            association :user
+            title { "Test Post" }
+
+            trait :with_system_user_id do
+              user_id { 999 }
+            end
+
+            trait :with_user_id_100 do
+              user_id { 100 }
+            end
+
+            trait :with_user_id_200 do
+              user_id { 200 }
+            end
+          end
+        end
+      end
+
+      it "prefers association override over trait foreign key" do
+        user = FactoryBot.create(:user)
+        post = FactoryBot.build(:post, :with_system_user_id, user: user)
+
+        expect(post.user_id).to eq(user.id)
+        expect(post.user).to eq(user)
+      end
+
+      it "uses trait foreign key when no association override is provided" do
+        post = FactoryBot.build(:post, :with_system_user_id)
+
+        expect(post.user_id).to eq(999)
+      end
+
+      it "handles multiple traits with foreign keys correctly" do
+        user = FactoryBot.create(:user)
+        post = FactoryBot.build(:post, :with_user_id_100, :with_user_id_200, user: user)
+
+        expect(post.user_id).to eq(user.id)
+        expect(post.user).to eq(user)
+      end
+    end
   end
 end

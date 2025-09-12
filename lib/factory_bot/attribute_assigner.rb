@@ -121,6 +121,10 @@ module FactoryBot
     #       in the same factory.
     #
     def aliased_attribute?(attribute, override)
+      if association_names.include?(override) && attribute.alias_for?(override) && attribute.name != override
+        return true
+      end
+
       return false if attribute_names.include?(override)
 
       attribute.alias_for?(override)
