@@ -1,4 +1,5 @@
 # Set timeout when setting sequences
+require "debug"
 require "rspec"
 require "rspec/its"
 
