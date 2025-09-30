@@ -8,7 +8,7 @@ module FactoryBot
 
     def initialize(name)
       @name = name
-      @items = ActiveSupport::HashWithIndifferentAccess.new
+      reset
     end
 
     def clear
@@ -33,6 +33,10 @@ module FactoryBot
 
     def registered?(name)
       @items.key?(name)
+    end
+
+    def reset
+      @items = ActiveSupport::HashWithIndifferentAccess.new
     end
 
     private

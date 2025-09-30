@@ -15,10 +15,7 @@ module FactoryBot
       :after,
       :callback,
       :callbacks,
+      :initialize_with,
       to: :@definition
-
-    def initialize_with(&block)
-      @definition.define_constructor(&block)
-    end
   end
 end
