@@ -1,26 +1,9 @@
 module FactoryBot
-  # @api private
-  class StrategyCalculator
-    def initialize(name_or_object)
-      @name_or_object = name_or_object
-    end
+  module Strategy
+    def self.lookup_strategy(name_or_object)
+      return name_or_object if name_or_object.is_a?(Class)
 
-    def strategy
-      if strategy_is_object?
-        @name_or_object
-      else
-        strategy_name_to_object
-      end
-    end
-
-    private
-
-    def strategy_is_object?
-      @name_or_object.is_a?(Class)
-    end
-
-    def strategy_name_to_object
-      FactoryBot::Internal.strategy_by_name(@name_or_object)
+      FactoryBot::Internal.strategy_by_name(name_or_object)
     end
   end
 end
