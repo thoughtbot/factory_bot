@@ -1,18 +1,22 @@
 module FactoryBot
-  class << self
-    attr_accessor :aliases
-  end
+  module Core
+    module Aliases
+      attr_writer :aliases
 
-  self.aliases = [
-    [/(.+)_id/, '\1'],
-    [/(.*)/, '\1_id']
-  ]
-
-  def self.aliases_for(attribute)
-    aliases.map { |(pattern, replace)|
-      if pattern.match?(attribute)
-        attribute.to_s.sub(pattern, replace).to_sym
+      def aliases
+        @aliases ||= [
+          [/(.+)_id/, '\1'],
+          [/(.*)/, '\1_id']
+        ]
       end
-    }.compact << attribute
+
+      def aliases_for(attribute)
+        aliases.map { |(pattern, replace)|
+          if pattern.match?(attribute)
+            attribute.to_s.sub(pattern, replace).to_sym
+          end
+        }.compact << attribute
+      end
+    end
   end
 end
