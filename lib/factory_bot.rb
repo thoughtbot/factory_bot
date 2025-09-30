@@ -11,9 +11,9 @@ require "factory_bot/internal/traits"
 require "factory_bot/internal/factories"
 require "factory_bot/internal/sequences"
 require "factory_bot/internal/strategies"
+require "factory_bot/configuration"
 require "factory_bot/internal"
 require "factory_bot/definition_hierarchy"
-require "factory_bot/configuration"
 require "factory_bot/errors"
 require "factory_bot/factory_runner"
 require "factory_bot/strategy_syntax_method_registrar"
@@ -122,7 +122,7 @@ module FactoryBot
   end
 
   def self.reload
-    Internal.reset_configuration
+    Internal.reset
     Internal.register_default_strategies
     find_definitions
   end

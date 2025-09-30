@@ -10,7 +10,7 @@ module FactoryBot
         :skip_create,
         :strategies,
         :to_create,
-        to: :configuration
+        to: Internal::Definition
 
       delegate :traits,
         :register_trait,
@@ -38,18 +38,14 @@ module FactoryBot
         :strategy_by_name,
         :register_default_strategies,
         to: Internal::Strategies
+    end
 
-      def configuration
-        @configuration ||= Configuration.new
-      end
-
-      def reset_configuration
-        @configuration = nil
-        Internal::Traits.reset
-        Internal::Factories.reset
-        Internal::Sequences.reset
-        Internal::Strategies.reset
-      end
+    def self.reset
+      Internal::Traits.reset
+      Internal::Factories.reset
+      Internal::Sequences.reset
+      Internal::Strategies.reset
+      Internal::Definition.reset
     end
   end
 end
