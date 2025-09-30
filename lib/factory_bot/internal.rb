@@ -6,7 +6,6 @@ module FactoryBot
         :before,
         :callbacks,
         :constructor,
-        :factories,
         :initialize_with,
         :inline_sequences,
         :sequences,
@@ -15,7 +14,15 @@ module FactoryBot
         :to_create,
         to: :configuration
 
-      delegate :traits, :register_trait, :trait_by_name, to: Internal::Traits
+      delegate :traits,
+        :register_trait,
+        :trait_by_name,
+        to: Internal::Traits
+
+      delegate :factories,
+        :register_factory,
+        :factory_by_name,
+        to: Internal::Factories
 
       def configuration
         @configuration ||= Configuration.new
@@ -24,6 +31,7 @@ module FactoryBot
       def reset_configuration
         @configuration = nil
         Internal::Traits.reset_traits
+        Internal::Factories.reset_factories
       end
 
       def register_inline_sequence(sequence)
@@ -65,17 +73,6 @@ module FactoryBot
         sequence = Sequence.find(*uri) || fail_unregistered_sequence(uri)
 
         sequence.set_value(value)
-      end
-
-      def register_factory(factory)
-        factory.names.each do |name|
-          factories.register(name, factory)
-        end
-        factory
-      end
-
-      def factory_by_name(name)
-        factories.find(name)
       end
 
       def register_strategy(strategy_name, strategy_class)

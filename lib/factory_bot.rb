@@ -6,6 +6,7 @@ require "active_support/deprecation"
 require "active_support/notifications"
 
 require "factory_bot/internal/traits"
+require "factory_bot/internal/factories"
 require "factory_bot/internal"
 require "factory_bot/definition_hierarchy"
 require "factory_bot/configuration"
