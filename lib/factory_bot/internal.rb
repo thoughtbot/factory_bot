@@ -13,8 +13,9 @@ module FactoryBot
         :skip_create,
         :strategies,
         :to_create,
-        :traits,
         to: :configuration
+
+      delegate :traits, :register_trait, :trait_by_name, to: Internal::Traits
 
       def configuration
         @configuration ||= Configuration.new
@@ -22,6 +23,7 @@ module FactoryBot
 
       def reset_configuration
         @configuration = nil
+        Internal::Traits.reset_traits
       end
 
       def register_inline_sequence(sequence)
@@ -31,17 +33,6 @@ module FactoryBot
 
       def rewind_inline_sequences
         inline_sequences.each(&:rewind)
-      end
-
-      def register_trait(trait)
-        trait.names.each do |name|
-          traits.register(name, trait)
-        end
-        trait
-      end
-
-      def trait_by_name(name, klass)
-        traits.find(name).tap { |t| t.klass = klass }
       end
 
       def register_sequence(sequence)
