@@ -48,6 +48,7 @@ require "factory_bot/version"
 
 module FactoryBot
   extend Core::Aliases
+  extend Core::FindDefinitions
 
   Deprecation = ActiveSupport::Deprecation.new("7.0", "factory_bot")
 
