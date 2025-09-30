@@ -45,8 +45,8 @@ module FactoryBot
 
       def reset_configuration
         @configuration = nil
-        Internal::Traits.reset_traits
-        Internal::Factories.reset_factories
+        Internal::Traits.reset
+        Internal::Factories.reset
         Internal::Sequences.reset
         Internal::Strategies.reset
       end

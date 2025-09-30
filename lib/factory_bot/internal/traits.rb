@@ -5,7 +5,7 @@ module FactoryBot
         @traits ||= Decorator::DisallowsDuplicatesRegistry.new(Registry.new("Trait"))
       end
 
-      def self.reset_traits
+      def self.reset
         @traits = nil
         traits
       end
