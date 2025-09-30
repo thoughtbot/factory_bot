@@ -31,10 +31,9 @@ describe FactoryBot::Internal do
   describe ".register_sequence" do
     it "registers the provided sequence" do
       sequence = FactoryBot::Sequence.new(:email)
-      configuration = FactoryBot::Internal.configuration
 
       expect { FactoryBot::Internal.register_sequence(sequence) }
-        .to change { configuration.sequences.count }
+        .to change { FactoryBot::Internal::Sequences.sequences.count }
         .from(0)
         .to(1)
     end
