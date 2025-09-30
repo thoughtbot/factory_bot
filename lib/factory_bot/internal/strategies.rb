@@ -6,8 +6,7 @@ module FactoryBot
       end
 
       def self.reset
-        @strategies = nil
-        strategies
+        @strategies&.reset
       end
 
       def self.register_strategy(strategy_name, strategy_class)

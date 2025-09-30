@@ -115,8 +115,8 @@ module FactoryBot
     #     set_sequence("factory_name/trait_name/sequence_name", 450)
     delegate :factories,
       :register_strategy,
-      :rewind_sequences,
       :rewind_sequence,
+      :rewind_sequences,
       :set_sequence,
       :strategy_by_name,
       to: Internal
