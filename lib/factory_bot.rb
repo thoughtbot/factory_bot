@@ -41,7 +41,6 @@ require "factory_bot/definition_proxy"
 require "factory_bot/syntax/methods"
 require "factory_bot/syntax/default"
 require "factory_bot/syntax_runner"
-require "factory_bot/reload"
 require "factory_bot/decorator"
 require "factory_bot/decorator/attribute_hash"
 require "factory_bot/decorator/disallows_duplicates_registry"
@@ -54,6 +53,7 @@ require "factory_bot/version"
 module FactoryBot
   extend Core::Aliases
   extend Core::FindDefinitions
+  extend Syntax::Default
 
   Deprecation = ActiveSupport::Deprecation.new("7.0", "factory_bot")
 
