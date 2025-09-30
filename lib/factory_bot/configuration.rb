@@ -3,17 +3,13 @@ module FactoryBot
   class Configuration
     attr_reader(
       :callback_names,
-      :inline_sequences,
-      :sequences,
       :strategies,
     )
 
     def initialize
-      @sequences = Decorator::DisallowsDuplicatesRegistry.new(Registry.new("Sequence"))
       @strategies = Registry.new("Strategy")
       @callback_names = Set.new
       @definition = Definition.new(:configuration)
-      @inline_sequences = []
 
       to_create(&:save!)
       initialize_with { new }
