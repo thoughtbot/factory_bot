@@ -2,10 +2,9 @@ describe FactoryBot::Internal do
   describe ".register_trait" do
     it "registers the provided trait" do
       trait = FactoryBot::Trait.new(:admin)
-      configuration = FactoryBot::Internal.configuration
 
       expect { FactoryBot::Internal.register_trait(trait) }
-        .to change { configuration.traits.count }
+        .to change { FactoryBot::Internal::Traits.traits.count }
         .from(0)
         .to(1)
     end

@@ -7,6 +7,7 @@ require "active_support/notifications"
 
 require "factory_bot/core/aliases"
 require "factory_bot/core/find_definitions"
+require "factory_bot/internal/traits"
 require "factory_bot/internal"
 require "factory_bot/definition_hierarchy"
 require "factory_bot/configuration"
