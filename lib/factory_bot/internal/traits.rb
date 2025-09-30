@@ -1,5 +1,4 @@
 module FactoryBot
-  # @api private
   module Internal
     module Traits
       def self.traits

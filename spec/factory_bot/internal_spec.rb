@@ -75,10 +75,9 @@ describe FactoryBot::Internal do
   describe ".register_factory" do
     it "registers the provided factory" do
       factory = FactoryBot::Factory.new(:object)
-      configuration = FactoryBot::Internal.configuration
 
       expect { FactoryBot::Internal.register_factory(factory) }
-        .to change { configuration.factories.count }
+        .to change { FactoryBot::Internal::Factories.factories.count }
         .from(0)
         .to(1)
     end
@@ -102,9 +101,8 @@ describe FactoryBot::Internal do
   describe ".register_factory" do
     it "registers the provided factory" do
       factory = FactoryBot::Factory.new(:object)
-      configuration = FactoryBot::Internal.configuration
       expect { FactoryBot::Internal.register_factory(factory) }
-        .to change { configuration.factories.count }
+        .to change { FactoryBot::Internal::Factories.factories.count }
         .from(0)
         .to(1)
     end
