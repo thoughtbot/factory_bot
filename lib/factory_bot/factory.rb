@@ -36,14 +36,13 @@ module FactoryBot
 
       compile
 
-      strategy = StrategyCalculator.new(build_strategy).strategy.new
+      strategy = Strategy.lookup_strategy(build_strategy).new
 
       evaluator = evaluator_class.new(strategy, overrides.symbolize_keys)
       attribute_assigner = AttributeAssigner.new(evaluator, build_class, &compiled_constructor)
 
       observer = CallbacksObserver.new(callbacks, evaluator)
-      evaluation =
-        Evaluation.new(evaluator, attribute_assigner, compiled_to_create, observer)
+      evaluation = Evaluation.new(evaluator, attribute_assigner, compiled_to_create, observer)
 
       evaluation.notify(:before_all, nil)
       instance = strategy.result(evaluation).tap(&block)
