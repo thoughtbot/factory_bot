@@ -33,6 +33,12 @@ module FactoryBot
         :set_sequence,
         to: Internal::Sequences
 
+      delegate :strategies,
+        :register_strategy,
+        :strategy_by_name,
+        :register_default_strategies,
+        to: Internal::Strategies
+
       def configuration
         @configuration ||= Configuration.new
       end
@@ -42,23 +48,7 @@ module FactoryBot
         Internal::Traits.reset_traits
         Internal::Factories.reset_factories
         Internal::Sequences.reset
-      end
-
-      def register_strategy(strategy_name, strategy_class)
-        strategies.register(strategy_name, strategy_class)
-        StrategySyntaxMethodRegistrar.new(strategy_name).define_strategy_methods
-      end
-
-      def strategy_by_name(name)
-        strategies.find(name)
-      end
-
-      def register_default_strategies
-        register_strategy(:build, FactoryBot::Strategy::Build)
-        register_strategy(:create, FactoryBot::Strategy::Create)
-        register_strategy(:attributes_for, FactoryBot::Strategy::AttributesFor)
-        register_strategy(:build_stubbed, FactoryBot::Strategy::Stub)
-        register_strategy(:null, FactoryBot::Strategy::Null)
+        Internal::Strategies.reset
       end
     end
   end
