@@ -1,12 +1,7 @@
 module FactoryBot
   # @api private
   class Configuration
-    attr_reader(
-      :callback_names
-    )
-
     def initialize
-      @callback_names = Set.new
       @definition = Definition.new(:configuration)
 
       to_create(&:save!)
