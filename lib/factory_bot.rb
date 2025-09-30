@@ -51,6 +51,8 @@ require "factory_bot/linter"
 require "factory_bot/version"
 
 module FactoryBot
+  extend Core::Aliases
+
   Deprecation = ActiveSupport::Deprecation.new("7.0", "factory_bot")
 
   mattr_accessor :use_parent_strategy, instance_accessor: false
