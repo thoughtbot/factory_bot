@@ -1,3 +1,9 @@
+require "factory_bot/internal/definition"
+require "factory_bot/internal/factories"
+require "factory_bot/internal/sequences"
+require "factory_bot/internal/strategies"
+require "factory_bot/internal/traits"
+
 module FactoryBot
   # @api private
   module Internal
