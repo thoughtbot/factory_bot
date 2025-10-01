@@ -306,7 +306,7 @@ describe "FactoryBot.set_sequence" do
           .to raise_error ArgumentError, /Value cannot be less than: 1000/
       end
 
-      it "raises an error for unmatched String values" do
+      it "raises an error for unmatched String values", :slow do
         FactoryBot.define do
           sequence(:char, "c")
         end
@@ -328,7 +328,7 @@ describe "FactoryBot.set_sequence" do
           .to raise_error ArgumentError, /Unable to find 'Jester' in the sequence/
       end
 
-      it "times out when value cannot be found within timeout period" do
+      it "times out when value cannot be found within timeout period", :slow do
         with_temporary_assignment(FactoryBot, :sequence_setting_timeout, 3) do
           FactoryBot.define do
             sequence(:test, "a")
