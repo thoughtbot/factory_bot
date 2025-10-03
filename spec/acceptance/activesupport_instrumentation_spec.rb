@@ -47,7 +47,7 @@ describe "using ActiveSupport::Instrumentation to track run_factory interaction"
     expect(time_to_execute).to be >= 0.1
   end
 
-  it "builds the correct payload" do
+  it "builds the correct payload", :slow do
     tracked_invocations = {}
 
     callback = ->(_name, _start, _finish, _id, payload) do
