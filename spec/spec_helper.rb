@@ -1,5 +1,5 @@
 # Set timeout when setting sequences
-require "debug"
+require "debug" if RUBY_ENGINE == "ruby"
 require "rspec"
 require "rspec/its"
 
