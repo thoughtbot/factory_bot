@@ -1,5 +1,6 @@
 describe "sequences" do
   include FactoryBot::Syntax::Methods
+
   require "ostruct"
 
   # = On Success
