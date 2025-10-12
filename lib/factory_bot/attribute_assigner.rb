@@ -9,6 +9,7 @@ module FactoryBot
       @attribute_names_assigned = []
     end
 
+    # constructs an object-based factory product
     def object
       @evaluator.instance = build_class_instance
       build_class_instance.tap do |instance|
@@ -19,6 +20,7 @@ module FactoryBot
       end
     end
 
+    # constructs a Hash-based factory product
     def hash
       @evaluator.instance = build_hash
 
@@ -29,6 +31,8 @@ module FactoryBot
 
     private
 
+    # Track evaluation of methods on the evaluator to prevent the duplicate
+    # assignment of attributes accessed and via `initialize_with` syntax
     def method_tracking_evaluator
       @method_tracking_evaluator ||= Decorator::AttributeHash.new(
         decorated_evaluator,
@@ -67,12 +71,15 @@ module FactoryBot
       attribute_names_to_assign - association_names
     end
 
+    # Builds a list of attributes names that should be assigned to the factory product
     def attribute_names_to_assign
-      @attribute_names_to_assign ||=
-        non_ignored_attribute_names +
-        override_names -
-        ignored_attribute_names -
-        aliased_attribute_names_to_ignore
+      @attribute_names_to_assign ||= begin
+        # start a list of candidates containing non-transient attributes and overrides
+        assignment_candidates = non_ignored_attribute_names + override_names
+        # then remove any transient attributes (potentially reintroduced by the overrides),
+        # and remove ignorable aliased attributes from the candidate list
+        assignment_candidates - ignored_attribute_names - attribute_names_overriden_by_alias
+      end
     end
 
     def non_ignored_attribute_names
@@ -99,36 +106,63 @@ module FactoryBot
       attribute_names + override_names + @build_class.instance_methods
     end
 
-    ##
-    # Creat a list of attribute names that will be
-    # overridden by an alias, so any defaults can
-    # ignored.
-    #
-    def aliased_attribute_names_to_ignore
-      @attribute_list.non_ignored.flat_map { |attribute|
-        override_names.map do |override|
-          attribute.name if aliased_attribute?(attribute, override)
-        end
-      }.compact
+    # Builds a list of attribute names which are slated to be interrupted by an override.
+    def attribute_names_overriden_by_alias
+      @attribute_list
+        .non_ignored
+        .flat_map { |attribute|
+          override_names.map do |override|
+            attribute.name if ignorable_alias?(attribute, override)
+          end
+        }
+        .compact
     end
 
-    ##
-    # Is the override an alias for the attribute and not the
-    # actual name of another attribute?
+    # Is the attribute an ignorable alias of the override?
+    # An attribute is ignorable when it is an alias of the override AND it is
+    # either interrupting an assocciation OR is not the name of another attribute
     #
-    # Note: Checking against the names of all attributes, resolves any
-    #       issues with having both <attribute> and <attribute>_id
-    #       in the same factory.
+    # @note An "alias" is currently an overloaded term for two distinct cases:
+    #   (1) attributes which are aliases and reference the same value
+    #   (2) a logical grouping of a foreign key and an associated object
+    def ignorable_alias?(attribute, override)
+      return false unless attribute.alias_for?(override)
+
+      # The attribute alias should be ignored when the override interrupts an association
+      return true if override_interrupts_association?(attribute, override)
+
+      # Remaining aliases should be ignored when the override does not match a declared attribute.
+      # An override which is an alias to a declared attribute should not interrupt the aliased
+      # attribute and interrupt only the attribute with a matching name. This workaround allows a
+      # factory to declare both <attribute> and <attribute>_id as separate and distinct attributes.
+      !override_matches_declared_attribute?(override)
+    end
+
+    # Does this override interrupt an association?
+    # When true, this indicates the aliased attribute is related to a declared association and the
+    # override does not match the attribute name.
     #
-    def aliased_attribute?(attribute, override)
-      # Association overrides take precedence over trait-defined foreign keys
-      if association_names.include?(override) && attribute.alias_for?(override) && attribute.name != override
-        return true
-      end
+    # @note Association overrides should take precedence over a declared foreign key attribute.
+    #
+    # @note An override may interrupt an association by providing the associated object or
+    #   by providing the foreign key.
+    #
+    # @param [FactoryBot::Attribute] aliased_attribute
+    # @param [Symbol] override name of an override which is an alias to the attribute name
+    def override_interrupts_association?(aliased_attribute, override)
+      (aliased_attribute.association? || association_names.include?(override)) &&
+        aliased_attribute.name != override
+    end
 
-      return false if attribute_names.include?(override)
-
-      attribute.alias_for?(override)
+    # Does this override match the name of any declared attribute?
+    #
+    # @note Checking against the names of all attributes, resolves any issues with having both
+    #   <attribute> and <attribute>_id in the same factory. This also takes into account ignored
+    #   attributes that should not be assigned (aka transient attributes)
+    #
+    # @param [Symbol] override the name of an override
+    def override_matches_declared_attribute?(override)
+      attribute_names.include?(override)
     end
   end
 end
