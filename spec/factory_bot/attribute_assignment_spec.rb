@@ -284,6 +284,7 @@ describe "attribute aliases" do
           factory :user do
             name { "Test User" }
           end
+
           factory :post do
             association :user
             title { "Test Post" }
