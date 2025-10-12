@@ -389,7 +389,7 @@ describe "attribute aliases" do
 
         # A regression in v6.5.5 created an erroneous second user and assigned
         # that to post.user and post.user_id.
-        expect(post.user).to eq user
+        expect(post.user.id).to be user.id
         expect(post.user_id).to eq user.id
         expect(User.count).to eq 1
       end
@@ -434,7 +434,10 @@ describe "attribute aliases" do
 
       it "handles an override of the foreign key when :user_id is declared last" do
         FactoryBot.define do
-          factory :user
+          factory :user do
+            name { "tester" }
+            age { 99 }
+          end
           factory :post do
             user
             # this :user_id attribute is purposely declared after :user
@@ -448,7 +451,7 @@ describe "attribute aliases" do
         # A regression from v6.5.5 assigns the expected values to post.user and post.user_id
         # An erroneous second user instance, however, is created in the background
         expect(post.user_id).to eq user.id
-        expect(post.user).to eq user
+        expect(post.user.id).to be user.id
         expect(User.count).to eq 1
       end
     end
