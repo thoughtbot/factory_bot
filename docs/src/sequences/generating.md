@@ -1,6 +1,6 @@
 # Generating a Sequence
 
-Being able to diectly generate a sequence, without having to build the object can really speed up testing. This can be achieved by passing the [sequence URI](sequence-uris.md) to `:generate` for a single value or `:generate_list` for an Array of sequential values.
+Being able to directly generate a sequence, without having to build the object can really speed up testing. This can be achieved by passing the [sequence URI](sequence-uris.md) to `:generate` for a single value or `:generate_list` for an Array of sequential values.
 
 ```ruby
 FactoryBot.define do
@@ -58,7 +58,7 @@ generate_list(:user, :email, 2, scope: jester)
 # ["Jester-3@example.com", "Jester-4@example.com"]
 ```
 
-When testing, the scope can be any object that responds to the referrenced attributes:
+When testing, the scope can be any object that responds to the referenced attributes:
 
 ```ruby
 require 'ostruct'
