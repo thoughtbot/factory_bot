@@ -5,7 +5,7 @@ pair that will be set when the object is built.
 
 The `add_attribute` method takes two arguments: a name (Symbol or String) and a
 block. This block is called each time this object is constructed. The block is
-not called when the attribute is overriden by a build strategy.
+not called when the attribute is overridden by a build strategy.
 
 Assignment is done by calling the Ruby attribute setter. For example, given
 

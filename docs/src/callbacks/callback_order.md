@@ -1,6 +1,6 @@
 # Callback Order
 
-When a callback event like `after_build` or `before_all` is triggered, all callbacks for that event are excuted in the following order:
+When a callback event like `after_build` or `before_all` is triggered, all callbacks for that event are executed in the following order:
 
 1. Global callbacks.
 2. Inherited callbacks.

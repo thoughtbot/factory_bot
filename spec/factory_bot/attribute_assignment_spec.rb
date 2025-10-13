@@ -1,5 +1,5 @@
 describe "Attribute Assignment" do
-  it "sets the <attribute> default value if not overriden" do
+  it "sets the <attribute> default value if not overridden" do
     name = :user
     define_class("User") { attr_accessor :name, :response }
     factory = FactoryBot::Factory.new(name)
