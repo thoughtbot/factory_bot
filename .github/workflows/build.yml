@@ -13,6 +13,7 @@ jobs:
         ruby:
           - jruby-9.4
           - truffleruby
+          - "3.4"
           - "3.3"
           - "3.2"
           - "3.1"
