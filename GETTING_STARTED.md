@@ -642,7 +642,7 @@ end
 
 Or inline using attributes from the factory:
 
-```rb
+```ruby
 factory :post do
   # ...
   author_last_name { "Writely" }
@@ -1153,7 +1153,7 @@ When working with uniqueness constraints, be careful not to pass in override val
 
 In this example the email will be the same for both users. If email must be unique, this code will error:
 
-```rb
+```ruby
 factory :user do
   sequence(:email) { |n| "person#{n}@example.com" }
 end
@@ -1419,7 +1419,7 @@ create :invoice, :with_amount, amount: 2
 
 Given an Active Record model with an enum attribute:
 
-```rb
+```ruby
 class Task < ActiveRecord::Base
   enum status: {queued: 0, started: 1, finished: 2}
 end
@@ -1429,7 +1429,7 @@ end
 factory\_bot will automatically define traits for each possible value of the
 enum:
 
-```rb
+```ruby
 FactoryBot.define do
   factory :task
 end
@@ -1441,7 +1441,7 @@ FactoryBot.build(:task, :finished)
 
 Writing the traits out manually would be cumbersome, and is not necessary:
 
-```rb
+```ruby
 FactoryBot.define do
   factory :task do
     trait :queued do
@@ -1466,7 +1466,7 @@ desired, it is possible to disable the feature by setting
 In that case, it is still possible to explicitly define traits for an enum
 attribute in a particular factory:
 
-```rb
+```ruby
 FactoryBot.automatically_define_enum_traits = false
 
 FactoryBot.define do
@@ -1481,7 +1481,7 @@ specifically tied to Active Record enum attributes.
 
 With an array:
 
-```rb
+```ruby
 class Task
   attr_accessor :status
 end
@@ -1495,7 +1495,7 @@ end
 
 Or with a hash:
 
-```rb
+```ruby
 class Task
   attr_accessor :status
 end
