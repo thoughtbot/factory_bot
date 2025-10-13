@@ -17,8 +17,8 @@ module FactoryBot
 
     def self.find_by_uri(uri)
       uri = uri.to_sym
-      (FactoryBot::Internal.sequences.to_a.find { |seq| seq.has_uri?(uri) }) ||
-        (FactoryBot::Internal.inline_sequences.find { |seq| seq.has_uri?(uri) })
+      FactoryBot::Internal.sequences.to_a.find { |seq| seq.has_uri?(uri) } ||
+        FactoryBot::Internal.inline_sequences.find { |seq| seq.has_uri?(uri) }
     end
 
     def initialize(name, *args, &proc)
