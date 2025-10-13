@@ -84,6 +84,7 @@ GEM
     minitest (5.25.4)
     multi_test (1.1.0)
     mutex_m (0.3.0)
+    ostruct (0.6.3)
     parallel (1.27.0)
     parser (3.3.9.0)
       ast (~> 2.4.1)
@@ -172,6 +173,7 @@ DEPENDENCIES
   cucumber
   factory_bot!
   mutex_m
+  ostruct
   rake
   rspec
   rspec-its

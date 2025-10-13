@@ -33,6 +33,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency("aruba")
   s.add_development_dependency("cucumber")
   s.add_development_dependency("mutex_m")
+  s.add_development_dependency("ostruct")
   s.add_development_dependency("rake")
   s.add_development_dependency("rspec")
   s.add_development_dependency("rspec-its")
