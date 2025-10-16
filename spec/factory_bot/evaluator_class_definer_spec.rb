@@ -60,11 +60,10 @@ describe FactoryBot::EvaluatorClassDefiner do
   end
 
   def define_evaluator_class(arguments = {})
-    evaluator_class_definer = FactoryBot::EvaluatorClassDefiner.new(
+    FactoryBot::EvaluatorClassDefiner.define_evaluator_class(
       arguments[:attributes] || [],
       arguments[:parent_class] || FactoryBot::Evaluator
     )
-    evaluator_class_definer.evaluator_class
   end
 
   def stub_attribute(name = :attribute, &value)
