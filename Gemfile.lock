@@ -84,6 +84,7 @@ GEM
     mini_portile2 (2.8.8)
     minitest (5.26.0)
     multi_test (1.1.0)
+    mutex_m (0.3.0)
     ostruct (0.6.3)
     parallel (1.27.0)
     parser (3.3.9.0)
@@ -172,6 +173,7 @@ DEPENDENCIES
   appraisal
   aruba
   factory_bot!
+  mutex_m
   ostruct
   rake
   rspec
