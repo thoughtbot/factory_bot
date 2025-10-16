@@ -272,5 +272,188 @@ describe "attribute aliases" do
       expect(user.response).to eq "new response"
       expect(user.response_id).to eq 13.75
     end
+
+    context "when association overrides trait foreign key" do
+      before do
+        define_model("User", name: :string)
+        define_model("Post", user_id: :integer, title: :string) do
+          belongs_to :user, optional: true
+        end
+
+        FactoryBot.define do
+          factory :user do
+            name { "Test User" }
+          end
+          factory :post do
+            association :user
+            title { "Test Post" }
+
+            trait :with_system_user_id do
+              user_id { 999 }
+            end
+
+            trait :with_user_id_100 do
+              user_id { 100 }
+            end
+
+            trait :with_user_id_200 do
+              user_id { 200 }
+            end
+          end
+        end
+      end
+
+      it "prefers association override over trait foreign key" do
+        user = FactoryBot.create(:user)
+        post = FactoryBot.build(:post, :with_system_user_id, user: user)
+
+        expect(post.user).to be user
+        expect(post.user_id).to eq user.id
+      end
+
+      it "uses trait foreign key when no association override is provided" do
+        post = FactoryBot.build(:post, :with_system_user_id)
+
+        expect(post.user).to be nil
+        expect(post.user_id).to eq 999
+      end
+
+      it "handles multiple traits with foreign keys correctly" do
+        user = FactoryBot.create(:user)
+        post = FactoryBot.build(:post, :with_user_id_100, :with_user_id_200, user: user)
+
+        expect(post.user).to be user
+        expect(post.user_id).to eq user.id
+      end
+    end
+  end
+
+  context "when a factory defines attributes for both sides of an association" do
+    before do
+      define_model("User", name: :string, age: :integer)
+      define_model("Post", user_id: :integer, title: :string) do
+        belongs_to :user
+      end
+    end
+
+    context "when using the build strategy" do
+      it "prefers the :user association when defined after the :user_id attribute" do
+        FactoryBot.define do
+          factory :user
+          factory :post do
+            user_id { 999 }
+            user
+          end
+        end
+
+        user = FactoryBot.build_stubbed(:user)
+        post = FactoryBot.build(:post, user_id: user.id)
+
+        # A regression from v6.5.5 resulted in an extraneous user instance being
+        # built and assigned to post.user; it also failed to use the user_id override
+        expect(post.user).to be nil
+        expect(post.user_id).to eq user.id
+      end
+
+      it "prefers the :user_id attribute when defined after the :user attribute" do
+        FactoryBot.define do
+          factory :user
+          factory :post do
+            user
+            user_id { 999 }
+          end
+        end
+
+        user = FactoryBot.build_stubbed(:user)
+        post = FactoryBot.build(:post, user: user)
+
+        # A regression from v6.5.5 erroneously assigns the value of 999 to post.user_id
+        # and fails to assign the user override
+        expect(post.user).to be user
+        expect(post.user_id).to be user.id
+      end
+    end
+
+    context "when using the create strategy" do
+      it "handles an override of the foreign key when the :user association is declared last" do
+        FactoryBot.define do
+          factory :user
+          factory :post do
+            user_id { 999 }
+            user
+          end
+        end
+
+        user = FactoryBot.create(:user)
+        post = FactoryBot.create(:post, user_id: user.id)
+
+        # A regression in v6.5.5 created an erroneous second user and assigned
+        # that to post.user and post.user_id.
+        expect(post.user.id).to be user.id
+        expect(post.user_id).to eq user.id
+        expect(User.count).to eq 1
+      end
+
+      it "handles an override of the associated object when the :user association is declared last" do
+        FactoryBot.define do
+          factory :user
+          factory :post do
+            user_id { 999 }
+            user
+          end
+        end
+
+        user = FactoryBot.create(:user)
+        post = FactoryBot.create(:post, user: user)
+
+        # This worked fine in v6.5.5, no regression behavior exhibited
+        expect(post.user).to eq user
+        expect(post.user_id).to eq user.id
+        expect(User.count).to eq 1
+      end
+
+      it "handles an override of the associated object when :user_id is declared last" do
+        FactoryBot.define do
+          factory :user
+          factory :post do
+            user
+            # this :user_id attribute is purposely declared after :user
+            user_id { 999 }
+          end
+        end
+
+        user = FactoryBot.create(:user)
+        post = FactoryBot.create(:post, user: user)
+
+        # A regression from v6.5.5 erroneously asignes 999 to post.user_id
+        # and leaves post.user assigned to nil
+        expect(post.user_id).to eq user.id
+        expect(post.user).to eq user
+        expect(User.count).to eq 1
+      end
+
+      it "handles an override of the foreign key when :user_id is declared last" do
+        FactoryBot.define do
+          factory :user do
+            name { "tester" }
+            age { 99 }
+          end
+          factory :post do
+            user
+            # this :user_id attribute is purposely declared after :user
+            user_id { 999 }
+          end
+        end
+
+        user = FactoryBot.create(:user)
+        post = FactoryBot.create(:post, user_id: user.id)
+
+        # A regression from v6.5.5 assigns the expected values to post.user and post.user_id
+        # An erroneous second user instance, however, is created in the background
+        expect(post.user_id).to eq user.id
+        expect(post.user.id).to be user.id
+        expect(User.count).to eq 1
+      end
+    end
   end
 end
