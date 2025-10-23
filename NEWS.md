@@ -1,5 +1,23 @@
 # News
 
+## 6.5.6 (October 22, 2025)
+
+* Fix: Enforce association override precedence over trait foreign keys by @JinOketani in [#1768](https://github.com/thoughtbot/factory_bot/pull/1768)
+* Build: Add ostruct as a development dependency by @ydah in [#1778](https://github.com/thoughtbot/factory_bot/pull/1778)
+* Build: Bump standard from v1.44.0 to v1.51.1 by @ydah in [#1779](https://github.com/thoughtbot/factory_bot/pull/1779)
+* Build: Add Ruby 3.4 to CI matrix by @ydah in [#1780](https://github.com/thoughtbot/factory_bot/pull/1780)
+* Build: Remove unnecessary development dependencies by @ydah in [#1781](https://github.com/thoughtbot/factory_bot/pull/1781)
+* Build: update gem versions and dependencies by @ydah in [#1782](https://github.com/thoughtbot/factory_bot/pull/1782)
+* Build: revert removal of mutex_m by @vburzynski in [#1784](https://github.com/thoughtbot/factory_bot/pull/1784)
+* Refactor: factory calculator cleanup by @vburzynski in [#1770](https://github.com/thoughtbot/factory_bot/pull/1770)
+* Chore(ci): Bump actions/checkout from 4 to 5 by @dependabot[bot] in [#1765](https://github.com/thoughtbot/factory_bot/pull/1765)
+* Chore(specs): tag slow specs by @vburzynski in [#1776](https://github.com/thoughtbot/factory_bot/pull/1776)
+* Docs: Update RELEASING.md by @vburzynski in [#1763](https://github.com/thoughtbot/factory_bot/pull/1763)
+* Docs: Update link to FactoryGirl upgrade guide by @imRohan in [#1769](https://github.com/thoughtbot/factory_bot/pull/1769)
+* Docs: Fix some typos by @ydah in [#1783](https://github.com/thoughtbot/factory_bot/pull/1783)
+* Docs(yard): resolve yard doc warnings by @vburzynski in [#1764](https://github.com/thoughtbot/factory_bot/pull/1764)
+* Docs(yard): ruby syntax highlighting in yard docs by @djbender in [#1777](https://github.com/thoughtbot/factory_bot/pull/1777)
+
 ## 6.5.5 (August 15, 2025)
 
 * Feat: Adds developer console features (CodeMeister)
