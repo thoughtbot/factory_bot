@@ -25,20 +25,17 @@ jobs:
           - "7.2"
           - main
         exclude:
-          - ruby: jruby-9.4
-            rails: "7.1"
-          - ruby: jruby-9.4
-            rails: "7.2"
-          - ruby: jruby-9.4
-            rails: main
+          - { ruby: jruby-9.4, rails: "7.1" }
+          - { ruby: jruby-9.4, rails: "7.2" }
+          - { ruby: jruby-9.4, rails: main }
           # Rails >= 7.2 requires Ruby 3.1
-          - ruby: "3.0"
-            rails: "7.2"
-          - ruby: "3.0"
-            rails: "main"
+          - { ruby: "3.0", rails: "7.2" }
+          - { ruby: "3.0", rails: "main" }
           # Rails >= 8.0 requires Ruby 3.2
-          - ruby: "3.1"
-            rails: "main"
+          - { ruby: "3.1", rails: "main" }
+          # 2025-10-23 There's an incompatibility between truffleruby and rails edge Git ref
+          # results in a "NoMethodError: undefined method `[]' for class Fiber" error whilst running specs
+          - { ruby: truffleruby, rails: "main" }
 
     runs-on: 'ubuntu-latest'
 
