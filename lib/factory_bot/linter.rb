@@ -109,7 +109,7 @@ module FactoryBot
 
     def in_transaction
       if defined?(ActiveRecord::Base)
-        ActiveRecord::Base.transaction do
+        ActiveRecord::Base.transaction(joinable: false) do
           yield
           raise ActiveRecord::Rollback
         end
