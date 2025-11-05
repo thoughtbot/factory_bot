@@ -53,6 +53,15 @@ describe FactoryBot::DefinitionProxy, "#method_missing" do
       .with_options(factory: :user)
   end
 
+  it 'declares an association when called with a ":traits" key' do
+    definition = FactoryBot::Definition.new(:name)
+    proxy = FactoryBot::DefinitionProxy.new(definition)
+    proxy.author traits: [:admin]
+
+    expect(definition).to have_association_declaration(:author)
+      .with_options(traits: [:admin])
+  end
+
   it "declares a dynamic attribute when called with a block" do
     definition = FactoryBot::Definition.new(:name)
     proxy = FactoryBot::DefinitionProxy.new(definition)
