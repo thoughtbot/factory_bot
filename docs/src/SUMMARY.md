@@ -1,30 +1,17 @@
 # Summary
 
 [Intro](intro.md)
-
-## Setup
-
-- [Setup](setup.md)
-  - [Using Without Bundler](using-without-bundler.md)
-  - [Rails Preloaders and RSpec](rails-preloaders-and-rspec.md)
-
 ## Getting Started
 
-- [Defining Factories](defining-factories.md)
-  - [Specifying the class explicitly](defining/explicit-class.md)
-  - [Definition file paths](defining/file-paths.md)
-  - [Best practices](defining/best-practices.md)
 - [Modifying Factories](modifying-factories.md)
 - [Using Factories](using-factories.md)
   - [Build strategies](using-factories/build-strategies.md)
   - [Building or Creating Multiple Records](building-or-creating-multiple-records.md)
   - [Attribute overrides](using-factories/attribute-overrides.md)
-- [Linting Factories](linting-factories.md)
 
 ## Guides 
 
-- [Attribuutes](attributes.md)
-  - [Factory name and attributes](attributes/name-attributes.md)
+- Attributes
   - [Hash attributes](attributes/hash-attributes.md)
   - [Dependent Attributes](attributes/dependent-attributes.md)
   - [Transient Attributes](attributes/transient-attributes.md)
@@ -33,7 +20,10 @@
     - [With callbacks](attributes/transient-attributes/with-callbacks.md)
     - [With associations](attributes/transient-attributes/with-associations.md)
   - [Method Name / Reserved Word Attributes](attributes/method-name-reserved-word-attributes.md)
-  - [Static Attributes (deprecated)](attributes/static-attributes.md)
+
+
+--- 
+
 - [Inheritance](inheritance.md)
 - [Associations](associations.md)
   - [Implicit definition](associations/implicit-definition.md)
@@ -85,9 +75,7 @@
 <!-- TODO: disseminate these throughout the sections they belong in... -->
 <!-- TODO: A lot of this should potentially be part of the YARD documentation -->
 <!-- TODO: convert YARD/RDOC to markdown and include here? (single source of truth) -->
-- [Build strategies](ref/build-strategies.md)
-- [FactoryBot.find_definitions](ref/find_definitions.md)
-- [FactoryBot.define](ref/define.md)
+
 - [factory](ref/factory.md)
 - [add_attribute](ref/add_attribute.md)
 - [association](ref/association.md)
@@ -99,7 +87,6 @@
 - [transient](ref/transient.md)
 - [Hooks](ref/hooks.md)
 - [FactoryBot.modify](ref/modify.md)
-- [FactoryBot.lint](ref/lint.md)
 - [FactoryBot.register_strategy](ref/register_strategy.md)
 
 # Cookbook

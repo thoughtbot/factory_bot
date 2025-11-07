@@ -3,15 +3,33 @@ module FactoryBot
     module Default
       include Methods
 
+      # Each file loaded by factory_bot is expected to call `FactoryBot.define` with a block.
+      # The block is evaluated within an instance of `FactoryBot::Syntax::Default::DSL`, giving
+      # access to `factory`, `sequence`, `trait`, and other methods.
+      #
+      # @return [void]
       def define(&block)
         DSL.run(block)
       end
 
+      # Reopens existing factories for extension. When modifying a factory, any of the attributes
+      # may be changed aside from callbacks. Callbacks may be added, but will be triggered after
+      # the callbacks from the original factory definition.
+      #
+      # @return [void]
       def modify(&block)
         ModifyDSL.run(block)
       end
 
       class DSL
+        # Defines a Factory
+        # @param name [Symbol] the name of the factory
+        # @param [Hash] options the options to create a factory with
+        # @option options [String|Symbol|Class] :class ({}) The class to construct objects with
+        # @option options [Symbol] :parent (nil) The parent factory to inherit from
+        # @option options [Symbol[]] :aliases ([]) Alternative names for this factory. Any of these names may be used with a build strategy
+        # @option options [Symbol[]] list of traits which are used by default when building this factory
+        # @return [void]
         def factory(name, options = {}, &block)
           factory = Factory.new(name, options)
           proxy = FactoryBot::DefinitionProxy.new(factory.definition)

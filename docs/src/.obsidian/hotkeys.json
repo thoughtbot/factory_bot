@@ -1,0 +1,10 @@
+{
+  "app:delete-file": [
+    {
+      "modifiers": [
+        "Ctrl"
+      ],
+      "key": "Delete"
+    }
+  ]
+}

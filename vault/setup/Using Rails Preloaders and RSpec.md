@@ -1,4 +1,4 @@
-# Rails Preloaders and RSpec
+# Using Rails Preloaders and RSpec
 
 When running RSpec with a Rails preloader such as `spring` or `zeus`, it's
 possible to encounter an `ActiveRecord::AssociationTypeMismatch` error when

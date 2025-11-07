@@ -1,7 +1,6 @@
 # Hash attributes
 
-Because of the block syntax in Ruby, defining attributes as `Hash`es (for
-serialized/JSON columns, for example) requires two sets of curly brackets:
+Because of the block syntax in Ruby, defining attributes as `Hash`es (for serialized/JSON columns, for example) requires two sets of curly brackets:
 
 ```ruby
 factory :program do
@@ -21,9 +20,9 @@ end
 
 ---
 
-However, defining a value as a hash makes it complicated to set values within
-the hash when constructing an object. Instead, prefer to use factory\_bot
-itself:
+## Nested Hash Attributes
+
+However, defining a value as a hash makes it complicated to set values within the hash when constructing an object. Instead, prefer to use factory\_bot itself:
 
 ```ruby
 factory :program do

@@ -1,6 +1,6 @@
 # method_missing
 
-With a `factory` definition block, you can use `add_attribute`, `association`,
+Within a `factory` definition block, you can use `add_attribute`, `association`,
 `sequence`, and `trait` to define a factory. You can also level a default
 `method_missing` definition for potential shortcuts.
 
@@ -9,18 +9,14 @@ an association, sequence, trait, or attribute to the factory:
 
 1. If the method missing is passed a block, it always defines an attribute.
    This allows you to set the value for the attribute.
-
-1. If the method missing is passed a hash as a argument with the key
+2. If the method missing is passed a hash as a argument with the key
    `:factory`, then it always defines an association. This allows you to
    override the factory used for the association.
-
-1. If there is another factory of the same name, then it defines an
+3. If there is another factory of the same name, then it defines an
    association.
-
-1. If there is a global sequence of the same name, then it defines an attribute
+4. If there is a global sequence of the same name, then it defines an attribute
    with a value that pulls from the sequence.
-
-1. If there is a trait of the same name for that factory, then it turns that
+5. If there is a trait of the same name for that factory, then it turns that
    trait on for all builds of this factory.
 
 Using `method_missing` can turn an explicit definition:
