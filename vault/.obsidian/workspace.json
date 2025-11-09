@@ -4,17 +4,63 @@
     "type": "split",
     "children": [
       {
-        "id": "f291b6558fe12700",
+        "id": "779d7b0a9f4638c9",
         "type": "tabs",
         "children": [
           {
-            "id": "4f5314d9bf8caabe",
+            "id": "1315dec2087249ad",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {},
+              "type": "markdown",
+              "state": {
+                "file": "HOME.md",
+                "mode": "source",
+                "source": false
+              },
               "icon": "lucide-file",
-              "title": "New tab"
+              "title": "HOME"
+            }
+          },
+          {
+            "id": "797e7ec1fdb1a3f8",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "associations/§ associations.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "§ associations"
+            }
+          },
+          {
+            "id": "56c24962a86e5004",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "attributes/§ attributes.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "§ attributes"
+            }
+          },
+          {
+            "id": "6063a2eb7f05f636",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "attributes/Attribute Aliases.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Attribute Aliases"
             }
           }
         ]
@@ -49,7 +95,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "find_definition",
+                "query": "/build strate",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -70,11 +116,13 @@
               "title": "Bookmarks"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "horizontal",
-    "width": 211.5
+    "width": 298.5,
+    "collapsed": true
   },
   "right": {
     "id": "9b1e6c6fe707bead",
@@ -90,7 +138,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Dynamic Attributes.md",
+                "file": "HOME.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -100,7 +148,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for Dynamic Attributes"
+              "title": "Backlinks for HOME"
             }
           },
           {
@@ -109,11 +157,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
+                "file": "HOME.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Outgoing links"
+              "title": "Outgoing links from HOME"
             }
           },
           {
@@ -137,13 +186,39 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Dynamic Attributes.md",
+                "file": "HOME.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of Dynamic Attributes"
+              "title": "Outline of HOME"
+            }
+          },
+          {
+            "id": "264e53a5f15646f7",
+            "type": "leaf",
+            "state": {
+              "type": "footnotes",
+              "state": {
+                "file": "HOME.md"
+              },
+              "icon": "lucide-file-signature",
+              "title": "Footnotes"
+            }
+          },
+          {
+            "id": "e4bdc4ef8677ea7f",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "All properties"
             }
           }
         ],
@@ -165,42 +240,43 @@
       "templater-obsidian:Templater": false
     }
   },
-  "active": "03f1e99a3abeecb1",
+  "active": "1315dec2087249ad",
   "lastOpenFiles": [
+    "associations/§ associations.md",
+    "attributes/Attribute Aliases.md",
+    "HOME.md",
+    "attributes/§ attributes.md",
+    "getting-started/§ getting-started.md",
+    "getting-started/Defining Factories.md",
+    "getting-started/Using Factories.md",
+    "attributes/Explicit Attributes.md",
+    "strategies/build Strategy.md",
+    "strategies/§ strategies.md",
+    "customization/Custom Strategies.md",
     "strategies/create Strategy.md",
+    "strategies/attributes_for Strategy.md",
+    "callbacks/§ callbacks.md",
+    "associations/Associations and Strategies.md",
+    "callbacks/Overview of Callbacks.md",
+    "factories/§ factories.md",
     "strategies/null Strategy.md",
     "strategies/build_stubbed Strategy.md",
-    "strategies/build Strategy.md",
-    "strategies/attributes_for Strategy.md",
+    "factories/Overview of Factories.md",
+    "factories/Child Factories.md",
+    "attributes/Unknown Methods.md",
+    "setup/§ setup.md",
+    "customization/§ customization.md",
+    "traits/The skip_create, to_create, and initialize_with Methods.md",
+    "traits/§ traits.md",
+    "factories",
+    "associations",
+    "customization",
+    "callbacks",
+    "sequences",
+    "traits",
+    "attributes",
+    "getting-started",
     "strategies",
-    "setup/Using Without Bundler.md",
-    "setup/Using Rails Preloaders and RSpec.md",
-    "setup",
-    "_assets/templates/frontmatter.md",
-    "_assets/templates/default template.md",
-    "_assets/templates",
-    "_assets",
-    "Using a Factory.md",
-    "Static Attributes (DEPRECATED).md",
-    "Setup.md",
-    "Modify an Existing Factory.md",
-    "Loading Factories.md",
-    "Linting Factories.md",
-    "HOME.md",
-    "Getting Started.md",
-    "Dynamic Attributes.md",
-    "Define a Factory.md",
-    "Custom Build Strategy.md",
-    "Build Strategies.md",
-    "Attributes.md",
-    "testing page.md",
-    "old_docs/setup.md",
-    "old_docs/SUMMARY.md",
-    "old_docs/associations",
-    "old_docs/callbacks",
-    "old_docs/cookbook",
-    "old_docs/defining",
-    "old_docs/using-factories",
-    "old_docs/traits"
+    "setup"
   ]
 }

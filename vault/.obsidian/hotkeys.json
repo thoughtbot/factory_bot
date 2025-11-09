@@ -51,5 +51,13 @@
       ],
       "key": "."
     }
+  ],
+  "file-explorer:move-file": [
+    {
+      "modifiers": [
+        "Ctrl"
+      ],
+      "key": "M"
+    }
   ]
 }

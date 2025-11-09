@@ -1,13 +1,15 @@
 ---
 type: note
 created: 2025-08-29T15:45:11-05:00
-updated: 2025-08-29T16:13:27-05:00
+updated: 2025-11-07T18:41:01-06:00
 tags:
   - strategies
 aliases:
   - build_stubbed
+  - build_stubbed Strategy
+  - The build_stubbed Strategy
 ---
-# `build_stubbed` Strategy
+# The `build_stubbed` Strategy
 
 The `FactoryBot.build_stubbed` method returns a fake ActiveRecord object. The
 `.build_stubbed_pair` and `.build_stubbed_list` methods are defined similarly
@@ -27,8 +29,12 @@ data as appropriate:
 After it sets up the object it invokes the `after_stub` hook.
 
 [ActiveModel::Dirty]: https://api.rubyonrails.org/classes/ActiveModel/Dirty.html
-## Methods
+## Syntax Methods
 
 - `build_stubbed`
 - `build_stubbed_pair`
 - `build_stubbed_list`
+
+## Incompatibility With `Marshal.dump`
+
+objects created with `build_stubbed` cannot be serialized with `Marshal.dump`, since factory\_bot defines singleton methods on these objects.

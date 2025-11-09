@@ -4,5 +4,6 @@
   "useMarkdownLinks": false,
   "alwaysUpdateLinks": true,
   "attachmentFolderPath": "./",
-  "showLineNumber": true
+  "showLineNumber": true,
+  "newFileLocation": "current"
 }
