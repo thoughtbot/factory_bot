@@ -15,6 +15,11 @@ module FactoryBot
       method
     ].freeze
 
+    VALID_OPTION_KEYS = %i[
+      factory
+      traits
+    ].freeze
+
     (instance_methods + private_instance_methods).each do |method|
       undef_method(method) unless UNPROXIED_METHODS.include?(method.to_s)
     end
@@ -254,7 +259,8 @@ module FactoryBot
     end
 
     def __valid_association_options?(options)
-      options.respond_to?(:has_key?) && options.has_key?(:factory)
+      options.respond_to?(:has_key?) &&
+        VALID_OPTION_KEYS.any? { |key| options.has_key?(key) }
     end
 
     ##
