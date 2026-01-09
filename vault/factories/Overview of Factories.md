@@ -43,15 +43,15 @@ Within the `factory` block you have access to the following methods:
 - `add_attribute` – define [[Explicit Attributes]]
 - `association` – define [[Explicit Associations]]
 - `sequence` – define [[Factory Sequences]]
-- `trait` – define [[§ traits|Traits]]
+- `trait` – define [[Traits|Traits]]
 - `transient` – start a [[Transient Attributes]] block
 - `traits_for_enum` – define a set of [[Enum Traits]]
 - `initialize_with` – customize how the object is initialized
 - `skip_create` – skips the default `to_create` operation
 - `to_create` – customize how the object is persisted
-- `before` – adds a [[§ callbacks|Callback]] hook before an event
-- `after` – adds a [[§ callbacks|Callback]] hook after an event
-- `callback` – adds a [[§ callbacks|Callback]] hook
+- `before` – adds a [[Callbacks|Callback]] hook before an event
+- `after` – adds a [[Callbacks|Callback]] hook after an event
+- `callback` – adds a [[Callbacks|Callback]] hook
 - `factory` – to implicitly define [[Child Factories]]
 
  You also have access to [[Unknown Methods|Missing Methods]] to implicitly declare attributes; declare associations; or activate traits.

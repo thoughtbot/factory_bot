@@ -1,15 +1,16 @@
 ---
 type: note
 created: 2025-11-07T19:08:00-06:00
-updated: 2025-11-08T21:22:52-06:00
+updated: 2026-01-09T14:29:28-06:00
 tags: []
 aliases:
-  - Callbacks
   - FactoryBot Callbacks
+  - Callbacks
+  - Callback
   - Callback Hooks
   - Callback Hook
-  - Hook
   - Hooks
+  - Hook
 up: "[[HOME]]"
 ---
 # Callback Hooks
@@ -28,4 +29,4 @@ up: "[[HOME]]"
 
 ## Looking Ahead
 
-- [[Custom Callbacks]] can be used to customize FactoryBot
+- [[Custom Callback Hooks]] can be used to customize FactoryBot

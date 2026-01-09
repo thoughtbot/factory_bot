@@ -17,7 +17,7 @@ Traits allow you to group attributes together and apply them to a factory
 
 ## Syntax
 
-Within a `factory` definition block, the `trait` method can be used to define named permutations of the factory. The trait method takes a name (Symbol) and a block. Treat the block like you would a [[§ factories|Factory]] definition block.
+Within a `factory` definition block, the `trait` method can be used to define named permutations of the factory. The trait method takes a name (Symbol) and a block. Treat the block like you would a [[Factories|Factory]] definition block.
 
 ### Using Traits When Constructing Objects
 

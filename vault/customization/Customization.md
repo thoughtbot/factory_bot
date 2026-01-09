@@ -1,16 +1,17 @@
 ---
 type: note
 created: 2025-11-07T20:23:52-06:00
-updated: 2025-11-08T21:01:42-06:00
+updated: 2026-01-09T14:29:43-06:00
 tags: []
 aliases:
-  - Customization
   - Customizing FactoryBot
+  - Customizations
+  - Customization
 up: "[[HOME]]"
 ---
-# § Customization
+# Customization
 
 - [[Custom Strategies]]
-- [[Custom Callbacks]]
+- [[Custom Callback Hooks]]
 - [[Custom Object Construction]]
 - [[Custom Object Persistence]]

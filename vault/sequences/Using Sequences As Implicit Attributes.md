@@ -7,7 +7,7 @@ aliases: []
 ---
 # Using Sequences As Implicit Attributes
 
-A [[§ sequences|Sequence]] can be used as an [[Implicit Attribute]]
+A [[Sequences|Sequence]] can be used as an [[Implicit Attribute]]
 
 ```ruby
 FactoryBot.define do

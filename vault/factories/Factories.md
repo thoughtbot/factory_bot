@@ -1,15 +1,15 @@
 ---
 type: note
 created: 2025-11-08T14:48:13-06:00
-updated: 2025-11-08T21:03:14-06:00
+updated: 2026-01-09T14:30:15-06:00
 tags: []
 aliases:
+  - FactoryBot Factory
   - Factories
   - Factory
-  - factory
 up: "[[HOME]]"
 ---
-# § Factories
+# Factories
 
 [[Overview of Factories]]
 

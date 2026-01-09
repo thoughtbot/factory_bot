@@ -4,11 +4,31 @@
     "type": "split",
     "children": [
       {
-        "id": "779d7b0a9f4638c9",
+        "id": "aace80209c34f91e",
         "type": "tabs",
         "children": [
           {
-            "id": "1315dec2087249ad",
+            "id": "d0708fb8c0c17070",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "traits/Traits.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Traits"
+            }
+          }
+        ]
+      },
+      {
+        "id": "a1536ab1c1db5df6",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "3c48f6cecb53279d",
             "type": "leaf",
             "state": {
               "type": "markdown",
@@ -22,48 +42,21 @@
             }
           },
           {
-            "id": "797e7ec1fdb1a3f8",
+            "id": "62b944396dc17f3a",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "associations/§ associations.md",
+                "file": "traits/Traits.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "§ associations"
-            }
-          },
-          {
-            "id": "56c24962a86e5004",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "attributes/§ attributes.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "§ attributes"
-            }
-          },
-          {
-            "id": "6063a2eb7f05f636",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "attributes/Attribute Aliases.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "Attribute Aliases"
+              "title": "Traits"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -95,7 +88,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "/build strate",
+                "query": "§",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -116,13 +109,11 @@
               "title": "Bookmarks"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "horizontal",
-    "width": 298.5,
-    "collapsed": true
+    "width": 298.5
   },
   "right": {
     "id": "9b1e6c6fe707bead",
@@ -138,7 +129,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "HOME.md",
+                "file": "traits/Traits.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -148,7 +139,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for HOME"
+              "title": "Backlinks for Traits"
             }
           },
           {
@@ -186,13 +177,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "HOME.md",
+                "file": "traits/Traits.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of HOME"
+              "title": "Outline of Traits"
             }
           },
           {
@@ -221,13 +212,11 @@
               "title": "All properties"
             }
           }
-        ],
-        "currentTab": 3
+        ]
       }
     ],
     "direction": "horizontal",
-    "width": 268.5,
-    "collapsed": true
+    "width": 268.5
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -240,34 +229,34 @@
       "templater-obsidian:Templater": false
     }
   },
-  "active": "1315dec2087249ad",
+  "active": "d0708fb8c0c17070",
   "lastOpenFiles": [
-    "strategies/§ strategies.md",
+    "strategies/Strategies.md",
+    "sequences/Sequences.md",
+    "getting-started/Getting Started.md",
+    "customization/Customization.md",
+    "factories/Factories.md",
+    "callbacks/Callbacks.md",
+    "attributes/Attributes.md",
+    "associations/Association Overrides.md",
+    "associations/Associations.md",
+    "traits/Traits.md",
+    "setup/Setup.md",
+    "customization/Custom Callback Hooks.md",
     "HOME.md",
-    "associations/§ associations.md",
+    "callbacks/Factory Callbacks.md",
+    "customization/Custom Strategies.md",
+    "ActiveSupport Instrumentation.md",
     "attributes/Attribute Aliases.md",
-    "attributes/§ attributes.md",
-    "getting-started/§ getting-started.md",
+    "setup/Using Rails Preloaders and RSpec.md",
     "getting-started/Defining Factories.md",
     "getting-started/Using Factories.md",
     "attributes/Explicit Attributes.md",
     "strategies/build Strategy.md",
-    "customization/Custom Strategies.md",
     "strategies/create Strategy.md",
     "strategies/attributes_for Strategy.md",
-    "callbacks/§ callbacks.md",
     "associations/Associations and Strategies.md",
     "callbacks/Overview of Callbacks.md",
-    "factories/§ factories.md",
-    "strategies/null Strategy.md",
-    "strategies/build_stubbed Strategy.md",
-    "factories/Overview of Factories.md",
-    "factories/Child Factories.md",
-    "attributes/Unknown Methods.md",
-    "setup/§ setup.md",
-    "customization/§ customization.md",
-    "traits/The skip_create, to_create, and initialize_with Methods.md",
-    "traits/§ traits.md",
     "factories",
     "associations",
     "customization",

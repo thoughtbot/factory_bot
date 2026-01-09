@@ -27,7 +27,7 @@ see [[Global Sequences]] for more information
 
 ### Factory Sequences
 
-A **Factory Sequence** is a [[§ sequences|Sequence]] that is only available for use within a particular factory, it's traits, or any child factories.
+A **Factory Sequence** is a [[Sequences|Sequence]] that is only available for use within a particular factory, it's traits, or any child factories.
 
 ```ruby
 FactoryBot.define do

@@ -1,11 +1,12 @@
 ---
 type: note
 created: 2025-11-07T21:50:57-06:00
-updated: 2025-11-08T22:03:01-06:00
+updated: 2026-01-09T14:19:53-06:00
 tags: []
 aliases:
   - FactoryBot Associations
   - Associations
+  - Association
 up: "[[HOME]]"
 ---
 # Associations
@@ -38,4 +39,4 @@ An **Association** is defined on a factory in order that an associated object be
 
 ## Related
 
-See [[§ strategies|Strategies]] for an explanation of how each construction strategy handles associations
+See [[Strategies|Strategies]] for an explanation of how each construction strategy handles associations

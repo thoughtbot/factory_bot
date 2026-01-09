@@ -17,4 +17,4 @@ and their values, using `initialize_with`.
 - The `attributes_for_pair` and `attributes_for_list` methods work similarly as `build_pair` and `build_list`.
 - Associations are constructed using the `null` construction strategy
   (they are not [[build Strategy|built]]).
-- No [[§ callbacks|Callback Hooks]] are called.
+- No [[Callbacks|Callback Hooks]] are called.

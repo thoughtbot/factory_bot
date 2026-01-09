@@ -1,14 +1,17 @@
 ---
 type: note
 created: 2025-11-07T14:30:22-06:00
-updated: 2025-11-08T20:36:05-06:00
+updated: 2026-01-09T14:31:10-06:00
 tags: []
 aliases:
-  - Traits
   - FactoryBot Traits
+  - Traits
+  - Trait
+  - Factory Traits
+  - Factory Trait
 up: "[[HOME]]"
 ---
-# § Traits
+# Traits
 
 Traits allow you to group attributes together and apply them to a factory
 

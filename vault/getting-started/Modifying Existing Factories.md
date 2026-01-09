@@ -69,8 +69,8 @@ It is important to note the following in regards to modifying factories:
 - Only factories can be modified; not sequences or traits
 - The `factory` method within this block takes a mandatory factory name, and a block. All other arguments are ignored. 
     - The factory name must already be defined. 
-    - The block is a normal [[§ factories|factory definition block]]. 
-- Take note that [[§ callbacks|Callback]] hooks cannot be cleared.
+    - The block is a normal [[Factories|factory definition block]]. 
+- Take note that [[Callbacks|Callback]] hooks cannot be cleared.
 - Callbacks also continue to _compound as they normally would_. 
     - So, if the factory you're modifying defines an `after(:create)` callback, you defining an `after(:create)` won't override it, it will instead be run after the first callback.
 

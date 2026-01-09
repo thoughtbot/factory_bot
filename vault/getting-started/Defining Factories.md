@@ -25,7 +25,7 @@ end
 
 The example above demonstrates how each factory should be defined with a name and a set of attributes. The factory is given a name of `:user`, and this will be used to guess the class of the object by default. When the factory is run, an instance of the class `User` will be constructed and then assigned the attributes of `first_name`, `last_name`, and `admin`. 
 
-See [[§ factories|Factories]] to explore more about how defining factories work within FactoryBot. Some useful pages to start with are listed below:
+See [[Factories|Factories]] to explore more about how defining factories work within FactoryBot. Some useful pages to start with are listed below:
 
 - [[Factory Naming Conventions]]
 - [[Factory Definition File Paths]]

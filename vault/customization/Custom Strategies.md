@@ -7,7 +7,7 @@ tags:
 aliases:
   - Custom Strategies
   - Custom Strategy
-up: "[[§ customization]]"
+up: "[[Customization]]"
 ---
 # Custom Strategies
 
@@ -25,7 +25,7 @@ To understand how factory\_bot uses strategies internally, it's probably easiest
 
 ## The `FactoryBot.register_strategy` Method
 
-The `FactoryBot.register_strategy` method is used to add a custom [[§ strategies|Strategy]]
+The `FactoryBot.register_strategy` method is used to add a custom [[Strategies|Strategy]]
 
 This method takes two mandatory arguments: `name` and `class`. 
 

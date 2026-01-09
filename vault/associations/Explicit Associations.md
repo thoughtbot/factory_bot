@@ -25,7 +25,7 @@ end
 The `association` method takes a mandatory name and optional options:
 
 - The **name** should be a Symbol or String
-- The **options** are zero or more [[§ traits|Trait]] names (Symbols), followed by a hash of [[Attribute Overrides]]. When constructing this association, factory\_bot uses the trait and attribute overrides given.
+- The **options** are zero or more [[Traits|Trait]] names (Symbols), followed by a hash of [[Attribute Overrides]]. When constructing this association, factory\_bot uses the trait and attribute overrides given.
 - The options also accept `:factory` to [[Specifying the Factory on Associations|specify the factory]].
 
 ## Notes

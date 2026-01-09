@@ -1,13 +1,18 @@
 ---
 type: note
 created: 2025-11-07T19:58:33-06:00
-updated: 2025-11-07T20:14:07-06:00
+updated: 2026-01-09T14:25:06-06:00
 tags: []
 aliases: []
+up: "[[Customization|Customization]]"
 ---
-# Custom Callbacks
+# Custom Callback Hooks
 
-Custom callbacks can be defined when you're using [[Custom Strategies]]:
+A **Custom Callback Hook** can be defined to publish custom events from within a [[Custom Strategies|Custom Strategy]].
+
+## Example: JSON Strategy With Callback Hooks
+
+The example below extends the [[Custom Strategies#Example JSON Strategy|JSON Strategy]] example with three custom event notifications: `before_json`, `after_json`, and `make_json_awesome`.
 
 ```ruby
 class JsonStrategy
@@ -33,7 +38,11 @@ class JsonStrategy
 end
 
 FactoryBot.register_strategy(:json, JsonStrategy)
+```
 
+These events can then be subscribed to in the typical fashion:
+
+```ruby
 FactoryBot.define do
   factory :user do
     before(:json)                { |user| do_something_to(user) }

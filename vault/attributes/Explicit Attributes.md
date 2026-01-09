@@ -7,7 +7,7 @@ aliases: []
 ---
 # Explicit Attributes
 
-An **Explicit Attribute** is an [[§ attributes|Attribute]] that is declared using the `add_attribute` method. 
+An **Explicit Attribute** is an [[Attributes|Attribute]] that is declared using the `add_attribute` method. 
 
 ## The `add_attribute` Method
 
@@ -49,7 +49,7 @@ user.name = "Acid Burn"
 ## Notes
 
 - the `name` of an attribute should be represented as a Symbol or String.
-- The attribute's block will not be called when the attribute is overriden by a [[§ strategies|Construction Strategy]].
+- The attribute's block will not be called when the attribute is overriden by a [[Strategies|Construction Strategy]].
 - [[Implicit Attributes]] are declared using a shorthand syntax that takes advantage of Ruby's `method_missing` functionality.
 - All **Explicit Attributes** are also [[Dynamic Attributes]] and should be passed a Ruby block.
 - In older version of FactoryBot, an **Explicit Attribute** could also be a [[Static Attributes|Static Attribute]], but this functionality was removed.

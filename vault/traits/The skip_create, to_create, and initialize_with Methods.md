@@ -7,7 +7,7 @@ aliases: []
 ---
 # The skip_create, to_create, and initialize_with Methods
 
-The `skip_create`, `to_create`, and `initialize_with` methods control how factory\_bot interacts with the [[§ strategies|Strategies]]
+The `skip_create`, `to_create`, and `initialize_with` methods control how factory\_bot interacts with the [[Strategies|Strategies]]
 
 These methods can be called within a `factory` definition block, to scope their effects to just that factory; or within `FactoryBot.define`, to affect global change.
 

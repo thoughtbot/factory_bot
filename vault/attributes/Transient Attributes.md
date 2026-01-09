@@ -42,7 +42,7 @@ FactoryBot.build(:user, age: 21)
 
 ## Notes
 
-- **Transient Attributes** are most useful when paired with [[§ callbacks|Callback]] hooks or `to_create`
+- **Transient Attributes** are most useful when paired with [[Callbacks|Callback]] hooks or `to_create`
 - [[Using Transient Attributes Within Callbacks]]
 - [[Using Transient Attributes Within Other Attributes]]
 - [[Using Associations Within Transient Attributes]]

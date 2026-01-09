@@ -85,6 +85,6 @@ end
 
 [[Build Strategy]]
 
-Refer to [[§ strategies|Strategies]] for more information on FactoryBot's construction strategies
+Refer to [[Strategies|Strategies]] for more information on FactoryBot's construction strategies
 
 Next we'll explore [[Modifying Existing Factories]]

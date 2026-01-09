@@ -1,11 +1,12 @@
 ---
 type: note
 created: 2025-11-07T10:45:49-06:00
-updated: 2025-11-08T21:36:05-06:00
+updated: 2026-01-09T14:29:10-06:00
 tags: []
 aliases:
-  - Attributes
   - FactoryBot Attributes
+  - Attributes
+  - Attribute
 up: "[[HOME]]"
 ---
 # Attributes
@@ -33,8 +34,8 @@ The FactoryBot DSL provides syntax to declare an **attribute** by pairing the *n
 ## Looking Ahead
 
 - [[Using Traits as Implicit Attributes]] 
-  *covers how [[§ traits|Traits]] can be used as [[§ attributes|Attributes]]*
+  *covers how [[Traits|Traits]] can be used as [[Attributes|Attributes]]*
 - [[Using Sequences Within Attributes]]
-  *covers to learn how [[§ sequences|Sequences]] can be used within [[Dynamic Attributes]]*
+  *covers to learn how [[Sequences|Sequences]] can be used within [[Dynamic Attributes]]*
 - [[Using Sequences As Implicit Attributes]]
-  *covers how a [[§ sequences|Sequence]] can be used as an [[Implicit Attribute]]*
+  *covers how a [[Sequences|Sequence]] can be used as an [[Implicit Attribute]]*

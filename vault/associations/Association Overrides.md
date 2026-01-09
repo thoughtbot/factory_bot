@@ -1,15 +1,16 @@
 ---
 type: note
 created: 2025-11-07T22:23:55-06:00
-updated: 2025-11-08T19:52:27-06:00
+updated: 2026-01-09T14:29:00-06:00
 tags: []
-aliases: []
+aliases:
+  - Overrides
 ---
 # Association Overrides
 
 [[Attribute Overrides]] can also be used to link associated objects.
 
-When invoking one of the [[§ strategies|Construction Strategies]], pass in a key-value pair where the key matches the name of one of the factory's associations and where the value is the associated object you wish to use:
+When invoking one of the [[Strategies|Construction Strategies]], pass in a key-value pair where the key matches the name of one of the factory's associations and where the value is the associated object you wish to use:
 
 ```ruby
 FactoryBot.define do

@@ -7,7 +7,7 @@ aliases: []
 ---
 # Inline Associations
 
-**Inline Associations** are defined using the `association` method within the block of a regular [[§ attributes|Attribute]]
+**Inline Associations** are defined using the `association` method within the block of a regular [[Attributes|Attribute]]
 
 ```ruby
 factory :post do

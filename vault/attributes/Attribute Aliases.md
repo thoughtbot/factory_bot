@@ -9,9 +9,9 @@ aliases: []
 
 FactoryBot's **aliases** are an overloaded concept.
 
-- There are [[Factory Name Aliases]] (which this section does not cover) which declare alternative names for [[§ factories|Factories]]
-- There are **Attribute Name Aliases** which allow you to declare alternative names for [[§ attributes|Attributes]]
-- And finally there are "aliases" which are used by [[§ associations|Associations]]
+- There are [[Factory Name Aliases]] (which this section does not cover) which declare alternative names for [[Factories|Factories]]
+- There are **Attribute Name Aliases** which allow you to declare alternative names for [[Attributes|Attributes]]
+- And finally there are "aliases" which are used by [[Associations|Associations]]
 
 ## Attribute Aliases
 
@@ -21,7 +21,7 @@ Attribute alias patterns can only be declared globally. As a result they apply f
 
 ## Association Aliases
 
-**Association Aliases** are a misnomer and don't (exactly) exist. Rather, [[§ associations|Associations]] co-opt the **attribute alias** mechanism as an internal mapping between two related fields on an object
+**Association Aliases** are a misnomer and don't (exactly) exist. Rather, [[Associations|Associations]] co-opt the **attribute alias** mechanism as an internal mapping between two related fields on an object
 
 The first field is the attribute which maps to the persisted table row containing the foreign key to an associated record. The second field is virtual model attribute which, when invoked, returns an `ActiveRecord::Relation` (If you're using Rails' ActiveRecord).
 
@@ -45,7 +45,7 @@ It's important to note that both reflections of an alias should be included in t
 
 ## `FactoryBot.aliases_for`
 
-Given an [[§ attributes|Attribute]] name (as a Symbol), the `aliases_for` method generates a list of names that includes all possible aliases and the original name.
+Given an [[Attributes|Attribute]] name (as a Symbol), the `aliases_for` method generates a list of names that includes all possible aliases and the original name.
 
 For example, if you pass in `:user`:
 

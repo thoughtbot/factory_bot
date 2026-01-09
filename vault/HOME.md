@@ -7,28 +7,28 @@ updated: 2025-11-08T22:04:18-06:00
 ## Introduction
 
 `factory_bot` is a fixtures replacement with a straightforward definition syntax;
-support for multiple [[§ strategies|construction strategies]] ([[create Strategy|saved instances]], [[build Strategy|unsaved instances]],
+support for multiple [[Strategies|construction strategies]] ([[create Strategy|saved instances]], [[build Strategy|unsaved instances]],
 [[attributes_for Strategy|attribute hashes]], and [[build_stubbed Strategy|stubbed objects]]); and support for multiple factories for
 the same class (`:user`, `:admin_user`, and so on), including factory inheritance.
 
 ## Introduction
 
-- [[§ setup|Setup]]
-- [[§ getting-started|Getting Started]]
+- [[Setup|Setup]]
+- [[Getting Started|Getting Started]]
 
 ## Core Concepts
 
-- [[§ factories|Factories]]
-- [[§ strategies|Strategies]]
-- [[§ traits|Traits]]
-- [[§ attributes|Attributes]]
-- [[§ associations|Associations]]
-- [[§ sequences|Sequences]]
-- [[§ callbacks|Callbacks]]
+- [[Factories|Factories]]
+- [[Strategies|Strategies]]
+- [[Traits|Traits]]
+- [[Attributes|Attributes]]
+- [[Associations|Associations]]
+- [[Sequences|Sequences]]
+- [[Callbacks|Callbacks]]
 
 ## Additional Topics
 
-- [[§ customization|Customizing FactoryBot]]
+- [[Customization|Customizing FactoryBot]]
 - [[ActiveSupport Instrumentation]]
 
 ## License

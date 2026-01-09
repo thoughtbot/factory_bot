@@ -1,14 +1,15 @@
 ---
 type: note
 created: 2025-11-07T15:05:17-06:00
-updated: 2025-11-08T14:42:10-06:00
+updated: 2026-01-09T14:30:36-06:00
 tags: []
 aliases:
-  - Sequences
   - FactoryBot Sequences
+  - Sequences
+  - Sequence
 up: "[[HOME]]"
 ---
-# § Sequences
+# Sequences
 
 A **sequence** is a construct that generates a linear sequence of values.
 

@@ -7,7 +7,7 @@ aliases:
   - build
   - build Strategy
   - The build Strategy
-up: "[[§ strategies|Strategies]]"
+up: "[[Strategies|Strategies]]"
 ---
 # The `build` Strategy
 
