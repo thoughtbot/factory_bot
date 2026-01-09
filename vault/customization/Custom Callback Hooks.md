@@ -1,10 +1,10 @@
 ---
 type: note
 created: 2025-11-07T19:58:33-06:00
-updated: 2026-01-09T14:25:06-06:00
+updated: 2026-01-09T14:41:21-06:00
 tags: []
 aliases: []
-up: "[[Customization|Customization]]"
+up: "[[Customization]]"
 ---
 # Custom Callback Hooks
 

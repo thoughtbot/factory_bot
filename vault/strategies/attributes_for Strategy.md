@@ -1,13 +1,14 @@
 ---
 type: note
 created: 2025-08-29T15:44:49-05:00
-updated: 2025-11-08T21:23:28-06:00
+updated: 2026-01-09T14:44:20-06:00
 tags:
   - strategies
 aliases:
   - attributes_for
   - attributes_for Strategy
   - The attributes_for Strategy
+up: [[Strategies]]
 ---
 # The `attributes_for` Strategy
 

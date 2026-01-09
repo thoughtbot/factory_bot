@@ -1,9 +1,10 @@
 ---
 type: note
 created: 2025-11-07T21:44:59-06:00
-updated: 2025-11-07T21:45:15-06:00
+updated: 2026-01-09T14:45:28-06:00
 tags: []
 aliases: []
+up: [[Traits]]
 ---
 # Using Transient Attributes Within Traits
 

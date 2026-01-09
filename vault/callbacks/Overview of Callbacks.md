@@ -1,9 +1,10 @@
 ---
 type: note
 created: 2025-11-07T19:08:51-06:00
-updated: 2025-11-08T21:20:56-06:00
+updated: 2026-01-09T14:41:03-06:00
 tags: []
 aliases: []
+up: [[Callbacks]]
 ---
 # Overview of Callbacks
 

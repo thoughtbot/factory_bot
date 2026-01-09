@@ -1,11 +1,12 @@
 ---
 type: note
 created: 2025-08-29T15:00:15-05:00
-updated: 2025-11-08T21:29:40-06:00
+updated: 2026-01-09T14:42:28-06:00
 tags: []
 aliases:
   - Defining a factory
   - Define a factory
+up: [[Getting Started]]
 ---
 # Defining Factories
 

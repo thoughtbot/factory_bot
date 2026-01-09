@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "HOME.md",
+                "file": "traits/Using Transient Attributes Within Traits.md",
                 "mode": "source",
-                "source": false
+                "source": true
               },
               "icon": "lucide-file",
-              "title": "HOME"
+              "title": "Using Transient Attributes Within Traits"
             }
           }
         ]
@@ -94,7 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "HOME.md",
+                "file": "traits/Using Transient Attributes Within Traits.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -104,7 +104,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for HOME"
+              "title": "Backlinks for Using Transient Attributes Within Traits"
             }
           },
           {
@@ -142,13 +142,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "HOME.md",
+                "file": "traits/Using Transient Attributes Within Traits.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of HOME"
+              "title": "Outline of Using Transient Attributes Within Traits"
             }
           },
           {
@@ -196,32 +196,32 @@
   },
   "active": "c704cfcb0645b123",
   "lastOpenFiles": [
-    "Setup.md",
-    "Sequences.md",
-    "HOME.md",
-    "Getting Started.md",
-    "Factories.md",
-    "Customization.md",
-    "Callbacks.md",
-    "Attributes.md",
-    "Associations.md",
-    "ActiveSupport Instrumentation.md",
-    "Traits.md",
-    "Strategies.md",
-    "associations/Association Overrides.md",
-    "customization/Custom Callback Hooks.md",
-    "callbacks/Factory Callbacks.md",
-    "customization/Custom Strategies.md",
-    "attributes/Attribute Aliases.md",
-    "setup/Using Rails Preloaders and RSpec.md",
-    "getting-started/Defining Factories.md",
-    "getting-started/Using Factories.md",
-    "attributes/Explicit Attributes.md",
-    "strategies/build Strategy.md",
+    "traits/Using Traits Within Other Traits.md",
+    "traits/Using Traits Within Associations.md",
+    "traits/Using Traits as Implicit Attributes.md",
+    "traits/The skip_create, to_create, and initialize_with Methods.md",
+    "traits/Overview of Traits.md",
+    "traits/Overriding Traits in Child Factories.md",
+    "traits/Global Traits.md",
+    "traits/Factory Traits.md",
+    "traits/Enum Traits.md",
+    "traits/Attribute Precedence Across Traits.md",
+    "strategies/Overview of Strategies.md",
+    "strategies/null Strategy.md",
     "strategies/create Strategy.md",
+    "strategies/build_stubbed Strategy.md",
+    "strategies/build Strategy.md",
     "strategies/attributes_for Strategy.md",
-    "associations/Associations and Strategies.md",
-    "callbacks/Overview of Callbacks.md",
+    "setup/Using Without Bundler.md",
+    "setup/Using Rails Preloaders and RSpec.md",
+    "setup/Setting Up FactoryBot.md",
+    "sequences/Using Sequences Within Attributes.md",
+    "sequences/Using Sequences As Implicit Attributes.md",
+    "sequences/Using Scoped Attributes Within Sequences.md",
+    "sequences/Setting the Current Value of a Sequence.md",
+    "sequences/Setting an Alias For a Sequence.md",
+    "sequences/Sequences and Uniqueness Constraints.md",
+    "sequences/Sequence URI.md",
     "factories",
     "associations",
     "customization",

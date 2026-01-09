@@ -1,10 +1,11 @@
 ---
 type: note
 created: 2025-11-07T20:28:04-06:00
-updated: 2025-11-07T20:51:18-06:00
+updated: 2026-01-09T14:41:25-06:00
 tags: []
 aliases:
   - initialize_with
+up: "[[Customization]]"
 ---
 # Custom Object Construction
 

@@ -1,11 +1,12 @@
 ---
 type: note
 created: 2025-08-29T16:22:49-05:00
-updated: 2025-11-08T18:59:04-06:00
+updated: 2026-01-09T14:42:33-06:00
 tags: []
 aliases:
   - Customize a Factory
   - Modify a Factory
+up: [[Getting Started]]
 ---
 # Modifying Existing Factories
 

@@ -1,11 +1,12 @@
 ---
 type: note
 created: 2025-11-08T14:48:25-06:00
-updated: 2025-11-08T21:13:57-06:00
+updated: 2026-01-09T14:42:04-06:00
 tags: []
 aliases:
   - factories
   - factory
+up: [[Factories]]
 ---
 # Overview of Factories
 

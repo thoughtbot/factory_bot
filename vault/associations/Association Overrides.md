@@ -1,10 +1,11 @@
 ---
 type: note
 created: 2025-11-07T22:23:55-06:00
-updated: 2026-01-09T14:29:00-06:00
+updated: 2026-01-09T14:38:21-06:00
 tags: []
 aliases:
   - Overrides
+up: "[[Associations]]"
 ---
 # Association Overrides
 

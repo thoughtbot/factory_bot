@@ -1,10 +1,11 @@
 ---
 type: note
 created: 2025-11-07T15:59:36-06:00
-updated: 2025-11-07T16:03:46-06:00
+updated: 2026-01-09T14:43:08-06:00
 tags: []
 aliases:
   - Rewinding Sequences
+up: [[Sequences]]
 ---
 # Rewinding a Sequence
 

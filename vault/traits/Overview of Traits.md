@@ -1,9 +1,10 @@
 ---
 type: note
 created: 2025-11-07T21:10:45-06:00
-updated: 2025-11-08T20:23:34-06:00
+updated: 2026-01-09T14:45:13-06:00
 tags: []
 aliases:
+up: [[Traits]]
 ---
 # Overview of Traits
 

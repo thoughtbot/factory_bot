@@ -1,12 +1,13 @@
 ---
 type: note
 created: 2025-08-29T15:44:14-05:00
-updated: 2025-11-08T21:23:43-06:00
+updated: 2026-01-09T14:44:35-06:00
 tags: []
 aliases:
   - create
   - create Strategy
   - The create Strategy
+up: [[Strategies]]
 ---
 # The `create` Strategy
 

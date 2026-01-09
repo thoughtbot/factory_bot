@@ -1,9 +1,10 @@
 ---
 type: note
 created: 2025-08-29T16:40:36-05:00
-updated: 2025-11-08T19:04:22-06:00
+updated: 2026-01-09T14:42:00-06:00
 tags: []
 aliases: []
+up: [[Factories]]
 ---
 # Linting Factories
 

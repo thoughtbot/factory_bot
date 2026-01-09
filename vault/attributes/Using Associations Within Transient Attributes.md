@@ -1,12 +1,12 @@
 ---
 type: note
 created: 2025-11-07T18:18:35-06:00
-updated: 2025-11-07T18:25:52-06:00
+updated: 2026-01-09T14:40:31-06:00
 tags: []
 aliases: []
+up: [[Attributes]]
 ---
 # Using Associations Within Transient Attributes
-
 
 > [!WARNING] Important
 > Transient [associations](../associations/summary.md) are **not** directly supported in factory\_bot. 

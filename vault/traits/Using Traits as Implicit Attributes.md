@@ -1,9 +1,10 @@
 ---
 type: note
 created: 2025-11-07T21:36:52-06:00
-updated: 2025-11-07T21:37:39-06:00
+updated: 2026-01-09T14:45:19-06:00
 tags: []
 aliases: []
+up: [[Traits]]
 ---
 # Using Traits as Implicit Attributes
 

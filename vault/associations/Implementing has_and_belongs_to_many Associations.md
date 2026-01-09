@@ -1,9 +1,10 @@
 ---
 type: note
 created: 2025-11-07T22:40:17-06:00
-updated: 2025-11-07T22:42:09-06:00
+updated: 2026-01-09T14:38:39-06:00
 tags: []
 aliases: []
+up: "[[Associations]]"
 ---
 # Implementing has_and_belongs_to_many Associations
 

@@ -1,12 +1,12 @@
 ---
 type: note
 created: 2025-08-29T17:47:14-05:00
-updated: 2025-11-08T17:42:46-06:00
+updated: 2026-01-09T14:39:44-06:00
 tags: []
 aliases:
   - Dynamic Attribute
   - Dynamic Attributes
-up: "[[Attributes|Attributes]]"
+up: [[Attributes]]
 ---
 # Dynamic Attributes
 

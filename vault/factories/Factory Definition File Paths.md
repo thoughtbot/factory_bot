@@ -1,9 +1,10 @@
 ---
 type: note
 created: 2025-11-08T18:36:43-06:00
-updated: 2025-11-08T18:54:13-06:00
+updated: 2026-01-09T14:41:51-06:00
 tags: []
 aliases: []
+up: [[Factories]]
 ---
 # Factory Definition File Paths
 

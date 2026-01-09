@@ -1,3 +1,11 @@
+---
+type: note
+created: 2026-01-09T14:00:47-06:00
+updated: 2026-01-09T14:44:01-06:00
+tags: []
+aliases: []
+up: [[Setup]]
+---
 # Using Without Bundler
 
 If you're not using Bundler, be sure to have the gem installed and then require `factory_bot` in your code. Once added to your application, you'll need to setup your test environment as well by instructing FactoryBot to find all the factory definitions. 
@@ -11,7 +19,7 @@ To setup `factory_bot`, do the following:
     ```shell
     gem install factory_bot
     ```
-2.  Require `factory_bot` inside your code
+1.  Require `factory_bot` inside your code
    
     ```ruby
     require 'factory_bot'

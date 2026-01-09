@@ -1,10 +1,11 @@
 ---
 type: note
 created: 2025-11-08T17:43:13-06:00
-updated: 2025-11-08T19:28:06-06:00
+updated: 2026-01-09T14:39:55-06:00
 tags: []
 aliases:
   - Implicit Attribute
+up: [[Attributes]]
 ---
 # Implicit Attributes
 

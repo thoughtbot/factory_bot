@@ -1,11 +1,12 @@
 ---
 type: note
 created: 2025-08-29T17:43:37-05:00
-updated: 2025-11-08T16:55:22-06:00
+updated: 2026-01-09T14:40:09-06:00
 tags: []
 aliases:
   - Static Attribute
   - Static Attributes
+up: [[Attributes]]
 ---
 # Static Attributes
 

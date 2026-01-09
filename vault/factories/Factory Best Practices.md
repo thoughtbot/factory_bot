@@ -1,9 +1,10 @@
 ---
 type: note
 created: 2025-11-08T18:41:41-06:00
-updated: 2025-11-08T18:44:36-06:00
+updated: 2026-01-09T14:41:49-06:00
 tags: []
 aliases: []
+up: [[Factories]]
 ---
 # Factory Best Practices
 

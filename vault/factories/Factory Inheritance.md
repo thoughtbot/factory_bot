@@ -1,9 +1,10 @@
 ---
 type: note
 created: 2025-11-07T18:57:56-06:00
-updated: 2025-11-07T19:04:13-06:00
+updated: 2026-01-09T14:41:54-06:00
 tags: []
 aliases: []
+up: [[Factories]]
 ---
 # Factory Inheritance
 

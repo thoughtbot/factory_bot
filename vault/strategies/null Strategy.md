@@ -1,11 +1,12 @@
 ---
 type: note
 created: 2025-08-29T16:14:22-05:00
-updated: 2025-11-08T21:17:14-06:00
+updated: 2026-01-09T14:44:35-06:00
 tags: []
 aliases:
   - "null"
   - The null Strategy
+up: [[Strategies]]
 ---
 # The `null` Strategy
 

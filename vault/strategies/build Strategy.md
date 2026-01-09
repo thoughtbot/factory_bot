@@ -1,13 +1,14 @@
 ---
 type: note
 created: 2025-08-29T15:43:39-05:00
-updated: 2025-11-08T21:25:44-06:00
+updated: 2026-01-09T14:44:26-06:00
 tags: []
 aliases:
   - build
   - build Strategy
   - The build Strategy
 up: "[[Strategies|Strategies]]"
+up: [[Strategies]]
 ---
 # The `build` Strategy
 

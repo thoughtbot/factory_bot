@@ -1,9 +1,10 @@
 ---
 type: note
 created: 2025-11-07T16:10:12-06:00
-updated: 2025-11-07T16:16:17-06:00
+updated: 2026-01-09T14:43:25-06:00
 tags: []
 aliases: []
+up: [[Sequences]]
 ---
 # Using Scoped Attributes Within Sequences
 

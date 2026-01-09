@@ -1,10 +1,10 @@
 ---
 type: note
 created: 2025-08-29T17:38:44-05:00
-updated: 2025-11-08T19:24:50-06:00
+updated: 2026-01-09T14:39:59-06:00
 tags: []
 aliases:
-up: "[[Attributes|Attributes]]"
+up: [[Attributes]]
 ---
 # Overview of Attributes
 

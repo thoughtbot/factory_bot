@@ -1,9 +1,10 @@
 ---
 type: note
 created: 2025-11-07T21:16:16-06:00
-updated: 2025-11-08T20:22:24-06:00
+updated: 2026-01-09T14:45:04-06:00
 tags: []
 aliases: []
+up: [[Traits]]
 ---
 # Factory Traits
 

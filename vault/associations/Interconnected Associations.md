@@ -1,9 +1,10 @@
 ---
 type: note
 created: 2025-11-07T22:32:57-06:00
-updated: 2025-11-07T22:35:15-06:00
+updated: 2026-01-09T14:38:55-06:00
 tags: []
 aliases: []
+up: "[[Associations]]"
 ---
 # Interconnected Associations
 

@@ -1,3 +1,11 @@
+---
+type: note
+created: 2026-01-09T14:00:47-06:00
+updated: 2026-01-09T14:43:55-06:00
+tags: []
+aliases: []
+up: [[Setup]]
+---
 # Using Rails Preloaders and RSpec
 
 When running RSpec with a Rails preloader such as `spring` or `zeus`, it's

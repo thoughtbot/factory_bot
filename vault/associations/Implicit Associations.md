@@ -1,10 +1,11 @@
 ---
 type: note
 created: 2025-11-08T19:32:30-06:00
-updated: 2025-11-08T19:34:36-06:00
+updated: 2026-01-09T14:38:49-06:00
 tags: []
 aliases:
   - Implicit Association
+up: "[[Associations]]"
 ---
 # Implicit Associations
 

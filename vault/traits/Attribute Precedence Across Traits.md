@@ -1,9 +1,10 @@
 ---
 type: note
 created: 2025-11-07T21:32:40-06:00
-updated: 2025-11-07T21:35:16-06:00
+updated: 2026-01-09T14:44:52-06:00
 tags: []
 aliases: []
+up: [[Traits]]
 ---
 # Attribute Precedence Across Traits
 

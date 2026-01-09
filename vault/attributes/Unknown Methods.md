@@ -1,13 +1,14 @@
 ---
 type: note
 created: 2025-11-08T17:56:09-06:00
-updated: 2025-11-08T19:09:08-06:00
+updated: 2026-01-09T14:40:23-06:00
 tags: []
 aliases:
   - Unknown Method
+  - Missing Methods
   - Missing Method
   - method_missing
-  - Missing Methods
+up: [[Attributes]]
 ---
 # Unknown Methods
 

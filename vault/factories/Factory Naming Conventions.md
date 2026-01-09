@@ -1,9 +1,10 @@
 ---
 type: note
 created: 2025-11-08T18:37:14-06:00
-updated: 2025-11-08T18:40:57-06:00
+updated: 2026-01-09T14:41:56-06:00
 tags: []
 aliases: []
+up: [[Factories]]
 ---
 # Factory Naming Conventions
 

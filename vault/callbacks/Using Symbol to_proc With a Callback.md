@@ -1,9 +1,10 @@
 ---
 type: note
 created: 2025-11-07T19:31:22-06:00
-updated: 2025-11-07T19:31:47-06:00
+updated: 2026-01-09T14:41:16-06:00
 tags: []
 aliases: []
+up: [[Callbacks]]
 ---
 # Using Symbol to_proc With a Callback
 

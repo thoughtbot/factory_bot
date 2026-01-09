@@ -1,9 +1,10 @@
 ---
 type: note
 created: 2025-08-29T17:20:20-05:00
-updated: 2025-11-08T18:55:43-06:00
+updated: 2026-01-09T14:42:31-06:00
 tags: []
 aliases: []
+up: [[Getting Started]]
 ---
 # Loading Factories
 

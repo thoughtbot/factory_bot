@@ -1,9 +1,10 @@
 ---
 type: note
 created: 2025-11-07T22:19:27-06:00
-updated: 2025-11-07T22:20:58-06:00
+updated: 2026-01-09T14:38:37-06:00
 tags: []
 aliases: []
+up: "[[Associations]]"
 ---
 # Factory Name Aliases
 

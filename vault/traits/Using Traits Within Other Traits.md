@@ -1,9 +1,10 @@
 ---
 type: note
 created: 2025-11-07T21:29:22-06:00
-updated: 2025-11-07T21:29:53-06:00
+updated: 2026-01-09T14:45:25-06:00
 tags: []
 aliases: []
+up: [[Traits]]
 ---
 # Using Traits Within Other Traits
 

@@ -1,9 +1,10 @@
 ---
 type: note
 created: 2025-11-07T16:24:57-06:00
-updated: 2025-11-07T16:59:42-06:00
+updated: 2026-01-09T14:43:21-06:00
 tags: []
 aliases: []
+up: [[Sequences]]
 ---
 # Setting the Current Value of a Sequence
 

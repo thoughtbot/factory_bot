@@ -1,10 +1,11 @@
 ---
 type: note
 created: 2025-11-07T18:46:48-06:00
-updated: 2025-11-07T18:51:29-06:00
+updated: 2026-01-09T14:39:31-06:00
 tags: []
 aliases:
   - Overriding Attributes
+up: [[Attributes]]
 ---
 # Attribute Overrides
 

@@ -1,13 +1,14 @@
 ---
 type: note
 created: 2025-08-29T15:45:11-05:00
-updated: 2025-11-07T18:41:01-06:00
+updated: 2026-01-09T14:44:26-06:00
 tags:
   - strategies
 aliases:
   - build_stubbed
   - build_stubbed Strategy
   - The build_stubbed Strategy
+up: [[Strategies]]
 ---
 # The `build_stubbed` Strategy
 

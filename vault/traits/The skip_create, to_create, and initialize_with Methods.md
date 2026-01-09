@@ -1,9 +1,10 @@
 ---
 type: note
 created: 2025-11-08T20:36:06-06:00
-updated: 2025-11-08T20:40:26-06:00
+updated: 2026-01-09T14:45:16-06:00
 tags: []
 aliases: []
+up: [[Traits]]
 ---
 # The skip_create, to_create, and initialize_with Methods
 

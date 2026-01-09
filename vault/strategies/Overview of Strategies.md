@@ -1,10 +1,11 @@
 ---
 type: note
 created: 2025-08-29T16:12:00-05:00
-updated: 2025-11-07T10:44:06-06:00
+updated: 2026-01-09T14:44:39-06:00
 tags:
   - strategies
 aliases: []
+up: [[Strategies]]
 ---
 # Overview of Strategies
 
