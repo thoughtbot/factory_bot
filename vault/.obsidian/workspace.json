@@ -11,10 +11,14 @@
             "id": "c704cfcb0645b123",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {},
+              "type": "markdown",
+              "state": {
+                "file": "HOME.md",
+                "mode": "source",
+                "source": false
+              },
               "icon": "lucide-file",
-              "title": "New tab"
+              "title": "HOME"
             }
           }
         ]
@@ -90,6 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
+                "file": "HOME.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -99,7 +104,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks"
+              "title": "Backlinks for HOME"
             }
           },
           {
@@ -137,12 +142,13 @@
             "state": {
               "type": "outline",
               "state": {
+                "file": "HOME.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline"
+              "title": "Outline of HOME"
             }
           },
           {
@@ -190,22 +196,22 @@
   },
   "active": "c704cfcb0645b123",
   "lastOpenFiles": [
-    "traits/Traits.md",
+    "Setup.md",
+    "Sequences.md",
     "HOME.md",
-    "strategies/Strategies.md",
-    "sequences/Sequences.md",
-    "getting-started/Getting Started.md",
-    "customization/Customization.md",
-    "factories/Factories.md",
-    "callbacks/Callbacks.md",
-    "attributes/Attributes.md",
+    "Getting Started.md",
+    "Factories.md",
+    "Customization.md",
+    "Callbacks.md",
+    "Attributes.md",
+    "Associations.md",
+    "ActiveSupport Instrumentation.md",
+    "Traits.md",
+    "Strategies.md",
     "associations/Association Overrides.md",
-    "associations/Associations.md",
-    "setup/Setup.md",
     "customization/Custom Callback Hooks.md",
     "callbacks/Factory Callbacks.md",
     "customization/Custom Strategies.md",
-    "ActiveSupport Instrumentation.md",
     "attributes/Attribute Aliases.md",
     "setup/Using Rails Preloaders and RSpec.md",
     "getting-started/Defining Factories.md",

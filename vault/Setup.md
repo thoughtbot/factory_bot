@@ -1,11 +1,12 @@
 ---
 type: note
 created: 2025-11-07T10:20:47-06:00
-updated: 2026-01-09T14:27:33-06:00
+updated: 2026-01-09T14:37:08-06:00
 tags: []
 aliases:
   - Setup
   - FactoryBot Setup
+  - Setting Up FactoryBot
 up: "[[HOME]]"
 ---
 # Setup
