@@ -4,7 +4,7 @@ created: 2025-11-07T15:31:57-06:00
 updated: 2026-01-09T14:43:05-06:00
 tags: []
 aliases: []
-up: [[Sequences]]
+up: "[[Sequences]]"
 ---
 # Overview of Sequences
 

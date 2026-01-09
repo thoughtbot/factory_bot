@@ -6,7 +6,7 @@ tags: []
 aliases:
   - Defining a factory
   - Define a factory
-up: [[Getting Started]]
+up: "[[Getting Started]]"
 ---
 # Defining Factories
 

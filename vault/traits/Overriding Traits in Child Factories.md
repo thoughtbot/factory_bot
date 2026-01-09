@@ -4,7 +4,7 @@ created: 2025-11-07T21:24:22-06:00
 updated: 2026-01-09T14:45:10-06:00
 tags: []
 aliases: []
-up: [[Traits]]
+up: "[[Traits]]"
 ---
 # Overriding Traits in Child Factories
 

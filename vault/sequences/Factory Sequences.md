@@ -4,7 +4,7 @@ created: 2025-11-07T15:08:39-06:00
 updated: 2026-01-09T14:42:55-06:00
 tags: []
 aliases: []
-up: [[Sequences]]
+up: "[[Sequences]]"
 ---
 # Factory Sequences
 

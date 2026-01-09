@@ -1,20 +1,19 @@
 ---
 type: note
 created: 2025-11-08T14:48:25-06:00
-updated: 2026-01-09T14:42:04-06:00
+updated: 2026-01-09T14:51:15-06:00
 tags: []
 aliases:
-  - factories
-  - factory
-up: [[Factories]]
+  - Syntax
+  - Factory Syntax
+  - Factory Definition Syntax
+up: "[[Factories]]"
 ---
-# Overview of Factories
+# Factory Definition Syntax
 
-A **Factory** is used to construct example objects
+The FactoryBot DSL provides a `factory` method that's used to define new [[Factories]]. 
 
-## Syntax
-
-The FactoryBot DSL provides a `factory` method that's used to define new factories. New factories are defined within a `FactoryBot.define` block. Existing factories can be modified within a `FactoryBot.modify` block. Anything defined using `factory` can be built using a [build strategy](build-strategies.html).
+New factories are defined within a `FactoryBot.define` block. Existing factories can be modified within a `FactoryBot.modify` block. Anything defined using `factory` can be built using a [build strategy](build-strategies.html).
 
 ```ruby
 FactoryBot.define do
@@ -28,7 +27,7 @@ end
 
 The `factory` method takes three arguments: a required name, an optional hash of options, and an optional block. The name is expected to be a Symbol.
 
-### Factory Options
+## Factory Options
 
 | option     | description                                                                                                                                                                                                                                                                  |
 | ---------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |

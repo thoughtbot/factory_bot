@@ -4,7 +4,7 @@ created: 2025-11-07T13:58:47-06:00
 updated: 2026-01-09T14:39:50-06:00
 tags: []
 aliases: []
-up: [[Attributes]]
+up: "[[Attributes]]"
 ---
 # Handling Conflicts Between Attributes And Reserved Words Or Existing Methods
 

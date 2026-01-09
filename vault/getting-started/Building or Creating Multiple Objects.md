@@ -4,7 +4,7 @@ created: 2025-11-07T20:59:14-06:00
 updated: 2026-01-09T14:42:23-06:00
 tags: []
 aliases: []
-up: [[Getting Started]]
+up: "[[Getting Started]]"
 ---
 # Building or Creating Multiple Objects
 

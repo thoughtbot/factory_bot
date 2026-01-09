@@ -4,7 +4,7 @@ created: 2025-11-07T21:10:45-06:00
 updated: 2026-01-09T14:45:13-06:00
 tags: []
 aliases:
-up: [[Traits]]
+up: "[[Traits]]"
 ---
 # Overview of Traits
 

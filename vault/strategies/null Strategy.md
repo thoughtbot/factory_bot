@@ -6,7 +6,7 @@ tags: []
 aliases:
   - "null"
   - The null Strategy
-up: [[Strategies]]
+up: "[[Strategies]]"
 ---
 # The `null` Strategy
 

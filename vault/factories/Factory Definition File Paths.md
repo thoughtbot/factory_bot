@@ -1,14 +1,14 @@
 ---
 type: note
 created: 2025-11-08T18:36:43-06:00
-updated: 2026-01-09T14:41:51-06:00
+updated: 2026-01-09T14:50:45-06:00
 tags: []
 aliases: []
-up: [[Factories]]
+up: "[[Factories]]"
 ---
 # Factory Definition File Paths
 
-Factories can be defined anywhere, but will be automatically loaded after calling `FactoryBot.find_definitions` if factories are defined in files at the following locations:
+[[Factories]] can be defined anywhere, but will be automatically loaded after calling `FactoryBot.find_definitions` if factories are defined in files at the following locations:
 
 ```text
 factories.rb

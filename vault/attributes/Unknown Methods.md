@@ -8,7 +8,7 @@ aliases:
   - Missing Methods
   - Missing Method
   - method_missing
-up: [[Attributes]]
+up: "[[Attributes]]"
 ---
 # Unknown Methods
 

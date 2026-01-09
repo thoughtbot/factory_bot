@@ -6,7 +6,7 @@ tags: []
 aliases:
   - Dynamic Attribute
   - Dynamic Attributes
-up: [[Attributes]]
+up: "[[Attributes]]"
 ---
 # Dynamic Attributes
 

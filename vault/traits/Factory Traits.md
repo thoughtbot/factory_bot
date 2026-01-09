@@ -4,7 +4,7 @@ created: 2025-11-07T21:16:16-06:00
 updated: 2026-01-09T14:45:04-06:00
 tags: []
 aliases: []
-up: [[Traits]]
+up: "[[Traits]]"
 ---
 # Factory Traits
 

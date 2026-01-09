@@ -8,7 +8,7 @@ aliases:
   - build_stubbed
   - build_stubbed Strategy
   - The build_stubbed Strategy
-up: [[Strategies]]
+up: "[[Strategies]]"
 ---
 # The `build_stubbed` Strategy
 

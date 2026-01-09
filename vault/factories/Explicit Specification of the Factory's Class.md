@@ -4,7 +4,7 @@ created: 2025-11-08T18:39:22-06:00
 updated: 2026-01-09T14:41:46-06:00
 tags: []
 aliases: []
-up: [[Factories]]
+up: "[[Factories]]"
 ---
 # Explicit Specification of the Factory's Class
 

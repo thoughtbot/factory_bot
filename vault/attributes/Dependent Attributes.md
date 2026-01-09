@@ -4,7 +4,7 @@ created: 2025-11-07T14:05:05-06:00
 updated: 2026-01-09T14:39:39-06:00
 tags: []
 aliases: []
-up: [[Attributes]]
+up: "[[Attributes]]"
 ---
 # Dependent Attributes
 

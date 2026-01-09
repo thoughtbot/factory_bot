@@ -7,7 +7,7 @@ aliases:
   - create
   - create Strategy
   - The create Strategy
-up: [[Strategies]]
+up: "[[Strategies]]"
 ---
 # The `create` Strategy
 

@@ -1,14 +1,14 @@
 ---
 type: note
 created: 2025-08-29T16:40:36-05:00
-updated: 2026-01-09T14:42:00-06:00
+updated: 2026-01-09T15:56:56-06:00
 tags: []
 aliases: []
-up: [[Factories]]
+up: "[[Factories]]"
 ---
 # Linting Factories
 
-FactoryBot provides the means to lint known factories:
+FactoryBot provides the means to lint known [[Factories]]:
 
 ```ruby
 FactoryBot.lint

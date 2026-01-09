@@ -4,7 +4,7 @@ created: 2025-11-07T15:28:43-06:00
 updated: 2026-01-09T14:43:28-06:00
 tags: []
 aliases: []
-up: [[Sequences]]
+up: "[[Sequences]]"
 ---
 # Using Sequences As Implicit Attributes
 

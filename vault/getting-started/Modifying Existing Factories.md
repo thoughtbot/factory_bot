@@ -6,7 +6,7 @@ tags: []
 aliases:
   - Customize a Factory
   - Modify a Factory
-up: [[Getting Started]]
+up: "[[Getting Started]]"
 ---
 # Modifying Existing Factories
 

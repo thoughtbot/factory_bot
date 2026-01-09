@@ -4,7 +4,7 @@ created: 2025-11-07T14:31:55-06:00
 updated: 2026-01-09T14:40:12-06:00
 tags: []
 aliases: []
-up: [[Attributes]]
+up: "[[Attributes]]"
 ---
 # Transient Attributes
 

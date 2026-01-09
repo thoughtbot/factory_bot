@@ -4,7 +4,7 @@ created: 2025-11-07T18:18:01-06:00
 updated: 2026-01-09T14:40:40-06:00
 tags: []
 aliases: []
-up: [[Attributes]]
+up: "[[Attributes]]"
 ---
 # Using Transient Attributes Within Callbacks
 

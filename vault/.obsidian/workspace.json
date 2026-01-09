@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "traits/Using Transient Attributes Within Traits.md",
+                "file": "HOME.md",
                 "mode": "source",
-                "source": true
+                "source": false
               },
               "icon": "lucide-file",
-              "title": "Using Transient Attributes Within Traits"
+              "title": "HOME"
             }
           }
         ]
@@ -94,7 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "traits/Using Transient Attributes Within Traits.md",
+                "file": "HOME.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -104,7 +104,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for Using Transient Attributes Within Traits"
+              "title": "Backlinks for HOME"
             }
           },
           {
@@ -142,13 +142,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "traits/Using Transient Attributes Within Traits.md",
+                "file": "HOME.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of Using Transient Attributes Within Traits"
+              "title": "Outline of HOME"
             }
           },
           {
@@ -191,11 +191,28 @@
       "canvas:Create new canvas": false,
       "daily-notes:Open today's daily note": false,
       "command-palette:Open command palette": false,
-      "templater-obsidian:Templater": false
+      "templater-obsidian:Templater": false,
+      "open-vscode:VSCode": false
     }
   },
   "active": "c704cfcb0645b123",
   "lastOpenFiles": [
+    "Factories.md",
+    "factories/Linting Factories.md",
+    "factories/Factory Best Practices.md",
+    "factories/Child Factories.md",
+    "factories/Factory Inheritance.md",
+    "getting-started/Defining Factories.md",
+    "factories/Explicit Specification of the Factory's Class.md",
+    "factories/Factory Naming Conventions.md",
+    "factories/Factory Definition File Paths.md",
+    "factories/Factory Definition Syntax.md",
+    "HOME.md",
+    "Sequences.md",
+    "Callbacks.md",
+    "callbacks/Factory Callbacks.md",
+    "callbacks/Callback Order of Operations.md",
+    "traits/Using Transient Attributes Within Traits.md",
     "traits/Using Traits Within Other Traits.md",
     "traits/Using Traits Within Associations.md",
     "traits/Using Traits as Implicit Attributes.md",
@@ -206,22 +223,6 @@
     "traits/Factory Traits.md",
     "traits/Enum Traits.md",
     "traits/Attribute Precedence Across Traits.md",
-    "strategies/Overview of Strategies.md",
-    "strategies/null Strategy.md",
-    "strategies/create Strategy.md",
-    "strategies/build_stubbed Strategy.md",
-    "strategies/build Strategy.md",
-    "strategies/attributes_for Strategy.md",
-    "setup/Using Without Bundler.md",
-    "setup/Using Rails Preloaders and RSpec.md",
-    "setup/Setting Up FactoryBot.md",
-    "sequences/Using Sequences Within Attributes.md",
-    "sequences/Using Sequences As Implicit Attributes.md",
-    "sequences/Using Scoped Attributes Within Sequences.md",
-    "sequences/Setting the Current Value of a Sequence.md",
-    "sequences/Setting an Alias For a Sequence.md",
-    "sequences/Sequences and Uniqueness Constraints.md",
-    "sequences/Sequence URI.md",
     "factories",
     "associations",
     "customization",

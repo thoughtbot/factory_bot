@@ -5,7 +5,7 @@ updated: 2026-01-09T14:44:39-06:00
 tags:
   - strategies
 aliases: []
-up: [[Strategies]]
+up: "[[Strategies]]"
 ---
 # Overview of Strategies
 

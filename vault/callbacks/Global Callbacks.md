@@ -4,7 +4,7 @@ created: 2025-11-07T19:25:28-06:00
 updated: 2026-01-09T14:41:01-06:00
 tags: []
 aliases: []
-up: [[Callbacks]]
+up: "[[Callbacks]]"
 ---
 # Global Callbacks
 

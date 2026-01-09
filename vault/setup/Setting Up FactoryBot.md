@@ -1,7 +1,7 @@
 ---
 created: 2025-11-07T09:43:05-06:00
 updated: 2026-01-09T14:43:40-06:00
-up: [[Setup]]
+up: "[[Setup]]"
 ---
 # Setting Up FactoryBot
 

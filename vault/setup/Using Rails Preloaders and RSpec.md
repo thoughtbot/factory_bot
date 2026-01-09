@@ -4,7 +4,7 @@ created: 2026-01-09T14:00:47-06:00
 updated: 2026-01-09T14:43:55-06:00
 tags: []
 aliases: []
-up: [[Setup]]
+up: "[[Setup]]"
 ---
 # Using Rails Preloaders and RSpec
 
