@@ -1,7 +1,7 @@
 ---
 type: note
 created: 2025-08-29T16:16:26-05:00
-updated: 2025-11-08T21:25:26-06:00
+updated: 2026-01-09T14:15:51-06:00
 tags:
   - strategies
 aliases:
@@ -15,7 +15,11 @@ There are times where you may want to extend behavior of factory\_bot by adding 
 
 ## Introduction
 
-Strategies define two methods: `association` and `result`. `association` receives a `FactoryBot::FactoryRunner` instance, upon which you can call `run`, overriding the strategy if you want. The second method, `result`, receives a `FactoryBot::Evaluation` instance. It provides a way to trigger callbacks (with `notify`), `object` or `hash` (to get the result instance or a hash based on the attributes defined in the factory), and `create`, which executes the `to_create` callback defined on the factory.
+Strategies define three methods: `association`, `result`, and `to_sym`:
+
+- `association` receives a `FactoryBot::FactoryRunner` instance, upon which you can call `run`, overriding the strategy if you want. 
+- `result`, receives a `FactoryBot::Evaluation` instance. It provides a way to trigger callbacks (with `notify`), `object` or `hash` (to get the result instance or a hash based on the attributes defined in the factory), and `create`, which executes the `to_create` callback defined on the factory.
+- `to_sym` returns the symbolic name used to identify the strategy
 
 To understand how factory\_bot uses strategies internally, it's probably easiest to view the source for each of the four default strategies.
 
@@ -23,21 +27,30 @@ To understand how factory\_bot uses strategies internally, it's probably easiest
 
 The `FactoryBot.register_strategy` method is used to add a custom [[§ strategies|Strategy]]
 
-This method takes two mandatory arguments: name and class. 
+This method takes two mandatory arguments: `name` and `class`. 
 
 - The name is a Symbol, and registering it automatically register syntax methods in the format of `{name}`, `{name}_pair`, and `{name}_list` (These methods are exposed via `FactoryBot::Syntax::Methods`).
 - The class must define the methods `association` and `result`.
 
 ## The Custom Strategy Class
 
-The class is required to define two methods:
+The class is required to define three methods:
 
 - `association` 
 - `result`
+- `to_sym`
+
+### The `#association` Method
 
 The `association` method takes an instance of `FactoryRunner`. You can `#run` this runner, passing a strategy name (it defaults to the current one) and an optional block. The block is called after the association is built, and is passed the object that was built.
 
+### The `#result` Method
+
 The `result` method takes the object that was built for this factory (using `initalize_with`), and returns the result of this factory for this construction strategy.
+
+### The `#to_sym` Method
+
+The `to_sym` method returns a symbol to be used to identify the strategy.
 
 ## Example: JSON Strategy
 
