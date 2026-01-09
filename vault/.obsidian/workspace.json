@@ -4,59 +4,20 @@
     "type": "split",
     "children": [
       {
-        "id": "aace80209c34f91e",
+        "id": "3f0b9add625dfc6b",
         "type": "tabs",
         "children": [
           {
-            "id": "d0708fb8c0c17070",
+            "id": "c704cfcb0645b123",
             "type": "leaf",
             "state": {
-              "type": "markdown",
-              "state": {
-                "file": "traits/Traits.md",
-                "mode": "source",
-                "source": false
-              },
+              "type": "empty",
+              "state": {},
               "icon": "lucide-file",
-              "title": "Traits"
+              "title": "New tab"
             }
           }
         ]
-      },
-      {
-        "id": "a1536ab1c1db5df6",
-        "type": "tabs",
-        "children": [
-          {
-            "id": "3c48f6cecb53279d",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "HOME.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "HOME"
-            }
-          },
-          {
-            "id": "62b944396dc17f3a",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "traits/Traits.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "Traits"
-            }
-          }
-        ],
-        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -129,7 +90,6 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "traits/Traits.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -139,7 +99,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for Traits"
+              "title": "Backlinks"
             }
           },
           {
@@ -177,13 +137,12 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "traits/Traits.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of Traits"
+              "title": "Outline"
             }
           },
           {
@@ -229,8 +188,10 @@
       "templater-obsidian:Templater": false
     }
   },
-  "active": "d0708fb8c0c17070",
+  "active": "c704cfcb0645b123",
   "lastOpenFiles": [
+    "traits/Traits.md",
+    "HOME.md",
     "strategies/Strategies.md",
     "sequences/Sequences.md",
     "getting-started/Getting Started.md",
@@ -240,10 +201,8 @@
     "attributes/Attributes.md",
     "associations/Association Overrides.md",
     "associations/Associations.md",
-    "traits/Traits.md",
     "setup/Setup.md",
     "customization/Custom Callback Hooks.md",
-    "HOME.md",
     "callbacks/Factory Callbacks.md",
     "customization/Custom Strategies.md",
     "ActiveSupport Instrumentation.md",
