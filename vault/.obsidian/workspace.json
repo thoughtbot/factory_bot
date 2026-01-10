@@ -4,21 +4,17 @@
     "type": "split",
     "children": [
       {
-        "id": "3f0b9add625dfc6b",
+        "id": "74fd14b2a7ca9490",
         "type": "tabs",
         "children": [
           {
-            "id": "c704cfcb0645b123",
+            "id": "d5afb726d2cb30f8",
             "type": "leaf",
             "state": {
-              "type": "markdown",
-              "state": {
-                "file": "HOME.md",
-                "mode": "source",
-                "source": false
-              },
+              "type": "empty",
+              "state": {},
               "icon": "lucide-file",
-              "title": "HOME"
+              "title": "New tab"
             }
           }
         ]
@@ -53,7 +49,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "§",
+                "query": "to_create {",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -74,7 +70,8 @@
               "title": "Bookmarks"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "horizontal",
@@ -94,7 +91,6 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "HOME.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -104,7 +100,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for HOME"
+              "title": "Backlinks"
             }
           },
           {
@@ -142,13 +138,12 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "HOME.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of HOME"
+              "title": "Outline"
             }
           },
           {
@@ -177,7 +172,8 @@
               "title": "All properties"
             }
           }
-        ]
+        ],
+        "currentTab": 3
       }
     ],
     "direction": "horizontal",
@@ -192,37 +188,38 @@
       "daily-notes:Open today's daily note": false,
       "command-palette:Open command palette": false,
       "templater-obsidian:Templater": false,
-      "open-vscode:VSCode": false
+      "open-vscode:VSCode": false,
+      "table-editor-obsidian:Advanced Tables Toolbar": false
     }
   },
-  "active": "c704cfcb0645b123",
+  "active": "d5afb726d2cb30f8",
   "lastOpenFiles": [
-    "Factories.md",
-    "factories/Linting Factories.md",
-    "factories/Factory Best Practices.md",
-    "factories/Child Factories.md",
-    "factories/Factory Inheritance.md",
-    "getting-started/Defining Factories.md",
-    "factories/Explicit Specification of the Factory's Class.md",
-    "factories/Factory Naming Conventions.md",
-    "factories/Factory Definition File Paths.md",
-    "factories/Factory Definition Syntax.md",
+    "attributes/Dynamic Attributes.md",
     "HOME.md",
-    "Sequences.md",
-    "Callbacks.md",
-    "callbacks/Factory Callbacks.md",
-    "callbacks/Callback Order of Operations.md",
-    "traits/Using Transient Attributes Within Traits.md",
-    "traits/Using Traits Within Other Traits.md",
-    "traits/Using Traits Within Associations.md",
-    "traits/Using Traits as Implicit Attributes.md",
-    "traits/The skip_create, to_create, and initialize_with Methods.md",
-    "traits/Overview of Traits.md",
-    "traits/Overriding Traits in Child Factories.md",
-    "traits/Global Traits.md",
-    "traits/Factory Traits.md",
+    "Attributes.md",
+    "attributes/Static Attributes.md",
+    "attributes/Implicit Attributes.md",
+    "attributes/Unknown Methods.md",
+    "attributes/Overview of Attributes.md",
+    "Getting Started.md",
+    "getting-started/Defining Factories.md",
+    "Strategies.md",
+    "strategies/Stub Strategy.md",
+    "strategies/Create Strategy.md",
+    "Traits.md",
     "traits/Enum Traits.md",
     "traits/Attribute Precedence Across Traits.md",
+    "traits/Factory Traits.md",
+    "traits/Overriding Traits in Child Factories.md",
+    "traits/Global Traits.md",
+    "traits/Overview of Traits.md",
+    "traits/Using Traits When Constructing Lists of Objects.md",
+    "traits/Using Traits When Constructing Objects.md",
+    "traits/The skip_create, to_create, and initialize_with Methods.md",
+    "Customization.md",
+    "Disable the Persistence of Object Instances.md",
+    "customization/Custom Object Persistence.md",
+    "Customize the Persistence of Object Instances.md",
     "factories",
     "associations",
     "customization",

@@ -1,7 +1,7 @@
 ---
 type: note
 created: 2025-11-08T17:43:13-06:00
-updated: 2026-01-09T14:39:55-06:00
+updated: 2026-01-09T18:04:59-06:00
 tags: []
 aliases:
   - Implicit Attribute
@@ -9,7 +9,7 @@ up: "[[Attributes]]"
 ---
 # Implicit Attributes
 
-An **Implicit Attribute** is declared using a shorthand syntax where a [[Unknown Methods|Missing Method]] that is invoked and passed a block.
+An **Implicit Attribute** is declared using a shorthand syntax where a [[Unknown Methods|Missing Method]] is invoked and passed a block.
 
 ```ruby
 factory :robot do
@@ -17,7 +17,7 @@ factory :robot do
 end
 ```
 
-In the example above, the declare attribute will be given a name of `:name`, and objects constructed by the factory will have value of `"Ralph"` assigned to their `name` field. 
+In the example above, the declared attribute will be given a name of `:name`, and objects constructed by the factory will have value of `"Ralph"` assigned to their `name` field. 
 
 ## Notes
 

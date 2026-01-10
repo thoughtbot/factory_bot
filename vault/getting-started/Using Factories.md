@@ -14,8 +14,8 @@ FactoryBot supports several different build strategies:
 
 - [[build Strategy|build]]
 - [[create Strategy]]
-- [[build_stubbed Strategy]]
-- [[attributes_for Strategy]]
+- [[Stub Strategy]]
+- [[AttributesFor Strategy]]
 - [[null Strategy]]
 
 ## Examples
@@ -50,7 +50,7 @@ user = create(:user)
 
 ## Retrieve a Hash of Attributes
 
-The [[attributes_for Strategy|attributes_for]] strategy can be used to returns a `Hash` of attributes. This hash can  then be used to build a `User` instance or be transformed into JSON.
+The [[AttributesFor Strategy|attributes_for]] strategy can be used to returns a `Hash` of attributes. This hash can  then be used to build a `User` instance or be transformed into JSON.
 
 ```ruby
 attrs = attributes_for(:user)
@@ -58,7 +58,7 @@ attrs = attributes_for(:user)
 
 ## Pattern Matching Assignment
 
-The [[attributes_for Strategy|attributes_for]] strategy also integrates well with ruby 3.0's support for pattern matching assignment:
+The [[AttributesFor Strategy|attributes_for]] strategy also integrates well with ruby 3.0's support for pattern matching assignment:
 
 ```ruby
 attributes_for(:user) => {email:, name:, **attrs}
@@ -66,7 +66,7 @@ attributes_for(:user) => {email:, name:, **attrs}
 
 ## Return a Stubbed Version of User
 
-The [[build_stubbed Strategy|build_stubbed]] strategy returns an object with all defined attributes stubbed out:
+The [[Stub Strategy|build_stubbed]] strategy returns an object with all defined attributes stubbed out:
 
 ```ruby
 stub = build_stubbed(:user)

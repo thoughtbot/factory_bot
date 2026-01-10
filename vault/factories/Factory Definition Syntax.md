@@ -1,12 +1,13 @@
 ---
 type: note
 created: 2025-11-08T14:48:25-06:00
-updated: 2026-01-09T14:51:15-06:00
+updated: 2026-01-09T16:41:54-06:00
 tags: []
 aliases:
   - Syntax
   - Factory Syntax
   - Factory Definition Syntax
+  - Overview of Factories
 up: "[[Factories]]"
 ---
 # Factory Definition Syntax

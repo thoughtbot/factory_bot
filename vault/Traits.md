@@ -1,7 +1,7 @@
 ---
 type: note
 created: 2025-11-07T14:30:22-06:00
-updated: 2026-01-09T14:33:32-06:00
+updated: 2026-01-09T17:58:24-06:00
 tags: []
 aliases:
   - FactoryBot Traits
@@ -15,16 +15,17 @@ up: "[[HOME]]"
 
 A **Trait** allows you to group [[Attributes]] together and apply them to a [[Factories|Factory]].
 
-- [[Overview of Traits]]
+[[Overview of Traits]]
 
 - [[Global Traits]]
 - [[Factory Traits]]
 - [[Enum Traits]]
 
-- [[The skip_create, to_create, and initialize_with Methods]]
 - [[Attribute Precedence Across Traits]]
-- [[Overriding Traits in Child Factories]]
+- [[Using Traits When Constructing Objects]]
+- [[Using Traits When Constructing Lists of Objects]]
 - [[Using Traits Within Other Traits]]
 - [[Using Traits as Implicit Attributes]]
 - [[Using Traits Within Associations]]
 - [[Using Transient Attributes Within Traits]]
+- [[Overriding Traits in Child Factories]]

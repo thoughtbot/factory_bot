@@ -1,17 +1,31 @@
 ---
 type: note
-created: 2025-11-07T20:28:04-06:00
-updated: 2026-01-09T14:41:25-06:00
+created: 2026-01-09T17:16:45-06:00
+updated: 2026-01-09T17:44:29-06:00
 tags: []
-aliases:
-  - initialize_with
-up: "[[Customization]]"
+aliases: []
 ---
-# Custom Object Construction
+# Customize the Initialization of Objects
 
 Although factory\_bot is written to work with ActiveRecord out of the box, it can also work with any Ruby class. For maximum compatibility with ActiveRecord, the default initializer builds all instances by calling `new` on your build class without any arguments. It then calls attribute writer methods to assign all the attribute values. While that works fine for ActiveRecord, it actually doesn't work for almost any other Ruby class.
 
 If you want to use factory\_bot to construct an object where some attributes are passed to `initialize` — or if you want to do something other than calling `new` on your build class — you can override the default behavior by defining `initialize_with` on your factory.
+
+## The `initialize_with` Method
+
+The `initialize_with` method is used to initialize any object produced by the factory. It takes a block and returns an instance of the factory's class. It has access to the `attributes` method, which is a hash of all the fields and values for the object.
+
+This method can be called within a `factory` definition block, to scope it's effects to just that factory; or within `FactoryBot.define`, to affect global change.
+
+### Default Definition
+
+The default definition invokes `#new` on the Object Class:
+
+```ruby
+initialize_with { new }
+```
+
+See [[Custom Object Construction]] for more information on customizing the `initialize_with` definition.
 
 ## Reasons to Override the Initializer
 
@@ -19,9 +33,10 @@ You can override the initializer in order to:
 
 - Build non-ActiveRecord objects that require arguments passed to `initialize`
 - Use a method other than `new` to instantiate the instance
-- Do wild things like decorate the instance after it's built
+- Do things like decorate the instance after it's built
 
-## Passing an Attribute to `initialize`
+## Examples
+### Passing an Attribute to `initialize`
 
 The `initialize_with` method enables you to customize the initializer within a Factory.
 
@@ -50,9 +65,9 @@ build(:user).name # Jane Doe
 
 As illustrated in the example above, when using `initialize_with`, is is not necessary to declare the class itself when calling `new`. To invoke any other class method, however, it is necessary to call it on the class explicitly.
 
-## Using an Alternate Class Method
+### Using an Alternate Class Method
 
-To use a class method `User.build_with_name`, for example, you would need to declare the class:
+To use another class method (such as `User.build_with_name`, for example), you would need to declare the class and invoke the desired class method:
 
 ```ruby
 factory :user do
@@ -62,7 +77,7 @@ factory :user do
 end
 ```
 
-## Accessing All Public Attributes
+### Accessing All Public Attributes
 
 It is possible to gain access to all public attributes within the `initialize_with` block by calling `attributes`:
 
@@ -80,9 +95,9 @@ end
 
 This will build a hash of all attributes to be passed to `new`. It won't include transient attributes, but everything else defined in the factory will be passed (associations, evaluated sequences, etc.)
 
-## Define `initialize_with` Globally
+### Define `initialize_with` Globally
 
-You can define `initialize_with` for all factories by including it in the `FactoryBot.define` block:
+You can define `initialize_with` for all factories by including it in the root of a `FactoryBot.define` block:
 
 ```ruby
 FactoryBot.define do

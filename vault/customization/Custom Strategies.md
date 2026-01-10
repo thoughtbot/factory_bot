@@ -1,7 +1,7 @@
 ---
 type: note
 created: 2025-08-29T16:16:26-05:00
-updated: 2026-01-09T14:15:51-06:00
+updated: 2026-01-09T16:40:59-06:00
 tags:
   - strategies
 aliases:
@@ -10,6 +10,8 @@ aliases:
 up: "[[Customization]]"
 ---
 # Custom Strategies
+
+**Custom Strategies** can be implemented to customize FactoryBot
 
 There are times where you may want to extend behavior of factory\_bot by adding a custom construction strategy. This is a guide for how to accomplish this.
 

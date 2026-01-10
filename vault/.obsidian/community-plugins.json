@@ -3,5 +3,6 @@
   "templater-obsidian",
   "obsidian-linter",
   "obsidian-style-settings",
-  "open-vscode"
+  "open-vscode",
+  "table-editor-obsidian"
 ]

@@ -1,7 +1,7 @@
 ---
 type: note
 created: 2025-08-29T17:43:37-05:00
-updated: 2026-01-09T14:40:09-06:00
+updated: 2026-01-09T18:06:32-06:00
 tags: []
 aliases:
   - Static Attribute
@@ -23,4 +23,4 @@ factory :robot do
 end
 ```
 
-Today, however, the [[Dynamic Attributes]] syntax should be used.
+Today, however, only the [[Dynamic Attributes|Dynamic Attribute]] syntax is available.

@@ -1,14 +1,19 @@
 ---
 type: note
 created: 2025-11-07T21:11:07-06:00
-updated: 2026-01-09T14:45:07-06:00
+updated: 2026-01-09T16:58:22-06:00
 tags: []
 aliases: []
 up: "[[Traits]]"
 ---
 # Global Traits
 
-**Global Traits** allow you to group attributes together and apply them to any factory as a mixin:
+**Global Traits** allow you to group attributes together and apply them to any factory 
+
+- globally scoped to be used as a mixin to any factory
+- [[Factories]] can override global traits
+
+## Example
 
 ```ruby
 FactoryBot.define do

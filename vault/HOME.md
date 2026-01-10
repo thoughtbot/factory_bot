@@ -8,7 +8,7 @@ updated: 2025-11-08T22:04:18-06:00
 
 `factory_bot` is a fixtures replacement with a straightforward definition syntax;
 support for multiple [[Strategies|construction strategies]] ([[create Strategy|saved instances]], [[build Strategy|unsaved instances]],
-[[attributes_for Strategy|attribute hashes]], and [[build_stubbed Strategy|stubbed objects]]); and support for multiple factories for
+[[AttributesFor Strategy|attribute hashes]], and [[Stub Strategy|stubbed objects]]); and support for multiple factories for
 the same class (`:user`, `:admin_user`, and so on), including factory inheritance.
 
 ## Introduction

@@ -54,7 +54,8 @@
     justify-content: center;
 }
 
-.templater-prompt-div {
+.templater-prompt-div,
+.templater-multisuggester-div {
     display: flex;
 }
 
@@ -63,7 +64,8 @@
     flex-grow: 1;
 }
 
-.templater-prompt-input {
+.templater-prompt-input,
+.templater-multisuggester-input {
     flex-grow: 1;
 }
 
@@ -80,6 +82,10 @@ textarea.templater-prompt-input {
 
 textarea.templater-prompt-input:focus {
     border-color: var(--interactive-accent);
+}
+
+.templater-multisuggester-list {
+    margin: 1.5em 0;
 }
 
 .cm-s-obsidian .templater-command-bg {

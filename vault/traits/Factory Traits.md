@@ -1,7 +1,7 @@
 ---
 type: note
 created: 2025-11-07T21:16:16-06:00
-updated: 2026-01-09T14:45:04-06:00
+updated: 2026-01-09T16:56:29-06:00
 tags: []
 aliases: []
 up: "[[Traits]]"
@@ -9,6 +9,11 @@ up: "[[Traits]]"
 # Factory Traits
 
 **Factory Traits** allow you to group attributes together and apply them to a factory.
+
+- factory scoped traits are inheritable
+- [[Child Factories]] can override inherited traits
+
+## Example
 
 ```ruby
 FactoryBot.define do
@@ -37,13 +42,13 @@ FactoryBot.define do
     end
   
     factory :week_long_published_story, 
-      traits: [:published, :week_long_publishing]
+            traits: [:published, :week_long_publishing]
     factory :month_long_published_story,
-      traits: [:published, :month_long_publishing]
+            traits: [:published, :month_long_publishing]
     factory :week_long_unpublished_story,  
-      traits: [:unpublished, :week_long_publishing]
+            traits: [:unpublished, :week_long_publishing]
     factory :month_long_unpublished_story, 
-      traits: [:unpublished, :month_long_publishing]
+            traits: [:unpublished, :month_long_publishing]
   end
 end
 ```

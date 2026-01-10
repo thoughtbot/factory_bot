@@ -1,7 +1,7 @@
 ---
 type: note
 created: 2025-11-07T10:37:45-06:00
-updated: 2026-01-09T14:26:51-06:00
+updated: 2026-01-09T16:41:57-06:00
 tags: []
 aliases:
   - Getting Started
@@ -19,7 +19,7 @@ To get started with using FactoryBot, there are a few core areas to become famil
 
 After you're familiar with these concepts, it's also recommended to have some general familiarity with the [[HOME#Core Concepts|Core Concepts]]. You might start with the overviews for each of these:
 
-- [[Factory Definition Syntax]]
+- [[Factory Definition Syntax|Overview of Factories]]
 - [[Overview of Strategies]]
 - [[Overview of Traits]]
 - [[Overview of Attributes]]

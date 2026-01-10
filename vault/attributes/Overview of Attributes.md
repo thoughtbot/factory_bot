@@ -1,7 +1,7 @@
 ---
 type: note
 created: 2025-08-29T17:38:44-05:00
-updated: 2026-01-09T14:39:59-06:00
+updated: 2026-01-09T18:02:37-06:00
 tags: []
 aliases:
 up: "[[Attributes]]"
@@ -20,7 +20,7 @@ FactoryBot.define do
 end
 ```
 
-What you may not yet know is that the example above demonstrates declaring attributes using the default **dynamic** and **implicit** syntax. The content below delves further into what this means.
+What you may not yet know is that the example above demonstrates declaring attributes using the default **dynamic** and **implicit** syntax. The content below delves further into what this means. 
 
 ## Implicit Versus Explicit Declaration Syntax
 

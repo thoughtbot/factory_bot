@@ -1,14 +1,14 @@
 ---
 type: note
 created: 2025-11-07T21:32:40-06:00
-updated: 2026-01-09T14:44:52-06:00
+updated: 2026-01-09T17:51:27-06:00
 tags: []
 aliases: []
 up: "[[Traits]]"
 ---
 # Attribute Precedence Across Traits
 
-Using multiple traits that each define the same attributes will not raise an `AttributeDefinitionError`. Rather, the trait that defines the attribute last is given precedence.
+Using multiple traits that each define the same attributes will not raise an `AttributeDefinitionError`. Rather, the [[Trait]] that defines the [[Attributes|Attribute]] last is given precedence.
 
 ```ruby
 factory :user do
