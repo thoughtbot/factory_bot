@@ -29,11 +29,9 @@ jobs:
           - { ruby: jruby-9.4, rails: "7.2" }
           - { ruby: jruby-9.4, rails: "8.0" }
           - { ruby: jruby-9.4, rails: main }
-          # Rails >= 7.2 requires Ruby 3.1
-          - { ruby: "3.1", rails: "8.0" }
           # Rails >= 8.0 requires Ruby 3.2
-          - { ruby: "3.1", rails: "main" }
           - { ruby: "3.1", rails: "8.0" }
+          - { ruby: "3.1", rails: "main" }
           # Rails >= 8.1 requires Ruby 3.3
           - { ruby: "3.2", rails: "main" }
           # 2025-10-23 There's an incompatibility between truffleruby and rails edge Git ref
