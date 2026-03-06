@@ -1,7 +1,7 @@
 ---
 type: note
 created: 2025-11-07T10:37:45-06:00
-updated: 2026-01-09T16:41:57-06:00
+updated: 2026-03-06T15:13:59-06:00
 tags: []
 aliases:
   - Getting Started
@@ -10,19 +10,16 @@ up: "[[HOME]]"
 ---
 # Getting Started With FactoryBot
 
-To get started with using FactoryBot, there are a few core areas to become familiar with:
+To get started with using FactoryBot, you should first be familiar with the concept of Factories and the basics of the FactoryBot DSL:
 
-- [[Defining Factories]]
-- [[Loading Factories]]
-- [[Using Factories]]
-- [[Building or Creating Multiple Objects]]
+- [[Factories]]
+- [[Factory Definition Syntax]]
 
-After you're familiar with these concepts, it's also recommended to have some general familiarity with the [[HOME#Core Concepts|Core Concepts]]. You might start with the overviews for each of these:
+After you're familiar with these concepts, it's also recommended to have some general familiarity with the remaining [[HOME#Core Concepts|Core Concepts]]. You might start with these:
 
-- [[Factory Definition Syntax|Overview of Factories]]
-- [[Overview of Strategies]]
+- [[Strategies]]
 - [[Traits]]
-- [[Overview of Attributes]]
+- [[Attributes]]
 - [[Associations]]
 - [[Sequences]]
-- [[Overview of Callbacks]]
+- [[Callbacks]]

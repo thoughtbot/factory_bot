@@ -8,7 +8,7 @@ aliases:
   - attributes_for
   - attributes_for Strategy
   - The attributes_for Strategy
-up: "[[Strategies]]"
+up: "[[§ Strategies]]"
 ---
 # AttributesFor Strategy
 

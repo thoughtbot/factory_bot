@@ -5,7 +5,7 @@ updated: 2026-01-09T18:04:59-06:00
 tags: []
 aliases:
   - Implicit Attribute
-up: "[[Attributes]]"
+up: "[[§ Attributes]]"
 ---
 # Implicit Attributes
 

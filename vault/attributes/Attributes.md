@@ -1,14 +1,21 @@
 ---
 type: note
 created: 2025-08-29T17:38:44-05:00
-updated: 2026-01-09T18:02:37-06:00
-tags: []
+updated: 2026-03-06T15:39:11-06:00
+tags:
+  - attributes
 aliases:
-up: "[[Attributes]]"
+  - Attribute
+  - Attributes
+up: "[[§ Attributes]]"
 ---
-# Overview of Attributes
+# Attributes
 
-As was briefly mentioned in the [[Defining Factories]] guide. Every factory must be given a name and a set of attributes:
+An **attribute** pairs the *name* of an object property with a *block* which evaluates to the value of the attribute.
+
+## Syntax
+
+As was briefly mentioned in the [[Factories]] guide. Every factory must be given a name and a set of attributes:
 
 ```ruby
 FactoryBot.define do
@@ -20,17 +27,11 @@ FactoryBot.define do
 end
 ```
 
-What you may not yet know is that the example above demonstrates declaring attributes using the default **dynamic** and **implicit** syntax. The content below delves further into what this means. 
-
-## Implicit Versus Explicit Declaration Syntax
-
-Factory attributes can be declared using either an implicit or explicit declaration syntax. 
+What you may not yet know is that the example above demonstrates declaring attributes using the default **implicit** syntax. Factory attributes can also declared using an explicit declaration syntax.
 
 ### Attribute Declaration Using Explicit Syntax
 
-An **explicit attribute** is declared by invoking the `add_attribute` method and passing a name and block as arguments. This will explicitly pair the provided attribute name with the block.
-
-This can be seen in the example below:
+An **explicit attribute** is declared by invoking the `add_attribute` method and passing a name and block as arguments. This will explicitly pair the provided attribute name with the block. This can be seen in the example below:
 
 ```ruby
 factory :robot do
@@ -38,17 +39,18 @@ factory :robot do
 end
 ```
 
-this factory can then be run:
+This `:robot` factory can then be run to build an unsaved object:
 
 ```ruby
-FactoryBot.build(:user)
+FactoryBot.build(:robot)
 ```
 
-In the code above, the product produced by the factory is an instance of the class `User` which has had `"Ralph"` assigned to it's `name` field.
+The object constructed by the factory is an instance of the class `Robot` and has had `"Ralph"` assigned to it's `name` field.
 
-To learn more, read about [[Explicit Attributes]]. 
+To learn more, read about [[Explicit Attributes]].
 
-Note, however, that the explicit syntax is generally only used when [[Handling Conflicts Between Attributes And Reserved Words Or Existing Methods]]. In most other cases, the implicit syntax is the default and preferred syntax.
+> [!NOTE]
+> The explicit syntax is generally only used when [[Handling Conflicts Between Attributes And Reserved Words Or Existing Methods]]. In most other cases, the implicit syntax is the default and preferred syntax.
 
 ### Attribute Declaration Using Implicit Syntax
 
@@ -62,13 +64,13 @@ factory :robot do
 end
 ```
 
-For now, it is sufficient to understand that FactoryBot interprets `name`  as the name of the attribute, and stores the provided block for later use when evaluating the attribute. 
+For now, it is sufficient to understand that FactoryBot interprets `name`  as the name of the attribute, and stores the provided block for later use when evaluating the attribute.
 
 If you'd like to dive deeper into how this works, refer to [[Implicit Attributes]] and [[Missing Method Shorthand Syntax]] to learn more.
 
-## Dynamic Versus Static Attributes
+## Dynamic Attributes
 
-FactoryBot today requires that you declare attributes using the dynamic syntax.  A [[Dynamic Attributes|Dynamic Attribute]] is declared by passing a block of code into the definition of an attribute. 
+FactoryBot requires that you declare attributes using dynamic syntax. A [[Dynamic Attributes|Dynamic Attribute]] is declared by passing a block of code into the definition of an attribute.
 
 The code below demonstrates the dynamic attribute syntax:
 
@@ -85,5 +87,7 @@ robot_a = build(:robot)
 robot_b = build(:robot)
 robot_a.name.equal?(robot_b.name) # => false
 ```
+
+## Static Attributes Have Been Removed From FactoryBot
 
 In earlier versions of FactoryBot, it was possible to declare an attribute using a static syntax. A [[Static Attributes|Static Attribute]] was declared without the use of a block. This presented a common source of confusion as multiple objects produced by the same factory would reference the same instance of the static attribute value.

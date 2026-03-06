@@ -6,7 +6,7 @@ tags: []
 aliases: []
 up: "[[§ Associations]]"
 features:
-  - "[[Factories]]"
+  - "[[§ Factories]]"
   - "[[Aliases]]"
 ---
 # Defining Factory Name Aliases

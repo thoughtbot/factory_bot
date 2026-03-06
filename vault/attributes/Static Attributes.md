@@ -6,7 +6,7 @@ tags: []
 aliases:
   - Static Attribute
   - Static Attributes
-up: "[[Attributes]]"
+up: "[[§ Attributes]]"
 ---
 # Static Attributes
 

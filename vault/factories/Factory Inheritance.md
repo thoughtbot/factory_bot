@@ -4,11 +4,11 @@ created: 2025-11-07T18:57:56-06:00
 updated: 2026-01-09T15:00:01-06:00
 tags: []
 aliases: []
-up: "[[Factories]]"
+up: "[[§ Factories]]"
 ---
 # Factory Inheritance
 
-FactoryBot supports [[Factories|Factory]] *inheritance* through the creation of [[Child Factories]]. 
+FactoryBot supports [[§ Factories|Factory]] *inheritance* through the creation of [[Child Factories]]. 
 
 Factory inheritance enables you to create multiple factories for the same class without repeating common attributes. The child factories can be declared by either nesting factory declarations or explicitly assigning the parent.
 

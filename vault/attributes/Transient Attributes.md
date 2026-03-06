@@ -4,7 +4,7 @@ created: 2025-11-07T14:31:55-06:00
 updated: 2026-01-09T14:40:12-06:00
 tags: []
 aliases: []
-up: "[[Attributes]]"
+up: "[[§ Attributes]]"
 ---
 # Transient Attributes
 
@@ -43,7 +43,7 @@ FactoryBot.build(:user, age: 21)
 
 ## Notes
 
-- **Transient Attributes** are most useful when paired with [[Callbacks|Callback]] hooks or `to_create`
+- **Transient Attributes** are most useful when paired with [[§ Callbacks|Callback]] hooks or `to_create`
 - [[Using Transient Attributes Within Callbacks]]
 - [[Using Transient Attributes Within Other Attributes]]
 - [[Using Associations Within Transient Attributes]]

@@ -14,7 +14,7 @@ up: "[[§ Traits]]"
 ---
 # Traits
 
-A **Trait** allows you to group [Attributes](Attributes) together and apply them to a [Factory](Factories).
+A **Trait** allows you to group [§ Attributes](§%20Attributes.md) together and apply them to a [Factory](§%20Factories.md).
 
 ## Introduction
 
@@ -26,7 +26,7 @@ Traits allow you to group attributes together and apply them to a factory
 
 ## Syntax
 
-Within a `factory` definition block, the `trait` method can be used to define named permutations of the factory. The trait method takes a name (Symbol) and a block. Treat the block like you would a [[Factories|Factory]] definition block.
+Within a `factory` definition block, the `trait` method can be used to define named permutations of the factory. The trait method takes a name (Symbol) and a block. Treat the block like you would a [[§ Factories|Factory]] definition block.
 
 ```ruby
 factory :user do

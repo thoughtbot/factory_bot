@@ -4,7 +4,7 @@ created: 2025-11-08T18:37:14-06:00
 updated: 2026-01-09T14:52:53-06:00
 tags: []
 aliases: []
-up: "[[Factories]]"
+up: "[[§ Factories]]"
 ---
 # Factory Naming Conventions
 

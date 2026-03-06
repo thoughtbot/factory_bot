@@ -5,7 +5,7 @@ updated: 2026-01-09T14:39:31-06:00
 tags: []
 aliases:
   - Overriding Attributes
-up: "[[Attributes]]"
+up: "[[§ Attributes]]"
 ---
 # Attribute Overrides
 

@@ -1,10 +1,10 @@
 ---
 type: note
 created: 2025-11-07T19:14:56-06:00
-updated: 2026-01-09T14:41:13-06:00
+updated: 2026-03-06T16:02:08-06:00
 tags: []
 aliases: []
-up: "[[Callbacks]]"
+up: "[[§ Callbacks]]"
 ---
 # Using Multiple Callbacks
 

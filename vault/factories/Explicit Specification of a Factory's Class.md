@@ -1,10 +1,10 @@
 ---
 type: note
 created: 2025-11-08T18:39:22-06:00
-updated: 2026-02-27T14:28:02-06:00
+updated: 2026-03-06T14:14:35-06:00
 tags: []
 aliases: []
-up: "[[Factories]]"
+up: "[[§ Factories]]"
 ---
 # Explicit Specification of a Factory's Class
 

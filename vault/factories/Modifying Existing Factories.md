@@ -1,7 +1,7 @@
 ---
 type: note
 created: 2025-08-29T16:22:49-05:00
-updated: 2026-01-09T14:42:33-06:00
+updated: 2026-03-06T15:08:59-06:00
 tags: []
 aliases:
   - Customize a Factory
@@ -68,10 +68,9 @@ It is important to note the following in regards to modifying factories:
 
 - `FactoryBot.modify` must be called outside of a `FactoryBot.define` block as it operates on factories differently.
 - Only factories can be modified; not sequences or traits
-- The `factory` method within this block takes a mandatory factory name, and a block. All other arguments are ignored. 
-    - The factory name must already be defined. 
-    - The block is a normal [[Factories|factory definition block]]. 
+- The `factory` method within this block takes a mandatory factory name, and a block. All other arguments are ignored.
+    - The factory name must already be defined.
+    - The block is a normal [[§ Factories|factory definition block]].
 - Take note that [[Callbacks|Callback]] hooks cannot be cleared.
-- Callbacks also continue to _compound as they normally would_. 
+- Callbacks also continue to _compound as they normally would_.
     - So, if the factory you're modifying defines an `after(:create)` callback, you defining an `after(:create)` won't override it, it will instead be run after the first callback.
-

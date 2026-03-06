@@ -1,10 +1,11 @@
 ---
 type: note
 created: 2025-11-07T19:21:36-06:00
-updated: 2026-01-09T14:40:50-06:00
+updated: 2026-03-06T15:43:35-06:00
 tags: []
-aliases: []
-up: "[[Callbacks]]"
+aliases:
+  - Callback Event Order
+up: "[[§ Callbacks]]"
 ---
 # Callback Order of Operations
 
@@ -58,7 +59,6 @@ build(:user, :trait_b, :trait_a)
 # 10. "User after(:all)"
 
 ```
-
 
 ## An Inherited Factory Example:
 
@@ -126,4 +126,3 @@ build(:child, :trait_c, :trait_a, :trait_b)
 # 19. "Child after(:all)"
 # 20. "Trait-B after(:all)"
 ```
-

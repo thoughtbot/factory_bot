@@ -1,24 +1,30 @@
 ---
 type: note
 created: 2025-11-08T14:48:13-06:00
-updated: 2026-01-09T15:02:25-06:00
+updated: 2026-03-06T15:11:10-06:00
 tags: []
 aliases:
-  - FactoryBot Factory
-  - Factories
-  - Factory
 up: "[[HOME]]"
 ---
 # Factories
 
-A **Factory** is used to construct example objects
+A **Factory** is used to construct example objects.
 
+## Concepts
+
+- [[Factories]]
 - [[Factory Definition Syntax]]
 - [[Factory Definition File Paths]]
+- [[Factory Load Order]]
 - [[Factory Naming Conventions]]
-    - [[Explicit Specification of a Factory's Class]]
 - [[Factory Inheritance]]
     - [[Child Factories]]
+
+## Usage
+
+- [[Common Factory Use Cases]]
+- [[Building or Creating Multiple Objects]]
+- [[Explicit Specification of a Factory's Class]]
 - [[Modifying Existing Factories]]
-- [[Factory Best Practices]]
 - [[Linting Factories]]
+- [[Factory Best Practices]]

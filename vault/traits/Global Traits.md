@@ -11,7 +11,7 @@ up: "[[§ Traits]]"
 **Global Traits** allow you to group attributes together and apply them to any factory 
 
 - globally scoped to be used as a mixin to any factory
-- [[Factories]] can override global traits
+- [[§ Factories]] can override global traits
 
 ## Example
 

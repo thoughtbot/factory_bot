@@ -10,7 +10,7 @@ up: "[[HOME]]"
 ---
 # Traits
 
-A **Trait** allows you to group [[Attributes]] together and apply them to a [[Factories|Factory]].
+A **Trait** allows you to group [[Attributes]] together and apply them to a [[§ Factories|Factory]].
 
 ## Concepts
 

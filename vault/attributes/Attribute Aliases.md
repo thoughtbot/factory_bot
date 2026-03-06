@@ -4,13 +4,13 @@ created: 2025-11-08T21:36:03-06:00
 updated: 2026-01-09T14:39:24-06:00
 tags: []
 aliases: []
-up: "[[Attributes]]"
+up: "[[§ Attributes]]"
 ---
 # Attribute Aliases
 
 FactoryBot's **aliases** are an overloaded concept.
 
-- There are [[Defining Factory Name Aliases]] (which this section does not cover) which declare alternative names for [[Factories|Factories]]
+- There are [[Defining Factory Name Aliases]] (which this section does not cover) which declare alternative names for [[§ Factories|Factories]]
 - There are **Attribute Name Aliases** which allow you to declare alternative names for [[Attributes|Attributes]]
 - And finally there are "aliases" which are used by [[Associations|Associations]]
 

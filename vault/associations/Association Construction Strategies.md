@@ -1,7 +1,7 @@
 ---
 type: note
 created: 2025-11-07T22:03:32-06:00
-updated: 2026-03-06T12:29:55-06:00
+updated: 2026-03-06T14:19:36-06:00
 tags: []
 aliases: []
 up: "[[§ Associations]]"
@@ -9,9 +9,9 @@ features:
   - "[[Associations]]"
   - "[[Strategies]]"
 ---
-# Associations and Strategies
+# Association Construction Strategies
 
-Associations default to using the same construction strategy as their parent object:
+Associations default to using the same construction [[Strategies|Strategy]] as their parent object:
 
 ```ruby
 FactoryBot.define do

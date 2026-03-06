@@ -8,7 +8,7 @@ aliases:
 up: "[[§ Associations]]"
 features:
   - "[[Associations]]"
-  - "[[Attributes]]"
+  - "[[§ Attributes]]"
   - "[[Attribute Overrides]]"
 ---
 # Association Overrides

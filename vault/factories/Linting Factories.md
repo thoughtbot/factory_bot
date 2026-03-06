@@ -4,11 +4,11 @@ created: 2025-08-29T16:40:36-05:00
 updated: 2026-01-09T15:56:56-06:00
 tags: []
 aliases: []
-up: "[[Factories]]"
+up: "[[§ Factories]]"
 ---
 # Linting Factories
 
-FactoryBot provides the means to lint known [[Factories]]:
+FactoryBot provides the means to lint known [[§ Factories]]:
 
 ```ruby
 FactoryBot.lint
@@ -21,7 +21,7 @@ Once invoked, the `FactoryBot.lint` method tries each factory and raises `Factor
 `Factorybot.lint` can take the following optional arguments:
 
 - A splat of factory names to restrict the linting to only the ones listed. The default is *all*.
-- `:strategy` - the [[Overview of Strategies|build strategy]] to use. The default is `:create`.
+- `:strategy` - the [[Strategies|build strategy]] to use. The default is `:create`.
 - `:traits` - whether to try building each trait, too. The default is `false`.
 - `:verbose` - whether to show a stack trace on error. The default is `false`.
 

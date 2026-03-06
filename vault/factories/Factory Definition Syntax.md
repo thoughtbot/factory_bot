@@ -8,11 +8,11 @@ aliases:
   - Factory Syntax
   - Factory Definition Syntax
   - Overview of Factories
-up: "[[Factories]]"
+up: "[[§ Factories]]"
 ---
 # Factory Definition Syntax
 
-The [[FactoryBot DSL]] provides a `factory` method that's used to define new [[Factories]]. 
+The [[FactoryBot DSL]] provides a `factory` method that's used to define new [[§ Factories]]. 
 
 New factories are defined within a `FactoryBot.define` block. Existing factories can be modified within a `FactoryBot.modify` block. Any **factory definition**, defined using `factory`, can build example objects through use of a [[Build Strategy]].
 

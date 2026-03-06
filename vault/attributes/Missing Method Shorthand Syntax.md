@@ -7,7 +7,7 @@ aliases:
   - Missing Methods
   - Missing Method
   - method_missing
-up: "[[Attributes]]"
+up: "[[§ Attributes]]"
 ---
 # Missing Methods Shorthand Syntax
 

@@ -1,24 +1,22 @@
 ---
 type: note
 created: 2025-11-07T10:45:49-06:00
-updated: 2026-01-09T14:29:10-06:00
-tags: []
+updated: 2026-03-06T15:39:10-06:00
+tags:
+  - moc
+  - attributes
 aliases:
-  - FactoryBot Attributes
-  - Attributes
-  - Attribute
 up: "[[HOME]]"
 ---
 # Attributes
 
-The FactoryBot DSL provides syntax to declare an **attribute** by pairing the *name* of an attribute with a block *that* which evaluates to the value of the attribute once called.
-
-[[Overview of Attributes]]
-
+- [[Attributes]]
 - [[Dynamic Attributes]]
 - [[Static Attributes]] (DEFUNCT)
 - [[Implicit Attributes]]
 - [[Explicit Attributes]]
+
+---
 
 - [[Attribute Aliases]]
 - [[Hash Attributes]]
@@ -33,7 +31,7 @@ The FactoryBot DSL provides syntax to declare an **attribute** by pairing the *n
 
 ## Looking Ahead
 
-- [[Using Traits as Implicit Attributes]] 
+- [[Using Traits as Implicit Attributes]]
   *covers how [[Traits|Traits]] can be used as [[Attributes|Attributes]]*
 - [[Using Sequences Within Attributes]]
   *covers to learn how [[Sequences|Sequences]] can be used within [[Dynamic Attributes]]*

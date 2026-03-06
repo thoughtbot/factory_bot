@@ -6,7 +6,7 @@ tags: []
 aliases:
   - Child Factories
   - Child Factory
-up: "[[Factories]]"
+up: "[[§ Factories]]"
 ---
 # Child Factories
 

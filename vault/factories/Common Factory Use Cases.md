@@ -1,24 +1,13 @@
 ---
 type: note
-created: 2025-08-29T15:33:57-05:00
-updated: 2026-01-09T14:42:32-06:00
+created: 2026-03-06T14:43:58-06:00
+updated: 2026-03-06T15:00:58-06:00
 tags: []
-aliases:
-up: "[[Getting Started]]"
+aliases: []
 ---
-# Using Factories
+# Common Factory Use Cases
 
-## Build Strategies
-
-FactoryBot supports several different build strategies: 
-
-- [[build Strategy|build]]
-- [[create Strategy]]
-- [[Stub Strategy]]
-- [[AttributesFor Strategy]]
-- [[null Strategy]]
-
-## Examples
+The most common uses of a [[Factories|Factory]] include building unsaved objects; creating saved objects; stubbing objects; or constructing a hash of attributes.
 
 Given the following factory declaration, the sections below provide demonstration of it's usage.
 
@@ -32,7 +21,7 @@ FactoryBot.define do
 end
 ```
 
-## Return an Unsaved User
+## Returning an Unsaved User
 
 Use the [[build Strategy|build]] strategy to return a `User` instance that is not saved:
 
@@ -40,7 +29,7 @@ Use the [[build Strategy|build]] strategy to return a `User` instance that is no
 user = build(:user)
 ```
 
-## Return a Saved User
+## Returning a Saved User
 
 Use a [[create Strategy|create]] strategy to return a `User` instance that is saved:
 
@@ -48,7 +37,7 @@ Use a [[create Strategy|create]] strategy to return a `User` instance that is sa
 user = create(:user)
 ```
 
-## Retrieve a Hash of Attributes
+## Retrieving a Hash of Attributes
 
 The [[AttributesFor Strategy|attributes_for]] strategy can be used to returns a `Hash` of attributes. This hash can  then be used to build a `User` instance or be transformed into JSON.
 
@@ -56,7 +45,7 @@ The [[AttributesFor Strategy|attributes_for]] strategy can be used to returns a 
 attrs = attributes_for(:user)
 ```
 
-## Pattern Matching Assignment
+## Assigning Attributes With Pattern Matching
 
 The [[AttributesFor Strategy|attributes_for]] strategy also integrates well with ruby 3.0's support for pattern matching assignment:
 
@@ -64,7 +53,7 @@ The [[AttributesFor Strategy|attributes_for]] strategy also integrates well with
 attributes_for(:user) => {email:, name:, **attrs}
 ```
 
-## Return a Stubbed Version of User
+## Returning a Stubbed Version of User
 
 The [[Stub Strategy|build_stubbed]] strategy returns an object with all defined attributes stubbed out:
 
@@ -81,11 +70,3 @@ create(:user) do |user|
   user.posts.create(attributes_for(:post))
 end
 ```
-
-## Next
-
-[[Build Strategy]]
-
-Refer to [[Strategies|Strategies]] for more information on FactoryBot's construction strategies
-
-Next we'll explore [[Modifying Existing Factories]]

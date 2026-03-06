@@ -7,7 +7,7 @@ aliases: []
 ---
 # Customize the Persistence of Object Instances
 
-FactoryBot provides the means to customize the manner with which objects are persisted. FactoryBot normally persists constructed objects when the [[Create Strategy]] is used to run a [[Factories|Factory]]. 
+FactoryBot provides the means to customize the manner with which objects are persisted. FactoryBot normally persists constructed objects when the [[Create Strategy]] is used to run a [[§ Factories|Factory]]. 
 ## The `to_create` Method
 
  FactoryBot defines a `to_create` method which is used to manage how objects are persisted. It takes a block which accepts the object and the factory\_bot context, and runs this block for it's side effect. The context is passed to provide additional data from any [[Transient Attributes|Transient Attribute]] definition blocks.

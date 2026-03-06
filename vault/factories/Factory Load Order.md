@@ -1,15 +1,16 @@
 ---
 type: note
-created: 2025-08-29T17:20:20-05:00
-updated: 2026-01-09T14:42:31-06:00
+created: 2026-03-06T14:36:02-06:00
+updated: 2026-03-06T14:53:36-06:00
 tags: []
 aliases: []
-up: "[[Getting Started]]"
 ---
-# Loading Factories
+# Factory Load Order
+
+## Finding and Loading Factory Definitions
 
 The `FactoryBot.find_definitions` method loads in all factory\_bot definitions
-across the project. 
+across the project.
 
 ## Default Load Order
 
@@ -24,14 +25,12 @@ The default load order is:
 1. `spec/factories.rb`
 1. `spec/factories/**/*.rb`
 
-## Automatic Factory Loading in `factory_bot-rails`
+## Automatic Factory Loading in Rails
 
 When using FactoryBot with Ruby on Rails via `factory_bot-rails`, the `FactoryBot.find_definitions` method is called automatically after the application initializes.
 
 The `FactoryBot.definition_file_paths` can be set during initialization (e.g. `config/initializers`), or via `Rails.application.config.factory_bot.definition_file_paths`.
 
-## Next
+## Related
 
 Refer to [[Factory Definition File Paths]] for more information on loading factories
-
-Next we'll explore [[Using Factories]]

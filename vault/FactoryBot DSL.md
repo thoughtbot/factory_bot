@@ -14,7 +14,7 @@ aliases: []
 
 |       Method Name | Description                                                                                         |
 | ----------------: | --------------------------------------------------------------------------------------------------- |
-|         `factory` | declares a new [[Factories\|Factory]] definition                                                    |
+|         `factory` | declares a new [[§ Factories\|Factory]] definition                                                    |
 |        `sequence` | declares a new [[Global Sequences\|Global Sequence]]                                                |
 |           `trait` | declares a new [[Global Traits\|Global Trait]]                                                      |
 |          `before` | declares a new [[Global Callbacks\|Global Callback]] to be invoked *before* an event                |

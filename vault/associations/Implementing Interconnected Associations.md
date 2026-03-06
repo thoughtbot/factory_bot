@@ -1,12 +1,12 @@
 ---
 type: note
 created: 2025-11-07T22:32:57-06:00
-updated: 2026-01-09T14:38:55-06:00
+updated: 2026-03-06T14:13:13-06:00
 tags: []
 aliases: []
 up: "[[§ Associations]]"
 ---
-# Interconnected Associations
+# Implementing Interconnected Associations
 
 There are limitless ways objects might be interconnected, and factory\_bot may not always be suited to handle those relationships. In some cases it makes sense to use factory\_bot to build each individual object, and then to write helper methods in plain Ruby to tie those objects together.
 

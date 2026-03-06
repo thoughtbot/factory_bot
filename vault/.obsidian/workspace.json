@@ -8,37 +8,17 @@
         "type": "tabs",
         "children": [
           {
-            "id": "cddec76eed68671a",
+            "id": "c69931b5bc1a4e5d",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "§ Associations.md",
+                "file": "HOME.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "§ Associations"
-            }
-          }
-        ]
-      },
-      {
-        "id": "9181e29434341605",
-        "type": "tabs",
-        "children": [
-          {
-            "id": "84a0d2f1454957a4",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "associations/Associations.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "Associations"
+              "title": "HOME"
             }
           }
         ]
@@ -73,7 +53,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "",
+                "query": "/example obj",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -115,7 +95,7 @@
             "state": {
               "type": "localgraph",
               "state": {
-                "file": "associations/Associations.md",
+                "file": "HOME.md",
                 "options": {
                   "collapse-filter": true,
                   "search": "",
@@ -143,7 +123,7 @@
                 }
               },
               "icon": "lucide-git-fork",
-              "title": "Graph of Associations"
+              "title": "Graph of HOME"
             }
           }
         ]
@@ -159,13 +139,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "associations/Associations.md",
+                "file": "HOME.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of Associations"
+              "title": "Outline of HOME"
             }
           },
           {
@@ -220,8 +200,8 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "associations/Associations.md",
-                "collapseAll": true,
+                "file": "HOME.md",
+                "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
                 "showSearch": false,
@@ -230,7 +210,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for Associations"
+              "title": "Backlinks for HOME"
             }
           },
           {
@@ -251,7 +231,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 526.5
+    "width": 465.5
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -266,43 +246,43 @@
       "table-editor-obsidian:Advanced Tables Toolbar": false
     }
   },
-  "active": "84a0d2f1454957a4",
+  "active": "c69931b5bc1a4e5d",
   "lastOpenFiles": [
+    "Setup.md",
+    "HOME.md",
+    "Getting Started.md",
+    "callbacks/Callbacks.md",
     "§ Associations.md",
-    "§ Sequences.md",
-    "sequences/Sequences.md",
-    "sequences/Defining a Sequence Alias.md",
-    "§ Traits.md",
-    "traits/Traits.md",
-    "traits/Applying Traits to All Objects Constructed by a Factory.md",
-    "associations/Associations and Strategies.md",
-    "_maps/Content by Action.md",
-    "_maps/Content By Concept.md",
+    "§ Callbacks.md",
+    "callbacks/Using Multiple Callbacks.md",
+    "callbacks/Callback Order of Operations.md",
+    "attributes/Attributes.md",
+    "§ Attributes.md",
+    "getting-started/Using Factories.md",
+    "factories/Factories.md",
+    "factories/Modifying Existing Factories.md",
+    "§ Factories.md",
+    "factories/Factory Load Order.md",
+    "getting-started/Loading Factories.md",
+    "factories/Common Factory Use Cases.md",
+    "factory",
+    "strategies/Strategies.md",
+    "§ Strategies.md",
+    "strategies/Building or Creating Multiple Objects.md",
+    "Instrumenting Strategies.md",
+    "associations/Association Construction Strategies.md",
     "associations/Defining Factory Name Aliases.md",
+    "factories/Explicit Specification of a Factory's Class.md",
+    "FactoryBot DSL.md",
+    "associations/Implementing Interconnected Associations.md",
+    "_assets/templates/macros",
+    "_assets/macros",
     "_maps",
-    "associations/Association Overrides.md",
-    "associations/[].md",
-    "associations/Explicit Associations.md",
-    "traits/Factory Traits.md",
-    "attributes/Missing Method Shorthand Syntax.md",
-    "attributes/Swapping Explicit Syntax for Implicit Syntax.md",
-    "traits/Overriding Traits in Child Factories.md",
-    "traits/Attribute Precedence Across Traits.md",
-    "traits/Applying Traits to Objects at Construction Time.md",
-    "traits/Enum Traits.md",
-    "traits/Global Traits.md",
-    "traits/Applying Traits to an Association.md",
-    "traits/Applying Traits Within Other Traits.md",
-    "traits/Using Traits When Constructing Lists of Objects.md",
-    "traits/Using Traits as Implicit Attributes.md",
     "factories",
     "associations",
     "customization",
     "callbacks",
     "sequences",
-    "traits",
-    "attributes",
-    "getting-started",
-    "strategies"
+    "traits"
   ]
 }
