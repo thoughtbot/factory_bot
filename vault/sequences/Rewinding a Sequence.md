@@ -5,7 +5,7 @@ updated: 2026-01-09T14:43:08-06:00
 tags: []
 aliases:
   - Rewinding Sequences
-up: "[[Sequences]]"
+up: "[[§ Sequences]]"
 ---
 # Rewinding a Sequence
 

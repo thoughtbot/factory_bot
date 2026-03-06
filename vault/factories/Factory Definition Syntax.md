@@ -1,7 +1,7 @@
 ---
 type: note
 created: 2025-11-08T14:48:25-06:00
-updated: 2026-01-09T16:41:54-06:00
+updated: 2026-02-27T15:33:19-06:00
 tags: []
 aliases:
   - Syntax
@@ -12,9 +12,9 @@ up: "[[Factories]]"
 ---
 # Factory Definition Syntax
 
-The FactoryBot DSL provides a `factory` method that's used to define new [[Factories]]. 
+The [[FactoryBot DSL]] provides a `factory` method that's used to define new [[Factories]]. 
 
-New factories are defined within a `FactoryBot.define` block. Existing factories can be modified within a `FactoryBot.modify` block. Anything defined using `factory` can be built using a [build strategy](build-strategies.html).
+New factories are defined within a `FactoryBot.define` block. Existing factories can be modified within a `FactoryBot.modify` block. Any **factory definition**, defined using `factory`, can build example objects through use of a [[Build Strategy]].
 
 ```ruby
 FactoryBot.define do
@@ -26,7 +26,13 @@ FactoryBot.define do
 end
 ```
 
-The `factory` method takes three arguments: a required name, an optional hash of options, and an optional block. The name is expected to be a Symbol.
+## Factory Method
+
+The `factory` method takes three arguments:
+
+1. a required **name** (which is expected to be a Symbol)
+1. an optional **hash of options**, 
+1. an optional **block**
 
 ## Factory Options
 
@@ -55,4 +61,8 @@ Within the `factory` block you have access to the following methods:
 - `callback` – adds a [[Callbacks|Callback]] hook
 - `factory` – to implicitly define [[Child Factories]]
 
- You also have access to [[Unknown Methods|Missing Methods]] to implicitly declare attributes; declare associations; or activate traits.
+ You also have access to [[Missing Method Shorthand Syntax|Missing Methods]] to implicitly declare attributes; declare associations; or activate traits.
+
+## Related
+
+See [[FactoryBot DSL]] for an overview of the full DSL Syntax.

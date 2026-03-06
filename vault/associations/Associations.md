@@ -1,12 +1,15 @@
 ---
 type: note
 created: 2025-11-07T21:58:36-06:00
-updated: 2026-01-09T14:39:02-06:00
-tags: []
-aliases: []
-up: "[[Associations]]"
+updated: 2026-03-06T12:56:03-06:00
+tags:
+  - associations
+aliases:
+  - Association
+  - Associations
+up: "[[§ Associations]]"
 ---
-# Overview of Associations
+# Associations
 
 An **Association** is defined on a factory in order that an associated object be constructed at the same time and linked to the factory's constructed object via an attribute.
 
@@ -26,6 +29,7 @@ end
 ```
 
 See [[Implicit Associations]] for more information
+
 ## Explicit Association Syntax
 
 You can define associations explicitly using the `association` method:

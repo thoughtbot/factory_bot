@@ -4,7 +4,7 @@ created: 2025-11-07T21:58:07-06:00
 updated: 2026-01-09T14:38:59-06:00
 tags: []
 aliases: []
-up: "[[Associations]]"
+up: "[[§ Associations]]"
 ---
 # Overriding Attributes on Associations
 

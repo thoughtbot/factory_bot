@@ -1,12 +1,15 @@
 ---
 type: note
 created: 2025-11-07T21:19:25-06:00
-updated: 2026-01-09T17:13:17-06:00
+updated: 2026-02-28T09:57:26-06:00
 tags: []
 aliases:
   - traits_for_enum
   - Enum Trait
-up: "[[Traits]]"
+  - Enum Traits
+  - Enumerated Traits
+  - Enumerated Trait
+up: "[[§ Traits]]"
 ---
 # Enum Traits
 

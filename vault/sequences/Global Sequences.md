@@ -1,10 +1,14 @@
 ---
 type: note
 created: 2025-11-07T15:07:22-06:00
-updated: 2026-01-09T14:43:00-06:00
+updated: 2026-02-27T14:50:47-06:00
 tags: []
-aliases: []
-up: "[[Sequences]]"
+aliases:
+  - Global Sequence
+  - Global Sequences
+  - global sequence
+  - global sequences
+up: "[[§ Sequences]]"
 ---
 # Global Sequences
 

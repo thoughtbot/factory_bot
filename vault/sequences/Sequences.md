@@ -1,22 +1,24 @@
 ---
 type: note
 created: 2025-11-07T15:31:57-06:00
-updated: 2026-01-09T14:43:05-06:00
+updated: 2026-03-06T12:54:22-06:00
 tags: []
-aliases: []
-up: "[[Sequences]]"
+aliases:
+  - Sequence
+  - Sequences
+up: "[[§ Sequences]]"
 ---
-# Overview of Sequences
+# Sequences
 
-A **sequence** is a construct that generates a linear sequence of values. 
+A **sequence** is a construct that generates a linear sequence of values.
 
 ## Sequence Levels
 
-factory\_bot supports two levels of sequences: global and factory-specific.
+factory\_bot supports two levels of sequences: **global** and **factory-specific**.
 
 ### Global Sequences
 
-a **Global Sequence** is a sequence that is available for use within any factory or trait.
+a [[Global Sequences|Global Sequence]] is available for use within any factory or trait.
 
 ```ruby
 FactoryBot.define do
@@ -24,11 +26,9 @@ FactoryBot.define do
 end
 ```
 
-see [[Global Sequences]] for more information
-
 ### Factory Sequences
 
-A **Factory Sequence** is a [[Sequences|Sequence]] that is only available for use within a particular factory, it's traits, or any child factories.
+A [[Factory Sequences|Factory Sequence]] is only available for use within a particular factory, it's traits, or any child factories.
 
 ```ruby
 FactoryBot.define do
@@ -38,11 +38,9 @@ FactoryBot.define do
 end
 ```
 
-see [[Factory Sequences]]  for more information
+## Generating a Sequence
 
-## Generating Sequences
-
-Sequences can be manually generated using either the `generate` or `generate_list` methods. 
+Sequences can be manually generated using either the `generate` or `generate_list` methods.
 
 ```ruby
 FactoryBot.define do
@@ -63,7 +61,7 @@ For more information, see [[Sequence URI]]
 
 ## Rewinding Sequences
 
-- All sequences can be rewound by invoking `FactoryBot.rewind_sequences`. 
+- All sequences can be rewound by invoking `FactoryBot.rewind_sequences`.
 - Individual sequences can be rewound  by invoking `FactoryBot.reqind_sequence` and passing in the name of the sequence as an argument (or the [[Sequence URI]])
 
 For more information, see [[Rewinding a Sequence]]

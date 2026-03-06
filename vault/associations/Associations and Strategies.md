@@ -1,10 +1,13 @@
 ---
 type: note
 created: 2025-11-07T22:03:32-06:00
-updated: 2026-01-09T14:38:25-06:00
+updated: 2026-03-06T12:29:55-06:00
 tags: []
 aliases: []
-up: "[[Associations]]"
+up: "[[§ Associations]]"
+features:
+  - "[[Associations]]"
+  - "[[Strategies]]"
 ---
 # Associations and Strategies
 
@@ -52,7 +55,7 @@ post.new_record?        # => true
 post.author.new_record? # => false
 ```
 
-### Customizing the Strategy
+### Customize the Construction Strategy of an Association
 
 When `use_parent_strategy` is disabled, to customize the strategy (and not save the associated object) specify `strategy: :build` when declaring the association:
 

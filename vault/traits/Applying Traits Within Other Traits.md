@@ -1,12 +1,12 @@
 ---
 type: note
 created: 2025-11-07T21:29:22-06:00
-updated: 2026-01-09T14:45:25-06:00
+updated: 2026-02-28T09:48:58-06:00
 tags: []
 aliases: []
-up: "[[Traits]]"
+up: "[[§ Traits]]"
 ---
-# Using Traits Within Other Traits
+# Applying Traits Within Other Traits
 
 Traits can be used within other traits to mix in their attributes.
 

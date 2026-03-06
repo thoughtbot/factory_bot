@@ -52,7 +52,7 @@ Note, however, that the explicit syntax is generally only used when [[Handling C
 
 ### Attribute Declaration Using Implicit Syntax
 
-Declaring an **implicit attribute** uses a shorthand syntax which permits developers to act as if the DSL already contains a method matching the name of the attribute you wish to declare. Invoking this [[Unknown Methods|Unknown Method]], and passing it a Ruby block as an argument, will implicitly declare an attribute.
+Declaring an **implicit attribute** uses a shorthand syntax which permits developers to act as if the DSL already contains a method matching the name of the attribute you wish to declare. Invoking this [[Missing Method Shorthand Syntax|Unknown Method]], and passing it a Ruby block as an argument, will implicitly declare an attribute.
 
 To demonstrate how this works, refer to the example below which is functionally equivalent to the `add_attribute` example provided in the previous section:
 
@@ -64,7 +64,7 @@ end
 
 For now, it is sufficient to understand that FactoryBot interprets `name`  as the name of the attribute, and stores the provided block for later use when evaluating the attribute. 
 
-If you'd like to dive deeper into how this works, refer to [[Implicit Attributes]] and [[Unknown Methods]] to learn more.
+If you'd like to dive deeper into how this works, refer to [[Implicit Attributes]] and [[Missing Method Shorthand Syntax]] to learn more.
 
 ## Dynamic Versus Static Attributes
 

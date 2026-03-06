@@ -30,7 +30,7 @@ See [[Factories|Factories]] to explore more about how defining factories work wi
 
 - [[Factory Naming Conventions]]
 - [[Factory Definition File Paths]]
-- [[Explicit Specification of the Factory's Class]]
+- [[Explicit Specification of a Factory's Class]]
 - [[Factory Best Practices]]
 
 Next we will explore how [[Loading Factories]] works.

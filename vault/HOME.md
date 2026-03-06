@@ -1,6 +1,6 @@
 ---
 created: 2025-08-29T13:45:06-05:00
-updated: 2025-11-08T22:04:18-06:00
+updated: 2026-02-27T14:30:05-06:00
 ---
 # FactoryBot
 
@@ -30,6 +30,10 @@ the same class (`:user`, `:admin_user`, and so on), including factory inheritanc
 
 - [[Customization|Customizing FactoryBot]]
 - [[ActiveSupport Instrumentation]]
+
+## Concepts To Be Placed
+
+- [[FactoryBot DSL]]
 
 ## License
 

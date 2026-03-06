@@ -1,7 +1,7 @@
 ---
 type: note
 created: 2025-11-07T19:08:51-06:00
-updated: 2026-01-09T14:41:03-06:00
+updated: 2026-02-27T15:09:33-06:00
 tags: []
 aliases: []
 up: "[[Callbacks]]"
@@ -10,26 +10,39 @@ up: "[[Callbacks]]"
 
 **Callback hooks** allow you to extend factories and include additional behavior at specific points in the construction process.
 
+## Callback Events
+
 FactoryBot makes the following callbacks available:
 
-| Callback          | Timing                                                                                                 |
-| ----------------- | ------------------------------------------------------------------------------------------------------ |
-| `before(:all)`    | called before any strategy is used to construct an object or hash<br>(this includes custom strategies) |
-| `before(:build)`  | called before a factory **builds** an object<br>(via `FactoryBot.build` or `FactoryBot.create`)        |
-| `after(:build)`   | called after a factory **builds** an object<br>(via `FactoryBot.build` or `FactoryBot.create`)         |
-| `before(:create)` | called before a factory **saves** an object<br>(via `FactoryBot.create`)                               |
-| `after(:create)`  | called after a factory **saves** an object<br>(via `FactoryBot.create`)                                |
-| `after(:stub)`    | called after a factory **stubs** an object<br>(via `FactoryBot.build_stubbed`)                         |
-| `after(:all)`     | called after any strategy has completed<br>(this includes custom strategies)                           |
+| Event            | Timing                                                                                                       |
+| ---------------- | ------------------------------------------------------------------------------------------------------------ |
+| `:before_all`    | event occurs before any strategy is used to construct an object or hash<br>(this includes custom strategies) |
+| `:before_build`  | event occurs before a factory **builds** an object<br>(via `FactoryBot.build` or `FactoryBot.create`)        |
+| `:after_build`   | event occurs after a factory **builds** an object<br>(via `FactoryBot.build` or `FactoryBot.create`)         |
+| `:before_create` | event occurs before a factory **saves** an object<br>(via `FactoryBot.create`)                               |
+| `:after_create`  | event occurs after a factory **saves** an object<br>(via `FactoryBot.create`)                                |
+| `:after_stub`    | event occurs after a factory **stubs** an object<br>(via `FactoryBot.build_stubbed`)                         |
+| `:after_all`     | event occurs after any strategy has completed<br>(this includes custom strategies)                           |
 
-## Methods
+| Event            | Shorthand Callback Syntax | Alternate Callback Syntax  |
+| ---------------- | ------------------------- | -------------------------- |
+| `:before_all`    | `before(:all)`            | `callback(:before_all)`    |
+| `:before_build`  | `before(:build)`          | `callback(:before_build)`  |
+| `:after_build`   | `after(:build)`           | `callback(:after_build)`   |
+| `:before_create` | `before(:create)`         | `callback(:before_create)` |
+| `:after_create`  | `after(:create)`          | `callback(:after_create)`  |
+| `:after_stub`    | `after(:stub)`            | `callback(:after_stub)`    |
+| `:after_all`     | `after(:all)`             | `callback(:after_all)`     |
 
-Within a `factory` definition block and the `FactoryBot.define` block, you have access to the `after`, `before`, and `callback` methods. These allow you to hook into parts of the [[build strategies]].
+
+## DSL Syntax Methods
+
+Within a `factory` definition block and the `FactoryBot.define` block, you have access to the `after`, `before`, and `callback` methods. These allow you to hook into lifecycle events that occur when a [[Build Strategy]] is invoked.
 
 - Within a `factory` definition block, these callbacks are scoped to just that factory. 
 - Within a `FactoryBot.define` block, they are global to all factories.
 
-## The `callback` Method
+### The `callback` Method
 
 The `callback` method allows you to hook into any factory\_bot callback by name. The pre-defined names are `before_all`, `after_build`, `before_create`, `after_create`, `after_stub`, and `after_all`.
 
@@ -39,9 +52,9 @@ callback(:after_create) do |user, context|
 end
 ```
 
-This method takes a splat of names, and a block. It invokes the block any time one of the named callback events are activated. The block can be anything that responds to `#to_proc`.  This block takes two arguments: the instance of the factory, and the factory\_bot context. The context holds [[Transient Attributes]].
+The `callback` method takes a splat of names, and a block. The block is invoked any time one of the named callback events are activated. The block can be anything that responds to `#to_proc`.  This block takes two arguments: the instance of the factory, and the factory\_bot context. The context holds [[Transient Attributes]].
 
-## The `after` and `before` Methods
+### The `after` and `before` Methods
 
 The `after` and `before` methods add some nice syntax to `callback`:
 
@@ -51,7 +64,8 @@ after(:create) do |user, context|
 end
 ```
 
-## Example: Calling an Object's Own Method after Building
+## Examples
+### Calling an Object's Own Method after Building
 
 The factory below calls a `generate_hashed_password` method after the factory is run using the build strategy:
 
@@ -63,7 +77,7 @@ end
 
 Note that the callback provides both `user` (an instance of the object being constructed), and `context`.
 
-## Example: Skipping an Object's Own :after_create Callback
+### Skipping an Object's Own `:after_create` Callback
 
 The example below demonstrates how the `before(:all)` and `after(:all)` callbacks can be used in conjunction to first disable an ActiveRecord model's `:after_create` callback that sends an email on creation, and then re-enable it afterward the factory run has completed:
 

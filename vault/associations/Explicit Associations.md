@@ -1,10 +1,10 @@
 ---
 type: note
 created: 2025-11-08T19:35:50-06:00
-updated: 2026-01-09T14:38:28-06:00
+updated: 2026-03-06T12:21:18-06:00
 tags: []
 aliases: []
-up: "[[Associations]]"
+up: "[[§ Associations]]"
 ---
 # Explicit Associations
 
@@ -32,4 +32,3 @@ The `association` method takes a mandatory name and optional options:
 ## Notes
 
 - **Explicit Associations** can be handy when [[Attribute Overrides|Overriding Attributes]]
-- 

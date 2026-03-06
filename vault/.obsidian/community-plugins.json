@@ -4,5 +4,6 @@
   "obsidian-linter",
   "obsidian-style-settings",
   "open-vscode",
-  "table-editor-obsidian"
+  "table-editor-obsidian",
+  "slash-commander"
 ]

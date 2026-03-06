@@ -1,12 +1,15 @@
 ---
 type: note
 created: 2025-11-07T22:19:27-06:00
-updated: 2026-01-09T14:38:37-06:00
+updated: 2026-03-06T12:30:49-06:00
 tags: []
 aliases: []
-up: "[[Associations]]"
+up: "[[§ Associations]]"
+features:
+  - "[[Factories]]"
+  - "[[Aliases]]"
 ---
-# Factory Name Aliases
+# Defining Factory Name Aliases
 
 factory\_bot allows you to define aliases to existing factories to make them easier to re-use. This could come in handy when, for example, your `Post` object has an author attribute that actually refers to an instance of a `User` class.
 

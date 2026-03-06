@@ -1,7 +1,7 @@
 ---
 type: note
 created: 2025-11-07T10:20:47-06:00
-updated: 2026-01-09T14:37:08-06:00
+updated: 2026-02-27T15:41:29-06:00
 tags: []
 aliases:
   - Setup
@@ -15,4 +15,4 @@ up: "[[HOME]]"
 - [[Using Rails Preloaders and RSpec]]
 - [[Using Without Bundler]]
 
-Note: The [wiki](https://github.com/thoughtbot/factory_bot/wiki) details considerations for integrating with other software.
+**Note**: The [wiki](https://github.com/thoughtbot/factory_bot/wiki) covers more details and considerations for integrating with other software.

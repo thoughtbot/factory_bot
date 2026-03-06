@@ -1,12 +1,20 @@
 ---
 type: note
 created: 2025-11-07T21:10:45-06:00
-updated: 2026-01-09T17:56:43-06:00
-tags: []
+updated: 2026-03-06T12:42:39-06:00
+tags:
+  - traits
 aliases:
-up: "[[Traits]]"
+  - Trait
+  - Traits
+  - FactoryBot Traits
+  - Factory Traits
+  - Factory Trait
+up: "[[§ Traits]]"
 ---
-# Overview of Traits
+# Traits
+
+A **Trait** allows you to group [Attributes](Attributes) together and apply them to a [Factory](Factories).
 
 ## Introduction
 
@@ -33,5 +41,4 @@ end
 
 ## Examples
 
-- [[Using Traits When Constructing Objects]]
-- [[Using Traits When Constructing Lists of Objects]]
+- [[Applying Traits to Objects at Construction Time]]

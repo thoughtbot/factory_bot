@@ -1,12 +1,12 @@
 ---
 type: note
 created: 2025-11-08T18:39:22-06:00
-updated: 2026-01-09T14:41:46-06:00
+updated: 2026-02-27T14:28:02-06:00
 tags: []
 aliases: []
 up: "[[Factories]]"
 ---
-# Explicit Specification of the Factory's Class
+# Explicit Specification of a Factory's Class
 
 In situations where you need to override the naming conventions, it is possible to explicitly specify the class. A factory definition can explicitly configure the class to be constructed by including a `class` keyword argument:
 

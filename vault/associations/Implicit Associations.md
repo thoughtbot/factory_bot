@@ -5,11 +5,11 @@ updated: 2026-01-09T14:38:49-06:00
 tags: []
 aliases:
   - Implicit Association
-up: "[[Associations]]"
+up: "[[§ Associations]]"
 ---
 # Implicit Associations
 
-**Implicit Associations** are declared by invoking an [[Unknown Methods|Unknown Method]] where the association name is used as the method name 
+**Implicit Associations** are declared by invoking an [[Missing Method Shorthand Syntax|Unknown Method]] where the association name is used as the method name 
 
 If the factory name is the same as the association name, the factory name can be left out.
 

@@ -16,7 +16,7 @@ A **Factory** is used to construct example objects
 - [[Factory Definition Syntax]]
 - [[Factory Definition File Paths]]
 - [[Factory Naming Conventions]]
-    - [[Explicit Specification of the Factory's Class]]
+    - [[Explicit Specification of a Factory's Class]]
 - [[Factory Inheritance]]
     - [[Child Factories]]
 - [[Modifying Existing Factories]]

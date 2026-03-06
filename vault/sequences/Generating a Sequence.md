@@ -4,7 +4,7 @@ created: 2025-11-07T15:55:26-06:00
 updated: 2026-01-09T14:42:58-06:00
 tags: []
 aliases: []
-up: "[[Sequences]]"
+up: "[[§ Sequences]]"
 ---
 # Generating a Sequence
 

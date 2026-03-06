@@ -1,17 +1,16 @@
 ---
 created: 2025-11-07T09:43:05-06:00
-updated: 2026-01-09T14:43:40-06:00
+updated: 2026-02-27T15:42:34-06:00
 up: "[[Setup]]"
 ---
 # Setting Up FactoryBot
 
 The installation and configuration of `factory_bot` can vary depending on which framework you are using, if any, and the test framework in use.
 
-Since installation varies based on code that we do not control, those docs are
-kept up-to-date in [our wiki]. We encourage you, and the community, to edit the wiki as the
-frameworks change.
+Since installation varies based on code that we do not control, those docs are kept up-to-date in [our wiki]. We encourage you, and the community, to edit the wiki as the frameworks change.
 
 Below we document the most common setup. [Our Wiki][our wiki], however, **goes into more detail**.
+
 ## Add Sidekiq to Your Gemfile
 
 If you're using the Ruby on Rails framework, you'll want to add `factory_bot_rails` to your Gemfile:
@@ -52,7 +51,7 @@ end
 
 For more, see [our wiki].
 
-## Related Documentation
+## Related
 
 - [[Using Without Bundler]]
 - [[Using Rails Preloaders and RSpec]]

@@ -1,10 +1,11 @@
 ---
 type: note
 created: 2025-11-07T21:50:57-06:00
-updated: 2026-01-09T14:19:53-06:00
-tags: []
+updated: 2026-03-06T12:55:42-06:00
+tags:
+  - moc
+  - associations
 aliases:
-  - FactoryBot Associations
   - Associations
   - Association
 up: "[[HOME]]"
@@ -13,7 +14,7 @@ up: "[[HOME]]"
 
 An **Association** is defined on a factory in order that an associated object be constructed at the same time and linked to the factory's constructed object via an attribute.
 
-[[Overview of Associations]]
+[[Associations]]
 
 ## Association Syntax
 
@@ -28,7 +29,7 @@ An **Association** is defined on a factory in order that an associated object be
 - [[Associations and Strategies]]
 - [[Overriding Attributes on Associations]]
 - [[Specifying the Factory on Associations]]
-- [[Factory Name Aliases]]
+- [[Defining Factory Name Aliases]]
 
 ## Advanced Topics
 

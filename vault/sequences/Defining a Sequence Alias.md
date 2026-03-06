@@ -1,12 +1,12 @@
 ---
 type: note
 created: 2025-11-07T15:24:02-06:00
-updated: 2026-01-09T14:43:17-06:00
+updated: 2026-03-06T12:47:07-06:00
 tags: []
 aliases: []
-up: "[[Sequences]]"
+up: "[[§ Sequences]]"
 ---
-# Setting an Alias For a Sequence
+# Defining a Sequence Alias
 
 Sequences can be assigned aliases. When given an alias, the sequence and every one of it's aliases will share the same counter:
 
@@ -43,4 +43,3 @@ end
 
 The value needs to support the `#next` method. Here the next value will be 'a',
 then 'b', etc.
-

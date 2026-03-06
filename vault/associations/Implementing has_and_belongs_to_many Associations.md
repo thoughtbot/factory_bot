@@ -4,7 +4,7 @@ created: 2025-11-07T22:40:17-06:00
 updated: 2026-01-09T14:38:39-06:00
 tags: []
 aliases: []
-up: "[[Associations]]"
+up: "[[§ Associations]]"
 ---
 # Implementing has_and_belongs_to_many Associations
 

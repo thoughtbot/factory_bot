@@ -21,8 +21,8 @@ After you're familiar with these concepts, it's also recommended to have some ge
 
 - [[Factory Definition Syntax|Overview of Factories]]
 - [[Overview of Strategies]]
-- [[Overview of Traits]]
+- [[Traits]]
 - [[Overview of Attributes]]
-- [[Overview of Associations]]
-- [[Overview of Sequences]]
+- [[Associations]]
+- [[Sequences]]
 - [[Overview of Callbacks]]

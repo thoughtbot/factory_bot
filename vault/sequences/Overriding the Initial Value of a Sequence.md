@@ -4,7 +4,7 @@ created: 2025-11-07T16:18:24-06:00
 updated: 2026-01-09T14:43:03-06:00
 tags: []
 aliases: []
-up: "[[Sequences]]"
+up: "[[§ Sequences]]"
 ---
 # Overriding the Initial Value of a Sequence
 

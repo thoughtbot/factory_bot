@@ -9,7 +9,7 @@ up: "[[Attributes]]"
 ---
 # Implicit Attributes
 
-An **Implicit Attribute** is declared using a shorthand syntax where a [[Unknown Methods|Missing Method]] is invoked and passed a block.
+An **Implicit Attribute** is declared using a shorthand syntax where a [[Missing Method Shorthand Syntax|Missing Method]] is invoked and passed a block.
 
 ```ruby
 factory :robot do
@@ -22,5 +22,5 @@ In the example above, the declared attribute will be given a name of `:name`, an
 ## Notes
 
 - The **Implicit Attribute** syntax alleviates the need to use the `add_attribute` method used to define [[Explicit Attributes]].
-- To learn more about the implicit shorthand, read about [[Unknown Methods]] and how they rely on Ruby's `method_missing` functionality.
+- To learn more about the implicit shorthand, read about [[Missing Method Shorthand Syntax]] and how they rely on Ruby's `method_missing` functionality.
 - The code example above is also an example of a [[Dynamic Attributes|Dynamic Attribute]] as a block is passed in as an argument.

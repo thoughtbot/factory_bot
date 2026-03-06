@@ -10,7 +10,7 @@ up: "[[Attributes]]"
 
 FactoryBot's **aliases** are an overloaded concept.
 
-- There are [[Factory Name Aliases]] (which this section does not cover) which declare alternative names for [[Factories|Factories]]
+- There are [[Defining Factory Name Aliases]] (which this section does not cover) which declare alternative names for [[Factories|Factories]]
 - There are **Attribute Name Aliases** which allow you to declare alternative names for [[Attributes|Attributes]]
 - And finally there are "aliases" which are used by [[Associations|Associations]]
 

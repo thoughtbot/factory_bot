@@ -1,31 +1,34 @@
 ---
 type: note
 created: 2025-11-07T14:30:22-06:00
-updated: 2026-01-09T17:58:24-06:00
-tags: []
+updated: 2026-03-06T12:42:56-06:00
+tags:
+  - moc
+  - traits
 aliases:
-  - FactoryBot Traits
-  - Traits
-  - Trait
-  - Factory Traits
-  - Factory Trait
 up: "[[HOME]]"
 ---
 # Traits
 
 A **Trait** allows you to group [[Attributes]] together and apply them to a [[Factories|Factory]].
 
-[[Overview of Traits]]
+## Concepts
 
+- [[Traits]]
 - [[Global Traits]]
 - [[Factory Traits]]
 - [[Enum Traits]]
 
+## Reference
+
 - [[Attribute Precedence Across Traits]]
-- [[Using Traits When Constructing Objects]]
-- [[Using Traits When Constructing Lists of Objects]]
-- [[Using Traits Within Other Traits]]
+
+## Usage
+
+- [[Applying Traits to Objects at Construction Time]]
+- [[Applying Traits to All Objects Constructed by a Factory]]
+- [[Applying Traits to an Association]]
+- [[Applying Traits Within Other Traits]]
 - [[Using Traits as Implicit Attributes]]
-- [[Using Traits Within Associations]]
 - [[Using Transient Attributes Within Traits]]
 - [[Overriding Traits in Child Factories]]

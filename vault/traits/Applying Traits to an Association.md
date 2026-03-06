@@ -1,12 +1,14 @@
 ---
 type: note
 created: 2025-11-07T21:38:09-06:00
-updated: 2026-01-09T14:45:22-06:00
+updated: 2026-02-28T09:51:23-06:00
 tags: []
 aliases: []
-up: "[[Traits]]"
+up: "[[§ Traits]]"
 ---
-# Using Traits Within Associations
+# Applying Traits to an Association
+
+[[Traits]] can also be applied when you declare an association within a factory.
 
 ## Basic Usage
 
@@ -32,7 +34,6 @@ create(:post).user
 The syntax is virtually identical to using the syntax methods of the various construction strategies.
 
 ## Including Traits When Declaring An Explicit Factory
-
 
 When you're using association names that are different than the factory:
 
