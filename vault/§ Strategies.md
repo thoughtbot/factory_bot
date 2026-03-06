@@ -4,7 +4,7 @@ created: 2025-11-07T10:25:23-06:00
 updated: 2026-03-06T14:58:10-06:00
 tags: []
 aliases:
-up: "[[HOME]]"
+up: "[[_HOME]]"
 ---
 # Strategies
 
@@ -24,5 +24,5 @@ up: "[[HOME]]"
 
 ## Related
 
-- [[Custom Strategies]]
-- [[Custom Callback Hooks]]
+- [[Building a Custom Strategy]]
+- [[Adding Custom Callback Hooks]]

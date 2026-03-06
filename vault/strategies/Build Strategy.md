@@ -28,4 +28,4 @@ The `FactoryBot.build` method constructs an instance of the object class accordi
 
 ## Customization
 
-- Override `initialize_with` to  [[Customize the Initialization of Objects]]
+- Override `initialize_with` to  [[Customizing the Initialization of Objects]]

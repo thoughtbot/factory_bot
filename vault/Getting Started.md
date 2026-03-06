@@ -6,7 +6,7 @@ tags: []
 aliases:
   - Getting Started
   - Getting Started With FactoryBot
-up: "[[HOME]]"
+up: "[[_HOME]]"
 ---
 # Getting Started With FactoryBot
 
@@ -15,7 +15,7 @@ To get started with using FactoryBot, you should first be familiar with the conc
 - [[Factories]]
 - [[Factory Definition Syntax]]
 
-After you're familiar with these concepts, it's also recommended to have some general familiarity with the remaining [[HOME#Core Concepts|Core Concepts]]. You might start with these:
+After you're familiar with these concepts, it's also recommended to have some general familiarity with the remaining [[_HOME#Core Concepts|Core Concepts]]. You might start with these:
 
 - [[Strategies]]
 - [[Traits]]

@@ -1,18 +1,18 @@
 ---
 type: note
 created: 2025-11-07T19:58:33-06:00
-updated: 2026-01-09T14:41:21-06:00
+updated: 2026-03-06T16:08:43-06:00
 tags: []
 aliases: []
 up: "[[Customization]]"
 ---
-# Custom Callback Hooks
+# Adding Custom Callback Hooks
 
-A **Custom Callback Hook** can be defined to publish custom events from within a [[Custom Strategies|Custom Strategy]].
+A **Custom Callback Hook** can be defined to publish custom events from within a [[Building a Custom Strategy|Custom Strategy]].
 
 ## Example: JSON Strategy With Callback Hooks
 
-The example below extends the [[Custom Strategies#Example JSON Strategy|JSON Strategy]] example with three custom event notifications: `before_json`, `after_json`, and `make_json_awesome`.
+The example below extends the [[Building a Custom Strategy#Example JSON Strategy|JSON Strategy]] example with three custom event notifications: `before_json`, `after_json`, and `make_json_awesome`.
 
 ```ruby
 class JsonStrategy

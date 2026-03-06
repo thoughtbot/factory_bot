@@ -1,7 +1,7 @@
 ---
 type: note
 created: 2025-08-29T15:00:15-05:00
-updated: 2026-03-06T15:10:03-06:00
+updated: 2026-03-06T16:37:17-06:00
 tags: []
 aliases:
   - Defining a factory
@@ -38,7 +38,7 @@ See [[Factory Load Order]] for details.
 
 ## Using Factories
 
-Once a [[§ Factories|Factory]] is defined, objects and hashes can be constructed using any of the built-in [[Strategies]], or a [[Custom Strategies|Custom Strategy]]. Some [[Common Factory Use Cases]] include building unsaved objects; creating saved objects; stubbing objects; or constructing a hash of attributes.
+Once a [[§ Factories|Factory]] is defined, objects and hashes can be constructed using any of the built-in [[Strategies]], or a [[Building a Custom Strategy|Custom Strategy]]. Some [[Common Factory Use Cases]] include building unsaved objects; creating saved objects; stubbing objects; or constructing a hash of attributes.
 
 For example, an unsaved User instance can be constructed with the `:user` factory (defined earlier) by invoking `build`:
 
@@ -58,9 +58,6 @@ For more information, see [[Modifying Existing Factories]]
 
 See [[§ Factories]] to explore more about how to work with factories within FactoryBot.
 
-Some useful pages to start with are listed below:
-
-- [[Factory Naming Conventions]]
-- [[Factory Definition File Paths]]
-- [[Explicit Specification of a Factory's Class]]
-- [[Factory Best Practices]]
+- see [[Attributes]] to declare how values are assigned to the properties of objects
+- see [[Associations]] to declare relationships to associated objects
+- see [[Traits]] to declare groups of properties that can be added at runtime

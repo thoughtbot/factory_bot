@@ -1,7 +1,7 @@
 ---
 type: note
 created: 2025-08-29T16:16:26-05:00
-updated: 2026-01-09T16:40:59-06:00
+updated: 2026-03-06T16:08:11-06:00
 tags:
   - strategies
 aliases:
@@ -9,7 +9,7 @@ aliases:
   - Custom Strategy
 up: "[[Customization]]"
 ---
-# Custom Strategies
+# Building a Custom Strategy
 
 **Custom Strategies** can be implemented to customize FactoryBot
 
@@ -19,7 +19,7 @@ There are times where you may want to extend behavior of factory\_bot by adding 
 
 Strategies define three methods: `association`, `result`, and `to_sym`:
 
-- `association` receives a `FactoryBot::FactoryRunner` instance, upon which you can call `run`, overriding the strategy if you want. 
+- `association` receives a `FactoryBot::FactoryRunner` instance, upon which you can call `run`, overriding the strategy if you want.
 - `result`, receives a `FactoryBot::Evaluation` instance. It provides a way to trigger callbacks (with `notify`), `object` or `hash` (to get the result instance or a hash based on the attributes defined in the factory), and `create`, which executes the `to_create` callback defined on the factory.
 - `to_sym` returns the symbolic name used to identify the strategy
 
@@ -29,7 +29,7 @@ To understand how factory\_bot uses strategies internally, it's probably easiest
 
 The `FactoryBot.register_strategy` method is used to add a custom [[Strategies|Strategy]]
 
-This method takes two mandatory arguments: `name` and `class`. 
+This method takes two mandatory arguments: `name` and `class`.
 
 - The name is a Symbol, and registering it automatically register syntax methods in the format of `{name}`, `{name}_pair`, and `{name}_list` (These methods are exposed via `FactoryBot::Syntax::Methods`).
 - The class must define the methods `association` and `result`.
@@ -38,7 +38,7 @@ This method takes two mandatory arguments: `name` and `class`.
 
 The class is required to define three methods:
 
-- `association` 
+- `association`
 - `result`
 - `to_sym`
 

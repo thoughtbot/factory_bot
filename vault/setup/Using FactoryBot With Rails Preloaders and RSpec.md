@@ -1,12 +1,12 @@
 ---
 type: note
 created: 2026-01-09T14:00:47-06:00
-updated: 2026-02-27T15:40:57-06:00
+updated: 2026-03-06T16:13:06-06:00
 tags: []
 aliases: []
 up: "[[Setup]]"
 ---
-# Using Rails Preloaders and RSpec
+# Using FactoryBot With Rails Preloaders and RSpec
 
 When running RSpec with a Rails preloader such as `spring` or `zeus`, it's
 possible to encounter an `ActiveRecord::AssociationTypeMismatch` error when

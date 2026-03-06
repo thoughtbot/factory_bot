@@ -1,10 +1,10 @@
 ---
 type: note
 created: 2025-11-08T14:48:13-06:00
-updated: 2026-03-06T15:11:10-06:00
+updated: 2026-03-06T16:09:17-06:00
 tags: []
 aliases:
-up: "[[HOME]]"
+up: "[[_HOME]]"
 ---
 # Factories
 
@@ -28,3 +28,6 @@ A **Factory** is used to construct example objects.
 - [[Modifying Existing Factories]]
 - [[Linting Factories]]
 - [[Factory Best Practices]]
+- [[Customizing the Initialization of Objects]]
+- [[Customizing the Persistence of Object Instances]]
+- [[Disabling the Persistence of Object Instances]]

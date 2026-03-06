@@ -4,7 +4,7 @@ created: 2025-11-07T21:45:31-06:00
 updated: 2025-11-08T14:42:27-06:00
 tags: []
 aliases:
-up: "[[HOME]]"
+up: "[[_HOME]]"
 ---
 # ActiveSupport Instrumentation
 

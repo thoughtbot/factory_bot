@@ -1,11 +1,11 @@
 ---
 type: note
 created: 2026-01-09T17:16:45-06:00
-updated: 2026-01-09T17:44:29-06:00
+updated: 2026-03-06T16:06:26-06:00
 tags: []
 aliases: []
 ---
-# Customize the Initialization of Objects
+# Customizing the Initialization of Objects
 
 Although factory\_bot is written to work with ActiveRecord out of the box, it can also work with any Ruby class. For maximum compatibility with ActiveRecord, the default initializer builds all instances by calling `new` on your build class without any arguments. It then calls attribute writer methods to assign all the attribute values. While that works fine for ActiveRecord, it actually doesn't work for almost any other Ruby class.
 
@@ -36,6 +36,7 @@ You can override the initializer in order to:
 - Do things like decorate the instance after it's built
 
 ## Examples
+
 ### Passing an Attribute to `initialize`
 
 The `initialize_with` method enables you to customize the initializer within a Factory.

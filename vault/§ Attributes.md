@@ -6,7 +6,7 @@ tags:
   - moc
   - attributes
 aliases:
-up: "[[HOME]]"
+up: "[[_HOME]]"
 ---
 # Attributes
 

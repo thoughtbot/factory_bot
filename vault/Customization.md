@@ -1,23 +1,22 @@
 ---
 type: note
 created: 2025-11-07T20:23:52-06:00
-updated: 2026-01-09T17:49:29-06:00
+updated: 2026-03-06T16:22:21-06:00
 tags: []
 aliases:
-  - Customizing FactoryBot
-  - Customizations
   - Customization
-up: "[[HOME]]"
+  - Customizations
+up: "[[_HOME]]"
 ---
 # Customization
 
-## Customize A Built-In Strategy
+## Customizing The Built-In Construction Strategies
 
-- [[Customize the Initialization of Objects]]
-- [[Customize the Persistence of Object Instances]]
-- [[Disable the Persistence of Object Instances]]
+- [[Customizing the Initialization of Objects]]
+- [[Customizing the Persistence of Object Instances]]
+- [[Disabling the Persistence of Object Instances]]
 
-## Create Your Own Strategy
+## Creating Your Own Strategy
 
-- [[Custom Strategies]]
-- [[Custom Callback Hooks]]
+- [[Building a Custom Strategy]]
+- [[Adding Custom Callback Hooks]]

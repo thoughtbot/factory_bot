@@ -1,15 +1,10 @@
 ---
 created: 2025-08-29T13:45:06-05:00
-updated: 2026-03-06T15:14:51-06:00
+updated: 2026-03-06T16:32:50-06:00
 ---
 # FactoryBot
 
-## Introduction
-
-`factory_bot` is a fixtures replacement with a straightforward definition syntax;
-support for multiple [[Strategies|Construction Strategies]] ([[create Strategy|saved instances]], [[build Strategy|unsaved instances]],
-[[AttributesFor Strategy|attribute hashes]], and [[Stub Strategy|stubbed objects]]); and support for multiple factories for
-the same class (`:user`, `:admin_user`, and so on), including factory inheritance.
+`factory_bot` is a fixtures replacement with a straightforward definition syntax; support for multiple [[Strategies|Construction Strategies]] ([[create Strategy|saved instances]], [[build Strategy|unsaved instances]], [[AttributesFor Strategy|attribute hashes]], and [[Stub Strategy|stubbed objects]]); and support for multiple factories for the same class (`:user`, `:admin_user`, and so on), including factory inheritance. [[Factories]] are used to create example objects.
 
 ## Introduction
 
@@ -20,9 +15,9 @@ the same class (`:user`, `:admin_user`, and so on), including factory inheritanc
 
 - [[Factories|Factories]]
 - [[Strategies|Strategies]]
-- [[Traits|Traits]]
 - [[Attributes|Attributes]]
 - [[Associations|Associations]]
+- [[Traits|Traits]]
 - [[Sequences|Sequences]]
 - [[§ Callbacks|Callbacks]]
 
@@ -30,12 +25,8 @@ the same class (`:user`, `:admin_user`, and so on), including factory inheritanc
 
 - [[Customization|Customizing FactoryBot]]
 - [[ActiveSupport Instrumentation]]
-
-## Concepts To Be Placed
-
 - [[FactoryBot DSL]]
 - [[Implicit Syntax]]
-- [[Explicit Syntax]]
 
 ## License
 

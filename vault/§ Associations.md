@@ -8,7 +8,7 @@ tags:
 aliases:
   - Associations
   - Association
-up: "[[HOME]]"
+up: "[[_HOME]]"
 ---
 # Associations
 

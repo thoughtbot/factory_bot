@@ -8,7 +8,7 @@ tags:
 aliases:
   - Sequence
   - Sequences
-up: "[[HOME]]"
+up: "[[_HOME]]"
 ---
 # Sequences
 

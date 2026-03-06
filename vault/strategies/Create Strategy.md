@@ -36,6 +36,6 @@ After the strategy calls `initialize_with`, it invokes the following hooks in or
 
 ## Customization
 
-- Override `initialize_with` to  [[Customize the Initialization of Objects]]
-- Override `to_create` to [[Customize the Persistence of Object Instances]]
-- Invoke `skip_create` to [[Disable the Persistence of Object Instances]]
+- Override `initialize_with` to  [[Customizing the Initialization of Objects]]
+- Override `to_create` to [[Customizing the Persistence of Object Instances]]
+- Invoke `skip_create` to [[Disabling the Persistence of Object Instances]]
