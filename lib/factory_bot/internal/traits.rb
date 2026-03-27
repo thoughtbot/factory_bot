@@ -6,7 +6,7 @@ module FactoryBot
       end
 
       def self.reset
-        @traits&.reset
+        @traits&.clear
       end
 
       def self.register_trait(trait)

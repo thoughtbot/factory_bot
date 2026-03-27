@@ -6,7 +6,7 @@ module FactoryBot
       end
 
       def self.reset
-        @factories&.reset
+        @factories&.clear
       end
 
       def self.register_factory(factory)

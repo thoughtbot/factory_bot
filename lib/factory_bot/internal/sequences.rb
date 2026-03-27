@@ -10,7 +10,7 @@ module FactoryBot
       end
 
       def self.reset
-        @sequences&.reset
+        @sequences&.clear
         @inline_sequences = []
         sequences
       end
