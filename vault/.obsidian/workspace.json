@@ -4,21 +4,17 @@
     "type": "split",
     "children": [
       {
-        "id": "7ad96c6540aad08f",
+        "id": "a27efb54811322d0",
         "type": "tabs",
         "children": [
           {
-            "id": "17f580412b73ae35",
+            "id": "636651a4d2620a6c",
             "type": "leaf",
             "state": {
-              "type": "markdown",
-              "state": {
-                "file": "_HOME.md",
-                "mode": "source",
-                "source": false
-              },
+              "type": "empty",
+              "state": {},
               "icon": "lucide-file",
-              "title": "_HOME"
+              "title": "New tab"
             }
           }
         ]
@@ -53,7 +49,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "",
+                "query": "override",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -78,7 +74,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 407.5
+    "width": 474.5
   },
   "right": {
     "id": "9b1e6c6fe707bead",
@@ -95,7 +91,6 @@
             "state": {
               "type": "localgraph",
               "state": {
-                "file": "_HOME.md",
                 "options": {
                   "collapse-filter": true,
                   "search": "",
@@ -123,7 +118,7 @@
                 }
               },
               "icon": "lucide-git-fork",
-              "title": "Graph of _HOME"
+              "title": "Graph view"
             }
           }
         ]
@@ -139,13 +134,12 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "_HOME.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of _HOME"
+              "title": "Outline"
             }
           },
           {
@@ -200,7 +194,6 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "_HOME.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -210,7 +203,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for _HOME"
+              "title": "Backlinks"
             }
           },
           {
@@ -246,34 +239,34 @@
       "table-editor-obsidian:Advanced Tables Toolbar": false
     }
   },
-  "active": "17f580412b73ae35",
+  "active": "636651a4d2620a6c",
   "lastOpenFiles": [
-    "factories/Factories.md",
     "_HOME.md",
+    "Setup.md",
+    "Instrumenting Strategies.md",
+    "Implicit Syntax.md",
+    "Getting Started.md",
+    "traits/Attribute Precedence Across Traits.md",
+    "§ Traits.md",
+    "Disabling the Persistence of Object Instances.md",
+    "Customization.md",
+    "traits/Enum Traits.md",
+    "traits/Overriding Traits in Child Factories.md",
+    "traits/Applying Traits Within Other Traits.md",
+    "§ Strategies.md",
+    "§ Setup.md",
+    "§ Sequences.md",
+    "§ Factories.md",
+    "§ Associations.md",
+    "§ Attributes.md",
+    "sequences/Sequences.md",
+    "attributes/Attribute Overrides.md",
+    "attributes/Attributes.md",
+    "§ Callbacks.md",
+    "_TODO.md",
+    "factories/Factories.md",
     "FactoryBot DSL.md",
     "setup/Adding FactoryBot to Your Gemfile.md",
-    "Customization.md",
-    "Disabling the Persistence of Object Instances.md",
-    "Customizing the Persistence of Object Instances.md",
-    "Customizing the Initialization of Objects.md",
-    "Getting Started.md",
-    "§ Setup.md",
-    "Setup.md",
-    "setup/Using FactoryBot With Rails Preloaders and RSpec.md",
-    "setup/Adding FactoryBot to Your Test Suite.md",
-    "setup/Using FactoryBot Without Bundler.md",
-    "§ Factories.md",
-    "customization/Adding Custom Callback Hooks.md",
-    "customization/Building a Custom Strategy.md",
-    "Disable the Persistence of Object Instances.md",
-    "callbacks/Callbacks.md",
-    "§ Associations.md",
-    "§ Callbacks.md",
-    "callbacks/Using Multiple Callbacks.md",
-    "callbacks/Callback Order of Operations.md",
-    "attributes/Attributes.md",
-    "§ Attributes.md",
-    "getting-started/Using Factories.md",
     "factory",
     "_assets/templates/macros",
     "_assets/macros",

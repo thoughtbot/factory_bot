@@ -1,6 +1,6 @@
 ---
 created: 2025-08-29T13:45:06-05:00
-updated: 2026-03-06T16:32:50-06:00
+updated: 2026-03-18T20:27:47-05:00
 ---
 # FactoryBot
 
@@ -13,12 +13,12 @@ updated: 2026-03-06T16:32:50-06:00
 
 ## Core Concepts
 
-- [[Factories|Factories]]
-- [[Strategies|Strategies]]
-- [[Attributes|Attributes]]
-- [[Associations|Associations]]
-- [[Traits|Traits]]
-- [[Sequences|Sequences]]
+- [[§ Factories|Factories]]
+- [[§ Strategies|Strategies]]
+- [[§ Attributes|Attributes]]
+- [[§ Associations|Associations]]
+- [[§ Traits|Traits]]
+- [[§ Sequences|Sequences]]
 - [[§ Callbacks|Callbacks]]
 
 ## Additional Topics
