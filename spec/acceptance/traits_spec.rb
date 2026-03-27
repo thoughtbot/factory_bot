@@ -882,6 +882,10 @@ describe "traits used in implicit associations" do
       belongs_to :user
     end
 
+    define_model("Post", user_id: :integer) do
+      belongs_to :user, class_name: "User"
+    end
+
     FactoryBot.define do
       factory :user do
         admin { false }
@@ -889,19 +893,33 @@ describe "traits used in implicit associations" do
         trait :admin do
           admin { true }
         end
+
+        trait :robot do
+          name { "robot" }
+        end
       end
 
       factory :comment do
         text { "testing" }
         user :admin, name: "Joe Slick"
       end
+
+      factory :post do
+        user :admin, :robot
+      end
     end
   end
 
-  it "allows inline traits with the default association" do
+  it "allows for a single inline trait with the default association" do
     user = FactoryBot.create(:comment).user
     expect(user).to be_admin
     expect(user.name).to eq "Joe Slick"
+  end
+
+  it "allows for multiple inline traits with the default association" do
+    user = FactoryBot.create(:post).user
+    expect(user).to be_admin
+    expect(user.name).to eq "robot"
   end
 end
 
