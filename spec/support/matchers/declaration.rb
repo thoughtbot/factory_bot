@@ -40,8 +40,9 @@ module DeclarationMatchers
       self
     end
 
-    def with_options(options)
+    def with_options(*options, **kwargs)
       @options = options
+      @kwargs = kwargs
       self
     end
 
@@ -60,7 +61,7 @@ module DeclarationMatchers
       when :implicit then FactoryBot::Declaration::Implicit.new(@name, @factory, ignored?)
       when :association
         if @options
-          FactoryBot::Declaration::Association.new(@name, options)
+          FactoryBot::Declaration::Association.new(@name, *options, **kwargs)
         else
           FactoryBot::Declaration::Association.new(@name)
         end
@@ -72,7 +73,11 @@ module DeclarationMatchers
     end
 
     def options
-      @options || {}
+      @options || []
+    end
+
+    def kwargs
+      @kwargs || {}
     end
   end
 end

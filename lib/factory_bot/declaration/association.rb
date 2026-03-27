@@ -2,10 +2,10 @@ module FactoryBot
   class Declaration
     # @api private
     class Association < Declaration
-      def initialize(name, *options)
+      def initialize(name, *options, **overrides)
         super(name, false)
         @options = options.dup
-        @overrides = options.extract_options!
+        @overrides = overrides.dup
         @factory_name = @overrides.delete(:factory) || name
         @traits = options
       end
@@ -13,16 +13,17 @@ module FactoryBot
       def ==(other)
         self.class == other.class &&
           name == other.name &&
-          options == other.options
+          options == other.options &&
+          overrides == other.overrides
       end
 
       protected
 
-      attr_reader :options
+      attr_reader :options, :overrides
 
       private
 
-      attr_reader :factory_name, :overrides, :traits
+      attr_reader :factory_name, :traits
 
       def build
         raise_if_arguments_are_declarations!
