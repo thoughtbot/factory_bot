@@ -88,17 +88,15 @@ module FactoryBot
     #   end
     #
     # are equivalent.
-    def method_missing(name, *args, &block) # rubocop:disable Style/MissingRespondToMissing
-      association_options = args.first
-
-      if association_options.nil?
+    def method_missing(name, *args, **kwargs, &block) # rubocop:disable Style/MissingRespondToMissing
+      if args.empty? && kwargs.empty?
         __declare_attribute__(name, block)
-      elsif __valid_association_options?(association_options)
-        association(name, association_options)
+      elsif __valid_association_options?(args, kwargs)
+        association(name, *args, **kwargs)
       else
         raise NoMethodError.new(<<~MSG)
           undefined method '#{name}' in '#{@definition.name}' factory
-          Did you mean? '#{name} { #{association_options.inspect} }'
+          Did you mean? '#{name} { #{args.first.inspect} }'
         MSG
       end
     end
@@ -152,14 +150,14 @@ module FactoryBot
     #    If no name is given, the name of the attribute is assumed to be the
     #    name of the factory. For example, a "user" association will by
     #    default use the "user" factory.
-    def association(name, *options)
+    def association(name, *options, **overrides)
       if block_given?
         raise AssociationDefinitionError.new(
           "Unexpected block passed to '#{name}' association " \
           "in '#{@definition.name}' factory"
         )
       else
-        declaration = Declaration::Association.new(name, *options)
+        declaration = Declaration::Association.new(name, *options, **overrides)
         @definition.declare_attribute(declaration)
       end
     end
@@ -253,8 +251,8 @@ module FactoryBot
       end
     end
 
-    def __valid_association_options?(options)
-      options.respond_to?(:has_key?) && options.has_key?(:factory)
+    def __valid_association_options?(options, overrides)
+      (!options.empty? && options.all?(Symbol)) || !overrides.empty?
     end
 
     ##

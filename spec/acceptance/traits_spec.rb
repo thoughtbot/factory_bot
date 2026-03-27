@@ -874,6 +874,37 @@ describe "implicit traits containing callbacks" do
   end
 end
 
+describe "traits used in implicit associations" do
+  before do
+    define_model("User", admin: :boolean, name: :string)
+
+    define_model("Comment", text: :string, user_id: :integer) do
+      belongs_to :user
+    end
+
+    FactoryBot.define do
+      factory :user do
+        admin { false }
+
+        trait :admin do
+          admin { true }
+        end
+      end
+
+      factory :comment do
+        text { "testing" }
+        user :admin, name: "Joe Slick"
+      end
+    end
+  end
+
+  it "allows inline traits with the default association" do
+    user = FactoryBot.create(:comment).user
+    expect(user).to be_admin
+    expect(user.name).to eq "Joe Slick"
+  end
+end
+
 describe "traits used in associations" do
   before do
     define_model("User", admin: :boolean, name: :string)
