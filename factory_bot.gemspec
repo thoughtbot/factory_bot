@@ -23,7 +23,8 @@ Gem::Specification.new do |s|
   s.homepage = "https://github.com/thoughtbot/factory_bot"
 
   s.metadata = {
-    "changelog_uri" => "https://github.com/thoughtbot/factory_bot/blob/main/NEWS.md"
+    "changelog_uri" => "https://github.com/thoughtbot/factory_bot/blob/main/NEWS.md",
+    "rubygems_mfa_required" => "true"
   }
 
   s.add_dependency("activesupport", ">= 6.1.0")
