@@ -8,6 +8,8 @@ require "standard/rake"
 
 Bundler::GemHelper.install_tasks(name: "factory_bot")
 
+Dir.glob("tasks/*.rake").each { |f| load f }
+
 desc "Default: run all specs and standard"
 task default: %w[all_specs standard]
 

@@ -36,53 +36,10 @@ jobs:
           NEW=$(ruby -e "require_relative 'lib/factory_bot/version'; puts FactoryBot::VERSION")
           echo "new=$NEW" >> "$GITHUB_OUTPUT"
 
-      - name: Collect merged PRs since last release
-        id: changelog
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          LAST_TAG=$(git tag --sort=-version:refname | grep -E '^v?[0-9]' | head -1)
-          SINCE=$(git log -1 --format=%as "$LAST_TAG")
-          ENTRIES=$(gh pr list \
-            --state merged \
-            --base main \
-            --search "merged:>$SINCE" \
-            --json number,title,author,url \
-            --limit 200 \
-            | jq -r '.[] | "* \(.title) by @\(.author.login) in [#\(.number)](\(.url))"')
-          echo "entries<<EOF" >> "$GITHUB_OUTPUT"
-          echo "$ENTRIES" >> "$GITHUB_OUTPUT"
-          echo "EOF" >> "$GITHUB_OUTPUT"
-
       - name: Update NEWS.md
         env:
-          NEW_VERSION: ${{ steps.version.outputs.new }}
-          PR_ENTRIES: ${{ steps.changelog.outputs.entries }}
-        run: |
-          ruby - <<~RUBY
-            require 'date'
-
-            news    = File.read('NEWS.md')
-            version = ENV.fetch('NEW_VERSION')
-            entries = ENV.fetch('PR_ENTRIES')
-            today   = Date.today.strftime('%B %-d, %Y')
-
-            # Extract and remove the Unreleased section (if present)
-            unreleased = ''
-            if news =~ /^## Unreleased\n(.*?)(?=^## )/m
-              unreleased = $1.strip
-              news = news.sub(/^## Unreleased\n.*?(?=^## )/m, '')
-            end
-
-            # Combine unreleased entries and merged PR entries
-            body = [unreleased, entries].reject(&:empty?).join("\n")
-            new_section = "## #{version} (#{today})\n\n#{body}\n"
-
-            # Insert the new section right after the title
-            news.sub!(/^(# News\n+)/, "\\1#{new_section}\n")
-
-            File.write('NEWS.md', news)
-          RUBY
+          GH_TOKEN: ${{ github.token }}
+        run: bundle exec rake "release:update_changelog[${{ steps.version.outputs.new }}]"
 
       - name: Push branch and open draft PR
         env:
