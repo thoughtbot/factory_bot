@@ -11,7 +11,7 @@ jobs:
     name: Release gem
     runs-on: ubuntu-latest
     permissions:
-      contents: write  # create git tag
+      contents: write  # create git tag + GitHub release
       id-token: write  # OIDC token for RubyGems trusted publishing
     steps:
       - uses: actions/checkout@v6
@@ -20,4 +20,20 @@ jobs:
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: "3.3"
+      - name: Extract release notes from NEWS.md
+        id: release_notes
+        run: |
+          VERSION=$(ruby -e "require_relative 'lib/factory_bot/version'; puts FactoryBot::VERSION")
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          NOTES=$(awk "BEGIN{p=0} /^## $VERSION/{p=1; next} p && /^## /{exit} p{print}" NEWS.md)
+          echo "notes<<EOF" >> "$GITHUB_OUTPUT"
+          echo "$NOTES" >> "$GITHUB_OUTPUT"
+          echo "EOF" >> "$GITHUB_OUTPUT"
       - uses: rubygems/release-gem@v1
+      - name: Create GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "v${{ steps.release_notes.outputs.version }}" \
+            --title "v${{ steps.release_notes.outputs.version }}" \
+            --notes "${{ steps.release_notes.outputs.notes }}"
