@@ -1,0 +1,104 @@
+name: Prepare release
+
+on:
+  workflow_dispatch:
+    inputs:
+      bump:
+        description: Version bump type
+        required: true
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+
+jobs:
+  prepare:
+    name: Bump version and open release PR
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write    # push release branch
+      pull-requests: write  # open draft PR
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0  # required to reach tag history
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.3"
+
+      - name: Bump version
+        id: version
+        run: |
+          gem install gem-release --no-document
+          gem bump --version ${{ inputs.bump }} --no-commit
+          NEW=$(ruby -e "require_relative 'lib/factory_bot/version'; puts FactoryBot::VERSION")
+          echo "new=$NEW" >> "$GITHUB_OUTPUT"
+
+      - name: Collect merged PRs since last release
+        id: changelog
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          LAST_TAG=$(git tag --sort=-version:refname | grep -E '^v?[0-9]' | head -1)
+          SINCE=$(git log -1 --format=%as "$LAST_TAG")
+          ENTRIES=$(gh pr list \
+            --state merged \
+            --base main \
+            --search "merged:>$SINCE" \
+            --json number,title,author,url \
+            --limit 200 \
+            | jq -r '.[] | "* \(.title) by @\(.author.login) in [#\(.number)](\(.url))"')
+          echo "entries<<EOF" >> "$GITHUB_OUTPUT"
+          echo "$ENTRIES" >> "$GITHUB_OUTPUT"
+          echo "EOF" >> "$GITHUB_OUTPUT"
+
+      - name: Update NEWS.md
+        env:
+          NEW_VERSION: ${{ steps.version.outputs.new }}
+          PR_ENTRIES: ${{ steps.changelog.outputs.entries }}
+        run: |
+          ruby - <<~RUBY
+            require 'date'
+
+            news    = File.read('NEWS.md')
+            version = ENV.fetch('NEW_VERSION')
+            entries = ENV.fetch('PR_ENTRIES')
+            today   = Date.today.strftime('%B %-d, %Y')
+
+            # Extract and remove the Unreleased section (if present)
+            unreleased = ''
+            if news =~ /^## Unreleased\n(.*?)(?=^## )/m
+              unreleased = $1.strip
+              news = news.sub(/^## Unreleased\n.*?(?=^## )/m, '')
+            end
+
+            # Combine unreleased entries and merged PR entries
+            body = [unreleased, entries].reject(&:empty?).join("\n")
+            new_section = "## #{version} (#{today})\n\n#{body}\n"
+
+            # Insert the new section right after the title
+            news.sub!(/^(# News\n+)/, "\\1#{new_section}\n")
+
+            File.write('NEWS.md', news)
+          RUBY
+
+      - name: Push branch and open draft PR
+        env:
+          GH_TOKEN: ${{ github.token }}
+          NEW_VERSION: ${{ steps.version.outputs.new }}
+        run: |
+          BRANCH="release/v$NEW_VERSION"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git checkout -b "$BRANCH"
+          git add lib/factory_bot/version.rb NEWS.md
+          git commit -m "Release v$NEW_VERSION"
+          git push origin "$BRANCH"
+          gh pr create \
+            --draft \
+            --base main \
+            --head "$BRANCH" \
+            --title "Release v$NEW_VERSION" \
+            --body "Bumps version to \`$NEW_VERSION\` and updates the changelog with merged PRs since the last release."
