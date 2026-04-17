@@ -1,0 +1,23 @@
+name: Release
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - lib/factory_bot/version.rb
+
+jobs:
+  release:
+    name: Release gem
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write  # create git tag
+      id-token: write  # OIDC token for RubyGems trusted publishing
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.3"
+      - uses: rubygems/release-gem@v1
