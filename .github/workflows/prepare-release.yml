@@ -36,6 +36,9 @@ jobs:
           NEW=$(ruby -e "require_relative 'lib/factory_bot/version'; puts FactoryBot::VERSION")
           echo "new=$NEW" >> "$GITHUB_OUTPUT"
 
+      - name: Install dependencies
+        run: bundle install
+
       - name: Update NEWS.md
         env:
           GH_TOKEN: ${{ github.token }}
