@@ -1,0 +1,21 @@
+name: Validate changelog
+
+on:
+  pull_request:
+    paths:
+      - lib/factory_bot/version.rb
+
+jobs:
+  validate:
+    name: Check NEWS.md has release section
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - name: Check NEWS.md contains version section
+        run: |
+          VERSION=$(ruby -e "require_relative 'lib/factory_bot/version'; puts FactoryBot::VERSION")
+          if ! grep -q "^## $VERSION" NEWS.md; then
+            echo "ERROR: NEWS.md is missing a section for version $VERSION"
+            echo "Add a '## $VERSION (date)' entry to NEWS.md before bumping the version."
+            exit 1
+          fi
