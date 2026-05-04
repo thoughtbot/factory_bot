@@ -35,6 +35,10 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
+          NOTES_FILE="$(mktemp)"
+          cat > "$NOTES_FILE" <<'EOF'
+          ${{ steps.release_notes.outputs.notes }}
+          EOF
           gh release create "v${{ steps.release_notes.outputs.version }}" \
             --title "v${{ steps.release_notes.outputs.version }}" \
-            --notes "${{ steps.release_notes.outputs.notes }}"
+            --notes-file "$NOTES_FILE"
