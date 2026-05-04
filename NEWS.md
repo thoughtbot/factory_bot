@@ -1,8 +1,18 @@
 # News
 
-## Unreleased
+## 6.6.0 (May 4, 2026)
 
 * Feat: Added `factory_bot.before_run_factory` instrumentation event
+* Add workflow to prepare a release PR by @neilvcarvalho in [#1816](https://github.com/thoughtbot/factory_bot/pull/1816)
+* Add gem release workflow with GitHub release notes from changelog by @neilvcarvalho in [#1815](https://github.com/thoughtbot/factory_bot/pull/1815)
+* Require MFA for gem pushes by @MatheusRich in [#1814](https://github.com/thoughtbot/factory_bot/pull/1814)
+* Add `factory_bot.before_run_factory` instrumentation event by @hammadxcm in [#1795](https://github.com/thoughtbot/factory_bot/pull/1795)
+* Remove CodeClimate badge from README by @hammadxcm in [#1794](https://github.com/thoughtbot/factory_bot/pull/1794)
+* Update CI matrix by @berkos in [#1793](https://github.com/thoughtbot/factory_bot/pull/1793)
+* Bump actions/checkout from 5 to 6 by @app/dependabot in [#1791](https://github.com/thoughtbot/factory_bot/pull/1791)
+* Ensure linting transactions don't interfere with ActiveRecord lifecycle by @NikolasPilavakis in [#1790](https://github.com/thoughtbot/factory_bot/pull/1790)
+* removes @doodlingdev by @DoodlingDev in [#1789](https://github.com/thoughtbot/factory_bot/pull/1789)
+* DefinitionProxy#method_missing: Forward given block to #association by @grekko in [#1579](https://github.com/thoughtbot/factory_bot/pull/1579)
 
 ## 6.5.6 (October 22, 2025)
 
