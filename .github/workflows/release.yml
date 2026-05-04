@@ -25,7 +25,7 @@ jobs:
         run: |
           VERSION=$(ruby -e "require_relative 'lib/factory_bot/version'; puts FactoryBot::VERSION")
           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
-          NOTES=$(awk "BEGIN{p=0} /^## $VERSION/{p=1; next} p && /^## /{exit} p{print}" NEWS.md)
+          NOTES=$(awk -v version="$VERSION" 'BEGIN{p=0} $0 == "## " version {p=1; next} p && /^## /{exit} p{print}' NEWS.md)
           DELIM=$(uuidgen)
           echo "notes<<$DELIM" >> "$GITHUB_OUTPUT"
           echo "$NOTES" >> "$GITHUB_OUTPUT"
@@ -40,5 +40,6 @@ jobs:
           ${{ steps.release_notes.outputs.notes }}
           EOF
           gh release create "v${{ steps.release_notes.outputs.version }}" \
+            --target "${{ github.sha }}" \
             --title "v${{ steps.release_notes.outputs.version }}" \
             --notes-file "$NOTES_FILE"
