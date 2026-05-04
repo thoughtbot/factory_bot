@@ -51,7 +51,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git checkout -b "$BRANCH"
-          git add lib/factory_bot/version.rb NEWS.md
+          git add lib/factory_bot/version.rb Gemfile.lock NEWS.md
           git commit -m "Release v$NEW_VERSION"
           git push origin "$BRANCH"
           gh pr create \
