@@ -26,9 +26,10 @@ jobs:
           VERSION=$(ruby -e "require_relative 'lib/factory_bot/version'; puts FactoryBot::VERSION")
           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
           NOTES=$(awk "BEGIN{p=0} /^## $VERSION/{p=1; next} p && /^## /{exit} p{print}" NEWS.md)
-          echo "notes<<EOF" >> "$GITHUB_OUTPUT"
+          DELIM=$(uuidgen)
+          echo "notes<<$DELIM" >> "$GITHUB_OUTPUT"
           echo "$NOTES" >> "$GITHUB_OUTPUT"
-          echo "EOF" >> "$GITHUB_OUTPUT"
+          echo "$DELIM" >> "$GITHUB_OUTPUT"
       - uses: rubygems/release-gem@v1
       - name: Create GitHub release
         env:
