@@ -25,8 +25,6 @@ jobs:
           fetch-depth: 0  # required to reach tag history
 
       - uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: "3.3"
 
       - name: Bump version
         id: version
