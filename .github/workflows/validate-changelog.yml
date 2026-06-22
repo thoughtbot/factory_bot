@@ -10,7 +10,7 @@ jobs:
     name: Check NEWS.md has release section
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - uses: ruby/setup-ruby@v1
       - name: Check NEWS.md contains version section
         run: |

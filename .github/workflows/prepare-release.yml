@@ -20,7 +20,7 @@ jobs:
       contents: write    # push release branch
       pull-requests: write  # open draft PR
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0  # required to reach tag history
 
