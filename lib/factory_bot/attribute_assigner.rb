@@ -120,7 +120,7 @@ module FactoryBot
 
     # Is the attribute an ignorable alias of the override?
     # An attribute is ignorable when it is an alias of the override AND it is
-    # either interrupting an assocciation OR is not the name of another attribute
+    # either interrupting an association OR is not the name of another attribute
     #
     # @note An "alias" is currently an overloaded term for two distinct cases:
     #   (1) attributes which are aliases and reference the same value
