@@ -180,12 +180,12 @@ end
 describe "initialize_with has access to all attributes for construction" do
   it "assigns attributes correctly" do
     define_class("User") do
-      attr_reader :name, :email, :ignored
+      attr_reader :name, :email, :transient_text
 
       def initialize(attributes = {})
         @name = attributes[:name]
         @email = attributes[:email]
-        @ignored = attributes[:ignored]
+        @transient_text = attributes[:transient_text]
       end
     end
 
@@ -194,7 +194,7 @@ describe "initialize_with has access to all attributes for construction" do
 
       factory :user do
         transient do
-          ignored { "of course!" }
+          transient_text { "of course!" }
         end
 
         email
@@ -208,7 +208,7 @@ describe "initialize_with has access to all attributes for construction" do
     user_with_attributes = FactoryBot.build(:user)
     expect(user_with_attributes.email).to eq "person1@example.com"
     expect(user_with_attributes.name).to eq "person1"
-    expect(user_with_attributes.ignored).to be_nil
+    expect(user_with_attributes.transient_text).to be_nil
   end
 end
 
