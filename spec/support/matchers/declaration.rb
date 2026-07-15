@@ -25,8 +25,8 @@ module DeclarationMatchers
       self
     end
 
-    def ignored
-      @ignored = true
+    def transient
+      @transient = true
       self
     end
 
@@ -56,8 +56,8 @@ module DeclarationMatchers
 
     def expected_declaration
       case @declaration_type
-      when :dynamic then FactoryBot::Declaration::Dynamic.new(@name, ignored?, @value)
-      when :implicit then FactoryBot::Declaration::Implicit.new(@name, @factory, ignored?)
+      when :dynamic then FactoryBot::Declaration::Dynamic.new(@name, transient?, @value)
+      when :implicit then FactoryBot::Declaration::Implicit.new(@name, @factory, transient?)
       when :association
         if @options
           FactoryBot::Declaration::Association.new(@name, options)
@@ -67,8 +67,8 @@ module DeclarationMatchers
       end
     end
 
-    def ignored?
-      !!@ignored
+    def transient?
+      !!@transient
     end
 
     def options
