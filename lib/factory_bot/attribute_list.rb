@@ -31,7 +31,7 @@ module FactoryBot
       AttributeList.new(@name, select(&:ignored))
     end
 
-    def non_ignored
+    def non_transient
       AttributeList.new(@name, reject(&:ignored))
     end
 

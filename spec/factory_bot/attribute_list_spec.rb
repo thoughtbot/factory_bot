@@ -98,26 +98,26 @@ describe FactoryBot::AttributeList, "filter based on ignored attributes" do
     FactoryBot::Attribute::Dynamic.new(name, true, -> { "value" })
   end
 
-  def build_non_ignored_attribute(name)
+  def build_non_transient_attribute(name)
     FactoryBot::Attribute::Dynamic.new(name, false, -> { "value" })
   end
 
   it "filters #transient attributes" do
     list = build_attribute_list(
       build_transient_attribute(:comments_count),
-      build_non_ignored_attribute(:email)
+      build_non_transient_attribute(:email)
     )
 
     expect(list.transient.names).to eq [:comments_count]
   end
 
-  it "filters #non_ignored attributes" do
+  it "filters #non_transient attributes" do
     list = build_attribute_list(
       build_transient_attribute(:comments_count),
-      build_non_ignored_attribute(:email)
+      build_non_transient_attribute(:email)
     )
 
-    expect(list.non_ignored.names).to eq [:email]
+    expect(list.non_transient.names).to eq [:email]
   end
 end
 
@@ -128,7 +128,7 @@ describe FactoryBot::AttributeList, "generating names" do
     FactoryBot::Attribute::Dynamic.new(name, true, -> { "value" })
   end
 
-  def build_non_ignored_attribute(name)
+  def build_non_transient_attribute(name)
     FactoryBot::Attribute::Dynamic.new(name, false, -> { "value" })
   end
 
@@ -139,7 +139,7 @@ describe FactoryBot::AttributeList, "generating names" do
   it "knows all its #names" do
     list = build_attribute_list(
       build_transient_attribute(:comments_count),
-      build_non_ignored_attribute(:last_name),
+      build_non_transient_attribute(:last_name),
       build_association(:avatar)
     )
 
@@ -149,27 +149,27 @@ describe FactoryBot::AttributeList, "generating names" do
   it "knows all its #names for #transient attributes" do
     list = build_attribute_list(
       build_transient_attribute(:posts_count),
-      build_non_ignored_attribute(:last_name),
+      build_non_transient_attribute(:last_name),
       build_association(:avatar)
     )
 
     expect(list.transient.names).to eq [:posts_count]
   end
 
-  it "knows all its #names for #non_ignored attributes" do
+  it "knows all its #names for #non_transient attributes" do
     list = build_attribute_list(
       build_transient_attribute(:posts_count),
-      build_non_ignored_attribute(:last_name),
+      build_non_transient_attribute(:last_name),
       build_association(:avatar)
     )
 
-    expect(list.non_ignored.names).to eq [:last_name, :avatar]
+    expect(list.non_transient.names).to eq [:last_name, :avatar]
   end
 
   it "knows all its #names for #associations" do
     list = build_attribute_list(
       build_transient_attribute(:posts_count),
-      build_non_ignored_attribute(:last_name),
+      build_non_transient_attribute(:last_name),
       build_association(:avatar)
     )
 
