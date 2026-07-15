@@ -27,7 +27,7 @@ module FactoryBot
       AttributeList.new(@name, select(&:association?))
     end
 
-    def ignored
+    def transient
       AttributeList.new(@name, select(&:ignored))
     end
 

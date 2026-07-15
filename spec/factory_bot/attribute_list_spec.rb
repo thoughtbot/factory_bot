@@ -94,7 +94,7 @@ end
 describe FactoryBot::AttributeList, "filter based on ignored attributes" do
   include AttributeList
 
-  def build_ignored_attribute(name)
+  def build_transient_attribute(name)
     FactoryBot::Attribute::Dynamic.new(name, true, -> { "value" })
   end
 
@@ -102,18 +102,18 @@ describe FactoryBot::AttributeList, "filter based on ignored attributes" do
     FactoryBot::Attribute::Dynamic.new(name, false, -> { "value" })
   end
 
-  it "filters #ignored attributes" do
+  it "filters #transient attributes" do
     list = build_attribute_list(
-      build_ignored_attribute(:comments_count),
+      build_transient_attribute(:comments_count),
       build_non_ignored_attribute(:email)
     )
 
-    expect(list.ignored.names).to eq [:comments_count]
+    expect(list.transient.names).to eq [:comments_count]
   end
 
   it "filters #non_ignored attributes" do
     list = build_attribute_list(
-      build_ignored_attribute(:comments_count),
+      build_transient_attribute(:comments_count),
       build_non_ignored_attribute(:email)
     )
 
@@ -124,7 +124,7 @@ end
 describe FactoryBot::AttributeList, "generating names" do
   include AttributeList
 
-  def build_ignored_attribute(name)
+  def build_transient_attribute(name)
     FactoryBot::Attribute::Dynamic.new(name, true, -> { "value" })
   end
 
@@ -138,7 +138,7 @@ describe FactoryBot::AttributeList, "generating names" do
 
   it "knows all its #names" do
     list = build_attribute_list(
-      build_ignored_attribute(:comments_count),
+      build_transient_attribute(:comments_count),
       build_non_ignored_attribute(:last_name),
       build_association(:avatar)
     )
@@ -146,19 +146,19 @@ describe FactoryBot::AttributeList, "generating names" do
     expect(list.names).to eq [:comments_count, :last_name, :avatar]
   end
 
-  it "knows all its #names for #ignored attributes" do
+  it "knows all its #names for #transient attributes" do
     list = build_attribute_list(
-      build_ignored_attribute(:posts_count),
+      build_transient_attribute(:posts_count),
       build_non_ignored_attribute(:last_name),
       build_association(:avatar)
     )
 
-    expect(list.ignored.names).to eq [:posts_count]
+    expect(list.transient.names).to eq [:posts_count]
   end
 
   it "knows all its #names for #non_ignored attributes" do
     list = build_attribute_list(
-      build_ignored_attribute(:posts_count),
+      build_transient_attribute(:posts_count),
       build_non_ignored_attribute(:last_name),
       build_association(:avatar)
     )
@@ -168,7 +168,7 @@ describe FactoryBot::AttributeList, "generating names" do
 
   it "knows all its #names for #associations" do
     list = build_attribute_list(
-      build_ignored_attribute(:posts_count),
+      build_transient_attribute(:posts_count),
       build_non_ignored_attribute(:last_name),
       build_association(:avatar)
     )

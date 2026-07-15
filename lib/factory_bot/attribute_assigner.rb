@@ -78,7 +78,7 @@ module FactoryBot
         assignment_candidates = non_ignored_attribute_names + override_names
         # then remove any transient attributes (potentially reintroduced by the overrides),
         # and remove ignorable aliased attributes from the candidate list
-        assignment_candidates - ignored_attribute_names - attribute_names_overriden_by_alias
+        assignment_candidates - transient_attribute_names - attribute_names_overriden_by_alias
       end
     end
 
@@ -86,8 +86,8 @@ module FactoryBot
       @attribute_list.non_ignored.names
     end
 
-    def ignored_attribute_names
-      @attribute_list.ignored.names
+    def transient_attribute_names
+      @attribute_list.transient.names
     end
 
     def association_names
