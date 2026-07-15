@@ -91,7 +91,7 @@ describe FactoryBot::AttributeList, "#associations" do
   end
 end
 
-describe FactoryBot::AttributeList, "filter based on ignored attributes" do
+describe FactoryBot::AttributeList, "filter based on transient attributes" do
   include AttributeList
 
   def build_transient_attribute(name)
