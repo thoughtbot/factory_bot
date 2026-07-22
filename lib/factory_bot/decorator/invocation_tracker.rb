@@ -6,11 +6,10 @@ module FactoryBot
         @invoked_methods = []
       end
 
-      def method_missing(name, *args, &block) # rubocop:disable Style/MissingRespondToMissing
+      def method_missing(name, ...) # rubocop:disable Style/MissingRespondToMissing
         @invoked_methods << name
         super
       end
-      ruby2_keywords :method_missing if respond_to?(:ruby2_keywords, true)
 
       def __invoked_methods__
         @invoked_methods.uniq
