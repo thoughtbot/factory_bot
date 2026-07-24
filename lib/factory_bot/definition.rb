@@ -56,8 +56,8 @@ module FactoryBot
         self.klass ||= klass
         defined_traits.each do |defined_trait|
           defined_trait.klass ||= klass
-          base_traits.each { |bt| bt.define_trait defined_trait }
-          additional_traits.each { |at| at.define_trait defined_trait }
+          base_trait_names.each { |bt| bt.define_trait defined_trait }
+          additional_trait_names.each { |at| at.define_trait defined_trait }
         end
 
         @compiled = true
@@ -124,24 +124,61 @@ module FactoryBot
 
     private
 
-    def base_traits
+    def base_trait_names
       @base_traits.map { |name| trait_by_name(name) }
     rescue KeyError => error
       raise error_with_definition_name(error)
     end
 
+    def additional_trait_names
+      @additional_traits.map { |name| trait_by_name(name) }
+    rescue KeyError => error
+      raise error_with_definition_name(error)
+    end
+
+
+    def all_registered_trait_names
+      (defined_traits_names + Internal.traits.map(&:name)).uniq
+    end
+
+    def error_options(error)
+      if error.respond_to?(:key) && error.respond_to?(:receiver)
+        receiver = error.receiver
+        if receiver.is_a?(Hash) || receiver.is_a?(ActiveSupport::HashWithIndifferentAccess)
+          receiver = receiver.dup
+          defined_traits_names.each do |trait_name|
+            receiver[trait_name] = nil unless receiver.key?(trait_name)
+          end
+        end
+        {key: error.key, receiver: receiver}
+      else
+        {}
+      end
+    end
+
+    def registered_trait_message(all_registered_traits)
+      if all_registered_traits.empty?
+        "No registered traits"
+      else
+        "Registered traits: #{all_registered_traits.map(&:to_sym).sort.inspect}"
+      end
+    end
     # detailed_message introduced in Ruby 3.2 for cleaner integration with
     # did_you_mean. See https://bugs.ruby-lang.org/issues/18564
     if KeyError.method_defined?(:detailed_message)
       def error_with_definition_name(error)
-        message = error.message + " referenced within \"#{name}\" definition"
+        message = error.message.rstrip
+        message += "." unless message.end_with?(".")
+        message += " #{registered_trait_message(all_registered_trait_names)}."
+        message += " Referenced within \"#{name}\" definition"
 
-        error.class.new(message, key: error.key, receiver: error.receiver)
-          .tap { |new_error| new_error.set_backtrace(error.backtrace) }
+        error.class.new(message, **error_options(error))
+             .tap { |new_error| new_error.set_backtrace(error.backtrace) }
       end
     else
       def error_with_definition_name(error)
         message = error.message
+        message += " #{registered_trait_message(all_registered_trait_names)}."
         message.insert(
           message.index("\nDid you mean?") || message.length,
           " referenced within \"#{name}\" definition"
@@ -151,10 +188,6 @@ module FactoryBot
           new_error.set_backtrace(error.backtrace)
         end
       end
-    end
-
-    def additional_traits
-      @additional_traits.map { |name| trait_by_name(name) }
     end
 
     def trait_by_name(name)
@@ -177,9 +210,9 @@ module FactoryBot
       compile
 
       [
-        base_traits.map(&method_name),
+        base_trait_names.map(&method_name),
         instance_exec(&block),
-        additional_traits.map(&method_name)
+        additional_trait_names.map(&method_name)
       ].flatten.compact
     end
 
