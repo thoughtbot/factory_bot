@@ -1,0 +1,62 @@
+name: Prepare release
+
+on:
+  workflow_dispatch:
+    inputs:
+      bump:
+        description: Version bump type
+        required: true
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+
+jobs:
+  prepare:
+    name: Bump version and open release PR
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write    # push release branch
+      pull-requests: write  # open draft PR
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0  # required to reach tag history
+
+      - uses: ruby/setup-ruby@v1
+
+      - name: Bump version
+        id: version
+        run: |
+          gem install gem-release --no-document
+          gem bump --version ${{ inputs.bump }} --no-commit
+          NEW=$(ruby -e "require_relative 'lib/factory_bot/version'; puts FactoryBot::VERSION")
+          echo "new=$NEW" >> "$GITHUB_OUTPUT"
+
+      - name: Install dependencies
+        run: bundle install
+
+      - name: Update NEWS.md
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: bundle exec rake "release:update_changelog[${{ steps.version.outputs.new }}]"
+
+      - name: Push branch and open draft PR
+        env:
+          GH_TOKEN: ${{ github.token }}
+          NEW_VERSION: ${{ steps.version.outputs.new }}
+        run: |
+          BRANCH="release/v$NEW_VERSION"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git checkout -b "$BRANCH"
+          git add lib/factory_bot/version.rb Gemfile.lock NEWS.md
+          git commit -m "Release v$NEW_VERSION"
+          git push origin "$BRANCH"
+          gh pr create \
+            --draft \
+            --base main \
+            --head "$BRANCH" \
+            --title "Release v$NEW_VERSION" \
+            --body "Bumps version to \`$NEW_VERSION\` and updates the changelog with merged PRs since the last release."

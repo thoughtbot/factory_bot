@@ -1,0 +1,47 @@
+name: Release
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - lib/factory_bot/version.rb
+
+jobs:
+  release:
+    name: Release gem
+    runs-on: ubuntu-latest
+    environment: release
+    permissions:
+      contents: write  # create git tag + GitHub release
+      id-token: write  # OIDC token for RubyGems trusted publishing
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: ruby/setup-ruby@v1
+      - name: Install dependencies
+        run: bundle install
+      - name: Extract release notes from NEWS.md
+        id: release_notes
+        run: |
+          VERSION=$(ruby -e "require_relative 'lib/factory_bot/version'; puts FactoryBot::VERSION")
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          NOTES=$(awk -v version="$VERSION" 'BEGIN{p=0} $0 == "## " version {p=1; next} p && /^## /{exit} p{print}' NEWS.md)
+          DELIM=$(uuidgen)
+          echo "notes<<$DELIM" >> "$GITHUB_OUTPUT"
+          echo "$NOTES" >> "$GITHUB_OUTPUT"
+          echo "$DELIM" >> "$GITHUB_OUTPUT"
+      - uses: rubygems/release-gem@v1
+      - name: Create GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          NOTES_FILE="$(mktemp)"
+          cat > "$NOTES_FILE" <<'EOF'
+          ${{ steps.release_notes.outputs.notes }}
+          EOF
+          gh release create "v${{ steps.release_notes.outputs.version }}" \
+            --target "${{ github.sha }}" \
+            --title "v${{ steps.release_notes.outputs.version }}" \
+            --notes-file "$NOTES_FILE"
