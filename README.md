@@ -2,7 +2,7 @@
 
 [![Build Status][ci-image]][ci] [![Gem Version][version-image]][version]
 
-factory_bot is a fixtures replacement with a straightforward definition syntax, support for multiple build strategies (saved instances, unsaved instances, attribute hashes, and stubbed objects), and support for multiple factories for the same class (user, admin_user, and so on), including factory inheritance.
+factory_bot is a fixtures replacement for generating test data in Ruby. (In Ruby testing, "fixtures" are static, pre-defined sets of data loaded into the database before tests run; factory_bot replaces that static approach with flexible, code-defined "factories" that generate data on demand.) It offers a straightforward definition syntax, and supports multiple build strategies — for example, creating and saving a record to the database, building an unsaved in-memory instance, generating just a hash of attributes, or creating a lightweight stubbed object for tests that don't need a real database record. It also supports multiple factories for the same class (user, admin_user, and so on), including factory inheritance.
 
 If you want to use factory_bot with Rails, see
 [factory_bot_rails](https://github.com/thoughtbot/factory_bot_rails).
