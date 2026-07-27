@@ -15,13 +15,13 @@ describe FactoryBot::DefinitionProxy, "#add_attribute" do
     attribute_value = -> { "dynamic attribute" }
     proxy.add_attribute(:attribute_name, &attribute_value)
     expect(definition).to have_dynamic_declaration(:attribute_name)
-      .ignored
+      .transient
       .with_value(attribute_value)
   end
 end
 
 describe FactoryBot::DefinitionProxy, "#transient" do
-  it "makes all attributes added ignored" do
+  it "makes all attributes added transient" do
     definition = FactoryBot::Definition.new(:name)
     proxy = FactoryBot::DefinitionProxy.new(definition)
     attribute_value = -> { "dynamic_attribute" }
@@ -30,7 +30,7 @@ describe FactoryBot::DefinitionProxy, "#transient" do
     end
 
     expect(definition).to have_dynamic_declaration(:attribute_name)
-      .ignored
+      .transient
       .with_value(attribute_value)
   end
 end

@@ -29,7 +29,7 @@ describe FactoryBot::Declaration::Dynamic do
       end
     end
 
-    context "when one is ignored and the other isn't" do
+    context "when one is transient and the other isn't" do
       it "the objects are NOT equal" do
         block = -> {}
         declaration = described_class.new(:name, false, block)

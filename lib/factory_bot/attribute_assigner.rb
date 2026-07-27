@@ -75,19 +75,19 @@ module FactoryBot
     def attribute_names_to_assign
       @attribute_names_to_assign ||= begin
         # start a list of candidates containing non-transient attributes and overrides
-        assignment_candidates = non_ignored_attribute_names + override_names
+        assignment_candidates = non_transient_attribute_names + override_names
         # then remove any transient attributes (potentially reintroduced by the overrides),
         # and remove ignorable aliased attributes from the candidate list
-        assignment_candidates - ignored_attribute_names - attribute_names_overriden_by_alias
+        assignment_candidates - transient_attribute_names - attribute_names_overriden_by_alias
       end
     end
 
-    def non_ignored_attribute_names
-      @attribute_list.non_ignored.names
+    def non_transient_attribute_names
+      @attribute_list.non_transient.names
     end
 
-    def ignored_attribute_names
-      @attribute_list.ignored.names
+    def transient_attribute_names
+      @attribute_list.transient.names
     end
 
     def association_names
@@ -109,7 +109,7 @@ module FactoryBot
     # Builds a list of attribute names which are slated to be interrupted by an override.
     def attribute_names_overriden_by_alias
       @attribute_list
-        .non_ignored
+        .non_transient
         .flat_map { |attribute|
           override_names.map do |override|
             attribute.name if ignorable_alias?(attribute, override)

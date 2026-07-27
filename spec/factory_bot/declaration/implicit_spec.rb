@@ -68,7 +68,7 @@ describe FactoryBot::Declaration::Implicit do
       end
     end
 
-    context "when one is ignored and the other isn't" do
+    context "when one is transient and the other isn't" do
       it "the objects are NOT equal" do
         declaration = described_class.new(:name, :factory, false)
         other_declaration = described_class.new(:name, :factory, true)
