@@ -107,6 +107,7 @@ module FactoryBot
     def define_constructor(&block)
       @constructor = block
     end
+    alias_method :initialize_with, :define_constructor
 
     def before(*names, &block)
       callback(*names.map { |name| "before_#{name}" }, &block)
