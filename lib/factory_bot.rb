@@ -5,6 +5,8 @@ require "active_support/core_ext/module/attribute_accessors"
 require "active_support/deprecation"
 require "active_support/notifications"
 
+require "factory_bot/core/aliases"
+require "factory_bot/core/find_definitions"
 require "factory_bot/internal"
 require "factory_bot/definition_hierarchy"
 require "factory_bot/configuration"
@@ -29,13 +31,11 @@ require "factory_bot/sequence"
 require "factory_bot/attribute_list"
 require "factory_bot/trait"
 require "factory_bot/enum"
-require "factory_bot/aliases"
 require "factory_bot/definition"
 require "factory_bot/definition_proxy"
-require "factory_bot/syntax"
+require "factory_bot/syntax/methods"
+require "factory_bot/syntax/default"
 require "factory_bot/syntax_runner"
-require "factory_bot/find_definitions"
-require "factory_bot/reload"
 require "factory_bot/decorator"
 require "factory_bot/decorator/attribute_hash"
 require "factory_bot/decorator/disallows_duplicates_registry"
@@ -46,6 +46,10 @@ require "factory_bot/linter"
 require "factory_bot/version"
 
 module FactoryBot
+  extend Core::Aliases
+  extend Core::FindDefinitions
+  extend Syntax::Default
+
   Deprecation = ActiveSupport::Deprecation.new("7.0", "factory_bot")
 
   mattr_accessor :use_parent_strategy, instance_accessor: false
@@ -111,6 +115,12 @@ module FactoryBot
       :set_sequence,
       :strategy_by_name,
       to: Internal
+  end
+
+  def self.reload
+    Internal.reset_configuration
+    Internal.register_default_strategies
+    find_definitions
   end
 end
 
