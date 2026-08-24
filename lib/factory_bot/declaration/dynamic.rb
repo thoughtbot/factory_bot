@@ -2,15 +2,15 @@ module FactoryBot
   class Declaration
     # @api private
     class Dynamic < Declaration
-      def initialize(name, ignored = false, block = nil)
-        super(name, ignored)
+      def initialize(name, transient = false, block = nil)
+        super(name, transient)
         @block = block
       end
 
       def ==(other)
         self.class == other.class &&
           name == other.name &&
-          ignored == other.ignored &&
+          transient == other.transient &&
           block == other.block
       end
 
@@ -21,7 +21,7 @@ module FactoryBot
       private
 
       def build
-        [Attribute::Dynamic.new(name, @ignored, @block)]
+        [Attribute::Dynamic.new(name, @transient, @block)]
       end
     end
   end

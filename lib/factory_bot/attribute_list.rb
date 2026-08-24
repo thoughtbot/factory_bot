@@ -28,11 +28,11 @@ module FactoryBot
     end
 
     def transient
-      AttributeList.new(@name, select(&:ignored))
+      AttributeList.new(@name, select(&:transient))
     end
 
     def non_transient
-      AttributeList.new(@name, reject(&:ignored))
+      AttributeList.new(@name, reject(&:transient))
     end
 
     def apply_attributes(attributes_to_apply)
