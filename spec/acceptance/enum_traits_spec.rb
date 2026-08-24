@@ -9,7 +9,7 @@ describe "enum traits" do
     end
   end
 
-  context "when automatically_define_enum_traits is true" do
+  context "when FactoryBot.automatically_define_enum_traits is true" do
     it "builds traits automatically for model enum field" do
       define_model_with_enum("Task", :status, {queued: 0, started: 1, finished: 2})
 
@@ -119,9 +119,45 @@ describe "enum traits" do
         expect(task.status).to eq(trait_name)
       end
     end
+
+    context "when the factory specifies automatically_define_enum_traits as false" do
+      it "raises an error for undefined traits" do
+        define_model_with_enum("Task", :status, {queued: 0, started: 1, finished: 2})
+
+        FactoryBot.define do
+          factory :task, automatically_define_enum_traits: false
+        end
+
+        Task.statuses.each_key do |trait_name|
+          expect { FactoryBot.build(:task, trait_name) }.to raise_error(
+            KeyError, "Trait not registered: \"#{trait_name}\""
+          )
+        end
+
+        Task.reset_column_information
+      end
+
+      it "builds traits for each enumerated value when traits_for_enum are specified" do
+        define_model_with_enum("Task", :status, {queued: 0, started: 1, finished: 2})
+
+        FactoryBot.define do
+          factory :task, automatically_define_enum_traits: false do
+            traits_for_enum(:status)
+          end
+        end
+
+        Task.statuses.each_key do |trait_name|
+          task = FactoryBot.build(:task, trait_name)
+
+          expect(task.status).to eq(trait_name)
+        end
+
+        Task.reset_column_information
+      end
+    end
   end
 
-  context "when automatically_define_enum_traits is false" do
+  context "when FactoryBot.automatically_define_enum_traits is false" do
     it "raises an error for undefined traits" do
       with_temporary_assignment(FactoryBot, :automatically_define_enum_traits, false) do
         define_model_with_enum("Task", :status, {queued: 0, started: 1, finished: 2})
@@ -157,6 +193,26 @@ describe "enum traits" do
         end
 
         Task.reset_column_information
+      end
+    end
+
+    context "when the factory specifies automatically_define_enum_traits as true" do
+      it "builds traits automatically for model enum field" do
+        with_temporary_assignment(FactoryBot, :automatically_define_enum_traits, false) do
+          define_model_with_enum("Task", :status, {queued: 0, started: 1, finished: 2})
+
+          FactoryBot.define do
+            factory :task, automatically_define_enum_traits: true
+          end
+
+          Task.statuses.each_key do |trait_name|
+            task = FactoryBot.build(:task, trait_name)
+
+            expect(task.status).to eq(trait_name)
+          end
+
+          Task.reset_column_information
+        end
       end
     end
   end

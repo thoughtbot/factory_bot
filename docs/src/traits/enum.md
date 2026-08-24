@@ -59,6 +59,25 @@ FactoryBot.define do
 end
 ```
 
+If you want to override `FactoryBot.automatically_define_enum_traits` on a
+per-model basis, you can use an additional attribute on your factory:
+
+```rb
+FactoryBot.define do
+  factory :task, automatically_define_enum_traits: false do
+    status { :queued }
+
+    trait :in_progress do
+      status { :started }
+    end
+
+    trait :complete do
+      status {:finished }
+    end
+  end
+end
+```
+
 It is also possible to use this feature for other enumerable values, not
 specifically tied to Active Record enum attributes.
 
