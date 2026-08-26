@@ -2,10 +2,9 @@ describe FactoryBot::Internal do
   describe ".register_trait" do
     it "registers the provided trait" do
       trait = FactoryBot::Trait.new(:admin)
-      configuration = FactoryBot::Internal.configuration
 
       expect { FactoryBot::Internal.register_trait(trait) }
-        .to change { configuration.traits.count }
+        .to change { FactoryBot::Internal::Traits.traits.count }
         .from(0)
         .to(1)
     end
@@ -32,10 +31,9 @@ describe FactoryBot::Internal do
   describe ".register_sequence" do
     it "registers the provided sequence" do
       sequence = FactoryBot::Sequence.new(:email)
-      configuration = FactoryBot::Internal.configuration
 
       expect { FactoryBot::Internal.register_sequence(sequence) }
-        .to change { configuration.sequences.count }
+        .to change { FactoryBot::Internal::Sequences.sequences.count }
         .from(0)
         .to(1)
     end
@@ -76,10 +74,9 @@ describe FactoryBot::Internal do
   describe ".register_factory" do
     it "registers the provided factory" do
       factory = FactoryBot::Factory.new(:object)
-      configuration = FactoryBot::Internal.configuration
 
       expect { FactoryBot::Internal.register_factory(factory) }
-        .to change { configuration.factories.count }
+        .to change { FactoryBot::Internal::Factories.factories.count }
         .from(0)
         .to(1)
     end
@@ -103,9 +100,8 @@ describe FactoryBot::Internal do
   describe ".register_factory" do
     it "registers the provided factory" do
       factory = FactoryBot::Factory.new(:object)
-      configuration = FactoryBot::Internal.configuration
       expect { FactoryBot::Internal.register_factory(factory) }
-        .to change { configuration.factories.count }
+        .to change { FactoryBot::Internal::Factories.factories.count }
         .from(0)
         .to(1)
     end
@@ -125,12 +121,11 @@ describe FactoryBot::Internal do
   end
 
   describe ".register_strategy" do
-    it "register the provided strategy name with the class" do
-      configuration = FactoryBot::Internal.configuration
-      initial_strategies_count = configuration.strategies.count
+    it "registers the provided strategy name with the class" do
+      initial_strategies_count = FactoryBot::Internal::Strategies.strategies.count
       expect {
         FactoryBot::Internal.register_strategy(:strategy_name, :strategy_class)
-      }.to change { configuration.strategies.count }
+      }.to change { FactoryBot::Internal::Strategies.strategies.count }
         .from(initial_strategies_count)
         .to(initial_strategies_count + 1)
     end

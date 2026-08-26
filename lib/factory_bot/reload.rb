@@ -1,6 +1,6 @@
 module FactoryBot
   def self.reload
-    Internal.reset_configuration
+    Internal.reset
     Internal.register_default_strategies
     find_definitions
   end
