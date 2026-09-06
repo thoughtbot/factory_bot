@@ -44,16 +44,8 @@ module FactoryBot
       end
     end
 
-    # detailed_message introduced in Ruby 3.2 for cleaner integration with
-    # did_you_mean. See https://bugs.ruby-lang.org/issues/18564
-    if KeyError.method_defined?(:detailed_message)
-      def new_key_error(message, key_error)
-        KeyError.new(message, key: key_error.key, receiver: key_error.receiver)
-      end
-    else
-      def new_key_error(message, _)
-        KeyError.new(message)
-      end
+    def new_key_error(message, key_error)
+      KeyError.new(message, key: key_error.key, receiver: key_error.receiver)
     end
   end
 end

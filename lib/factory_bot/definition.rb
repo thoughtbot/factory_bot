@@ -136,7 +136,6 @@ module FactoryBot
       raise error_with_definition_name(error)
     end
 
-
     def all_registered_trait_names
       (defined_traits_names + Internal.traits.map(&:name)).uniq
     end
@@ -163,31 +162,37 @@ module FactoryBot
         "Registered traits: #{all_registered_traits.map(&:to_sym).sort.inspect}"
       end
     end
-    # detailed_message introduced in Ruby 3.2 for cleaner integration with
-    # did_you_mean. See https://bugs.ruby-lang.org/issues/18564
-    if KeyError.method_defined?(:detailed_message)
-      def error_with_definition_name(error)
-        message = error.message.rstrip
-        message += "." unless message.end_with?(".")
-        message += " #{registered_trait_message(all_registered_trait_names)}."
-        message += " Referenced within \"#{name}\" definition"
 
-        error.class.new(message, **error_options(error))
-             .tap { |new_error| new_error.set_backtrace(error.backtrace) }
-      end
-    else
-      def error_with_definition_name(error)
-        message = error.message
-        message += " #{registered_trait_message(all_registered_trait_names)}."
-        message.insert(
-          message.index("\nDid you mean?") || message.length,
-          " referenced within \"#{name}\" definition"
-        )
+    def decorated_error_message(message)
+      message, separator, suggestions = message.partition("\nDid you mean?")
 
-        error.class.new(message).tap do |new_error|
-          new_error.set_backtrace(error.backtrace)
-        end
-      end
+      message = message.rstrip
+      message += "." unless message.end_with?(".")
+      message += " #{registered_trait_message(all_registered_trait_names)}."
+      message += " Referenced within \"#{name}\" definition"
+
+      message + separator + suggestions
+    end
+
+    def error_with_definition_name(error)
+      options = error_options(error)
+      message = decorated_error_message(suggested_message(error, options))
+
+      error.class.new(message, **options)
+        .tap { |new_error| new_error.set_backtrace(error.backtrace) }
+    end
+
+    # Reading #message is what makes did_you_mean build its suggestions, out of
+    # the key and receiver carried in options. Ruby 3.2 moved them to
+    # #detailed_message, so there this hands back error.message as-is:
+    #
+    #   KeyError.new(message, key: "traiz_1", receiver: {"trait_1" => nil}).message
+    #   # Ruby 3.1 => message + "\nDid you mean?  \"trait_1\""
+    #   # Ruby 3.2 => message
+    #
+    # See https://bugs.ruby-lang.org/issues/18564
+    def suggested_message(error, options)
+      error.class.new(error.message.partition("\nDid you mean?").first, **options).message
     end
 
     def trait_by_name(name)
