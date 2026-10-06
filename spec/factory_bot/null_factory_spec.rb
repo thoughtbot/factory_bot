@@ -1,14 +1,14 @@
 describe FactoryBot::NullFactory do
-  it "delegates defined traits to its definition" do
+  it "has no parent" do
     null_factory = FactoryBot::NullFactory.new
 
-    expect(null_factory).to delegate(:defined_traits).to(:definition)
+    expect(null_factory.parent).to be_nil
   end
 
-  it "has a nil value for its compile attribute" do
+  it "has no build class" do
     null_factory = FactoryBot::NullFactory.new
 
-    expect(null_factory.compile).to be_nil
+    expect(null_factory.build_class).to be_nil
   end
 
   it "has a nil value for its class_name attribute" do

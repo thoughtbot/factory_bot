@@ -283,4 +283,74 @@ describe "using ActiveSupport::Instrumentation to track compile_factory interact
       expect(trait_payload[:traits].map(&:name)).to eq([])
     end
   end
+
+  context "when the factory has a parent, an association and an enum" do
+    before do
+      define_model("Company", name: :string)
+      define_model("Member", name: :string, role: :integer, company_id: :integer) do
+        belongs_to :company
+        enum :role, {guest: 0, admin: 1}
+      end
+
+      FactoryBot.define do
+        factory :company do
+          name { "Charlie" }
+        end
+
+        factory :member do
+          name { "Member" }
+          company
+
+          transient do
+            invited { false }
+          end
+
+          trait :named do
+            name { "Named" }
+          end
+
+          factory :owner do
+            name { "Owner" }
+          end
+        end
+      end
+    end
+
+    def track_payloads
+      tracked_payloads = []
+      callback = ->(_name, _start, _finish, _id, payload) { tracked_payloads << payload }
+
+      ActiveSupport::Notifications.subscribed(callback, "factory_bot.compile_factory") do
+        yield
+      end
+
+      tracked_payloads
+    end
+
+    it "reports the attributes as a list that can be filtered" do
+      payloads = track_payloads { FactoryBot.build(:member) }
+
+      attributes = payloads.detect { |payload| payload[:name] == :member }[:attributes]
+      expect(attributes.names).to eq([:name, :company, :invited])
+      expect(attributes.associations.map(&:name)).to eq([:company])
+      expect(attributes.transient.map(&:name)).to eq([:invited])
+      expect(attributes.non_transient.map(&:name)).to eq([:name, :company])
+    end
+
+    it "reports inherited and enum traits" do
+      payloads = track_payloads { FactoryBot.build(:owner) }
+
+      traits = payloads.detect { |payload| payload[:name] == :owner }[:traits]
+      expect(traits.map(&:name).uniq).to contain_exactly("named", "guest", "admin")
+    end
+
+    it "reports the global configuration" do
+      payloads = track_payloads { FactoryBot.build(:member) }
+
+      configuration_payload = payloads.detect { |payload| payload[:name] == :configuration }
+      expect(configuration_payload[:class]).to be_nil
+      expect(configuration_payload[:attributes].to_a).to eq([])
+      expect(configuration_payload[:traits].to_a).to eq([])
+    end
+  end
 end

@@ -1,18 +1,12 @@
 module FactoryBot
+  # The attributes a definition declares, as reported in the
+  # factory_bot.compile_factory notification payload.
   # @api private
   class AttributeList
     include Enumerable
 
-    def initialize(name = nil, attributes = [])
-      @name = name
+    def initialize(attributes = [])
       @attributes = attributes
-    end
-
-    def define_attribute(attribute)
-      ensure_attribute_not_self_referencing! attribute
-      ensure_attribute_not_defined! attribute
-
-      add_attribute attribute
     end
 
     def each(&block)
@@ -24,45 +18,15 @@ module FactoryBot
     end
 
     def associations
-      AttributeList.new(@name, select(&:association?))
+      AttributeList.new(select(&:association?))
     end
 
     def transient
-      AttributeList.new(@name, select(&:transient))
+      AttributeList.new(select(&:transient))
     end
 
     def non_transient
-      AttributeList.new(@name, reject(&:transient))
-    end
-
-    def apply_attributes(attributes_to_apply)
-      attributes_to_apply.each { |attribute| add_attribute(attribute) }
-    end
-
-    private
-
-    def add_attribute(attribute)
-      @attributes << attribute
-      attribute
-    end
-
-    def ensure_attribute_not_defined!(attribute)
-      if attribute_defined?(attribute.name)
-        raise AttributeDefinitionError, "Attribute already defined: #{attribute.name}"
-      end
-    end
-
-    def ensure_attribute_not_self_referencing!(attribute)
-      if attribute.respond_to?(:factory) && attribute.factory == @name
-        message = "Self-referencing association '#{attribute.name}' in '#{attribute.factory}'"
-        raise AssociationDefinitionError, message
-      end
-    end
-
-    def attribute_defined?(attribute_name)
-      @attributes.any? do |attribute|
-        attribute.name == attribute_name
-      end
+      AttributeList.new(reject(&:transient))
     end
   end
 end

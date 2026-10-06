@@ -7,22 +7,17 @@ module FactoryBot
       @definition = Definition.new(:null_factory)
     end
 
-    delegate :defined_traits, to: :definition
+    def parent
+    end
 
-    def compile
+    def build_class
     end
 
     def class_name
     end
 
     def compiled(_trait_names = [])
-      CompiledFactory.new(
-        build_class: nil,
-        attributes: {},
-        callbacks: Internal.callbacks,
-        constructor: Internal.constructor,
-        to_create: Internal.to_create
-      )
+      Internal.compiled_configuration
     end
   end
 end

@@ -123,6 +123,36 @@ describe "FactoryBot.lint" do
         }.to raise_error FactoryBot::InvalidFactoryError, error_message
       end
 
+      it "reports a factory whose class does not exist along with its traits" do
+        define_model "User", name: :string
+
+        FactoryBot.define do
+          factory :user do
+            name { "Yep" }
+
+            trait :renamed do
+              name { "Yessir" }
+            end
+
+            factory :ghost, class: "Ghost" do
+              trait :faint do
+                name { "Boo" }
+              end
+            end
+          end
+        end
+
+        expect {
+          FactoryBot.lint traits: true
+        }.to raise_error(FactoryBot::InvalidFactoryError) { |error|
+          expect(error.message).to include(
+            "* ghost - uninitialized constant Ghost",
+            "* ghost+faint - uninitialized constant Ghost",
+            "* ghost+renamed - uninitialized constant Ghost"
+          )
+        }
+      end
+
       it "does not raise if a trait produces a valid object" do
         define_model "User", name: :string do
           validates :name, presence: true
