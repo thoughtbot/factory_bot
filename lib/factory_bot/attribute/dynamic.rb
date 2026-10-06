@@ -2,8 +2,8 @@ module FactoryBot
   class Attribute
     # @api private
     class Dynamic < Attribute
-      def initialize(name, ignored, block)
-        super(name, ignored)
+      def initialize(name, transient, block)
+        super(name, transient)
         @block = block
       end
 

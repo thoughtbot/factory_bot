@@ -12,4 +12,12 @@ describe FactoryBot::Attribute do
 
     expect(attribute).not_to be_association
   end
+
+  it "tracks whether the attribute is transient" do
+    transient_attribute = FactoryBot::Attribute.new(:comments_count, true)
+    persistent_attribute = FactoryBot::Attribute.new(:email, false)
+
+    expect(transient_attribute.transient).to be true
+    expect(persistent_attribute.transient).to be false
+  end
 end

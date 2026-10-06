@@ -2,8 +2,8 @@ module FactoryBot
   class Declaration
     # @api private
     class Implicit < Declaration
-      def initialize(name, factory = nil, ignored = false)
-        super(name, ignored)
+      def initialize(name, factory = nil, transient = false)
+        super(name, transient)
         @factory = factory
       end
 
@@ -11,7 +11,7 @@ module FactoryBot
         self.class == other.class &&
           name == other.name &&
           factory == other.factory &&
-          ignored == other.ignored
+          transient == other.transient
       end
 
       protected
@@ -24,7 +24,7 @@ module FactoryBot
         if FactoryBot.factories.registered?(name)
           [Attribute::Association.new(name, name, {})]
         elsif FactoryBot::Internal.sequences.registered?(name)
-          [Attribute::Sequence.new(name, name, @ignored)]
+          [Attribute::Sequence.new(name, name, @transient)]
         elsif @factory.name.to_s == name.to_s
           message = "Self-referencing trait '#{@name}'"
           raise TraitDefinitionError, message

@@ -157,8 +157,8 @@ module FactoryBot
     # Does this override match the name of any declared attribute?
     #
     # @note Checking against the names of all attributes, resolves any issues with having both
-    #   <attribute> and <attribute>_id in the same factory. This also takes into account ignored
-    #   attributes that should not be assigned (aka transient attributes)
+    #   <attribute> and <attribute>_id in the same factory. This also takes into account transient
+    #   attributes that should not be assigned.
     #
     # @param [Symbol] override the name of an override
     def override_matches_declared_attribute?(override)
