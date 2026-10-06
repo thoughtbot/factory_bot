@@ -5,10 +5,14 @@ module FactoryBot
 
       def define(&block)
         DSL.run(block)
+      ensure
+        Internal.clear_compiled_factories
       end
 
       def modify(&block)
         ModifyDSL.run(block)
+      ensure
+        Internal.clear_compiled_factories
       end
 
       class DSL
