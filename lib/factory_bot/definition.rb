@@ -1,7 +1,7 @@
 module FactoryBot
   # @api private
   class Definition
-    attr_reader :defined_traits, :declarations, :name, :registered_enums, :uri_manager
+    attr_reader :base_traits, :defined_traits, :declarations, :name, :registered_enums, :uri_manager
     attr_accessor :klass
 
     def initialize(name, base_traits = [], **opts)
@@ -45,6 +45,20 @@ module FactoryBot
 
     def callbacks
       aggregate_from_traits_and_self(:callbacks) { @callbacks }
+    end
+
+    # The callbacks, constructor and to_create declared on this definition
+    # itself, leaving out what its traits contribute.
+    def declared_callbacks
+      @callbacks
+    end
+
+    def declared_constructor
+      @constructor
+    end
+
+    def declared_to_create
+      @to_create
     end
 
     def compile(klass = nil)

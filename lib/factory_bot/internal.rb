@@ -5,6 +5,8 @@ module FactoryBot
       delegate :after,
         :before,
         :callbacks,
+        :clear_compiled_factories,
+        :compiled_factory,
         :constructor,
         :factories,
         :initialize_with,
