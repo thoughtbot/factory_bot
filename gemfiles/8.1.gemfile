@@ -3,6 +3,6 @@
 source "https://rubygems.org"
 
 gem "sqlite3", platforms: [:ruby]
-gem "activerecord", git: "https://github.com/rails/rails.git", branch: "main"
+gem "activerecord", "~> 8.1.0"
 
 gemspec name: "factory_bot", path: "../"
