@@ -25,6 +25,12 @@ appraise "8.0" do
   gem "sqlite3", platforms: [:ruby]
 end
 
+appraise "8.1" do
+  gem "activerecord", "~> 8.1.0"
+  remove_gem "activerecord-jdbcsqlite3-adapter"
+  gem "sqlite3", platforms: [:ruby]
+end
+
 appraise "main" do
   gem "activerecord", git: "https://github.com/rails/rails.git", branch: "main"
   remove_gem "activerecord-jdbcsqlite3-adapter"
