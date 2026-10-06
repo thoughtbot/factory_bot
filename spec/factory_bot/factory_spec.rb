@@ -130,7 +130,6 @@ describe FactoryBot::Factory do
     FactoryBot::Internal.register_factory(factory)
 
     child = FactoryBot::Factory.new(:child, parent: factory.name)
-    child.compile
     expect(child.build_class).to eq factory.build_class
   end
 
@@ -141,7 +140,6 @@ describe FactoryBot::Factory do
     FactoryBot::Internal.register_factory(factory)
 
     child = FactoryBot::Factory.new(:child, class: String, parent: factory.name)
-    child.compile
     expect(child.build_class).to eq String
   end
 end
@@ -300,14 +298,9 @@ end
 
 describe FactoryBot::Factory, "running a factory" do
   def build_factory
-    attribute = FactoryBot::Attribute::Dynamic.new(:name, false, -> { "value" })
-    attributes = [attribute]
     declaration = FactoryBot::Declaration::Dynamic.new(:name, false, -> { "value" })
     strategy = double("strategy", result: "result")
     define_model("User", name: :string)
-    allow(FactoryBot::Declaration::Dynamic).to receive(:new)
-      .and_return declaration
-    allow(declaration).to receive(:to_attributes).and_return attributes
     allow(FactoryBot::Strategy::Build).to receive(:new).and_return strategy
     factory = FactoryBot::Factory.new(:user)
     factory.declare_attribute(declaration)

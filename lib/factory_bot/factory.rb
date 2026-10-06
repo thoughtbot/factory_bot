@@ -14,12 +14,10 @@ module FactoryBot
       @class_name = options[:class]
       @uri_manager = FactoryBot::UriManager.new(names)
       @definition = Definition.new(@name, options[:traits] || [], uri_manager: @uri_manager)
-      @compiled = false
     end
 
     delegate :add_callback, :declare_attribute, :to_create, :define_trait, :constructor,
-      :defined_traits, :defined_traits_names, :inherit_traits,
-      to: :@definition
+      :defined_traits, to: :@definition
 
     def build_class
       @build_class ||= if class_name.is_a? Class
@@ -72,37 +70,21 @@ module FactoryBot
       [name] + @aliases
     end
 
-    def compile
-      unless @compiled
-        parent.compile
-        inherit_parent_traits
-        @definition.compile(build_class)
-        @compiled = true
-      end
-    end
-
     # The cached snapshot for this factory with the given traits applied.
     def compiled(trait_names = [])
       Internal.compiled_factory(self, trait_names)
     end
 
     def compile_with_traits(trait_names)
-      compile
+      Compiler.new(self, trait_names).compile
+    end
 
-      traits = definition.lookup_traits(trait_names)
-      parent_compiled = parent.compiled
-
-      CompiledFactory.new(
-        build_class: build_class,
-        attributes: attributes_over(parent_compiled.attributes, traits),
-        callbacks: (parent_compiled.callbacks + definition.callbacks + traits.flat_map(&:callbacks)).uniq,
-        constructor: traits.filter_map(&:constructor).last ||
-          definition.constructor ||
-          parent_compiled.constructor,
-        to_create: traits.filter_map(&:to_create).last ||
-          definition.to_create ||
-          parent_compiled.to_create
-      )
+    def parent
+      if @parent
+        FactoryBot::Internal.factory_by_name(@parent)
+      else
+        NullFactory.new
+      end
     end
 
     protected
@@ -115,41 +97,6 @@ module FactoryBot
 
     def assert_valid_options(options)
       options.assert_valid_keys(:class, :parent, :aliases, :traits)
-    end
-
-    def parent
-      if @parent
-        FactoryBot::Internal.factory_by_name(@parent)
-      else
-        NullFactory.new
-      end
-    end
-
-    def inherit_parent_traits
-      parent.defined_traits.each do |trait|
-        next if defined_traits_names.include?(trait.name)
-        define_trait(trait.clone)
-      end
-    end
-
-    def attribute_list(traits)
-      AttributeList.new(@name).tap do |list|
-        list.apply_attributes definition.attributes
-        traits.each { |trait| list.apply_attributes trait.attributes }
-      end
-    end
-
-    # A later definition wins but keeps the first definition's position, and
-    # a name declared transient anywhere stays transient.
-    def attributes_over(inherited, traits)
-      attribute_list(traits).each_with_object(inherited.dup) do |attribute, attributes|
-        previous = attributes[attribute.name]
-        attributes[attribute.name] = if previous&.transient && !attribute.transient
-          attribute.as_transient
-        else
-          attribute
-        end
-      end
     end
   end
 end

@@ -1,10 +1,7 @@
 module FactoryBot
   # @api private
   class Trait
-    attr_reader :name, :uid, :definition
-
-    delegate :add_callback, :declare_attribute, :to_create, :define_trait, :constructor,
-      :callbacks, :attributes, :klass, :klass=, to: :@definition
+    attr_reader :name, :definition
 
     def initialize(name, **options, &block)
       @name = name.to_s
@@ -17,10 +14,6 @@ module FactoryBot
       if block
         proxy.instance_eval(&@block)
       end
-    end
-
-    def clone
-      Trait.new(name, uri_paths: definition.uri_manager.paths, &block)
     end
 
     def names
