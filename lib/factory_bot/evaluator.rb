@@ -1,74 +1,103 @@
-require "active_support/core_ext/class/attribute"
-
 module FactoryBot
+  # Evaluates a compiled factory's attributes for one run. A BasicObject so
+  # attribute names such as hash, display or method are not shadowed by Object.
   # @api private
-  class Evaluator
-    class_attribute :attribute_lists
-    class_attribute :attribute_blocks, default: {}, instance_accessor: false, instance_predicate: false
+  class Evaluator < ::BasicObject
+    attr_accessor :instance
 
-    private_instance_methods.each do |method|
-      undef_method(method) unless method.match?(/^__|initialize/)
-    end
-
-    # Shadows attributes named new or attributes only while initialize_with runs.
-    module Construction
-      def new(...)
-        __constructing__ ? @build_class.new(...) : super
-      end
-
-      def attributes
-        __constructing__ ? __attributes__ : super
-      end
-    end
-
-    def initialize(build_strategy, overrides = {})
+    def initialize(compiled, build_strategy, overrides = {})
+      @compiled = compiled
       @build_strategy = build_strategy
       @overrides = overrides
-      @cached_attributes = overrides
+      @memo = overrides.dup
       @instance = nil
+      @hash_mode = false
       @constructing = false
       @evaluating = 0
       @read_in_constructor = []
-
-      @overrides.each do |name, value|
-        singleton_class.define_attribute(name) { value }
-      end
     end
 
     def association(factory_name, *traits_and_overrides)
       overrides = traits_and_overrides.extract_options!
       strategy_override = overrides.fetch(:strategy) {
-        FactoryBot.use_parent_strategy ? @build_strategy.to_sym : :create
+        ::FactoryBot.use_parent_strategy ? @build_strategy.to_sym : :create
       }
 
       traits_and_overrides += [overrides.except(:strategy)]
 
-      runner = FactoryRunner.new(factory_name, strategy_override, traits_and_overrides)
+      runner = ::FactoryBot::FactoryRunner.new(factory_name, strategy_override, traits_and_overrides)
       @build_strategy.association(runner)
     end
 
-    attr_accessor :instance
+    # Available inside initialize_with, where they shadow attributes of the same name.
+    def new(...)
+      __constructing__ ? @compiled.build_class.new(...) : method_missing(:new, ...)
+    end
 
-    def method_missing(method_name, ...)
-      if @instance.respond_to?(method_name)
-        @instance.send(method_name, ...)
+    def attributes
+      __constructing__ ? __attributes__ : method_missing(:attributes)
+    end
+
+    def method_missing(name, ...)
+      if __attribute?(name)
+        __read__(name)
+      elsif @instance.respond_to?(name)
+        @instance.send(name, ...)
+      elsif @hash_mode && @compiled.build_class.method_defined?(name)
+        nil
       else
-        SyntaxRunner.new.send(method_name, ...)
+        ::FactoryBot::SyntaxRunner.new.send(name, ...)
       end
     end
 
-    def respond_to_missing?(method_name, _include_private = false)
-      @instance.respond_to?(method_name) || SyntaxRunner.new.respond_to?(method_name)
+    def respond_to?(name, include_private = false)
+      respond_to_missing?(name, include_private)
+    end
+
+    def respond_to_missing?(name, _include_private = false)
+      __attribute?(name) ||
+        @instance.respond_to?(name) ||
+        ::FactoryBot::SyntaxRunner.new.respond_to?(name)
+    end
+
+    def send(...)
+      __send__(...)
+    end
+
+    def public_send(...)
+      __send__(...)
+    end
+
+    def nil?
+      false
+    end
+
+    def inspect
+      "#<FactoryBot::Evaluator>"
+    end
+
+    def increment_sequence(sequence, scope: self)
+      value = sequence.next(scope)
+
+      ::Kernel.raise if value.respond_to?(:start_with?) && value.start_with?("#<FactoryBot::Declaration")
+
+      value
+    rescue
+      ::Kernel.raise ::ArgumentError, "Sequence '#{sequence.uri_manager.first}' failed to " \
+                                      "return a value. Perhaps it needs a scope to operate? (scope: <object>)"
     end
 
     def __override_names__
       @overrides.keys
     end
 
-    def __construct__(build_class, attribute_names, &constructor)
-      @build_class = build_class
+    # Without an instance, as under attributes_for, build class methods answer nil.
+    def __hash_mode__!
+      @hash_mode = true
+    end
+
+    def __construct__(attribute_names, &constructor)
       @assignable_attribute_names = attribute_names
-      singleton_class.prepend(Construction)
       @constructing = true
       instance_exec(&constructor)
     ensure
@@ -83,11 +112,15 @@ module FactoryBot
     def __read__(name)
       @read_in_constructor << name if __constructing__
 
-      if @cached_attributes.key?(name)
-        @cached_attributes[name]
+      if @memo.key?(name)
+        @memo[name]
       else
-        @cached_attributes[name] = __evaluate__(&self.class.attribute_blocks.fetch(name))
+        @memo[name] = __evaluate__(@compiled.attributes.fetch(name))
       end
+    end
+
+    def __attribute?(name)
+      @memo.key?(name) || @compiled.attributes.key?(name)
     end
 
     def __constructing__
@@ -100,42 +133,11 @@ module FactoryBot
       end
     end
 
-    def __evaluate__(&block)
+    def __evaluate__(attribute)
       @evaluating += 1
-      instance_exec(&block)
+      instance_exec(&attribute.to_proc)
     ensure
       @evaluating -= 1
-    end
-
-    def increment_sequence(sequence, scope: self)
-      value = sequence.next(scope)
-
-      raise if value.respond_to?(:start_with?) && value.start_with?("#<FactoryBot::Declaration")
-
-      value
-    rescue
-      raise ArgumentError, "Sequence '#{sequence.uri_manager.first}' failed to " \
-                          "return a value. Perhaps it needs a scope to operate? (scope: <object>)"
-    end
-
-    def self.attribute_list
-      AttributeList.new.tap do |list|
-        attribute_lists.each do |attribute_list|
-          list.apply_attributes attribute_list.to_a
-        end
-      end
-    end
-
-    def self.define_attribute(name, &block)
-      if instance_methods(false).include?(name) || private_instance_methods(false).include?(name)
-        undef_method(name)
-      end
-
-      self.attribute_blocks = attribute_blocks.merge(name => block)
-
-      define_method(name) do
-        __read__(name)
-      end
     end
   end
 end
