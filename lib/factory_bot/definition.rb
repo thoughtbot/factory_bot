@@ -49,25 +49,24 @@ module FactoryBot
 
     def compile(klass = nil)
       unless @compiled
-        expand_enum_traits(klass) unless klass.nil?
+        ActiveSupport::Notifications.instrument "factory_bot.compile_factory", {name: name} do |payload|
+          expand_enum_traits(klass) unless klass.nil?
 
-        declarations.attributes
+          declarations.attributes
 
-        self.klass ||= klass
-        defined_traits.each do |defined_trait|
-          defined_trait.klass ||= klass
-          base_trait_names.each { |bt| bt.define_trait defined_trait }
-          additional_trait_names.each { |at| at.define_trait defined_trait }
+          self.klass ||= klass
+          defined_traits.each do |defined_trait|
+            defined_trait.klass ||= klass
+            base_trait_names.each { |bt| bt.define_trait defined_trait }
+            additional_trait_names.each { |at| at.define_trait defined_trait }
+          end
+
+          @compiled = true
+
+          payload[:attributes] = declarations.attributes
+          payload[:traits] = defined_traits
+          payload[:class] = klass || self.klass
         end
-
-        @compiled = true
-
-        ActiveSupport::Notifications.instrument "factory_bot.compile_factory", {
-          name: name,
-          attributes: declarations.attributes,
-          traits: defined_traits,
-          class: klass || self.klass
-        }
       end
     end
 
