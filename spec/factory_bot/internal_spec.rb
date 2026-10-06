@@ -124,6 +124,33 @@ describe FactoryBot::Internal do
     end
   end
 
+  describe ".compiled_factory" do
+    it "caches the snapshot by factory name and trait names" do
+      define_class("User")
+      factory = FactoryBot::Internal.register_factory(FactoryBot::Factory.new(:user))
+      factory.define_trait(FactoryBot::Trait.new(:admin))
+      factory.define_trait(FactoryBot::Trait.new(:vip))
+
+      compiled = FactoryBot::Internal.compiled_factory(factory, [:admin, "vip"])
+
+      expect(FactoryBot::Internal.compiled_factory(factory, ["admin", :vip])).to equal compiled
+      expect(FactoryBot::Internal.compiled_factory(factory, [])).not_to equal compiled
+    end
+
+    it "is cleared by define and modify" do
+      define_class("User")
+      factory = FactoryBot::Internal.register_factory(FactoryBot::Factory.new(:user))
+      compiled = FactoryBot::Internal.compiled_factory(factory)
+
+      FactoryBot.define {}
+      expect(FactoryBot::Internal.compiled_factory(factory)).not_to equal compiled
+
+      compiled = FactoryBot::Internal.compiled_factory(factory)
+      FactoryBot.modify { factory(:user) {} }
+      expect(FactoryBot::Internal.compiled_factory(factory)).not_to equal compiled
+    end
+  end
+
   describe ".register_strategy" do
     it "register the provided strategy name with the class" do
       configuration = FactoryBot::Internal.configuration

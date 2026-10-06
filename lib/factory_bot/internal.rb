@@ -5,6 +5,7 @@ module FactoryBot
       delegate :after,
         :before,
         :callbacks,
+        :compiled_factories,
         :constructor,
         :factories,
         :initialize_with,
@@ -85,6 +86,15 @@ module FactoryBot
 
       def factory_by_name(name)
         factories.find(name)
+      end
+
+      def compiled_factory(factory, trait_names = [])
+        key = [factory.name, trait_names.map(&:to_s)]
+        compiled_factories[key] ||= factory.compile_with_traits(trait_names)
+      end
+
+      def clear_compiled_factories
+        compiled_factories.clear
       end
 
       def register_strategy(strategy_name, strategy_class)
