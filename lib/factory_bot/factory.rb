@@ -18,7 +18,7 @@ module FactoryBot
     end
 
     delegate :add_callback, :declare_attribute, :to_create, :define_trait, :constructor,
-      :defined_traits, :defined_traits_names, :inherit_traits, :append_traits,
+      :defined_traits, :defined_traits_names, :inherit_traits,
       to: :@definition
 
     def build_class
@@ -78,12 +78,6 @@ module FactoryBot
         inherit_parent_traits
         @definition.compile(build_class)
         @compiled = true
-      end
-    end
-
-    def with_traits(traits)
-      clone.tap do |factory_with_traits|
-        factory_with_traits.append_traits traits
       end
     end
 
@@ -152,15 +146,8 @@ module FactoryBot
 
       parent.defined_traits.each do |trait|
         next if defined_traits_names.include?(trait.name)
-        define_trait(trait.clone)
+        define_trait(trait)
       end
-    end
-
-    def initialize_copy(source)
-      super
-      @definition = @definition.clone
-      @evaluator_class = nil
-      @compiled = false
     end
   end
 end

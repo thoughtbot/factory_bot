@@ -13,7 +13,6 @@ module FactoryBot
       @registered_enums = []
       @to_create = nil
       @base_traits = base_traits
-      @additional_traits = []
       @constructor = nil
       @attributes = nil
       @compiled = false
@@ -71,7 +70,6 @@ module FactoryBot
         defined_traits.each do |defined_trait|
           defined_trait.klass ||= klass
           base_trait_names.each { |bt| bt.define_trait defined_trait }
-          additional_trait_names.each { |at| at.define_trait defined_trait }
         end
 
         @compiled = true
@@ -92,10 +90,6 @@ module FactoryBot
 
     def inherit_traits(new_traits)
       @base_traits |= new_traits
-    end
-
-    def append_traits(new_traits)
-      @additional_traits += new_traits
     end
 
     def add_callback(callback)
@@ -140,12 +134,6 @@ module FactoryBot
 
     def base_trait_names
       @base_traits.map { |name| trait_by_name(name) }
-    rescue KeyError => error
-      raise error_with_definition_name(error)
-    end
-
-    def additional_trait_names
-      @additional_traits.map { |name| trait_by_name(name) }
     rescue KeyError => error
       raise error_with_definition_name(error)
     end
@@ -214,20 +202,12 @@ module FactoryBot
       @defined_traits_by_name[name.to_s]
     end
 
-    def initialize_copy(source)
-      super
-      @attributes = nil
-      @compiled = false
-      @defined_traits_by_name = nil
-    end
-
     def aggregate_from_traits_and_self(method_name, &block)
       compile
 
       [
         base_trait_names.map(&method_name),
-        instance_exec(&block),
-        additional_trait_names.map(&method_name)
+        instance_exec(&block)
       ].flatten.compact
     end
 

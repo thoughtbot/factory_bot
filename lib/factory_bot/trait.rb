@@ -19,10 +19,6 @@ module FactoryBot
       end
     end
 
-    def clone
-      Trait.new(name, uri_paths: definition.uri_manager.paths, &block)
-    end
-
     def names
       [@name]
     end
