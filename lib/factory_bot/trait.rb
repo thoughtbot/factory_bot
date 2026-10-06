@@ -4,7 +4,7 @@ module FactoryBot
     attr_reader :name, :uid, :definition
 
     delegate :add_callback, :declare_attribute, :to_create, :define_trait, :constructor,
-      :callbacks, :attributes, :klass, :klass=, to: :@definition
+      :callbacks, :klass, :klass=, to: :@definition
 
     def initialize(name, **options, &block)
       @name = name.to_s

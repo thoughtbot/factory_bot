@@ -14,7 +14,6 @@ module FactoryBot
       @class_name = options[:class]
       @uri_manager = FactoryBot::UriManager.new(names)
       @definition = Definition.new(@name, options[:traits] || [], uri_manager: @uri_manager)
-      @compiled = false
     end
 
     delegate :add_callback, :declare_attribute, :to_create, :define_trait, :constructor,
@@ -72,15 +71,6 @@ module FactoryBot
       [name] + @aliases
     end
 
-    def compile
-      unless @compiled
-        parent&.compile
-        inherit_parent_traits
-        @definition.compile(build_class)
-        @compiled = true
-      end
-    end
-
     # The parent factory, or nil for a factory without one.
     def parent
       FactoryBot::Internal.factory_by_name(@parent) if @parent
@@ -92,29 +82,6 @@ module FactoryBot
       @class_name || parent&.class_name || name
     end
 
-    def evaluator_class
-      @evaluator_class ||= EvaluatorClassDefiner.new(attributes, parent_evaluator_class).evaluator_class
-    end
-
-    def attributes
-      compile
-      AttributeList.new(@name).tap do |list|
-        list.apply_attributes definition.attributes
-      end
-    end
-
-    def callbacks
-      inherited_callbacks + definition.callbacks
-    end
-
-    def compiled_to_create
-      definition.to_create || inherited_to_create
-    end
-
-    def compiled_constructor
-      definition.constructor || inherited_constructor
-    end
-
     private
 
     def assert_valid_options(options)
@@ -123,31 +90,6 @@ module FactoryBot
 
     def compiled
       FactoryBot::Internal.compiled_factory(self, [])
-    end
-
-    def parent_evaluator_class
-      parent ? parent.evaluator_class : Evaluator
-    end
-
-    def inherited_callbacks
-      parent ? parent.callbacks : Internal.callbacks
-    end
-
-    def inherited_to_create
-      parent ? parent.compiled_to_create : Internal.to_create
-    end
-
-    def inherited_constructor
-      parent ? parent.compiled_constructor : Internal.constructor
-    end
-
-    def inherit_parent_traits
-      return unless parent
-
-      parent.defined_traits.each do |trait|
-        next if defined_traits_names.include?(trait.name)
-        define_trait(trait)
-      end
     end
   end
 end

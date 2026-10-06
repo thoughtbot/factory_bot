@@ -148,9 +148,9 @@ module FactoryBot
 
           Part.new(
             base.flat_map { |part| part.attributes } + attributes.to_a,
-            base.flat_map(&:callbacks) + definition.declared_callbacks,
-            definition.declared_constructor || base.map(&:constructor).compact.last,
-            definition.declared_to_create || base.map(&:to_create).compact.last
+            base.flat_map(&:callbacks) + definition.callbacks,
+            definition.constructor || base.map(&:constructor).compact.last,
+            definition.to_create || base.map(&:to_create).compact.last
           )
         end
       end

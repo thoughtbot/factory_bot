@@ -130,7 +130,7 @@ describe FactoryBot::Factory do
     FactoryBot::Internal.register_factory(factory)
 
     child = FactoryBot::Factory.new(:child, parent: factory.name)
-    child.compile
+
     expect(child.build_class).to eq factory.build_class
   end
 
@@ -141,7 +141,7 @@ describe FactoryBot::Factory do
     FactoryBot::Internal.register_factory(factory)
 
     child = FactoryBot::Factory.new(:child, class: String, parent: factory.name)
-    child.compile
+
     expect(child.build_class).to eq String
   end
 end
