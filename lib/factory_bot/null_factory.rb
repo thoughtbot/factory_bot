@@ -7,9 +7,10 @@ module FactoryBot
       @definition = Definition.new(:null_factory)
     end
 
-    delegate :defined_traits, to: :definition
+    def parent
+    end
 
-    def compile
+    def build_class
     end
 
     def class_name

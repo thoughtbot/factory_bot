@@ -2,6 +2,8 @@ module FactoryBot
   class Declaration
     # @api private
     class Dynamic < Declaration
+      attr_reader :block
+
       def initialize(name, transient = false, block = nil)
         super(name, transient)
         @block = block
@@ -12,16 +14,6 @@ module FactoryBot
           name == other.name &&
           transient == other.transient &&
           block == other.block
-      end
-
-      protected
-
-      attr_reader :block
-
-      private
-
-      def build
-        [Attribute::Dynamic.new(name, @transient, @block)]
       end
     end
   end

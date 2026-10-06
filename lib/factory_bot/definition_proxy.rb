@@ -124,9 +124,8 @@ module FactoryBot
       options[:uri_paths] = @definition.uri_manager.to_a
       args << options
 
-      new_sequence = Sequence.new(name, *args, &block)
-      registered_sequence = __fetch_or_register_sequence(new_sequence)
-      add_attribute(name) { increment_sequence(registered_sequence) }
+      sequence = Internal.register_inline_sequence(Sequence.new(name, *args, &block))
+      add_attribute(name) { increment_sequence(sequence) }
     end
 
     # Adds an attribute that builds an association. The associated instance will
@@ -255,15 +254,6 @@ module FactoryBot
 
     def __valid_association_options?(options)
       options.respond_to?(:has_key?) && options.has_key?(:factory)
-    end
-
-    ##
-    # If the inline sequence has already been registered by a parent,
-    # return that one, otherwise register and return the given sequence
-    #
-    def __fetch_or_register_sequence(sequence)
-      FactoryBot::Sequence.find_by_uri(sequence.uri_manager.first) ||
-        FactoryBot::Internal.register_inline_sequence(sequence)
     end
   end
 end
