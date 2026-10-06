@@ -93,7 +93,6 @@ module FactoryBot
         parent.compile
         inherit_parent_traits
         @definition.compile(build_class)
-        build_hierarchy
         @compiled = true
       end
     end
@@ -121,28 +120,16 @@ module FactoryBot
       end
     end
 
-    def hierarchy_class
-      @hierarchy_class ||= Class.new(parent.hierarchy_class)
-    end
-
-    def hierarchy_instance
-      @hierarchy_instance ||= hierarchy_class.new
-    end
-
-    def build_hierarchy
-      hierarchy_class.build_from_definition definition
-    end
-
     def callbacks
-      hierarchy_instance.callbacks
+      parent.callbacks + definition.callbacks
     end
 
     def compiled_to_create
-      hierarchy_instance.to_create
+      definition.to_create || parent.compiled_to_create
     end
 
     def compiled_constructor
-      hierarchy_instance.constructor
+      definition.constructor || parent.compiled_constructor
     end
 
     private
@@ -170,8 +157,6 @@ module FactoryBot
       super
       @definition = @definition.clone
       @evaluator_class = nil
-      @hierarchy_class = nil
-      @hierarchy_instance = nil
       @compiled = false
     end
   end
