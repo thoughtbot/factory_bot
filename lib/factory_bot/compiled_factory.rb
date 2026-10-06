@@ -3,11 +3,11 @@ module FactoryBot
   # and cached by the configuration.
   # @api private
   class CompiledFactory
-    attr_reader :build_class, :evaluator_class, :callbacks, :constructor, :to_create
+    attr_reader :build_class, :attributes, :callbacks, :constructor, :to_create
 
-    def initialize(build_class:, evaluator_class:, callbacks:, constructor:, to_create:)
+    def initialize(build_class:, attributes:, callbacks:, constructor:, to_create:)
       @build_class = build_class
-      @evaluator_class = evaluator_class
+      @attributes = attributes
       @callbacks = callbacks
       @constructor = constructor
       @to_create = to_create
@@ -18,8 +18,8 @@ module FactoryBot
 
       strategy = Strategy.lookup_strategy(build_strategy).new
 
-      evaluator = evaluator_class.new(strategy, overrides.symbolize_keys)
-      attribute_assigner = AttributeAssigner.new(evaluator, build_class, &constructor)
+      evaluator = Evaluator.new(self, strategy, overrides.symbolize_keys)
+      attribute_assigner = AttributeAssigner.new(evaluator, attributes, &constructor)
       evaluation = Evaluation.new(evaluator, attribute_assigner, to_create, callbacks)
 
       evaluation.notify(:before_all, nil)
@@ -30,7 +30,7 @@ module FactoryBot
     end
 
     def associations
-      evaluator_class.attribute_list.associations
+      attributes.values.select(&:association?)
     end
   end
 end

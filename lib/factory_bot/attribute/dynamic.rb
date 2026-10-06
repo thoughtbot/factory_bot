@@ -15,7 +15,7 @@ module FactoryBot
           when 1, -1, -2 then instance_exec(self, &block)
           else instance_exec(&block)
           end
-          raise SequenceAbuseError if FactoryBot::Sequence === value
+          ::Kernel.raise SequenceAbuseError if FactoryBot::Sequence === value
 
           value
         }

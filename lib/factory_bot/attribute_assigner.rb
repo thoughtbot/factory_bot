@@ -1,11 +1,10 @@
 module FactoryBot
   # @api private
   class AttributeAssigner
-    def initialize(evaluator, build_class, &instance_builder)
-      @build_class = build_class
+    def initialize(evaluator, attributes, &instance_builder)
       @instance_builder = instance_builder
       @evaluator = evaluator
-      @attribute_list = evaluator.class.attribute_list
+      @attributes = attributes
       @attribute_names_assigned = []
     end
 
@@ -22,7 +21,7 @@ module FactoryBot
 
     # constructs a Hash-based factory product
     def hash
-      @evaluator.instance = build_hash
+      @evaluator.__hash_mode__!
 
       attributes_to_set_on_hash.each_with_object({}) do |attribute, result|
         result[attribute] = get(attribute)
@@ -32,15 +31,7 @@ module FactoryBot
     private
 
     def build_class_instance
-      @build_class_instance ||= @evaluator.__construct__(
-        @build_class,
-        attribute_names_to_assign,
-        &@instance_builder
-      )
-    end
-
-    def build_hash
-      @build_hash ||= NullObject.new(hash_instance_methods_to_respond_to)
+      @build_class_instance ||= @evaluator.__construct__(attribute_names_to_assign, &@instance_builder)
     end
 
     def get(attribute_name)
@@ -68,15 +59,19 @@ module FactoryBot
     end
 
     def non_transient_attribute_names
-      @attribute_list.non_transient.names
+      non_transient_attributes.map(&:name)
     end
 
     def transient_attribute_names
-      @attribute_list.transient.names
+      @attributes.values.select(&:transient).map(&:name)
     end
 
     def association_names
-      @attribute_list.associations.names
+      @attributes.values.select(&:association?).map(&:name)
+    end
+
+    def non_transient_attributes
+      @attributes.values.reject(&:transient)
     end
 
     def override_names
@@ -84,17 +79,12 @@ module FactoryBot
     end
 
     def attribute_names
-      @attribute_list.names
-    end
-
-    def hash_instance_methods_to_respond_to
-      attribute_names + override_names + @build_class.instance_methods
+      @attributes.keys
     end
 
     # Builds a list of attribute names which are slated to be interrupted by an override.
     def attribute_names_overriden_by_alias
-      @attribute_list
-        .non_transient
+      non_transient_attributes
         .flat_map { |attribute|
           override_names.map do |override|
             attribute.name if ignorable_alias?(attribute, override)
