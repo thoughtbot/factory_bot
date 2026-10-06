@@ -4,9 +4,21 @@ module FactoryBot
   # @api private
   class Evaluator
     class_attribute :attribute_lists
+    class_attribute :attribute_blocks, default: {}, instance_accessor: false, instance_predicate: false
 
     private_instance_methods.each do |method|
       undef_method(method) unless method.match?(/^__|initialize/)
+    end
+
+    # Shadows attributes named new or attributes only while initialize_with runs.
+    module Construction
+      def new(...)
+        __constructing__ ? @build_class.new(...) : super
+      end
+
+      def attributes
+        __constructing__ ? __attributes__ : super
+      end
     end
 
     def initialize(build_strategy, overrides = {})
@@ -14,6 +26,9 @@ module FactoryBot
       @overrides = overrides
       @cached_attributes = overrides
       @instance = nil
+      @constructing = false
+      @evaluating = 0
+      @read_in_constructor = []
 
       @overrides.each do |name, value|
         singleton_class.define_attribute(name) { value }
@@ -50,6 +65,48 @@ module FactoryBot
       @overrides.keys
     end
 
+    def __construct__(build_class, attribute_names, &constructor)
+      @build_class = build_class
+      @assignable_attribute_names = attribute_names
+      singleton_class.prepend(Construction)
+      @constructing = true
+      instance_exec(&constructor)
+    ensure
+      @constructing = false
+    end
+
+    # Attributes read directly by initialize_with, which need no assignment afterwards.
+    def __read_in_constructor__
+      @read_in_constructor.uniq
+    end
+
+    def __read__(name)
+      @read_in_constructor << name if __constructing__
+
+      if @cached_attributes.key?(name)
+        @cached_attributes[name]
+      else
+        @cached_attributes[name] = __evaluate__(&self.class.attribute_blocks.fetch(name))
+      end
+    end
+
+    def __constructing__
+      @constructing && @evaluating.zero?
+    end
+
+    def __attributes__
+      @assignable_attribute_names.each_with_object({}) do |name, result|
+        result[name] = __read__(name)
+      end
+    end
+
+    def __evaluate__(&block)
+      @evaluating += 1
+      instance_exec(&block)
+    ensure
+      @evaluating -= 1
+    end
+
     def increment_sequence(sequence, scope: self)
       value = sequence.next(scope)
 
@@ -74,12 +131,10 @@ module FactoryBot
         undef_method(name)
       end
 
+      self.attribute_blocks = attribute_blocks.merge(name => block)
+
       define_method(name) do
-        if @cached_attributes.key?(name)
-          @cached_attributes[name]
-        else
-          @cached_attributes[name] = instance_exec(&block)
-        end
+        __read__(name)
       end
     end
   end
