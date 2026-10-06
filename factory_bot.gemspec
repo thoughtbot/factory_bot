@@ -27,7 +27,7 @@ Gem::Specification.new do |s|
     "rubygems_mfa_required" => "true"
   }
 
-  s.add_dependency("activesupport", ">= 6.1.0")
+  s.add_dependency("activesupport", ">= 7.0.0")
 
   s.add_development_dependency("activerecord")
   s.add_development_dependency("appraisal")
