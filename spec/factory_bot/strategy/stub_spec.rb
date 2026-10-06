@@ -63,4 +63,50 @@ describe FactoryBot::Strategy::Stub do
     include_examples "disabled persistence method", :update_column
     include_examples "disabled persistence method", :update_columns
   end
+
+  # PostgreSQL reports a uuid column's sql_type as "uuid", but other adapters
+  # use their own name -- SQL Server's is "uniqueidentifier" -- while still
+  # mapping the column to Active Record's :uuid type. Keying off the type keeps
+  # the id a uuid instead of silently falling back to the integer sequence,
+  # which the database then rejects, leaving id nil.
+  context "when the primary key is a uuid column" do
+    let(:evaluation) { double("evaluation", object: result_instance, notify: true) }
+
+    let(:result_instance) do
+      define_class("UuidResultInstance") {
+        attr_accessor :id
+
+        def self.primary_key
+          "id"
+        end
+
+        # real Active Record models answer this; each example replaces it with
+        # the column a given adapter would report
+        def column_for_attribute(_attribute_name)
+        end
+      }.new
+    end
+
+    def stub_primary_key_column(column)
+      allow(result_instance).to receive(:column_for_attribute).with("id").and_return(column)
+    end
+
+    it "assigns a uuid when the adapter names the type but not the sql_type" do
+      stub_primary_key_column(double("column", type: :uuid, sql_type: "uniqueidentifier"))
+
+      expect(subject.result(evaluation).id).to match(/\A\h{8}-\h{4}-\h{4}-\h{4}-\h{12}\z/)
+    end
+
+    it "assigns a uuid when the adapter names the sql_type but not the type" do
+      stub_primary_key_column(double("column", sql_type: "uuid"))
+
+      expect(subject.result(evaluation).id).to match(/\A\h{8}-\h{4}-\h{4}-\h{4}-\h{12}\z/)
+    end
+
+    it "still assigns an integer for a non-uuid primary key" do
+      stub_primary_key_column(double("column", type: :integer, sql_type: "bigint"))
+
+      expect(subject.result(evaluation).id).to be_a(Integer)
+    end
+  end
 end
