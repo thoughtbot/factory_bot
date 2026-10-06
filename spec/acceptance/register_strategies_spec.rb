@@ -148,3 +148,49 @@ describe "associations overriding :strategy" do
     expect(post.user.name).to eq "Custom strategy"
   end
 end
+
+describe "custom strategies for a factory with an association" do
+  before do
+    define_class("Author") do
+      attr_accessor :name
+    end
+
+    define_class("Post") do
+      attr_accessor :name, :author
+    end
+
+    FactoryBot.define do
+      factory :author do
+        name { "Author" }
+      end
+
+      factory :post do
+        name { "Post" }
+        author
+      end
+    end
+  end
+
+  # A strategy only has to implement #result and #association. #to_sym is
+  # something the built-in strategies happen to have, and associations used to
+  # call it unconditionally when use_parent_strategy was on. See #1536.
+  let(:strategy_without_to_sym) do
+    Class.new do
+      def association(runner)
+        runner.run
+      end
+
+      def result(evaluation)
+        evaluation.object
+      end
+    end
+  end
+
+  it "builds the association without requiring the strategy to implement #to_sym" do
+    FactoryBot.register_strategy(:insert, strategy_without_to_sym)
+
+    post = FactoryBot.insert(:post)
+
+    expect(post.author).to be_an(Author)
+  end
+end
