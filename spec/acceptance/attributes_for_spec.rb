@@ -99,3 +99,39 @@ describe "`attributes_for` for a class whose constructor has required params" do
   subject { FactoryBot.attributes_for(:user) }
   its([:name]) { should eq "John Doe" }
 end
+
+describe "attributes_for with an association replaced by a child factory" do
+  before do
+    define_model("User", name: :string)
+    define_model("Post", title: :string, user_id: :integer) do
+      belongs_to :user
+    end
+
+    FactoryBot.define do
+      factory :user do
+        name { "John" }
+      end
+
+      factory :post do
+        title { "Title" }
+        user
+
+        factory :post_with_plain_user do
+          user { "not an association" }
+        end
+
+        trait :plain_user do
+          user { "not an association" }
+        end
+      end
+    end
+  end
+
+  it "leaves the attribute out when a child factory redefines it" do
+    expect(FactoryBot.attributes_for(:post_with_plain_user)).to eq(title: "Title")
+  end
+
+  it "leaves the attribute out when a trait redefines it" do
+    expect(FactoryBot.attributes_for(:post, :plain_user)).to eq(title: "Title")
+  end
+end

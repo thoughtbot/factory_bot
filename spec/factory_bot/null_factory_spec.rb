@@ -18,10 +18,10 @@ describe FactoryBot::NullFactory do
   end
 
   describe "#compiled" do
-    it "has FactoryBot::Evaluator as its evaluator class" do
+    it "has no attributes" do
       null_factory = FactoryBot::NullFactory.new
 
-      expect(null_factory.compiled.evaluator_class).to eq FactoryBot::Evaluator
+      expect(null_factory.compiled.attributes).to eq({})
     end
 
     it "has the global callbacks as its callbacks" do
