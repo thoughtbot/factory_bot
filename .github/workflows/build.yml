@@ -25,8 +25,7 @@ jobs:
           - "8.0"
           - main
         exclude:
-          - { ruby: jruby-9.4, rails: "7.1" }
-          - { ruby: jruby-9.4, rails: "7.2" }
+          # activerecord-jdbcsqlite3-adapter has no release for Rails >= 8.0
           - { ruby: jruby-9.4, rails: "8.0" }
           - { ruby: jruby-9.4, rails: main }
           # Rails >= 8.0 requires Ruby 3.2
