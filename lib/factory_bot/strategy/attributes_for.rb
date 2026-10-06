@@ -1,8 +1,9 @@
 module FactoryBot
   module Strategy
     class AttributesFor
-      def association(runner)
-        runner.run(:null)
+      # Associations are left out of the hash, so nothing is built for them.
+      def association(_runner)
+        nil
       end
 
       def result(evaluation)

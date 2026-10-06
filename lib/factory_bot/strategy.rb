@@ -1,15 +1,9 @@
-require "factory_bot/strategy/build"
-require "factory_bot/strategy/create"
-require "factory_bot/strategy/attributes_for"
-require "factory_bot/strategy/stub"
-require "factory_bot/strategy/null"
-
 module FactoryBot
+  # A strategy answers `association(runner)`, `result(evaluation)` and `to_sym`.
+  # Custom strategies are registered with FactoryBot.register_strategy.
   module Strategy
-    def self.lookup_strategy(name_or_object)
-      return name_or_object if name_or_object.is_a?(Class)
-
-      FactoryBot::Internal.strategy_by_name(name_or_object)
+    def self.lookup(name_or_class)
+      name_or_class.is_a?(Class) ? name_or_class : FactoryBot.strategies.find(name_or_class)
     end
   end
 end

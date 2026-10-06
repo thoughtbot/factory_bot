@@ -1,17 +1,11 @@
-describe "finding factories keyed by class instead of symbol" do
-  before do
-    define_model("User") do
-      attr_accessor :name, :email
-    end
+describe "a factory keyed by its class" do
+  it "is not registered" do
+    define_model("User")
 
     FactoryBot.define do
       factory :user
     end
-  end
 
-  it "doesn't find the factory" do
-    expect { FactoryBot.create(User) }.to(
-      raise_error(KeyError, /Factory not registered: User/)
-    )
+    expect { FactoryBot.create(User) }.to raise_error(KeyError, /Factory not registered: User/)
   end
 end

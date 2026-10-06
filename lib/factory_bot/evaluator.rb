@@ -1,86 +1,119 @@
-require "active_support/core_ext/class/attribute"
-
 module FactoryBot
-  # @api private
-  class Evaluator
-    class_attribute :attribute_lists
+  # The receiver of attribute blocks, initialize_with, inline sequences, and the
+  # second argument of callbacks and to_create. One instance per run.
+  #
+  # A bare name resolves, in order, to: an override or an already computed
+  # value, a compiled attribute (evaluated once), a method on the instance
+  # being built, nil under attributes_for when the build class defines the
+  # method, and finally a SyntaxRunner (build, create, generate, Kernel).
+  class Evaluator < BasicObject
+    attr_accessor :instance
 
-    private_instance_methods.each do |method|
-      undef_method(method) unless method.match?(/^__|initialize/)
-    end
-
-    def initialize(build_strategy, overrides = {})
+    def initialize(compiled, build_strategy, overrides)
+      @compiled = compiled
       @build_strategy = build_strategy
       @overrides = overrides
-      @cached_attributes = overrides
+      @memo = overrides.dup
       @instance = nil
-
-      @overrides.each do |name, value|
-        singleton_class.define_attribute(name) { value }
-      end
+      @hash_mode = false
+      @constructing = false
+      @evaluating = []
+      @read_in_constructor = []
     end
 
     def association(factory_name, *traits_and_overrides)
-      overrides = traits_and_overrides.extract_options!
-      strategy_override = overrides.fetch(:strategy) {
-        FactoryBot.use_parent_strategy ? @build_strategy.to_sym : :create
-      }
-
-      traits_and_overrides += [overrides.except(:strategy)]
-
-      runner = FactoryRunner.new(factory_name, strategy_override, traits_and_overrides)
+      traits, overrides = ::FactoryBot::Syntax::Methods.split_overrides(traits_and_overrides)
+      strategy_name = overrides.fetch(:strategy) { @build_strategy.to_sym }
+      runner = ::FactoryBot::FactoryRunner.new(factory_name, strategy_name, traits, overrides.except(:strategy))
       @build_strategy.association(runner)
     end
 
-    attr_accessor :instance
+    # Every assignable attribute, for `initialize_with { new(**attributes) }`.
+    def attributes
+      names = ::FactoryBot::Evaluation.assignable_names(@compiled.attributes, @overrides.keys)
+      names.to_h { |name| [name, __read__(name)] }
+    end
 
-    def method_missing(method_name, ...)
-      if @instance.respond_to?(method_name)
-        @instance.send(method_name, ...)
+    def new(...)
+      @compiled.build_class.new(...)
+    end
+
+    def method_missing(name, ...)
+      if @memo.key?(name) || @compiled.attributes.key?(name)
+        __read__(name)
+      elsif @instance&.respond_to?(name)
+        @instance.public_send(name, ...)
+      elsif @hash_mode && @compiled.build_class.method_defined?(name)
+        nil
       else
-        SyntaxRunner.new.send(method_name, ...)
+        ::FactoryBot::SyntaxRunner.new.__send__(name, ...)
       end
     end
 
-    def respond_to_missing?(method_name, _include_private = false)
-      @instance.respond_to?(method_name) || SyntaxRunner.new.respond_to?(method_name)
+    def respond_to?(name, include_private = false)
+      @memo.key?(name) || @compiled.attributes.key?(name) ||
+        @instance&.respond_to?(name, include_private) ||
+        ::FactoryBot::SyntaxRunner.new.respond_to?(name, include_private)
+    end
+
+    def respond_to_missing?(name, include_private = false)
+      respond_to?(name, include_private)
+    end
+
+    def inspect
+      "#<FactoryBot::Evaluator #{@compiled.factory.name}>"
+    end
+
+    alias_method :to_s, :inspect
+
+    # The methods below are the protocol used by Evaluation. Their names cannot
+    # collide with attribute names.
+
+    def __read__(name)
+      @read_in_constructor << name if @constructing && @evaluating.empty?
+      return @memo[name] if @memo.key?(name)
+
+      @memo[name] = __evaluate__(@compiled.attributes.fetch(name))
+    end
+
+    def __construct__(constructor)
+      @constructing = true
+      self.instance = instance_exec(&constructor)
+    ensure
+      @constructing = false
+    end
+
+    def __hash_mode__!
+      @hash_mode = true
     end
 
     def __override_names__
       @overrides.keys
     end
 
-    def increment_sequence(sequence, scope: self)
-      value = sequence.next(scope)
-
-      raise if value.respond_to?(:start_with?) && value.start_with?("#<FactoryBot::Declaration")
-
-      value
-    rescue
-      raise ArgumentError, "Sequence '#{sequence.uri_manager.first}' failed to " \
-                          "return a value. Perhaps it needs a scope to operate? (scope: <object>)"
+    def __read_in_constructor__
+      @read_in_constructor
     end
 
-    def self.attribute_list
-      AttributeList.new.tap do |list|
-        attribute_lists.each do |attribute_list|
-          list.apply_attributes attribute_list.to_a
-        end
-      end
-    end
+    private
 
-    def self.define_attribute(name, &block)
-      if instance_methods(false).include?(name) || private_instance_methods(false).include?(name)
-        undef_method(name)
+    def __evaluate__(attribute)
+      if @evaluating.include?(attribute.name)
+        ::Kernel.raise ::FactoryBot::AttributeDefinitionError,
+          "Circular attribute reference: #{[*@evaluating, attribute.name].join(" -> ")}"
       end
 
-      define_method(name) do
-        if @cached_attributes.key?(name)
-          @cached_attributes[name]
-        else
-          @cached_attributes[name] = instance_exec(&block)
-        end
+      @evaluating.push(attribute.name)
+
+      if attribute.association?
+        association(attribute.factory, *attribute.traits, attribute.overrides)
+      elsif [1, -1, -2].include?(attribute.block.arity)
+        instance_exec(self, &attribute.block)
+      else
+        instance_exec(&attribute.block)
       end
+    ensure
+      @evaluating.pop
     end
   end
 end

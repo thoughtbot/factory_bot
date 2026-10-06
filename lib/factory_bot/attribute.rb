@@ -1,27 +1,13 @@
-require "factory_bot/attribute/dynamic"
-require "factory_bot/attribute/association"
-require "factory_bot/attribute/sequence"
-
 module FactoryBot
-  # @api private
-  class Attribute
-    attr_reader :name, :ignored
-
-    def initialize(name, ignored)
-      @name = name.to_sym
-      @ignored = ignored
-    end
-
-    def to_proc
-      -> {}
+  # A resolved attribute. The block runs with the Evaluator as self; an
+  # association has a factory name instead of a block.
+  Attribute = Data.define(:name, :block, :transient, :factory, :traits, :overrides) do
+    def initialize(name:, block: nil, transient: false, factory: nil, traits: [], overrides: {})
+      super(name: name.to_sym, block: block, transient: transient, factory: factory, traits: traits, overrides: overrides)
     end
 
     def association?
-      false
-    end
-
-    def alias_for?(attr)
-      FactoryBot.aliases_for(attr).include?(name)
+      !factory.nil?
     end
   end
 end

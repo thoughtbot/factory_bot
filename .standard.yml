@@ -1,3 +1,1 @@
-ruby_version: "3.0"
-parallel: true
-format: progress
+ruby_version: "3.2"

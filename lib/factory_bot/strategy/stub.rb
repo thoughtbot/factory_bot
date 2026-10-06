@@ -1,32 +1,11 @@
 module FactoryBot
   module Strategy
     class Stub
-      @@next_id = 1000
-
-      DISABLED_PERSISTENCE_METHODS = [
-        :connection,
-        :decrement!,
-        :delete,
-        :destroy!,
-        :destroy,
-        :increment!,
-        :reload,
-        :save!,
-        :save,
-        :toggle!,
-        :touch,
-        :update!,
-        :update,
-        :update_attribute,
-        :update_attributes!,
-        :update_attributes,
-        :update_column,
-        :update_columns
-      ].freeze
-
-      def self.next_id=(id)
-        @@next_id = id
+      class << self
+        attr_accessor :next_id
       end
+
+      self.next_id = 1000
 
       def association(runner)
         runner.run(:build_stubbed)
@@ -34,95 +13,44 @@ module FactoryBot
 
       def result(evaluation)
         evaluation.object.tap do |instance|
-          stub_database_interaction_on_result(instance)
+          instance.id ||= next_id(instance) if settable_id?(instance)
+          instance.extend(Stubbed)
           set_timestamps(instance)
-          clear_changes_information(instance)
+          instance.clear_changes_information if instance.respond_to?(:clear_changes_information)
           evaluation.notify(:after_stub, instance)
         end
       end
 
       def to_sym
-        :stub
+        :build_stubbed
       end
 
       private
 
-      def next_id(result_instance)
-        if uuid_primary_key?(result_instance)
-          SecureRandom.uuid
-        else
-          @@next_id += 1
-        end
+      def settable_id?(instance)
+        instance.respond_to?(:id=) &&
+          (!instance.class.respond_to?(:primary_key) || instance.class.primary_key)
       end
 
-      def stub_database_interaction_on_result(result_instance)
-        if has_settable_id?(result_instance)
-          result_instance.id ||= next_id(result_instance)
-        end
-
-        result_instance.instance_eval do
-          def persisted?
-            true
-          end
-
-          def new_record?
-            false
-          end
-
-          def destroyed?
-            false
-          end
-
-          DISABLED_PERSISTENCE_METHODS.each do |write_method|
-            define_singleton_method(write_method) do |*args|
-              raise "stubbed models are not allowed to access the database - " \
-                    "#{self.class}##{write_method}(#{args.join(",")})"
-            end
-          end
-        end
+      def next_id(instance)
+        uuid_primary_key?(instance) ? SecureRandom.uuid : (self.class.next_id += 1)
       end
 
-      def has_settable_id?(result_instance)
-        result_instance.respond_to?(:id=) &&
-          (!result_instance.class.respond_to?(:primary_key) ||
-          result_instance.class.primary_key)
-      end
-
-      def uuid_primary_key?(result_instance)
-        result_instance.respond_to?(:column_for_attribute) &&
-          (column = result_instance.column_for_attribute(result_instance.class.primary_key)) &&
+      def uuid_primary_key?(instance)
+        instance.respond_to?(:column_for_attribute) &&
+          (column = instance.column_for_attribute(instance.class.primary_key)) &&
           column.respond_to?(:sql_type) &&
           column.sql_type == "uuid"
       end
 
-      def clear_changes_information(result_instance)
-        if result_instance.respond_to?(:clear_changes_information)
-          result_instance.clear_changes_information
-        end
-      end
-
-      def set_timestamps(result_instance)
+      def set_timestamps(instance)
         timestamp = Time.current
 
-        if missing_created_at?(result_instance)
-          result_instance.created_at = timestamp
+        %i[created_at updated_at].each do |name|
+          next unless instance.respond_to?(name) && instance.respond_to?(:"#{name}=")
+
+          instance.public_send(:"#{name}=", timestamp) if instance.public_send(name).blank?
         end
-
-        if missing_updated_at?(result_instance)
-          result_instance.updated_at = timestamp
-        end
-      end
-
-      def missing_created_at?(result_instance)
-        result_instance.respond_to?(:created_at) &&
-          result_instance.respond_to?(:created_at=) &&
-          result_instance.created_at.blank?
-      end
-
-      def missing_updated_at?(result_instance)
-        result_instance.respond_to?(:updated_at) &&
-          result_instance.respond_to?(:updated_at=) &&
-          result_instance.updated_at.blank?
       end
     end
   end

@@ -98,26 +98,11 @@ describe "associations without overriding :strategy" do
     end
   end
 
-  context "when the :use_parent_strategy config option is set to false" do
-    it "uses the overridden strategy on the association" do
-      FactoryBot.register_strategy(:create, custom_strategy)
+  it "uses the parent strategy on the association" do
+    FactoryBot.register_strategy(:create, custom_strategy)
 
-      with_temporary_assignment(FactoryBot, :use_parent_strategy, false) do
-        post = FactoryBot.build(:post)
-        expect(post.user.name).to eq "Custom strategy"
-      end
-    end
-  end
-
-  context "when the :use_parent_strategy config option is set to true" do
-    it "uses the parent strategy on the association" do
-      FactoryBot.register_strategy(:create, custom_strategy)
-
-      with_temporary_assignment(FactoryBot, :use_parent_strategy, true) do
-        post = FactoryBot.build(:post)
-        expect(post.user.name).to eq "John Doe"
-      end
-    end
+    post = FactoryBot.build(:post)
+    expect(post.user.name).to eq "John Doe"
   end
 end
 

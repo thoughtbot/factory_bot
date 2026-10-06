@@ -1,33 +1,21 @@
 module FactoryBot
-  # @api private
+  # Everything FactoryBot.define registers, plus the compiled-factory cache.
+  # FactoryBot.reload replaces the whole object.
   class Configuration
-    attr_reader(
-      :callback_names,
-      :factories,
-      :inline_sequences,
-      :sequences,
-      :strategies,
-      :traits
-    )
+    attr_reader :factories, :sequences, :traits, :strategies, :inline_sequences, :definition, :compiled
 
     def initialize
-      @factories = Decorator::DisallowsDuplicatesRegistry.new(Registry.new("Factory"))
-      @sequences = Decorator::DisallowsDuplicatesRegistry.new(Registry.new("Sequence"))
-      @traits = Decorator::DisallowsDuplicatesRegistry.new(Registry.new("Trait"))
+      @factories = Registry.new("Factory")
+      @sequences = Registry.new("Sequence")
+      @traits = Registry.new("Trait")
       @strategies = Registry.new("Strategy")
-      @callback_names = Set.new
-      @definition = Definition.new(:configuration)
       @inline_sequences = []
+      @compiled = {}
 
-      to_create(&:save!)
-      initialize_with { new }
-    end
-
-    delegate :to_create, :skip_create, :constructor, :before, :after,
-      :callback, :callbacks, to: :@definition
-
-    def initialize_with(&block)
-      @definition.define_constructor(&block)
+      # Global defaults; FactoryBot.define { to_create { } } and friends replace these.
+      @definition = Definition.new(:global)
+      @definition.constructor = proc { new }
+      @definition.to_create = ->(instance) { instance.save! }
     end
   end
 end

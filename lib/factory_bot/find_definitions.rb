@@ -1,25 +1,26 @@
 module FactoryBot
-  class << self
-    # An Array of strings specifying locations that should be searched for
-    # factory definitions. By default, factory_bot will attempt to require
-    # "factories.rb", "factories/**/*.rb", "test/factories.rb",
-    # "test/factories/**.rb", "spec/factories.rb", and "spec/factories/**.rb".
-    attr_accessor :definition_file_paths
-  end
+  # Extended into FactoryBot. Loads factory files from definition_file_paths.
+  module FindDefinitions
+    attr_writer :definition_file_paths
 
-  self.definition_file_paths = %w[factories test/factories spec/factories]
+    def definition_file_paths
+      @definition_file_paths ||= %w[factories test/factories spec/factories]
+    end
 
-  def self.find_definitions
-    absolute_definition_file_paths = definition_file_paths.map { |path| File.expand_path(path) }
+    def find_definitions
+      definition_file_paths.map { |path| File.expand_path(path) }.uniq.each do |path|
+        load("#{path}.rb") if File.exist?("#{path}.rb")
 
-    absolute_definition_file_paths.uniq.each do |path|
-      load("#{path}.rb") if File.exist?("#{path}.rb")
-
-      if File.directory? path
-        Dir[File.join(path, "**", "*.rb")].sort.each do |file|
-          load file
+        if File.directory?(path)
+          Dir[File.join(path, "**", "*.rb")].sort.each { |file| load(file) }
         end
       end
+    end
+
+    def reload
+      reset_configuration
+      register_default_strategies
+      find_definitions
     end
   end
 end

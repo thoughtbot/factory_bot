@@ -1,34 +1,31 @@
 module FactoryBot
+  # One invocation of a factory: top-level `create(:user, :admin, name: "x")`
+  # or an association from inside another run.
   class FactoryRunner
-    def initialize(name, strategy, traits_and_overrides)
+    def initialize(name, strategy_name, traits, overrides)
       @name = name
-      @strategy = strategy
-
-      @overrides = traits_and_overrides.extract_options!
-      @traits = traits_and_overrides
+      @strategy_name = strategy_name
+      @traits = traits
+      @overrides = overrides.transform_keys(&:to_sym)
     end
 
-    def run(runner_strategy = @strategy, &block)
-      factory = FactoryBot::Internal.factory_by_name(@name)
+    # A parent strategy may force the strategy, as build_stubbed does.
+    def run(strategy_name = @strategy_name, &block)
+      factory = FactoryBot.factories.find(@name)
+      compiled = Compiler.compile(factory, @traits)
+      payload = {name: @name, strategy: strategy_name, traits: @traits, overrides: @overrides, factory: factory}
 
-      factory.compile
+      ActiveSupport::Notifications.instrument("factory_bot.before_run_factory", payload)
+      ActiveSupport::Notifications.instrument("factory_bot.run_factory", payload) do
+        strategy = Strategy.lookup(strategy_name).new
+        evaluator = Evaluator.new(compiled, strategy, @overrides)
+        evaluation = Evaluation.new(compiled, evaluator)
 
-      if @traits.any?
-        factory = factory.with_traits(@traits)
-      end
-
-      instrumentation_payload = {
-        name: @name,
-        strategy: runner_strategy,
-        traits: @traits,
-        overrides: @overrides,
-        factory: factory
-      }
-
-      ActiveSupport::Notifications.instrument("factory_bot.before_run_factory", instrumentation_payload)
-
-      ActiveSupport::Notifications.instrument("factory_bot.run_factory", instrumentation_payload) do
-        factory.run(runner_strategy, @overrides, &block)
+        evaluation.notify(:before_all, nil)
+        instance = strategy.result(evaluation)
+        block&.call(instance)
+        evaluation.notify(:after_all, instance)
+        instance
       end
     end
   end

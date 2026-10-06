@@ -21,22 +21,9 @@ describe "a built instance" do
 
   it { should be_new_record }
 
-  context "when the :use_parent_strategy config option is set to false" do
-    it "assigns and saves associations" do
-      with_temporary_assignment(FactoryBot, :use_parent_strategy, false) do
-        expect(subject.user).to be_kind_of(User)
-        expect(subject.user).not_to be_new_record
-      end
-    end
-  end
-
-  context "when the :use_parent_strategy config option is set to true" do
-    it "assigns but does not save associations" do
-      with_temporary_assignment(FactoryBot, :use_parent_strategy, true) do
-        expect(subject.user).to be_kind_of(User)
-        expect(subject.user).to be_new_record
-      end
-    end
+  it "assigns but does not save associations" do
+    expect(subject.user).to be_kind_of(User)
+    expect(subject.user).to be_new_record
   end
 end
 
