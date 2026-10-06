@@ -215,13 +215,13 @@ describe "callbacks" do
       it "receives the context, without an instance" do
         FactoryBot.define do
           before(:all) do |user, context|
-            TestLog << "Global strategy: #{context.instance_values["build_strategy"].to_sym}"
+            TestLog << "Global strategy: #{context.instance_eval { @build_strategy }.to_sym}"
             TestLog << "Global instance: #{context.instance}"
           end
 
           factory :user do
             before(:all) do |user, context|
-              TestLog << "Factory strategy: #{context.instance_values["build_strategy"].to_sym}"
+              TestLog << "Factory strategy: #{context.instance_eval { @build_strategy }.to_sym}"
               TestLog << "Factory instance: #{context.instance}"
             end
           end
