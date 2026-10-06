@@ -90,10 +90,9 @@ module FactoryBot
 
     def compile
       unless @compiled
-        parent.compile
+        parent&.compile
         inherit_parent_traits
         @definition.compile(build_class)
-        build_hierarchy
         @compiled = true
       end
     end
@@ -104,14 +103,19 @@ module FactoryBot
       end
     end
 
+    # The parent factory, or nil for a factory without one.
+    def parent
+      FactoryBot::Internal.factory_by_name(@parent) if @parent
+    end
+
     protected
 
     def class_name
-      @class_name || parent.class_name || name
+      @class_name || parent&.class_name || name
     end
 
     def evaluator_class
-      @evaluator_class ||= EvaluatorClassDefiner.new(attributes, parent.evaluator_class).evaluator_class
+      @evaluator_class ||= EvaluatorClassDefiner.new(attributes, parent_evaluator_class).evaluator_class
     end
 
     def attributes
@@ -121,28 +125,16 @@ module FactoryBot
       end
     end
 
-    def hierarchy_class
-      @hierarchy_class ||= Class.new(parent.hierarchy_class)
-    end
-
-    def hierarchy_instance
-      @hierarchy_instance ||= hierarchy_class.new
-    end
-
-    def build_hierarchy
-      hierarchy_class.build_from_definition definition
-    end
-
     def callbacks
-      hierarchy_instance.callbacks
+      inherited_callbacks + definition.callbacks
     end
 
     def compiled_to_create
-      hierarchy_instance.to_create
+      definition.to_create || inherited_to_create
     end
 
     def compiled_constructor
-      hierarchy_instance.constructor
+      definition.constructor || inherited_constructor
     end
 
     private
@@ -151,15 +143,25 @@ module FactoryBot
       options.assert_valid_keys(:class, :parent, :aliases, :traits)
     end
 
-    def parent
-      if @parent
-        FactoryBot::Internal.factory_by_name(@parent)
-      else
-        NullFactory.new
-      end
+    def parent_evaluator_class
+      parent ? parent.evaluator_class : Evaluator
+    end
+
+    def inherited_callbacks
+      parent ? parent.callbacks : Internal.callbacks
+    end
+
+    def inherited_to_create
+      parent ? parent.compiled_to_create : Internal.to_create
+    end
+
+    def inherited_constructor
+      parent ? parent.compiled_constructor : Internal.constructor
     end
 
     def inherit_parent_traits
+      return unless parent
+
       parent.defined_traits.each do |trait|
         next if defined_traits_names.include?(trait.name)
         define_trait(trait.clone)
@@ -170,8 +172,6 @@ module FactoryBot
       super
       @definition = @definition.clone
       @evaluator_class = nil
-      @hierarchy_class = nil
-      @hierarchy_instance = nil
       @compiled = false
     end
   end
