@@ -32,7 +32,7 @@ module FactoryBot
       CompiledFactory.new(
         factory: @factory,
         build_class: @build_class,
-        attributes: [@parent&.attributes || {}, own.attributes, *runtime.map(&:attributes)].reduce(:merge).freeze,
+        attributes: merge_attributes(@parent&.attributes || {}, own.attributes, *runtime.map(&:attributes)).freeze,
         callbacks: (inherited_callbacks(global) + own.callbacks + runtime.flat_map(&:callbacks)).uniq.freeze,
         constructor: runtime.filter_map(&:constructor).last || own.constructor || @parent&.constructor || global.constructor,
         to_create: runtime.filter_map(&:to_create).last || own.to_create || @parent&.to_create || global.to_create,
@@ -41,6 +41,16 @@ module FactoryBot
     end
 
     private
+
+    # Later declarations win, keep the first declaration's position, and a
+    # name declared transient anywhere stays transient when redefined.
+    def merge_attributes(*attribute_hashes)
+      attribute_hashes.reduce({}) do |merged, attributes|
+        merged.merge(attributes) do |_name, existing, incoming|
+          existing.transient ? incoming.with(transient: true) : incoming
+        end
+      end
+    end
 
     def inherited_callbacks(global)
       @parent ? @parent.callbacks : global.callbacks
@@ -106,7 +116,7 @@ module FactoryBot
         base = base_names.map { |name| compile_trait(find_trait(name, scope, within: definition.name)) }
 
         Part.new(
-          attributes: base.map(&:attributes).reduce({}, :merge).merge(declared),
+          attributes: merge_attributes(*base.map(&:attributes), declared),
           callbacks: base.flat_map(&:callbacks) + definition.callbacks,
           constructor: definition.constructor || base.filter_map(&:constructor).last,
           to_create: definition.to_create || base.filter_map(&:to_create).last

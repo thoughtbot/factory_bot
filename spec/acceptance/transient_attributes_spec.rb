@@ -120,3 +120,49 @@ describe "assigning values from a transient attribute" do
     expect(user.foo_name).to eq "passed-in-name-of-foo"
   end
 end
+
+describe "redefining a transient attribute without the transient block" do
+  include FactoryBot::Syntax::Methods
+
+  before do
+    define_model("Person", name: :string)
+
+    FactoryBot.define do
+      factory :person do
+        transient do
+          starts_on { "today" }
+        end
+
+        name { "starts #{starts_on}" }
+
+        trait :early do
+          starts_on { "yesterday" }
+        end
+
+        factory :late_person do
+          starts_on { "tomorrow" }
+        end
+      end
+    end
+  end
+
+  it "stays transient when a trait redefines it" do
+    expect(build(:person, :early).name).to eq "starts yesterday"
+    expect(create(:person, :early).name).to eq "starts yesterday"
+    expect(build_stubbed(:person, :early).name).to eq "starts yesterday"
+  end
+
+  it "stays transient when a child factory redefines it" do
+    expect(build(:late_person).name).to eq "starts tomorrow"
+    expect(create(:late_person).name).to eq "starts tomorrow"
+  end
+
+  it "stays transient when overridden" do
+    expect(build(:late_person, starts_on: "never").name).to eq "starts never"
+  end
+
+  it "is left out of attributes_for" do
+    expect(attributes_for(:person, :early)).to eq(name: "starts yesterday")
+    expect(attributes_for(:late_person)).to eq(name: "starts tomorrow")
+  end
+end
