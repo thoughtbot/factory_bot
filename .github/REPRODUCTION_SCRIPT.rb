@@ -14,7 +14,7 @@ require "minitest/autorun"
 require "logger"
 
 ActiveRecord::Base.establish_connection(adapter: "sqlite3", database: ":memory:")
-ActiveRecord::Base.logger = Logger.new(STDOUT)
+ActiveRecord::Base.logger = Logger.new($stdout)
 
 ActiveRecord::Schema.define do
   # TODO: Update the schema to include the specific tables or columns necessary
