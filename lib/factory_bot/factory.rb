@@ -32,23 +32,7 @@ module FactoryBot
     end
 
     def run(build_strategy, overrides, &block)
-      block ||= ->(result) { result }
-
-      compile
-
-      strategy = Strategy.lookup_strategy(build_strategy).new
-
-      evaluator = evaluator_class.new(strategy, overrides.symbolize_keys)
-      attribute_assigner = AttributeAssigner.new(evaluator, build_class, &compiled_constructor)
-
-      observer = CallbacksObserver.new(callbacks, evaluator)
-      evaluation = Evaluation.new(evaluator, attribute_assigner, compiled_to_create, observer)
-
-      evaluation.notify(:before_all, nil)
-      instance = strategy.result(evaluation).tap(&block)
-      evaluation.notify(:after_all, instance)
-
-      instance
+      compiled.run(build_strategy, overrides, &block)
     end
 
     def human_names
@@ -56,7 +40,7 @@ module FactoryBot
     end
 
     def associations
-      evaluator_class.attribute_list.associations
+      compiled.attributes.associations
     end
 
     # Names for this factory, including aliases.
@@ -141,6 +125,10 @@ module FactoryBot
 
     def assert_valid_options(options)
       options.assert_valid_keys(:class, :parent, :aliases, :traits)
+    end
+
+    def compiled
+      FactoryBot::Internal.compiled_factory(self, [])
     end
 
     def parent_evaluator_class

@@ -79,12 +79,19 @@ module FactoryBot
 
     def lint_traits(factory)
       result = []
-      factory.definition.defined_traits.map(&:name).each do |trait_name|
+      trait_names(factory).each do |trait_name|
         in_transaction { FactoryBot.public_send(factory_strategy, factory.name, trait_name) }
       rescue => e
         result |= [FactoryTraitError.new(e, factory, trait_name)]
       end
       result
+    end
+
+    # Inherited and enum traits are in the factory's scope, so they are linted too.
+    def trait_names(factory)
+      FactoryBot::Internal.compiled_factory(factory, []).traits.keys
+    rescue
+      factory.definition.defined_traits_names
     end
 
     def error_message

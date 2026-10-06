@@ -153,6 +153,20 @@ describe "modifying factories" do
     end
   end
 
+  it "takes effect after the factory has been used" do
+    create(:user)
+    create(:admin)
+
+    FactoryBot.modify do
+      factory :user do
+        name { "Modified after use" }
+      end
+    end
+
+    expect(create(:user).name).to eq "Modified after use"
+    expect(create(:admin).name).to eq "Modified after use"
+  end
+
   it "doesn't overwrite already defined child's attributes" do
     FactoryBot.modify do
       factory :user do

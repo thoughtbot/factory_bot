@@ -1,5 +1,6 @@
 shared_examples_for "strategy without association support" do
   let(:factory) { double("associate_factory") }
+  let(:compiled_factory) { double("compiled_factory", run: nil) }
   let(:attribute) { FactoryBot::Attribute::Association.new(:user, :user, {}) }
 
   def association_named(name, overrides)
@@ -9,8 +10,7 @@ shared_examples_for "strategy without association support" do
 
   before do
     allow(FactoryBot::Internal).to receive(:factory_by_name).and_return factory
-    allow(factory).to receive(:compile)
-    allow(factory).to receive(:run)
+    allow(FactoryBot::Internal).to receive(:compiled_factory).and_return compiled_factory
   end
 
   it "returns nil when accessing an association" do
@@ -20,6 +20,7 @@ end
 
 shared_examples_for "strategy with association support" do |factory_bot_strategy_name|
   let(:factory) { double("associate_factory") }
+  let(:compiled_factory) { double("compiled_factory", run: nil) }
 
   def association_named(name, strategy, overrides)
     runner = FactoryBot::FactoryRunner.new(name, strategy, [overrides])
@@ -28,13 +29,12 @@ shared_examples_for "strategy with association support" do |factory_bot_strategy
 
   before do
     allow(FactoryBot::Internal).to receive(:factory_by_name).and_return factory
-    allow(factory).to receive(:compile)
-    allow(factory).to receive(:run)
+    allow(FactoryBot::Internal).to receive(:compiled_factory).and_return compiled_factory
   end
 
   it "runs the factory with the correct overrides" do
     association_named(:author, factory_bot_strategy_name, great: "value")
-    expect(factory).to have_received(:run).with(factory_bot_strategy_name, great: "value")
+    expect(compiled_factory).to have_received(:run).with(factory_bot_strategy_name, great: "value")
   end
 
   it "finds the factory with the correct factory name" do
@@ -45,6 +45,7 @@ end
 
 shared_examples_for "strategy with strategy: :build" do |factory_bot_strategy_name|
   let(:factory) { double("associate_factory") }
+  let(:compiled_factory) { double("compiled_factory", run: nil) }
 
   def association_named(name, overrides)
     runner = FactoryBot::FactoryRunner.new(name, overrides[:strategy], [overrides.except(:strategy)])
@@ -53,13 +54,12 @@ shared_examples_for "strategy with strategy: :build" do |factory_bot_strategy_na
 
   before do
     allow(FactoryBot::Internal).to receive(:factory_by_name).and_return factory
-    allow(factory).to receive(:compile)
-    allow(factory).to receive(:run)
+    allow(FactoryBot::Internal).to receive(:compiled_factory).and_return compiled_factory
   end
 
   it "runs the factory with the correct overrides" do
     association_named(:author, strategy: :build, great: "value")
-    expect(factory).to have_received(:run).with(factory_bot_strategy_name, great: "value")
+    expect(compiled_factory).to have_received(:run).with(factory_bot_strategy_name, great: "value")
   end
 
   it "finds the factory with the correct factory name" do

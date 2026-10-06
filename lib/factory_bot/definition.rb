@@ -91,7 +91,7 @@ module FactoryBot
     end
 
     def inherit_traits(new_traits)
-      @base_traits += new_traits
+      @base_traits |= new_traits
     end
 
     def append_traits(new_traits)

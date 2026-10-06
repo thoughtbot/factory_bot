@@ -4,6 +4,9 @@
 
 * Change: Drop support for Ruby 3.0, which reached end of life in April 2024. Ruby 3.1 is now the minimum required version
 * Change: Drop support for ActiveSupport 6.1, which is no longer tested in CI. ActiveSupport 7.0 is now the minimum required version
+* Refactor: compile each factory and list of traits once into a cached snapshot instead of cloning the factory, re-running its trait blocks and defining new evaluator classes on every `build`, `create`, `build_stubbed` or `attributes_for` call that passes traits
+* Fix: `FactoryBot.modify` now takes effect even after the factory has been used
+* Change: the `factory:` entry in the `factory_bot.run_factory` and `factory_bot.before_run_factory` instrumentation payloads is the registered `FactoryBot::Factory` object rather than a per-call clone
 
 ## 6.6.0 (May 4, 2026)
 
