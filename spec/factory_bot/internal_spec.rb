@@ -62,7 +62,10 @@ describe FactoryBot::Internal do
       allow(sequence).to receive(:rewind)
       FactoryBot::Internal.register_sequence(sequence)
 
-      inline_sequence = instance_double(FactoryBot::Sequence)
+      inline_sequence = instance_double(
+        FactoryBot::Sequence,
+        uri_manager: FactoryBot::UriManager.new(:email, paths: [:user])
+      )
       allow(inline_sequence).to receive(:rewind)
       FactoryBot::Internal.register_inline_sequence(inline_sequence)
 

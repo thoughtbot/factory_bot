@@ -26,7 +26,11 @@ module FactoryBot
         @configuration = nil
       end
 
+      # A redeclaration at the same URI, as in FactoryBot.modify, replaces
+      # the earlier sequence so each URI resolves to a single Sequence.
       def register_inline_sequence(sequence)
+        uris = sequence.uri_manager.to_a
+        inline_sequences.delete_if { |existing| uris.any? { |uri| existing.has_uri?(uri) } }
         inline_sequences.push(sequence)
         sequence
       end
