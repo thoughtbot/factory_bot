@@ -33,8 +33,7 @@ module FactoryBot
       evaluator = evaluator_class.new(strategy, overrides.symbolize_keys)
       attribute_assigner = AttributeAssigner.new(evaluator, build_class, &constructor)
 
-      observer = CallbacksObserver.new(callbacks, evaluator)
-      evaluation = Evaluation.new(evaluator, attribute_assigner, to_create, observer)
+      evaluation = Evaluation.new(evaluator, attribute_assigner, to_create, callbacks)
 
       evaluation.notify(:before_all, nil)
       instance = strategy.result(evaluation).tap(&block)
@@ -68,7 +67,7 @@ module FactoryBot
           factory: @factory,
           build_class: @build_class,
           attributes: merge_attributes(own, runtime),
-          callbacks: inherited_callbacks + own.callbacks + runtime.flat_map(&:callbacks),
+          callbacks: (inherited_callbacks + own.callbacks + runtime.flat_map(&:callbacks)).uniq,
           constructor: runtime.map(&:constructor).compact.last || own.constructor || inherited_constructor,
           to_create: runtime.map(&:to_create).compact.last || own.to_create || inherited_to_create,
           traits: @scope
