@@ -38,6 +38,26 @@ To install the gem manually from your shell, run:
 gem install factory_bot
 ```
 
+## Quick Start
+
+Define a factory for a model in `spec/factories/users.rb`:
+
+```ruby
+FactoryBot.define do
+  factory :user do
+    name { "Jane Doe" }
+    email { "jane@example.com" }
+  end
+end
+```
+
+Use the factory in a test or other Ruby code:
+
+```ruby
+user = FactoryBot.build(:user)  # Build an in-memory user.
+saved_user = FactoryBot.create(:user)  # Persist a user through the model layer.
+```
+
 ## Supported Ruby versions
 
 Supported Ruby versions are listed in `.github/workflows/build.yml` ([source](https://github.com/thoughtbot/factory_bot/blob/main/.github/workflows/build.yml))
