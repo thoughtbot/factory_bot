@@ -1,7 +1,8 @@
 module FactoryBot
   # @api private
   class Definition
-    attr_reader :defined_traits, :declarations, :name, :registered_enums, :uri_manager
+    attr_reader :defined_traits, :declarations, :name, :registered_enums, :uri_manager,
+      :automatically_define_enum_traits
     attr_accessor :klass
 
     def initialize(name, base_traits = [], **opts)
@@ -79,6 +80,12 @@ module FactoryBot
 
     def inherit_traits(new_traits)
       @base_traits += new_traits
+    end
+
+    def inherit_automatically_define_enum_traits(parent_definition)
+      if @automatically_define_enum_traits.nil?
+        @automatically_define_enum_traits = parent_definition.automatically_define_enum_traits
+      end
     end
 
     def append_traits(new_traits)

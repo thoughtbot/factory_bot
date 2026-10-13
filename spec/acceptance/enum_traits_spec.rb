@@ -154,6 +154,25 @@ describe "enum traits" do
 
         Task.reset_column_information
       end
+
+      it "applies the setting to child factories" do
+        define_model_with_enum("Task", :status, {queued: 0, started: 1, finished: 2})
+
+        FactoryBot.define do
+          factory :task, automatically_define_enum_traits: false do
+            factory :urgent_task
+          end
+
+          factory :late_task, parent: :task
+        end
+
+        Task.statuses.each_key do |trait_name|
+          expect { FactoryBot.build(:urgent_task, trait_name) }.to raise_error(KeyError, /Trait not registered/)
+          expect { FactoryBot.build(:late_task, trait_name) }.to raise_error(KeyError, /Trait not registered/)
+        end
+
+        Task.reset_column_information
+      end
     end
   end
 
@@ -217,6 +236,27 @@ describe "enum traits" do
             task = FactoryBot.build(:task, trait_name)
 
             expect(task.status).to eq(trait_name)
+          end
+
+          Task.reset_column_information
+        end
+      end
+
+      it "applies the setting to child factories" do
+        with_temporary_assignment(FactoryBot, :automatically_define_enum_traits, false) do
+          define_model_with_enum("Task", :status, {queued: 0, started: 1, finished: 2})
+
+          FactoryBot.define do
+            factory :task, automatically_define_enum_traits: true do
+              factory :urgent_task
+            end
+
+            factory :late_task, parent: :task
+          end
+
+          Task.statuses.each_key do |trait_name|
+            expect(FactoryBot.build(:urgent_task, trait_name).status).to eq(trait_name)
+            expect(FactoryBot.build(:late_task, trait_name).status).to eq(trait_name)
           end
 
           Task.reset_column_information

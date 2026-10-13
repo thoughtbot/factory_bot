@@ -97,6 +97,7 @@ module FactoryBot
       unless @compiled
         parent.compile
         inherit_parent_traits
+        @definition.inherit_automatically_define_enum_traits(parent.definition)
         @definition.compile(build_class)
         build_hierarchy
         @compiled = true
