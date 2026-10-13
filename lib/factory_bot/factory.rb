@@ -154,6 +154,10 @@ module FactoryBot
 
     def assert_valid_options(options)
       options.assert_valid_keys(:class, :parent, :aliases, :traits, :automatically_define_enum_traits)
+
+      unless [nil, true, false].include?(options[:automatically_define_enum_traits])
+        raise ArgumentError, "automatically_define_enum_traits must be true or false"
+      end
     end
 
     def parent

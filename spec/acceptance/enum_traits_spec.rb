@@ -157,6 +157,14 @@ describe "enum traits" do
     end
   end
 
+  it "raises an error when the factory option is not a boolean" do
+    expect {
+      FactoryBot.define do
+        factory :task, automatically_define_enum_traits: "false"
+      end
+    }.to raise_error(ArgumentError, "automatically_define_enum_traits must be true or false")
+  end
+
   context "when FactoryBot.automatically_define_enum_traits is false" do
     it "raises an error for undefined traits" do
       with_temporary_assignment(FactoryBot, :automatically_define_enum_traits, false) do
