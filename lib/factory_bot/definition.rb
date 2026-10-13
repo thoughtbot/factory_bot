@@ -204,13 +204,13 @@ module FactoryBot
     end
 
     def automatically_register_defined_enums?(klass)
-      automatically_define_enum_traits = if @automatically_define_enum_traits.nil?
-        FactoryBot.automatically_define_enum_traits
-      else
-        @automatically_define_enum_traits
-      end
+      automatically_define_enum_traits? && klass.respond_to?(:defined_enums)
+    end
 
-      automatically_define_enum_traits && klass.respond_to?(:defined_enums)
+    def automatically_define_enum_traits?
+      return FactoryBot.automatically_define_enum_traits if @automatically_define_enum_traits.nil?
+
+      @automatically_define_enum_traits
     end
   end
 end
