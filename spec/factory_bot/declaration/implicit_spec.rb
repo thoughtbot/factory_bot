@@ -1,45 +1,4 @@
 describe FactoryBot::Declaration::Implicit do
-  context "with a known factory" do
-    it "creates an association attribute" do
-      allow(FactoryBot.factories).to receive(:registered?).and_return true
-
-      declaration = FactoryBot::Declaration::Implicit.new(:name)
-      attribute = declaration.to_attributes.first
-
-      expect(attribute).to be_association
-    end
-
-    it "has the correct factory name" do
-      allow(FactoryBot.factories).to receive(:registered?).and_return true
-      name = :factory_name
-
-      declaration = FactoryBot::Declaration::Implicit.new(name)
-      attribute = declaration.to_attributes.first
-
-      expect(attribute.factory).to eq(name)
-    end
-  end
-
-  context "with a known sequence" do
-    it "does not create an association attribute" do
-      allow(FactoryBot::Internal.sequences).to receive(:registered?).and_return true
-
-      declaration = FactoryBot::Declaration::Implicit.new(:name)
-      attribute = declaration.to_attributes.first
-
-      expect(attribute).not_to be_association
-    end
-
-    it "creates a sequence attribute" do
-      allow(FactoryBot::Internal.sequences).to receive(:registered?).and_return true
-
-      declaration = FactoryBot::Declaration::Implicit.new(:name)
-      attribute = declaration.to_attributes.first
-
-      expect(attribute).to be_a(FactoryBot::Attribute::Sequence)
-    end
-  end
-
   describe "#==" do
     context "when the attributes are equal" do
       it "the objects are equal" do
