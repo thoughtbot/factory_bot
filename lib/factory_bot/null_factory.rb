@@ -18,7 +18,7 @@ module FactoryBot
     def compiled(_trait_names = [])
       CompiledFactory.new(
         build_class: nil,
-        evaluator_class: FactoryBot::Evaluator,
+        attributes: {},
         callbacks: Internal.callbacks,
         constructor: Internal.constructor,
         to_create: Internal.to_create

@@ -23,5 +23,15 @@ module FactoryBot
     def alias_for?(attr)
       FactoryBot.aliases_for(attr).include?(name)
     end
+
+    # A copy that is evaluated but never assigned, for a redefinition of a
+    # transient attribute outside a transient block.
+    def as_transient
+      dup.tap { |attribute| attribute.transient = true }
+    end
+
+    protected
+
+    attr_writer :transient
   end
 end

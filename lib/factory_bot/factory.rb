@@ -94,10 +94,7 @@ module FactoryBot
 
       CompiledFactory.new(
         build_class: build_class,
-        evaluator_class: EvaluatorClassDefiner.new(
-          attribute_list(traits),
-          parent_compiled.evaluator_class
-        ).evaluator_class,
+        attributes: attributes_over(parent_compiled.attributes, traits),
         callbacks: (parent_compiled.callbacks + definition.callbacks + traits.flat_map(&:callbacks)).uniq,
         constructor: traits.filter_map(&:constructor).last ||
           definition.constructor ||
@@ -139,6 +136,19 @@ module FactoryBot
       AttributeList.new(@name).tap do |list|
         list.apply_attributes definition.attributes
         traits.each { |trait| list.apply_attributes trait.attributes }
+      end
+    end
+
+    # A later definition wins but keeps the first definition's position, and
+    # a name declared transient anywhere stays transient.
+    def attributes_over(inherited, traits)
+      attribute_list(traits).each_with_object(inherited.dup) do |attribute, attributes|
+        previous = attributes[attribute.name]
+        attributes[attribute.name] = if previous&.transient && !attribute.transient
+          attribute.as_transient
+        else
+          attribute
+        end
       end
     end
   end
