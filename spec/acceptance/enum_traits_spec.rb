@@ -1,4 +1,6 @@
 describe "enum traits" do
+  after { Task.try(:reset_column_information) if defined?(Task) }
+
   def define_model_with_enum(class_name, field, values)
     define_model(class_name, status: :integer) do
       if ActiveRecord::VERSION::STRING >= "7.0"
@@ -22,8 +24,6 @@ describe "enum traits" do
 
         expect(task.status).to eq(trait_name)
       end
-
-      Task.reset_column_information
     end
 
     it "prefers user defined traits over automatically built traits" do
@@ -50,8 +50,6 @@ describe "enum traits" do
 
         expect(task.status).to eq("finished")
       end
-
-      Task.reset_column_information
     end
 
     it "builds traits for each enumerated value using a provided list of values as a Hash" do
@@ -133,8 +131,6 @@ describe "enum traits" do
             KeyError, "Trait not registered: \"#{trait_name}\""
           )
         end
-
-        Task.reset_column_information
       end
 
       it "builds traits for each enumerated value when traits_for_enum are specified" do
@@ -151,8 +147,6 @@ describe "enum traits" do
 
           expect(task.status).to eq(trait_name)
         end
-
-        Task.reset_column_information
       end
 
       it "applies the setting to child factories" do
@@ -170,8 +164,6 @@ describe "enum traits" do
           expect { FactoryBot.build(:urgent_task, trait_name) }.to raise_error(KeyError, /Trait not registered/)
           expect { FactoryBot.build(:late_task, trait_name) }.to raise_error(KeyError, /Trait not registered/)
         end
-
-        Task.reset_column_information
       end
     end
   end
@@ -198,8 +190,6 @@ describe "enum traits" do
             KeyError, "Trait not registered: \"#{trait_name}\""
           )
         end
-
-        Task.reset_column_information
       end
     end
 
@@ -218,8 +208,6 @@ describe "enum traits" do
 
           expect(task.status).to eq(trait_name)
         end
-
-        Task.reset_column_information
       end
     end
 
@@ -237,8 +225,6 @@ describe "enum traits" do
 
             expect(task.status).to eq(trait_name)
           end
-
-          Task.reset_column_information
         end
       end
 
@@ -258,8 +244,6 @@ describe "enum traits" do
             expect(FactoryBot.build(:urgent_task, trait_name).status).to eq(trait_name)
             expect(FactoryBot.build(:late_task, trait_name).status).to eq(trait_name)
           end
-
-          Task.reset_column_information
         end
       end
     end
