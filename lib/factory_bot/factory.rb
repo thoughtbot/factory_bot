@@ -111,7 +111,7 @@ module FactoryBot
     end
 
     def evaluator_class
-      @evaluator_class ||= EvaluatorClassDefiner.new(attributes, parent.evaluator_class).evaluator_class
+      @evaluator_class ||= EvaluatorClassDefiner.define_evaluator_class(attributes, parent.evaluator_class)
     end
 
     def attributes
