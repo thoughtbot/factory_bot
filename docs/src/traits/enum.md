@@ -59,8 +59,9 @@ FactoryBot.define do
 end
 ```
 
-If you want to override `FactoryBot.automatically_define_enum_traits` on a
-per-model basis, you can use an additional attribute on your factory:
+To override the global setting for a single factory, pass the
+`automatically_define_enum_traits` option. Child factories, whether nested or
+declared with `parent:`, use their parent's setting unless they set their own.
 
 ```rb
 FactoryBot.define do
@@ -72,11 +73,15 @@ FactoryBot.define do
     end
 
     trait :complete do
-      status {:finished }
+      status { :finished }
     end
   end
 end
 ```
+
+Here only the `:in_progress` and `:complete` traits exist. Building with
+`:queued`, `:started`, or `:finished` raises a `KeyError`. The option accepts
+`true` or `false`.
 
 It is also possible to use this feature for other enumerable values, not
 specifically tied to Active Record enum attributes.
