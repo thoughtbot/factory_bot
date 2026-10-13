@@ -75,19 +75,19 @@ module FactoryBot
     def attribute_names_to_assign
       @attribute_names_to_assign ||= begin
         # start a list of candidates containing non-transient attributes and overrides
-        assignment_candidates = non_ignored_attribute_names + override_names
+        assignment_candidates = non_transient_attribute_names + override_names
         # then remove any transient attributes (potentially reintroduced by the overrides),
         # and remove ignorable aliased attributes from the candidate list
-        assignment_candidates - ignored_attribute_names - attribute_names_overriden_by_alias
+        assignment_candidates - transient_attribute_names - attribute_names_overriden_by_alias
       end
     end
 
-    def non_ignored_attribute_names
-      @attribute_list.non_ignored.names
+    def non_transient_attribute_names
+      @attribute_list.non_transient.names
     end
 
-    def ignored_attribute_names
-      @attribute_list.ignored.names
+    def transient_attribute_names
+      @attribute_list.transient.names
     end
 
     def association_names
@@ -109,7 +109,7 @@ module FactoryBot
     # Builds a list of attribute names which are slated to be interrupted by an override.
     def attribute_names_overriden_by_alias
       @attribute_list
-        .non_ignored
+        .non_transient
         .flat_map { |attribute|
           override_names.map do |override|
             attribute.name if ignorable_alias?(attribute, override)
@@ -120,7 +120,7 @@ module FactoryBot
 
     # Is the attribute an ignorable alias of the override?
     # An attribute is ignorable when it is an alias of the override AND it is
-    # either interrupting an assocciation OR is not the name of another attribute
+    # either interrupting an association OR is not the name of another attribute
     #
     # @note An "alias" is currently an overloaded term for two distinct cases:
     #   (1) attributes which are aliases and reference the same value
@@ -157,8 +157,8 @@ module FactoryBot
     # Does this override match the name of any declared attribute?
     #
     # @note Checking against the names of all attributes, resolves any issues with having both
-    #   <attribute> and <attribute>_id in the same factory. This also takes into account ignored
-    #   attributes that should not be assigned (aka transient attributes)
+    #   <attribute> and <attribute>_id in the same factory. This also takes into account transient
+    #   attributes that should not be assigned.
     #
     # @param [Symbol] override the name of an override
     def override_matches_declared_attribute?(override)

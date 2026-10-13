@@ -27,12 +27,12 @@ module FactoryBot
       AttributeList.new(@name, select(&:association?))
     end
 
-    def ignored
-      AttributeList.new(@name, select(&:ignored))
+    def transient
+      AttributeList.new(@name, select(&:transient))
     end
 
-    def non_ignored
-      AttributeList.new(@name, reject(&:ignored))
+    def non_transient
+      AttributeList.new(@name, reject(&:transient))
     end
 
     def apply_attributes(attributes_to_apply)

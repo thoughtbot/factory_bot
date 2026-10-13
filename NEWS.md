@@ -1,5 +1,10 @@
 # News
 
+## Unreleased
+
+* Change: Drop support for Ruby 3.0, which reached end of life in April 2024. Ruby 3.1 is now the minimum required version
+* Change: Drop support for ActiveSupport 6.1, which is no longer tested in CI. ActiveSupport 7.0 is now the minimum required version
+
 ## 6.6.0 (May 4, 2026)
 
 * Feat: Added `factory_bot.before_run_factory` instrumentation event

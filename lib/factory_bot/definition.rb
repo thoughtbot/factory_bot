@@ -51,25 +51,24 @@ module FactoryBot
 
     def compile(klass = nil)
       unless @compiled
-        expand_enum_traits(klass) unless klass.nil?
+        ActiveSupport::Notifications.instrument "factory_bot.compile_factory", {name: name} do |payload|
+          expand_enum_traits(klass) unless klass.nil?
 
-        declarations.attributes
+          declarations.attributes
 
-        self.klass ||= klass
-        defined_traits.each do |defined_trait|
-          defined_trait.klass ||= klass
-          base_traits.each { |bt| bt.define_trait defined_trait }
-          additional_traits.each { |at| at.define_trait defined_trait }
+          self.klass ||= klass
+          defined_traits.each do |defined_trait|
+            defined_trait.klass ||= klass
+            base_trait_names.each { |bt| bt.define_trait defined_trait }
+            additional_trait_names.each { |at| at.define_trait defined_trait }
+          end
+
+          @compiled = true
+
+          payload[:attributes] = declarations.attributes
+          payload[:traits] = defined_traits
+          payload[:class] = klass || self.klass
         end
-
-        @compiled = true
-
-        ActiveSupport::Notifications.instrument "factory_bot.compile_factory", {
-          name: name,
-          attributes: declarations.attributes,
-          traits: defined_traits,
-          class: klass || self.klass
-        }
       end
     end
 
@@ -132,37 +131,71 @@ module FactoryBot
 
     private
 
-    def base_traits
+    def base_trait_names
       @base_traits.map { |name| trait_by_name(name) }
     rescue KeyError => error
       raise error_with_definition_name(error)
     end
 
-    # detailed_message introduced in Ruby 3.2 for cleaner integration with
-    # did_you_mean. See https://bugs.ruby-lang.org/issues/18564
-    if KeyError.method_defined?(:detailed_message)
-      def error_with_definition_name(error)
-        message = error.message + " referenced within \"#{name}\" definition"
+    def additional_trait_names
+      @additional_traits.map { |name| trait_by_name(name) }
+    rescue KeyError => error
+      raise error_with_definition_name(error)
+    end
 
-        error.class.new(message, key: error.key, receiver: error.receiver)
-          .tap { |new_error| new_error.set_backtrace(error.backtrace) }
-      end
-    else
-      def error_with_definition_name(error)
-        message = error.message
-        message.insert(
-          message.index("\nDid you mean?") || message.length,
-          " referenced within \"#{name}\" definition"
-        )
+    def all_registered_trait_names
+      (defined_traits_names + Internal.traits.map(&:name)).uniq
+    end
 
-        error.class.new(message).tap do |new_error|
-          new_error.set_backtrace(error.backtrace)
+    def error_options(error)
+      if error.respond_to?(:key) && error.respond_to?(:receiver)
+        receiver = error.receiver
+        if receiver.is_a?(Hash) || receiver.is_a?(ActiveSupport::HashWithIndifferentAccess)
+          receiver = receiver.dup
+          defined_traits_names.each do |trait_name|
+            receiver[trait_name] = nil unless receiver.key?(trait_name)
+          end
         end
+        {key: error.key, receiver: receiver}
+      else
+        {}
       end
     end
 
-    def additional_traits
-      @additional_traits.map { |name| trait_by_name(name) }
+    # Before Ruby 3.2, did_you_mean embeds its suggestions in the message itself.
+    def original_message(error)
+      error.message.partition("\nDid you mean?").first
+    end
+
+    def registered_trait_message(all_registered_traits)
+      if all_registered_traits.empty?
+        "No registered traits"
+      else
+        "Registered traits: #{all_registered_traits.map(&:to_sym).sort.inspect}"
+      end
+    end
+
+    def error_with_definition_name(error)
+      message = original_message(error).rstrip
+      message += "." unless message.end_with?(".")
+      message += " #{registered_trait_message(all_registered_trait_names)}."
+      message += " Referenced within \"#{name}\" definition"
+
+      new_error(error, message).tap { |new_error| new_error.set_backtrace(error.backtrace) }
+    end
+
+    # detailed_message introduced in Ruby 3.2 for cleaner integration with
+    # did_you_mean. See https://bugs.ruby-lang.org/issues/18564
+    if KeyError.method_defined?(:detailed_message)
+      def new_error(error, message)
+        error.class.new(message, **error_options(error))
+      end
+    else
+      # Embed the suggestions so Exception#original_message includes them too.
+      def new_error(error, message)
+        options = error_options(error)
+        error.class.new(error.class.new(message, **options).message, **options)
+      end
     end
 
     def trait_by_name(name)
@@ -185,9 +218,9 @@ module FactoryBot
       compile
 
       [
-        base_traits.map(&method_name),
+        base_trait_names.map(&method_name),
         instance_exec(&block),
-        additional_traits.map(&method_name)
+        additional_trait_names.map(&method_name)
       ].flatten.compact
     end
 

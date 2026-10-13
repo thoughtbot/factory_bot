@@ -5,11 +5,11 @@ require "factory_bot/attribute/sequence"
 module FactoryBot
   # @api private
   class Attribute
-    attr_reader :name, :ignored
+    attr_reader :name, :transient
 
-    def initialize(name, ignored)
+    def initialize(name, transient)
       @name = name.to_sym
-      @ignored = ignored
+      @transient = transient
     end
 
     def to_proc

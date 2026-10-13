@@ -364,7 +364,7 @@ Aliases
 -------
 
 factory\_bot allows you to define aliases to existing factories to make them
-easier to re-use. This could come in handy when, for example, your Post object
+easier to reuse. This could come in handy when, for example, your Post object
 has an author attribute that actually refers to an instance of a User class.
 While normally factory\_bot can infer the factory name from the association name,
 in this case it will look for an author factory in vain. So, alias your user
