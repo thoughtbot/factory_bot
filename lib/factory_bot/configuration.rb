@@ -3,6 +3,7 @@ module FactoryBot
   class Configuration
     attr_reader(
       :callback_names,
+      :compiled_factories,
       :factories,
       :inline_sequences,
       :sequences,
@@ -18,6 +19,7 @@ module FactoryBot
       @callback_names = Set.new
       @definition = Definition.new(:configuration)
       @inline_sequences = []
+      @compiled_factories = {}
 
       to_create(&:save!)
       initialize_with { new }

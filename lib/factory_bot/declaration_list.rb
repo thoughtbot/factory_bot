@@ -13,6 +13,7 @@ module FactoryBot
       delete_declaration(declaration) if overridable?
 
       @declarations << declaration
+      @attributes = nil
       declaration
     end
 

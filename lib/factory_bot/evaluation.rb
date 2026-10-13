@@ -1,10 +1,10 @@
 module FactoryBot
   class Evaluation
-    def initialize(evaluator, attribute_assigner, to_create, observer)
+    def initialize(evaluator, attribute_assigner, to_create, callbacks)
       @evaluator = evaluator
       @attribute_assigner = attribute_assigner
       @to_create = to_create
-      @observer = observer
+      @callbacks = callbacks
     end
 
     delegate :object, :hash, to: :@attribute_assigner
@@ -17,7 +17,9 @@ module FactoryBot
     end
 
     def notify(name, result_instance)
-      @observer.update(name, result_instance)
+      @callbacks.each do |callback|
+        callback.run(result_instance, @evaluator) if callback.name == name
+      end
     end
   end
 end

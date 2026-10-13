@@ -18,7 +18,7 @@ module FactoryBot
     end
 
     delegate :add_callback, :declare_attribute, :to_create, :define_trait, :constructor,
-      :defined_traits, :defined_traits_names, :inherit_traits, :append_traits,
+      :defined_traits, :defined_traits_names, :inherit_traits,
       to: :@definition
 
     def build_class
@@ -32,23 +32,7 @@ module FactoryBot
     end
 
     def run(build_strategy, overrides, &block)
-      block ||= ->(result) { result }
-
-      compile
-
-      strategy = Strategy.lookup_strategy(build_strategy).new
-
-      evaluator = evaluator_class.new(strategy, overrides.symbolize_keys)
-      attribute_assigner = AttributeAssigner.new(evaluator, build_class, &compiled_constructor)
-
-      observer = CallbacksObserver.new(callbacks, evaluator)
-      evaluation = Evaluation.new(evaluator, attribute_assigner, compiled_to_create, observer)
-
-      evaluation.notify(:before_all, nil)
-      instance = strategy.result(evaluation).tap(&block)
-      evaluation.notify(:after_all, instance)
-
-      instance
+      compiled.run(build_strategy, overrides, &block)
     end
 
     def human_names
@@ -56,7 +40,7 @@ module FactoryBot
     end
 
     def associations
-      evaluator_class.attribute_list.associations
+      compiled.associations
     end
 
     # Names for this factory, including aliases.
@@ -97,39 +81,37 @@ module FactoryBot
       end
     end
 
-    def with_traits(traits)
-      clone.tap do |factory_with_traits|
-        factory_with_traits.append_traits traits
-      end
+    # The cached snapshot for this factory with the given traits applied.
+    def compiled(trait_names = [])
+      Internal.compiled_factory(self, trait_names)
+    end
+
+    def compile_with_traits(trait_names)
+      compile
+
+      traits = definition.lookup_traits(trait_names)
+      parent_compiled = parent.compiled
+
+      CompiledFactory.new(
+        build_class: build_class,
+        evaluator_class: EvaluatorClassDefiner.new(
+          attribute_list(traits),
+          parent_compiled.evaluator_class
+        ).evaluator_class,
+        callbacks: (parent_compiled.callbacks + definition.callbacks + traits.flat_map(&:callbacks)).uniq,
+        constructor: traits.filter_map(&:constructor).last ||
+          definition.constructor ||
+          parent_compiled.constructor,
+        to_create: traits.filter_map(&:to_create).last ||
+          definition.to_create ||
+          parent_compiled.to_create
+      )
     end
 
     protected
 
     def class_name
       @class_name || parent.class_name || name
-    end
-
-    def evaluator_class
-      @evaluator_class ||= EvaluatorClassDefiner.new(attributes, parent.evaluator_class).evaluator_class
-    end
-
-    def attributes
-      compile
-      AttributeList.new(@name).tap do |list|
-        list.apply_attributes definition.attributes
-      end
-    end
-
-    def callbacks
-      parent.callbacks + definition.callbacks
-    end
-
-    def compiled_to_create
-      definition.to_create || parent.compiled_to_create
-    end
-
-    def compiled_constructor
-      definition.constructor || parent.compiled_constructor
     end
 
     private
@@ -153,11 +135,11 @@ module FactoryBot
       end
     end
 
-    def initialize_copy(source)
-      super
-      @definition = @definition.clone
-      @evaluator_class = nil
-      @compiled = false
+    def attribute_list(traits)
+      AttributeList.new(@name).tap do |list|
+        list.apply_attributes definition.attributes
+        traits.each { |trait| list.apply_attributes trait.attributes }
+      end
     end
   end
 end
