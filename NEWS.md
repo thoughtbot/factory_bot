@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+* Feat: Added the `automatically_define_enum_traits` factory option to override the global setting for a factory and its children
 * Change: Drop support for Ruby 3.0, which reached end of life in April 2024. Ruby 3.1 is now the minimum required version
 * Change: Drop support for ActiveSupport 6.1, which is no longer tested in CI. ActiveSupport 7.0 is now the minimum required version
 

@@ -59,6 +59,30 @@ FactoryBot.define do
 end
 ```
 
+To override the global setting for a single factory, pass the
+`automatically_define_enum_traits` option. Child factories, whether nested or
+declared with `parent:`, use their parent's setting unless they set their own.
+
+```rb
+FactoryBot.define do
+  factory :task, automatically_define_enum_traits: false do
+    status { :queued }
+
+    trait :in_progress do
+      status { :started }
+    end
+
+    trait :complete do
+      status { :finished }
+    end
+  end
+end
+```
+
+Here only the `:in_progress` and `:complete` traits exist. Building with
+`:queued`, `:started`, or `:finished` raises a `KeyError`. The option accepts
+`true` or `false`.
+
 It is also possible to use this feature for other enumerable values, not
 specifically tied to Active Record enum attributes.
 
