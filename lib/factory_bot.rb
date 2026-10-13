@@ -7,7 +7,6 @@ require "active_support/notifications"
 
 require "factory_bot/internal"
 require "factory_bot/definition_hierarchy"
-require "factory_bot/configuration"
 require "factory_bot/errors"
 require "factory_bot/factory_runner"
 require "factory_bot/strategy_syntax_method_registrar"
@@ -106,8 +105,8 @@ module FactoryBot
     #     set_sequence("factory_name/trait_name/sequence_name", 450)
     delegate :factories,
       :register_strategy,
-      :rewind_sequences,
       :rewind_sequence,
+      :rewind_sequences,
       :set_sequence,
       :strategy_by_name,
       to: Internal
