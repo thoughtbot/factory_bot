@@ -9,8 +9,6 @@ If you want to use factory_bot with Rails, see
 
 Interested in the history of the project name? You can find the history [here](https://github.com/thoughtbot/factory_bot/blob/main/NAME.md)
 
-Transitioning from factory\_girl? Check out the [upgrade guide](https://github.com/thoughtbot/factory_bot/blob/v4.9.0/UPGRADE_FROM_FACTORY_GIRL.md).
-
 ## Documentation
 
 See our extensive reference, guides, and cookbook in [the factory_bot book][].
