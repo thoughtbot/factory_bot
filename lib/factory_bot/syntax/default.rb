@@ -59,6 +59,4 @@ module FactoryBot
       end
     end
   end
-
-  extend Syntax::Default
 end
