@@ -23,7 +23,16 @@ module FactoryBot
     def association(factory_name, *traits_and_overrides)
       overrides = traits_and_overrides.extract_options!
       strategy_override = overrides.fetch(:strategy) {
-        FactoryBot.use_parent_strategy ? @build_strategy.to_sym : :create
+        if !FactoryBot.use_parent_strategy
+          :create
+        elsif @build_strategy.respond_to?(:to_sym)
+          @build_strategy.to_sym
+        else
+          # A strategy only has to implement #result and #association; #to_sym
+          # is something the built-in ones happen to have. Pass the class
+          # instead, which Strategy.lookup_strategy accepts as readily as a name.
+          @build_strategy.class
+        end
       }
 
       traits_and_overrides += [overrides.except(:strategy)]
