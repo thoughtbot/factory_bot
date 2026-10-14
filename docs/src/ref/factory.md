@@ -19,6 +19,11 @@ The name is expected to be a Symbol.
   used with a build strategy. Defaults to the empty list.
 - `:traits` - base traits that are used by default when building this factory.
   Defaults to the empty list.
+- `:automatically_define_enum_traits` - whether to define a trait for each
+  value of the class's enum attributes. Overrides
+  `FactoryBot.automatically_define_enum_traits` for this factory and its
+  children. Defaults to the parent's setting, or the global setting when there
+  is no parent. See [Enum traits](../traits/enum.md).
 
 ## Block
 

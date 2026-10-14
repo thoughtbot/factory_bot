@@ -16,3 +16,5 @@ name.
 The name "Factory Girl" was confusing to some developers who encountered this
 library, and offensive or problematic to others. In October 2017 we [renamed the library](https://robots.thoughtbot.com/factory_bot)
 to "Factory Bot".
+**If you are still upgrading from factory_girl, see the
+[upgrade guide](https://github.com/thoughtbot/factory_bot/blob/v4.9.0/UPGRADE_FROM_FACTORY_GIRL.md).**

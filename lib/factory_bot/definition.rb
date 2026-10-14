@@ -1,7 +1,8 @@
 module FactoryBot
   # @api private
   class Definition
-    attr_reader :defined_traits, :declarations, :name, :registered_enums, :uri_manager
+    attr_reader :defined_traits, :declarations, :name, :registered_enums, :uri_manager,
+      :automatically_define_enum_traits
     attr_accessor :klass
 
     def initialize(name, base_traits = [], **opts)
@@ -17,6 +18,7 @@ module FactoryBot
       @constructor = nil
       @attributes = nil
       @compiled = false
+      @automatically_define_enum_traits = opts[:automatically_define_enum_traits]
       @expanded_enum_traits = false
     end
 
@@ -49,25 +51,24 @@ module FactoryBot
 
     def compile(klass = nil)
       unless @compiled
-        expand_enum_traits(klass) unless klass.nil?
+        ActiveSupport::Notifications.instrument "factory_bot.compile_factory", {name: name} do |payload|
+          expand_enum_traits(klass) unless klass.nil?
 
-        declarations.attributes
+          declarations.attributes
 
-        self.klass ||= klass
-        defined_traits.each do |defined_trait|
-          defined_trait.klass ||= klass
-          base_trait_names.each { |bt| bt.define_trait defined_trait }
-          additional_trait_names.each { |at| at.define_trait defined_trait }
+          self.klass ||= klass
+          defined_traits.each do |defined_trait|
+            defined_trait.klass ||= klass
+            base_trait_names.each { |bt| bt.define_trait defined_trait }
+            additional_trait_names.each { |at| at.define_trait defined_trait }
+          end
+
+          @compiled = true
+
+          payload[:attributes] = declarations.attributes
+          payload[:traits] = defined_traits
+          payload[:class] = klass || self.klass
         end
-
-        @compiled = true
-
-        ActiveSupport::Notifications.instrument "factory_bot.compile_factory", {
-          name: name,
-          attributes: declarations.attributes,
-          traits: defined_traits,
-          class: klass || self.klass
-        }
       end
     end
 
@@ -78,6 +79,12 @@ module FactoryBot
 
     def inherit_traits(new_traits)
       @base_traits += new_traits
+    end
+
+    def inherit_automatically_define_enum_traits(parent_definition)
+      if @automatically_define_enum_traits.nil?
+        @automatically_define_enum_traits = parent_definition.automatically_define_enum_traits
+      end
     end
 
     def append_traits(new_traits)
@@ -136,7 +143,6 @@ module FactoryBot
       raise error_with_definition_name(error)
     end
 
-
     def all_registered_trait_names
       (defined_traits_names + Internal.traits.map(&:name)).uniq
     end
@@ -156,6 +162,11 @@ module FactoryBot
       end
     end
 
+    # Before Ruby 3.2, did_you_mean embeds its suggestions in the message itself.
+    def original_message(error)
+      error.message.partition("\nDid you mean?").first
+    end
+
     def registered_trait_message(all_registered_traits)
       if all_registered_traits.empty?
         "No registered traits"
@@ -163,30 +174,27 @@ module FactoryBot
         "Registered traits: #{all_registered_traits.map(&:to_sym).sort.inspect}"
       end
     end
+
+    def error_with_definition_name(error)
+      message = original_message(error).rstrip
+      message += "." unless message.end_with?(".")
+      message += " #{registered_trait_message(all_registered_trait_names)}."
+      message += " Referenced within \"#{name}\" definition"
+
+      new_error(error, message).tap { |new_error| new_error.set_backtrace(error.backtrace) }
+    end
+
     # detailed_message introduced in Ruby 3.2 for cleaner integration with
     # did_you_mean. See https://bugs.ruby-lang.org/issues/18564
     if KeyError.method_defined?(:detailed_message)
-      def error_with_definition_name(error)
-        message = error.message.rstrip
-        message += "." unless message.end_with?(".")
-        message += " #{registered_trait_message(all_registered_trait_names)}."
-        message += " Referenced within \"#{name}\" definition"
-
+      def new_error(error, message)
         error.class.new(message, **error_options(error))
-             .tap { |new_error| new_error.set_backtrace(error.backtrace) }
       end
     else
-      def error_with_definition_name(error)
-        message = error.message
-        message += " #{registered_trait_message(all_registered_trait_names)}."
-        message.insert(
-          message.index("\nDid you mean?") || message.length,
-          " referenced within \"#{name}\" definition"
-        )
-
-        error.class.new(message).tap do |new_error|
-          new_error.set_backtrace(error.backtrace)
-        end
+      # Embed the suggestions so Exception#original_message includes them too.
+      def new_error(error, message)
+        options = error_options(error)
+        error.class.new(error.class.new(message, **options).message, **options)
       end
     end
 
@@ -236,8 +244,13 @@ module FactoryBot
     end
 
     def automatically_register_defined_enums?(klass)
-      FactoryBot.automatically_define_enum_traits &&
-        klass.respond_to?(:defined_enums)
+      automatically_define_enum_traits? && klass.respond_to?(:defined_enums)
+    end
+
+    def automatically_define_enum_traits?
+      return FactoryBot.automatically_define_enum_traits if @automatically_define_enum_traits.nil?
+
+      @automatically_define_enum_traits
     end
   end
 end
