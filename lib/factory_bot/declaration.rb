@@ -7,9 +7,9 @@ module FactoryBot
   class Declaration
     attr_reader :name
 
-    def initialize(name, ignored = false)
+    def initialize(name, transient = false)
       @name = name
-      @ignored = ignored
+      @transient = transient
     end
 
     def to_attributes
@@ -18,6 +18,6 @@ module FactoryBot
 
     protected
 
-    attr_reader :ignored
+    attr_reader :transient
   end
 end

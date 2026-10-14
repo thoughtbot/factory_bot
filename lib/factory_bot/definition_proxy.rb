@@ -23,9 +23,9 @@ module FactoryBot
 
     attr_reader :child_factories
 
-    def initialize(definition, ignore = false)
+    def initialize(definition, transient = false)
       @definition = definition
-      @ignore = ignore
+      @transient = transient
       @child_factories = []
     end
 
@@ -45,7 +45,7 @@ module FactoryBot
     #   The name of this attribute. This will be assigned using "name=" for
     #   generated instances.
     def add_attribute(name, &block)
-      declaration = Declaration::Dynamic.new(name, @ignore, block)
+      declaration = Declaration::Dynamic.new(name, @transient, block)
       @definition.declare_attribute(declaration)
     end
 
@@ -246,7 +246,7 @@ module FactoryBot
 
     def __declare_attribute__(name, block)
       if block.nil?
-        declaration = Declaration::Implicit.new(name, @definition, @ignore)
+        declaration = Declaration::Implicit.new(name, @definition, @transient)
         @definition.declare_attribute(declaration)
       else
         add_attribute(name, &block)
