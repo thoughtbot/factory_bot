@@ -72,6 +72,26 @@ describe "enum traits" do
       end
     end
 
+    it "preserves false values when traits_for_enum is given a Hash" do
+      flags = {draft: false, published: true}
+
+      define_class "Article" do
+        attr_accessor :published
+      end
+
+      FactoryBot.define do
+        factory :article do
+          traits_for_enum :published, flags
+        end
+      end
+
+      flags.each do |trait_name, trait_value|
+        article = FactoryBot.build(:article, trait_name)
+
+        expect(article.published).to eq(trait_value)
+      end
+    end
+
     it "builds traits for each enumerated value using a provided list of values as an Array" do
       statuses = %w[queued started finished]
 

@@ -8,7 +8,7 @@ module FactoryBot
 
     def build_traits(klass)
       enum_values(klass).map do |trait_name, value|
-        build_trait(trait_name, @attribute_name, value || trait_name)
+        build_trait(trait_name, @attribute_name, value.nil? ? trait_name : value)
       end
     end
 
