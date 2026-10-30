@@ -32,6 +32,9 @@ Gem::Specification.new do |s|
   s.add_development_dependency("activerecord")
   s.add_development_dependency("appraisal")
   s.add_development_dependency("aruba")
+  # Floored so Bundler cannot fall back to cucumber 1.x on rubies where the
+  # newest cucumber is excluded by its Ruby requirement.
+  s.add_development_dependency("cucumber", ">= 10")
   s.add_development_dependency("mutex_m")
   s.add_development_dependency("ostruct")
   s.add_development_dependency("rake")
