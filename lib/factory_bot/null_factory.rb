@@ -7,8 +7,7 @@ module FactoryBot
       @definition = Definition.new(:null_factory)
     end
 
-    delegate :defined_traits, :callbacks, :attributes, :constructor,
-      :to_create, to: :definition
+    delegate :defined_traits, :attributes, to: :definition
 
     def compile
     end
@@ -20,8 +19,16 @@ module FactoryBot
       FactoryBot::Evaluator
     end
 
-    def hierarchy_class
-      FactoryBot::DefinitionHierarchy
+    def callbacks
+      Internal.callbacks
+    end
+
+    def compiled_constructor
+      Internal.constructor
+    end
+
+    def compiled_to_create
+      Internal.to_create
     end
   end
 end
