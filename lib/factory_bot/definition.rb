@@ -14,9 +14,7 @@ module FactoryBot
       @registered_enums = []
       @to_create = nil
       @base_traits = base_traits
-      @additional_traits = []
       @constructor = nil
-      @attributes = nil
       @compiled = false
       @automatically_define_enum_traits = opts[:automatically_define_enum_traits]
       @expanded_enum_traits = false
@@ -25,7 +23,7 @@ module FactoryBot
     delegate :declare_attribute, to: :declarations
 
     def attributes
-      @attributes ||= AttributeList.new.tap do |attribute_list|
+      AttributeList.new.tap do |attribute_list|
         attribute_lists = aggregate_from_traits_and_self(:attributes) { declarations.attributes }
         attribute_lists.each do |attributes|
           attribute_list.apply_attributes attributes
@@ -57,11 +55,7 @@ module FactoryBot
           declarations.attributes
 
           self.klass ||= klass
-          defined_traits.each do |defined_trait|
-            defined_trait.klass ||= klass
-            base_trait_names.each { |bt| bt.define_trait defined_trait }
-            additional_trait_names.each { |at| at.define_trait defined_trait }
-          end
+          defined_traits.each { |defined_trait| defined_trait.klass ||= klass }
 
           @compiled = true
 
@@ -78,17 +72,13 @@ module FactoryBot
     end
 
     def inherit_traits(new_traits)
-      @base_traits += new_traits
+      @base_traits |= new_traits
     end
 
     def inherit_automatically_define_enum_traits(parent_definition)
       if @automatically_define_enum_traits.nil?
         @automatically_define_enum_traits = parent_definition.automatically_define_enum_traits
       end
-    end
-
-    def append_traits(new_traits)
-      @additional_traits += new_traits
     end
 
     def add_callback(callback)
@@ -101,6 +91,7 @@ module FactoryBot
 
     def define_trait(trait)
       @defined_traits.add(trait)
+      @defined_traits_by_name = nil
     end
 
     def defined_traits_names
@@ -129,18 +120,20 @@ module FactoryBot
       end
     end
 
-    private
-
-    def base_trait_names
-      @base_traits.map { |name| trait_by_name(name) }
+    # Resolves trait names in this definition's scope and lets each trait's
+    # body resolve this definition's traits by name in turn.
+    def lookup_traits(names)
+      names.map { |name| trait_by_name(name) }.each do |trait|
+        defined_traits.each { |defined_trait| trait.define_trait(defined_trait) }
+      end
     rescue KeyError => error
       raise error_with_definition_name(error)
     end
 
-    def additional_trait_names
-      @additional_traits.map { |name| trait_by_name(name) }
-    rescue KeyError => error
-      raise error_with_definition_name(error)
+    private
+
+    def base_traits
+      lookup_traits(@base_traits)
     end
 
     def all_registered_trait_names
@@ -207,20 +200,12 @@ module FactoryBot
       @defined_traits_by_name[name.to_s]
     end
 
-    def initialize_copy(source)
-      super
-      @attributes = nil
-      @compiled = false
-      @defined_traits_by_name = nil
-    end
-
     def aggregate_from_traits_and_self(method_name, &block)
       compile
 
       [
-        base_trait_names.map(&method_name),
-        instance_exec(&block),
-        additional_trait_names.map(&method_name)
+        base_traits.map(&method_name),
+        instance_exec(&block)
       ].flatten.compact
     end
 
