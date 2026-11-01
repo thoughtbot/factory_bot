@@ -91,8 +91,17 @@ module FactoryBot
       def uuid_primary_key?(result_instance)
         result_instance.respond_to?(:column_for_attribute) &&
           (column = result_instance.column_for_attribute(result_instance.class.primary_key)) &&
-          column.respond_to?(:sql_type) &&
-          column.sql_type == "uuid"
+          uuid_column?(column)
+      end
+
+      # Adapters disagree on what a uuid column is called: PostgreSQL reports a
+      # sql_type of "uuid", SQL Server "uniqueidentifier". They agree on the
+      # Active Record type, so ask for that first and keep the sql_type check
+      # for anything that reports the name without mapping the type.
+      def uuid_column?(column)
+        return true if column.respond_to?(:type) && column.type == :uuid
+
+        column.respond_to?(:sql_type) && column.sql_type == "uuid"
       end
 
       def clear_changes_information(result_instance)
