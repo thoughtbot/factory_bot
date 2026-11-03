@@ -336,3 +336,19 @@ describe FactoryBot::Factory, "running a factory" do
     expect(block_run).to eq "changed"
   end
 end
+
+describe FactoryBot::Factory, "running a factory with traits" do
+  it "does not add sibling traits to the definition of a used trait" do
+    define_model("User", name: :string, admin: :boolean, moderator: :boolean)
+    factory = FactoryBot::Factory.new(:user)
+    FactoryBot::Internal.register_factory(factory)
+    admin = FactoryBot::Trait.new(:admin) { admin { true } }
+    factory.define_trait(admin)
+    factory.define_trait(FactoryBot::Trait.new(:moderator) { moderator { true } })
+    factory.compile
+
+    expect {
+      2.times { factory.with_traits([:admin]).run(FactoryBot::Strategy::Build, {}) }
+    }.not_to change { admin.definition.defined_traits.size }
+  end
+end
