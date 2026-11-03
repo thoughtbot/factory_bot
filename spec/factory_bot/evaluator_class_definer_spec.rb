@@ -54,6 +54,20 @@ describe FactoryBot::EvaluatorClassDefiner do
     end
   end
 
+  context "with a parent class that does not expose the assigned attribute lists" do
+    it "assigns the attribute lists without reading the assignment back" do
+      assigned = nil
+      parent_class = Class.new(FactoryBot::Evaluator)
+      parent_class.define_singleton_method(:attribute_lists) { nil }
+      parent_class.define_singleton_method(:attribute_lists=) { |value| assigned = value }
+      attributes = [stub_attribute, stub_attribute]
+
+      define_evaluator_class(attributes: attributes, parent_class: parent_class)
+
+      expect(assigned).to eq [attributes]
+    end
+  end
+
   def define_evaluator(arguments = {})
     evaluator_class = define_evaluator_class(arguments)
     evaluator_class.new(FactoryBot::Strategy::Null)
