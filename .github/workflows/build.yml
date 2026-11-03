@@ -62,6 +62,8 @@ jobs:
     steps:
       - uses: actions/checkout@v7
       - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "4.0"
       - name: Setup project
         run: bundle install
       - name: Run test
