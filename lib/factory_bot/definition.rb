@@ -3,7 +3,7 @@ module FactoryBot
   class Definition
     attr_reader :defined_traits, :declarations, :name, :registered_enums, :uri_manager,
       :automatically_define_enum_traits
-    attr_accessor :klass
+    attr_accessor :klass, :enclosing_definition
 
     def initialize(name, base_traits = [], **opts)
       @name = name
@@ -59,14 +59,16 @@ module FactoryBot
           self.klass ||= klass
           defined_traits.each do |defined_trait|
             defined_trait.klass ||= klass
-            base_trait_names.each { |bt| bt.define_trait defined_trait }
-            additional_trait_names.each { |at| at.define_trait defined_trait }
+            defined_trait.enclosing_definition ||= self
           end
+          # Referenced traits resolve sibling names through this definition.
+          base_trait_names.each { |bt| bt.enclosing_definition ||= self }
+          additional_trait_names.each { |at| at.enclosing_definition ||= self }
 
           @compiled = true
 
           payload[:attributes] = declarations.attributes
-          payload[:traits] = defined_traits
+          payload[:traits] = traits_in_scope
           payload[:class] = klass || self.klass
         end
       end
@@ -129,6 +131,21 @@ module FactoryBot
       end
     end
 
+    protected
+
+    def trait_for(name)
+      @defined_traits_by_name ||= defined_traits.each_with_object({}) { |t, memo| memo[t.name] ||= t }
+      @defined_traits_by_name[name.to_s] || enclosing_definition&.trait_for(name)
+    end
+
+    def traits_in_scope
+      if enclosing_definition
+        defined_traits + enclosing_definition.traits_in_scope
+      else
+        defined_traits
+      end
+    end
+
     private
 
     def base_trait_names
@@ -143,8 +160,12 @@ module FactoryBot
       raise error_with_definition_name(error)
     end
 
+    def trait_names_in_scope
+      traits_in_scope.map(&:name)
+    end
+
     def all_registered_trait_names
-      (defined_traits_names + Internal.traits.map(&:name)).uniq
+      (trait_names_in_scope + Internal.traits.map(&:name)).uniq
     end
 
     def error_options(error)
@@ -152,7 +173,7 @@ module FactoryBot
         receiver = error.receiver
         if receiver.is_a?(Hash) || receiver.is_a?(ActiveSupport::HashWithIndifferentAccess)
           receiver = receiver.dup
-          defined_traits_names.each do |trait_name|
+          trait_names_in_scope.each do |trait_name|
             receiver[trait_name] = nil unless receiver.key?(trait_name)
           end
         end
@@ -200,11 +221,6 @@ module FactoryBot
 
     def trait_by_name(name)
       trait_for(name) || Internal.trait_by_name(name, klass)
-    end
-
-    def trait_for(name)
-      @defined_traits_by_name ||= defined_traits.each_with_object({}) { |t, memo| memo[t.name] ||= t }
-      @defined_traits_by_name[name.to_s]
     end
 
     def initialize_copy(source)
