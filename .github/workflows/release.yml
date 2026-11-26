@@ -20,6 +20,8 @@ jobs:
         with:
           persist-credentials: false
       - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "4.0"
       - name: Install dependencies
         run: bundle install
       - name: Extract release notes from NEWS.md
