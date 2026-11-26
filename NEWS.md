@@ -1,10 +1,27 @@
 # News
 
-## Unreleased
+## 6.7.0 (November 26, 2026)
 
 * Feat: Added the `automatically_define_enum_traits` factory option to override the global setting for a factory and its children
 * Change: Drop support for Ruby 3.0, which reached end of life in April 2024. Ruby 3.1 is now the minimum required version
 * Change: Drop support for ActiveSupport 6.1, which is no longer tested in CI. ActiveSupport 7.0 is now the minimum required version
+* Bump Ruby to 4.0.10 and track latest 4.0 in workflows by @neilvcarvalho in [#1858](https://github.com/thoughtbot/factory_bot/pull/1858)
+* Declare cucumber as a development dependency by @neilvcarvalho in [#1856](https://github.com/thoughtbot/factory_bot/pull/1856)
+* Updated Readme by @SergiuLupaiescu in [#1854](https://github.com/thoughtbot/factory_bot/pull/1854)
+* Measure factory compilation in compile_factory span by @neilvcarvalho in [#1850](https://github.com/thoughtbot/factory_bot/pull/1850)
+* Run truffleruby against Rails main in CI by @neilvcarvalho in [#1846](https://github.com/thoughtbot/factory_bot/pull/1846)
+* Require ActiveSupport 7.0 or newer by @neilvcarvalho in [#1845](https://github.com/thoughtbot/factory_bot/pull/1845)
+* Require Ruby 3.1 or newer by @neilvcarvalho in [#1843](https://github.com/thoughtbot/factory_bot/pull/1843)
+* Update CI matrix for Rails 8.1 and JRuby 10 by @neilvcarvalho in [#1842](https://github.com/thoughtbot/factory_bot/pull/1842)
+* Fix CI failures on main by @neilvcarvalho in [#1841](https://github.com/thoughtbot/factory_bot/pull/1841)
+* Pin transient attribute redefinition behavior by @neilvcarvalho in [#1840](https://github.com/thoughtbot/factory_bot/pull/1840)
+* Refactor remaining internal ignored state to transient terminology by @taljeon in [#1834](https://github.com/thoughtbot/factory_bot/pull/1834)
+* Avoid `ruby2_keywords` usage by @Earlopain in [#1830](https://github.com/thoughtbot/factory_bot/pull/1830)
+* Issue 1825 - Refactor internal references to ignored (attributes) to transient attributes by @cath-porter in [#1828](https://github.com/thoughtbot/factory_bot/pull/1828)
+* Expanded trait error message to include list of defined traits. by @iannorriswork in [#1824](https://github.com/thoughtbot/factory_bot/pull/1824)
+* Fix typos in comments and documentation by @maxtaran2010 in [#1823](https://github.com/thoughtbot/factory_bot/pull/1823)
+* Bump actions/checkout from 6 to 7 by @app/dependabot in [#1822](https://github.com/thoughtbot/factory_bot/pull/1822)
+* Add per model automatically_define_enum_traits option by @mikespokefire in [#1598](https://github.com/thoughtbot/factory_bot/pull/1598)
 
 ## 6.6.0 (May 4, 2026)
 
