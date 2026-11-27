@@ -43,6 +43,33 @@ describe FactoryBot::Registry do
     expect(registry.register(:object_name, registered_object)).to eq registered_object
   end
 
+  it "raises when registering a name that is already registered" do
+    registry = FactoryBot::Registry.new("Great thing")
+    registry.register(:same_name, double("registered object"))
+
+    expect { registry.register(:same_name, double("another object")) }
+      .to raise_error(FactoryBot::DuplicateDefinitionError, "Great thing already registered: same_name")
+  end
+
+  it "keeps the registered object when a duplicate is rejected" do
+    registry = FactoryBot::Registry.new("Great thing")
+    registered_object = double("registered object")
+    registry.register(:same_name, registered_object)
+
+    expect { registry.register("same_name", double("another object")) }
+      .to raise_error(FactoryBot::DuplicateDefinitionError)
+    expect(registry.find(:same_name)).to eq registered_object
+  end
+
+  it "replaces a registered object when replacement is allowed" do
+    registry = FactoryBot::Registry.new("Great thing", replace: true)
+    replacement = double("replacement")
+    registry.register(:same_name, double("registered object"))
+
+    expect(registry.register(:same_name, replacement)).to eq replacement
+    expect(registry.find(:same_name)).to eq replacement
+  end
+
   it "knows that an object is registered by symbol" do
     registry = FactoryBot::Registry.new("Great thing")
     registered_object = double("registered object")
