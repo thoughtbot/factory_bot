@@ -10,12 +10,7 @@ module FactoryBot
 
     def run(runner_strategy = @strategy, &block)
       factory = FactoryBot::Internal.factory_by_name(@name)
-
-      factory.compile
-
-      if @traits.any?
-        factory = factory.with_traits(@traits)
-      end
+      compiled = factory.compiled(@traits)
 
       instrumentation_payload = {
         name: @name,
@@ -28,7 +23,7 @@ module FactoryBot
       ActiveSupport::Notifications.instrument("factory_bot.before_run_factory", instrumentation_payload)
 
       ActiveSupport::Notifications.instrument("factory_bot.run_factory", instrumentation_payload) do
-        factory.run(runner_strategy, @overrides, &block)
+        compiled.run(runner_strategy, @overrides, &block)
       end
     end
   end

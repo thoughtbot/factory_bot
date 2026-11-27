@@ -348,7 +348,7 @@ describe FactoryBot::Factory, "running a factory with traits" do
     factory.compile
 
     expect {
-      2.times { factory.with_traits([:admin]).run(FactoryBot::Strategy::Build, {}) }
+      2.times { factory.compile_with_traits([:admin]).run(FactoryBot::Strategy::Build, {}) }
     }.not_to change { admin.definition.defined_traits.size }
   end
 end
