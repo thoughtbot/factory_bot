@@ -12,10 +12,10 @@ module FactoryBot
     )
 
     def initialize
-      @factories = Registry.new("Factory")
-      @sequences = Registry.new("Sequence")
-      @traits = Registry.new("Trait")
-      @strategies = Registry.new("Strategy", replace: true)
+      @factories = Registry.new("Factory", replace: false)
+      @sequences = Registry.new("Sequence", replace: false)
+      @traits = Registry.new("Trait", replace: false)
+      @strategies = Registry.new("Strategy")
       @callback_names = Set.new
       @definition = Definition.new(:configuration)
       @inline_sequences = []

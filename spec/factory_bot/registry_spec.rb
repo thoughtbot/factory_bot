@@ -44,7 +44,7 @@ describe FactoryBot::Registry do
   end
 
   it "raises when registering a name that is already registered" do
-    registry = FactoryBot::Registry.new("Great thing")
+    registry = FactoryBot::Registry.new("Great thing", replace: false)
     registry.register(:same_name, double("registered object"))
 
     expect { registry.register(:same_name, double("another object")) }
@@ -52,7 +52,7 @@ describe FactoryBot::Registry do
   end
 
   it "keeps the registered object when a duplicate is rejected" do
-    registry = FactoryBot::Registry.new("Great thing")
+    registry = FactoryBot::Registry.new("Great thing", replace: false)
     registered_object = double("registered object")
     registry.register(:same_name, registered_object)
 
@@ -61,8 +61,8 @@ describe FactoryBot::Registry do
     expect(registry.find(:same_name)).to eq registered_object
   end
 
-  it "replaces a registered object when replacement is allowed" do
-    registry = FactoryBot::Registry.new("Great thing", replace: true)
+  it "replaces a registered object by default" do
+    registry = FactoryBot::Registry.new("Great thing")
     replacement = double("replacement")
     registry.register(:same_name, double("registered object"))
 

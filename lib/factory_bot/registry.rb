@@ -6,7 +6,7 @@ module FactoryBot
 
     attr_reader :name
 
-    def initialize(name, replace: false)
+    def initialize(name, replace: true)
       @name = name
       @replace = replace
       @items = ActiveSupport::HashWithIndifferentAccess.new
