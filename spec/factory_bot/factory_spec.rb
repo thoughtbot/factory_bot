@@ -22,7 +22,7 @@ describe FactoryBot::Factory do
     FactoryBot::Internal.register_factory(FactoryBot::Factory.new(:admin))
     factory.declare_attribute(FactoryBot::Declaration::Association.new(:author, {}))
     factory.declare_attribute(FactoryBot::Declaration::Association.new(:editor, {}))
-    factory.declare_attribute(FactoryBot::Declaration::Implicit.new(:admin, factory))
+    factory.declare_attribute(FactoryBot::Declaration::Implicit.new(:admin))
     factory.associations.each do |association|
       expect(association).to be_association
     end

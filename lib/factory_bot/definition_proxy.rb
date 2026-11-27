@@ -245,7 +245,7 @@ module FactoryBot
 
     def __declare_attribute__(name, block)
       if block.nil?
-        declaration = Declaration::Implicit.new(name, @definition, @transient)
+        declaration = Declaration::Implicit.new(name, @transient)
         @definition.declare_attribute(declaration)
       else
         add_attribute(name, &block)

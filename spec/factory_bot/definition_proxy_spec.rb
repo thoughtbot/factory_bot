@@ -41,7 +41,7 @@ describe FactoryBot::DefinitionProxy, "#method_missing" do
     proxy = FactoryBot::DefinitionProxy.new(definition)
     proxy.bogus
 
-    expect(definition).to have_implicit_declaration(:bogus).with_factory(definition)
+    expect(definition).to have_implicit_declaration(:bogus)
   end
 
   it "declares an association when called with a ':factory' key" do
