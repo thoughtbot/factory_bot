@@ -5,22 +5,28 @@ describe FactoryBot::NullFactory do
     expect(null_factory).to delegate(:defined_traits).to(:definition)
   end
 
-  it "delegates callbacks to its definition" do
-    null_factory = FactoryBot::NullFactory.new
-
-    expect(null_factory).to delegate(:callbacks).to(:definition)
-  end
-
   it "delegates attributes to its definition" do
     null_factory = FactoryBot::NullFactory.new
 
     expect(null_factory).to delegate(:attributes).to(:definition)
   end
 
-  it "delegates constructor to its definition" do
+  it "has the global callbacks as its callbacks" do
     null_factory = FactoryBot::NullFactory.new
 
-    expect(null_factory).to delegate(:constructor).to(:definition)
+    expect(null_factory.callbacks).to eq FactoryBot::Internal.callbacks
+  end
+
+  it "has the global constructor as its compiled constructor" do
+    null_factory = FactoryBot::NullFactory.new
+
+    expect(null_factory.compiled_constructor).to eq FactoryBot::Internal.constructor
+  end
+
+  it "has the global to_create as its compiled to_create" do
+    null_factory = FactoryBot::NullFactory.new
+
+    expect(null_factory.compiled_to_create).to eq FactoryBot::Internal.to_create
   end
 
   it "has a nil value for its compile attribute" do
