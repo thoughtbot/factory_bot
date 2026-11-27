@@ -31,28 +31,12 @@ module FactoryBot
 
     private
 
-    # Track evaluation of methods on the evaluator to prevent the duplicate
-    # assignment of attributes accessed and via `initialize_with` syntax
-    def method_tracking_evaluator
-      @method_tracking_evaluator ||= Decorator::AttributeHash.new(
-        decorated_evaluator,
-        attribute_names_to_assign
-      )
-    end
-
-    def decorated_evaluator
-      Decorator::NewConstructor.new(
-        Decorator::InvocationTracker.new(@evaluator),
-        @build_class
-      )
-    end
-
-    def methods_invoked_on_evaluator
-      method_tracking_evaluator.__invoked_methods__
-    end
-
     def build_class_instance
-      @build_class_instance ||= method_tracking_evaluator.instance_exec(&@instance_builder)
+      @build_class_instance ||= @evaluator.__construct__(
+        @build_class,
+        attribute_names_to_assign,
+        &@instance_builder
+      )
     end
 
     def build_hash
@@ -63,8 +47,9 @@ module FactoryBot
       @evaluator.send(attribute_name)
     end
 
+    # Attributes read by `initialize_with` are not assigned a second time
     def attributes_to_set_on_instance
-      (attribute_names_to_assign - @attribute_names_assigned - methods_invoked_on_evaluator).uniq
+      (attribute_names_to_assign - @attribute_names_assigned - @evaluator.__read_in_constructor__).uniq
     end
 
     def attributes_to_set_on_hash
