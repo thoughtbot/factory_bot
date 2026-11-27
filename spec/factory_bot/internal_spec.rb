@@ -15,6 +15,13 @@ describe FactoryBot::Internal do
 
       expect(FactoryBot::Internal.register_trait(trait)).to eq trait
     end
+
+    it "rejects a trait whose name is already registered" do
+      FactoryBot::Internal.register_trait(FactoryBot::Trait.new(:admin))
+
+      expect { FactoryBot::Internal.register_trait(FactoryBot::Trait.new(:admin)) }
+        .to raise_error(FactoryBot::DuplicateDefinitionError, "Trait already registered: admin")
+    end
   end
 
   describe ".trait_by_name" do
@@ -41,6 +48,13 @@ describe FactoryBot::Internal do
       sequence = FactoryBot::Sequence.new(:email)
 
       expect(FactoryBot::Internal.register_sequence(sequence)).to eq sequence
+    end
+
+    it "rejects a sequence whose name is already registered" do
+      FactoryBot::Internal.register_sequence(FactoryBot::Sequence.new(:email))
+
+      expect { FactoryBot::Internal.register_sequence(FactoryBot::Sequence.new(:email)) }
+        .to raise_error(FactoryBot::DuplicateDefinitionError, "Sequence already registered: email")
     end
   end
 
@@ -85,6 +99,15 @@ describe FactoryBot::Internal do
       factory = FactoryBot::Factory.new(:object)
 
       expect(FactoryBot::Internal.register_factory(factory)).to eq factory
+    end
+
+    it "registers none of a factory's names when an alias is already registered" do
+      FactoryBot::Internal.register_factory(FactoryBot::Factory.new(:author))
+      factory = FactoryBot::Factory.new(:other, aliases: [:author])
+
+      expect { FactoryBot::Internal.register_factory(factory) }
+        .to raise_error(FactoryBot::DuplicateDefinitionError, "Factory already registered: author")
+      expect(FactoryBot::Internal.factories).not_to be_registered(:other)
     end
   end
 

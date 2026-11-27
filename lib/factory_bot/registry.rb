@@ -6,8 +6,9 @@ module FactoryBot
 
     attr_reader :name
 
-    def initialize(name)
+    def initialize(name, replace: true)
       @name = name
+      @replace = replace
       @items = ActiveSupport::HashWithIndifferentAccess.new
     end
 
@@ -28,7 +29,24 @@ module FactoryBot
     alias_method :[], :find
 
     def register(name, item)
+      if !@replace && registered?(name)
+        raise DuplicateDefinitionError, "#{@name} already registered: #{name}"
+      end
+
       @items[name] = item
+    end
+
+    def register_all(names, item)
+      registered = []
+      names.each do |name|
+        register(name, item)
+        registered << name
+      end
+      item
+    rescue DuplicateDefinitionError
+      # A rejected name must not leave the item reachable by its other names.
+      registered.each { |name| @items.delete(name) }
+      raise
     end
 
     def registered?(name)

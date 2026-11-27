@@ -1,5 +1,10 @@
 # News
 
+## Unreleased
+
+* Fix: A factory, sequence or trait whose alias is already registered no longer stays registered under its other names
+* Change: Removed the internal `FactoryBot::Decorator` and `FactoryBot::Decorator::DisallowsDuplicatesRegistry` classes
+
 ## 6.7.0 (November 26, 2026)
 
 * Feat: Added the `automatically_define_enum_traits` factory option to override the global setting for a factory and its children

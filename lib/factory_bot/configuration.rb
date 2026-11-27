@@ -12,9 +12,9 @@ module FactoryBot
     )
 
     def initialize
-      @factories = Decorator::DisallowsDuplicatesRegistry.new(Registry.new("Factory"))
-      @sequences = Decorator::DisallowsDuplicatesRegistry.new(Registry.new("Sequence"))
-      @traits = Decorator::DisallowsDuplicatesRegistry.new(Registry.new("Trait"))
+      @factories = Registry.new("Factory", replace: false)
+      @sequences = Registry.new("Sequence", replace: false)
+      @traits = Registry.new("Trait", replace: false)
       @strategies = Registry.new("Strategy")
       @callback_names = Set.new
       @definition = Definition.new(:configuration)
