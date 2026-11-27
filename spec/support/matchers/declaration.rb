@@ -35,11 +35,6 @@ module DeclarationMatchers
       self
     end
 
-    def with_factory(factory)
-      @factory = factory
-      self
-    end
-
     def with_options(options)
       @options = options
       self
@@ -57,7 +52,7 @@ module DeclarationMatchers
     def expected_declaration
       case @declaration_type
       when :dynamic then FactoryBot::Declaration::Dynamic.new(@name, transient?, @value)
-      when :implicit then FactoryBot::Declaration::Implicit.new(@name, @factory, transient?)
+      when :implicit then FactoryBot::Declaration::Implicit.new(@name, transient?)
       when :association
         if @options
           FactoryBot::Declaration::Association.new(@name, options)

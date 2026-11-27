@@ -22,7 +22,7 @@ describe FactoryBot::Factory do
     FactoryBot::Internal.register_factory(FactoryBot::Factory.new(:admin))
     factory.declare_attribute(FactoryBot::Declaration::Association.new(:author, {}))
     factory.declare_attribute(FactoryBot::Declaration::Association.new(:editor, {}))
-    factory.declare_attribute(FactoryBot::Declaration::Implicit.new(:admin, factory))
+    factory.declare_attribute(FactoryBot::Declaration::Implicit.new(:admin))
     factory.associations.each do |association|
       expect(association).to be_association
     end
@@ -121,6 +121,26 @@ describe FactoryBot::Factory do
     FactoryBot::Internal.register_factory(factory)
 
     expect(factory.build_class).to eq User
+  end
+
+  it "has no parent unless one is given" do
+    factory = FactoryBot::Factory.new(:user)
+
+    expect(factory.parent).to be_nil
+  end
+
+  it "returns the registered parent factory" do
+    parent = FactoryBot::Internal.register_factory(FactoryBot::Factory.new(:user))
+    child = FactoryBot::Factory.new(:child, parent: :user)
+
+    expect(child.parent).to eq parent
+  end
+
+  it "builds on the global configuration when it has no parent" do
+    define_class("User")
+    factory = FactoryBot::Factory.new(:user)
+
+    expect(factory.compiled.to_create).to eq FactoryBot::Internal.to_create
   end
 
   it "creates a new factory using the class of the parent" do

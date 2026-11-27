@@ -7,7 +7,7 @@ describe FactoryBot::Compiler do
     define_class("Post")
     FactoryBot::Internal.register_factory(FactoryBot::Factory.new(:author))
     factory = FactoryBot::Factory.new(:post)
-    factory.declare_attribute(FactoryBot::Declaration::Implicit.new(:author, factory.definition))
+    factory.declare_attribute(FactoryBot::Declaration::Implicit.new(:author))
 
     attribute = compile(factory).attributes[:author]
 
@@ -19,7 +19,7 @@ describe FactoryBot::Compiler do
     define_class("Post")
     FactoryBot::Internal.register_sequence(FactoryBot::Sequence.new(:title))
     factory = FactoryBot::Factory.new(:post)
-    factory.declare_attribute(FactoryBot::Declaration::Implicit.new(:title, factory.definition))
+    factory.declare_attribute(FactoryBot::Declaration::Implicit.new(:title))
 
     expect(compile(factory).attributes[:title]).to be_a(FactoryBot::Attribute::Sequence)
   end
@@ -28,7 +28,7 @@ describe FactoryBot::Compiler do
     define_class("Post")
     factory = FactoryBot::Factory.new(:post)
     factory.define_trait(FactoryBot::Trait.new(:published) { title { "published" } })
-    factory.declare_attribute(FactoryBot::Declaration::Implicit.new(:published, factory.definition))
+    factory.declare_attribute(FactoryBot::Declaration::Implicit.new(:published))
 
     expect(compile(factory).attributes.keys).to eq [:title]
   end

@@ -167,4 +167,37 @@ describe FactoryBot::Internal do
         .to eq :strategy_class
     end
   end
+
+  describe ".compiled_configuration" do
+    it "has no build class" do
+      expect(FactoryBot::Internal.compiled_configuration.build_class).to be_nil
+    end
+
+    it "has no attributes" do
+      expect(FactoryBot::Internal.compiled_configuration.attributes).to eq({})
+    end
+
+    it "has the global callbacks as its callbacks" do
+      FactoryBot::Internal.after(:build) {}
+
+      callbacks = FactoryBot::Internal.compiled_configuration.callbacks
+
+      expect(callbacks.map(&:name)).to eq [:after_build]
+      expect(callbacks).to eq FactoryBot::Internal.callbacks
+    end
+
+    it "has the global constructor as its constructor" do
+      constructor = proc {}
+      FactoryBot::Internal.initialize_with(&constructor)
+
+      expect(FactoryBot::Internal.compiled_configuration.constructor).to eq constructor
+    end
+
+    it "has the global to_create as its to_create" do
+      to_create = proc {}
+      FactoryBot::Internal.to_create(&to_create)
+
+      expect(FactoryBot::Internal.compiled_configuration.to_create).to eq to_create
+    end
+  end
 end

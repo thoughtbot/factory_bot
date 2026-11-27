@@ -85,17 +85,13 @@ module FactoryBot
     end
 
     def parent
-      if @parent
-        FactoryBot::Internal.factory_by_name(@parent)
-      else
-        NullFactory.new
-      end
+      FactoryBot::Internal.factory_by_name(@parent) if @parent
     end
 
     protected
 
     def class_name
-      @class_name || parent.class_name || name
+      @class_name || parent&.class_name || name
     end
 
     private
