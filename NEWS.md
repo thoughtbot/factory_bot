@@ -1,5 +1,9 @@
 # News
 
+## Unreleased
+
+* Fix: `build_stubbed` no longer raises `NoMethodError` when Rails is not loaded
+
 ## 6.7.0 (November 26, 2026)
 
 * Feat: Added the `automatically_define_enum_traits` factory option to override the global setting for a factory and its children
