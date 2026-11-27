@@ -41,8 +41,8 @@ module FactoryBot
         trait
       end
 
-      def trait_by_name(name, klass)
-        traits.find(name).tap { |t| t.klass = klass }
+      def trait_by_name(name)
+        traits.find(name)
       end
 
       def register_sequence(sequence)
@@ -91,6 +91,25 @@ module FactoryBot
       def compiled_factory(factory, trait_names = [])
         key = [factory.name, trait_names.map(&:to_s)]
         compiled_factories[key] ||= factory.compile_with_traits(trait_names)
+      end
+
+      # The global callbacks, constructor and to_create, which every factory
+      # without a parent builds on.
+      def compiled_configuration
+        compiled_factories[:configuration] ||=
+          ActiveSupport::Notifications.instrument "factory_bot.compile_factory", {name: :configuration} do |payload|
+            payload[:attributes] = AttributeList.new
+            payload[:traits] = []
+            payload[:class] = nil
+
+            CompiledFactory.new(
+              build_class: nil,
+              attributes: {},
+              callbacks: callbacks,
+              constructor: constructor,
+              to_create: to_create
+            )
+          end
       end
 
       def clear_compiled_factories

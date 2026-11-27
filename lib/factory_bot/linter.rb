@@ -79,12 +79,20 @@ module FactoryBot
 
     def lint_traits(factory)
       result = []
-      factory.definition.defined_traits.map(&:name).each do |trait_name|
+      trait_names(factory).each do |trait_name|
         in_transaction { FactoryBot.public_send(factory_strategy, factory.name, trait_name) }
       rescue => e
         result |= [FactoryTraitError.new(e, factory, trait_name)]
       end
       result
+    end
+
+    # Enum traits need the factory's class; without it, each declared or
+    # inherited trait still reports the failure.
+    def trait_names(factory)
+      Compiler.new(factory).trait_names
+    rescue NameError
+      (factory.definition.defined_traits_names + trait_names(factory.parent)).uniq
     end
 
     def error_message

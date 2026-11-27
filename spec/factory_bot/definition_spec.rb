@@ -1,19 +1,4 @@
 describe FactoryBot::Definition do
-  it "delegates :declare_attribute to declarations" do
-    definition = described_class.new(:name)
-
-    expect(definition).to delegate(:declare_attribute).to(:declarations)
-  end
-
-  it "creates a new attribute list with the name passed when given a name" do
-    name = "great name"
-    allow(FactoryBot::DeclarationList).to receive(:new)
-
-    FactoryBot::Definition.new(name)
-
-    expect(FactoryBot::DeclarationList).to have_received(:new).with(name)
-  end
-
   it "has a name" do
     name = "factory name"
     definition = described_class.new(name)
@@ -21,13 +6,29 @@ describe FactoryBot::Definition do
     expect(definition.name).to eq(name)
   end
 
-  it "has an overridable declaration list" do
-    list = double("declaration list", overridable: true)
-    allow(FactoryBot::DeclarationList).to receive(:new).and_return list
+  it "appends declarations with the same name until it is overridable" do
     definition = described_class.new(:name)
+    first = FactoryBot::Declaration::Dynamic.new(:email, false, -> { "first" })
+    second = FactoryBot::Declaration::Dynamic.new(:email, false, -> { "second" })
 
+    definition.declare_attribute(first)
+    definition.declare_attribute(second)
+
+    expect(definition.declarations).to eq [first, second]
+  end
+
+  it "replaces declarations with the same name once overridable" do
+    definition = described_class.new(:name)
+    first = FactoryBot::Declaration::Dynamic.new(:email, false, -> { "first" })
+    other = FactoryBot::Declaration::Dynamic.new(:name, false, -> { "other" })
+    second = FactoryBot::Declaration::Dynamic.new(:email, false, -> { "second" })
+
+    definition.declare_attribute(first)
+    definition.declare_attribute(other)
     expect(definition.overridable).to eq definition
-    expect(list).to have_received(:overridable).once
+    definition.declare_attribute(second)
+
+    expect(definition.declarations).to eq [other, second]
   end
 
   it "maintains a list of traits" do
