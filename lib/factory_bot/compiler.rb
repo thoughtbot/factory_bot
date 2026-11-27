@@ -14,7 +14,7 @@ module FactoryBot
     end
 
     def compile
-      parent = inherited
+      parent = parent_compiled
       own = resolve(definition)
       traits = lookup_traits(@trait_names, definition).map { |trait| resolve(trait.definition) }
 
@@ -46,7 +46,7 @@ module FactoryBot
     end
 
     # A factory without a parent builds on the global configuration.
-    def inherited
+    def parent_compiled
       parent = @factory.parent
       parent ? parent.compiled : Internal.compiled_configuration
     end

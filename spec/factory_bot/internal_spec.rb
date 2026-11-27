@@ -178,15 +178,26 @@ describe FactoryBot::Internal do
     end
 
     it "has the global callbacks as its callbacks" do
-      expect(FactoryBot::Internal.compiled_configuration.callbacks).to eq FactoryBot::Internal.callbacks
+      FactoryBot::Internal.after(:build) {}
+
+      callbacks = FactoryBot::Internal.compiled_configuration.callbacks
+
+      expect(callbacks.map(&:name)).to eq [:after_build]
+      expect(callbacks).to eq FactoryBot::Internal.callbacks
     end
 
     it "has the global constructor as its constructor" do
-      expect(FactoryBot::Internal.compiled_configuration.constructor).to eq FactoryBot::Internal.constructor
+      constructor = proc {}
+      FactoryBot::Internal.initialize_with(&constructor)
+
+      expect(FactoryBot::Internal.compiled_configuration.constructor).to eq constructor
     end
 
     it "has the global to_create as its to_create" do
-      expect(FactoryBot::Internal.compiled_configuration.to_create).to eq FactoryBot::Internal.to_create
+      to_create = proc {}
+      FactoryBot::Internal.to_create(&to_create)
+
+      expect(FactoryBot::Internal.compiled_configuration.to_create).to eq to_create
     end
   end
 end
