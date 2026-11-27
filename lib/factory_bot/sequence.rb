@@ -50,16 +50,8 @@ module FactoryBot
       [@name] + @aliases
     end
 
-    def has_name?(test_name)
-      names.include?(test_name.to_sym)
-    end
-
     def has_uri?(uri)
       uri_manager.include?(uri)
-    end
-
-    def for_factory?(test_factory_name)
-      FactoryBot::Internal.factory_by_name(factory_name).names.include?(test_factory_name.to_sym)
     end
 
     def rewind
@@ -79,10 +71,6 @@ module FactoryBot
         seek_value(new_value)
       end
     end
-
-    protected
-
-    attr_reader :proc
 
     private
 
@@ -114,17 +102,9 @@ module FactoryBot
     def seek_value(value)
       original_value = @value.peek
 
-      # rewind and search for the new value
       @value.rewind
       Timeout.timeout(FactoryBot.sequence_setting_timeout) do
-        loop do
-          return if @value.peek == value
-          increment_value
-        end
-
-        # loop auto-recues a StopIteration error, so if we
-        # reached this point, re-raise it now
-        fail StopIteration
+        increment_value until @value.peek == value
       end
     rescue Timeout::Error, StopIteration
       reset_original_value(original_value)
@@ -133,10 +113,7 @@ module FactoryBot
 
     def reset_original_value(original_value)
       @value.rewind
-
-      until @value.peek == original_value
-        increment_value
-      end
+      increment_value until @value.peek == original_value
     end
 
     def can_set_value_directly?(value)
@@ -155,11 +132,11 @@ module FactoryBot
       end
 
       def peek
-        value
+        @value ||= first_value
       end
 
       def next
-        @value = value.next
+        @value = peek.next
       end
 
       def rewind
@@ -170,7 +147,7 @@ module FactoryBot
         if new_value >= first_value
           @value = new_value
         else
-          fail ArgumentError, "Value cannot be less than: #{@first_value}"
+          fail ArgumentError, "Value cannot be less than: #{first_value}"
         end
       end
 
@@ -181,16 +158,7 @@ module FactoryBot
       private
 
       def first_value
-        @first_value ||= initial_value
-      end
-
-      def value
-        @value ||= initial_value
-      end
-
-      def initial_value
-        @value = @initial_value.respond_to?(:call) ? @initial_value.call : @initial_value
-        @first_value = @value
+        @first_value ||= @initial_value.respond_to?(:call) ? @initial_value.call : @initial_value
       end
     end
   end
