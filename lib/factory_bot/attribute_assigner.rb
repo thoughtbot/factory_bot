@@ -1,22 +1,23 @@
 module FactoryBot
   # @api private
   class AttributeAssigner
-    def initialize(evaluator, attributes, association_names = [], &instance_builder)
-      @instance_builder = instance_builder
+    def initialize(compiled, evaluator)
+      @compiled = compiled
       @evaluator = evaluator
-      @attributes = attributes
-      @association_names = association_names
-      @attribute_names_assigned = []
     end
 
     # constructs an object-based factory product
     def object
-      @evaluator.instance = build_class_instance
-      build_class_instance.tap do |instance|
-        attributes_to_set_on_instance.each do |attribute|
-          instance.public_send(:"#{attribute}=", get(attribute))
-          @attribute_names_assigned << attribute
+      @object ||= begin
+        instance = @evaluator.__construct__(attribute_names_to_assign, &@compiled.constructor)
+        @evaluator.instance = instance
+
+        # Attributes read by `initialize_with` are not assigned a second time
+        (attribute_names_to_assign - @evaluator.__read_in_constructor__).each do |name|
+          instance.public_send(:"#{name}=", get(name))
         end
+
+        instance
       end
     end
 
@@ -24,75 +25,32 @@ module FactoryBot
     def hash
       @evaluator.__hash_mode__!
 
-      attributes_to_set_on_hash.each_with_object({}) do |attribute, result|
-        result[attribute] = get(attribute)
+      (attribute_names_to_assign - @compiled.association_names).to_h do |name|
+        [name, get(name)]
       end
     end
 
     private
 
-    def build_class_instance
-      @build_class_instance ||= @evaluator.__construct__(attribute_names_to_assign, &@instance_builder)
-    end
-
     def get(attribute_name)
       @evaluator.send(attribute_name)
     end
 
-    # Attributes read by `initialize_with` are not assigned a second time
-    def attributes_to_set_on_instance
-      (attribute_names_to_assign - @attribute_names_assigned - @evaluator.__read_in_constructor__).uniq
-    end
-
-    def attributes_to_set_on_hash
-      attribute_names_to_assign - association_names
-    end
-
-    # Builds a list of attributes names that should be assigned to the factory product
+    # Declared attributes in declaration order, then undeclared overrides.
     def attribute_names_to_assign
-      @attribute_names_to_assign ||= begin
-        # start a list of candidates containing non-transient attributes and overrides
-        assignment_candidates = non_transient_attribute_names + override_names
-        # then remove any transient attributes (potentially reintroduced by the overrides),
-        # and remove ignorable aliased attributes from the candidate list
-        assignment_candidates - transient_attribute_names - attribute_names_overriden_by_alias
-      end
-    end
-
-    def non_transient_attribute_names
-      non_transient_attributes.map(&:name)
-    end
-
-    def transient_attribute_names
-      @attributes.values.select(&:transient).map(&:name)
-    end
-
-    # A name overridden by a plain attribute still counts as an association.
-    def association_names
-      @association_names | @attributes.values.select(&:association?).map(&:name)
-    end
-
-    def non_transient_attributes
-      @attributes.values.reject(&:transient)
+      @attribute_names_to_assign ||=
+        (@compiled.assignable_names + override_names - @compiled.transient_names - attribute_names_overriden_by_alias).uniq
     end
 
     def override_names
       @evaluator.__override_names__
     end
 
-    def attribute_names
-      @attributes.keys
-    end
-
     # Builds a list of attribute names which are slated to be interrupted by an override.
     def attribute_names_overriden_by_alias
-      non_transient_attributes
-        .flat_map { |attribute|
-          override_names.map do |override|
-            attribute.name if ignorable_alias?(attribute, override)
-          end
-        }
-        .compact
+      @compiled.assignable_names.select do |name|
+        override_names.any? { |override| ignorable_alias?(@compiled.attributes[name], override) }
+      end
     end
 
     # Is the attribute an ignorable alias of the override?
@@ -112,7 +70,7 @@ module FactoryBot
       # An override which is an alias to a declared attribute should not interrupt the aliased
       # attribute and interrupt only the attribute with a matching name. This workaround allows a
       # factory to declare both <attribute> and <attribute>_id as separate and distinct attributes.
-      !override_matches_declared_attribute?(override)
+      !@compiled.attributes.key?(override)
     end
 
     # Does this override interrupt an association?
@@ -127,19 +85,8 @@ module FactoryBot
     # @param [FactoryBot::Attribute] aliased_attribute
     # @param [Symbol] override name of an override which is an alias to the attribute name
     def override_interrupts_association?(aliased_attribute, override)
-      (aliased_attribute.association? || association_names.include?(override)) &&
+      (aliased_attribute.association? || @compiled.association_names.include?(override)) &&
         aliased_attribute.name != override
-    end
-
-    # Does this override match the name of any declared attribute?
-    #
-    # @note Checking against the names of all attributes, resolves any issues with having both
-    #   <attribute> and <attribute>_id in the same factory. This also takes into account transient
-    #   attributes that should not be assigned.
-    #
-    # @param [Symbol] override the name of an override
-    def override_matches_declared_attribute?(override)
-      attribute_names.include?(override)
     end
   end
 end
