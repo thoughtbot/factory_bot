@@ -36,6 +36,19 @@ module FactoryBot
       @items[name] = item
     end
 
+    def register_all(names, item)
+      registered = []
+      names.each do |name|
+        register(name, item)
+        registered << name
+      end
+      item
+    rescue DuplicateDefinitionError
+      # A rejected name must not leave the item reachable by its other names.
+      registered.each { |name| @items.delete(name) }
+      raise
+    end
+
     def registered?(name)
       @items.key?(name)
     end

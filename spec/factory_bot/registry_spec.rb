@@ -70,6 +70,24 @@ describe FactoryBot::Registry do
     expect(registry.find(:same_name)).to eq replacement
   end
 
+  it "registers an object under several names" do
+    registry = FactoryBot::Registry.new("Great thing", replace: false)
+    registered_object = double("registered object")
+
+    expect(registry.register_all([:first_name, :second_name], registered_object)).to eq registered_object
+    expect(registry.find(:first_name)).to eq registered_object
+    expect(registry.find(:second_name)).to eq registered_object
+  end
+
+  it "registers none of the names when one is already registered" do
+    registry = FactoryBot::Registry.new("Great thing", replace: false)
+    registry.register(:taken, double("registered object"))
+
+    expect { registry.register_all([:fresh, :taken], double("another object")) }
+      .to raise_error(FactoryBot::DuplicateDefinitionError, "Great thing already registered: taken")
+    expect(registry).not_to be_registered(:fresh)
+  end
+
   it "knows that an object is registered by symbol" do
     registry = FactoryBot::Registry.new("Great thing")
     registered_object = double("registered object")

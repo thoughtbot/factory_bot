@@ -100,6 +100,15 @@ describe FactoryBot::Internal do
 
       expect(FactoryBot::Internal.register_factory(factory)).to eq factory
     end
+
+    it "registers none of a factory's names when an alias is already registered" do
+      FactoryBot::Internal.register_factory(FactoryBot::Factory.new(:author))
+      factory = FactoryBot::Factory.new(:other, aliases: [:author])
+
+      expect { FactoryBot::Internal.register_factory(factory) }
+        .to raise_error(FactoryBot::DuplicateDefinitionError, "Factory already registered: author")
+      expect(FactoryBot::Internal.factories).not_to be_registered(:other)
+    end
   end
 
   describe ".factory_by_name" do

@@ -35,10 +35,7 @@ module FactoryBot
       end
 
       def register_trait(trait)
-        trait.names.each do |name|
-          traits.register(name, trait)
-        end
-        trait
+        traits.register_all(trait.names, trait)
       end
 
       def trait_by_name(name)
@@ -46,10 +43,7 @@ module FactoryBot
       end
 
       def register_sequence(sequence)
-        sequence.names.each do |name|
-          sequences.register(name, sequence)
-        end
-        sequence
+        sequences.register_all(sequence.names, sequence)
       end
 
       def sequence_by_name(name)
@@ -78,10 +72,7 @@ module FactoryBot
       end
 
       def register_factory(factory)
-        factory.names.each do |name|
-          factories.register(name, factory)
-        end
-        factory
+        factories.register_all(factory.names, factory)
       end
 
       def factory_by_name(name)
