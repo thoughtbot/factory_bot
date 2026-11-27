@@ -3,7 +3,8 @@ module FactoryBot
   # and cached by the configuration.
   # @api private
   class CompiledFactory
-    attr_reader :build_class, :attributes, :association_names, :callbacks, :constructor, :to_create
+    attr_reader :build_class, :attributes, :association_names, :callbacks, :constructor, :to_create,
+      :assignable_names, :transient_names
 
     def initialize(build_class:, attributes:, callbacks:, constructor:, to_create:, association_names: [])
       @build_class = build_class
@@ -12,6 +13,8 @@ module FactoryBot
       @callbacks = callbacks
       @constructor = constructor
       @to_create = to_create
+      @transient_names = attributes.values.select(&:transient).map(&:name)
+      @assignable_names = attributes.keys - @transient_names
     end
 
     def run(build_strategy, overrides, &block)
@@ -20,8 +23,7 @@ module FactoryBot
       strategy = Strategy.lookup_strategy(build_strategy).new
 
       evaluator = Evaluator.new(self, strategy, overrides.symbolize_keys)
-      attribute_assigner = AttributeAssigner.new(evaluator, attributes, association_names, &constructor)
-      evaluation = Evaluation.new(evaluator, attribute_assigner, to_create, callbacks)
+      evaluation = Evaluation.new(self, evaluator)
 
       evaluation.notify(:before_all, nil)
       instance = strategy.result(evaluation).tap(&block)
