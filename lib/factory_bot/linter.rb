@@ -90,6 +90,8 @@ module FactoryBot
     # Enum traits need the factory's class; without it, each declared or
     # inherited trait still reports the failure.
     def trait_names(factory)
+      return [] if factory.nil?
+
       Compiler.new(factory).trait_names
     rescue NameError
       (factory.definition.defined_traits_names + trait_names(factory.parent)).uniq

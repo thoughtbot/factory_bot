@@ -123,6 +123,26 @@ describe FactoryBot::Factory do
     expect(factory.build_class).to eq User
   end
 
+  it "has no parent unless one is given" do
+    factory = FactoryBot::Factory.new(:user)
+
+    expect(factory.parent).to be_nil
+  end
+
+  it "returns the registered parent factory" do
+    parent = FactoryBot::Internal.register_factory(FactoryBot::Factory.new(:user))
+    child = FactoryBot::Factory.new(:child, parent: :user)
+
+    expect(child.parent).to eq parent
+  end
+
+  it "builds on the global configuration when it has no parent" do
+    define_class("User")
+    factory = FactoryBot::Factory.new(:user)
+
+    expect(factory.compiled.to_create).to eq FactoryBot::Internal.to_create
+  end
+
   it "creates a new factory using the class of the parent" do
     name = :user
     define_class("User")
