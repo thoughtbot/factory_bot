@@ -23,8 +23,7 @@ module FactoryBot
       strategy = Strategy.lookup_strategy(build_strategy).new
 
       evaluator = Evaluator.new(self, strategy, overrides.symbolize_keys)
-      attribute_assigner = AttributeAssigner.new(self, evaluator)
-      evaluation = Evaluation.new(evaluator, attribute_assigner, to_create, callbacks)
+      evaluation = Evaluation.new(self, evaluator)
 
       evaluation.notify(:before_all, nil)
       instance = strategy.result(evaluation).tap(&block)

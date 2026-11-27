@@ -1,24 +1,69 @@
 module FactoryBot
   class Evaluation
-    def initialize(evaluator, attribute_assigner, to_create, callbacks)
+    def initialize(compiled, evaluator)
+      @compiled = compiled
       @evaluator = evaluator
-      @attribute_assigner = attribute_assigner
-      @to_create = to_create
-      @callbacks = callbacks
     end
 
-    delegate :object, :hash, to: :@attribute_assigner
+    # constructs an object-based factory product
+    def object
+      @object ||= begin
+        instance = @evaluator.__construct__(attribute_names_to_assign, &@compiled.constructor)
+        @evaluator.instance = instance
+
+        # Attributes read by `initialize_with` are not assigned a second time
+        (attribute_names_to_assign - @evaluator.__read_in_constructor__).each do |name|
+          instance.public_send(:"#{name}=", @evaluator.send(name))
+        end
+
+        instance
+      end
+    end
+
+    # constructs a Hash-based factory product
+    def hash
+      @evaluator.__hash_mode__!
+
+      (attribute_names_to_assign - @compiled.association_names).to_h do |name|
+        [name, @evaluator.send(name)]
+      end
+    end
 
     def create(result_instance)
-      case @to_create.arity
-      when 2 then @to_create[result_instance, @evaluator]
-      else @to_create[result_instance]
+      to_create = @compiled.to_create
+
+      case to_create.arity
+      when 2 then to_create[result_instance, @evaluator]
+      else to_create[result_instance]
       end
     end
 
     def notify(name, result_instance)
-      @callbacks.each do |callback|
+      @compiled.callbacks.each do |callback|
         callback.run(result_instance, @evaluator) if callback.name == name
+      end
+    end
+
+    private
+
+    # Declared attributes in declaration order, then undeclared overrides.
+    def attribute_names_to_assign
+      @attribute_names_to_assign ||= begin
+        overrides = @evaluator.__override_names__
+        ignored = overrides.flat_map { |override| aliases_ignored_for(override) }
+
+        (@compiled.assignable_names + overrides - @compiled.transient_names - ignored).uniq
+      end
+    end
+
+    # Declaring both <name> and <name>_id as plain attributes keeps them independent.
+    def aliases_ignored_for(override)
+      aliases = (FactoryBot.aliases_for(override) - [override]) & @compiled.assignable_names
+
+      if @compiled.association_names.include?(override) || !@compiled.attributes.key?(override)
+        aliases
+      else
+        aliases.select { |name| @compiled.attributes[name].association? }
       end
     end
   end
