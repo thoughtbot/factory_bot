@@ -3,6 +3,7 @@
 ## Unreleased
 
 * Fix: A factory, sequence or trait whose alias is already registered no longer stays registered under its other names
+* Change: Removed the internal `FactoryBot::Decorator` and `FactoryBot::Decorator::DisallowsDuplicatesRegistry` classes
 
 ## 6.7.0 (November 26, 2026)
 
