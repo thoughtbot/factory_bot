@@ -7,8 +7,8 @@ module FactoryBot
     end
 
     def build_traits(klass)
-      enum_values(klass).map do |trait_name, value|
-        build_trait(trait_name, @attribute_name, value || trait_name)
+      enum_pairs(klass).map do |trait_name, value|
+        build_trait(trait_name, @attribute_name, value)
       end
     end
 
@@ -16,6 +16,13 @@ module FactoryBot
 
     def enum_values(klass)
       @values || klass.send(@attribute_name.to_s.pluralize)
+    end
+
+    def enum_pairs(klass)
+      values = enum_values(klass)
+      return values.to_a if values.is_a?(Hash)
+
+      values.map { |name| name.is_a?(Array) ? name : [name, name] }
     end
 
     def build_trait(trait_name, attribute_name, value)
