@@ -1,5 +1,9 @@
 # News
 
+## Unreleased
+
+* Change: Drop support for Ruby 3.1, which reached end of life in March 2025. Ruby 3.2 is now the minimum required version
+
 ## 6.7.0 (November 26, 2026)
 
 * Feat: Added the `automatically_define_enum_traits` factory option to override the global setting for a factory and its children
