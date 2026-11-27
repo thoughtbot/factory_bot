@@ -81,7 +81,7 @@ describe FactoryBot::DefinitionProxy, "#method_missing" do
       proxy.author(factory: :user) { :this_should_raise_an_error }
     end
 
-    expect(invalid_call).to raise_error(
+    expect(&invalid_call).to raise_error(
       FactoryBot::AssociationDefinitionError,
       "Unexpected block passed to 'author' association in 'user' factory"
     )
