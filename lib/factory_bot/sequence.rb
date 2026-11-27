@@ -5,20 +5,10 @@ module FactoryBot
   # Sequence values are generated using next.
   # @api private
   class Sequence
-    attr_reader :name, :uri_manager, :aliases
-
-    def self.find(*uri_parts)
-      if uri_parts.empty?
-        fail ArgumentError, "wrong number of arguments, expected 1+)"
-      else
-        find_by_uri FactoryBot::UriManager.build_uri(*uri_parts)
-      end
-    end
+    attr_reader :name, :aliases, :uris
 
     def self.find_by_uri(uri)
-      uri = uri.to_sym
-      FactoryBot::Internal.sequences.to_a.find { |seq| seq.has_uri?(uri) } ||
-        FactoryBot::Internal.inline_sequences.find { |seq| seq.has_uri?(uri) }
+      FactoryBot::Internal.sequence_uris[uri.to_sym]
     end
 
     def initialize(name, *args, &proc)
@@ -26,7 +16,7 @@ module FactoryBot
       @name = name
       @proc = proc
       @aliases = options.fetch(:aliases, []).map(&:to_sym)
-      @uri_manager = FactoryBot::UriManager.new(names, paths: options[:uri_paths])
+      @uris = FactoryBot::UriManager.new(names, paths: options[:uri_paths]).to_a
       @value = args.first || 1
 
       unless @value.respond_to?(:peek)
@@ -48,10 +38,6 @@ module FactoryBot
 
     def names
       [@name] + @aliases
-    end
-
-    def has_uri?(uri)
-      uri_manager.include?(uri)
     end
 
     def rewind

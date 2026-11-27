@@ -21,41 +21,6 @@ shared_examples "a sequence" do |options|
 end
 
 describe FactoryBot::Sequence do
-  describe ".find" do
-    before(:each) do
-      define_class("User") { attr_accessor :name }
-
-      FactoryBot.define do
-        factory :user do
-          trait :with_email do
-            sequence(:email) { |n| "user_#{n}@example.com" }
-          end
-        end
-      end
-    end
-
-    it "accepts a list of symbols" do
-      expect(described_class.find(:user, :with_email, :email)).to be_truthy
-    end
-
-    it "accepts a list of strings" do
-      expect(described_class.find("user", "with_email", "email")).to be_truthy
-    end
-
-    it "accepts a mixture of symbols & strings" do
-      expect(described_class.find(:user, "with_email", :email)).to be_truthy
-    end
-
-    it "returns nil with a non-matching URI" do
-      expect(described_class.find(:user, :email)).to be_nil
-    end
-
-    it "raises an exception with no arguments given" do
-      expect { described_class.find }
-        .to raise_error ArgumentError, /wrong number of arguments, expected 1\+/
-    end
-  end
-
   describe ".find_by_uri" do
     before(:each) do
       define_class("User") { attr_accessor :name }
@@ -79,6 +44,23 @@ describe FactoryBot::Sequence do
 
     it "returns nil with a non-matching URI" do
       expect(described_class.find_by_uri("user/email")).to be_nil
+    end
+
+    it "finds a global sequence by its name and aliases" do
+      sequence = FactoryBot::Sequence.new(:counter, aliases: [:tally])
+      FactoryBot::Internal.register_sequence(sequence)
+
+      expect(described_class.find_by_uri("counter")).to eq sequence
+      expect(described_class.find_by_uri("tally")).to eq sequence
+    end
+
+    it "returns the first sequence registered under a URI" do
+      first = FactoryBot::Sequence.new(:email, uri_paths: [:user])
+      second = FactoryBot::Sequence.new(:email, uri_paths: [:user])
+      FactoryBot::Internal.register_inline_sequence(first)
+      FactoryBot::Internal.register_inline_sequence(second)
+
+      expect(described_class.find_by_uri("user/email")).to equal first
     end
 
     it "raises an exception with no arguments given" do

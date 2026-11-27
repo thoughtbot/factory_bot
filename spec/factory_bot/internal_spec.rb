@@ -55,11 +55,11 @@ describe FactoryBot::Internal do
 
   describe ".rewind_sequences" do
     it "rewinds the sequences and the internal sequences" do
-      sequence = instance_double(FactoryBot::Sequence, names: ["email"])
+      sequence = instance_double(FactoryBot::Sequence, names: ["email"], uris: [:email])
       allow(sequence).to receive(:rewind)
       FactoryBot::Internal.register_sequence(sequence)
 
-      inline_sequence = instance_double(FactoryBot::Sequence)
+      inline_sequence = instance_double(FactoryBot::Sequence, uris: [:"user/email"])
       allow(inline_sequence).to receive(:rewind)
       FactoryBot::Internal.register_inline_sequence(inline_sequence)
 
