@@ -83,7 +83,7 @@ module FactoryBot
 
       value
     rescue
-      ::Kernel.raise ::ArgumentError, "Sequence '#{sequence.uri_manager.first}' failed to " \
+      ::Kernel.raise ::ArgumentError, "Sequence '#{sequence.uris.first}' failed to " \
                                       "return a value. Perhaps it needs a scope to operate? (scope: <object>)"
     end
 

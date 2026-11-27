@@ -12,12 +12,11 @@ module FactoryBot
       @parent = options[:parent]
       @aliases = options[:aliases] || []
       @class_name = options[:class]
-      @uri_manager = FactoryBot::UriManager.new(names)
       @definition = Definition.new(
         @name,
         options[:traits] || [],
         automatically_define_enum_traits: options[:automatically_define_enum_traits],
-        uri_manager: @uri_manager
+        uri_paths: FactoryBot::UriManager.build_uris(names)
       )
     end
 

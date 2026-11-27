@@ -6,6 +6,7 @@ module FactoryBot
       :compiled_factories,
       :factories,
       :inline_sequences,
+      :sequence_uris,
       :sequences,
       :strategies,
       :traits
@@ -19,6 +20,7 @@ module FactoryBot
       @callback_names = Set.new
       @definition = Definition.new(:configuration)
       @inline_sequences = []
+      @sequence_uris = {}
       @compiled_factories = {}
 
       to_create(&:save!)

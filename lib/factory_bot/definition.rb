@@ -3,11 +3,11 @@ module FactoryBot
   # @api private
   class Definition
     attr_reader :automatically_define_enum_traits, :base_traits, :callbacks, :constructor,
-      :declarations, :defined_traits, :name, :registered_enums, :uri_manager
+      :declarations, :defined_traits, :name, :registered_enums, :uri_paths
 
     def initialize(name, base_traits = [], **opts)
       @name = name
-      @uri_manager = opts[:uri_manager]
+      @uri_paths = opts.fetch(:uri_paths, [])
       @declarations = []
       @overridable = false
       @callbacks = []

@@ -10,6 +10,7 @@ module FactoryBot
         :factories,
         :initialize_with,
         :inline_sequences,
+        :sequence_uris,
         :sequences,
         :skip_create,
         :strategies,
@@ -27,7 +28,7 @@ module FactoryBot
 
       def register_inline_sequence(sequence)
         inline_sequences.push(sequence)
-        sequence
+        index_sequence(sequence)
       end
 
       def rewind_inline_sequences
@@ -49,7 +50,7 @@ module FactoryBot
         sequence.names.each do |name|
           sequences.register(name, sequence)
         end
-        sequence
+        index_sequence(sequence)
       end
 
       def sequence_by_name(name)
@@ -72,7 +73,7 @@ module FactoryBot
 
       def set_sequence(*uri_parts, value)
         uri = build_uri(uri_parts) || fail_argument_count(uri_parts.size, "2+")
-        sequence = Sequence.find(*uri) || fail_unregistered_sequence(uri)
+        sequence = Sequence.find_by_uri(uri) || fail_unregistered_sequence(uri)
 
         sequence.set_value(value)
       end
@@ -134,6 +135,12 @@ module FactoryBot
       end
 
       private
+
+      # The first sequence registered under a URI keeps it.
+      def index_sequence(sequence)
+        sequence.uris.each { |uri| sequence_uris[uri] ||= sequence }
+        sequence
+      end
 
       def build_uri(...)
         FactoryBot::UriManager.build_uri(...)
