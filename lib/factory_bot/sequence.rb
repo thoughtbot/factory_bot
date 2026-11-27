@@ -16,7 +16,7 @@ module FactoryBot
       @name = name
       @proc = proc
       @aliases = options.fetch(:aliases, []).map(&:to_sym)
-      @uris = FactoryBot::UriManager.new(names, paths: options[:uri_paths]).to_a
+      @uris = FactoryBot::UriManager.build_uris(names, options[:uri_paths])
       @value = args.first || 1
 
       unless @value.respond_to?(:peek)

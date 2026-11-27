@@ -6,9 +6,9 @@ module FactoryBot
     def initialize(name, **options, &block)
       @name = name.to_s
       @block = block
-      @uri_manager = FactoryBot::UriManager.new(names, paths: options[:uri_paths])
+      uri_paths = FactoryBot::UriManager.build_uris(names, options[:uri_paths])
 
-      @definition = Definition.new(@name, uri_manager: @uri_manager)
+      @definition = Definition.new(@name, uri_paths: uri_paths)
       proxy = FactoryBot::DefinitionProxy.new(@definition)
 
       if block
